@@ -1,0 +1,1603 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_rcc.c"
+  16              		.data
+  17              		.align	2
+  20              	APBAHBPrescTable:
+  21 0000 00       		.byte	0
+  22 0001 00       		.byte	0
+  23 0002 00       		.byte	0
+  24 0003 00       		.byte	0
+  25 0004 01       		.byte	1
+  26 0005 02       		.byte	2
+  27 0006 03       		.byte	3
+  28 0007 04       		.byte	4
+  29 0008 01       		.byte	1
+  30 0009 02       		.byte	2
+  31 000a 03       		.byte	3
+  32 000b 04       		.byte	4
+  33 000c 06       		.byte	6
+  34 000d 07       		.byte	7
+  35 000e 08       		.byte	8
+  36 000f 09       		.byte	9
+  37              		.text
+  38              		.align	2
+  39              		.global	RCC_DeInit
+  40              		.thumb
+  41              		.thumb_func
+  43              	RCC_DeInit:
+  44              		@ args = 0, pretend = 0, frame = 0
+  45              		@ frame_needed = 0, uses_anonymous_args = 0
+  46              		@ link register save eliminated.
+  47 0000 4FF46053 		mov	r3, #14336
+  48 0004 C4F20203 		movt	r3, 16386
+  49 0008 4FF46052 		mov	r2, #14336
+  50 000c C4F20202 		movt	r2, 16386
+  51 0010 1268     		ldr	r2, [r2, #0]
+  52 0012 42F00102 		orr	r2, r2, #1
+  53 0016 1A60     		str	r2, [r3, #0]
+  54 0018 4FF46053 		mov	r3, #14336
+  55 001c C4F20203 		movt	r3, 16386
+  56 0020 4FF00002 		mov	r2, #0
+  57 0024 9A60     		str	r2, [r3, #8]
+  58 0026 4FF46053 		mov	r3, #14336
+  59 002a C4F20203 		movt	r3, 16386
+  60 002e 4FF46052 		mov	r2, #14336
+  61 0032 C4F20202 		movt	r2, 16386
+  62 0036 1268     		ldr	r2, [r2, #0]
+  63 0038 22F08472 		bic	r2, r2, #17301504
+  64 003c 22F48032 		bic	r2, r2, #65536
+  65 0040 1A60     		str	r2, [r3, #0]
+  66 0042 4FF46053 		mov	r3, #14336
+  67 0046 C4F20203 		movt	r3, 16386
+  68 004a 43F21002 		movw	r2, #12304
+  69 004e C2F20042 		movt	r2, 9216
+  70 0052 5A60     		str	r2, [r3, #4]
+  71 0054 4FF46053 		mov	r3, #14336
+  72 0058 C4F20203 		movt	r3, 16386
+  73 005c 4FF46052 		mov	r2, #14336
+  74 0060 C4F20202 		movt	r2, 16386
+  75 0064 1268     		ldr	r2, [r2, #0]
+  76 0066 22F48022 		bic	r2, r2, #262144
+  77 006a 1A60     		str	r2, [r3, #0]
+  78 006c 4FF46053 		mov	r3, #14336
+  79 0070 C4F20203 		movt	r3, 16386
+  80 0074 4FF00002 		mov	r2, #0
+  81 0078 DA60     		str	r2, [r3, #12]
+  82 007a 7047     		bx	lr
+  84              		.align	2
+  85              		.global	RCC_HSEConfig
+  86              		.thumb
+  87              		.thumb_func
+  89              	RCC_HSEConfig:
+  90              		@ args = 0, pretend = 0, frame = 8
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		@ link register save eliminated.
+  93 007c 82B0     		sub	sp, sp, #8
+  94 007e 0346     		mov	r3, r0
+  95 0080 8DF80730 		strb	r3, [sp, #7]
+  96 0084 43F60203 		movw	r3, #14338
+  97 0088 C4F20203 		movt	r3, 16386
+  98 008c 4FF00002 		mov	r2, #0
+  99 0090 1A70     		strb	r2, [r3, #0]
+ 100 0092 43F60203 		movw	r3, #14338
+ 101 0096 C4F20203 		movt	r3, 16386
+ 102 009a 9DF80720 		ldrb	r2, [sp, #7]
+ 103 009e 1A70     		strb	r2, [r3, #0]
+ 104 00a0 02B0     		add	sp, sp, #8
+ 105 00a2 7047     		bx	lr
+ 107              		.align	2
+ 108              		.global	RCC_WaitForHSEStartUp
+ 109              		.thumb
+ 110              		.thumb_func
+ 112              	RCC_WaitForHSEStartUp:
+ 113              		@ args = 0, pretend = 0, frame = 8
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 00a4 00B5     		push	{lr}
+ 116 00a6 83B0     		sub	sp, sp, #12
+ 117 00a8 4FF00003 		mov	r3, #0
+ 118 00ac 0093     		str	r3, [sp, #0]
+ 119 00ae 4FF00003 		mov	r3, #0
+ 120 00b2 8DF80730 		strb	r3, [sp, #7]
+ 121 00b6 4FF00003 		mov	r3, #0
+ 122 00ba 8DF80630 		strb	r3, [sp, #6]
+ 123              	.L5:
+ 124 00be 4FF03100 		mov	r0, #49
+ 125 00c2 FFF7FEFF 		bl	RCC_GetFlagStatus
+ 126 00c6 0346     		mov	r3, r0
+ 127 00c8 8DF80630 		strb	r3, [sp, #6]
+ 128 00cc 009B     		ldr	r3, [sp, #0]
+ 129 00ce 03F10103 		add	r3, r3, #1
+ 130 00d2 0093     		str	r3, [sp, #0]
+ 131 00d4 009B     		ldr	r3, [sp, #0]
+ 132 00d6 B3F5A06F 		cmp	r3, #1280
+ 133 00da 03D0     		beq	.L4
+ 134 00dc 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 135 00e0 002B     		cmp	r3, #0
+ 136 00e2 ECD0     		beq	.L5
+ 137              	.L4:
+ 138 00e4 4FF03100 		mov	r0, #49
+ 139 00e8 FFF7FEFF 		bl	RCC_GetFlagStatus
+ 140 00ec 0346     		mov	r3, r0
+ 141 00ee 002B     		cmp	r3, #0
+ 142 00f0 04D0     		beq	.L6
+ 143 00f2 4FF00103 		mov	r3, #1
+ 144 00f6 8DF80730 		strb	r3, [sp, #7]
+ 145 00fa 03E0     		b	.L7
+ 146              	.L6:
+ 147 00fc 4FF00003 		mov	r3, #0
+ 148 0100 8DF80730 		strb	r3, [sp, #7]
+ 149              	.L7:
+ 150 0104 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 151 0108 1846     		mov	r0, r3
+ 152 010a 03B0     		add	sp, sp, #12
+ 153 010c 00BD     		pop	{pc}
+ 155 010e 00BF     		.align	2
+ 156              		.global	RCC_AdjustHSICalibrationValue
+ 157              		.thumb
+ 158              		.thumb_func
+ 160              	RCC_AdjustHSICalibrationValue:
+ 161              		@ args = 0, pretend = 0, frame = 16
+ 162              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163              		@ link register save eliminated.
+ 164 0110 84B0     		sub	sp, sp, #16
+ 165 0112 0346     		mov	r3, r0
+ 166 0114 8DF80730 		strb	r3, [sp, #7]
+ 167 0118 4FF00003 		mov	r3, #0
+ 168 011c 0393     		str	r3, [sp, #12]
+ 169 011e 4FF46053 		mov	r3, #14336
+ 170 0122 C4F20203 		movt	r3, 16386
+ 171 0126 1B68     		ldr	r3, [r3, #0]
+ 172 0128 0393     		str	r3, [sp, #12]
+ 173 012a 039B     		ldr	r3, [sp, #12]
+ 174 012c 23F0F803 		bic	r3, r3, #248
+ 175 0130 0393     		str	r3, [sp, #12]
+ 176 0132 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 177 0136 4FEAC303 		lsl	r3, r3, #3
+ 178 013a 039A     		ldr	r2, [sp, #12]
+ 179 013c 1343     		orrs	r3, r3, r2
+ 180 013e 0393     		str	r3, [sp, #12]
+ 181 0140 4FF46053 		mov	r3, #14336
+ 182 0144 C4F20203 		movt	r3, 16386
+ 183 0148 039A     		ldr	r2, [sp, #12]
+ 184 014a 1A60     		str	r2, [r3, #0]
+ 185 014c 04B0     		add	sp, sp, #16
+ 186 014e 7047     		bx	lr
+ 188              		.align	2
+ 189              		.global	RCC_HSICmd
+ 190              		.thumb
+ 191              		.thumb_func
+ 193              	RCC_HSICmd:
+ 194              		@ args = 0, pretend = 0, frame = 8
+ 195              		@ frame_needed = 0, uses_anonymous_args = 0
+ 196              		@ link register save eliminated.
+ 197 0150 82B0     		sub	sp, sp, #8
+ 198 0152 0346     		mov	r3, r0
+ 199 0154 8DF80730 		strb	r3, [sp, #7]
+ 200 0158 4FF00003 		mov	r3, #0
+ 201 015c C4F24723 		movt	r3, 16967
+ 202 0160 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 203 0164 1A60     		str	r2, [r3, #0]
+ 204 0166 02B0     		add	sp, sp, #8
+ 205 0168 7047     		bx	lr
+ 207 016a 00BF     		.align	2
+ 208              		.global	RCC_LSEConfig
+ 209              		.thumb
+ 210              		.thumb_func
+ 212              	RCC_LSEConfig:
+ 213              		@ args = 0, pretend = 0, frame = 8
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		@ link register save eliminated.
+ 216 016c 82B0     		sub	sp, sp, #8
+ 217 016e 0346     		mov	r3, r0
+ 218 0170 8DF80730 		strb	r3, [sp, #7]
+ 219 0174 43F67003 		movw	r3, #14448
+ 220 0178 C4F20203 		movt	r3, 16386
+ 221 017c 4FF00002 		mov	r2, #0
+ 222 0180 1A70     		strb	r2, [r3, #0]
+ 223 0182 43F67003 		movw	r3, #14448
+ 224 0186 C4F20203 		movt	r3, 16386
+ 225 018a 4FF00002 		mov	r2, #0
+ 226 018e 1A70     		strb	r2, [r3, #0]
+ 227 0190 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 228 0194 012B     		cmp	r3, #1
+ 229 0196 02D0     		beq	.L12
+ 230 0198 042B     		cmp	r3, #4
+ 231 019a 08D0     		beq	.L13
+ 232 019c 0FE0     		b	.L15
+ 233              	.L12:
+ 234 019e 43F67003 		movw	r3, #14448
+ 235 01a2 C4F20203 		movt	r3, 16386
+ 236 01a6 4FF00102 		mov	r2, #1
+ 237 01aa 1A70     		strb	r2, [r3, #0]
+ 238 01ac 08E0     		b	.L10
+ 239              	.L13:
+ 240 01ae 43F67003 		movw	r3, #14448
+ 241 01b2 C4F20203 		movt	r3, 16386
+ 242 01b6 4FF00502 		mov	r2, #5
+ 243 01ba 1A70     		strb	r2, [r3, #0]
+ 244 01bc 00E0     		b	.L10
+ 245              	.L15:
+ 246 01be 00BF     		nop
+ 247              	.L10:
+ 248 01c0 02B0     		add	sp, sp, #8
+ 249 01c2 7047     		bx	lr
+ 251              		.align	2
+ 252              		.global	RCC_LSICmd
+ 253              		.thumb
+ 254              		.thumb_func
+ 256              	RCC_LSICmd:
+ 257              		@ args = 0, pretend = 0, frame = 8
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259              		@ link register save eliminated.
+ 260 01c4 82B0     		sub	sp, sp, #8
+ 261 01c6 0346     		mov	r3, r0
+ 262 01c8 8DF80730 		strb	r3, [sp, #7]
+ 263 01cc 4FF46863 		mov	r3, #3712
+ 264 01d0 C4F24723 		movt	r3, 16967
+ 265 01d4 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 266 01d8 1A60     		str	r2, [r3, #0]
+ 267 01da 02B0     		add	sp, sp, #8
+ 268 01dc 7047     		bx	lr
+ 270 01de 00BF     		.align	2
+ 271              		.global	RCC_PLLConfig
+ 272              		.thumb
+ 273              		.thumb_func
+ 275              	RCC_PLLConfig:
+ 276              		@ args = 4, pretend = 0, frame = 16
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+ 278              		@ link register save eliminated.
+ 279 01e0 84B0     		sub	sp, sp, #16
+ 280 01e2 0390     		str	r0, [sp, #12]
+ 281 01e4 0291     		str	r1, [sp, #8]
+ 282 01e6 0192     		str	r2, [sp, #4]
+ 283 01e8 0093     		str	r3, [sp, #0]
+ 284 01ea 4FF46053 		mov	r3, #14336
+ 285 01ee C4F20203 		movt	r3, 16386
+ 286 01f2 019A     		ldr	r2, [sp, #4]
+ 287 01f4 4FEA8211 		lsl	r1, r2, #6
+ 288 01f8 029A     		ldr	r2, [sp, #8]
+ 289 01fa 1143     		orrs	r1, r1, r2
+ 290 01fc 009A     		ldr	r2, [sp, #0]
+ 291 01fe 4FEA5202 		lsr	r2, r2, #1
+ 292 0202 02F1FF32 		add	r2, r2, #-1
+ 293 0206 4FEA0242 		lsl	r2, r2, #16
+ 294 020a 1143     		orrs	r1, r1, r2
+ 295 020c 039A     		ldr	r2, [sp, #12]
+ 296 020e 1143     		orrs	r1, r1, r2
+ 297 0210 049A     		ldr	r2, [sp, #16]
+ 298 0212 4FEA0262 		lsl	r2, r2, #24
+ 299 0216 0A43     		orrs	r2, r2, r1
+ 300 0218 5A60     		str	r2, [r3, #4]
+ 301 021a 04B0     		add	sp, sp, #16
+ 302 021c 7047     		bx	lr
+ 304 021e 00BF     		.align	2
+ 305              		.global	RCC_PLLCmd
+ 306              		.thumb
+ 307              		.thumb_func
+ 309              	RCC_PLLCmd:
+ 310              		@ args = 0, pretend = 0, frame = 8
+ 311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 312              		@ link register save eliminated.
+ 313 0220 82B0     		sub	sp, sp, #8
+ 314 0222 0346     		mov	r3, r0
+ 315 0224 8DF80730 		strb	r3, [sp, #7]
+ 316 0228 4FF06003 		mov	r3, #96
+ 317 022c C4F24723 		movt	r3, 16967
+ 318 0230 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 319 0234 1A60     		str	r2, [r3, #0]
+ 320 0236 02B0     		add	sp, sp, #8
+ 321 0238 7047     		bx	lr
+ 323 023a 00BF     		.align	2
+ 324              		.global	RCC_PLLI2SConfig
+ 325              		.thumb
+ 326              		.thumb_func
+ 328              	RCC_PLLI2SConfig:
+ 329              		@ args = 0, pretend = 0, frame = 8
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
+ 332 023c 82B0     		sub	sp, sp, #8
+ 333 023e 0190     		str	r0, [sp, #4]
+ 334 0240 0091     		str	r1, [sp, #0]
+ 335 0242 4FF46053 		mov	r3, #14336
+ 336 0246 C4F20203 		movt	r3, 16386
+ 337 024a 019A     		ldr	r2, [sp, #4]
+ 338 024c 4FEA8211 		lsl	r1, r2, #6
+ 339 0250 009A     		ldr	r2, [sp, #0]
+ 340 0252 4FEA0272 		lsl	r2, r2, #28
+ 341 0256 0A43     		orrs	r2, r2, r1
+ 342 0258 C3F88420 		str	r2, [r3, #132]
+ 343 025c 02B0     		add	sp, sp, #8
+ 344 025e 7047     		bx	lr
+ 346              		.align	2
+ 347              		.global	RCC_PLLI2SCmd
+ 348              		.thumb
+ 349              		.thumb_func
+ 351              	RCC_PLLI2SCmd:
+ 352              		@ args = 0, pretend = 0, frame = 8
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354              		@ link register save eliminated.
+ 355 0260 82B0     		sub	sp, sp, #8
+ 356 0262 0346     		mov	r3, r0
+ 357 0264 8DF80730 		strb	r3, [sp, #7]
+ 358 0268 4FF06803 		mov	r3, #104
+ 359 026c C4F24723 		movt	r3, 16967
+ 360 0270 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 361 0274 1A60     		str	r2, [r3, #0]
+ 362 0276 02B0     		add	sp, sp, #8
+ 363 0278 7047     		bx	lr
+ 365 027a 00BF     		.align	2
+ 366              		.global	RCC_ClockSecuritySystemCmd
+ 367              		.thumb
+ 368              		.thumb_func
+ 370              	RCC_ClockSecuritySystemCmd:
+ 371              		@ args = 0, pretend = 0, frame = 8
+ 372              		@ frame_needed = 0, uses_anonymous_args = 0
+ 373              		@ link register save eliminated.
+ 374 027c 82B0     		sub	sp, sp, #8
+ 375 027e 0346     		mov	r3, r0
+ 376 0280 8DF80730 		strb	r3, [sp, #7]
+ 377 0284 4FF04C03 		mov	r3, #76
+ 378 0288 C4F24723 		movt	r3, 16967
+ 379 028c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 380 0290 1A60     		str	r2, [r3, #0]
+ 381 0292 02B0     		add	sp, sp, #8
+ 382 0294 7047     		bx	lr
+ 384 0296 00BF     		.align	2
+ 385              		.global	RCC_MCO1Config
+ 386              		.thumb
+ 387              		.thumb_func
+ 389              	RCC_MCO1Config:
+ 390              		@ args = 0, pretend = 0, frame = 16
+ 391              		@ frame_needed = 0, uses_anonymous_args = 0
+ 392              		@ link register save eliminated.
+ 393 0298 84B0     		sub	sp, sp, #16
+ 394 029a 0190     		str	r0, [sp, #4]
+ 395 029c 0091     		str	r1, [sp, #0]
+ 396 029e 4FF00003 		mov	r3, #0
+ 397 02a2 0393     		str	r3, [sp, #12]
+ 398 02a4 4FF46053 		mov	r3, #14336
+ 399 02a8 C4F20203 		movt	r3, 16386
+ 400 02ac 9B68     		ldr	r3, [r3, #8]
+ 401 02ae 0393     		str	r3, [sp, #12]
+ 402 02b0 039B     		ldr	r3, [sp, #12]
+ 403 02b2 23F0EC63 		bic	r3, r3, #123731968
+ 404 02b6 0393     		str	r3, [sp, #12]
+ 405 02b8 019A     		ldr	r2, [sp, #4]
+ 406 02ba 009B     		ldr	r3, [sp, #0]
+ 407 02bc 1343     		orrs	r3, r3, r2
+ 408 02be 039A     		ldr	r2, [sp, #12]
+ 409 02c0 1343     		orrs	r3, r3, r2
+ 410 02c2 0393     		str	r3, [sp, #12]
+ 411 02c4 4FF46053 		mov	r3, #14336
+ 412 02c8 C4F20203 		movt	r3, 16386
+ 413 02cc 039A     		ldr	r2, [sp, #12]
+ 414 02ce 9A60     		str	r2, [r3, #8]
+ 415 02d0 04B0     		add	sp, sp, #16
+ 416 02d2 7047     		bx	lr
+ 418              		.align	2
+ 419              		.global	RCC_MCO2Config
+ 420              		.thumb
+ 421              		.thumb_func
+ 423              	RCC_MCO2Config:
+ 424              		@ args = 0, pretend = 0, frame = 16
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 426              		@ link register save eliminated.
+ 427 02d4 84B0     		sub	sp, sp, #16
+ 428 02d6 0190     		str	r0, [sp, #4]
+ 429 02d8 0091     		str	r1, [sp, #0]
+ 430 02da 4FF00003 		mov	r3, #0
+ 431 02de 0393     		str	r3, [sp, #12]
+ 432 02e0 4FF46053 		mov	r3, #14336
+ 433 02e4 C4F20203 		movt	r3, 16386
+ 434 02e8 9B68     		ldr	r3, [r3, #8]
+ 435 02ea 0393     		str	r3, [sp, #12]
+ 436 02ec 039B     		ldr	r3, [sp, #12]
+ 437 02ee 23F07843 		bic	r3, r3, #-134217728
+ 438 02f2 0393     		str	r3, [sp, #12]
+ 439 02f4 019A     		ldr	r2, [sp, #4]
+ 440 02f6 009B     		ldr	r3, [sp, #0]
+ 441 02f8 1343     		orrs	r3, r3, r2
+ 442 02fa 039A     		ldr	r2, [sp, #12]
+ 443 02fc 1343     		orrs	r3, r3, r2
+ 444 02fe 0393     		str	r3, [sp, #12]
+ 445 0300 4FF46053 		mov	r3, #14336
+ 446 0304 C4F20203 		movt	r3, 16386
+ 447 0308 039A     		ldr	r2, [sp, #12]
+ 448 030a 9A60     		str	r2, [r3, #8]
+ 449 030c 04B0     		add	sp, sp, #16
+ 450 030e 7047     		bx	lr
+ 452              		.align	2
+ 453              		.global	RCC_SYSCLKConfig
+ 454              		.thumb
+ 455              		.thumb_func
+ 457              	RCC_SYSCLKConfig:
+ 458              		@ args = 0, pretend = 0, frame = 16
+ 459              		@ frame_needed = 0, uses_anonymous_args = 0
+ 460              		@ link register save eliminated.
+ 461 0310 84B0     		sub	sp, sp, #16
+ 462 0312 0190     		str	r0, [sp, #4]
+ 463 0314 4FF00003 		mov	r3, #0
+ 464 0318 0393     		str	r3, [sp, #12]
+ 465 031a 4FF46053 		mov	r3, #14336
+ 466 031e C4F20203 		movt	r3, 16386
+ 467 0322 9B68     		ldr	r3, [r3, #8]
+ 468 0324 0393     		str	r3, [sp, #12]
+ 469 0326 039B     		ldr	r3, [sp, #12]
+ 470 0328 23F00303 		bic	r3, r3, #3
+ 471 032c 0393     		str	r3, [sp, #12]
+ 472 032e 039A     		ldr	r2, [sp, #12]
+ 473 0330 019B     		ldr	r3, [sp, #4]
+ 474 0332 1343     		orrs	r3, r3, r2
+ 475 0334 0393     		str	r3, [sp, #12]
+ 476 0336 4FF46053 		mov	r3, #14336
+ 477 033a C4F20203 		movt	r3, 16386
+ 478 033e 039A     		ldr	r2, [sp, #12]
+ 479 0340 9A60     		str	r2, [r3, #8]
+ 480 0342 04B0     		add	sp, sp, #16
+ 481 0344 7047     		bx	lr
+ 483 0346 00BF     		.align	2
+ 484              		.global	RCC_GetSYSCLKSource
+ 485              		.thumb
+ 486              		.thumb_func
+ 488              	RCC_GetSYSCLKSource:
+ 489              		@ args = 0, pretend = 0, frame = 0
+ 490              		@ frame_needed = 0, uses_anonymous_args = 0
+ 491              		@ link register save eliminated.
+ 492 0348 4FF46053 		mov	r3, #14336
+ 493 034c C4F20203 		movt	r3, 16386
+ 494 0350 9B68     		ldr	r3, [r3, #8]
+ 495 0352 DBB2     		uxtb	r3, r3
+ 496 0354 03F00C03 		and	r3, r3, #12
+ 497 0358 DBB2     		uxtb	r3, r3
+ 498 035a 1846     		mov	r0, r3
+ 499 035c 7047     		bx	lr
+ 501 035e 00BF     		.align	2
+ 502              		.global	RCC_HCLKConfig
+ 503              		.thumb
+ 504              		.thumb_func
+ 506              	RCC_HCLKConfig:
+ 507              		@ args = 0, pretend = 0, frame = 16
+ 508              		@ frame_needed = 0, uses_anonymous_args = 0
+ 509              		@ link register save eliminated.
+ 510 0360 84B0     		sub	sp, sp, #16
+ 511 0362 0190     		str	r0, [sp, #4]
+ 512 0364 4FF00003 		mov	r3, #0
+ 513 0368 0393     		str	r3, [sp, #12]
+ 514 036a 4FF46053 		mov	r3, #14336
+ 515 036e C4F20203 		movt	r3, 16386
+ 516 0372 9B68     		ldr	r3, [r3, #8]
+ 517 0374 0393     		str	r3, [sp, #12]
+ 518 0376 039B     		ldr	r3, [sp, #12]
+ 519 0378 23F0F003 		bic	r3, r3, #240
+ 520 037c 0393     		str	r3, [sp, #12]
+ 521 037e 039A     		ldr	r2, [sp, #12]
+ 522 0380 019B     		ldr	r3, [sp, #4]
+ 523 0382 1343     		orrs	r3, r3, r2
+ 524 0384 0393     		str	r3, [sp, #12]
+ 525 0386 4FF46053 		mov	r3, #14336
+ 526 038a C4F20203 		movt	r3, 16386
+ 527 038e 039A     		ldr	r2, [sp, #12]
+ 528 0390 9A60     		str	r2, [r3, #8]
+ 529 0392 04B0     		add	sp, sp, #16
+ 530 0394 7047     		bx	lr
+ 532 0396 00BF     		.align	2
+ 533              		.global	RCC_PCLK1Config
+ 534              		.thumb
+ 535              		.thumb_func
+ 537              	RCC_PCLK1Config:
+ 538              		@ args = 0, pretend = 0, frame = 16
+ 539              		@ frame_needed = 0, uses_anonymous_args = 0
+ 540              		@ link register save eliminated.
+ 541 0398 84B0     		sub	sp, sp, #16
+ 542 039a 0190     		str	r0, [sp, #4]
+ 543 039c 4FF00003 		mov	r3, #0
+ 544 03a0 0393     		str	r3, [sp, #12]
+ 545 03a2 4FF46053 		mov	r3, #14336
+ 546 03a6 C4F20203 		movt	r3, 16386
+ 547 03aa 9B68     		ldr	r3, [r3, #8]
+ 548 03ac 0393     		str	r3, [sp, #12]
+ 549 03ae 039B     		ldr	r3, [sp, #12]
+ 550 03b0 23F4E053 		bic	r3, r3, #7168
+ 551 03b4 0393     		str	r3, [sp, #12]
+ 552 03b6 039A     		ldr	r2, [sp, #12]
+ 553 03b8 019B     		ldr	r3, [sp, #4]
+ 554 03ba 1343     		orrs	r3, r3, r2
+ 555 03bc 0393     		str	r3, [sp, #12]
+ 556 03be 4FF46053 		mov	r3, #14336
+ 557 03c2 C4F20203 		movt	r3, 16386
+ 558 03c6 039A     		ldr	r2, [sp, #12]
+ 559 03c8 9A60     		str	r2, [r3, #8]
+ 560 03ca 04B0     		add	sp, sp, #16
+ 561 03cc 7047     		bx	lr
+ 563 03ce 00BF     		.align	2
+ 564              		.global	RCC_PCLK2Config
+ 565              		.thumb
+ 566              		.thumb_func
+ 568              	RCC_PCLK2Config:
+ 569              		@ args = 0, pretend = 0, frame = 16
+ 570              		@ frame_needed = 0, uses_anonymous_args = 0
+ 571              		@ link register save eliminated.
+ 572 03d0 84B0     		sub	sp, sp, #16
+ 573 03d2 0190     		str	r0, [sp, #4]
+ 574 03d4 4FF00003 		mov	r3, #0
+ 575 03d8 0393     		str	r3, [sp, #12]
+ 576 03da 4FF46053 		mov	r3, #14336
+ 577 03de C4F20203 		movt	r3, 16386
+ 578 03e2 9B68     		ldr	r3, [r3, #8]
+ 579 03e4 0393     		str	r3, [sp, #12]
+ 580 03e6 039B     		ldr	r3, [sp, #12]
+ 581 03e8 23F46043 		bic	r3, r3, #57344
+ 582 03ec 0393     		str	r3, [sp, #12]
+ 583 03ee 019B     		ldr	r3, [sp, #4]
+ 584 03f0 4FEAC303 		lsl	r3, r3, #3
+ 585 03f4 039A     		ldr	r2, [sp, #12]
+ 586 03f6 1343     		orrs	r3, r3, r2
+ 587 03f8 0393     		str	r3, [sp, #12]
+ 588 03fa 4FF46053 		mov	r3, #14336
+ 589 03fe C4F20203 		movt	r3, 16386
+ 590 0402 039A     		ldr	r2, [sp, #12]
+ 591 0404 9A60     		str	r2, [r3, #8]
+ 592 0406 04B0     		add	sp, sp, #16
+ 593 0408 7047     		bx	lr
+ 595 040a 00BF     		.align	2
+ 596              		.global	RCC_GetClocksFreq
+ 597              		.thumb
+ 598              		.thumb_func
+ 600              	RCC_GetClocksFreq:
+ 601              		@ args = 0, pretend = 0, frame = 32
+ 602              		@ frame_needed = 0, uses_anonymous_args = 0
+ 603              		@ link register save eliminated.
+ 604 040c 88B0     		sub	sp, sp, #32
+ 605 040e 0190     		str	r0, [sp, #4]
+ 606 0410 4FF00003 		mov	r3, #0
+ 607 0414 0693     		str	r3, [sp, #24]
+ 608 0416 4FF00003 		mov	r3, #0
+ 609 041a 0593     		str	r3, [sp, #20]
+ 610 041c 4FF00003 		mov	r3, #0
+ 611 0420 0793     		str	r3, [sp, #28]
+ 612 0422 4FF00203 		mov	r3, #2
+ 613 0426 0493     		str	r3, [sp, #16]
+ 614 0428 4FF00003 		mov	r3, #0
+ 615 042c 0393     		str	r3, [sp, #12]
+ 616 042e 4FF00203 		mov	r3, #2
+ 617 0432 0293     		str	r3, [sp, #8]
+ 618 0434 4FF46053 		mov	r3, #14336
+ 619 0438 C4F20203 		movt	r3, 16386
+ 620 043c 9B68     		ldr	r3, [r3, #8]
+ 621 043e 03F00C03 		and	r3, r3, #12
+ 622 0442 0693     		str	r3, [sp, #24]
+ 623 0444 069B     		ldr	r3, [sp, #24]
+ 624 0446 042B     		cmp	r3, #4
+ 625 0448 0AD0     		beq	.L32
+ 626 044a 082B     		cmp	r3, #8
+ 627 044c 0FD0     		beq	.L33
+ 628 044e 002B     		cmp	r3, #0
+ 629 0450 60D1     		bne	.L37
+ 630              	.L31:
+ 631 0452 019A     		ldr	r2, [sp, #4]
+ 632 0454 4FF41053 		mov	r3, #9216
+ 633 0458 C0F2F403 		movt	r3, 244
+ 634 045c 1360     		str	r3, [r2, #0]
+ 635 045e 60E0     		b	.L34
+ 636              	.L32:
+ 637 0460 019A     		ldr	r2, [sp, #4]
+ 638 0462 4FF49053 		mov	r3, #4608
+ 639 0466 C0F27A03 		movt	r3, 122
+ 640 046a 1360     		str	r3, [r2, #0]
+ 641 046c 59E0     		b	.L34
+ 642              	.L33:
+ 643 046e 4FF46053 		mov	r3, #14336
+ 644 0472 C4F20203 		movt	r3, 16386
+ 645 0476 5B68     		ldr	r3, [r3, #4]
+ 646 0478 03F48003 		and	r3, r3, #4194304
+ 647 047c 4FEA9353 		lsr	r3, r3, #22
+ 648 0480 0393     		str	r3, [sp, #12]
+ 649 0482 4FF46053 		mov	r3, #14336
+ 650 0486 C4F20203 		movt	r3, 16386
+ 651 048a 5B68     		ldr	r3, [r3, #4]
+ 652 048c 03F03F03 		and	r3, r3, #63
+ 653 0490 0293     		str	r3, [sp, #8]
+ 654 0492 039B     		ldr	r3, [sp, #12]
+ 655 0494 002B     		cmp	r3, #0
+ 656 0496 14D0     		beq	.L35
+ 657 0498 4FF49053 		mov	r3, #4608
+ 658 049c C0F27A03 		movt	r3, 122
+ 659 04a0 029A     		ldr	r2, [sp, #8]
+ 660 04a2 B3FBF2F2 		udiv	r2, r3, r2
+ 661 04a6 4FF46053 		mov	r3, #14336
+ 662 04aa C4F20203 		movt	r3, 16386
+ 663 04ae 5968     		ldr	r1, [r3, #4]
+ 664 04b0 47F6C073 		movw	r3, #32704
+ 665 04b4 0B40     		ands	r3, r3, r1
+ 666 04b6 4FEA9313 		lsr	r3, r3, #6
+ 667 04ba 03FB02F3 		mul	r3, r3, r2
+ 668 04be 0793     		str	r3, [sp, #28]
+ 669 04c0 13E0     		b	.L36
+ 670              	.L35:
+ 671 04c2 4FF41053 		mov	r3, #9216
+ 672 04c6 C0F2F403 		movt	r3, 244
+ 673 04ca 029A     		ldr	r2, [sp, #8]
+ 674 04cc B3FBF2F2 		udiv	r2, r3, r2
+ 675 04d0 4FF46053 		mov	r3, #14336
+ 676 04d4 C4F20203 		movt	r3, 16386
+ 677 04d8 5968     		ldr	r1, [r3, #4]
+ 678 04da 47F6C073 		movw	r3, #32704
+ 679 04de 0B40     		ands	r3, r3, r1
+ 680 04e0 4FEA9313 		lsr	r3, r3, #6
+ 681 04e4 03FB02F3 		mul	r3, r3, r2
+ 682 04e8 0793     		str	r3, [sp, #28]
+ 683              	.L36:
+ 684 04ea 4FF46053 		mov	r3, #14336
+ 685 04ee C4F20203 		movt	r3, 16386
+ 686 04f2 5B68     		ldr	r3, [r3, #4]
+ 687 04f4 03F44033 		and	r3, r3, #196608
+ 688 04f8 4FEA1343 		lsr	r3, r3, #16
+ 689 04fc 03F10103 		add	r3, r3, #1
+ 690 0500 4FEA4303 		lsl	r3, r3, #1
+ 691 0504 0493     		str	r3, [sp, #16]
+ 692 0506 079A     		ldr	r2, [sp, #28]
+ 693 0508 049B     		ldr	r3, [sp, #16]
+ 694 050a B2FBF3F2 		udiv	r2, r2, r3
+ 695 050e 019B     		ldr	r3, [sp, #4]
+ 696 0510 1A60     		str	r2, [r3, #0]
+ 697 0512 06E0     		b	.L34
+ 698              	.L37:
+ 699 0514 019A     		ldr	r2, [sp, #4]
+ 700 0516 4FF41053 		mov	r3, #9216
+ 701 051a C0F2F403 		movt	r3, 244
+ 702 051e 1360     		str	r3, [r2, #0]
+ 703 0520 00BF     		nop
+ 704              	.L34:
+ 705 0522 4FF46053 		mov	r3, #14336
+ 706 0526 C4F20203 		movt	r3, 16386
+ 707 052a 9B68     		ldr	r3, [r3, #8]
+ 708 052c 03F0F003 		and	r3, r3, #240
+ 709 0530 0693     		str	r3, [sp, #24]
+ 710 0532 069B     		ldr	r3, [sp, #24]
+ 711 0534 4FEA1313 		lsr	r3, r3, #4
+ 712 0538 0693     		str	r3, [sp, #24]
+ 713 053a 40F20003 		movw	r3, #:lower16:APBAHBPrescTable
+ 714 053e C0F20003 		movt	r3, #:upper16:APBAHBPrescTable
+ 715 0542 069A     		ldr	r2, [sp, #24]
+ 716 0544 9B18     		adds	r3, r3, r2
+ 717 0546 1B78     		ldrb	r3, [r3, #0]
+ 718 0548 DBB2     		uxtb	r3, r3
+ 719 054a 0593     		str	r3, [sp, #20]
+ 720 054c 019B     		ldr	r3, [sp, #4]
+ 721 054e 1A68     		ldr	r2, [r3, #0]
+ 722 0550 059B     		ldr	r3, [sp, #20]
+ 723 0552 22FA03F2 		lsr	r2, r2, r3
+ 724 0556 019B     		ldr	r3, [sp, #4]
+ 725 0558 5A60     		str	r2, [r3, #4]
+ 726 055a 4FF46053 		mov	r3, #14336
+ 727 055e C4F20203 		movt	r3, 16386
+ 728 0562 9B68     		ldr	r3, [r3, #8]
+ 729 0564 03F4E053 		and	r3, r3, #7168
+ 730 0568 0693     		str	r3, [sp, #24]
+ 731 056a 069B     		ldr	r3, [sp, #24]
+ 732 056c 4FEA9323 		lsr	r3, r3, #10
+ 733 0570 0693     		str	r3, [sp, #24]
+ 734 0572 40F20003 		movw	r3, #:lower16:APBAHBPrescTable
+ 735 0576 C0F20003 		movt	r3, #:upper16:APBAHBPrescTable
+ 736 057a 069A     		ldr	r2, [sp, #24]
+ 737 057c 9B18     		adds	r3, r3, r2
+ 738 057e 1B78     		ldrb	r3, [r3, #0]
+ 739 0580 DBB2     		uxtb	r3, r3
+ 740 0582 0593     		str	r3, [sp, #20]
+ 741 0584 019B     		ldr	r3, [sp, #4]
+ 742 0586 5A68     		ldr	r2, [r3, #4]
+ 743 0588 059B     		ldr	r3, [sp, #20]
+ 744 058a 22FA03F2 		lsr	r2, r2, r3
+ 745 058e 019B     		ldr	r3, [sp, #4]
+ 746 0590 9A60     		str	r2, [r3, #8]
+ 747 0592 4FF46053 		mov	r3, #14336
+ 748 0596 C4F20203 		movt	r3, 16386
+ 749 059a 9B68     		ldr	r3, [r3, #8]
+ 750 059c 03F46043 		and	r3, r3, #57344
+ 751 05a0 0693     		str	r3, [sp, #24]
+ 752 05a2 069B     		ldr	r3, [sp, #24]
+ 753 05a4 4FEA5333 		lsr	r3, r3, #13
+ 754 05a8 0693     		str	r3, [sp, #24]
+ 755 05aa 40F20003 		movw	r3, #:lower16:APBAHBPrescTable
+ 756 05ae C0F20003 		movt	r3, #:upper16:APBAHBPrescTable
+ 757 05b2 069A     		ldr	r2, [sp, #24]
+ 758 05b4 9B18     		adds	r3, r3, r2
+ 759 05b6 1B78     		ldrb	r3, [r3, #0]
+ 760 05b8 DBB2     		uxtb	r3, r3
+ 761 05ba 0593     		str	r3, [sp, #20]
+ 762 05bc 019B     		ldr	r3, [sp, #4]
+ 763 05be 5A68     		ldr	r2, [r3, #4]
+ 764 05c0 059B     		ldr	r3, [sp, #20]
+ 765 05c2 22FA03F2 		lsr	r2, r2, r3
+ 766 05c6 019B     		ldr	r3, [sp, #4]
+ 767 05c8 DA60     		str	r2, [r3, #12]
+ 768 05ca 08B0     		add	sp, sp, #32
+ 769 05cc 7047     		bx	lr
+ 771 05ce 00BF     		.align	2
+ 772              		.global	RCC_RTCCLKConfig
+ 773              		.thumb
+ 774              		.thumb_func
+ 776              	RCC_RTCCLKConfig:
+ 777              		@ args = 0, pretend = 0, frame = 16
+ 778              		@ frame_needed = 0, uses_anonymous_args = 0
+ 779              		@ link register save eliminated.
+ 780 05d0 84B0     		sub	sp, sp, #16
+ 781 05d2 0190     		str	r0, [sp, #4]
+ 782 05d4 4FF00003 		mov	r3, #0
+ 783 05d8 0393     		str	r3, [sp, #12]
+ 784 05da 019B     		ldr	r3, [sp, #4]
+ 785 05dc 03F44073 		and	r3, r3, #768
+ 786 05e0 B3F5407F 		cmp	r3, #768
+ 787 05e4 17D1     		bne	.L39
+ 788 05e6 4FF46053 		mov	r3, #14336
+ 789 05ea C4F20203 		movt	r3, 16386
+ 790 05ee 9B68     		ldr	r3, [r3, #8]
+ 791 05f0 0393     		str	r3, [sp, #12]
+ 792 05f2 039B     		ldr	r3, [sp, #12]
+ 793 05f4 23F4F813 		bic	r3, r3, #2031616
+ 794 05f8 0393     		str	r3, [sp, #12]
+ 795 05fa 019B     		ldr	r3, [sp, #4]
+ 796 05fc 23F07043 		bic	r3, r3, #-268435456
+ 797 0600 23F44073 		bic	r3, r3, #768
+ 798 0604 039A     		ldr	r2, [sp, #12]
+ 799 0606 1343     		orrs	r3, r3, r2
+ 800 0608 0393     		str	r3, [sp, #12]
+ 801 060a 4FF46053 		mov	r3, #14336
+ 802 060e C4F20203 		movt	r3, 16386
+ 803 0612 039A     		ldr	r2, [sp, #12]
+ 804 0614 9A60     		str	r2, [r3, #8]
+ 805              	.L39:
+ 806 0616 4FF46053 		mov	r3, #14336
+ 807 061a C4F20203 		movt	r3, 16386
+ 808 061e 4FF46052 		mov	r2, #14336
+ 809 0622 C4F20202 		movt	r2, 16386
+ 810 0626 116F     		ldr	r1, [r2, #112]
+ 811 0628 019A     		ldr	r2, [sp, #4]
+ 812 062a 4FEA0252 		lsl	r2, r2, #20
+ 813 062e 4FEA1252 		lsr	r2, r2, #20
+ 814 0632 0A43     		orrs	r2, r2, r1
+ 815 0634 1A67     		str	r2, [r3, #112]
+ 816 0636 04B0     		add	sp, sp, #16
+ 817 0638 7047     		bx	lr
+ 819 063a 00BF     		.align	2
+ 820              		.global	RCC_RTCCLKCmd
+ 821              		.thumb
+ 822              		.thumb_func
+ 824              	RCC_RTCCLKCmd:
+ 825              		@ args = 0, pretend = 0, frame = 8
+ 826              		@ frame_needed = 0, uses_anonymous_args = 0
+ 827              		@ link register save eliminated.
+ 828 063c 82B0     		sub	sp, sp, #8
+ 829 063e 0346     		mov	r3, r0
+ 830 0640 8DF80730 		strb	r3, [sp, #7]
+ 831 0644 40F63C63 		movw	r3, #3644
+ 832 0648 C4F24723 		movt	r3, 16967
+ 833 064c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 834 0650 1A60     		str	r2, [r3, #0]
+ 835 0652 02B0     		add	sp, sp, #8
+ 836 0654 7047     		bx	lr
+ 838 0656 00BF     		.align	2
+ 839              		.global	RCC_BackupResetCmd
+ 840              		.thumb
+ 841              		.thumb_func
+ 843              	RCC_BackupResetCmd:
+ 844              		@ args = 0, pretend = 0, frame = 8
+ 845              		@ frame_needed = 0, uses_anonymous_args = 0
+ 846              		@ link register save eliminated.
+ 847 0658 82B0     		sub	sp, sp, #8
+ 848 065a 0346     		mov	r3, r0
+ 849 065c 8DF80730 		strb	r3, [sp, #7]
+ 850 0660 4FF46463 		mov	r3, #3648
+ 851 0664 C4F24723 		movt	r3, 16967
+ 852 0668 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 853 066c 1A60     		str	r2, [r3, #0]
+ 854 066e 02B0     		add	sp, sp, #8
+ 855 0670 7047     		bx	lr
+ 857 0672 00BF     		.align	2
+ 858              		.global	RCC_I2SCLKConfig
+ 859              		.thumb
+ 860              		.thumb_func
+ 862              	RCC_I2SCLKConfig:
+ 863              		@ args = 0, pretend = 0, frame = 8
+ 864              		@ frame_needed = 0, uses_anonymous_args = 0
+ 865              		@ link register save eliminated.
+ 866 0674 82B0     		sub	sp, sp, #8
+ 867 0676 0190     		str	r0, [sp, #4]
+ 868 0678 4FF4AE73 		mov	r3, #348
+ 869 067c C4F24723 		movt	r3, 16967
+ 870 0680 019A     		ldr	r2, [sp, #4]
+ 871 0682 1A60     		str	r2, [r3, #0]
+ 872 0684 02B0     		add	sp, sp, #8
+ 873 0686 7047     		bx	lr
+ 875              		.align	2
+ 876              		.global	RCC_AHB1PeriphClockCmd
+ 877              		.thumb
+ 878              		.thumb_func
+ 880              	RCC_AHB1PeriphClockCmd:
+ 881              		@ args = 0, pretend = 0, frame = 8
+ 882              		@ frame_needed = 0, uses_anonymous_args = 0
+ 883              		@ link register save eliminated.
+ 884 0688 82B0     		sub	sp, sp, #8
+ 885 068a 0190     		str	r0, [sp, #4]
+ 886 068c 0B46     		mov	r3, r1
+ 887 068e 8DF80330 		strb	r3, [sp, #3]
+ 888 0692 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 889 0696 002B     		cmp	r3, #0
+ 890 0698 0CD0     		beq	.L44
+ 891 069a 4FF46053 		mov	r3, #14336
+ 892 069e C4F20203 		movt	r3, 16386
+ 893 06a2 4FF46052 		mov	r2, #14336
+ 894 06a6 C4F20202 		movt	r2, 16386
+ 895 06aa 116B     		ldr	r1, [r2, #48]
+ 896 06ac 019A     		ldr	r2, [sp, #4]
+ 897 06ae 0A43     		orrs	r2, r2, r1
+ 898 06b0 1A63     		str	r2, [r3, #48]
+ 899 06b2 0DE0     		b	.L43
+ 900              	.L44:
+ 901 06b4 4FF46053 		mov	r3, #14336
+ 902 06b8 C4F20203 		movt	r3, 16386
+ 903 06bc 4FF46052 		mov	r2, #14336
+ 904 06c0 C4F20202 		movt	r2, 16386
+ 905 06c4 116B     		ldr	r1, [r2, #48]
+ 906 06c6 019A     		ldr	r2, [sp, #4]
+ 907 06c8 6FEA0202 		mvn	r2, r2
+ 908 06cc 0A40     		ands	r2, r2, r1
+ 909 06ce 1A63     		str	r2, [r3, #48]
+ 910              	.L43:
+ 911 06d0 02B0     		add	sp, sp, #8
+ 912 06d2 7047     		bx	lr
+ 914              		.align	2
+ 915              		.global	RCC_AHB2PeriphClockCmd
+ 916              		.thumb
+ 917              		.thumb_func
+ 919              	RCC_AHB2PeriphClockCmd:
+ 920              		@ args = 0, pretend = 0, frame = 8
+ 921              		@ frame_needed = 0, uses_anonymous_args = 0
+ 922              		@ link register save eliminated.
+ 923 06d4 82B0     		sub	sp, sp, #8
+ 924 06d6 0190     		str	r0, [sp, #4]
+ 925 06d8 0B46     		mov	r3, r1
+ 926 06da 8DF80330 		strb	r3, [sp, #3]
+ 927 06de 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 928 06e2 002B     		cmp	r3, #0
+ 929 06e4 0CD0     		beq	.L47
+ 930 06e6 4FF46053 		mov	r3, #14336
+ 931 06ea C4F20203 		movt	r3, 16386
+ 932 06ee 4FF46052 		mov	r2, #14336
+ 933 06f2 C4F20202 		movt	r2, 16386
+ 934 06f6 516B     		ldr	r1, [r2, #52]
+ 935 06f8 019A     		ldr	r2, [sp, #4]
+ 936 06fa 0A43     		orrs	r2, r2, r1
+ 937 06fc 5A63     		str	r2, [r3, #52]
+ 938 06fe 0DE0     		b	.L46
+ 939              	.L47:
+ 940 0700 4FF46053 		mov	r3, #14336
+ 941 0704 C4F20203 		movt	r3, 16386
+ 942 0708 4FF46052 		mov	r2, #14336
+ 943 070c C4F20202 		movt	r2, 16386
+ 944 0710 516B     		ldr	r1, [r2, #52]
+ 945 0712 019A     		ldr	r2, [sp, #4]
+ 946 0714 6FEA0202 		mvn	r2, r2
+ 947 0718 0A40     		ands	r2, r2, r1
+ 948 071a 5A63     		str	r2, [r3, #52]
+ 949              	.L46:
+ 950 071c 02B0     		add	sp, sp, #8
+ 951 071e 7047     		bx	lr
+ 953              		.align	2
+ 954              		.global	RCC_AHB3PeriphClockCmd
+ 955              		.thumb
+ 956              		.thumb_func
+ 958              	RCC_AHB3PeriphClockCmd:
+ 959              		@ args = 0, pretend = 0, frame = 8
+ 960              		@ frame_needed = 0, uses_anonymous_args = 0
+ 961              		@ link register save eliminated.
+ 962 0720 82B0     		sub	sp, sp, #8
+ 963 0722 0190     		str	r0, [sp, #4]
+ 964 0724 0B46     		mov	r3, r1
+ 965 0726 8DF80330 		strb	r3, [sp, #3]
+ 966 072a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 967 072e 002B     		cmp	r3, #0
+ 968 0730 0CD0     		beq	.L50
+ 969 0732 4FF46053 		mov	r3, #14336
+ 970 0736 C4F20203 		movt	r3, 16386
+ 971 073a 4FF46052 		mov	r2, #14336
+ 972 073e C4F20202 		movt	r2, 16386
+ 973 0742 916B     		ldr	r1, [r2, #56]
+ 974 0744 019A     		ldr	r2, [sp, #4]
+ 975 0746 0A43     		orrs	r2, r2, r1
+ 976 0748 9A63     		str	r2, [r3, #56]
+ 977 074a 0DE0     		b	.L49
+ 978              	.L50:
+ 979 074c 4FF46053 		mov	r3, #14336
+ 980 0750 C4F20203 		movt	r3, 16386
+ 981 0754 4FF46052 		mov	r2, #14336
+ 982 0758 C4F20202 		movt	r2, 16386
+ 983 075c 916B     		ldr	r1, [r2, #56]
+ 984 075e 019A     		ldr	r2, [sp, #4]
+ 985 0760 6FEA0202 		mvn	r2, r2
+ 986 0764 0A40     		ands	r2, r2, r1
+ 987 0766 9A63     		str	r2, [r3, #56]
+ 988              	.L49:
+ 989 0768 02B0     		add	sp, sp, #8
+ 990 076a 7047     		bx	lr
+ 992              		.align	2
+ 993              		.global	RCC_APB1PeriphClockCmd
+ 994              		.thumb
+ 995              		.thumb_func
+ 997              	RCC_APB1PeriphClockCmd:
+ 998              		@ args = 0, pretend = 0, frame = 8
+ 999              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1000              		@ link register save eliminated.
+ 1001 076c 82B0     		sub	sp, sp, #8
+ 1002 076e 0190     		str	r0, [sp, #4]
+ 1003 0770 0B46     		mov	r3, r1
+ 1004 0772 8DF80330 		strb	r3, [sp, #3]
+ 1005 0776 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1006 077a 002B     		cmp	r3, #0
+ 1007 077c 0CD0     		beq	.L53
+ 1008 077e 4FF46053 		mov	r3, #14336
+ 1009 0782 C4F20203 		movt	r3, 16386
+ 1010 0786 4FF46052 		mov	r2, #14336
+ 1011 078a C4F20202 		movt	r2, 16386
+ 1012 078e 116C     		ldr	r1, [r2, #64]
+ 1013 0790 019A     		ldr	r2, [sp, #4]
+ 1014 0792 0A43     		orrs	r2, r2, r1
+ 1015 0794 1A64     		str	r2, [r3, #64]
+ 1016 0796 0DE0     		b	.L52
+ 1017              	.L53:
+ 1018 0798 4FF46053 		mov	r3, #14336
+ 1019 079c C4F20203 		movt	r3, 16386
+ 1020 07a0 4FF46052 		mov	r2, #14336
+ 1021 07a4 C4F20202 		movt	r2, 16386
+ 1022 07a8 116C     		ldr	r1, [r2, #64]
+ 1023 07aa 019A     		ldr	r2, [sp, #4]
+ 1024 07ac 6FEA0202 		mvn	r2, r2
+ 1025 07b0 0A40     		ands	r2, r2, r1
+ 1026 07b2 1A64     		str	r2, [r3, #64]
+ 1027              	.L52:
+ 1028 07b4 02B0     		add	sp, sp, #8
+ 1029 07b6 7047     		bx	lr
+ 1031              		.align	2
+ 1032              		.global	RCC_APB2PeriphClockCmd
+ 1033              		.thumb
+ 1034              		.thumb_func
+ 1036              	RCC_APB2PeriphClockCmd:
+ 1037              		@ args = 0, pretend = 0, frame = 8
+ 1038              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1039              		@ link register save eliminated.
+ 1040 07b8 82B0     		sub	sp, sp, #8
+ 1041 07ba 0190     		str	r0, [sp, #4]
+ 1042 07bc 0B46     		mov	r3, r1
+ 1043 07be 8DF80330 		strb	r3, [sp, #3]
+ 1044 07c2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1045 07c6 002B     		cmp	r3, #0
+ 1046 07c8 0CD0     		beq	.L56
+ 1047 07ca 4FF46053 		mov	r3, #14336
+ 1048 07ce C4F20203 		movt	r3, 16386
+ 1049 07d2 4FF46052 		mov	r2, #14336
+ 1050 07d6 C4F20202 		movt	r2, 16386
+ 1051 07da 516C     		ldr	r1, [r2, #68]
+ 1052 07dc 019A     		ldr	r2, [sp, #4]
+ 1053 07de 0A43     		orrs	r2, r2, r1
+ 1054 07e0 5A64     		str	r2, [r3, #68]
+ 1055 07e2 0DE0     		b	.L55
+ 1056              	.L56:
+ 1057 07e4 4FF46053 		mov	r3, #14336
+ 1058 07e8 C4F20203 		movt	r3, 16386
+ 1059 07ec 4FF46052 		mov	r2, #14336
+ 1060 07f0 C4F20202 		movt	r2, 16386
+ 1061 07f4 516C     		ldr	r1, [r2, #68]
+ 1062 07f6 019A     		ldr	r2, [sp, #4]
+ 1063 07f8 6FEA0202 		mvn	r2, r2
+ 1064 07fc 0A40     		ands	r2, r2, r1
+ 1065 07fe 5A64     		str	r2, [r3, #68]
+ 1066              	.L55:
+ 1067 0800 02B0     		add	sp, sp, #8
+ 1068 0802 7047     		bx	lr
+ 1070              		.align	2
+ 1071              		.global	RCC_AHB1PeriphResetCmd
+ 1072              		.thumb
+ 1073              		.thumb_func
+ 1075              	RCC_AHB1PeriphResetCmd:
+ 1076              		@ args = 0, pretend = 0, frame = 8
+ 1077              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1078              		@ link register save eliminated.
+ 1079 0804 82B0     		sub	sp, sp, #8
+ 1080 0806 0190     		str	r0, [sp, #4]
+ 1081 0808 0B46     		mov	r3, r1
+ 1082 080a 8DF80330 		strb	r3, [sp, #3]
+ 1083 080e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1084 0812 002B     		cmp	r3, #0
+ 1085 0814 0CD0     		beq	.L59
+ 1086 0816 4FF46053 		mov	r3, #14336
+ 1087 081a C4F20203 		movt	r3, 16386
+ 1088 081e 4FF46052 		mov	r2, #14336
+ 1089 0822 C4F20202 		movt	r2, 16386
+ 1090 0826 1169     		ldr	r1, [r2, #16]
+ 1091 0828 019A     		ldr	r2, [sp, #4]
+ 1092 082a 0A43     		orrs	r2, r2, r1
+ 1093 082c 1A61     		str	r2, [r3, #16]
+ 1094 082e 0DE0     		b	.L58
+ 1095              	.L59:
+ 1096 0830 4FF46053 		mov	r3, #14336
+ 1097 0834 C4F20203 		movt	r3, 16386
+ 1098 0838 4FF46052 		mov	r2, #14336
+ 1099 083c C4F20202 		movt	r2, 16386
+ 1100 0840 1169     		ldr	r1, [r2, #16]
+ 1101 0842 019A     		ldr	r2, [sp, #4]
+ 1102 0844 6FEA0202 		mvn	r2, r2
+ 1103 0848 0A40     		ands	r2, r2, r1
+ 1104 084a 1A61     		str	r2, [r3, #16]
+ 1105              	.L58:
+ 1106 084c 02B0     		add	sp, sp, #8
+ 1107 084e 7047     		bx	lr
+ 1109              		.align	2
+ 1110              		.global	RCC_AHB2PeriphResetCmd
+ 1111              		.thumb
+ 1112              		.thumb_func
+ 1114              	RCC_AHB2PeriphResetCmd:
+ 1115              		@ args = 0, pretend = 0, frame = 8
+ 1116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1117              		@ link register save eliminated.
+ 1118 0850 82B0     		sub	sp, sp, #8
+ 1119 0852 0190     		str	r0, [sp, #4]
+ 1120 0854 0B46     		mov	r3, r1
+ 1121 0856 8DF80330 		strb	r3, [sp, #3]
+ 1122 085a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1123 085e 002B     		cmp	r3, #0
+ 1124 0860 0CD0     		beq	.L62
+ 1125 0862 4FF46053 		mov	r3, #14336
+ 1126 0866 C4F20203 		movt	r3, 16386
+ 1127 086a 4FF46052 		mov	r2, #14336
+ 1128 086e C4F20202 		movt	r2, 16386
+ 1129 0872 5169     		ldr	r1, [r2, #20]
+ 1130 0874 019A     		ldr	r2, [sp, #4]
+ 1131 0876 0A43     		orrs	r2, r2, r1
+ 1132 0878 5A61     		str	r2, [r3, #20]
+ 1133 087a 0DE0     		b	.L61
+ 1134              	.L62:
+ 1135 087c 4FF46053 		mov	r3, #14336
+ 1136 0880 C4F20203 		movt	r3, 16386
+ 1137 0884 4FF46052 		mov	r2, #14336
+ 1138 0888 C4F20202 		movt	r2, 16386
+ 1139 088c 5169     		ldr	r1, [r2, #20]
+ 1140 088e 019A     		ldr	r2, [sp, #4]
+ 1141 0890 6FEA0202 		mvn	r2, r2
+ 1142 0894 0A40     		ands	r2, r2, r1
+ 1143 0896 5A61     		str	r2, [r3, #20]
+ 1144              	.L61:
+ 1145 0898 02B0     		add	sp, sp, #8
+ 1146 089a 7047     		bx	lr
+ 1148              		.align	2
+ 1149              		.global	RCC_AHB3PeriphResetCmd
+ 1150              		.thumb
+ 1151              		.thumb_func
+ 1153              	RCC_AHB3PeriphResetCmd:
+ 1154              		@ args = 0, pretend = 0, frame = 8
+ 1155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1156              		@ link register save eliminated.
+ 1157 089c 82B0     		sub	sp, sp, #8
+ 1158 089e 0190     		str	r0, [sp, #4]
+ 1159 08a0 0B46     		mov	r3, r1
+ 1160 08a2 8DF80330 		strb	r3, [sp, #3]
+ 1161 08a6 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1162 08aa 002B     		cmp	r3, #0
+ 1163 08ac 0CD0     		beq	.L65
+ 1164 08ae 4FF46053 		mov	r3, #14336
+ 1165 08b2 C4F20203 		movt	r3, 16386
+ 1166 08b6 4FF46052 		mov	r2, #14336
+ 1167 08ba C4F20202 		movt	r2, 16386
+ 1168 08be 9169     		ldr	r1, [r2, #24]
+ 1169 08c0 019A     		ldr	r2, [sp, #4]
+ 1170 08c2 0A43     		orrs	r2, r2, r1
+ 1171 08c4 9A61     		str	r2, [r3, #24]
+ 1172 08c6 0DE0     		b	.L64
+ 1173              	.L65:
+ 1174 08c8 4FF46053 		mov	r3, #14336
+ 1175 08cc C4F20203 		movt	r3, 16386
+ 1176 08d0 4FF46052 		mov	r2, #14336
+ 1177 08d4 C4F20202 		movt	r2, 16386
+ 1178 08d8 9169     		ldr	r1, [r2, #24]
+ 1179 08da 019A     		ldr	r2, [sp, #4]
+ 1180 08dc 6FEA0202 		mvn	r2, r2
+ 1181 08e0 0A40     		ands	r2, r2, r1
+ 1182 08e2 9A61     		str	r2, [r3, #24]
+ 1183              	.L64:
+ 1184 08e4 02B0     		add	sp, sp, #8
+ 1185 08e6 7047     		bx	lr
+ 1187              		.align	2
+ 1188              		.global	RCC_APB1PeriphResetCmd
+ 1189              		.thumb
+ 1190              		.thumb_func
+ 1192              	RCC_APB1PeriphResetCmd:
+ 1193              		@ args = 0, pretend = 0, frame = 8
+ 1194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1195              		@ link register save eliminated.
+ 1196 08e8 82B0     		sub	sp, sp, #8
+ 1197 08ea 0190     		str	r0, [sp, #4]
+ 1198 08ec 0B46     		mov	r3, r1
+ 1199 08ee 8DF80330 		strb	r3, [sp, #3]
+ 1200 08f2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1201 08f6 002B     		cmp	r3, #0
+ 1202 08f8 0CD0     		beq	.L68
+ 1203 08fa 4FF46053 		mov	r3, #14336
+ 1204 08fe C4F20203 		movt	r3, 16386
+ 1205 0902 4FF46052 		mov	r2, #14336
+ 1206 0906 C4F20202 		movt	r2, 16386
+ 1207 090a 116A     		ldr	r1, [r2, #32]
+ 1208 090c 019A     		ldr	r2, [sp, #4]
+ 1209 090e 0A43     		orrs	r2, r2, r1
+ 1210 0910 1A62     		str	r2, [r3, #32]
+ 1211 0912 0DE0     		b	.L67
+ 1212              	.L68:
+ 1213 0914 4FF46053 		mov	r3, #14336
+ 1214 0918 C4F20203 		movt	r3, 16386
+ 1215 091c 4FF46052 		mov	r2, #14336
+ 1216 0920 C4F20202 		movt	r2, 16386
+ 1217 0924 116A     		ldr	r1, [r2, #32]
+ 1218 0926 019A     		ldr	r2, [sp, #4]
+ 1219 0928 6FEA0202 		mvn	r2, r2
+ 1220 092c 0A40     		ands	r2, r2, r1
+ 1221 092e 1A62     		str	r2, [r3, #32]
+ 1222              	.L67:
+ 1223 0930 02B0     		add	sp, sp, #8
+ 1224 0932 7047     		bx	lr
+ 1226              		.align	2
+ 1227              		.global	RCC_APB2PeriphResetCmd
+ 1228              		.thumb
+ 1229              		.thumb_func
+ 1231              	RCC_APB2PeriphResetCmd:
+ 1232              		@ args = 0, pretend = 0, frame = 8
+ 1233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1234              		@ link register save eliminated.
+ 1235 0934 82B0     		sub	sp, sp, #8
+ 1236 0936 0190     		str	r0, [sp, #4]
+ 1237 0938 0B46     		mov	r3, r1
+ 1238 093a 8DF80330 		strb	r3, [sp, #3]
+ 1239 093e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1240 0942 002B     		cmp	r3, #0
+ 1241 0944 0CD0     		beq	.L71
+ 1242 0946 4FF46053 		mov	r3, #14336
+ 1243 094a C4F20203 		movt	r3, 16386
+ 1244 094e 4FF46052 		mov	r2, #14336
+ 1245 0952 C4F20202 		movt	r2, 16386
+ 1246 0956 516A     		ldr	r1, [r2, #36]
+ 1247 0958 019A     		ldr	r2, [sp, #4]
+ 1248 095a 0A43     		orrs	r2, r2, r1
+ 1249 095c 5A62     		str	r2, [r3, #36]
+ 1250 095e 0DE0     		b	.L70
+ 1251              	.L71:
+ 1252 0960 4FF46053 		mov	r3, #14336
+ 1253 0964 C4F20203 		movt	r3, 16386
+ 1254 0968 4FF46052 		mov	r2, #14336
+ 1255 096c C4F20202 		movt	r2, 16386
+ 1256 0970 516A     		ldr	r1, [r2, #36]
+ 1257 0972 019A     		ldr	r2, [sp, #4]
+ 1258 0974 6FEA0202 		mvn	r2, r2
+ 1259 0978 0A40     		ands	r2, r2, r1
+ 1260 097a 5A62     		str	r2, [r3, #36]
+ 1261              	.L70:
+ 1262 097c 02B0     		add	sp, sp, #8
+ 1263 097e 7047     		bx	lr
+ 1265              		.align	2
+ 1266              		.global	RCC_AHB1PeriphClockLPModeCmd
+ 1267              		.thumb
+ 1268              		.thumb_func
+ 1270              	RCC_AHB1PeriphClockLPModeCmd:
+ 1271              		@ args = 0, pretend = 0, frame = 8
+ 1272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1273              		@ link register save eliminated.
+ 1274 0980 82B0     		sub	sp, sp, #8
+ 1275 0982 0190     		str	r0, [sp, #4]
+ 1276 0984 0B46     		mov	r3, r1
+ 1277 0986 8DF80330 		strb	r3, [sp, #3]
+ 1278 098a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1279 098e 002B     		cmp	r3, #0
+ 1280 0990 0CD0     		beq	.L74
+ 1281 0992 4FF46053 		mov	r3, #14336
+ 1282 0996 C4F20203 		movt	r3, 16386
+ 1283 099a 4FF46052 		mov	r2, #14336
+ 1284 099e C4F20202 		movt	r2, 16386
+ 1285 09a2 116D     		ldr	r1, [r2, #80]
+ 1286 09a4 019A     		ldr	r2, [sp, #4]
+ 1287 09a6 0A43     		orrs	r2, r2, r1
+ 1288 09a8 1A65     		str	r2, [r3, #80]
+ 1289 09aa 0DE0     		b	.L73
+ 1290              	.L74:
+ 1291 09ac 4FF46053 		mov	r3, #14336
+ 1292 09b0 C4F20203 		movt	r3, 16386
+ 1293 09b4 4FF46052 		mov	r2, #14336
+ 1294 09b8 C4F20202 		movt	r2, 16386
+ 1295 09bc 116D     		ldr	r1, [r2, #80]
+ 1296 09be 019A     		ldr	r2, [sp, #4]
+ 1297 09c0 6FEA0202 		mvn	r2, r2
+ 1298 09c4 0A40     		ands	r2, r2, r1
+ 1299 09c6 1A65     		str	r2, [r3, #80]
+ 1300              	.L73:
+ 1301 09c8 02B0     		add	sp, sp, #8
+ 1302 09ca 7047     		bx	lr
+ 1304              		.align	2
+ 1305              		.global	RCC_AHB2PeriphClockLPModeCmd
+ 1306              		.thumb
+ 1307              		.thumb_func
+ 1309              	RCC_AHB2PeriphClockLPModeCmd:
+ 1310              		@ args = 0, pretend = 0, frame = 8
+ 1311              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1312              		@ link register save eliminated.
+ 1313 09cc 82B0     		sub	sp, sp, #8
+ 1314 09ce 0190     		str	r0, [sp, #4]
+ 1315 09d0 0B46     		mov	r3, r1
+ 1316 09d2 8DF80330 		strb	r3, [sp, #3]
+ 1317 09d6 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1318 09da 002B     		cmp	r3, #0
+ 1319 09dc 0CD0     		beq	.L77
+ 1320 09de 4FF46053 		mov	r3, #14336
+ 1321 09e2 C4F20203 		movt	r3, 16386
+ 1322 09e6 4FF46052 		mov	r2, #14336
+ 1323 09ea C4F20202 		movt	r2, 16386
+ 1324 09ee 516D     		ldr	r1, [r2, #84]
+ 1325 09f0 019A     		ldr	r2, [sp, #4]
+ 1326 09f2 0A43     		orrs	r2, r2, r1
+ 1327 09f4 5A65     		str	r2, [r3, #84]
+ 1328 09f6 0DE0     		b	.L76
+ 1329              	.L77:
+ 1330 09f8 4FF46053 		mov	r3, #14336
+ 1331 09fc C4F20203 		movt	r3, 16386
+ 1332 0a00 4FF46052 		mov	r2, #14336
+ 1333 0a04 C4F20202 		movt	r2, 16386
+ 1334 0a08 516D     		ldr	r1, [r2, #84]
+ 1335 0a0a 019A     		ldr	r2, [sp, #4]
+ 1336 0a0c 6FEA0202 		mvn	r2, r2
+ 1337 0a10 0A40     		ands	r2, r2, r1
+ 1338 0a12 5A65     		str	r2, [r3, #84]
+ 1339              	.L76:
+ 1340 0a14 02B0     		add	sp, sp, #8
+ 1341 0a16 7047     		bx	lr
+ 1343              		.align	2
+ 1344              		.global	RCC_AHB3PeriphClockLPModeCmd
+ 1345              		.thumb
+ 1346              		.thumb_func
+ 1348              	RCC_AHB3PeriphClockLPModeCmd:
+ 1349              		@ args = 0, pretend = 0, frame = 8
+ 1350              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1351              		@ link register save eliminated.
+ 1352 0a18 82B0     		sub	sp, sp, #8
+ 1353 0a1a 0190     		str	r0, [sp, #4]
+ 1354 0a1c 0B46     		mov	r3, r1
+ 1355 0a1e 8DF80330 		strb	r3, [sp, #3]
+ 1356 0a22 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1357 0a26 002B     		cmp	r3, #0
+ 1358 0a28 0CD0     		beq	.L80
+ 1359 0a2a 4FF46053 		mov	r3, #14336
+ 1360 0a2e C4F20203 		movt	r3, 16386
+ 1361 0a32 4FF46052 		mov	r2, #14336
+ 1362 0a36 C4F20202 		movt	r2, 16386
+ 1363 0a3a 916D     		ldr	r1, [r2, #88]
+ 1364 0a3c 019A     		ldr	r2, [sp, #4]
+ 1365 0a3e 0A43     		orrs	r2, r2, r1
+ 1366 0a40 9A65     		str	r2, [r3, #88]
+ 1367 0a42 0DE0     		b	.L79
+ 1368              	.L80:
+ 1369 0a44 4FF46053 		mov	r3, #14336
+ 1370 0a48 C4F20203 		movt	r3, 16386
+ 1371 0a4c 4FF46052 		mov	r2, #14336
+ 1372 0a50 C4F20202 		movt	r2, 16386
+ 1373 0a54 916D     		ldr	r1, [r2, #88]
+ 1374 0a56 019A     		ldr	r2, [sp, #4]
+ 1375 0a58 6FEA0202 		mvn	r2, r2
+ 1376 0a5c 0A40     		ands	r2, r2, r1
+ 1377 0a5e 9A65     		str	r2, [r3, #88]
+ 1378              	.L79:
+ 1379 0a60 02B0     		add	sp, sp, #8
+ 1380 0a62 7047     		bx	lr
+ 1382              		.align	2
+ 1383              		.global	RCC_APB1PeriphClockLPModeCmd
+ 1384              		.thumb
+ 1385              		.thumb_func
+ 1387              	RCC_APB1PeriphClockLPModeCmd:
+ 1388              		@ args = 0, pretend = 0, frame = 8
+ 1389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1390              		@ link register save eliminated.
+ 1391 0a64 82B0     		sub	sp, sp, #8
+ 1392 0a66 0190     		str	r0, [sp, #4]
+ 1393 0a68 0B46     		mov	r3, r1
+ 1394 0a6a 8DF80330 		strb	r3, [sp, #3]
+ 1395 0a6e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1396 0a72 002B     		cmp	r3, #0
+ 1397 0a74 0CD0     		beq	.L83
+ 1398 0a76 4FF46053 		mov	r3, #14336
+ 1399 0a7a C4F20203 		movt	r3, 16386
+ 1400 0a7e 4FF46052 		mov	r2, #14336
+ 1401 0a82 C4F20202 		movt	r2, 16386
+ 1402 0a86 116E     		ldr	r1, [r2, #96]
+ 1403 0a88 019A     		ldr	r2, [sp, #4]
+ 1404 0a8a 0A43     		orrs	r2, r2, r1
+ 1405 0a8c 1A66     		str	r2, [r3, #96]
+ 1406 0a8e 0DE0     		b	.L82
+ 1407              	.L83:
+ 1408 0a90 4FF46053 		mov	r3, #14336
+ 1409 0a94 C4F20203 		movt	r3, 16386
+ 1410 0a98 4FF46052 		mov	r2, #14336
+ 1411 0a9c C4F20202 		movt	r2, 16386
+ 1412 0aa0 116E     		ldr	r1, [r2, #96]
+ 1413 0aa2 019A     		ldr	r2, [sp, #4]
+ 1414 0aa4 6FEA0202 		mvn	r2, r2
+ 1415 0aa8 0A40     		ands	r2, r2, r1
+ 1416 0aaa 1A66     		str	r2, [r3, #96]
+ 1417              	.L82:
+ 1418 0aac 02B0     		add	sp, sp, #8
+ 1419 0aae 7047     		bx	lr
+ 1421              		.align	2
+ 1422              		.global	RCC_APB2PeriphClockLPModeCmd
+ 1423              		.thumb
+ 1424              		.thumb_func
+ 1426              	RCC_APB2PeriphClockLPModeCmd:
+ 1427              		@ args = 0, pretend = 0, frame = 8
+ 1428              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1429              		@ link register save eliminated.
+ 1430 0ab0 82B0     		sub	sp, sp, #8
+ 1431 0ab2 0190     		str	r0, [sp, #4]
+ 1432 0ab4 0B46     		mov	r3, r1
+ 1433 0ab6 8DF80330 		strb	r3, [sp, #3]
+ 1434 0aba 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1435 0abe 002B     		cmp	r3, #0
+ 1436 0ac0 0CD0     		beq	.L86
+ 1437 0ac2 4FF46053 		mov	r3, #14336
+ 1438 0ac6 C4F20203 		movt	r3, 16386
+ 1439 0aca 4FF46052 		mov	r2, #14336
+ 1440 0ace C4F20202 		movt	r2, 16386
+ 1441 0ad2 516E     		ldr	r1, [r2, #100]
+ 1442 0ad4 019A     		ldr	r2, [sp, #4]
+ 1443 0ad6 0A43     		orrs	r2, r2, r1
+ 1444 0ad8 5A66     		str	r2, [r3, #100]
+ 1445 0ada 0DE0     		b	.L85
+ 1446              	.L86:
+ 1447 0adc 4FF46053 		mov	r3, #14336
+ 1448 0ae0 C4F20203 		movt	r3, 16386
+ 1449 0ae4 4FF46052 		mov	r2, #14336
+ 1450 0ae8 C4F20202 		movt	r2, 16386
+ 1451 0aec 516E     		ldr	r1, [r2, #100]
+ 1452 0aee 019A     		ldr	r2, [sp, #4]
+ 1453 0af0 6FEA0202 		mvn	r2, r2
+ 1454 0af4 0A40     		ands	r2, r2, r1
+ 1455 0af6 5A66     		str	r2, [r3, #100]
+ 1456              	.L85:
+ 1457 0af8 02B0     		add	sp, sp, #8
+ 1458 0afa 7047     		bx	lr
+ 1460              		.align	2
+ 1461              		.global	RCC_ITConfig
+ 1462              		.thumb
+ 1463              		.thumb_func
+ 1465              	RCC_ITConfig:
+ 1466              		@ args = 0, pretend = 0, frame = 8
+ 1467              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1468              		@ link register save eliminated.
+ 1469 0afc 82B0     		sub	sp, sp, #8
+ 1470 0afe 0246     		mov	r2, r0
+ 1471 0b00 0B46     		mov	r3, r1
+ 1472 0b02 8DF80720 		strb	r2, [sp, #7]
+ 1473 0b06 8DF80630 		strb	r3, [sp, #6]
+ 1474 0b0a 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 1475 0b0e 002B     		cmp	r3, #0
+ 1476 0b10 0FD0     		beq	.L89
+ 1477 0b12 43F60D03 		movw	r3, #14349
+ 1478 0b16 C4F20203 		movt	r3, 16386
+ 1479 0b1a 43F60D02 		movw	r2, #14349
+ 1480 0b1e C4F20202 		movt	r2, 16386
+ 1481 0b22 1278     		ldrb	r2, [r2, #0]
+ 1482 0b24 D1B2     		uxtb	r1, r2
+ 1483 0b26 9DF80720 		ldrb	r2, [sp, #7]
+ 1484 0b2a 0A43     		orrs	r2, r2, r1
+ 1485 0b2c D2B2     		uxtb	r2, r2
+ 1486 0b2e 1A70     		strb	r2, [r3, #0]
+ 1487 0b30 11E0     		b	.L88
+ 1488              	.L89:
+ 1489 0b32 43F60D03 		movw	r3, #14349
+ 1490 0b36 C4F20203 		movt	r3, 16386
+ 1491 0b3a 43F60D02 		movw	r2, #14349
+ 1492 0b3e C4F20202 		movt	r2, 16386
+ 1493 0b42 1278     		ldrb	r2, [r2, #0]
+ 1494 0b44 D1B2     		uxtb	r1, r2
+ 1495 0b46 9DF80720 		ldrb	r2, [sp, #7]
+ 1496 0b4a 6FEA0202 		mvn	r2, r2
+ 1497 0b4e D2B2     		uxtb	r2, r2
+ 1498 0b50 0A40     		ands	r2, r2, r1
+ 1499 0b52 D2B2     		uxtb	r2, r2
+ 1500 0b54 1A70     		strb	r2, [r3, #0]
+ 1501              	.L88:
+ 1502 0b56 02B0     		add	sp, sp, #8
+ 1503 0b58 7047     		bx	lr
+ 1505 0b5a 00BF     		.align	2
+ 1506              		.global	RCC_GetFlagStatus
+ 1507              		.thumb
+ 1508              		.thumb_func
+ 1510              	RCC_GetFlagStatus:
+ 1511              		@ args = 0, pretend = 0, frame = 24
+ 1512              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1513              		@ link register save eliminated.
+ 1514 0b5c 86B0     		sub	sp, sp, #24
+ 1515 0b5e 0346     		mov	r3, r0
+ 1516 0b60 8DF80730 		strb	r3, [sp, #7]
+ 1517 0b64 4FF00003 		mov	r3, #0
+ 1518 0b68 0393     		str	r3, [sp, #12]
+ 1519 0b6a 4FF00003 		mov	r3, #0
+ 1520 0b6e 0593     		str	r3, [sp, #20]
+ 1521 0b70 4FF00003 		mov	r3, #0
+ 1522 0b74 8DF81330 		strb	r3, [sp, #19]
+ 1523 0b78 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1524 0b7c 4FEA5313 		lsr	r3, r3, #5
+ 1525 0b80 DBB2     		uxtb	r3, r3
+ 1526 0b82 0393     		str	r3, [sp, #12]
+ 1527 0b84 039B     		ldr	r3, [sp, #12]
+ 1528 0b86 012B     		cmp	r3, #1
+ 1529 0b88 06D1     		bne	.L92
+ 1530 0b8a 4FF46053 		mov	r3, #14336
+ 1531 0b8e C4F20203 		movt	r3, 16386
+ 1532 0b92 1B68     		ldr	r3, [r3, #0]
+ 1533 0b94 0593     		str	r3, [sp, #20]
+ 1534 0b96 0FE0     		b	.L93
+ 1535              	.L92:
+ 1536 0b98 039B     		ldr	r3, [sp, #12]
+ 1537 0b9a 022B     		cmp	r3, #2
+ 1538 0b9c 06D1     		bne	.L94
+ 1539 0b9e 4FF46053 		mov	r3, #14336
+ 1540 0ba2 C4F20203 		movt	r3, 16386
+ 1541 0ba6 1B6F     		ldr	r3, [r3, #112]
+ 1542 0ba8 0593     		str	r3, [sp, #20]
+ 1543 0baa 05E0     		b	.L93
+ 1544              	.L94:
+ 1545 0bac 4FF46053 		mov	r3, #14336
+ 1546 0bb0 C4F20203 		movt	r3, 16386
+ 1547 0bb4 5B6F     		ldr	r3, [r3, #116]
+ 1548 0bb6 0593     		str	r3, [sp, #20]
+ 1549              	.L93:
+ 1550 0bb8 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1551 0bbc 03F01F03 		and	r3, r3, #31
+ 1552 0bc0 0393     		str	r3, [sp, #12]
+ 1553 0bc2 039B     		ldr	r3, [sp, #12]
+ 1554 0bc4 059A     		ldr	r2, [sp, #20]
+ 1555 0bc6 22FA03F3 		lsr	r3, r2, r3
+ 1556 0bca 03F00103 		and	r3, r3, #1
+ 1557 0bce DBB2     		uxtb	r3, r3
+ 1558 0bd0 002B     		cmp	r3, #0
+ 1559 0bd2 04D0     		beq	.L95
+ 1560 0bd4 4FF00103 		mov	r3, #1
+ 1561 0bd8 8DF81330 		strb	r3, [sp, #19]
+ 1562 0bdc 03E0     		b	.L96
+ 1563              	.L95:
+ 1564 0bde 4FF00003 		mov	r3, #0
+ 1565 0be2 8DF81330 		strb	r3, [sp, #19]
+ 1566              	.L96:
+ 1567 0be6 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 1568 0bea 1846     		mov	r0, r3
+ 1569 0bec 06B0     		add	sp, sp, #24
+ 1570 0bee 7047     		bx	lr
+ 1572              		.align	2
+ 1573              		.global	RCC_ClearFlag
+ 1574              		.thumb
+ 1575              		.thumb_func
+ 1577              	RCC_ClearFlag:
+ 1578              		@ args = 0, pretend = 0, frame = 0
+ 1579              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1580              		@ link register save eliminated.
+ 1581 0bf0 4FF46053 		mov	r3, #14336
+ 1582 0bf4 C4F20203 		movt	r3, 16386
+ 1583 0bf8 4FF46052 		mov	r2, #14336
+ 1584 0bfc C4F20202 		movt	r2, 16386
+ 1585 0c00 526F     		ldr	r2, [r2, #116]
+ 1586 0c02 42F08072 		orr	r2, r2, #16777216
+ 1587 0c06 5A67     		str	r2, [r3, #116]
+ 1588 0c08 7047     		bx	lr
+ 1590 0c0a 00BF     		.align	2
+ 1591              		.global	RCC_GetITStatus
+ 1592              		.thumb
+ 1593              		.thumb_func
+ 1595              	RCC_GetITStatus:
+ 1596              		@ args = 0, pretend = 0, frame = 16
+ 1597              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1598              		@ link register save eliminated.
+ 1599 0c0c 84B0     		sub	sp, sp, #16
+ 1600 0c0e 0346     		mov	r3, r0
+ 1601 0c10 8DF80730 		strb	r3, [sp, #7]
+ 1602 0c14 4FF00003 		mov	r3, #0
+ 1603 0c18 8DF80F30 		strb	r3, [sp, #15]
+ 1604 0c1c 4FF46053 		mov	r3, #14336
+ 1605 0c20 C4F20203 		movt	r3, 16386
+ 1606 0c24 DA68     		ldr	r2, [r3, #12]
+ 1607 0c26 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1608 0c2a 1340     		ands	r3, r3, r2
+ 1609 0c2c 002B     		cmp	r3, #0
+ 1610 0c2e 04D0     		beq	.L99
+ 1611 0c30 4FF00103 		mov	r3, #1
+ 1612 0c34 8DF80F30 		strb	r3, [sp, #15]
+ 1613 0c38 03E0     		b	.L100
+ 1614              	.L99:
+ 1615 0c3a 4FF00003 		mov	r3, #0
+ 1616 0c3e 8DF80F30 		strb	r3, [sp, #15]
+ 1617              	.L100:
+ 1618 0c42 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1619 0c46 1846     		mov	r0, r3
+ 1620 0c48 04B0     		add	sp, sp, #16
+ 1621 0c4a 7047     		bx	lr
+ 1623              		.align	2
+ 1624              		.global	RCC_ClearITPendingBit
+ 1625              		.thumb
+ 1626              		.thumb_func
+ 1628              	RCC_ClearITPendingBit:
+ 1629              		@ args = 0, pretend = 0, frame = 8
+ 1630              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1631              		@ link register save eliminated.
+ 1632 0c4c 82B0     		sub	sp, sp, #8
+ 1633 0c4e 0346     		mov	r3, r0
+ 1634 0c50 8DF80730 		strb	r3, [sp, #7]
+ 1635 0c54 43F60E03 		movw	r3, #14350
+ 1636 0c58 C4F20203 		movt	r3, 16386
+ 1637 0c5c 9DF80720 		ldrb	r2, [sp, #7]
+ 1638 0c60 1A70     		strb	r2, [r3, #0]
+ 1639 0c62 02B0     		add	sp, sp, #8
+ 1640 0c64 7047     		bx	lr
+ 1642 0c66 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_rcc.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:17     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:20     .data:00000000 APBAHBPrescTable
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:38     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:43     .text:00000000 RCC_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:89     .text:0000007c RCC_HSEConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:112    .text:000000a4 RCC_WaitForHSEStartUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1510   .text:00000b5c RCC_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:160    .text:00000110 RCC_AdjustHSICalibrationValue
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:193    .text:00000150 RCC_HSICmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:212    .text:0000016c RCC_LSEConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:256    .text:000001c4 RCC_LSICmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:275    .text:000001e0 RCC_PLLConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:309    .text:00000220 RCC_PLLCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:328    .text:0000023c RCC_PLLI2SConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:351    .text:00000260 RCC_PLLI2SCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:370    .text:0000027c RCC_ClockSecuritySystemCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:389    .text:00000298 RCC_MCO1Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:423    .text:000002d4 RCC_MCO2Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:457    .text:00000310 RCC_SYSCLKConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:488    .text:00000348 RCC_GetSYSCLKSource
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:506    .text:00000360 RCC_HCLKConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:537    .text:00000398 RCC_PCLK1Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:568    .text:000003d0 RCC_PCLK2Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:600    .text:0000040c RCC_GetClocksFreq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:776    .text:000005d0 RCC_RTCCLKConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:824    .text:0000063c RCC_RTCCLKCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:843    .text:00000658 RCC_BackupResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:862    .text:00000674 RCC_I2SCLKConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:880    .text:00000688 RCC_AHB1PeriphClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:919    .text:000006d4 RCC_AHB2PeriphClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:958    .text:00000720 RCC_AHB3PeriphClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:997    .text:0000076c RCC_APB1PeriphClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1036   .text:000007b8 RCC_APB2PeriphClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1075   .text:00000804 RCC_AHB1PeriphResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1114   .text:00000850 RCC_AHB2PeriphResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1153   .text:0000089c RCC_AHB3PeriphResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1192   .text:000008e8 RCC_APB1PeriphResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1231   .text:00000934 RCC_APB2PeriphResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1270   .text:00000980 RCC_AHB1PeriphClockLPModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1309   .text:000009cc RCC_AHB2PeriphClockLPModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1348   .text:00000a18 RCC_AHB3PeriphClockLPModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1387   .text:00000a64 RCC_APB1PeriphClockLPModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1426   .text:00000ab0 RCC_APB2PeriphClockLPModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1465   .text:00000afc RCC_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1577   .text:00000bf0 RCC_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1595   .text:00000c0c RCC_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFO0a7g.s:1628   .text:00000c4c RCC_ClearITPendingBit
+
+NO UNDEFINED SYMBOLS

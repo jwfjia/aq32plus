@@ -1,0 +1,518 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"gyroTempCalibration.c"
+  16              		.section	.rodata
+  17              		.align	2
+  18              	.LC0:
+  19 0000 0A477972 		.ascii	"\012Gyro Temperature Calibration:\012\000"
+  19      6F205465 
+  19      6D706572 
+  19      61747572 
+  19      65204361 
+  20              		.align	2
+  21              	.LC1:
+  22 0020 0A426567 		.ascii	"\012Begin 1st Gyro Measurements...\012\000"
+  22      696E2031 
+  22      73742047 
+  22      79726F20 
+  22      4D656173 
+  23 0041 000000   		.align	2
+  24              	.LC2:
+  25 0044 0A477972 		.ascii	"\012Gyro Temperature Reading: \000"
+  25      6F205465 
+  25      6D706572 
+  25      61747572 
+  25      65205265 
+  26              		.align	2
+  27              	.LC3:
+  28 0060 0A0A456E 		.ascii	"\012\012End 1st Gyro Measurements\012\000"
+  28      64203173 
+  28      74204779 
+  28      726F204D 
+  28      65617375 
+  29 007d 000000   		.align	2
+  30              	.LC4:
+  31 0080 0A576169 		.ascii	"\012Waiting for 15 minutes for gyro temp to rise..."
+  31      74696E67 
+  31      20666F72 
+  31      20313520 
+  31      6D696E75 
+  32 00b0 0A00     		.ascii	"\012\000"
+  33 00b2 0000     		.align	2
+  34              	.LC5:
+  35 00b4 0A426567 		.ascii	"\012Begin 2nd Gyro Measurements...\012\000"
+  35      696E2032 
+  35      6E642047 
+  35      79726F20 
+  35      4D656173 
+  36 00d5 000000   		.align	2
+  37              	.LC6:
+  38 00d8 0A0A456E 		.ascii	"\012\012End 2nd Gyro Measurements\012\000"
+  38      6420326E 
+  38      64204779 
+  38      726F204D 
+  38      65617375 
+  39 00f5 000000   		.align	2
+  40              	.LC7:
+  41 00f8 0A477972 		.ascii	"\012Gyro TC Bias Slope[3]      = { \000"
+  41      6F205443 
+  41      20426961 
+  41      7320536C 
+  41      6F70655B 
+  42 0119 000000   		.align	2
+  43              	.LC8:
+  44 011c 2C2000   		.ascii	", \000"
+  45 011f 00       		.align	2
+  46              	.LC9:
+  47 0120 207D0A00 		.ascii	" }\012\000"
+  48              		.align	2
+  49              	.LC10:
+  50 0124 0A204779 		.ascii	"\012 Gyro TC Bias Intercept[3]  = { \000"
+  50      726F2054 
+  50      43204269 
+  50      61732049 
+  50      6E746572 
+  51 0146 0000     		.align	2
+  52              	.LC11:
+  53 0148 0A477972 		.ascii	"\012Gyro Temperature Calibration Complete.\012\000"
+  53      6F205465 
+  53      6D706572 
+  53      61747572 
+  53      65204361 
+  54 0171 000000   		.text
+  55              		.align	2
+  56              		.global	gyroTempCalibration
+  57              		.thumb
+  58              		.thumb_func
+  60              	gyroTempCalibration:
+  61              		@ args = 0, pretend = 0, frame = 56
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63 0000 00B5     		push	{lr}
+  64 0002 8FB0     		sub	sp, sp, #60
+  65 0004 4FF47A73 		mov	r3, #1000
+  66 0008 ADF82C30 		strh	r3, [sp, #44]	@ movhi
+  67 000c 4FF4FA63 		mov	r3, #2000
+  68 0010 ADF82A30 		strh	r3, [sp, #42]	@ movhi
+  69 0014 6F4B     		ldr	r3, .L6	@ float
+  70 0016 0793     		str	r3, [sp, #28]	@ float
+  71 0018 6E4B     		ldr	r3, .L6	@ float
+  72 001a 0893     		str	r3, [sp, #32]	@ float
+  73 001c 6D4B     		ldr	r3, .L6	@ float
+  74 001e 0993     		str	r3, [sp, #36]	@ float
+  75 0020 6C4B     		ldr	r3, .L6	@ float
+  76 0022 0D93     		str	r3, [sp, #52]	@ float
+  77 0024 6B4B     		ldr	r3, .L6	@ float
+  78 0026 0493     		str	r3, [sp, #16]	@ float
+  79 0028 6A4B     		ldr	r3, .L6	@ float
+  80 002a 0593     		str	r3, [sp, #20]	@ float
+  81 002c 694B     		ldr	r3, .L6	@ float
+  82 002e 0693     		str	r3, [sp, #24]	@ float
+  83 0030 684B     		ldr	r3, .L6	@ float
+  84 0032 0C93     		str	r3, [sp, #48]	@ float
+  85 0034 40F20003 		movw	r3, #:lower16:gyroCalibrating
+  86 0038 C0F20003 		movt	r3, #:upper16:gyroCalibrating
+  87 003c 4FF00102 		mov	r2, #1
+  88 0040 1A70     		strb	r2, [r3, #0]
+  89 0042 40F20000 		movw	r0, #:lower16:.LC0
+  90 0046 C0F20000 		movt	r0, #:upper16:.LC0
+  91 004a FFF7FEFF 		bl	usbPrint
+  92 004e 40F20000 		movw	r0, #:lower16:.LC1
+  93 0052 C0F20000 		movt	r0, #:upper16:.LC1
+  94 0056 FFF7FEFF 		bl	usbPrint
+  95 005a 4FF00003 		mov	r3, #0
+  96 005e ADF82E30 		strh	r3, [sp, #46]	@ movhi
+  97 0062 54E0     		b	.L2
+  98              	.L3:
+  99 0064 FFF7FEFF 		bl	readMPU6000
+ 100 0068 9DED077A 		flds	s14, [sp, #28]
+ 101 006c 40F20003 		movw	r3, #:lower16:rawGyro
+ 102 0070 C0F20003 		movt	r3, #:upper16:rawGyro
+ 103 0074 1B88     		ldrh	r3, [r3, #0]
+ 104 0076 1BB2     		sxth	r3, r3
+ 105 0078 06EE903A 		fmsr	s13, r3	@ int
+ 106 007c F8EEE67A 		fsitos	s15, s13
+ 107 0080 77EE277A 		fadds	s15, s14, s15
+ 108 0084 CDED077A 		fsts	s15, [sp, #28]
+ 109 0088 9DED087A 		flds	s14, [sp, #32]
+ 110 008c 40F20003 		movw	r3, #:lower16:rawGyro
+ 111 0090 C0F20003 		movt	r3, #:upper16:rawGyro
+ 112 0094 5B88     		ldrh	r3, [r3, #2]
+ 113 0096 1BB2     		sxth	r3, r3
+ 114 0098 06EE903A 		fmsr	s13, r3	@ int
+ 115 009c F8EEE67A 		fsitos	s15, s13
+ 116 00a0 77EE277A 		fadds	s15, s14, s15
+ 117 00a4 CDED087A 		fsts	s15, [sp, #32]
+ 118 00a8 9DED097A 		flds	s14, [sp, #36]
+ 119 00ac 40F20003 		movw	r3, #:lower16:rawGyro
+ 120 00b0 C0F20003 		movt	r3, #:upper16:rawGyro
+ 121 00b4 9B88     		ldrh	r3, [r3, #4]
+ 122 00b6 1BB2     		sxth	r3, r3
+ 123 00b8 06EE903A 		fmsr	s13, r3	@ int
+ 124 00bc F8EEE67A 		fsitos	s15, s13
+ 125 00c0 77EE277A 		fadds	s15, s14, s15
+ 126 00c4 CDED097A 		fsts	s15, [sp, #36]
+ 127 00c8 40F20003 		movw	r3, #:lower16:rawGyroTemperature
+ 128 00cc C0F20003 		movt	r3, #:upper16:rawGyroTemperature
+ 129 00d0 1B88     		ldrh	r3, [r3, #0]
+ 130 00d2 1BB2     		sxth	r3, r3
+ 131 00d4 07EE903A 		fmsr	s15, r3	@ int
+ 132 00d8 B8EEE77A 		fsitos	s14, s15
+ 133 00dc DFED3E7A 		flds	s15, .L6+4
+ 134 00e0 C7EE277A 		fdivs	s15, s14, s15
+ 135 00e4 9FED3D7A 		flds	s14, .L6+8
+ 136 00e8 77EE877A 		fadds	s15, s15, s14
+ 137 00ec 9DED0D7A 		flds	s14, [sp, #52]
+ 138 00f0 77EE277A 		fadds	s15, s14, s15
+ 139 00f4 CDED0D7A 		fsts	s15, [sp, #52]
+ 140 00f8 BDF82C30 		ldrh	r3, [sp, #44]
+ 141 00fc 1846     		mov	r0, r3
+ 142 00fe FFF7FEFF 		bl	delayMicroseconds
+ 143 0102 BDF82E30 		ldrh	r3, [sp, #46]	@ movhi
+ 144 0106 03F10103 		add	r3, r3, #1
+ 145 010a ADF82E30 		strh	r3, [sp, #46]	@ movhi
+ 146              	.L2:
+ 147 010e BDF82E20 		ldrh	r2, [sp, #46]
+ 148 0112 BDF82A30 		ldrh	r3, [sp, #42]
+ 149 0116 9A42     		cmp	r2, r3
+ 150 0118 A4D3     		bcc	.L3
+ 151 011a 9DED077A 		flds	s14, [sp, #28]
+ 152 011e BDF82A30 		ldrh	r3, [sp, #42]
+ 153 0122 06EE903A 		fmsr	s13, r3	@ int
+ 154 0126 F8EE667A 		fuitos	s15, s13
+ 155 012a C7EE277A 		fdivs	s15, s14, s15
+ 156 012e CDED077A 		fsts	s15, [sp, #28]
+ 157 0132 9DED087A 		flds	s14, [sp, #32]
+ 158 0136 BDF82A30 		ldrh	r3, [sp, #42]
+ 159 013a 06EE903A 		fmsr	s13, r3	@ int
+ 160 013e F8EE667A 		fuitos	s15, s13
+ 161 0142 C7EE277A 		fdivs	s15, s14, s15
+ 162 0146 CDED087A 		fsts	s15, [sp, #32]
+ 163 014a 9DED097A 		flds	s14, [sp, #36]
+ 164 014e BDF82A30 		ldrh	r3, [sp, #42]
+ 165 0152 06EE903A 		fmsr	s13, r3	@ int
+ 166 0156 F8EE667A 		fuitos	s15, s13
+ 167 015a C7EE277A 		fdivs	s15, s14, s15
+ 168 015e CDED097A 		fsts	s15, [sp, #36]
+ 169 0162 BDF82A30 		ldrh	r3, [sp, #42]
+ 170 0166 07EE103A 		fmsr	s14, r3	@ int
+ 171 016a F8EE477A 		fuitos	s15, s14
+ 172 016e 9DED0D7A 		flds	s14, [sp, #52]
+ 173 0172 C7EE277A 		fdivs	s15, s14, s15
+ 174 0176 CDED0D7A 		fsts	s15, [sp, #52]
+ 175 017a 40F20000 		movw	r0, #:lower16:.LC2
+ 176 017e C0F20000 		movt	r0, #:upper16:.LC2
+ 177 0182 FFF7FEFF 		bl	usbPrint
+ 178 0186 0D98     		ldr	r0, [sp, #52]	@ float
+ 179 0188 01AB     		add	r3, sp, #4
+ 180 018a 1946     		mov	r1, r3
+ 181 018c FFF7FEFF 		bl	ftoa
+ 182 0190 01AB     		add	r3, sp, #4
+ 183 0192 1846     		mov	r0, r3
+ 184 0194 FFF7FEFF 		bl	usbPrint
+ 185 0198 40F20000 		movw	r0, #:lower16:.LC3
+ 186 019c C0F20000 		movt	r0, #:upper16:.LC3
+ 187 01a0 FFF7FEFF 		bl	usbPrint
+ 188 01a4 40F20000 		movw	r0, #:lower16:.LC4
+ 189 01a8 C0F20000 		movt	r0, #:upper16:.LC4
+ 190 01ac FFF7FEFF 		bl	usbPrint
+ 191 01b0 4BF6A030 		movw	r0, #48032
+ 192 01b4 C0F20D00 		movt	r0, 13
+ 193 01b8 FFF7FEFF 		bl	delay
+ 194 01bc 40F20000 		movw	r0, #:lower16:.LC5
+ 195 01c0 C0F20000 		movt	r0, #:upper16:.LC5
+ 196 01c4 FFF7FEFF 		bl	usbPrint
+ 197 01c8 4FF00003 		mov	r3, #0
+ 198 01cc ADF82E30 		strh	r3, [sp, #46]	@ movhi
+ 199 01d0 5BE0     		b	.L4
+ 200              	.L7:
+ 201 01d2 00BF     		.align	2
+ 202              	.L6:
+ 203 01d4 00000000 		.word	0
+ 204 01d8 0000AA43 		.word	1135214592
+ 205 01dc 00000C42 		.word	1108082688
+ 206              	.L5:
+ 207 01e0 FFF7FEFF 		bl	readMPU6000
+ 208 01e4 9DED047A 		flds	s14, [sp, #16]
+ 209 01e8 40F20003 		movw	r3, #:lower16:rawGyro
+ 210 01ec C0F20003 		movt	r3, #:upper16:rawGyro
+ 211 01f0 1B88     		ldrh	r3, [r3, #0]
+ 212 01f2 1BB2     		sxth	r3, r3
+ 213 01f4 06EE903A 		fmsr	s13, r3	@ int
+ 214 01f8 F8EEE67A 		fsitos	s15, s13
+ 215 01fc 77EE277A 		fadds	s15, s14, s15
+ 216 0200 CDED047A 		fsts	s15, [sp, #16]
+ 217 0204 9DED057A 		flds	s14, [sp, #20]
+ 218 0208 40F20003 		movw	r3, #:lower16:rawGyro
+ 219 020c C0F20003 		movt	r3, #:upper16:rawGyro
+ 220 0210 5B88     		ldrh	r3, [r3, #2]
+ 221 0212 1BB2     		sxth	r3, r3
+ 222 0214 06EE903A 		fmsr	s13, r3	@ int
+ 223 0218 F8EEE67A 		fsitos	s15, s13
+ 224 021c 77EE277A 		fadds	s15, s14, s15
+ 225 0220 CDED057A 		fsts	s15, [sp, #20]
+ 226 0224 9DED067A 		flds	s14, [sp, #24]
+ 227 0228 40F20003 		movw	r3, #:lower16:rawGyro
+ 228 022c C0F20003 		movt	r3, #:upper16:rawGyro
+ 229 0230 9B88     		ldrh	r3, [r3, #4]
+ 230 0232 1BB2     		sxth	r3, r3
+ 231 0234 06EE903A 		fmsr	s13, r3	@ int
+ 232 0238 F8EEE67A 		fsitos	s15, s13
+ 233 023c 77EE277A 		fadds	s15, s14, s15
+ 234 0240 CDED067A 		fsts	s15, [sp, #24]
+ 235 0244 40F20003 		movw	r3, #:lower16:rawGyroTemperature
+ 236 0248 C0F20003 		movt	r3, #:upper16:rawGyroTemperature
+ 237 024c 1B88     		ldrh	r3, [r3, #0]
+ 238 024e 1BB2     		sxth	r3, r3
+ 239 0250 07EE903A 		fmsr	s15, r3	@ int
+ 240 0254 B8EEE77A 		fsitos	s14, s15
+ 241 0258 5FED217A 		flds	s15, .L6+4
+ 242 025c C7EE277A 		fdivs	s15, s14, s15
+ 243 0260 1FED227A 		flds	s14, .L6+8
+ 244 0264 77EE877A 		fadds	s15, s15, s14
+ 245 0268 9DED0C7A 		flds	s14, [sp, #48]
+ 246 026c 77EE277A 		fadds	s15, s14, s15
+ 247 0270 CDED0C7A 		fsts	s15, [sp, #48]
+ 248 0274 BDF82C30 		ldrh	r3, [sp, #44]
+ 249 0278 1846     		mov	r0, r3
+ 250 027a FFF7FEFF 		bl	delayMicroseconds
+ 251 027e BDF82E30 		ldrh	r3, [sp, #46]	@ movhi
+ 252 0282 03F10103 		add	r3, r3, #1
+ 253 0286 ADF82E30 		strh	r3, [sp, #46]	@ movhi
+ 254              	.L4:
+ 255 028a BDF82E20 		ldrh	r2, [sp, #46]
+ 256 028e BDF82A30 		ldrh	r3, [sp, #42]
+ 257 0292 9A42     		cmp	r2, r3
+ 258 0294 A4D3     		bcc	.L5
+ 259 0296 9DED047A 		flds	s14, [sp, #16]
+ 260 029a BDF82A30 		ldrh	r3, [sp, #42]
+ 261 029e 06EE903A 		fmsr	s13, r3	@ int
+ 262 02a2 F8EE667A 		fuitos	s15, s13
+ 263 02a6 C7EE277A 		fdivs	s15, s14, s15
+ 264 02aa CDED047A 		fsts	s15, [sp, #16]
+ 265 02ae 9DED057A 		flds	s14, [sp, #20]
+ 266 02b2 BDF82A30 		ldrh	r3, [sp, #42]
+ 267 02b6 06EE903A 		fmsr	s13, r3	@ int
+ 268 02ba F8EE667A 		fuitos	s15, s13
+ 269 02be C7EE277A 		fdivs	s15, s14, s15
+ 270 02c2 CDED057A 		fsts	s15, [sp, #20]
+ 271 02c6 9DED067A 		flds	s14, [sp, #24]
+ 272 02ca BDF82A30 		ldrh	r3, [sp, #42]
+ 273 02ce 06EE903A 		fmsr	s13, r3	@ int
+ 274 02d2 F8EE667A 		fuitos	s15, s13
+ 275 02d6 C7EE277A 		fdivs	s15, s14, s15
+ 276 02da CDED067A 		fsts	s15, [sp, #24]
+ 277 02de BDF82A30 		ldrh	r3, [sp, #42]
+ 278 02e2 07EE103A 		fmsr	s14, r3	@ int
+ 279 02e6 F8EE477A 		fuitos	s15, s14
+ 280 02ea 9DED0C7A 		flds	s14, [sp, #48]
+ 281 02ee C7EE277A 		fdivs	s15, s14, s15
+ 282 02f2 CDED0C7A 		fsts	s15, [sp, #48]
+ 283 02f6 40F20000 		movw	r0, #:lower16:.LC2
+ 284 02fa C0F20000 		movt	r0, #:upper16:.LC2
+ 285 02fe FFF7FEFF 		bl	usbPrint
+ 286 0302 0C98     		ldr	r0, [sp, #48]	@ float
+ 287 0304 01AB     		add	r3, sp, #4
+ 288 0306 1946     		mov	r1, r3
+ 289 0308 FFF7FEFF 		bl	ftoa
+ 290 030c 01AB     		add	r3, sp, #4
+ 291 030e 1846     		mov	r0, r3
+ 292 0310 FFF7FEFF 		bl	usbPrint
+ 293 0314 40F20000 		movw	r0, #:lower16:.LC6
+ 294 0318 C0F20000 		movt	r0, #:upper16:.LC6
+ 295 031c FFF7FEFF 		bl	usbPrint
+ 296 0320 9DED047A 		flds	s14, [sp, #16]
+ 297 0324 DDED077A 		flds	s15, [sp, #28]
+ 298 0328 37EE677A 		fsubs	s14, s14, s15
+ 299 032c DDED0C6A 		flds	s13, [sp, #48]
+ 300 0330 DDED0D7A 		flds	s15, [sp, #52]
+ 301 0334 76EEE77A 		fsubs	s15, s13, s15
+ 302 0338 C7EE277A 		fdivs	s15, s14, s15
+ 303 033c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 304 0340 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 305 0344 C3ED077A 		fsts	s15, [r3, #28]
+ 306 0348 9DED057A 		flds	s14, [sp, #20]
+ 307 034c DDED087A 		flds	s15, [sp, #32]
+ 308 0350 37EE677A 		fsubs	s14, s14, s15
+ 309 0354 DDED0C6A 		flds	s13, [sp, #48]
+ 310 0358 DDED0D7A 		flds	s15, [sp, #52]
+ 311 035c 76EEE77A 		fsubs	s15, s13, s15
+ 312 0360 C7EE277A 		fdivs	s15, s14, s15
+ 313 0364 40F20003 		movw	r3, #:lower16:eepromConfig
+ 314 0368 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 315 036c C3ED087A 		fsts	s15, [r3, #32]
+ 316 0370 9DED067A 		flds	s14, [sp, #24]
+ 317 0374 DDED097A 		flds	s15, [sp, #36]
+ 318 0378 37EE677A 		fsubs	s14, s14, s15
+ 319 037c DDED0C6A 		flds	s13, [sp, #48]
+ 320 0380 DDED0D7A 		flds	s15, [sp, #52]
+ 321 0384 76EEE77A 		fsubs	s15, s13, s15
+ 322 0388 C7EE277A 		fdivs	s15, s14, s15
+ 323 038c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 324 0390 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 325 0394 C3ED097A 		fsts	s15, [r3, #36]
+ 326 0398 9DED047A 		flds	s14, [sp, #16]
+ 327 039c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 328 03a0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 329 03a4 D3ED076A 		flds	s13, [r3, #28]
+ 330 03a8 DDED0C7A 		flds	s15, [sp, #48]
+ 331 03ac 66EEA77A 		fmuls	s15, s13, s15
+ 332 03b0 77EE677A 		fsubs	s15, s14, s15
+ 333 03b4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 334 03b8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 335 03bc C3ED0A7A 		fsts	s15, [r3, #40]
+ 336 03c0 9DED057A 		flds	s14, [sp, #20]
+ 337 03c4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 338 03c8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 339 03cc D3ED086A 		flds	s13, [r3, #32]
+ 340 03d0 DDED0C7A 		flds	s15, [sp, #48]
+ 341 03d4 66EEA77A 		fmuls	s15, s13, s15
+ 342 03d8 77EE677A 		fsubs	s15, s14, s15
+ 343 03dc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 344 03e0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 345 03e4 C3ED0B7A 		fsts	s15, [r3, #44]
+ 346 03e8 9DED067A 		flds	s14, [sp, #24]
+ 347 03ec 40F20003 		movw	r3, #:lower16:eepromConfig
+ 348 03f0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 349 03f4 D3ED096A 		flds	s13, [r3, #36]
+ 350 03f8 DDED0C7A 		flds	s15, [sp, #48]
+ 351 03fc 66EEA77A 		fmuls	s15, s13, s15
+ 352 0400 77EE677A 		fsubs	s15, s14, s15
+ 353 0404 40F20003 		movw	r3, #:lower16:eepromConfig
+ 354 0408 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 355 040c C3ED0C7A 		fsts	s15, [r3, #48]
+ 356 0410 40F20000 		movw	r0, #:lower16:.LC7
+ 357 0414 C0F20000 		movt	r0, #:upper16:.LC7
+ 358 0418 FFF7FEFF 		bl	usbPrint
+ 359 041c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 360 0420 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 361 0424 DB69     		ldr	r3, [r3, #28]	@ float
+ 362 0426 1846     		mov	r0, r3	@ float
+ 363 0428 01AB     		add	r3, sp, #4
+ 364 042a 1946     		mov	r1, r3
+ 365 042c FFF7FEFF 		bl	ftoa
+ 366 0430 01AB     		add	r3, sp, #4
+ 367 0432 1846     		mov	r0, r3
+ 368 0434 FFF7FEFF 		bl	usbPrint
+ 369 0438 40F20000 		movw	r0, #:lower16:.LC8
+ 370 043c C0F20000 		movt	r0, #:upper16:.LC8
+ 371 0440 FFF7FEFF 		bl	usbPrint
+ 372 0444 40F20003 		movw	r3, #:lower16:eepromConfig
+ 373 0448 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 374 044c 1B6A     		ldr	r3, [r3, #32]	@ float
+ 375 044e 1846     		mov	r0, r3	@ float
+ 376 0450 01AB     		add	r3, sp, #4
+ 377 0452 1946     		mov	r1, r3
+ 378 0454 FFF7FEFF 		bl	ftoa
+ 379 0458 01AB     		add	r3, sp, #4
+ 380 045a 1846     		mov	r0, r3
+ 381 045c FFF7FEFF 		bl	usbPrint
+ 382 0460 40F20000 		movw	r0, #:lower16:.LC8
+ 383 0464 C0F20000 		movt	r0, #:upper16:.LC8
+ 384 0468 FFF7FEFF 		bl	usbPrint
+ 385 046c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 386 0470 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 387 0474 5B6A     		ldr	r3, [r3, #36]	@ float
+ 388 0476 1846     		mov	r0, r3	@ float
+ 389 0478 01AB     		add	r3, sp, #4
+ 390 047a 1946     		mov	r1, r3
+ 391 047c FFF7FEFF 		bl	ftoa
+ 392 0480 01AB     		add	r3, sp, #4
+ 393 0482 1846     		mov	r0, r3
+ 394 0484 FFF7FEFF 		bl	usbPrint
+ 395 0488 40F20000 		movw	r0, #:lower16:.LC9
+ 396 048c C0F20000 		movt	r0, #:upper16:.LC9
+ 397 0490 FFF7FEFF 		bl	usbPrint
+ 398 0494 40F20000 		movw	r0, #:lower16:.LC10
+ 399 0498 C0F20000 		movt	r0, #:upper16:.LC10
+ 400 049c FFF7FEFF 		bl	usbPrint
+ 401 04a0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 402 04a4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 403 04a8 9B6A     		ldr	r3, [r3, #40]	@ float
+ 404 04aa 1846     		mov	r0, r3	@ float
+ 405 04ac 01AB     		add	r3, sp, #4
+ 406 04ae 1946     		mov	r1, r3
+ 407 04b0 FFF7FEFF 		bl	ftoa
+ 408 04b4 01AB     		add	r3, sp, #4
+ 409 04b6 1846     		mov	r0, r3
+ 410 04b8 FFF7FEFF 		bl	usbPrint
+ 411 04bc 40F20000 		movw	r0, #:lower16:.LC8
+ 412 04c0 C0F20000 		movt	r0, #:upper16:.LC8
+ 413 04c4 FFF7FEFF 		bl	usbPrint
+ 414 04c8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 415 04cc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 416 04d0 DB6A     		ldr	r3, [r3, #44]	@ float
+ 417 04d2 1846     		mov	r0, r3	@ float
+ 418 04d4 01AB     		add	r3, sp, #4
+ 419 04d6 1946     		mov	r1, r3
+ 420 04d8 FFF7FEFF 		bl	ftoa
+ 421 04dc 01AB     		add	r3, sp, #4
+ 422 04de 1846     		mov	r0, r3
+ 423 04e0 FFF7FEFF 		bl	usbPrint
+ 424 04e4 40F20000 		movw	r0, #:lower16:.LC8
+ 425 04e8 C0F20000 		movt	r0, #:upper16:.LC8
+ 426 04ec FFF7FEFF 		bl	usbPrint
+ 427 04f0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 428 04f4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 429 04f8 1B6B     		ldr	r3, [r3, #48]	@ float
+ 430 04fa 1846     		mov	r0, r3	@ float
+ 431 04fc 01AB     		add	r3, sp, #4
+ 432 04fe 1946     		mov	r1, r3
+ 433 0500 FFF7FEFF 		bl	ftoa
+ 434 0504 01AB     		add	r3, sp, #4
+ 435 0506 1846     		mov	r0, r3
+ 436 0508 FFF7FEFF 		bl	usbPrint
+ 437 050c 40F20000 		movw	r0, #:lower16:.LC9
+ 438 0510 C0F20000 		movt	r0, #:upper16:.LC9
+ 439 0514 FFF7FEFF 		bl	usbPrint
+ 440 0518 40F20000 		movw	r0, #:lower16:.LC11
+ 441 051c C0F20000 		movt	r0, #:upper16:.LC11
+ 442 0520 FFF7FEFF 		bl	usbPrint
+ 443 0524 40F20003 		movw	r3, #:lower16:gyroCalibrating
+ 444 0528 C0F20003 		movt	r3, #:upper16:gyroCalibrating
+ 445 052c 4FF00002 		mov	r2, #0
+ 446 0530 1A70     		strb	r2, [r3, #0]
+ 447 0532 0FB0     		add	sp, sp, #60
+ 448 0534 00BD     		pop	{pc}
+ 450 0536 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 gyroTempCalibration.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:17     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:18     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:21     .rodata:00000020 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:24     .rodata:00000044 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:27     .rodata:00000060 .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:30     .rodata:00000080 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:34     .rodata:000000b4 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:37     .rodata:000000d8 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:40     .rodata:000000f8 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:43     .rodata:0000011c .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:46     .rodata:00000120 .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:49     .rodata:00000124 .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:52     .rodata:00000148 .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:55     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:60     .text:00000000 gyroTempCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:203    .text:000001d4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4NU1on.s:207    .text:000001e0 $t
+
+UNDEFINED SYMBOLS
+gyroCalibrating
+usbPrint
+readMPU6000
+rawGyro
+rawGyroTemperature
+delayMicroseconds
+ftoa
+delay
+eepromConfig

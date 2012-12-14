@@ -1,0 +1,469 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"magCalibration.c"
+  16              		.global	magCalibrating
+  17              		.bss
+  20              	magCalibrating:
+  21 0000 00       		.space	1
+  22              		.section	.rodata
+  23              		.align	2
+  24              	.LC0:
+  25 0000 0A0A4D61 		.ascii	"\012\012Magnetometer Calibration:\012\012\000"
+  25      676E6574 
+  25      6F6D6574 
+  25      65722043 
+  25      616C6962 
+  26 001e 0000     		.align	2
+  27              	.LC1:
+  28 0020 526F7461 		.ascii	"Rotate magnetometer around all axes multiple times\012"
+  28      7465206D 
+  28      61676E65 
+  28      746F6D65 
+  28      74657220 
+  29 0053 00       		.ascii	"\000"
+  30              		.align	2
+  31              	.LC2:
+  32 0054 4D757374 		.ascii	"Must complete within 60 seconds....\012\012\000"
+  32      20636F6D 
+  32      706C6574 
+  32      65207769 
+  32      7468696E 
+  33 007a 0000     		.align	2
+  34              	.LC3:
+  35 007c 20205365 		.ascii	"  Send a character when ready to begin and another "
+  35      6E642061 
+  35      20636861 
+  35      72616374 
+  35      65722077 
+  36 00af 7768656E 		.ascii	"when complete\012\012\000"
+  36      20636F6D 
+  36      706C6574 
+  36      650A0A00 
+  37 00bf 00       		.align	2
+  38              	.LC4:
+  39 00c0 20205374 		.ascii	"  Start rotations.....\012\012\000"
+  39      61727420 
+  39      726F7461 
+  39      74696F6E 
+  39      732E2E2E 
+  40 00d9 000000   		.align	2
+  41              	.LC5:
+  42 00dc 0D0A4D61 		.ascii	"\015\012Magnetometer Bias Calculation (\000"
+  42      676E6574 
+  42      6F6D6574 
+  42      65722042 
+  42      69617320 
+  43 00fe 0000     		.align	2
+  44              	.LC6:
+  45 0100 2073616D 		.ascii	" samples collected out of 3000 max)\012\012\000"
+  45      706C6573 
+  45      20636F6C 
+  45      6C656374 
+  45      6564206F 
+  46 0126 0000     		.align	2
+  47              	.LC7:
+  48 0128 4D61676E 		.ascii	"Magnetometer Bias Values: \000"
+  48      65746F6D 
+  48      65746572 
+  48      20426961 
+  48      73205661 
+  49 0143 00       		.align	2
+  50              	.LC8:
+  51 0144 2C2000   		.ascii	", \000"
+  52 0147 00       		.align	2
+  53              	.LC9:
+  54 0148 0A00     		.ascii	"\012\000"
+  55 014a 0000     		.align	2
+  56              	.LC10:
+  57 014c 0A0A4D61 		.ascii	"\012\012Magnetometer Calibration Complete.\012\012\000"
+  57      676E6574 
+  57      6F6D6574 
+  57      65722043 
+  57      616C6962 
+  58 0173 00       		.align	2
+  59              	.LC11:
+  60 0174 0A0A4D61 		.ascii	"\012\012Magnetometer Calibration FAILED (NaN)\012\012"
+  60      676E6574 
+  60      6F6D6574 
+  60      65722043 
+  60      616C6962 
+  61 019d 00       		.ascii	"\000"
+  62 019e 0000     		.text
+  63              		.align	2
+  64              		.global	magCalibration
+  65              		.thumb
+  66              		.thumb_func
+  68              	magCalibration:
+  69              		@ args = 0, pretend = 0, frame = 36056
+  70              		@ frame_needed = 0, uses_anonymous_args = 0
+  71 0000 00B5     		push	{lr}
+  72 0002 ADF50C4D 		sub	sp, sp, #35840
+  73 0006 BBB0     		sub	sp, sp, #236
+  74 0008 4FF00003 		mov	r3, #0
+  75 000c 0DF50C42 		add	r2, sp, #35840
+  76 0010 02F1E602 		add	r2, r2, #230
+  77 0014 1380     		strh	r3, [r2, #0]	@ movhi
+  78 0016 40F20003 		movw	r3, #:lower16:magCalibrating
+  79 001a C0F20003 		movt	r3, #:upper16:magCalibrating
+  80 001e 4FF00102 		mov	r2, #1
+  81 0022 1A70     		strb	r2, [r3, #0]
+  82 0024 40F20000 		movw	r0, #:lower16:.LC0
+  83 0028 C0F20000 		movt	r0, #:upper16:.LC0
+  84 002c FFF7FEFF 		bl	usbPrint
+  85 0030 40F20000 		movw	r0, #:lower16:.LC1
+  86 0034 C0F20000 		movt	r0, #:upper16:.LC1
+  87 0038 FFF7FEFF 		bl	usbPrint
+  88 003c 40F20000 		movw	r0, #:lower16:.LC2
+  89 0040 C0F20000 		movt	r0, #:upper16:.LC2
+  90 0044 FFF7FEFF 		bl	usbPrint
+  91 0048 40F20000 		movw	r0, #:lower16:.LC3
+  92 004c C0F20000 		movt	r0, #:upper16:.LC3
+  93 0050 FFF7FEFF 		bl	usbPrint
+  94 0054 00BF     		nop
+  95              	.L2:
+  96 0056 FFF7FEFF 		bl	usbAvailable
+  97 005a 0346     		mov	r3, r0
+  98 005c 002B     		cmp	r3, #0
+  99 005e FAD0     		beq	.L2
+ 100 0060 40F20000 		movw	r0, #:lower16:.LC4
+ 101 0064 C0F20000 		movt	r0, #:upper16:.LC4
+ 102 0068 FFF7FEFF 		bl	usbPrint
+ 103 006c FFF7FEFF 		bl	usbRead
+ 104 0070 81E0     		b	.L3
+ 105              	.L6:
+ 106 0072 FFF7FEFF 		bl	readMag
+ 107 0076 0346     		mov	r3, r0
+ 108 0078 012B     		cmp	r3, #1
+ 109 007a 78D1     		bne	.L4
+ 110 007c 0DF50C43 		add	r3, sp, #35840
+ 111 0080 03F1E603 		add	r3, r3, #230
+ 112 0084 1988     		ldrh	r1, [r3, #0]
+ 113 0086 40F20003 		movw	r3, #:lower16:rawMag
+ 114 008a C0F20003 		movt	r3, #:upper16:rawMag
+ 115 008e 1B88     		ldrh	r3, [r3, #0]
+ 116 0090 1BB2     		sxth	r3, r3
+ 117 0092 07EE903A 		fmsr	s15, r3	@ int
+ 118 0096 B8EEE77A 		fsitos	s14, s15
+ 119 009a 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 120 009e C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 121 00a2 D3ED007A 		flds	s15, [r3, #0]
+ 122 00a6 67EE277A 		fmuls	s15, s14, s15
+ 123 00aa 3AAA     		add	r2, sp, #232
+ 124 00ac A2F1C802 		sub	r2, r2, #200
+ 125 00b0 0B46     		mov	r3, r1
+ 126 00b2 4FEA4303 		lsl	r3, r3, #1
+ 127 00b6 5B18     		adds	r3, r3, r1
+ 128 00b8 4FEA8303 		lsl	r3, r3, #2
+ 129 00bc D318     		adds	r3, r2, r3
+ 130 00be C3ED007A 		fsts	s15, [r3, #0]
+ 131 00c2 0DF50C42 		add	r2, sp, #35840
+ 132 00c6 02F1E602 		add	r2, r2, #230
+ 133 00ca 1188     		ldrh	r1, [r2, #0]
+ 134 00cc 40F20003 		movw	r3, #:lower16:rawMag
+ 135 00d0 C0F20003 		movt	r3, #:upper16:rawMag
+ 136 00d4 5B88     		ldrh	r3, [r3, #2]
+ 137 00d6 1BB2     		sxth	r3, r3
+ 138 00d8 07EE903A 		fmsr	s15, r3	@ int
+ 139 00dc B8EEE77A 		fsitos	s14, s15
+ 140 00e0 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 141 00e4 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 142 00e8 D3ED017A 		flds	s15, [r3, #4]
+ 143 00ec 67EE277A 		fmuls	s15, s14, s15
+ 144 00f0 3AAA     		add	r2, sp, #232
+ 145 00f2 A2F1C802 		sub	r2, r2, #200
+ 146 00f6 0B46     		mov	r3, r1
+ 147 00f8 4FEA4303 		lsl	r3, r3, #1
+ 148 00fc 5B18     		adds	r3, r3, r1
+ 149 00fe 4FEA8303 		lsl	r3, r3, #2
+ 150 0102 D318     		adds	r3, r2, r3
+ 151 0104 03F10403 		add	r3, r3, #4
+ 152 0108 C3ED007A 		fsts	s15, [r3, #0]
+ 153 010c 0DF50C42 		add	r2, sp, #35840
+ 154 0110 02F1E602 		add	r2, r2, #230
+ 155 0114 1188     		ldrh	r1, [r2, #0]
+ 156 0116 40F20003 		movw	r3, #:lower16:rawMag
+ 157 011a C0F20003 		movt	r3, #:upper16:rawMag
+ 158 011e 9B88     		ldrh	r3, [r3, #4]
+ 159 0120 1BB2     		sxth	r3, r3
+ 160 0122 07EE903A 		fmsr	s15, r3	@ int
+ 161 0126 B8EEE77A 		fsitos	s14, s15
+ 162 012a 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 163 012e C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 164 0132 D3ED027A 		flds	s15, [r3, #8]
+ 165 0136 67EE277A 		fmuls	s15, s14, s15
+ 166 013a 3AAA     		add	r2, sp, #232
+ 167 013c A2F1C802 		sub	r2, r2, #200
+ 168 0140 0B46     		mov	r3, r1
+ 169 0142 4FEA4303 		lsl	r3, r3, #1
+ 170 0146 5B18     		adds	r3, r3, r1
+ 171 0148 4FEA8303 		lsl	r3, r3, #2
+ 172 014c D318     		adds	r3, r2, r3
+ 173 014e 03F10803 		add	r3, r3, #8
+ 174 0152 C3ED007A 		fsts	s15, [r3, #0]
+ 175 0156 0DF50C42 		add	r2, sp, #35840
+ 176 015a 02F1E602 		add	r2, r2, #230
+ 177 015e 1388     		ldrh	r3, [r2, #0]	@ movhi
+ 178 0160 03F10103 		add	r3, r3, #1
+ 179 0164 0DF50C42 		add	r2, sp, #35840
+ 180 0168 02F1E602 		add	r2, r2, #230
+ 181 016c 1380     		strh	r3, [r2, #0]	@ movhi
+ 182              	.L4:
+ 183 016e 4FF01400 		mov	r0, #20
+ 184 0172 FFF7FEFF 		bl	delay
+ 185              	.L3:
+ 186 0176 FFF7FEFF 		bl	usbAvailable
+ 187 017a 0346     		mov	r3, r0
+ 188 017c 002B     		cmp	r3, #0
+ 189 017e 09D1     		bne	.L5
+ 190 0180 0DF50C43 		add	r3, sp, #35840
+ 191 0184 03F1E603 		add	r3, r3, #230
+ 192 0188 1A88     		ldrh	r2, [r3, #0]
+ 193 018a 40F6B833 		movw	r3, #3000
+ 194 018e 9A42     		cmp	r2, r3
+ 195 0190 7FF66FAF 		bls	.L6
+ 196              	.L5:
+ 197 0194 0DF50C42 		add	r2, sp, #35840
+ 198 0198 02F1E602 		add	r2, r2, #230
+ 199 019c 1388     		ldrh	r3, [r2, #0]
+ 200 019e 1846     		mov	r0, r3
+ 201 01a0 0DF50C43 		add	r3, sp, #35840
+ 202 01a4 03F1CC03 		add	r3, r3, #204
+ 203 01a8 1946     		mov	r1, r3
+ 204 01aa 4FF00A02 		mov	r2, #10
+ 205 01ae FFF7FEFF 		bl	itoa
+ 206 01b2 40F20000 		movw	r0, #:lower16:.LC5
+ 207 01b6 C0F20000 		movt	r0, #:upper16:.LC5
+ 208 01ba FFF7FEFF 		bl	usbPrint
+ 209 01be 0DF50C43 		add	r3, sp, #35840
+ 210 01c2 03F1CC03 		add	r3, r3, #204
+ 211 01c6 1846     		mov	r0, r3
+ 212 01c8 FFF7FEFF 		bl	usbPrint
+ 213 01cc 40F20000 		movw	r0, #:lower16:.LC6
+ 214 01d0 C0F20000 		movt	r0, #:upper16:.LC6
+ 215 01d4 FFF7FEFF 		bl	usbPrint
+ 216 01d8 3AAB     		add	r3, sp, #232
+ 217 01da A3F1C803 		sub	r3, r3, #200
+ 218 01de 0DF50C42 		add	r2, sp, #35840
+ 219 01e2 02F1E602 		add	r2, r2, #230
+ 220 01e6 1188     		ldrh	r1, [r2, #0]
+ 221 01e8 0DF50C42 		add	r2, sp, #35840
+ 222 01ec 02F1C002 		add	r2, r2, #192
+ 223 01f0 0092     		str	r2, [sp, #0]
+ 224 01f2 3AAA     		add	r2, sp, #232
+ 225 01f4 A2F1D402 		sub	r2, r2, #212
+ 226 01f8 0192     		str	r2, [sp, #4]
+ 227 01fa 3AAA     		add	r2, sp, #232
+ 228 01fc A2F1D802 		sub	r2, r2, #216
+ 229 0200 0292     		str	r2, [sp, #8]
+ 230 0202 1846     		mov	r0, r3
+ 231 0204 4FF06402 		mov	r2, #100
+ 232 0208 774B     		ldr	r3, .L15	@ float
+ 233 020a FFF7FEFF 		bl	sphereFit
+ 234 020e 3AAB     		add	r3, sp, #232
+ 235 0210 A3F1D403 		sub	r3, r3, #212
+ 236 0214 1B68     		ldr	r3, [r3, #0]	@ float
+ 237 0216 1846     		mov	r0, r3	@ float
+ 238 0218 FFF7FEFF 		bl	__fpclassifyf
+ 239 021c 0DF50C43 		add	r3, sp, #35840
+ 240 0220 03F1E003 		add	r3, r3, #224
+ 241 0224 1860     		str	r0, [r3, #0]
+ 242 0226 0DF50C42 		add	r2, sp, #35840
+ 243 022a 02F1E002 		add	r2, r2, #224
+ 244 022e 1368     		ldr	r3, [r2, #0]
+ 245 0230 012B     		cmp	r3, #1
+ 246 0232 09D0     		beq	.L7
+ 247 0234 0DF50C42 		add	r2, sp, #35840
+ 248 0238 02F1E002 		add	r2, r2, #224
+ 249 023c 1368     		ldr	r3, [r2, #0]
+ 250 023e 002B     		cmp	r3, #0
+ 251 0240 02D0     		beq	.L7
+ 252 0242 4FF00103 		mov	r3, #1
+ 253 0246 01E0     		b	.L8
+ 254              	.L7:
+ 255 0248 4FF00003 		mov	r3, #0
+ 256              	.L8:
+ 257 024c 002B     		cmp	r3, #0
+ 258 024e 00F0B980 		beq	.L9
+ 259 0252 3AAB     		add	r3, sp, #232
+ 260 0254 A3F1D403 		sub	r3, r3, #212
+ 261 0258 5B68     		ldr	r3, [r3, #4]	@ float
+ 262 025a 1846     		mov	r0, r3	@ float
+ 263 025c FFF7FEFF 		bl	__fpclassifyf
+ 264 0260 0DF50C43 		add	r3, sp, #35840
+ 265 0264 03F1DC03 		add	r3, r3, #220
+ 266 0268 1860     		str	r0, [r3, #0]
+ 267 026a 0DF50C42 		add	r2, sp, #35840
+ 268 026e 02F1DC02 		add	r2, r2, #220
+ 269 0272 1368     		ldr	r3, [r2, #0]
+ 270 0274 012B     		cmp	r3, #1
+ 271 0276 09D0     		beq	.L10
+ 272 0278 0DF50C42 		add	r2, sp, #35840
+ 273 027c 02F1DC02 		add	r2, r2, #220
+ 274 0280 1368     		ldr	r3, [r2, #0]
+ 275 0282 002B     		cmp	r3, #0
+ 276 0284 02D0     		beq	.L10
+ 277 0286 4FF00103 		mov	r3, #1
+ 278 028a 01E0     		b	.L11
+ 279              	.L10:
+ 280 028c 4FF00003 		mov	r3, #0
+ 281              	.L11:
+ 282 0290 002B     		cmp	r3, #0
+ 283 0292 00F09780 		beq	.L9
+ 284 0296 3AAB     		add	r3, sp, #232
+ 285 0298 A3F1D403 		sub	r3, r3, #212
+ 286 029c 9B68     		ldr	r3, [r3, #8]	@ float
+ 287 029e 1846     		mov	r0, r3	@ float
+ 288 02a0 FFF7FEFF 		bl	__fpclassifyf
+ 289 02a4 0DF50C43 		add	r3, sp, #35840
+ 290 02a8 03F1D803 		add	r3, r3, #216
+ 291 02ac 1860     		str	r0, [r3, #0]
+ 292 02ae 0DF50C42 		add	r2, sp, #35840
+ 293 02b2 02F1D802 		add	r2, r2, #216
+ 294 02b6 1368     		ldr	r3, [r2, #0]
+ 295 02b8 012B     		cmp	r3, #1
+ 296 02ba 09D0     		beq	.L12
+ 297 02bc 0DF50C42 		add	r2, sp, #35840
+ 298 02c0 02F1D802 		add	r2, r2, #216
+ 299 02c4 1368     		ldr	r3, [r2, #0]
+ 300 02c6 002B     		cmp	r3, #0
+ 301 02c8 02D0     		beq	.L12
+ 302 02ca 4FF00103 		mov	r3, #1
+ 303 02ce 01E0     		b	.L13
+ 304              	.L12:
+ 305 02d0 4FF00003 		mov	r3, #0
+ 306              	.L13:
+ 307 02d4 002B     		cmp	r3, #0
+ 308 02d6 75D0     		beq	.L9
+ 309 02d8 3AAB     		add	r3, sp, #232
+ 310 02da A3F1D403 		sub	r3, r3, #212
+ 311 02de 1A68     		ldr	r2, [r3, #0]	@ float
+ 312 02e0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 313 02e4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 314 02e8 5A63     		str	r2, [r3, #52]	@ float
+ 315 02ea 3AAB     		add	r3, sp, #232
+ 316 02ec A3F1D403 		sub	r3, r3, #212
+ 317 02f0 5A68     		ldr	r2, [r3, #4]	@ float
+ 318 02f2 40F20003 		movw	r3, #:lower16:eepromConfig
+ 319 02f6 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 320 02fa 9A63     		str	r2, [r3, #56]	@ float
+ 321 02fc 3AAB     		add	r3, sp, #232
+ 322 02fe A3F1D403 		sub	r3, r3, #212
+ 323 0302 9A68     		ldr	r2, [r3, #8]	@ float
+ 324 0304 40F20003 		movw	r3, #:lower16:eepromConfig
+ 325 0308 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 326 030c DA63     		str	r2, [r3, #60]	@ float
+ 327 030e 40F20000 		movw	r0, #:lower16:.LC7
+ 328 0312 C0F20000 		movt	r0, #:upper16:.LC7
+ 329 0316 FFF7FEFF 		bl	usbPrint
+ 330 031a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 331 031e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 332 0322 5B6B     		ldr	r3, [r3, #52]	@ float
+ 333 0324 1846     		mov	r0, r3	@ float
+ 334 0326 0DF50C43 		add	r3, sp, #35840
+ 335 032a 03F1CC03 		add	r3, r3, #204
+ 336 032e 1946     		mov	r1, r3
+ 337 0330 FFF7FEFF 		bl	ftoa
+ 338 0334 0DF50C43 		add	r3, sp, #35840
+ 339 0338 03F1CC03 		add	r3, r3, #204
+ 340 033c 1846     		mov	r0, r3
+ 341 033e FFF7FEFF 		bl	usbPrint
+ 342 0342 40F20000 		movw	r0, #:lower16:.LC8
+ 343 0346 C0F20000 		movt	r0, #:upper16:.LC8
+ 344 034a FFF7FEFF 		bl	usbPrint
+ 345 034e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 346 0352 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 347 0356 9B6B     		ldr	r3, [r3, #56]	@ float
+ 348 0358 1846     		mov	r0, r3	@ float
+ 349 035a 0DF50C43 		add	r3, sp, #35840
+ 350 035e 03F1CC03 		add	r3, r3, #204
+ 351 0362 1946     		mov	r1, r3
+ 352 0364 FFF7FEFF 		bl	ftoa
+ 353 0368 0DF50C43 		add	r3, sp, #35840
+ 354 036c 03F1CC03 		add	r3, r3, #204
+ 355 0370 1846     		mov	r0, r3
+ 356 0372 FFF7FEFF 		bl	usbPrint
+ 357 0376 40F20000 		movw	r0, #:lower16:.LC8
+ 358 037a C0F20000 		movt	r0, #:upper16:.LC8
+ 359 037e FFF7FEFF 		bl	usbPrint
+ 360 0382 40F20003 		movw	r3, #:lower16:eepromConfig
+ 361 0386 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 362 038a DB6B     		ldr	r3, [r3, #60]	@ float
+ 363 038c 1846     		mov	r0, r3	@ float
+ 364 038e 0DF50C43 		add	r3, sp, #35840
+ 365 0392 03F1CC03 		add	r3, r3, #204
+ 366 0396 1946     		mov	r1, r3
+ 367 0398 FFF7FEFF 		bl	ftoa
+ 368 039c 0DF50C43 		add	r3, sp, #35840
+ 369 03a0 03F1CC03 		add	r3, r3, #204
+ 370 03a4 1846     		mov	r0, r3
+ 371 03a6 FFF7FEFF 		bl	usbPrint
+ 372 03aa 40F20000 		movw	r0, #:lower16:.LC9
+ 373 03ae C0F20000 		movt	r0, #:upper16:.LC9
+ 374 03b2 FFF7FEFF 		bl	usbPrint
+ 375 03b6 40F20000 		movw	r0, #:lower16:.LC10
+ 376 03ba C0F20000 		movt	r0, #:upper16:.LC10
+ 377 03be FFF7FEFF 		bl	usbPrint
+ 378 03c2 05E0     		b	.L14
+ 379              	.L9:
+ 380 03c4 40F20000 		movw	r0, #:lower16:.LC11
+ 381 03c8 C0F20000 		movt	r0, #:upper16:.LC11
+ 382 03cc FFF7FEFF 		bl	usbPrint
+ 383              	.L14:
+ 384 03d0 40F20003 		movw	r3, #:lower16:magCalibrating
+ 385 03d4 C0F20003 		movt	r3, #:upper16:magCalibrating
+ 386 03d8 4FF00002 		mov	r2, #0
+ 387 03dc 1A70     		strb	r2, [r3, #0]
+ 388 03de 3BB0     		add	sp, sp, #236
+ 389 03e0 0DF50C4D 		add	sp, sp, #35840
+ 390 03e4 00BD     		pop	{pc}
+ 391              	.L16:
+ 392 03e6 00BF     		.align	2
+ 393              	.L15:
+ 394 03e8 00000000 		.word	0
+ 396              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 magCalibration.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:20     .bss:00000000 magCalibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:23     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:24     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:27     .rodata:00000020 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:31     .rodata:00000054 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:34     .rodata:0000007c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:38     .rodata:000000c0 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:41     .rodata:000000dc .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:44     .rodata:00000100 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:47     .rodata:00000128 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:50     .rodata:00000144 .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:53     .rodata:00000148 .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:56     .rodata:0000014c .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:59     .rodata:00000174 .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:63     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:68     .text:00000000 magCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckzmj26.s:394    .text:000003e8 $d
+
+UNDEFINED SYMBOLS
+usbPrint
+usbAvailable
+usbRead
+readMag
+rawMag
+magScaleFactor
+delay
+itoa
+sphereFit
+__fpclassifyf
+eepromConfig
+ftoa

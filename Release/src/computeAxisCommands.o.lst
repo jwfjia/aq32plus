@@ -1,0 +1,368 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"computeAxisCommands.c"
+  16              		.comm	attCmd,12,4
+  17              		.comm	attPID,12,4
+  18              		.comm	axisPID,12,4
+  19              		.comm	rateCmd,12,4
+  20              		.comm	headingReference,4,4
+  21              		.global	__aeabi_f2d
+  22              		.global	__aeabi_dmul
+  23              		.global	__aeabi_d2f
+  24              		.text
+  25              		.align	2
+  26              		.global	computeAxisCommands
+  27              		.thumb
+  28              		.thumb_func
+  30              	computeAxisCommands:
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 10B5     		push	{r4, lr}
+  34 0002 84B0     		sub	sp, sp, #16
+  35 0004 0390     		str	r0, [sp, #12]	@ float
+  36 0006 40F20003 		movw	r3, #:lower16:flightMode
+  37 000a C0F20003 		movt	r3, #:upper16:flightMode
+  38 000e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  39 0010 012B     		cmp	r3, #1
+  40 0012 39D1     		bne	.L2
+  41 0014 40F20003 		movw	r3, #:lower16:rxCommand
+  42 0018 C0F20003 		movt	r3, #:upper16:rxCommand
+  43 001c 1B68     		ldr	r3, [r3, #0]	@ float
+  44 001e 1846     		mov	r0, r3	@ float
+  45 0020 FFF7FEFF 		bl	__aeabi_f2d
+  46 0024 0246     		mov	r2, r0
+  47 0026 0B46     		mov	r3, r1
+  48 0028 1046     		mov	r0, r2
+  49 002a 1946     		mov	r1, r3
+  50 002c D0A3     		adr	r3, .L9+32
+  51 002e D3E90023 		ldrd	r2, [r3]
+  52 0032 FFF7FEFF 		bl	__aeabi_dmul
+  53 0036 0246     		mov	r2, r0
+  54 0038 0B46     		mov	r3, r1
+  55 003a 1046     		mov	r0, r2
+  56 003c 1946     		mov	r1, r3
+  57 003e FFF7FEFF 		bl	__aeabi_d2f
+  58 0042 0246     		mov	r2, r0	@ float
+  59 0044 40F20003 		movw	r3, #:lower16:attCmd
+  60 0048 C0F20003 		movt	r3, #:upper16:attCmd
+  61 004c 1A60     		str	r2, [r3, #0]	@ float
+  62 004e 40F20003 		movw	r3, #:lower16:rxCommand
+  63 0052 C0F20003 		movt	r3, #:upper16:rxCommand
+  64 0056 5B68     		ldr	r3, [r3, #4]	@ float
+  65 0058 1846     		mov	r0, r3	@ float
+  66 005a FFF7FEFF 		bl	__aeabi_f2d
+  67 005e 0246     		mov	r2, r0
+  68 0060 0B46     		mov	r3, r1
+  69 0062 1046     		mov	r0, r2
+  70 0064 1946     		mov	r1, r3
+  71 0066 C2A3     		adr	r3, .L9+32
+  72 0068 D3E90023 		ldrd	r2, [r3]
+  73 006c FFF7FEFF 		bl	__aeabi_dmul
+  74 0070 0246     		mov	r2, r0
+  75 0072 0B46     		mov	r3, r1
+  76 0074 1046     		mov	r0, r2
+  77 0076 1946     		mov	r1, r3
+  78 0078 FFF7FEFF 		bl	__aeabi_d2f
+  79 007c 0246     		mov	r2, r0	@ float
+  80 007e 40F20003 		movw	r3, #:lower16:attCmd
+  81 0082 C0F20003 		movt	r3, #:upper16:attCmd
+  82 0086 5A60     		str	r2, [r3, #4]	@ float
+  83              	.L2:
+  84 0088 40F20003 		movw	r3, #:lower16:flightMode
+  85 008c C0F20003 		movt	r3, #:upper16:flightMode
+  86 0090 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  87 0092 002B     		cmp	r3, #0
+  88 0094 3CD0     		beq	.L3
+  89 0096 40F20003 		movw	r3, #:lower16:attCmd
+  90 009a C0F20003 		movt	r3, #:upper16:attCmd
+  91 009e 1968     		ldr	r1, [r3, #0]	@ float
+  92 00a0 40F20003 		movw	r3, #:lower16:sensors
+  93 00a4 C0F20003 		movt	r3, #:upper16:sensors
+  94 00a8 9A69     		ldr	r2, [r3, #24]	@ float
+  95 00aa 40F20003 		movw	r3, #:lower16:holdIntegrators
+  96 00ae C0F20003 		movt	r3, #:upper16:holdIntegrators
+  97 00b2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  98 00b4 A848     		ldr	r0, .L9+8
+  99 00b6 0090     		str	r0, [sp, #0]
+ 100 00b8 0846     		mov	r0, r1	@ float
+ 101 00ba 1146     		mov	r1, r2	@ float
+ 102 00bc 039A     		ldr	r2, [sp, #12]	@ float
+ 103 00be FFF7FEFF 		bl	updatePID
+ 104 00c2 0246     		mov	r2, r0	@ float
+ 105 00c4 40F20003 		movw	r3, #:lower16:attPID
+ 106 00c8 C0F20003 		movt	r3, #:upper16:attPID
+ 107 00cc 1A60     		str	r2, [r3, #0]	@ float
+ 108 00ce 40F20003 		movw	r3, #:lower16:attCmd
+ 109 00d2 C0F20003 		movt	r3, #:upper16:attCmd
+ 110 00d6 5A68     		ldr	r2, [r3, #4]	@ float
+ 111 00d8 40F20003 		movw	r3, #:lower16:sensors
+ 112 00dc C0F20003 		movt	r3, #:upper16:sensors
+ 113 00e0 D3ED077A 		flds	s15, [r3, #28]
+ 114 00e4 F1EE677A 		fnegs	s15, s15
+ 115 00e8 17EE904A 		fmrs	r4, s15
+ 116 00ec 40F20003 		movw	r3, #:lower16:holdIntegrators
+ 117 00f0 C0F20003 		movt	r3, #:upper16:holdIntegrators
+ 118 00f4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 119 00f6 9949     		ldr	r1, .L9+12
+ 120 00f8 0091     		str	r1, [sp, #0]
+ 121 00fa 1046     		mov	r0, r2	@ float
+ 122 00fc 2146     		mov	r1, r4	@ float
+ 123 00fe 039A     		ldr	r2, [sp, #12]	@ float
+ 124 0100 FFF7FEFF 		bl	updatePID
+ 125 0104 0246     		mov	r2, r0	@ float
+ 126 0106 40F20003 		movw	r3, #:lower16:attPID
+ 127 010a C0F20003 		movt	r3, #:upper16:attPID
+ 128 010e 5A60     		str	r2, [r3, #4]	@ float
+ 129              	.L3:
+ 130 0110 40F20003 		movw	r3, #:lower16:flightMode
+ 131 0114 C0F20003 		movt	r3, #:upper16:flightMode
+ 132 0118 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 133 011a 002B     		cmp	r3, #0
+ 134 011c 3AD1     		bne	.L4
+ 135 011e 40F20003 		movw	r3, #:lower16:rxCommand
+ 136 0122 C0F20003 		movt	r3, #:upper16:rxCommand
+ 137 0126 1B68     		ldr	r3, [r3, #0]	@ float
+ 138 0128 1846     		mov	r0, r3	@ float
+ 139 012a FFF7FEFF 		bl	__aeabi_f2d
+ 140 012e 0246     		mov	r2, r0
+ 141 0130 0B46     		mov	r3, r1
+ 142 0132 1046     		mov	r0, r2
+ 143 0134 1946     		mov	r1, r3
+ 144 0136 86A3     		adr	r3, .L9
+ 145 0138 D3E90023 		ldrd	r2, [r3]
+ 146 013c FFF7FEFF 		bl	__aeabi_dmul
+ 147 0140 0246     		mov	r2, r0
+ 148 0142 0B46     		mov	r3, r1
+ 149 0144 1046     		mov	r0, r2
+ 150 0146 1946     		mov	r1, r3
+ 151 0148 FFF7FEFF 		bl	__aeabi_d2f
+ 152 014c 0246     		mov	r2, r0	@ float
+ 153 014e 40F20003 		movw	r3, #:lower16:rateCmd
+ 154 0152 C0F20003 		movt	r3, #:upper16:rateCmd
+ 155 0156 1A60     		str	r2, [r3, #0]	@ float
+ 156 0158 40F20003 		movw	r3, #:lower16:rxCommand
+ 157 015c C0F20003 		movt	r3, #:upper16:rxCommand
+ 158 0160 5B68     		ldr	r3, [r3, #4]	@ float
+ 159 0162 1846     		mov	r0, r3	@ float
+ 160 0164 FFF7FEFF 		bl	__aeabi_f2d
+ 161 0168 0246     		mov	r2, r0
+ 162 016a 0B46     		mov	r3, r1
+ 163 016c 1046     		mov	r0, r2
+ 164 016e 1946     		mov	r1, r3
+ 165 0170 77A3     		adr	r3, .L9
+ 166 0172 D3E90023 		ldrd	r2, [r3]
+ 167 0176 FFF7FEFF 		bl	__aeabi_dmul
+ 168 017a 0246     		mov	r2, r0
+ 169 017c 0B46     		mov	r3, r1
+ 170 017e 1046     		mov	r0, r2
+ 171 0180 1946     		mov	r1, r3
+ 172 0182 FFF7FEFF 		bl	__aeabi_d2f
+ 173 0186 0246     		mov	r2, r0	@ float
+ 174 0188 40F20003 		movw	r3, #:lower16:rateCmd
+ 175 018c C0F20003 		movt	r3, #:upper16:rateCmd
+ 176 0190 5A60     		str	r2, [r3, #4]	@ float
+ 177 0192 13E0     		b	.L5
+ 178              	.L4:
+ 179 0194 40F20003 		movw	r3, #:lower16:attPID
+ 180 0198 C0F20003 		movt	r3, #:upper16:attPID
+ 181 019c 1A68     		ldr	r2, [r3, #0]	@ float
+ 182 019e 40F20003 		movw	r3, #:lower16:rateCmd
+ 183 01a2 C0F20003 		movt	r3, #:upper16:rateCmd
+ 184 01a6 1A60     		str	r2, [r3, #0]	@ float
+ 185 01a8 40F20003 		movw	r3, #:lower16:attPID
+ 186 01ac C0F20003 		movt	r3, #:upper16:attPID
+ 187 01b0 5A68     		ldr	r2, [r3, #4]	@ float
+ 188 01b2 40F20003 		movw	r3, #:lower16:rateCmd
+ 189 01b6 C0F20003 		movt	r3, #:upper16:rateCmd
+ 190 01ba 5A60     		str	r2, [r3, #4]	@ float
+ 191              	.L5:
+ 192 01bc 40F20003 		movw	r3, #:lower16:commandInDetent
+ 193 01c0 C0F20003 		movt	r3, #:upper16:commandInDetent
+ 194 01c4 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 195 01c6 012B     		cmp	r3, #1
+ 196 01c8 3ED1     		bne	.L6
+ 197 01ca 40F20003 		movw	r3, #:lower16:rxCommand
+ 198 01ce C0F20003 		movt	r3, #:upper16:rxCommand
+ 199 01d2 93ED057A 		flds	s14, [r3, #20]
+ 200 01d6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 201 01da C0F20003 		movt	r3, #:upper16:eepromConfig
+ 202 01de D3ED1B7A 		flds	s15, [r3, #108]
+ 203 01e2 B4EEE77A 		fcmpes	s14, s15
+ 204 01e6 F1EE10FA 		fmstat
+ 205 01ea D4BF     		ite	le
+ 206 01ec 0023     		movle	r3, #0
+ 207 01ee 0123     		movgt	r3, #1
+ 208 01f0 DBB2     		uxtb	r3, r3
+ 209 01f2 002B     		cmp	r3, #0
+ 210 01f4 28D0     		beq	.L6
+ 211 01f6 40F20003 		movw	r3, #:lower16:previousCommandInDetent
+ 212 01fa C0F20003 		movt	r3, #:upper16:previousCommandInDetent
+ 213 01fe 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 214 0200 002B     		cmp	r3, #0
+ 215 0202 04D1     		bne	.L7
+ 216 0204 4FF00500 		mov	r0, #5
+ 217 0208 5B49     		ldr	r1, .L9+40	@ float
+ 218 020a FFF7FEFF 		bl	setPIDintegralError
+ 219              	.L7:
+ 220 020e 40F20003 		movw	r3, #:lower16:headingReference
+ 221 0212 C0F20003 		movt	r3, #:upper16:headingReference
+ 222 0216 1968     		ldr	r1, [r3, #0]	@ float
+ 223 0218 40F20003 		movw	r3, #:lower16:sensors
+ 224 021c C0F20003 		movt	r3, #:upper16:sensors
+ 225 0220 1A6A     		ldr	r2, [r3, #32]	@ float
+ 226 0222 40F20003 		movw	r3, #:lower16:holdIntegrators
+ 227 0226 C0F20003 		movt	r3, #:upper16:holdIntegrators
+ 228 022a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 229 022c 4C48     		ldr	r0, .L9+16
+ 230 022e 0090     		str	r0, [sp, #0]
+ 231 0230 0846     		mov	r0, r1	@ float
+ 232 0232 1146     		mov	r1, r2	@ float
+ 233 0234 039A     		ldr	r2, [sp, #12]	@ float
+ 234 0236 FFF7FEFF 		bl	updatePID
+ 235 023a 0246     		mov	r2, r0	@ float
+ 236 023c 40F20003 		movw	r3, #:lower16:rateCmd
+ 237 0240 C0F20003 		movt	r3, #:upper16:rateCmd
+ 238 0244 9A60     		str	r2, [r3, #8]	@ float
+ 239 0246 26E0     		b	.L8
+ 240              	.L6:
+ 241 0248 40F20003 		movw	r3, #:lower16:rxCommand
+ 242 024c C0F20003 		movt	r3, #:upper16:rxCommand
+ 243 0250 9B68     		ldr	r3, [r3, #8]	@ float
+ 244 0252 1846     		mov	r0, r3	@ float
+ 245 0254 FFF7FEFF 		bl	__aeabi_f2d
+ 246 0258 0246     		mov	r2, r0
+ 247 025a 0B46     		mov	r3, r1
+ 248 025c 1046     		mov	r0, r2
+ 249 025e 1946     		mov	r1, r3
+ 250 0260 3BA3     		adr	r3, .L9
+ 251 0262 D3E90023 		ldrd	r2, [r3]
+ 252 0266 FFF7FEFF 		bl	__aeabi_dmul
+ 253 026a 0246     		mov	r2, r0
+ 254 026c 0B46     		mov	r3, r1
+ 255 026e 1046     		mov	r0, r2
+ 256 0270 1946     		mov	r1, r3
+ 257 0272 FFF7FEFF 		bl	__aeabi_d2f
+ 258 0276 0246     		mov	r2, r0	@ float
+ 259 0278 40F20003 		movw	r3, #:lower16:rateCmd
+ 260 027c C0F20003 		movt	r3, #:upper16:rateCmd
+ 261 0280 9A60     		str	r2, [r3, #8]	@ float
+ 262 0282 40F20003 		movw	r3, #:lower16:sensors
+ 263 0286 C0F20003 		movt	r3, #:upper16:sensors
+ 264 028a 1A6A     		ldr	r2, [r3, #32]	@ float
+ 265 028c 40F20003 		movw	r3, #:lower16:headingReference
+ 266 0290 C0F20003 		movt	r3, #:upper16:headingReference
+ 267 0294 1A60     		str	r2, [r3, #0]	@ float
+ 268              	.L8:
+ 269 0296 40F20003 		movw	r3, #:lower16:rateCmd
+ 270 029a C0F20003 		movt	r3, #:upper16:rateCmd
+ 271 029e 1968     		ldr	r1, [r3, #0]	@ float
+ 272 02a0 40F20003 		movw	r3, #:lower16:sensors
+ 273 02a4 C0F20003 		movt	r3, #:upper16:sensors
+ 274 02a8 5A6A     		ldr	r2, [r3, #36]	@ float
+ 275 02aa 40F20003 		movw	r3, #:lower16:holdIntegrators
+ 276 02ae C0F20003 		movt	r3, #:upper16:holdIntegrators
+ 277 02b2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 278 02b4 2B48     		ldr	r0, .L9+20
+ 279 02b6 0090     		str	r0, [sp, #0]
+ 280 02b8 0846     		mov	r0, r1	@ float
+ 281 02ba 1146     		mov	r1, r2	@ float
+ 282 02bc 039A     		ldr	r2, [sp, #12]	@ float
+ 283 02be FFF7FEFF 		bl	updatePID
+ 284 02c2 0246     		mov	r2, r0	@ float
+ 285 02c4 40F20003 		movw	r3, #:lower16:axisPID
+ 286 02c8 C0F20003 		movt	r3, #:upper16:axisPID
+ 287 02cc 1A60     		str	r2, [r3, #0]	@ float
+ 288 02ce 40F20003 		movw	r3, #:lower16:rateCmd
+ 289 02d2 C0F20003 		movt	r3, #:upper16:rateCmd
+ 290 02d6 5A68     		ldr	r2, [r3, #4]	@ float
+ 291 02d8 40F20003 		movw	r3, #:lower16:sensors
+ 292 02dc C0F20003 		movt	r3, #:upper16:sensors
+ 293 02e0 D3ED0A7A 		flds	s15, [r3, #40]
+ 294 02e4 F1EE677A 		fnegs	s15, s15
+ 295 02e8 17EE904A 		fmrs	r4, s15
+ 296 02ec 40F20003 		movw	r3, #:lower16:holdIntegrators
+ 297 02f0 C0F20003 		movt	r3, #:upper16:holdIntegrators
+ 298 02f4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 299 02f6 1C49     		ldr	r1, .L9+24
+ 300 02f8 0091     		str	r1, [sp, #0]
+ 301 02fa 1046     		mov	r0, r2	@ float
+ 302 02fc 2146     		mov	r1, r4	@ float
+ 303 02fe 039A     		ldr	r2, [sp, #12]	@ float
+ 304 0300 FFF7FEFF 		bl	updatePID
+ 305 0304 0246     		mov	r2, r0	@ float
+ 306 0306 40F20003 		movw	r3, #:lower16:axisPID
+ 307 030a C0F20003 		movt	r3, #:upper16:axisPID
+ 308 030e 5A60     		str	r2, [r3, #4]	@ float
+ 309 0310 40F20003 		movw	r3, #:lower16:rateCmd
+ 310 0314 C0F20003 		movt	r3, #:upper16:rateCmd
+ 311 0318 9968     		ldr	r1, [r3, #8]	@ float
+ 312 031a 40F20003 		movw	r3, #:lower16:sensors
+ 313 031e C0F20003 		movt	r3, #:upper16:sensors
+ 314 0322 DA6A     		ldr	r2, [r3, #44]	@ float
+ 315 0324 40F20003 		movw	r3, #:lower16:holdIntegrators
+ 316 0328 C0F20003 		movt	r3, #:upper16:holdIntegrators
+ 317 032c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 318 032e 0F48     		ldr	r0, .L9+28
+ 319 0330 0090     		str	r0, [sp, #0]
+ 320 0332 0846     		mov	r0, r1	@ float
+ 321 0334 1146     		mov	r1, r2	@ float
+ 322 0336 039A     		ldr	r2, [sp, #12]	@ float
+ 323 0338 FFF7FEFF 		bl	updatePID
+ 324 033c 0246     		mov	r2, r0	@ float
+ 325 033e 40F20003 		movw	r3, #:lower16:axisPID
+ 326 0342 C0F20003 		movt	r3, #:upper16:axisPID
+ 327 0346 9A60     		str	r2, [r3, #8]	@ float
+ 328 0348 04B0     		add	sp, sp, #16
+ 329 034a 10BD     		pop	{r4, pc}
+ 330              	.L10:
+ 331 034c AFF30080 		.align	3
+ 332              	.L9:
+ 333 0350 7B14AE47 		.word	1202590843
+ 334 0354 E17A743F 		.word	1064598241
+ 335 0358 F8000000 		.word	eepromConfig+248
+ 336 035c 20010000 		.word	eepromConfig+288
+ 337 0360 48010000 		.word	eepromConfig+328
+ 338 0364 80000000 		.word	eepromConfig+128
+ 339 0368 A8000000 		.word	eepromConfig+168
+ 340 036c D0000000 		.word	eepromConfig+208
+ 341 0370 FCA9F1D2 		.word	-755914244
+ 342 0374 4D62503F 		.word	1062232653
+ 343 0378 00000000 		.word	0
+ 345 037c AFF30080 		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 computeAxisCommands.c
+                            *COM*:0000000c attCmd
+                            *COM*:0000000c attPID
+                            *COM*:0000000c axisPID
+                            *COM*:0000000c rateCmd
+                            *COM*:00000004 headingReference
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccinWJdJ.s:25     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccinWJdJ.s:30     .text:00000000 computeAxisCommands
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccinWJdJ.s:333    .text:00000350 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccinWJdJ.s:345    .text:0000037c $t
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_d2f
+flightMode
+rxCommand
+sensors
+holdIntegrators
+updatePID
+commandInDetent
+eepromConfig
+previousCommandInDetent
+setPIDintegralError

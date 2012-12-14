@@ -1,0 +1,455 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"lowPassFilter.c"
+  16              		.comm	fourthOrder100Hz,96,4
+  17              		.comm	fourthOrder500Hz,96,4
+  18              		.text
+  19              		.align	2
+  20              		.global	computeFourthOrder100Hz
+  21              		.thumb
+  22              		.thumb_func
+  24              	computeFourthOrder100Hz:
+  25              		@ args = 0, pretend = 0, frame = 16
+  26              		@ frame_needed = 0, uses_anonymous_args = 0
+  27              		@ link register save eliminated.
+  28 0000 84B0     		sub	sp, sp, #16
+  29 0002 0190     		str	r0, [sp, #4]	@ float
+  30 0004 0091     		str	r1, [sp, #0]
+  31 0006 9DED017A 		flds	s14, [sp, #4]
+  32 000a DFED387A 		flds	s15, .L2
+  33 000e 27EE277A 		fmuls	s14, s14, s15
+  34 0012 009B     		ldr	r3, [sp, #0]
+  35 0014 D3ED006A 		flds	s13, [r3, #0]
+  36 0018 DFED357A 		flds	s15, .L2+4
+  37 001c 66EEA77A 		fmuls	s15, s13, s15
+  38 0020 37EE277A 		fadds	s14, s14, s15
+  39 0024 009B     		ldr	r3, [sp, #0]
+  40 0026 D3ED016A 		flds	s13, [r3, #4]
+  41 002a DFED327A 		flds	s15, .L2+8
+  42 002e 66EEA77A 		fmuls	s15, s13, s15
+  43 0032 37EE277A 		fadds	s14, s14, s15
+  44 0036 009B     		ldr	r3, [sp, #0]
+  45 0038 D3ED026A 		flds	s13, [r3, #8]
+  46 003c DFED2C7A 		flds	s15, .L2+4
+  47 0040 66EEA77A 		fmuls	s15, s13, s15
+  48 0044 37EE277A 		fadds	s14, s14, s15
+  49 0048 009B     		ldr	r3, [sp, #0]
+  50 004a D3ED036A 		flds	s13, [r3, #12]
+  51 004e DFED277A 		flds	s15, .L2
+  52 0052 66EEA77A 		fmuls	s15, s13, s15
+  53 0056 37EE277A 		fadds	s14, s14, s15
+  54 005a 009B     		ldr	r3, [sp, #0]
+  55 005c D3ED046A 		flds	s13, [r3, #16]
+  56 0060 DFED257A 		flds	s15, .L2+12
+  57 0064 66EEA77A 		fmuls	s15, s13, s15
+  58 0068 37EE277A 		fadds	s14, s14, s15
+  59 006c 009B     		ldr	r3, [sp, #0]
+  60 006e D3ED056A 		flds	s13, [r3, #20]
+  61 0072 DFED227A 		flds	s15, .L2+16
+  62 0076 66EEA77A 		fmuls	s15, s13, s15
+  63 007a 37EE677A 		fsubs	s14, s14, s15
+  64 007e 009B     		ldr	r3, [sp, #0]
+  65 0080 D3ED066A 		flds	s13, [r3, #24]
+  66 0084 DFED1E7A 		flds	s15, .L2+20
+  67 0088 66EEA77A 		fmuls	s15, s13, s15
+  68 008c 37EE277A 		fadds	s14, s14, s15
+  69 0090 009B     		ldr	r3, [sp, #0]
+  70 0092 D3ED076A 		flds	s13, [r3, #28]
+  71 0096 DFED1B7A 		flds	s15, .L2+24
+  72 009a 66EEA77A 		fmuls	s15, s13, s15
+  73 009e 77EE677A 		fsubs	s15, s14, s15
+  74 00a2 CDED037A 		fsts	s15, [sp, #12]
+  75 00a6 009B     		ldr	r3, [sp, #0]
+  76 00a8 9A68     		ldr	r2, [r3, #8]	@ float
+  77 00aa 009B     		ldr	r3, [sp, #0]
+  78 00ac DA60     		str	r2, [r3, #12]	@ float
+  79 00ae 009B     		ldr	r3, [sp, #0]
+  80 00b0 5A68     		ldr	r2, [r3, #4]	@ float
+  81 00b2 009B     		ldr	r3, [sp, #0]
+  82 00b4 9A60     		str	r2, [r3, #8]	@ float
+  83 00b6 009B     		ldr	r3, [sp, #0]
+  84 00b8 1A68     		ldr	r2, [r3, #0]	@ float
+  85 00ba 009B     		ldr	r3, [sp, #0]
+  86 00bc 5A60     		str	r2, [r3, #4]	@ float
+  87 00be 009B     		ldr	r3, [sp, #0]
+  88 00c0 019A     		ldr	r2, [sp, #4]	@ float
+  89 00c2 1A60     		str	r2, [r3, #0]	@ float
+  90 00c4 009B     		ldr	r3, [sp, #0]
+  91 00c6 9A69     		ldr	r2, [r3, #24]	@ float
+  92 00c8 009B     		ldr	r3, [sp, #0]
+  93 00ca DA61     		str	r2, [r3, #28]	@ float
+  94 00cc 009B     		ldr	r3, [sp, #0]
+  95 00ce 5A69     		ldr	r2, [r3, #20]	@ float
+  96 00d0 009B     		ldr	r3, [sp, #0]
+  97 00d2 9A61     		str	r2, [r3, #24]	@ float
+  98 00d4 009B     		ldr	r3, [sp, #0]
+  99 00d6 1A69     		ldr	r2, [r3, #16]	@ float
+ 100 00d8 009B     		ldr	r3, [sp, #0]
+ 101 00da 5A61     		str	r2, [r3, #20]	@ float
+ 102 00dc 009B     		ldr	r3, [sp, #0]
+ 103 00de 039A     		ldr	r2, [sp, #12]	@ float
+ 104 00e0 1A61     		str	r2, [r3, #16]	@ float
+ 105 00e2 039B     		ldr	r3, [sp, #12]	@ float
+ 106 00e4 1846     		mov	r0, r3	@ float
+ 107 00e6 04B0     		add	sp, sp, #16
+ 108 00e8 7047     		bx	lr
+ 109              	.L3:
+ 110 00ea 00BF     		.align	2
+ 111              	.L2:
+ 112 00ec 7932F83A 		.word	989344377
+ 113 00f0 D58111BB 		.word	-1156480555
+ 114 00f4 1A1B5E3B 		.word	996023066
+ 115 00f8 382F5740 		.word	1079455544
+ 116 00fc 200B8940 		.word	1082723104
+ 117 0100 0A771C40 		.word	1075607306
+ 118 0104 4CF3063F 		.word	1057420108
+ 120              		.align	2
+ 121              		.global	setupFourthOrder100Hz
+ 122              		.thumb
+ 123              		.thumb_func
+ 125              	setupFourthOrder100Hz:
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 129 0108 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 130 010c C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 131 0110 464A     		ldr	r2, .L5	@ float
+ 132 0112 1A60     		str	r2, [r3, #0]	@ float
+ 133 0114 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 134 0118 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 135 011c 434A     		ldr	r2, .L5	@ float
+ 136 011e 5A60     		str	r2, [r3, #4]	@ float
+ 137 0120 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 138 0124 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 139 0128 404A     		ldr	r2, .L5	@ float
+ 140 012a 9A60     		str	r2, [r3, #8]	@ float
+ 141 012c 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 142 0130 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 143 0134 3D4A     		ldr	r2, .L5	@ float
+ 144 0136 DA60     		str	r2, [r3, #12]	@ float
+ 145 0138 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 146 013c C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 147 0140 3A4A     		ldr	r2, .L5	@ float
+ 148 0142 1A61     		str	r2, [r3, #16]	@ float
+ 149 0144 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 150 0148 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 151 014c 374A     		ldr	r2, .L5	@ float
+ 152 014e 5A61     		str	r2, [r3, #20]	@ float
+ 153 0150 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 154 0154 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 155 0158 344A     		ldr	r2, .L5	@ float
+ 156 015a 9A61     		str	r2, [r3, #24]	@ float
+ 157 015c 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 158 0160 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 159 0164 314A     		ldr	r2, .L5	@ float
+ 160 0166 DA61     		str	r2, [r3, #28]	@ float
+ 161 0168 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 162 016c C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 163 0170 2E4A     		ldr	r2, .L5	@ float
+ 164 0172 1A62     		str	r2, [r3, #32]	@ float
+ 165 0174 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 166 0178 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 167 017c 2B4A     		ldr	r2, .L5	@ float
+ 168 017e 5A62     		str	r2, [r3, #36]	@ float
+ 169 0180 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 170 0184 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 171 0188 284A     		ldr	r2, .L5	@ float
+ 172 018a 9A62     		str	r2, [r3, #40]	@ float
+ 173 018c 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 174 0190 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 175 0194 254A     		ldr	r2, .L5	@ float
+ 176 0196 DA62     		str	r2, [r3, #44]	@ float
+ 177 0198 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 178 019c C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 179 01a0 224A     		ldr	r2, .L5	@ float
+ 180 01a2 1A63     		str	r2, [r3, #48]	@ float
+ 181 01a4 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 182 01a8 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 183 01ac 1F4A     		ldr	r2, .L5	@ float
+ 184 01ae 5A63     		str	r2, [r3, #52]	@ float
+ 185 01b0 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 186 01b4 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 187 01b8 1C4A     		ldr	r2, .L5	@ float
+ 188 01ba 9A63     		str	r2, [r3, #56]	@ float
+ 189 01bc 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 190 01c0 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 191 01c4 194A     		ldr	r2, .L5	@ float
+ 192 01c6 DA63     		str	r2, [r3, #60]	@ float
+ 193 01c8 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 194 01cc C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 195 01d0 174A     		ldr	r2, .L5+4	@ float
+ 196 01d2 1A64     		str	r2, [r3, #64]	@ float
+ 197 01d4 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 198 01d8 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 199 01dc 144A     		ldr	r2, .L5+4	@ float
+ 200 01de 5A64     		str	r2, [r3, #68]	@ float
+ 201 01e0 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 202 01e4 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 203 01e8 114A     		ldr	r2, .L5+4	@ float
+ 204 01ea 9A64     		str	r2, [r3, #72]	@ float
+ 205 01ec 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 206 01f0 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 207 01f4 0E4A     		ldr	r2, .L5+4	@ float
+ 208 01f6 DA64     		str	r2, [r3, #76]	@ float
+ 209 01f8 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 210 01fc C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 211 0200 0B4A     		ldr	r2, .L5+4	@ float
+ 212 0202 1A65     		str	r2, [r3, #80]	@ float
+ 213 0204 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 214 0208 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 215 020c 084A     		ldr	r2, .L5+4	@ float
+ 216 020e 5A65     		str	r2, [r3, #84]	@ float
+ 217 0210 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 218 0214 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 219 0218 054A     		ldr	r2, .L5+4	@ float
+ 220 021a 9A65     		str	r2, [r3, #88]	@ float
+ 221 021c 40F20003 		movw	r3, #:lower16:fourthOrder100Hz
+ 222 0220 C0F20003 		movt	r3, #:upper16:fourthOrder100Hz
+ 223 0224 024A     		ldr	r2, .L5+4	@ float
+ 224 0226 DA65     		str	r2, [r3, #92]	@ float
+ 225 0228 7047     		bx	lr
+ 226              	.L6:
+ 227 022a 00BF     		.align	2
+ 228              	.L5:
+ 229 022c 00000000 		.word	0
+ 230 0230 6DE71CC1 		.word	-1055070355
+ 232              		.align	2
+ 233              		.global	computeFourthOrder500Hz
+ 234              		.thumb
+ 235              		.thumb_func
+ 237              	computeFourthOrder500Hz:
+ 238              		@ args = 0, pretend = 0, frame = 16
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240              		@ link register save eliminated.
+ 241 0234 84B0     		sub	sp, sp, #16
+ 242 0236 0190     		str	r0, [sp, #4]	@ float
+ 243 0238 0091     		str	r1, [sp, #0]
+ 244 023a 9DED017A 		flds	s14, [sp, #4]
+ 245 023e DFED387A 		flds	s15, .L8
+ 246 0242 27EE277A 		fmuls	s14, s14, s15
+ 247 0246 009B     		ldr	r3, [sp, #0]
+ 248 0248 D3ED006A 		flds	s13, [r3, #0]
+ 249 024c DFED357A 		flds	s15, .L8+4
+ 250 0250 66EEA77A 		fmuls	s15, s13, s15
+ 251 0254 37EE277A 		fadds	s14, s14, s15
+ 252 0258 009B     		ldr	r3, [sp, #0]
+ 253 025a D3ED016A 		flds	s13, [r3, #4]
+ 254 025e DFED327A 		flds	s15, .L8+8
+ 255 0262 66EEA77A 		fmuls	s15, s13, s15
+ 256 0266 37EE277A 		fadds	s14, s14, s15
+ 257 026a 009B     		ldr	r3, [sp, #0]
+ 258 026c D3ED026A 		flds	s13, [r3, #8]
+ 259 0270 DFED2C7A 		flds	s15, .L8+4
+ 260 0274 66EEA77A 		fmuls	s15, s13, s15
+ 261 0278 37EE277A 		fadds	s14, s14, s15
+ 262 027c 009B     		ldr	r3, [sp, #0]
+ 263 027e D3ED036A 		flds	s13, [r3, #12]
+ 264 0282 DFED277A 		flds	s15, .L8
+ 265 0286 66EEA77A 		fmuls	s15, s13, s15
+ 266 028a 37EE277A 		fadds	s14, s14, s15
+ 267 028e 009B     		ldr	r3, [sp, #0]
+ 268 0290 D3ED046A 		flds	s13, [r3, #16]
+ 269 0294 DFED257A 		flds	s15, .L8+12
+ 270 0298 66EEA77A 		fmuls	s15, s13, s15
+ 271 029c 37EE277A 		fadds	s14, s14, s15
+ 272 02a0 009B     		ldr	r3, [sp, #0]
+ 273 02a2 D3ED056A 		flds	s13, [r3, #20]
+ 274 02a6 DFED227A 		flds	s15, .L8+16
+ 275 02aa 66EEA77A 		fmuls	s15, s13, s15
+ 276 02ae 37EE677A 		fsubs	s14, s14, s15
+ 277 02b2 009B     		ldr	r3, [sp, #0]
+ 278 02b4 D3ED066A 		flds	s13, [r3, #24]
+ 279 02b8 DFED1E7A 		flds	s15, .L8+20
+ 280 02bc 66EEA77A 		fmuls	s15, s13, s15
+ 281 02c0 37EE277A 		fadds	s14, s14, s15
+ 282 02c4 009B     		ldr	r3, [sp, #0]
+ 283 02c6 D3ED076A 		flds	s13, [r3, #28]
+ 284 02ca DFED1B7A 		flds	s15, .L8+24
+ 285 02ce 66EEA77A 		fmuls	s15, s13, s15
+ 286 02d2 77EE677A 		fsubs	s15, s14, s15
+ 287 02d6 CDED037A 		fsts	s15, [sp, #12]
+ 288 02da 009B     		ldr	r3, [sp, #0]
+ 289 02dc 9A68     		ldr	r2, [r3, #8]	@ float
+ 290 02de 009B     		ldr	r3, [sp, #0]
+ 291 02e0 DA60     		str	r2, [r3, #12]	@ float
+ 292 02e2 009B     		ldr	r3, [sp, #0]
+ 293 02e4 5A68     		ldr	r2, [r3, #4]	@ float
+ 294 02e6 009B     		ldr	r3, [sp, #0]
+ 295 02e8 9A60     		str	r2, [r3, #8]	@ float
+ 296 02ea 009B     		ldr	r3, [sp, #0]
+ 297 02ec 1A68     		ldr	r2, [r3, #0]	@ float
+ 298 02ee 009B     		ldr	r3, [sp, #0]
+ 299 02f0 5A60     		str	r2, [r3, #4]	@ float
+ 300 02f2 009B     		ldr	r3, [sp, #0]
+ 301 02f4 019A     		ldr	r2, [sp, #4]	@ float
+ 302 02f6 1A60     		str	r2, [r3, #0]	@ float
+ 303 02f8 009B     		ldr	r3, [sp, #0]
+ 304 02fa 9A69     		ldr	r2, [r3, #24]	@ float
+ 305 02fc 009B     		ldr	r3, [sp, #0]
+ 306 02fe DA61     		str	r2, [r3, #28]	@ float
+ 307 0300 009B     		ldr	r3, [sp, #0]
+ 308 0302 5A69     		ldr	r2, [r3, #20]	@ float
+ 309 0304 009B     		ldr	r3, [sp, #0]
+ 310 0306 9A61     		str	r2, [r3, #24]	@ float
+ 311 0308 009B     		ldr	r3, [sp, #0]
+ 312 030a 1A69     		ldr	r2, [r3, #16]	@ float
+ 313 030c 009B     		ldr	r3, [sp, #0]
+ 314 030e 5A61     		str	r2, [r3, #20]	@ float
+ 315 0310 009B     		ldr	r3, [sp, #0]
+ 316 0312 039A     		ldr	r2, [sp, #12]	@ float
+ 317 0314 1A61     		str	r2, [r3, #16]	@ float
+ 318 0316 039B     		ldr	r3, [sp, #12]	@ float
+ 319 0318 1846     		mov	r0, r3	@ float
+ 320 031a 04B0     		add	sp, sp, #16
+ 321 031c 7047     		bx	lr
+ 322              	.L9:
+ 323 031e 00BF     		.align	2
+ 324              	.L8:
+ 325 0320 A078813A 		.word	981563552
+ 326 0324 BD9176BB 		.word	-1149857347
+ 327 0328 30FCB53B 		.word	1001782320
+ 328 032c 47337840 		.word	1081619271
+ 329 0330 5289B440 		.word	1085573458
+ 330 0334 2F876940 		.word	1080657711
+ 331 0338 999F623F 		.word	1063427993
+ 333              		.align	2
+ 334              		.global	setupFourthOrder500Hz
+ 335              		.thumb
+ 336              		.thumb_func
+ 338              	setupFourthOrder500Hz:
+ 339              		@ args = 0, pretend = 0, frame = 0
+ 340              		@ frame_needed = 0, uses_anonymous_args = 0
+ 341              		@ link register save eliminated.
+ 342 033c 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 343 0340 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 344 0344 464A     		ldr	r2, .L11	@ float
+ 345 0346 1A60     		str	r2, [r3, #0]	@ float
+ 346 0348 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 347 034c C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 348 0350 434A     		ldr	r2, .L11	@ float
+ 349 0352 5A60     		str	r2, [r3, #4]	@ float
+ 350 0354 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 351 0358 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 352 035c 404A     		ldr	r2, .L11	@ float
+ 353 035e 9A60     		str	r2, [r3, #8]	@ float
+ 354 0360 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 355 0364 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 356 0368 3D4A     		ldr	r2, .L11	@ float
+ 357 036a DA60     		str	r2, [r3, #12]	@ float
+ 358 036c 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 359 0370 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 360 0374 3A4A     		ldr	r2, .L11	@ float
+ 361 0376 1A61     		str	r2, [r3, #16]	@ float
+ 362 0378 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 363 037c C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 364 0380 374A     		ldr	r2, .L11	@ float
+ 365 0382 5A61     		str	r2, [r3, #20]	@ float
+ 366 0384 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 367 0388 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 368 038c 344A     		ldr	r2, .L11	@ float
+ 369 038e 9A61     		str	r2, [r3, #24]	@ float
+ 370 0390 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 371 0394 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 372 0398 314A     		ldr	r2, .L11	@ float
+ 373 039a DA61     		str	r2, [r3, #28]	@ float
+ 374 039c 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 375 03a0 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 376 03a4 2E4A     		ldr	r2, .L11	@ float
+ 377 03a6 1A62     		str	r2, [r3, #32]	@ float
+ 378 03a8 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 379 03ac C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 380 03b0 2B4A     		ldr	r2, .L11	@ float
+ 381 03b2 5A62     		str	r2, [r3, #36]	@ float
+ 382 03b4 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 383 03b8 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 384 03bc 284A     		ldr	r2, .L11	@ float
+ 385 03be 9A62     		str	r2, [r3, #40]	@ float
+ 386 03c0 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 387 03c4 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 388 03c8 254A     		ldr	r2, .L11	@ float
+ 389 03ca DA62     		str	r2, [r3, #44]	@ float
+ 390 03cc 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 391 03d0 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 392 03d4 224A     		ldr	r2, .L11	@ float
+ 393 03d6 1A63     		str	r2, [r3, #48]	@ float
+ 394 03d8 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 395 03dc C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 396 03e0 1F4A     		ldr	r2, .L11	@ float
+ 397 03e2 5A63     		str	r2, [r3, #52]	@ float
+ 398 03e4 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 399 03e8 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 400 03ec 1C4A     		ldr	r2, .L11	@ float
+ 401 03ee 9A63     		str	r2, [r3, #56]	@ float
+ 402 03f0 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 403 03f4 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 404 03f8 194A     		ldr	r2, .L11	@ float
+ 405 03fa DA63     		str	r2, [r3, #60]	@ float
+ 406 03fc 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 407 0400 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 408 0404 174A     		ldr	r2, .L11+4	@ float
+ 409 0406 1A64     		str	r2, [r3, #64]	@ float
+ 410 0408 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 411 040c C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 412 0410 144A     		ldr	r2, .L11+4	@ float
+ 413 0412 5A64     		str	r2, [r3, #68]	@ float
+ 414 0414 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 415 0418 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 416 041c 114A     		ldr	r2, .L11+4	@ float
+ 417 041e 9A64     		str	r2, [r3, #72]	@ float
+ 418 0420 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 419 0424 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 420 0428 0E4A     		ldr	r2, .L11+4	@ float
+ 421 042a DA64     		str	r2, [r3, #76]	@ float
+ 422 042c 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 423 0430 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 424 0434 0B4A     		ldr	r2, .L11+4	@ float
+ 425 0436 1A65     		str	r2, [r3, #80]	@ float
+ 426 0438 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 427 043c C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 428 0440 084A     		ldr	r2, .L11+4	@ float
+ 429 0442 5A65     		str	r2, [r3, #84]	@ float
+ 430 0444 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 431 0448 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 432 044c 054A     		ldr	r2, .L11+4	@ float
+ 433 044e 9A65     		str	r2, [r3, #88]	@ float
+ 434 0450 40F20003 		movw	r3, #:lower16:fourthOrder500Hz
+ 435 0454 C0F20003 		movt	r3, #:upper16:fourthOrder500Hz
+ 436 0458 024A     		ldr	r2, .L11+4	@ float
+ 437 045a DA65     		str	r2, [r3, #92]	@ float
+ 438 045c 7047     		bx	lr
+ 439              	.L12:
+ 440 045e 00BF     		.align	2
+ 441              	.L11:
+ 442 0460 00000000 		.word	0
+ 443 0464 6DE71CC1 		.word	-1055070355
+ 445              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 lowPassFilter.c
+                            *COM*:00000060 fourthOrder100Hz
+                            *COM*:00000060 fourthOrder500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:19     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:24     .text:00000000 computeFourthOrder100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:112    .text:000000ec $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:120    .text:00000108 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:125    .text:00000108 setupFourthOrder100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:229    .text:0000022c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:232    .text:00000234 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:237    .text:00000234 computeFourthOrder500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:325    .text:00000320 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:333    .text:0000033c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:338    .text:0000033c setupFourthOrder500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQJjBlE.s:442    .text:00000460 $d
+
+NO UNDEFINED SYMBOLS

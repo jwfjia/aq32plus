@@ -1,0 +1,1266 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"usbd_req.c"
+  16              		.global	USBD_ep_status
+  17              		.bss
+  18              		.align	2
+  21              	USBD_ep_status:
+  22 0000 00000000 		.space	4
+  23              		.global	USBD_default_cfg
+  24              		.align	2
+  27              	USBD_default_cfg:
+  28 0004 00000000 		.space	4
+  29              		.global	USBD_cfg_status
+  30              		.align	2
+  33              	USBD_cfg_status:
+  34 0008 00000000 		.space	4
+  35              		.comm	USBD_StrDesc,50,4
+  36              		.text
+  37              		.align	2
+  38              		.global	USBD_StdDevReq
+  39              		.thumb
+  40              		.thumb_func
+  42              	USBD_StdDevReq:
+  43              		@ args = 0, pretend = 0, frame = 16
+  44              		@ frame_needed = 0, uses_anonymous_args = 0
+  45 0000 00B5     		push	{lr}
+  46 0002 85B0     		sub	sp, sp, #20
+  47 0004 0190     		str	r0, [sp, #4]
+  48 0006 0091     		str	r1, [sp, #0]
+  49 0008 4FF00003 		mov	r3, #0
+  50 000c 8DF80F30 		strb	r3, [sp, #15]
+  51 0010 009B     		ldr	r3, [sp, #0]
+  52 0012 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+  53 0014 092B     		cmp	r3, #9
+  54 0016 3AD8     		bhi	.L2
+  55 0018 01A2     		adr	r2, .L10
+  56 001a 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+  57 001e 00BF     		.align	2
+  58              	.L10:
+  59 0020 71000000 		.word	.L3+1
+  60 0024 85000000 		.word	.L4+1
+  61 0028 8F000000 		.word	.L2+1
+  62 002c 7B000000 		.word	.L5+1
+  63 0030 8F000000 		.word	.L2+1
+  64 0034 53000000 		.word	.L6+1
+  65 0038 49000000 		.word	.L7+1
+  66 003c 8F000000 		.word	.L2+1
+  67 0040 67000000 		.word	.L8+1
+  68 0044 5D000000 		.word	.L9+1
+  69              	.L7:
+  70 0048 0198     		ldr	r0, [sp, #4]
+  71 004a 0099     		ldr	r1, [sp, #0]
+  72 004c 00F064F9 		bl	USBD_GetDescriptor
+  73 0050 22E0     		b	.L11
+  74              	.L6:
+  75 0052 0198     		ldr	r0, [sp, #4]
+  76 0054 0099     		ldr	r1, [sp, #0]
+  77 0056 00F045FA 		bl	USBD_SetAddress
+  78 005a 1DE0     		b	.L11
+  79              	.L9:
+  80 005c 0198     		ldr	r0, [sp, #4]
+  81 005e 0099     		ldr	r1, [sp, #0]
+  82 0060 00F082FA 		bl	USBD_SetConfig
+  83 0064 18E0     		b	.L11
+  84              	.L8:
+  85 0066 0198     		ldr	r0, [sp, #4]
+  86 0068 0099     		ldr	r1, [sp, #0]
+  87 006a 00F015FB 		bl	USBD_GetConfig
+  88 006e 13E0     		b	.L11
+  89              	.L3:
+  90 0070 0198     		ldr	r0, [sp, #4]
+  91 0072 0099     		ldr	r1, [sp, #0]
+  92 0074 00F040FB 		bl	USBD_GetStatus
+  93 0078 0EE0     		b	.L11
+  94              	.L5:
+  95 007a 0198     		ldr	r0, [sp, #4]
+  96 007c 0099     		ldr	r1, [sp, #0]
+  97 007e 00F06BFB 		bl	USBD_SetFeature
+  98 0082 09E0     		b	.L11
+  99              	.L4:
+ 100 0084 0198     		ldr	r0, [sp, #4]
+ 101 0086 0099     		ldr	r1, [sp, #0]
+ 102 0088 00F0D6FB 		bl	USBD_ClrFeature
+ 103 008c 04E0     		b	.L11
+ 104              	.L2:
+ 105 008e 0198     		ldr	r0, [sp, #4]
+ 106 0090 0099     		ldr	r1, [sp, #0]
+ 107 0092 FFF7FEFF 		bl	USBD_CtlError
+ 108 0096 00BF     		nop
+ 109              	.L11:
+ 110 0098 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 111 009c 1846     		mov	r0, r3
+ 112 009e 05B0     		add	sp, sp, #20
+ 113 00a0 00BD     		pop	{pc}
+ 115 00a2 00BF     		.align	2
+ 116              		.global	USBD_StdItfReq
+ 117              		.thumb
+ 118              		.thumb_func
+ 120              	USBD_StdItfReq:
+ 121              		@ args = 0, pretend = 0, frame = 16
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123 00a4 00B5     		push	{lr}
+ 124 00a6 85B0     		sub	sp, sp, #20
+ 125 00a8 0190     		str	r0, [sp, #4]
+ 126 00aa 0091     		str	r1, [sp, #0]
+ 127 00ac 4FF00003 		mov	r3, #0
+ 128 00b0 8DF80F30 		strb	r3, [sp, #15]
+ 129 00b4 019B     		ldr	r3, [sp, #4]
+ 130 00b6 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 131 00ba 032B     		cmp	r3, #3
+ 132 00bc 1CD1     		bne	.L18
+ 133              	.L14:
+ 134 00be 009B     		ldr	r3, [sp, #0]
+ 135 00c0 9B88     		ldrh	r3, [r3, #4]
+ 136 00c2 DBB2     		uxtb	r3, r3
+ 137 00c4 012B     		cmp	r3, #1
+ 138 00c6 12D8     		bhi	.L15
+ 139 00c8 019B     		ldr	r3, [sp, #4]
+ 140 00ca D3F8E035 		ldr	r3, [r3, #1504]
+ 141 00ce 9B68     		ldr	r3, [r3, #8]
+ 142 00d0 0198     		ldr	r0, [sp, #4]
+ 143 00d2 0099     		ldr	r1, [sp, #0]
+ 144 00d4 9847     		blx	r3
+ 145 00d6 009B     		ldr	r3, [sp, #0]
+ 146 00d8 DB88     		ldrh	r3, [r3, #6]
+ 147 00da 002B     		cmp	r3, #0
+ 148 00dc 11D1     		bne	.L19
+ 149 00de 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 150 00e2 002B     		cmp	r3, #0
+ 151 00e4 0DD1     		bne	.L19
+ 152 00e6 0198     		ldr	r0, [sp, #4]
+ 153 00e8 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 154 00ec 09E0     		b	.L19
+ 155              	.L15:
+ 156 00ee 0198     		ldr	r0, [sp, #4]
+ 157 00f0 0099     		ldr	r1, [sp, #0]
+ 158 00f2 FFF7FEFF 		bl	USBD_CtlError
+ 159 00f6 04E0     		b	.L19
+ 160              	.L18:
+ 161 00f8 0198     		ldr	r0, [sp, #4]
+ 162 00fa 0099     		ldr	r1, [sp, #0]
+ 163 00fc FFF7FEFF 		bl	USBD_CtlError
+ 164 0100 00E0     		b	.L17
+ 165              	.L19:
+ 166 0102 00BF     		nop
+ 167              	.L17:
+ 168 0104 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 169 0108 1846     		mov	r0, r3
+ 170 010a 05B0     		add	sp, sp, #20
+ 171 010c 00BD     		pop	{pc}
+ 173 010e 00BF     		.align	2
+ 174              		.global	USBD_StdEPReq
+ 175              		.thumb
+ 176              		.thumb_func
+ 178              	USBD_StdEPReq:
+ 179              		@ args = 0, pretend = 0, frame = 16
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181 0110 00B5     		push	{lr}
+ 182 0112 85B0     		sub	sp, sp, #20
+ 183 0114 0190     		str	r0, [sp, #4]
+ 184 0116 0091     		str	r1, [sp, #0]
+ 185 0118 4FF00003 		mov	r3, #0
+ 186 011c 8DF80F30 		strb	r3, [sp, #15]
+ 187 0120 009B     		ldr	r3, [sp, #0]
+ 188 0122 9B88     		ldrh	r3, [r3, #4]
+ 189 0124 8DF80E30 		strb	r3, [sp, #14]
+ 190 0128 009B     		ldr	r3, [sp, #0]
+ 191 012a 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 192 012c 012B     		cmp	r3, #1
+ 193 012e 3FD0     		beq	.L23
+ 194 0130 032B     		cmp	r3, #3
+ 195 0132 02D0     		beq	.L24
+ 196 0134 002B     		cmp	r3, #0
+ 197 0136 78D0     		beq	.L22
+ 198 0138 E8E0     		b	.L48
+ 199              	.L24:
+ 200 013a 019B     		ldr	r3, [sp, #4]
+ 201 013c 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 202 0140 022B     		cmp	r3, #2
+ 203 0142 02D0     		beq	.L26
+ 204 0144 032B     		cmp	r3, #3
+ 205 0146 0FD0     		beq	.L27
+ 206 0148 2BE0     		b	.L49
+ 207              	.L26:
+ 208 014a 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 209 014e 002B     		cmp	r3, #0
+ 210 0150 2CD0     		beq	.L52
+ 211 0152 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 212 0156 802B     		cmp	r3, #128
+ 213 0158 28D0     		beq	.L52
+ 214 015a 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 215 015e 0198     		ldr	r0, [sp, #4]
+ 216 0160 1946     		mov	r1, r3
+ 217 0162 FFF7FEFF 		bl	DCD_EP_Stall
+ 218 0166 21E0     		b	.L52
+ 219              	.L27:
+ 220 0168 009B     		ldr	r3, [sp, #0]
+ 221 016a 5B88     		ldrh	r3, [r3, #2]
+ 222 016c 002B     		cmp	r3, #0
+ 223 016e 0DD1     		bne	.L30
+ 224 0170 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 225 0174 002B     		cmp	r3, #0
+ 226 0176 09D0     		beq	.L30
+ 227 0178 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 228 017c 802B     		cmp	r3, #128
+ 229 017e 05D0     		beq	.L30
+ 230 0180 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 231 0184 0198     		ldr	r0, [sp, #4]
+ 232 0186 1946     		mov	r1, r3
+ 233 0188 FFF7FEFF 		bl	DCD_EP_Stall
+ 234              	.L30:
+ 235 018c 019B     		ldr	r3, [sp, #4]
+ 236 018e D3F8E035 		ldr	r3, [r3, #1504]
+ 237 0192 9B68     		ldr	r3, [r3, #8]
+ 238 0194 0198     		ldr	r0, [sp, #4]
+ 239 0196 0099     		ldr	r1, [sp, #0]
+ 240 0198 9847     		blx	r3
+ 241 019a 0198     		ldr	r0, [sp, #4]
+ 242 019c FFF7FEFF 		bl	USBD_CtlSendStatus
+ 243 01a0 05E0     		b	.L29
+ 244              	.L49:
+ 245 01a2 0198     		ldr	r0, [sp, #4]
+ 246 01a4 0099     		ldr	r1, [sp, #0]
+ 247 01a6 FFF7FEFF 		bl	USBD_CtlError
+ 248 01aa 00E0     		b	.L29
+ 249              	.L52:
+ 250 01ac 00BF     		nop
+ 251              	.L29:
+ 252 01ae AEE0     		b	.L31
+ 253              	.L23:
+ 254 01b0 019B     		ldr	r3, [sp, #4]
+ 255 01b2 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 256 01b6 022B     		cmp	r3, #2
+ 257 01b8 02D0     		beq	.L33
+ 258 01ba 032B     		cmp	r3, #3
+ 259 01bc 0FD0     		beq	.L34
+ 260 01be 2BE0     		b	.L50
+ 261              	.L33:
+ 262 01c0 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 263 01c4 002B     		cmp	r3, #0
+ 264 01c6 2CD0     		beq	.L53
+ 265 01c8 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 266 01cc 802B     		cmp	r3, #128
+ 267 01ce 28D0     		beq	.L53
+ 268 01d0 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 269 01d4 0198     		ldr	r0, [sp, #4]
+ 270 01d6 1946     		mov	r1, r3
+ 271 01d8 FFF7FEFF 		bl	DCD_EP_Stall
+ 272 01dc 21E0     		b	.L53
+ 273              	.L34:
+ 274 01de 009B     		ldr	r3, [sp, #0]
+ 275 01e0 5B88     		ldrh	r3, [r3, #2]
+ 276 01e2 002B     		cmp	r3, #0
+ 277 01e4 1FD1     		bne	.L54
+ 278 01e6 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 279 01ea 002B     		cmp	r3, #0
+ 280 01ec 10D0     		beq	.L38
+ 281 01ee 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 282 01f2 802B     		cmp	r3, #128
+ 283 01f4 0CD0     		beq	.L38
+ 284 01f6 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 285 01fa 0198     		ldr	r0, [sp, #4]
+ 286 01fc 1946     		mov	r1, r3
+ 287 01fe FFF7FEFF 		bl	DCD_EP_ClrStall
+ 288 0202 019B     		ldr	r3, [sp, #4]
+ 289 0204 D3F8E035 		ldr	r3, [r3, #1504]
+ 290 0208 9B68     		ldr	r3, [r3, #8]
+ 291 020a 0198     		ldr	r0, [sp, #4]
+ 292 020c 0099     		ldr	r1, [sp, #0]
+ 293 020e 9847     		blx	r3
+ 294              	.L38:
+ 295 0210 0198     		ldr	r0, [sp, #4]
+ 296 0212 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 297 0216 06E0     		b	.L54
+ 298              	.L50:
+ 299 0218 0198     		ldr	r0, [sp, #4]
+ 300 021a 0099     		ldr	r1, [sp, #0]
+ 301 021c FFF7FEFF 		bl	USBD_CtlError
+ 302 0220 02E0     		b	.L36
+ 303              	.L53:
+ 304 0222 00BF     		nop
+ 305 0224 00E0     		b	.L36
+ 306              	.L54:
+ 307 0226 00BF     		nop
+ 308              	.L36:
+ 309 0228 71E0     		b	.L31
+ 310              	.L22:
+ 311 022a 019B     		ldr	r3, [sp, #4]
+ 312 022c 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 313 0230 022B     		cmp	r3, #2
+ 314 0232 02D0     		beq	.L40
+ 315 0234 032B     		cmp	r3, #3
+ 316 0236 0FD0     		beq	.L41
+ 317 0238 61E0     		b	.L51
+ 318              	.L40:
+ 319 023a 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 320 023e 002B     		cmp	r3, #0
+ 321 0240 62D0     		beq	.L55
+ 322 0242 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 323 0246 802B     		cmp	r3, #128
+ 324 0248 5ED0     		beq	.L55
+ 325 024a 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 326 024e 0198     		ldr	r0, [sp, #4]
+ 327 0250 1946     		mov	r1, r3
+ 328 0252 FFF7FEFF 		bl	DCD_EP_Stall
+ 329 0256 57E0     		b	.L55
+ 330              	.L41:
+ 331 0258 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 332 025c 5BB2     		sxtb	r3, r3
+ 333 025e 002B     		cmp	r3, #0
+ 334 0260 20DA     		bge	.L44
+ 335 0262 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 336 0266 03F07F02 		and	r2, r3, #127
+ 337 026a 0199     		ldr	r1, [sp, #4]
+ 338 026c 1346     		mov	r3, r2
+ 339 026e 4FEA8303 		lsl	r3, r3, #2
+ 340 0272 9B18     		adds	r3, r3, r2
+ 341 0274 4FEAC303 		lsl	r3, r3, #3
+ 342 0278 CB18     		adds	r3, r1, r3
+ 343 027a 03F58C73 		add	r3, r3, #280
+ 344 027e 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 345 0280 002B     		cmp	r3, #0
+ 346 0282 07D0     		beq	.L45
+ 347 0284 40F20003 		movw	r3, #:lower16:USBD_ep_status
+ 348 0288 C0F20003 		movt	r3, #:upper16:USBD_ep_status
+ 349 028c 4FF00102 		mov	r2, #1
+ 350 0290 1A60     		str	r2, [r3, #0]
+ 351 0292 2AE0     		b	.L46
+ 352              	.L45:
+ 353 0294 40F20003 		movw	r3, #:lower16:USBD_ep_status
+ 354 0298 C0F20003 		movt	r3, #:upper16:USBD_ep_status
+ 355 029c 4FF00002 		mov	r2, #0
+ 356 02a0 1A60     		str	r2, [r3, #0]
+ 357 02a2 22E0     		b	.L46
+ 358              	.L44:
+ 359 02a4 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 360 02a8 5BB2     		sxtb	r3, r3
+ 361 02aa 002B     		cmp	r3, #0
+ 362 02ac 1DDB     		blt	.L46
+ 363 02ae 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
+ 364 02b2 0199     		ldr	r1, [sp, #4]
+ 365 02b4 1346     		mov	r3, r2
+ 366 02b6 4FEA8303 		lsl	r3, r3, #2
+ 367 02ba 9B18     		adds	r3, r3, r2
+ 368 02bc 4FEAC303 		lsl	r3, r3, #3
+ 369 02c0 CB18     		adds	r3, r1, r3
+ 370 02c2 03F55C73 		add	r3, r3, #880
+ 371 02c6 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 372 02c8 002B     		cmp	r3, #0
+ 373 02ca 07D0     		beq	.L47
+ 374 02cc 40F20003 		movw	r3, #:lower16:USBD_ep_status
+ 375 02d0 C0F20003 		movt	r3, #:upper16:USBD_ep_status
+ 376 02d4 4FF00102 		mov	r2, #1
+ 377 02d8 1A60     		str	r2, [r3, #0]
+ 378 02da 06E0     		b	.L46
+ 379              	.L47:
+ 380 02dc 40F20003 		movw	r3, #:lower16:USBD_ep_status
+ 381 02e0 C0F20003 		movt	r3, #:upper16:USBD_ep_status
+ 382 02e4 4FF00002 		mov	r2, #0
+ 383 02e8 1A60     		str	r2, [r3, #0]
+ 384              	.L46:
+ 385 02ea 0198     		ldr	r0, [sp, #4]
+ 386 02ec 40F20001 		movw	r1, #:lower16:USBD_ep_status
+ 387 02f0 C0F20001 		movt	r1, #:upper16:USBD_ep_status
+ 388 02f4 4FF00202 		mov	r2, #2
+ 389 02f8 FFF7FEFF 		bl	USBD_CtlSendData
+ 390 02fc 05E0     		b	.L43
+ 391              	.L51:
+ 392 02fe 0198     		ldr	r0, [sp, #4]
+ 393 0300 0099     		ldr	r1, [sp, #0]
+ 394 0302 FFF7FEFF 		bl	USBD_CtlError
+ 395 0306 00E0     		b	.L43
+ 396              	.L55:
+ 397 0308 00BF     		nop
+ 398              	.L43:
+ 399 030a 00E0     		b	.L31
+ 400              	.L48:
+ 401 030c 00BF     		nop
+ 402              	.L31:
+ 403 030e 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 404 0312 1846     		mov	r0, r3
+ 405 0314 05B0     		add	sp, sp, #20
+ 406 0316 00BD     		pop	{pc}
+ 408              		.align	2
+ 409              		.thumb
+ 410              		.thumb_func
+ 412              	USBD_GetDescriptor:
+ 413              		@ args = 0, pretend = 0, frame = 16
+ 414              		@ frame_needed = 0, uses_anonymous_args = 0
+ 415 0318 00B5     		push	{lr}
+ 416 031a 85B0     		sub	sp, sp, #20
+ 417 031c 0190     		str	r0, [sp, #4]
+ 418 031e 0091     		str	r1, [sp, #0]
+ 419 0320 009B     		ldr	r3, [sp, #0]
+ 420 0322 5B88     		ldrh	r3, [r3, #2]
+ 421 0324 4FEA1323 		lsr	r3, r3, #8
+ 422 0328 9BB2     		uxth	r3, r3
+ 423 032a 03F1FF33 		add	r3, r3, #-1
+ 424 032e 062B     		cmp	r3, #6
+ 425 0330 00F2B680 		bhi	.L57
+ 426 0334 01A2     		adr	r2, .L63
+ 427 0336 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 428 033a 00BF     		.align	2
+ 429              	.L63:
+ 430 033c 59030000 		.word	.L58+1
+ 431 0340 8F030000 		.word	.L59+1
+ 432 0344 BD030000 		.word	.L60+1
+ 433 0348 A1040000 		.word	.L57+1
+ 434 034c A1040000 		.word	.L57+1
+ 435 0350 8D040000 		.word	.L61+1
+ 436 0354 97040000 		.word	.L62+1
+ 437              	.L58:
+ 438 0358 019B     		ldr	r3, [sp, #4]
+ 439 035a D3F8E835 		ldr	r3, [r3, #1512]
+ 440 035e 1B68     		ldr	r3, [r3, #0]
+ 441 0360 019A     		ldr	r2, [sp, #4]
+ 442 0362 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 443 0364 1046     		mov	r0, r2
+ 444 0366 0DF10A02 		add	r2, sp, #10
+ 445 036a 1146     		mov	r1, r2
+ 446 036c 9847     		blx	r3
+ 447 036e 0390     		str	r0, [sp, #12]
+ 448 0370 009B     		ldr	r3, [sp, #0]
+ 449 0372 DB88     		ldrh	r3, [r3, #6]
+ 450 0374 402B     		cmp	r3, #64
+ 451 0376 05D0     		beq	.L64
+ 452 0378 019B     		ldr	r3, [sp, #4]
+ 453 037a 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 454 037e 012B     		cmp	r3, #1
+ 455 0380 40F09380 		bne	.L77
+ 456              	.L64:
+ 457 0384 4FF00803 		mov	r3, #8
+ 458 0388 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 459 038c 8DE0     		b	.L77
+ 460              	.L59:
+ 461 038e 019B     		ldr	r3, [sp, #4]
+ 462 0390 D3F8E035 		ldr	r3, [r3, #1504]
+ 463 0394 9B6A     		ldr	r3, [r3, #40]
+ 464 0396 019A     		ldr	r2, [sp, #4]
+ 465 0398 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 466 039a 1046     		mov	r0, r2
+ 467 039c 0DF10A02 		add	r2, sp, #10
+ 468 03a0 1146     		mov	r1, r2
+ 469 03a2 9847     		blx	r3
+ 470 03a4 0390     		str	r0, [sp, #12]
+ 471 03a6 039B     		ldr	r3, [sp, #12]
+ 472 03a8 03F10103 		add	r3, r3, #1
+ 473 03ac 4FF00202 		mov	r2, #2
+ 474 03b0 1A70     		strb	r2, [r3, #0]
+ 475 03b2 019B     		ldr	r3, [sp, #4]
+ 476 03b4 039A     		ldr	r2, [sp, #12]
+ 477 03b6 C3F8EC25 		str	r2, [r3, #1516]
+ 478 03ba 77E0     		b	.L66
+ 479              	.L60:
+ 480 03bc 009B     		ldr	r3, [sp, #0]
+ 481 03be 5B88     		ldrh	r3, [r3, #2]
+ 482 03c0 DBB2     		uxtb	r3, r3
+ 483 03c2 052B     		cmp	r3, #5
+ 484 03c4 5CD8     		bhi	.L67
+ 485 03c6 01A2     		adr	r2, .L74
+ 486 03c8 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 487              		.align	2
+ 488              	.L74:
+ 489 03cc E5030000 		.word	.L68+1
+ 490 03d0 FF030000 		.word	.L69+1
+ 491 03d4 19040000 		.word	.L70+1
+ 492 03d8 33040000 		.word	.L71+1
+ 493 03dc 4D040000 		.word	.L72+1
+ 494 03e0 67040000 		.word	.L73+1
+ 495              	.L68:
+ 496 03e4 019B     		ldr	r3, [sp, #4]
+ 497 03e6 D3F8E835 		ldr	r3, [r3, #1512]
+ 498 03ea 5B68     		ldr	r3, [r3, #4]
+ 499 03ec 019A     		ldr	r2, [sp, #4]
+ 500 03ee 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 501 03f0 1046     		mov	r0, r2
+ 502 03f2 0DF10A02 		add	r2, sp, #10
+ 503 03f6 1146     		mov	r1, r2
+ 504 03f8 9847     		blx	r3
+ 505 03fa 0390     		str	r0, [sp, #12]
+ 506 03fc 45E0     		b	.L75
+ 507              	.L69:
+ 508 03fe 019B     		ldr	r3, [sp, #4]
+ 509 0400 D3F8E835 		ldr	r3, [r3, #1512]
+ 510 0404 9B68     		ldr	r3, [r3, #8]
+ 511 0406 019A     		ldr	r2, [sp, #4]
+ 512 0408 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 513 040a 1046     		mov	r0, r2
+ 514 040c 0DF10A02 		add	r2, sp, #10
+ 515 0410 1146     		mov	r1, r2
+ 516 0412 9847     		blx	r3
+ 517 0414 0390     		str	r0, [sp, #12]
+ 518 0416 38E0     		b	.L75
+ 519              	.L70:
+ 520 0418 019B     		ldr	r3, [sp, #4]
+ 521 041a D3F8E835 		ldr	r3, [r3, #1512]
+ 522 041e DB68     		ldr	r3, [r3, #12]
+ 523 0420 019A     		ldr	r2, [sp, #4]
+ 524 0422 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 525 0424 1046     		mov	r0, r2
+ 526 0426 0DF10A02 		add	r2, sp, #10
+ 527 042a 1146     		mov	r1, r2
+ 528 042c 9847     		blx	r3
+ 529 042e 0390     		str	r0, [sp, #12]
+ 530 0430 2BE0     		b	.L75
+ 531              	.L71:
+ 532 0432 019B     		ldr	r3, [sp, #4]
+ 533 0434 D3F8E835 		ldr	r3, [r3, #1512]
+ 534 0438 1B69     		ldr	r3, [r3, #16]
+ 535 043a 019A     		ldr	r2, [sp, #4]
+ 536 043c 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 537 043e 1046     		mov	r0, r2
+ 538 0440 0DF10A02 		add	r2, sp, #10
+ 539 0444 1146     		mov	r1, r2
+ 540 0446 9847     		blx	r3
+ 541 0448 0390     		str	r0, [sp, #12]
+ 542 044a 1EE0     		b	.L75
+ 543              	.L72:
+ 544 044c 019B     		ldr	r3, [sp, #4]
+ 545 044e D3F8E835 		ldr	r3, [r3, #1512]
+ 546 0452 5B69     		ldr	r3, [r3, #20]
+ 547 0454 019A     		ldr	r2, [sp, #4]
+ 548 0456 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 549 0458 1046     		mov	r0, r2
+ 550 045a 0DF10A02 		add	r2, sp, #10
+ 551 045e 1146     		mov	r1, r2
+ 552 0460 9847     		blx	r3
+ 553 0462 0390     		str	r0, [sp, #12]
+ 554 0464 11E0     		b	.L75
+ 555              	.L73:
+ 556 0466 019B     		ldr	r3, [sp, #4]
+ 557 0468 D3F8E835 		ldr	r3, [r3, #1512]
+ 558 046c 9B69     		ldr	r3, [r3, #24]
+ 559 046e 019A     		ldr	r2, [sp, #4]
+ 560 0470 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 561 0472 1046     		mov	r0, r2
+ 562 0474 0DF10A02 		add	r2, sp, #10
+ 563 0478 1146     		mov	r1, r2
+ 564 047a 9847     		blx	r3
+ 565 047c 0390     		str	r0, [sp, #12]
+ 566 047e 04E0     		b	.L75
+ 567              	.L67:
+ 568 0480 0198     		ldr	r0, [sp, #4]
+ 569 0482 0099     		ldr	r1, [sp, #0]
+ 570 0484 FFF7FEFF 		bl	USBD_CtlError
+ 571 0488 29E0     		b	.L56
+ 572              	.L75:
+ 573 048a 0FE0     		b	.L66
+ 574              	.L61:
+ 575 048c 0198     		ldr	r0, [sp, #4]
+ 576 048e 0099     		ldr	r1, [sp, #0]
+ 577 0490 FFF7FEFF 		bl	USBD_CtlError
+ 578 0494 23E0     		b	.L56
+ 579              	.L62:
+ 580 0496 0198     		ldr	r0, [sp, #4]
+ 581 0498 0099     		ldr	r1, [sp, #0]
+ 582 049a FFF7FEFF 		bl	USBD_CtlError
+ 583 049e 1EE0     		b	.L56
+ 584              	.L57:
+ 585 04a0 0198     		ldr	r0, [sp, #4]
+ 586 04a2 0099     		ldr	r1, [sp, #0]
+ 587 04a4 FFF7FEFF 		bl	USBD_CtlError
+ 588 04a8 19E0     		b	.L56
+ 589              	.L77:
+ 590 04aa 00BF     		nop
+ 591              	.L66:
+ 592 04ac BDF80A30 		ldrh	r3, [sp, #10]
+ 593 04b0 002B     		cmp	r3, #0
+ 594 04b2 14D0     		beq	.L56
+ 595 04b4 009B     		ldr	r3, [sp, #0]
+ 596 04b6 DB88     		ldrh	r3, [r3, #6]
+ 597 04b8 002B     		cmp	r3, #0
+ 598 04ba 10D0     		beq	.L56
+ 599 04bc 009B     		ldr	r3, [sp, #0]
+ 600 04be DA88     		ldrh	r2, [r3, #6]
+ 601 04c0 BDF80A30 		ldrh	r3, [sp, #10]
+ 602 04c4 9A42     		cmp	r2, r3
+ 603 04c6 38BF     		it	cc
+ 604 04c8 1346     		movcc	r3, r2
+ 605 04ca 9BB2     		uxth	r3, r3
+ 606 04cc ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 607 04d0 BDF80A30 		ldrh	r3, [sp, #10]
+ 608 04d4 0198     		ldr	r0, [sp, #4]
+ 609 04d6 0399     		ldr	r1, [sp, #12]
+ 610 04d8 1A46     		mov	r2, r3
+ 611 04da FFF7FEFF 		bl	USBD_CtlSendData
+ 612              	.L56:
+ 613 04de 05B0     		add	sp, sp, #20
+ 614 04e0 00BD     		pop	{pc}
+ 616 04e2 00BF     		.align	2
+ 617              		.thumb
+ 618              		.thumb_func
+ 620              	USBD_SetAddress:
+ 621              		@ args = 0, pretend = 0, frame = 16
+ 622              		@ frame_needed = 0, uses_anonymous_args = 0
+ 623 04e4 00B5     		push	{lr}
+ 624 04e6 85B0     		sub	sp, sp, #20
+ 625 04e8 0190     		str	r0, [sp, #4]
+ 626 04ea 0091     		str	r1, [sp, #0]
+ 627 04ec 009B     		ldr	r3, [sp, #0]
+ 628 04ee 9B88     		ldrh	r3, [r3, #4]
+ 629 04f0 002B     		cmp	r3, #0
+ 630 04f2 32D1     		bne	.L79
+ 631 04f4 009B     		ldr	r3, [sp, #0]
+ 632 04f6 DB88     		ldrh	r3, [r3, #6]
+ 633 04f8 002B     		cmp	r3, #0
+ 634 04fa 2ED1     		bne	.L79
+ 635 04fc 009B     		ldr	r3, [sp, #0]
+ 636 04fe 5B88     		ldrh	r3, [r3, #2]
+ 637 0500 DBB2     		uxtb	r3, r3
+ 638 0502 03F07F03 		and	r3, r3, #127
+ 639 0506 8DF80F30 		strb	r3, [sp, #15]
+ 640 050a 019B     		ldr	r3, [sp, #4]
+ 641 050c 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 642 0510 032B     		cmp	r3, #3
+ 643 0512 04D1     		bne	.L80
+ 644 0514 0198     		ldr	r0, [sp, #4]
+ 645 0516 0099     		ldr	r1, [sp, #0]
+ 646 0518 FFF7FEFF 		bl	USBD_CtlError
+ 647 051c 21E0     		b	.L78
+ 648              	.L80:
+ 649 051e 019B     		ldr	r3, [sp, #4]
+ 650 0520 9DF80F20 		ldrb	r2, [sp, #15]
+ 651 0524 83F81321 		strb	r2, [r3, #275]
+ 652 0528 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 653 052c 0198     		ldr	r0, [sp, #4]
+ 654 052e 1946     		mov	r1, r3
+ 655 0530 FFF7FEFF 		bl	DCD_EP_SetAddress
+ 656 0534 0198     		ldr	r0, [sp, #4]
+ 657 0536 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 658 053a 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 659 053e 002B     		cmp	r3, #0
+ 660 0540 05D0     		beq	.L82
+ 661 0542 019B     		ldr	r3, [sp, #4]
+ 662 0544 4FF00202 		mov	r2, #2
+ 663 0548 83F81221 		strb	r2, [r3, #274]
+ 664 054c 09E0     		b	.L78
+ 665              	.L82:
+ 666 054e 019B     		ldr	r3, [sp, #4]
+ 667 0550 4FF00102 		mov	r2, #1
+ 668 0554 83F81221 		strb	r2, [r3, #274]
+ 669 0558 03E0     		b	.L78
+ 670              	.L79:
+ 671 055a 0198     		ldr	r0, [sp, #4]
+ 672 055c 0099     		ldr	r1, [sp, #0]
+ 673 055e FFF7FEFF 		bl	USBD_CtlError
+ 674              	.L78:
+ 675 0562 05B0     		add	sp, sp, #20
+ 676 0564 00BD     		pop	{pc}
+ 678 0566 00BF     		.align	2
+ 679              		.thumb
+ 680              		.thumb_func
+ 682              	USBD_SetConfig:
+ 683              		@ args = 0, pretend = 0, frame = 8
+ 684              		@ frame_needed = 0, uses_anonymous_args = 0
+ 685 0568 00B5     		push	{lr}
+ 686 056a 83B0     		sub	sp, sp, #12
+ 687 056c 0190     		str	r0, [sp, #4]
+ 688 056e 0091     		str	r1, [sp, #0]
+ 689 0570 009B     		ldr	r3, [sp, #0]
+ 690 0572 5B88     		ldrh	r3, [r3, #2]
+ 691 0574 DAB2     		uxtb	r2, r3
+ 692 0576 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 693 057a C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 694 057e 1A70     		strb	r2, [r3, #0]
+ 695 0580 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 696 0584 C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 697 0588 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 698 058a 012B     		cmp	r3, #1
+ 699 058c 04D9     		bls	.L85
+ 700 058e 0198     		ldr	r0, [sp, #4]
+ 701 0590 0099     		ldr	r1, [sp, #0]
+ 702 0592 FFF7FEFF 		bl	USBD_CtlError
+ 703 0596 7CE0     		b	.L84
+ 704              	.L85:
+ 705 0598 019B     		ldr	r3, [sp, #4]
+ 706 059a 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 707 059e 022B     		cmp	r3, #2
+ 708 05a0 02D0     		beq	.L88
+ 709 05a2 032B     		cmp	r3, #3
+ 710 05a4 25D0     		beq	.L89
+ 711 05a6 6FE0     		b	.L95
+ 712              	.L88:
+ 713 05a8 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 714 05ac C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 715 05b0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 716 05b2 002B     		cmp	r3, #0
+ 717 05b4 19D0     		beq	.L90
+ 718 05b6 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 719 05ba C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 720 05be 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+ 721 05c0 019B     		ldr	r3, [sp, #4]
+ 722 05c2 83F81021 		strb	r2, [r3, #272]
+ 723 05c6 019B     		ldr	r3, [sp, #4]
+ 724 05c8 4FF00302 		mov	r2, #3
+ 725 05cc 83F81221 		strb	r2, [r3, #274]
+ 726 05d0 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 727 05d4 C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 728 05d8 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 729 05da 0198     		ldr	r0, [sp, #4]
+ 730 05dc 1946     		mov	r1, r3
+ 731 05de FFF7FEFF 		bl	USBD_SetCfg
+ 732 05e2 0198     		ldr	r0, [sp, #4]
+ 733 05e4 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 734 05e8 53E0     		b	.L84
+ 735              	.L90:
+ 736 05ea 0198     		ldr	r0, [sp, #4]
+ 737 05ec FFF7FEFF 		bl	USBD_CtlSendStatus
+ 738 05f0 4FE0     		b	.L84
+ 739              	.L89:
+ 740 05f2 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 741 05f6 C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 742 05fa 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 743 05fc 002B     		cmp	r3, #0
+ 744 05fe 19D1     		bne	.L92
+ 745 0600 019B     		ldr	r3, [sp, #4]
+ 746 0602 4FF00202 		mov	r2, #2
+ 747 0606 83F81221 		strb	r2, [r3, #274]
+ 748 060a 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 749 060e C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 750 0612 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+ 751 0614 019B     		ldr	r3, [sp, #4]
+ 752 0616 83F81021 		strb	r2, [r3, #272]
+ 753 061a 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 754 061e C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 755 0622 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 756 0624 0198     		ldr	r0, [sp, #4]
+ 757 0626 1946     		mov	r1, r3
+ 758 0628 FFF7FEFF 		bl	USBD_ClrCfg
+ 759 062c 0198     		ldr	r0, [sp, #4]
+ 760 062e FFF7FEFF 		bl	USBD_CtlSendStatus
+ 761 0632 2EE0     		b	.L84
+ 762              	.L92:
+ 763 0634 019B     		ldr	r3, [sp, #4]
+ 764 0636 93F81021 		ldrb	r2, [r3, #272]	@ zero_extendqisi2
+ 765 063a 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 766 063e C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 767 0642 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 768 0644 9A42     		cmp	r2, r3
+ 769 0646 1BD0     		beq	.L94
+ 770 0648 019B     		ldr	r3, [sp, #4]
+ 771 064a 93F81031 		ldrb	r3, [r3, #272]	@ zero_extendqisi2
+ 772 064e 0198     		ldr	r0, [sp, #4]
+ 773 0650 1946     		mov	r1, r3
+ 774 0652 FFF7FEFF 		bl	USBD_ClrCfg
+ 775 0656 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 776 065a C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 777 065e 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+ 778 0660 019B     		ldr	r3, [sp, #4]
+ 779 0662 83F81021 		strb	r2, [r3, #272]
+ 780 0666 40F20003 		movw	r3, #:lower16:cfgidx.8314
+ 781 066a C0F20003 		movt	r3, #:upper16:cfgidx.8314
+ 782 066e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 783 0670 0198     		ldr	r0, [sp, #4]
+ 784 0672 1946     		mov	r1, r3
+ 785 0674 FFF7FEFF 		bl	USBD_SetCfg
+ 786 0678 0198     		ldr	r0, [sp, #4]
+ 787 067a FFF7FEFF 		bl	USBD_CtlSendStatus
+ 788 067e 08E0     		b	.L84
+ 789              	.L94:
+ 790 0680 0198     		ldr	r0, [sp, #4]
+ 791 0682 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 792 0686 04E0     		b	.L84
+ 793              	.L95:
+ 794 0688 0198     		ldr	r0, [sp, #4]
+ 795 068a 0099     		ldr	r1, [sp, #0]
+ 796 068c FFF7FEFF 		bl	USBD_CtlError
+ 797 0690 00BF     		nop
+ 798              	.L84:
+ 799 0692 03B0     		add	sp, sp, #12
+ 800 0694 00BD     		pop	{pc}
+ 802 0696 00BF     		.align	2
+ 803              		.thumb
+ 804              		.thumb_func
+ 806              	USBD_GetConfig:
+ 807              		@ args = 0, pretend = 0, frame = 8
+ 808              		@ frame_needed = 0, uses_anonymous_args = 0
+ 809 0698 00B5     		push	{lr}
+ 810 069a 83B0     		sub	sp, sp, #12
+ 811 069c 0190     		str	r0, [sp, #4]
+ 812 069e 0091     		str	r1, [sp, #0]
+ 813 06a0 009B     		ldr	r3, [sp, #0]
+ 814 06a2 DB88     		ldrh	r3, [r3, #6]
+ 815 06a4 012B     		cmp	r3, #1
+ 816 06a6 04D0     		beq	.L97
+ 817 06a8 0198     		ldr	r0, [sp, #4]
+ 818 06aa 0099     		ldr	r1, [sp, #0]
+ 819 06ac FFF7FEFF 		bl	USBD_CtlError
+ 820 06b0 20E0     		b	.L96
+ 821              	.L97:
+ 822 06b2 019B     		ldr	r3, [sp, #4]
+ 823 06b4 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 824 06b8 022B     		cmp	r3, #2
+ 825 06ba 02D0     		beq	.L100
+ 826 06bc 032B     		cmp	r3, #3
+ 827 06be 0AD0     		beq	.L101
+ 828 06c0 13E0     		b	.L102
+ 829              	.L100:
+ 830 06c2 0198     		ldr	r0, [sp, #4]
+ 831 06c4 40F20001 		movw	r1, #:lower16:USBD_default_cfg
+ 832 06c8 C0F20001 		movt	r1, #:upper16:USBD_default_cfg
+ 833 06cc 4FF00102 		mov	r2, #1
+ 834 06d0 FFF7FEFF 		bl	USBD_CtlSendData
+ 835 06d4 0EE0     		b	.L96
+ 836              	.L101:
+ 837 06d6 019B     		ldr	r3, [sp, #4]
+ 838 06d8 03F58873 		add	r3, r3, #272
+ 839 06dc 0198     		ldr	r0, [sp, #4]
+ 840 06de 1946     		mov	r1, r3
+ 841 06e0 4FF00102 		mov	r2, #1
+ 842 06e4 FFF7FEFF 		bl	USBD_CtlSendData
+ 843 06e8 04E0     		b	.L96
+ 844              	.L102:
+ 845 06ea 0198     		ldr	r0, [sp, #4]
+ 846 06ec 0099     		ldr	r1, [sp, #0]
+ 847 06ee FFF7FEFF 		bl	USBD_CtlError
+ 848 06f2 00BF     		nop
+ 849              	.L96:
+ 850 06f4 03B0     		add	sp, sp, #12
+ 851 06f6 00BD     		pop	{pc}
+ 853              		.align	2
+ 854              		.thumb
+ 855              		.thumb_func
+ 857              	USBD_GetStatus:
+ 858              		@ args = 0, pretend = 0, frame = 8
+ 859              		@ frame_needed = 0, uses_anonymous_args = 0
+ 860 06f8 00B5     		push	{lr}
+ 861 06fa 83B0     		sub	sp, sp, #12
+ 862 06fc 0190     		str	r0, [sp, #4]
+ 863 06fe 0091     		str	r1, [sp, #0]
+ 864 0700 019B     		ldr	r3, [sp, #4]
+ 865 0702 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 866 0706 A3F10203 		sub	r3, r3, #2
+ 867 070a 012B     		cmp	r3, #1
+ 868 070c 1DD8     		bhi	.L104
+ 869 070e 019B     		ldr	r3, [sp, #4]
+ 870 0710 D3F81431 		ldr	r3, [r3, #276]
+ 871 0714 002B     		cmp	r3, #0
+ 872 0716 07D0     		beq	.L106
+ 873 0718 40F20003 		movw	r3, #:lower16:USBD_cfg_status
+ 874 071c C0F20003 		movt	r3, #:upper16:USBD_cfg_status
+ 875 0720 4FF00302 		mov	r2, #3
+ 876 0724 1A60     		str	r2, [r3, #0]
+ 877 0726 06E0     		b	.L107
+ 878              	.L106:
+ 879 0728 40F20003 		movw	r3, #:lower16:USBD_cfg_status
+ 880 072c C0F20003 		movt	r3, #:upper16:USBD_cfg_status
+ 881 0730 4FF00102 		mov	r2, #1
+ 882 0734 1A60     		str	r2, [r3, #0]
+ 883              	.L107:
+ 884 0736 0198     		ldr	r0, [sp, #4]
+ 885 0738 40F20001 		movw	r1, #:lower16:USBD_cfg_status
+ 886 073c C0F20001 		movt	r1, #:upper16:USBD_cfg_status
+ 887 0740 4FF00102 		mov	r2, #1
+ 888 0744 FFF7FEFF 		bl	USBD_CtlSendData
+ 889 0748 04E0     		b	.L103
+ 890              	.L104:
+ 891 074a 0198     		ldr	r0, [sp, #4]
+ 892 074c 0099     		ldr	r1, [sp, #0]
+ 893 074e FFF7FEFF 		bl	USBD_CtlError
+ 894 0752 00BF     		nop
+ 895              	.L103:
+ 896 0754 03B0     		add	sp, sp, #12
+ 897 0756 00BD     		pop	{pc}
+ 899              		.align	2
+ 900              		.thumb
+ 901              		.thumb_func
+ 903              	USBD_SetFeature:
+ 904              		@ args = 0, pretend = 0, frame = 16
+ 905              		@ frame_needed = 0, uses_anonymous_args = 0
+ 906 0758 00B5     		push	{lr}
+ 907 075a 85B0     		sub	sp, sp, #20
+ 908 075c 0190     		str	r0, [sp, #4]
+ 909 075e 0091     		str	r1, [sp, #0]
+ 910 0760 4FF00003 		mov	r3, #0
+ 911 0764 8DF80F30 		strb	r3, [sp, #15]
+ 912 0768 009B     		ldr	r3, [sp, #0]
+ 913 076a 5B88     		ldrh	r3, [r3, #2]
+ 914 076c 012B     		cmp	r3, #1
+ 915 076e 0FD1     		bne	.L110
+ 916 0770 019B     		ldr	r3, [sp, #4]
+ 917 0772 4FF00102 		mov	r2, #1
+ 918 0776 C3F81421 		str	r2, [r3, #276]
+ 919 077a 019B     		ldr	r3, [sp, #4]
+ 920 077c D3F8E035 		ldr	r3, [r3, #1504]
+ 921 0780 9B68     		ldr	r3, [r3, #8]
+ 922 0782 0198     		ldr	r0, [sp, #4]
+ 923 0784 0099     		ldr	r1, [sp, #0]
+ 924 0786 9847     		blx	r3
+ 925 0788 0198     		ldr	r0, [sp, #4]
+ 926 078a FFF7FEFF 		bl	USBD_CtlSendStatus
+ 927 078e 51E0     		b	.L109
+ 928              	.L110:
+ 929 0790 009B     		ldr	r3, [sp, #0]
+ 930 0792 5B88     		ldrh	r3, [r3, #2]
+ 931 0794 022B     		cmp	r3, #2
+ 932 0796 4DD1     		bne	.L109
+ 933 0798 009B     		ldr	r3, [sp, #0]
+ 934 079a 9B88     		ldrh	r3, [r3, #4]
+ 935 079c DBB2     		uxtb	r3, r3
+ 936 079e 002B     		cmp	r3, #0
+ 937 07a0 48D1     		bne	.L109
+ 938 07a2 019B     		ldr	r3, [sp, #4]
+ 939 07a4 1B69     		ldr	r3, [r3, #16]
+ 940 07a6 5B68     		ldr	r3, [r3, #4]
+ 941 07a8 0293     		str	r3, [sp, #8]
+ 942 07aa 009B     		ldr	r3, [sp, #0]
+ 943 07ac 9B88     		ldrh	r3, [r3, #4]
+ 944 07ae 4FEA1323 		lsr	r3, r3, #8
+ 945 07b2 9BB2     		uxth	r3, r3
+ 946 07b4 8DF80F30 		strb	r3, [sp, #15]
+ 947 07b8 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 948 07bc 03F1FF33 		add	r3, r3, #-1
+ 949 07c0 042B     		cmp	r3, #4
+ 950 07c2 30D8     		bhi	.L112
+ 951 07c4 01A2     		adr	r2, .L118
+ 952 07c6 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 953 07ca 00BF     		.align	2
+ 954              	.L118:
+ 955 07cc E1070000 		.word	.L113+1
+ 956 07d0 EF070000 		.word	.L114+1
+ 957 07d4 FD070000 		.word	.L115+1
+ 958 07d8 0B080000 		.word	.L116+1
+ 959 07dc 19080000 		.word	.L117+1
+ 960              	.L113:
+ 961 07e0 029B     		ldr	r3, [sp, #8]
+ 962 07e2 4FF00102 		mov	r2, #1
+ 963 07e6 62F30613 		bfi	r3, r2, #4, #3
+ 964 07ea 0293     		str	r3, [sp, #8]
+ 965 07ec 1BE0     		b	.L112
+ 966              	.L114:
+ 967 07ee 029B     		ldr	r3, [sp, #8]
+ 968 07f0 4FF00202 		mov	r2, #2
+ 969 07f4 62F30613 		bfi	r3, r2, #4, #3
+ 970 07f8 0293     		str	r3, [sp, #8]
+ 971 07fa 14E0     		b	.L112
+ 972              	.L115:
+ 973 07fc 029B     		ldr	r3, [sp, #8]
+ 974 07fe 4FF00302 		mov	r2, #3
+ 975 0802 62F30613 		bfi	r3, r2, #4, #3
+ 976 0806 0293     		str	r3, [sp, #8]
+ 977 0808 0DE0     		b	.L112
+ 978              	.L116:
+ 979 080a 029B     		ldr	r3, [sp, #8]
+ 980 080c 4FF00402 		mov	r2, #4
+ 981 0810 62F30613 		bfi	r3, r2, #4, #3
+ 982 0814 0293     		str	r3, [sp, #8]
+ 983 0816 06E0     		b	.L112
+ 984              	.L117:
+ 985 0818 029B     		ldr	r3, [sp, #8]
+ 986 081a 4FF00502 		mov	r2, #5
+ 987 081e 62F30613 		bfi	r3, r2, #4, #3
+ 988 0822 0293     		str	r3, [sp, #8]
+ 989 0824 00BF     		nop
+ 990              	.L112:
+ 991 0826 019B     		ldr	r3, [sp, #4]
+ 992 0828 1B69     		ldr	r3, [r3, #16]
+ 993 082a 029A     		ldr	r2, [sp, #8]
+ 994 082c 5A60     		str	r2, [r3, #4]
+ 995 082e 0198     		ldr	r0, [sp, #4]
+ 996 0830 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 997              	.L109:
+ 998 0834 05B0     		add	sp, sp, #20
+ 999 0836 00BD     		pop	{pc}
+ 1001              		.align	2
+ 1002              		.thumb
+ 1003              		.thumb_func
+ 1005              	USBD_ClrFeature:
+ 1006              		@ args = 0, pretend = 0, frame = 8
+ 1007              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1008 0838 00B5     		push	{lr}
+ 1009 083a 83B0     		sub	sp, sp, #12
+ 1010 083c 0190     		str	r0, [sp, #4]
+ 1011 083e 0091     		str	r1, [sp, #0]
+ 1012 0840 019B     		ldr	r3, [sp, #4]
+ 1013 0842 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 1014 0846 A3F10203 		sub	r3, r3, #2
+ 1015 084a 012B     		cmp	r3, #1
+ 1016 084c 13D8     		bhi	.L120
+ 1017 084e 009B     		ldr	r3, [sp, #0]
+ 1018 0850 5B88     		ldrh	r3, [r3, #2]
+ 1019 0852 012B     		cmp	r3, #1
+ 1020 0854 15D1     		bne	.L124
+ 1021 0856 019B     		ldr	r3, [sp, #4]
+ 1022 0858 4FF00002 		mov	r2, #0
+ 1023 085c C3F81421 		str	r2, [r3, #276]
+ 1024 0860 019B     		ldr	r3, [sp, #4]
+ 1025 0862 D3F8E035 		ldr	r3, [r3, #1504]
+ 1026 0866 9B68     		ldr	r3, [r3, #8]
+ 1027 0868 0198     		ldr	r0, [sp, #4]
+ 1028 086a 0099     		ldr	r1, [sp, #0]
+ 1029 086c 9847     		blx	r3
+ 1030 086e 0198     		ldr	r0, [sp, #4]
+ 1031 0870 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 1032 0874 05E0     		b	.L124
+ 1033              	.L120:
+ 1034 0876 0198     		ldr	r0, [sp, #4]
+ 1035 0878 0099     		ldr	r1, [sp, #0]
+ 1036 087a FFF7FEFF 		bl	USBD_CtlError
+ 1037 087e 00BF     		nop
+ 1038 0880 00E0     		b	.L119
+ 1039              	.L124:
+ 1040 0882 00BF     		nop
+ 1041              	.L119:
+ 1042 0884 03B0     		add	sp, sp, #12
+ 1043 0886 00BD     		pop	{pc}
+ 1045              		.align	2
+ 1046              		.global	USBD_ParseSetupRequest
+ 1047              		.thumb
+ 1048              		.thumb_func
+ 1050              	USBD_ParseSetupRequest:
+ 1051              		@ args = 0, pretend = 0, frame = 8
+ 1052              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1053              		@ link register save eliminated.
+ 1054 0888 82B0     		sub	sp, sp, #8
+ 1055 088a 0190     		str	r0, [sp, #4]
+ 1056 088c 0091     		str	r1, [sp, #0]
+ 1057 088e 019B     		ldr	r3, [sp, #4]
+ 1058 0890 93F8C825 		ldrb	r2, [r3, #1480]	@ zero_extendqisi2
+ 1059 0894 009B     		ldr	r3, [sp, #0]
+ 1060 0896 1A70     		strb	r2, [r3, #0]
+ 1061 0898 019B     		ldr	r3, [sp, #4]
+ 1062 089a 93F8C925 		ldrb	r2, [r3, #1481]	@ zero_extendqisi2
+ 1063 089e 009B     		ldr	r3, [sp, #0]
+ 1064 08a0 5A70     		strb	r2, [r3, #1]
+ 1065 08a2 019B     		ldr	r3, [sp, #4]
+ 1066 08a4 93F8CA35 		ldrb	r3, [r3, #1482]	@ zero_extendqisi2
+ 1067 08a8 1A46     		mov	r2, r3
+ 1068 08aa 019B     		ldr	r3, [sp, #4]
+ 1069 08ac 93F8CB35 		ldrb	r3, [r3, #1483]	@ zero_extendqisi2
+ 1070 08b0 4FEA0323 		lsl	r3, r3, #8
+ 1071 08b4 9BB2     		uxth	r3, r3
+ 1072 08b6 D318     		adds	r3, r2, r3
+ 1073 08b8 9AB2     		uxth	r2, r3
+ 1074 08ba 009B     		ldr	r3, [sp, #0]
+ 1075 08bc 5A80     		strh	r2, [r3, #2]	@ movhi
+ 1076 08be 019B     		ldr	r3, [sp, #4]
+ 1077 08c0 93F8CC35 		ldrb	r3, [r3, #1484]	@ zero_extendqisi2
+ 1078 08c4 1A46     		mov	r2, r3
+ 1079 08c6 019B     		ldr	r3, [sp, #4]
+ 1080 08c8 93F8CD35 		ldrb	r3, [r3, #1485]	@ zero_extendqisi2
+ 1081 08cc 4FEA0323 		lsl	r3, r3, #8
+ 1082 08d0 9BB2     		uxth	r3, r3
+ 1083 08d2 D318     		adds	r3, r2, r3
+ 1084 08d4 9AB2     		uxth	r2, r3
+ 1085 08d6 009B     		ldr	r3, [sp, #0]
+ 1086 08d8 9A80     		strh	r2, [r3, #4]	@ movhi
+ 1087 08da 019B     		ldr	r3, [sp, #4]
+ 1088 08dc 93F8CE35 		ldrb	r3, [r3, #1486]	@ zero_extendqisi2
+ 1089 08e0 1A46     		mov	r2, r3
+ 1090 08e2 019B     		ldr	r3, [sp, #4]
+ 1091 08e4 93F8CF35 		ldrb	r3, [r3, #1487]	@ zero_extendqisi2
+ 1092 08e8 4FEA0323 		lsl	r3, r3, #8
+ 1093 08ec 9BB2     		uxth	r3, r3
+ 1094 08ee D318     		adds	r3, r2, r3
+ 1095 08f0 9AB2     		uxth	r2, r3
+ 1096 08f2 009B     		ldr	r3, [sp, #0]
+ 1097 08f4 DA80     		strh	r2, [r3, #6]	@ movhi
+ 1098 08f6 009B     		ldr	r3, [sp, #0]
+ 1099 08f8 DB88     		ldrh	r3, [r3, #6]
+ 1100 08fa 1A46     		mov	r2, r3
+ 1101 08fc 019B     		ldr	r3, [sp, #4]
+ 1102 08fe C3F83C21 		str	r2, [r3, #316]
+ 1103 0902 019B     		ldr	r3, [sp, #4]
+ 1104 0904 4FF00102 		mov	r2, #1
+ 1105 0908 83F81121 		strb	r2, [r3, #273]
+ 1106 090c 02B0     		add	sp, sp, #8
+ 1107 090e 7047     		bx	lr
+ 1109              		.align	2
+ 1110              		.global	USBD_CtlError
+ 1111              		.thumb
+ 1112              		.thumb_func
+ 1114              	USBD_CtlError:
+ 1115              		@ args = 0, pretend = 0, frame = 8
+ 1116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1117 0910 00B5     		push	{lr}
+ 1118 0912 83B0     		sub	sp, sp, #12
+ 1119 0914 0190     		str	r0, [sp, #4]
+ 1120 0916 0091     		str	r1, [sp, #0]
+ 1121 0918 009B     		ldr	r3, [sp, #0]
+ 1122 091a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1123 091c DBB2     		uxtb	r3, r3
+ 1124 091e 5BB2     		sxtb	r3, r3
+ 1125 0920 002B     		cmp	r3, #0
+ 1126 0922 05DA     		bge	.L127
+ 1127 0924 0198     		ldr	r0, [sp, #4]
+ 1128 0926 4FF08001 		mov	r1, #128
+ 1129 092a FFF7FEFF 		bl	DCD_EP_Stall
+ 1130 092e 0EE0     		b	.L128
+ 1131              	.L127:
+ 1132 0930 009B     		ldr	r3, [sp, #0]
+ 1133 0932 DB88     		ldrh	r3, [r3, #6]
+ 1134 0934 002B     		cmp	r3, #0
+ 1135 0936 05D1     		bne	.L129
+ 1136 0938 0198     		ldr	r0, [sp, #4]
+ 1137 093a 4FF08001 		mov	r1, #128
+ 1138 093e FFF7FEFF 		bl	DCD_EP_Stall
+ 1139 0942 04E0     		b	.L128
+ 1140              	.L129:
+ 1141 0944 0198     		ldr	r0, [sp, #4]
+ 1142 0946 4FF00001 		mov	r1, #0
+ 1143 094a FFF7FEFF 		bl	DCD_EP_Stall
+ 1144              	.L128:
+ 1145 094e 0198     		ldr	r0, [sp, #4]
+ 1146 0950 FFF7FEFF 		bl	USB_OTG_EP0_OutStart
+ 1147 0954 03B0     		add	sp, sp, #12
+ 1148 0956 00BD     		pop	{pc}
+ 1150              		.align	2
+ 1151              		.global	USBD_GetString
+ 1152              		.thumb
+ 1153              		.thumb_func
+ 1155              	USBD_GetString:
+ 1156              		@ args = 0, pretend = 0, frame = 24
+ 1157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1158 0958 00B5     		push	{lr}
+ 1159 095a 87B0     		sub	sp, sp, #28
+ 1160 095c 0390     		str	r0, [sp, #12]
+ 1161 095e 0291     		str	r1, [sp, #8]
+ 1162 0960 0192     		str	r2, [sp, #4]
+ 1163 0962 4FF00003 		mov	r3, #0
+ 1164 0966 8DF81730 		strb	r3, [sp, #23]
+ 1165 096a 039B     		ldr	r3, [sp, #12]
+ 1166 096c 002B     		cmp	r3, #0
+ 1167 096e 49D0     		beq	.L130
+ 1168 0970 0398     		ldr	r0, [sp, #12]
+ 1169 0972 00F049F8 		bl	USBD_GetLen
+ 1170 0976 0346     		mov	r3, r0
+ 1171 0978 03F10103 		add	r3, r3, #1
+ 1172 097c 9BB2     		uxth	r3, r3
+ 1173 097e 4FEA4303 		lsl	r3, r3, #1
+ 1174 0982 9AB2     		uxth	r2, r3
+ 1175 0984 019B     		ldr	r3, [sp, #4]
+ 1176 0986 1A80     		strh	r2, [r3, #0]	@ movhi
+ 1177 0988 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1178 098c 029A     		ldr	r2, [sp, #8]
+ 1179 098e D318     		adds	r3, r2, r3
+ 1180 0990 019A     		ldr	r2, [sp, #4]
+ 1181 0992 1288     		ldrh	r2, [r2, #0]
+ 1182 0994 D2B2     		uxtb	r2, r2
+ 1183 0996 1A70     		strb	r2, [r3, #0]
+ 1184 0998 9DF81730 		ldrb	r3, [sp, #23]
+ 1185 099c 03F10103 		add	r3, r3, #1
+ 1186 09a0 8DF81730 		strb	r3, [sp, #23]
+ 1187 09a4 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1188 09a8 029A     		ldr	r2, [sp, #8]
+ 1189 09aa D318     		adds	r3, r2, r3
+ 1190 09ac 4FF00302 		mov	r2, #3
+ 1191 09b0 1A70     		strb	r2, [r3, #0]
+ 1192 09b2 9DF81730 		ldrb	r3, [sp, #23]
+ 1193 09b6 03F10103 		add	r3, r3, #1
+ 1194 09ba 8DF81730 		strb	r3, [sp, #23]
+ 1195 09be 1DE0     		b	.L132
+ 1196              	.L133:
+ 1197 09c0 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1198 09c4 029A     		ldr	r2, [sp, #8]
+ 1199 09c6 D318     		adds	r3, r2, r3
+ 1200 09c8 039A     		ldr	r2, [sp, #12]
+ 1201 09ca 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 1202 09cc 1A70     		strb	r2, [r3, #0]
+ 1203 09ce 9DF81730 		ldrb	r3, [sp, #23]
+ 1204 09d2 03F10103 		add	r3, r3, #1
+ 1205 09d6 8DF81730 		strb	r3, [sp, #23]
+ 1206 09da 039B     		ldr	r3, [sp, #12]
+ 1207 09dc 03F10103 		add	r3, r3, #1
+ 1208 09e0 0393     		str	r3, [sp, #12]
+ 1209 09e2 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1210 09e6 029A     		ldr	r2, [sp, #8]
+ 1211 09e8 D318     		adds	r3, r2, r3
+ 1212 09ea 4FF00002 		mov	r2, #0
+ 1213 09ee 1A70     		strb	r2, [r3, #0]
+ 1214 09f0 9DF81730 		ldrb	r3, [sp, #23]
+ 1215 09f4 03F10103 		add	r3, r3, #1
+ 1216 09f8 8DF81730 		strb	r3, [sp, #23]
+ 1217              	.L132:
+ 1218 09fc 039B     		ldr	r3, [sp, #12]
+ 1219 09fe 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1220 0a00 002B     		cmp	r3, #0
+ 1221 0a02 DDD1     		bne	.L133
+ 1222              	.L130:
+ 1223 0a04 07B0     		add	sp, sp, #28
+ 1224 0a06 00BD     		pop	{pc}
+ 1226              		.align	2
+ 1227              		.thumb
+ 1228              		.thumb_func
+ 1230              	USBD_GetLen:
+ 1231              		@ args = 0, pretend = 0, frame = 16
+ 1232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1233              		@ link register save eliminated.
+ 1234 0a08 84B0     		sub	sp, sp, #16
+ 1235 0a0a 0190     		str	r0, [sp, #4]
+ 1236 0a0c 4FF00003 		mov	r3, #0
+ 1237 0a10 8DF80F30 		strb	r3, [sp, #15]
+ 1238 0a14 09E0     		b	.L135
+ 1239              	.L136:
+ 1240 0a16 9DF80F30 		ldrb	r3, [sp, #15]
+ 1241 0a1a 03F10103 		add	r3, r3, #1
+ 1242 0a1e 8DF80F30 		strb	r3, [sp, #15]
+ 1243 0a22 019B     		ldr	r3, [sp, #4]
+ 1244 0a24 03F10103 		add	r3, r3, #1
+ 1245 0a28 0193     		str	r3, [sp, #4]
+ 1246              	.L135:
+ 1247 0a2a 019B     		ldr	r3, [sp, #4]
+ 1248 0a2c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1249 0a2e 002B     		cmp	r3, #0
+ 1250 0a30 F1D1     		bne	.L136
+ 1251 0a32 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1252 0a36 1846     		mov	r0, r3
+ 1253 0a38 04B0     		add	sp, sp, #16
+ 1254 0a3a 7047     		bx	lr
+ 1256              		.bss
+ 1257              	cfgidx.8314:
+ 1258 000c 00       		.space	1
+ 1259 000d 000000   		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usbd_req.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:21     .bss:00000000 USBD_ep_status
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:18     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:27     .bss:00000004 USBD_default_cfg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:33     .bss:00000008 USBD_cfg_status
+                            *COM*:00000032 USBD_StrDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:37     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:42     .text:00000000 USBD_StdDevReq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:59     .text:00000020 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:70     .text:00000048 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:412    .text:00000318 USBD_GetDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:620    .text:000004e4 USBD_SetAddress
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:682    .text:00000568 USBD_SetConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:806    .text:00000698 USBD_GetConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:857    .text:000006f8 USBD_GetStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:903    .text:00000758 USBD_SetFeature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:1005   .text:00000838 USBD_ClrFeature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:1114   .text:00000910 USBD_CtlError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:120    .text:000000a4 USBD_StdItfReq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:178    .text:00000110 USBD_StdEPReq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:430    .text:0000033c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:438    .text:00000358 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:489    .text:000003cc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:496    .text:000003e4 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:1257   .bss:0000000c cfgidx.8314
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:955    .text:000007cc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:961    .text:000007e0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:1050   .text:00000888 USBD_ParseSetupRequest
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:1155   .text:00000958 USBD_GetString
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqsZeN2.s:1230   .text:00000a08 USBD_GetLen
+
+UNDEFINED SYMBOLS
+USBD_CtlSendStatus
+DCD_EP_Stall
+DCD_EP_ClrStall
+USBD_CtlSendData
+DCD_EP_SetAddress
+USBD_SetCfg
+USBD_ClrCfg
+USB_OTG_EP0_OutStart

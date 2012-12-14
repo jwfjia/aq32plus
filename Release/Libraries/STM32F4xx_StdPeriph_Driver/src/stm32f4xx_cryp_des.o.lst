@@ -1,0 +1,371 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_cryp_des.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	CRYP_DES_ECB
+  19              		.thumb
+  20              		.thumb_func
+  22              	CRYP_DES_ECB:
+  23              		@ args = 4, pretend = 0, frame = 104
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 9AB0     		sub	sp, sp, #104
+  27 0004 0291     		str	r1, [sp, #8]
+  28 0006 0192     		str	r2, [sp, #4]
+  29 0008 0093     		str	r3, [sp, #0]
+  30 000a 0346     		mov	r3, r0
+  31 000c 8DF80F30 		strb	r3, [sp, #15]
+  32 0010 4FF00003 		mov	r3, #0
+  33 0014 0593     		str	r3, [sp, #20]
+  34 0016 4FF00003 		mov	r3, #0
+  35 001a 1593     		str	r3, [sp, #84]
+  36 001c 4FF00103 		mov	r3, #1
+  37 0020 8DF86730 		strb	r3, [sp, #103]
+  38 0024 029B     		ldr	r3, [sp, #8]
+  39 0026 1493     		str	r3, [sp, #80]
+  40 0028 019B     		ldr	r3, [sp, #4]
+  41 002a 1893     		str	r3, [sp, #96]
+  42 002c 1C9B     		ldr	r3, [sp, #112]
+  43 002e 1793     		str	r3, [sp, #92]
+  44 0030 4FF00003 		mov	r3, #0
+  45 0034 1693     		str	r3, [sp, #88]
+  46 0036 06AB     		add	r3, sp, #24
+  47 0038 1846     		mov	r0, r3
+  48 003a FFF7FEFF 		bl	CRYP_KeyStructInit
+  49 003e 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+  50 0042 012B     		cmp	r3, #1
+  51 0044 04D1     		bne	.L2
+  52 0046 4FF00003 		mov	r3, #0
+  53 004a ADF83830 		strh	r3, [sp, #56]	@ movhi
+  54 004e 03E0     		b	.L3
+  55              	.L2:
+  56 0050 4FF00403 		mov	r3, #4
+  57 0054 ADF83830 		strh	r3, [sp, #56]	@ movhi
+  58              	.L3:
+  59 0058 4FF01003 		mov	r3, #16
+  60 005c ADF83A30 		strh	r3, [sp, #58]	@ movhi
+  61 0060 4FF08003 		mov	r3, #128
+  62 0064 ADF83C30 		strh	r3, [sp, #60]	@ movhi
+  63 0068 0EAB     		add	r3, sp, #56
+  64 006a 1846     		mov	r0, r3
+  65 006c FFF7FEFF 		bl	CRYP_Init
+  66 0070 149B     		ldr	r3, [sp, #80]
+  67 0072 1B68     		ldr	r3, [r3, #0]
+  68 0074 1393     		str	r3, [sp, #76]
+  69 0076 139B     		ldr	r3, [sp, #76]
+  70              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+  71 0078 1CBA     		rev r4, r3
+  72              	@ 0 "" 2
+  73              		.thumb
+  74 007a 1294     		str	r4, [sp, #72]
+  75 007c 129B     		ldr	r3, [sp, #72]
+  76 007e 0893     		str	r3, [sp, #32]
+  77 0080 149B     		ldr	r3, [sp, #80]
+  78 0082 03F10403 		add	r3, r3, #4
+  79 0086 1493     		str	r3, [sp, #80]
+  80 0088 149B     		ldr	r3, [sp, #80]
+  81 008a 1B68     		ldr	r3, [r3, #0]
+  82 008c 1193     		str	r3, [sp, #68]
+  83 008e 119B     		ldr	r3, [sp, #68]
+  84              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+  85 0090 1CBA     		rev r4, r3
+  86              	@ 0 "" 2
+  87              		.thumb
+  88 0092 1094     		str	r4, [sp, #64]
+  89 0094 109B     		ldr	r3, [sp, #64]
+  90 0096 0993     		str	r3, [sp, #36]
+  91 0098 06AB     		add	r3, sp, #24
+  92 009a 1846     		mov	r0, r3
+  93 009c FFF7FEFF 		bl	CRYP_KeyInit
+  94 00a0 FFF7FEFF 		bl	CRYP_FIFOFlush
+  95 00a4 4FF00100 		mov	r0, #1
+  96 00a8 FFF7FEFF 		bl	CRYP_Cmd
+  97 00ac 4FF00003 		mov	r3, #0
+  98 00b0 1693     		str	r3, [sp, #88]
+  99 00b2 43E0     		b	.L4
+ 100              	.L10:
+ 101 00b4 189B     		ldr	r3, [sp, #96]
+ 102 00b6 1B68     		ldr	r3, [r3, #0]
+ 103 00b8 1846     		mov	r0, r3
+ 104 00ba FFF7FEFF 		bl	CRYP_DataIn
+ 105 00be 189B     		ldr	r3, [sp, #96]
+ 106 00c0 03F10403 		add	r3, r3, #4
+ 107 00c4 1893     		str	r3, [sp, #96]
+ 108 00c6 189B     		ldr	r3, [sp, #96]
+ 109 00c8 1B68     		ldr	r3, [r3, #0]
+ 110 00ca 1846     		mov	r0, r3
+ 111 00cc FFF7FEFF 		bl	CRYP_DataIn
+ 112 00d0 189B     		ldr	r3, [sp, #96]
+ 113 00d2 03F10403 		add	r3, r3, #4
+ 114 00d6 1893     		str	r3, [sp, #96]
+ 115 00d8 4FF00003 		mov	r3, #0
+ 116 00dc 0593     		str	r3, [sp, #20]
+ 117              	.L6:
+ 118 00de 4FF01000 		mov	r0, #16
+ 119 00e2 FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 120 00e6 0346     		mov	r3, r0
+ 121 00e8 1593     		str	r3, [sp, #84]
+ 122 00ea 059B     		ldr	r3, [sp, #20]
+ 123 00ec 03F10103 		add	r3, r3, #1
+ 124 00f0 0593     		str	r3, [sp, #20]
+ 125 00f2 059B     		ldr	r3, [sp, #20]
+ 126 00f4 B3F5803F 		cmp	r3, #65536
+ 127 00f8 02D0     		beq	.L5
+ 128 00fa 159B     		ldr	r3, [sp, #84]
+ 129 00fc 002B     		cmp	r3, #0
+ 130 00fe EED1     		bne	.L6
+ 131              	.L5:
+ 132 0100 159B     		ldr	r3, [sp, #84]
+ 133 0102 002B     		cmp	r3, #0
+ 134 0104 04D0     		beq	.L7
+ 135 0106 4FF00003 		mov	r3, #0
+ 136 010a 8DF86730 		strb	r3, [sp, #103]
+ 137 010e 11E0     		b	.L8
+ 138              	.L7:
+ 139 0110 179C     		ldr	r4, [sp, #92]
+ 140 0112 FFF7FEFF 		bl	CRYP_DataOut
+ 141 0116 0346     		mov	r3, r0
+ 142 0118 2360     		str	r3, [r4, #0]
+ 143 011a 179B     		ldr	r3, [sp, #92]
+ 144 011c 03F10403 		add	r3, r3, #4
+ 145 0120 1793     		str	r3, [sp, #92]
+ 146 0122 179C     		ldr	r4, [sp, #92]
+ 147 0124 FFF7FEFF 		bl	CRYP_DataOut
+ 148 0128 0346     		mov	r3, r0
+ 149 012a 2360     		str	r3, [r4, #0]
+ 150 012c 179B     		ldr	r3, [sp, #92]
+ 151 012e 03F10403 		add	r3, r3, #4
+ 152 0132 1793     		str	r3, [sp, #92]
+ 153              	.L8:
+ 154 0134 169B     		ldr	r3, [sp, #88]
+ 155 0136 03F10803 		add	r3, r3, #8
+ 156 013a 1693     		str	r3, [sp, #88]
+ 157              	.L4:
+ 158 013c 169A     		ldr	r2, [sp, #88]
+ 159 013e 009B     		ldr	r3, [sp, #0]
+ 160 0140 9A42     		cmp	r2, r3
+ 161 0142 03D2     		bcs	.L9
+ 162 0144 9DF86730 		ldrb	r3, [sp, #103]	@ zero_extendqisi2
+ 163 0148 002B     		cmp	r3, #0
+ 164 014a B3D1     		bne	.L10
+ 165              	.L9:
+ 166 014c 4FF00000 		mov	r0, #0
+ 167 0150 FFF7FEFF 		bl	CRYP_Cmd
+ 168 0154 9DF86730 		ldrb	r3, [sp, #103]	@ zero_extendqisi2
+ 169 0158 1846     		mov	r0, r3
+ 170 015a 1AB0     		add	sp, sp, #104
+ 171 015c 10BD     		pop	{r4, pc}
+ 173 015e 00BF     		.align	2
+ 174              		.global	CRYP_DES_CBC
+ 175              		.thumb
+ 176              		.thumb_func
+ 178              	CRYP_DES_CBC:
+ 179              		@ args = 8, pretend = 0, frame = 136
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181 0160 10B5     		push	{r4, lr}
+ 182 0162 A2B0     		sub	sp, sp, #136
+ 183 0164 0291     		str	r1, [sp, #8]
+ 184 0166 0192     		str	r2, [sp, #4]
+ 185 0168 0093     		str	r3, [sp, #0]
+ 186 016a 0346     		mov	r3, r0
+ 187 016c 8DF80F30 		strb	r3, [sp, #15]
+ 188 0170 4FF00003 		mov	r3, #0
+ 189 0174 0493     		str	r3, [sp, #16]
+ 190 0176 4FF00003 		mov	r3, #0
+ 191 017a 1D93     		str	r3, [sp, #116]
+ 192 017c 4FF00103 		mov	r3, #1
+ 193 0180 8DF88730 		strb	r3, [sp, #135]
+ 194 0184 029B     		ldr	r3, [sp, #8]
+ 195 0186 1C93     		str	r3, [sp, #112]
+ 196 0188 009B     		ldr	r3, [sp, #0]
+ 197 018a 2093     		str	r3, [sp, #128]
+ 198 018c 259B     		ldr	r3, [sp, #148]
+ 199 018e 1F93     		str	r3, [sp, #124]
+ 200 0190 019B     		ldr	r3, [sp, #4]
+ 201 0192 1B93     		str	r3, [sp, #108]
+ 202 0194 4FF00003 		mov	r3, #0
+ 203 0198 1E93     		str	r3, [sp, #120]
+ 204 019a 09AB     		add	r3, sp, #36
+ 205 019c 1846     		mov	r0, r3
+ 206 019e FFF7FEFF 		bl	CRYP_KeyStructInit
+ 207 01a2 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 208 01a6 012B     		cmp	r3, #1
+ 209 01a8 04D1     		bne	.L12
+ 210 01aa 4FF00003 		mov	r3, #0
+ 211 01ae ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 212 01b2 03E0     		b	.L13
+ 213              	.L12:
+ 214 01b4 4FF00403 		mov	r3, #4
+ 215 01b8 ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 216              	.L13:
+ 217 01bc 4FF01803 		mov	r3, #24
+ 218 01c0 ADF84630 		strh	r3, [sp, #70]	@ movhi
+ 219 01c4 4FF08003 		mov	r3, #128
+ 220 01c8 ADF84830 		strh	r3, [sp, #72]	@ movhi
+ 221 01cc 11AB     		add	r3, sp, #68
+ 222 01ce 1846     		mov	r0, r3
+ 223 01d0 FFF7FEFF 		bl	CRYP_Init
+ 224 01d4 1C9B     		ldr	r3, [sp, #112]
+ 225 01d6 1B68     		ldr	r3, [r3, #0]
+ 226 01d8 1A93     		str	r3, [sp, #104]
+ 227 01da 1A9B     		ldr	r3, [sp, #104]
+ 228              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 229 01dc 1CBA     		rev r4, r3
+ 230              	@ 0 "" 2
+ 231              		.thumb
+ 232 01de 1994     		str	r4, [sp, #100]
+ 233 01e0 199B     		ldr	r3, [sp, #100]
+ 234 01e2 0B93     		str	r3, [sp, #44]
+ 235 01e4 1C9B     		ldr	r3, [sp, #112]
+ 236 01e6 03F10403 		add	r3, r3, #4
+ 237 01ea 1C93     		str	r3, [sp, #112]
+ 238 01ec 1C9B     		ldr	r3, [sp, #112]
+ 239 01ee 1B68     		ldr	r3, [r3, #0]
+ 240 01f0 1893     		str	r3, [sp, #96]
+ 241 01f2 189B     		ldr	r3, [sp, #96]
+ 242              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 243 01f4 1CBA     		rev r4, r3
+ 244              	@ 0 "" 2
+ 245              		.thumb
+ 246 01f6 1794     		str	r4, [sp, #92]
+ 247 01f8 179B     		ldr	r3, [sp, #92]
+ 248 01fa 0C93     		str	r3, [sp, #48]
+ 249 01fc 09AB     		add	r3, sp, #36
+ 250 01fe 1846     		mov	r0, r3
+ 251 0200 FFF7FEFF 		bl	CRYP_KeyInit
+ 252 0204 1B9B     		ldr	r3, [sp, #108]
+ 253 0206 1B68     		ldr	r3, [r3, #0]
+ 254 0208 1693     		str	r3, [sp, #88]
+ 255 020a 169B     		ldr	r3, [sp, #88]
+ 256              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 257 020c 1CBA     		rev r4, r3
+ 258              	@ 0 "" 2
+ 259              		.thumb
+ 260 020e 1594     		str	r4, [sp, #84]
+ 261 0210 159B     		ldr	r3, [sp, #84]
+ 262 0212 0593     		str	r3, [sp, #20]
+ 263 0214 1B9B     		ldr	r3, [sp, #108]
+ 264 0216 03F10403 		add	r3, r3, #4
+ 265 021a 1B93     		str	r3, [sp, #108]
+ 266 021c 1B9B     		ldr	r3, [sp, #108]
+ 267 021e 1B68     		ldr	r3, [r3, #0]
+ 268 0220 1493     		str	r3, [sp, #80]
+ 269 0222 149B     		ldr	r3, [sp, #80]
+ 270              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 271 0224 1CBA     		rev r4, r3
+ 272              	@ 0 "" 2
+ 273              		.thumb
+ 274 0226 1394     		str	r4, [sp, #76]
+ 275 0228 139B     		ldr	r3, [sp, #76]
+ 276 022a 0693     		str	r3, [sp, #24]
+ 277 022c 05AB     		add	r3, sp, #20
+ 278 022e 1846     		mov	r0, r3
+ 279 0230 FFF7FEFF 		bl	CRYP_IVInit
+ 280 0234 FFF7FEFF 		bl	CRYP_FIFOFlush
+ 281 0238 4FF00100 		mov	r0, #1
+ 282 023c FFF7FEFF 		bl	CRYP_Cmd
+ 283 0240 4FF00003 		mov	r3, #0
+ 284 0244 1E93     		str	r3, [sp, #120]
+ 285 0246 43E0     		b	.L14
+ 286              	.L20:
+ 287 0248 209B     		ldr	r3, [sp, #128]
+ 288 024a 1B68     		ldr	r3, [r3, #0]
+ 289 024c 1846     		mov	r0, r3
+ 290 024e FFF7FEFF 		bl	CRYP_DataIn
+ 291 0252 209B     		ldr	r3, [sp, #128]
+ 292 0254 03F10403 		add	r3, r3, #4
+ 293 0258 2093     		str	r3, [sp, #128]
+ 294 025a 209B     		ldr	r3, [sp, #128]
+ 295 025c 1B68     		ldr	r3, [r3, #0]
+ 296 025e 1846     		mov	r0, r3
+ 297 0260 FFF7FEFF 		bl	CRYP_DataIn
+ 298 0264 209B     		ldr	r3, [sp, #128]
+ 299 0266 03F10403 		add	r3, r3, #4
+ 300 026a 2093     		str	r3, [sp, #128]
+ 301 026c 4FF00003 		mov	r3, #0
+ 302 0270 0493     		str	r3, [sp, #16]
+ 303              	.L16:
+ 304 0272 4FF01000 		mov	r0, #16
+ 305 0276 FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 306 027a 0346     		mov	r3, r0
+ 307 027c 1D93     		str	r3, [sp, #116]
+ 308 027e 049B     		ldr	r3, [sp, #16]
+ 309 0280 03F10103 		add	r3, r3, #1
+ 310 0284 0493     		str	r3, [sp, #16]
+ 311 0286 049B     		ldr	r3, [sp, #16]
+ 312 0288 B3F5803F 		cmp	r3, #65536
+ 313 028c 02D0     		beq	.L15
+ 314 028e 1D9B     		ldr	r3, [sp, #116]
+ 315 0290 002B     		cmp	r3, #0
+ 316 0292 EED1     		bne	.L16
+ 317              	.L15:
+ 318 0294 1D9B     		ldr	r3, [sp, #116]
+ 319 0296 002B     		cmp	r3, #0
+ 320 0298 04D0     		beq	.L17
+ 321 029a 4FF00003 		mov	r3, #0
+ 322 029e 8DF88730 		strb	r3, [sp, #135]
+ 323 02a2 11E0     		b	.L18
+ 324              	.L17:
+ 325 02a4 1F9C     		ldr	r4, [sp, #124]
+ 326 02a6 FFF7FEFF 		bl	CRYP_DataOut
+ 327 02aa 0346     		mov	r3, r0
+ 328 02ac 2360     		str	r3, [r4, #0]
+ 329 02ae 1F9B     		ldr	r3, [sp, #124]
+ 330 02b0 03F10403 		add	r3, r3, #4
+ 331 02b4 1F93     		str	r3, [sp, #124]
+ 332 02b6 1F9C     		ldr	r4, [sp, #124]
+ 333 02b8 FFF7FEFF 		bl	CRYP_DataOut
+ 334 02bc 0346     		mov	r3, r0
+ 335 02be 2360     		str	r3, [r4, #0]
+ 336 02c0 1F9B     		ldr	r3, [sp, #124]
+ 337 02c2 03F10403 		add	r3, r3, #4
+ 338 02c6 1F93     		str	r3, [sp, #124]
+ 339              	.L18:
+ 340 02c8 1E9B     		ldr	r3, [sp, #120]
+ 341 02ca 03F10803 		add	r3, r3, #8
+ 342 02ce 1E93     		str	r3, [sp, #120]
+ 343              	.L14:
+ 344 02d0 1E9A     		ldr	r2, [sp, #120]
+ 345 02d2 249B     		ldr	r3, [sp, #144]
+ 346 02d4 9A42     		cmp	r2, r3
+ 347 02d6 03D2     		bcs	.L19
+ 348 02d8 9DF88730 		ldrb	r3, [sp, #135]	@ zero_extendqisi2
+ 349 02dc 002B     		cmp	r3, #0
+ 350 02de B3D1     		bne	.L20
+ 351              	.L19:
+ 352 02e0 4FF00000 		mov	r0, #0
+ 353 02e4 FFF7FEFF 		bl	CRYP_Cmd
+ 354 02e8 9DF88730 		ldrb	r3, [sp, #135]	@ zero_extendqisi2
+ 355 02ec 1846     		mov	r0, r3
+ 356 02ee 22B0     		add	sp, sp, #136
+ 357 02f0 10BD     		pop	{r4, pc}
+ 359 02f2 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_cryp_des.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccnr86fF.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccnr86fF.s:22     .text:00000000 CRYP_DES_ECB
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccnr86fF.s:178    .text:00000160 CRYP_DES_CBC
+
+UNDEFINED SYMBOLS
+CRYP_KeyStructInit
+CRYP_Init
+CRYP_KeyInit
+CRYP_FIFOFlush
+CRYP_Cmd
+CRYP_DataIn
+CRYP_GetFlagStatus
+CRYP_DataOut
+CRYP_IVInit

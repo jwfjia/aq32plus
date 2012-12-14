@@ -1,0 +1,543 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_dcmi.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	DCMI_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	DCMI_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 4FF00003 		mov	r3, #0
+  27 0004 C5F20503 		movt	r3, 20485
+  28 0008 4FF00002 		mov	r2, #0
+  29 000c 1A60     		str	r2, [r3, #0]
+  30 000e 4FF00003 		mov	r3, #0
+  31 0012 C5F20503 		movt	r3, 20485
+  32 0016 4FF00002 		mov	r2, #0
+  33 001a DA60     		str	r2, [r3, #12]
+  34 001c 4FF00003 		mov	r3, #0
+  35 0020 C5F20503 		movt	r3, 20485
+  36 0024 4FF01F02 		mov	r2, #31
+  37 0028 5A61     		str	r2, [r3, #20]
+  38 002a 4FF00003 		mov	r3, #0
+  39 002e C5F20503 		movt	r3, 20485
+  40 0032 4FF00002 		mov	r2, #0
+  41 0036 9A61     		str	r2, [r3, #24]
+  42 0038 4FF00003 		mov	r3, #0
+  43 003c C5F20503 		movt	r3, 20485
+  44 0040 4FF00002 		mov	r2, #0
+  45 0044 DA61     		str	r2, [r3, #28]
+  46 0046 4FF00003 		mov	r3, #0
+  47 004a C5F20503 		movt	r3, 20485
+  48 004e 4FF00002 		mov	r2, #0
+  49 0052 1A62     		str	r2, [r3, #32]
+  50 0054 4FF00003 		mov	r3, #0
+  51 0058 C5F20503 		movt	r3, 20485
+  52 005c 4FF00002 		mov	r2, #0
+  53 0060 5A62     		str	r2, [r3, #36]
+  54 0062 7047     		bx	lr
+  56              		.align	2
+  57              		.global	DCMI_Init
+  58              		.thumb
+  59              		.thumb_func
+  61              	DCMI_Init:
+  62              		@ args = 0, pretend = 0, frame = 16
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64              		@ link register save eliminated.
+  65 0064 84B0     		sub	sp, sp, #16
+  66 0066 0190     		str	r0, [sp, #4]
+  67 0068 4FF00003 		mov	r3, #0
+  68 006c 0393     		str	r3, [sp, #12]
+  69 006e 4FF00003 		mov	r3, #0
+  70 0072 C5F20503 		movt	r3, 20485
+  71 0076 4FF00002 		mov	r2, #0
+  72 007a C5F20502 		movt	r2, 20485
+  73 007e 1268     		ldr	r2, [r2, #0]
+  74 0080 22F48042 		bic	r2, r2, #16384
+  75 0084 22F00102 		bic	r2, r2, #1
+  76 0088 1A60     		str	r2, [r3, #0]
+  77 008a 4FF00003 		mov	r3, #0
+  78 008e C5F20503 		movt	r3, 20485
+  79 0092 1B68     		ldr	r3, [r3, #0]
+  80 0094 0393     		str	r3, [sp, #12]
+  81 0096 039B     		ldr	r3, [sp, #12]
+  82 0098 23F47E63 		bic	r3, r3, #4064
+  83 009c 23F01203 		bic	r3, r3, #18
+  84 00a0 0393     		str	r3, [sp, #12]
+  85 00a2 019B     		ldr	r3, [sp, #4]
+  86 00a4 1A88     		ldrh	r2, [r3, #0]
+  87 00a6 019B     		ldr	r3, [sp, #4]
+  88 00a8 5B88     		ldrh	r3, [r3, #2]
+  89 00aa 1343     		orrs	r3, r3, r2
+  90 00ac 9AB2     		uxth	r2, r3
+  91 00ae 019B     		ldr	r3, [sp, #4]
+  92 00b0 9B88     		ldrh	r3, [r3, #4]
+  93 00b2 1343     		orrs	r3, r3, r2
+  94 00b4 9AB2     		uxth	r2, r3
+  95 00b6 019B     		ldr	r3, [sp, #4]
+  96 00b8 DB88     		ldrh	r3, [r3, #6]
+  97 00ba 1343     		orrs	r3, r3, r2
+  98 00bc 9AB2     		uxth	r2, r3
+  99 00be 019B     		ldr	r3, [sp, #4]
+ 100 00c0 1B89     		ldrh	r3, [r3, #8]
+ 101 00c2 1343     		orrs	r3, r3, r2
+ 102 00c4 9AB2     		uxth	r2, r3
+ 103 00c6 019B     		ldr	r3, [sp, #4]
+ 104 00c8 5B89     		ldrh	r3, [r3, #10]
+ 105 00ca 1343     		orrs	r3, r3, r2
+ 106 00cc 9AB2     		uxth	r2, r3
+ 107 00ce 019B     		ldr	r3, [sp, #4]
+ 108 00d0 9B89     		ldrh	r3, [r3, #12]
+ 109 00d2 1343     		orrs	r3, r3, r2
+ 110 00d4 9BB2     		uxth	r3, r3
+ 111 00d6 039A     		ldr	r2, [sp, #12]
+ 112 00d8 1343     		orrs	r3, r3, r2
+ 113 00da 0393     		str	r3, [sp, #12]
+ 114 00dc 4FF00003 		mov	r3, #0
+ 115 00e0 C5F20503 		movt	r3, 20485
+ 116 00e4 039A     		ldr	r2, [sp, #12]
+ 117 00e6 1A60     		str	r2, [r3, #0]
+ 118 00e8 04B0     		add	sp, sp, #16
+ 119 00ea 7047     		bx	lr
+ 121              		.align	2
+ 122              		.global	DCMI_StructInit
+ 123              		.thumb
+ 124              		.thumb_func
+ 126              	DCMI_StructInit:
+ 127              		@ args = 0, pretend = 0, frame = 8
+ 128              		@ frame_needed = 0, uses_anonymous_args = 0
+ 129              		@ link register save eliminated.
+ 130 00ec 82B0     		sub	sp, sp, #8
+ 131 00ee 0190     		str	r0, [sp, #4]
+ 132 00f0 019B     		ldr	r3, [sp, #4]
+ 133 00f2 4FF00002 		mov	r2, #0
+ 134 00f6 1A80     		strh	r2, [r3, #0]	@ movhi
+ 135 00f8 019B     		ldr	r3, [sp, #4]
+ 136 00fa 4FF00002 		mov	r2, #0
+ 137 00fe 5A80     		strh	r2, [r3, #2]	@ movhi
+ 138 0100 019B     		ldr	r3, [sp, #4]
+ 139 0102 4FF00002 		mov	r2, #0
+ 140 0106 9A80     		strh	r2, [r3, #4]	@ movhi
+ 141 0108 019B     		ldr	r3, [sp, #4]
+ 142 010a 4FF00002 		mov	r2, #0
+ 143 010e DA80     		strh	r2, [r3, #6]	@ movhi
+ 144 0110 019B     		ldr	r3, [sp, #4]
+ 145 0112 4FF00002 		mov	r2, #0
+ 146 0116 1A81     		strh	r2, [r3, #8]	@ movhi
+ 147 0118 019B     		ldr	r3, [sp, #4]
+ 148 011a 4FF00002 		mov	r2, #0
+ 149 011e 5A81     		strh	r2, [r3, #10]	@ movhi
+ 150 0120 019B     		ldr	r3, [sp, #4]
+ 151 0122 4FF00002 		mov	r2, #0
+ 152 0126 9A81     		strh	r2, [r3, #12]	@ movhi
+ 153 0128 02B0     		add	sp, sp, #8
+ 154 012a 7047     		bx	lr
+ 156              		.align	2
+ 157              		.global	DCMI_CROPConfig
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	DCMI_CROPConfig:
+ 162              		@ args = 0, pretend = 0, frame = 8
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		@ link register save eliminated.
+ 165 012c 82B0     		sub	sp, sp, #8
+ 166 012e 0190     		str	r0, [sp, #4]
+ 167 0130 4FF00003 		mov	r3, #0
+ 168 0134 C5F20503 		movt	r3, 20485
+ 169 0138 019A     		ldr	r2, [sp, #4]
+ 170 013a 5288     		ldrh	r2, [r2, #2]
+ 171 013c 1146     		mov	r1, r2
+ 172 013e 019A     		ldr	r2, [sp, #4]
+ 173 0140 1288     		ldrh	r2, [r2, #0]
+ 174 0142 4FEA0242 		lsl	r2, r2, #16
+ 175 0146 0A43     		orrs	r2, r2, r1
+ 176 0148 1A62     		str	r2, [r3, #32]
+ 177 014a 4FF00003 		mov	r3, #0
+ 178 014e C5F20503 		movt	r3, 20485
+ 179 0152 019A     		ldr	r2, [sp, #4]
+ 180 0154 D288     		ldrh	r2, [r2, #6]
+ 181 0156 1146     		mov	r1, r2
+ 182 0158 019A     		ldr	r2, [sp, #4]
+ 183 015a 9288     		ldrh	r2, [r2, #4]
+ 184 015c 4FEA0242 		lsl	r2, r2, #16
+ 185 0160 0A43     		orrs	r2, r2, r1
+ 186 0162 5A62     		str	r2, [r3, #36]
+ 187 0164 02B0     		add	sp, sp, #8
+ 188 0166 7047     		bx	lr
+ 190              		.align	2
+ 191              		.global	DCMI_CROPCmd
+ 192              		.thumb
+ 193              		.thumb_func
+ 195              	DCMI_CROPCmd:
+ 196              		@ args = 0, pretend = 0, frame = 8
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198              		@ link register save eliminated.
+ 199 0168 82B0     		sub	sp, sp, #8
+ 200 016a 0346     		mov	r3, r0
+ 201 016c 8DF80730 		strb	r3, [sp, #7]
+ 202 0170 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 203 0174 002B     		cmp	r3, #0
+ 204 0176 0CD0     		beq	.L6
+ 205 0178 4FF00003 		mov	r3, #0
+ 206 017c C5F20503 		movt	r3, 20485
+ 207 0180 4FF00002 		mov	r2, #0
+ 208 0184 C5F20502 		movt	r2, 20485
+ 209 0188 1268     		ldr	r2, [r2, #0]
+ 210 018a 42F00402 		orr	r2, r2, #4
+ 211 018e 1A60     		str	r2, [r3, #0]
+ 212 0190 0BE0     		b	.L5
+ 213              	.L6:
+ 214 0192 4FF00003 		mov	r3, #0
+ 215 0196 C5F20503 		movt	r3, 20485
+ 216 019a 4FF00002 		mov	r2, #0
+ 217 019e C5F20502 		movt	r2, 20485
+ 218 01a2 1268     		ldr	r2, [r2, #0]
+ 219 01a4 22F00402 		bic	r2, r2, #4
+ 220 01a8 1A60     		str	r2, [r3, #0]
+ 221              	.L5:
+ 222 01aa 02B0     		add	sp, sp, #8
+ 223 01ac 7047     		bx	lr
+ 225 01ae 00BF     		.align	2
+ 226              		.global	DCMI_SetEmbeddedSynchroCodes
+ 227              		.thumb
+ 228              		.thumb_func
+ 230              	DCMI_SetEmbeddedSynchroCodes:
+ 231              		@ args = 0, pretend = 0, frame = 8
+ 232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233              		@ link register save eliminated.
+ 234 01b0 82B0     		sub	sp, sp, #8
+ 235 01b2 0190     		str	r0, [sp, #4]
+ 236 01b4 4FF00003 		mov	r3, #0
+ 237 01b8 C5F20503 		movt	r3, 20485
+ 238 01bc 019A     		ldr	r2, [sp, #4]
+ 239 01be 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 240 01c0 1146     		mov	r1, r2
+ 241 01c2 019A     		ldr	r2, [sp, #4]
+ 242 01c4 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 243 01c6 4FEA0222 		lsl	r2, r2, #8
+ 244 01ca 1143     		orrs	r1, r1, r2
+ 245 01cc 019A     		ldr	r2, [sp, #4]
+ 246 01ce 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 247 01d0 4FEA0242 		lsl	r2, r2, #16
+ 248 01d4 1143     		orrs	r1, r1, r2
+ 249 01d6 019A     		ldr	r2, [sp, #4]
+ 250 01d8 D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ 251 01da 4FEA0262 		lsl	r2, r2, #24
+ 252 01de 0A43     		orrs	r2, r2, r1
+ 253 01e0 9A61     		str	r2, [r3, #24]
+ 254 01e2 02B0     		add	sp, sp, #8
+ 255 01e4 7047     		bx	lr
+ 257 01e6 00BF     		.align	2
+ 258              		.global	DCMI_JPEGCmd
+ 259              		.thumb
+ 260              		.thumb_func
+ 262              	DCMI_JPEGCmd:
+ 263              		@ args = 0, pretend = 0, frame = 8
+ 264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 265              		@ link register save eliminated.
+ 266 01e8 82B0     		sub	sp, sp, #8
+ 267 01ea 0346     		mov	r3, r0
+ 268 01ec 8DF80730 		strb	r3, [sp, #7]
+ 269 01f0 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 270 01f4 002B     		cmp	r3, #0
+ 271 01f6 0CD0     		beq	.L10
+ 272 01f8 4FF00003 		mov	r3, #0
+ 273 01fc C5F20503 		movt	r3, 20485
+ 274 0200 4FF00002 		mov	r2, #0
+ 275 0204 C5F20502 		movt	r2, 20485
+ 276 0208 1268     		ldr	r2, [r2, #0]
+ 277 020a 42F00802 		orr	r2, r2, #8
+ 278 020e 1A60     		str	r2, [r3, #0]
+ 279 0210 0BE0     		b	.L9
+ 280              	.L10:
+ 281 0212 4FF00003 		mov	r3, #0
+ 282 0216 C5F20503 		movt	r3, 20485
+ 283 021a 4FF00002 		mov	r2, #0
+ 284 021e C5F20502 		movt	r2, 20485
+ 285 0222 1268     		ldr	r2, [r2, #0]
+ 286 0224 22F00802 		bic	r2, r2, #8
+ 287 0228 1A60     		str	r2, [r3, #0]
+ 288              	.L9:
+ 289 022a 02B0     		add	sp, sp, #8
+ 290 022c 7047     		bx	lr
+ 292 022e 00BF     		.align	2
+ 293              		.global	DCMI_Cmd
+ 294              		.thumb
+ 295              		.thumb_func
+ 297              	DCMI_Cmd:
+ 298              		@ args = 0, pretend = 0, frame = 8
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300              		@ link register save eliminated.
+ 301 0230 82B0     		sub	sp, sp, #8
+ 302 0232 0346     		mov	r3, r0
+ 303 0234 8DF80730 		strb	r3, [sp, #7]
+ 304 0238 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 305 023c 002B     		cmp	r3, #0
+ 306 023e 0CD0     		beq	.L13
+ 307 0240 4FF00003 		mov	r3, #0
+ 308 0244 C5F20503 		movt	r3, 20485
+ 309 0248 4FF00002 		mov	r2, #0
+ 310 024c C5F20502 		movt	r2, 20485
+ 311 0250 1268     		ldr	r2, [r2, #0]
+ 312 0252 42F48042 		orr	r2, r2, #16384
+ 313 0256 1A60     		str	r2, [r3, #0]
+ 314 0258 0BE0     		b	.L12
+ 315              	.L13:
+ 316 025a 4FF00003 		mov	r3, #0
+ 317 025e C5F20503 		movt	r3, 20485
+ 318 0262 4FF00002 		mov	r2, #0
+ 319 0266 C5F20502 		movt	r2, 20485
+ 320 026a 1268     		ldr	r2, [r2, #0]
+ 321 026c 22F48042 		bic	r2, r2, #16384
+ 322 0270 1A60     		str	r2, [r3, #0]
+ 323              	.L12:
+ 324 0272 02B0     		add	sp, sp, #8
+ 325 0274 7047     		bx	lr
+ 327 0276 00BF     		.align	2
+ 328              		.global	DCMI_CaptureCmd
+ 329              		.thumb
+ 330              		.thumb_func
+ 332              	DCMI_CaptureCmd:
+ 333              		@ args = 0, pretend = 0, frame = 8
+ 334              		@ frame_needed = 0, uses_anonymous_args = 0
+ 335              		@ link register save eliminated.
+ 336 0278 82B0     		sub	sp, sp, #8
+ 337 027a 0346     		mov	r3, r0
+ 338 027c 8DF80730 		strb	r3, [sp, #7]
+ 339 0280 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 340 0284 002B     		cmp	r3, #0
+ 341 0286 0CD0     		beq	.L16
+ 342 0288 4FF00003 		mov	r3, #0
+ 343 028c C5F20503 		movt	r3, 20485
+ 344 0290 4FF00002 		mov	r2, #0
+ 345 0294 C5F20502 		movt	r2, 20485
+ 346 0298 1268     		ldr	r2, [r2, #0]
+ 347 029a 42F00102 		orr	r2, r2, #1
+ 348 029e 1A60     		str	r2, [r3, #0]
+ 349 02a0 0BE0     		b	.L15
+ 350              	.L16:
+ 351 02a2 4FF00003 		mov	r3, #0
+ 352 02a6 C5F20503 		movt	r3, 20485
+ 353 02aa 4FF00002 		mov	r2, #0
+ 354 02ae C5F20502 		movt	r2, 20485
+ 355 02b2 1268     		ldr	r2, [r2, #0]
+ 356 02b4 22F00102 		bic	r2, r2, #1
+ 357 02b8 1A60     		str	r2, [r3, #0]
+ 358              	.L15:
+ 359 02ba 02B0     		add	sp, sp, #8
+ 360 02bc 7047     		bx	lr
+ 362 02be 00BF     		.align	2
+ 363              		.global	DCMI_ReadData
+ 364              		.thumb
+ 365              		.thumb_func
+ 367              	DCMI_ReadData:
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370              		@ link register save eliminated.
+ 371 02c0 4FF00003 		mov	r3, #0
+ 372 02c4 C5F20503 		movt	r3, 20485
+ 373 02c8 9B6A     		ldr	r3, [r3, #40]
+ 374 02ca 1846     		mov	r0, r3
+ 375 02cc 7047     		bx	lr
+ 377 02ce 00BF     		.align	2
+ 378              		.global	DCMI_ITConfig
+ 379              		.thumb
+ 380              		.thumb_func
+ 382              	DCMI_ITConfig:
+ 383              		@ args = 0, pretend = 0, frame = 8
+ 384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 385              		@ link register save eliminated.
+ 386 02d0 82B0     		sub	sp, sp, #8
+ 387 02d2 0246     		mov	r2, r0
+ 388 02d4 0B46     		mov	r3, r1
+ 389 02d6 ADF80620 		strh	r2, [sp, #6]	@ movhi
+ 390 02da 8DF80530 		strb	r3, [sp, #5]
+ 391 02de 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 392 02e2 002B     		cmp	r3, #0
+ 393 02e4 0DD0     		beq	.L20
+ 394 02e6 4FF00003 		mov	r3, #0
+ 395 02ea C5F20503 		movt	r3, 20485
+ 396 02ee 4FF00002 		mov	r2, #0
+ 397 02f2 C5F20502 		movt	r2, 20485
+ 398 02f6 D168     		ldr	r1, [r2, #12]
+ 399 02f8 BDF80620 		ldrh	r2, [sp, #6]
+ 400 02fc 0A43     		orrs	r2, r2, r1
+ 401 02fe DA60     		str	r2, [r3, #12]
+ 402 0300 0FE0     		b	.L19
+ 403              	.L20:
+ 404 0302 4FF00003 		mov	r3, #0
+ 405 0306 C5F20503 		movt	r3, 20485
+ 406 030a 4FF00002 		mov	r2, #0
+ 407 030e C5F20502 		movt	r2, 20485
+ 408 0312 D168     		ldr	r1, [r2, #12]
+ 409 0314 BDF80620 		ldrh	r2, [sp, #6]	@ movhi
+ 410 0318 6FEA0202 		mvn	r2, r2
+ 411 031c 92B2     		uxth	r2, r2
+ 412 031e 0A40     		ands	r2, r2, r1
+ 413 0320 DA60     		str	r2, [r3, #12]
+ 414              	.L19:
+ 415 0322 02B0     		add	sp, sp, #8
+ 416 0324 7047     		bx	lr
+ 418 0326 00BF     		.align	2
+ 419              		.global	DCMI_GetFlagStatus
+ 420              		.thumb
+ 421              		.thumb_func
+ 423              	DCMI_GetFlagStatus:
+ 424              		@ args = 0, pretend = 0, frame = 24
+ 425              		@ frame_needed = 0, uses_anonymous_args = 0
+ 426              		@ link register save eliminated.
+ 427 0328 86B0     		sub	sp, sp, #24
+ 428 032a 0346     		mov	r3, r0
+ 429 032c ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 430 0330 4FF00003 		mov	r3, #0
+ 431 0334 8DF81730 		strb	r3, [sp, #23]
+ 432 0338 4FF00003 		mov	r3, #0
+ 433 033c 0493     		str	r3, [sp, #16]
+ 434 033e BDF80630 		ldrh	r3, [sp, #6]
+ 435 0342 4FEA1333 		lsr	r3, r3, #12
+ 436 0346 9BB2     		uxth	r3, r3
+ 437 0348 0393     		str	r3, [sp, #12]
+ 438 034a 039B     		ldr	r3, [sp, #12]
+ 439 034c 012B     		cmp	r3, #1
+ 440 034e 06D1     		bne	.L23
+ 441 0350 4FF00003 		mov	r3, #0
+ 442 0354 C5F20503 		movt	r3, 20485
+ 443 0358 9B68     		ldr	r3, [r3, #8]
+ 444 035a 0493     		str	r3, [sp, #16]
+ 445 035c 0FE0     		b	.L24
+ 446              	.L23:
+ 447 035e 039B     		ldr	r3, [sp, #12]
+ 448 0360 022B     		cmp	r3, #2
+ 449 0362 06D1     		bne	.L25
+ 450 0364 4FF00003 		mov	r3, #0
+ 451 0368 C5F20503 		movt	r3, 20485
+ 452 036c 5B68     		ldr	r3, [r3, #4]
+ 453 036e 0493     		str	r3, [sp, #16]
+ 454 0370 05E0     		b	.L24
+ 455              	.L25:
+ 456 0372 4FF00003 		mov	r3, #0
+ 457 0376 C5F20503 		movt	r3, 20485
+ 458 037a 1B69     		ldr	r3, [r3, #16]
+ 459 037c 0493     		str	r3, [sp, #16]
+ 460              	.L24:
+ 461 037e BDF80620 		ldrh	r2, [sp, #6]
+ 462 0382 049B     		ldr	r3, [sp, #16]
+ 463 0384 1340     		ands	r3, r3, r2
+ 464 0386 002B     		cmp	r3, #0
+ 465 0388 04D0     		beq	.L26
+ 466 038a 4FF00103 		mov	r3, #1
+ 467 038e 8DF81730 		strb	r3, [sp, #23]
+ 468 0392 03E0     		b	.L27
+ 469              	.L26:
+ 470 0394 4FF00003 		mov	r3, #0
+ 471 0398 8DF81730 		strb	r3, [sp, #23]
+ 472              	.L27:
+ 473 039c 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 474 03a0 1846     		mov	r0, r3
+ 475 03a2 06B0     		add	sp, sp, #24
+ 476 03a4 7047     		bx	lr
+ 478 03a6 00BF     		.align	2
+ 479              		.global	DCMI_ClearFlag
+ 480              		.thumb
+ 481              		.thumb_func
+ 483              	DCMI_ClearFlag:
+ 484              		@ args = 0, pretend = 0, frame = 8
+ 485              		@ frame_needed = 0, uses_anonymous_args = 0
+ 486              		@ link register save eliminated.
+ 487 03a8 82B0     		sub	sp, sp, #8
+ 488 03aa 0346     		mov	r3, r0
+ 489 03ac ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 490 03b0 4FF00003 		mov	r3, #0
+ 491 03b4 C5F20503 		movt	r3, 20485
+ 492 03b8 BDF80620 		ldrh	r2, [sp, #6]
+ 493 03bc 5A61     		str	r2, [r3, #20]
+ 494 03be 02B0     		add	sp, sp, #8
+ 495 03c0 7047     		bx	lr
+ 497 03c2 00BF     		.align	2
+ 498              		.global	DCMI_GetITStatus
+ 499              		.thumb
+ 500              		.thumb_func
+ 502              	DCMI_GetITStatus:
+ 503              		@ args = 0, pretend = 0, frame = 16
+ 504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 505              		@ link register save eliminated.
+ 506 03c4 84B0     		sub	sp, sp, #16
+ 507 03c6 0346     		mov	r3, r0
+ 508 03c8 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 509 03cc 4FF00003 		mov	r3, #0
+ 510 03d0 8DF80F30 		strb	r3, [sp, #15]
+ 511 03d4 4FF00003 		mov	r3, #0
+ 512 03d8 0293     		str	r3, [sp, #8]
+ 513 03da 4FF00003 		mov	r3, #0
+ 514 03de C5F20503 		movt	r3, 20485
+ 515 03e2 1A69     		ldr	r2, [r3, #16]
+ 516 03e4 BDF80630 		ldrh	r3, [sp, #6]
+ 517 03e8 1340     		ands	r3, r3, r2
+ 518 03ea 0293     		str	r3, [sp, #8]
+ 519 03ec 029B     		ldr	r3, [sp, #8]
+ 520 03ee 002B     		cmp	r3, #0
+ 521 03f0 04D0     		beq	.L30
+ 522 03f2 4FF00103 		mov	r3, #1
+ 523 03f6 8DF80F30 		strb	r3, [sp, #15]
+ 524 03fa 03E0     		b	.L31
+ 525              	.L30:
+ 526 03fc 4FF00003 		mov	r3, #0
+ 527 0400 8DF80F30 		strb	r3, [sp, #15]
+ 528              	.L31:
+ 529 0404 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 530 0408 1846     		mov	r0, r3
+ 531 040a 04B0     		add	sp, sp, #16
+ 532 040c 7047     		bx	lr
+ 534 040e 00BF     		.align	2
+ 535              		.global	DCMI_ClearITPendingBit
+ 536              		.thumb
+ 537              		.thumb_func
+ 539              	DCMI_ClearITPendingBit:
+ 540              		@ args = 0, pretend = 0, frame = 8
+ 541              		@ frame_needed = 0, uses_anonymous_args = 0
+ 542              		@ link register save eliminated.
+ 543 0410 82B0     		sub	sp, sp, #8
+ 544 0412 0346     		mov	r3, r0
+ 545 0414 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 546 0418 4FF00003 		mov	r3, #0
+ 547 041c C5F20503 		movt	r3, 20485
+ 548 0420 BDF80620 		ldrh	r2, [sp, #6]
+ 549 0424 5A61     		str	r2, [r3, #20]
+ 550 0426 02B0     		add	sp, sp, #8
+ 551 0428 7047     		bx	lr
+ 553 042a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_dcmi.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:22     .text:00000000 DCMI_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:61     .text:00000064 DCMI_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:126    .text:000000ec DCMI_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:161    .text:0000012c DCMI_CROPConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:195    .text:00000168 DCMI_CROPCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:230    .text:000001b0 DCMI_SetEmbeddedSynchroCodes
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:262    .text:000001e8 DCMI_JPEGCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:297    .text:00000230 DCMI_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:332    .text:00000278 DCMI_CaptureCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:367    .text:000002c0 DCMI_ReadData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:382    .text:000002d0 DCMI_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:423    .text:00000328 DCMI_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:483    .text:000003a8 DCMI_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:502    .text:000003c4 DCMI_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccMPuWdN.s:539    .text:00000410 DCMI_ClearITPendingBit
+
+NO UNDEFINED SYMBOLS

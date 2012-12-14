@@ -1,0 +1,625 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_gpio.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	GPIO_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	GPIO_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 8
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 00B5     		push	{lr}
+  26 0002 83B0     		sub	sp, sp, #12
+  27 0004 0190     		str	r0, [sp, #4]
+  28 0006 019A     		ldr	r2, [sp, #4]
+  29 0008 4FF00003 		mov	r3, #0
+  30 000c C4F20203 		movt	r3, 16386
+  31 0010 9A42     		cmp	r2, r3
+  32 0012 0CD1     		bne	.L2
+  33 0014 4FF00100 		mov	r0, #1
+  34 0018 4FF00101 		mov	r1, #1
+  35 001c FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  36 0020 4FF00100 		mov	r0, #1
+  37 0024 4FF00001 		mov	r1, #0
+  38 0028 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  39 002c 9EE0     		b	.L1
+  40              	.L2:
+  41 002e 019A     		ldr	r2, [sp, #4]
+  42 0030 4FF48063 		mov	r3, #1024
+  43 0034 C4F20203 		movt	r3, 16386
+  44 0038 9A42     		cmp	r2, r3
+  45 003a 0CD1     		bne	.L4
+  46 003c 4FF00200 		mov	r0, #2
+  47 0040 4FF00101 		mov	r1, #1
+  48 0044 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  49 0048 4FF00200 		mov	r0, #2
+  50 004c 4FF00001 		mov	r1, #0
+  51 0050 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  52 0054 8AE0     		b	.L1
+  53              	.L4:
+  54 0056 019A     		ldr	r2, [sp, #4]
+  55 0058 4FF40063 		mov	r3, #2048
+  56 005c C4F20203 		movt	r3, 16386
+  57 0060 9A42     		cmp	r2, r3
+  58 0062 0CD1     		bne	.L5
+  59 0064 4FF00400 		mov	r0, #4
+  60 0068 4FF00101 		mov	r1, #1
+  61 006c FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  62 0070 4FF00400 		mov	r0, #4
+  63 0074 4FF00001 		mov	r1, #0
+  64 0078 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  65 007c 76E0     		b	.L1
+  66              	.L5:
+  67 007e 019A     		ldr	r2, [sp, #4]
+  68 0080 4FF44063 		mov	r3, #3072
+  69 0084 C4F20203 		movt	r3, 16386
+  70 0088 9A42     		cmp	r2, r3
+  71 008a 0CD1     		bne	.L6
+  72 008c 4FF00800 		mov	r0, #8
+  73 0090 4FF00101 		mov	r1, #1
+  74 0094 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  75 0098 4FF00800 		mov	r0, #8
+  76 009c 4FF00001 		mov	r1, #0
+  77 00a0 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  78 00a4 62E0     		b	.L1
+  79              	.L6:
+  80 00a6 019A     		ldr	r2, [sp, #4]
+  81 00a8 4FF48053 		mov	r3, #4096
+  82 00ac C4F20203 		movt	r3, 16386
+  83 00b0 9A42     		cmp	r2, r3
+  84 00b2 0CD1     		bne	.L7
+  85 00b4 4FF01000 		mov	r0, #16
+  86 00b8 4FF00101 		mov	r1, #1
+  87 00bc FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  88 00c0 4FF01000 		mov	r0, #16
+  89 00c4 4FF00001 		mov	r1, #0
+  90 00c8 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+  91 00cc 4EE0     		b	.L1
+  92              	.L7:
+  93 00ce 019A     		ldr	r2, [sp, #4]
+  94 00d0 4FF4A053 		mov	r3, #5120
+  95 00d4 C4F20203 		movt	r3, 16386
+  96 00d8 9A42     		cmp	r2, r3
+  97 00da 0CD1     		bne	.L8
+  98 00dc 4FF02000 		mov	r0, #32
+  99 00e0 4FF00101 		mov	r1, #1
+ 100 00e4 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 101 00e8 4FF02000 		mov	r0, #32
+ 102 00ec 4FF00001 		mov	r1, #0
+ 103 00f0 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 104 00f4 3AE0     		b	.L1
+ 105              	.L8:
+ 106 00f6 019A     		ldr	r2, [sp, #4]
+ 107 00f8 4FF4C053 		mov	r3, #6144
+ 108 00fc C4F20203 		movt	r3, 16386
+ 109 0100 9A42     		cmp	r2, r3
+ 110 0102 0CD1     		bne	.L9
+ 111 0104 4FF04000 		mov	r0, #64
+ 112 0108 4FF00101 		mov	r1, #1
+ 113 010c FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 114 0110 4FF04000 		mov	r0, #64
+ 115 0114 4FF00001 		mov	r1, #0
+ 116 0118 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 117 011c 26E0     		b	.L1
+ 118              	.L9:
+ 119 011e 019A     		ldr	r2, [sp, #4]
+ 120 0120 4FF4E053 		mov	r3, #7168
+ 121 0124 C4F20203 		movt	r3, 16386
+ 122 0128 9A42     		cmp	r2, r3
+ 123 012a 0CD1     		bne	.L10
+ 124 012c 4FF08000 		mov	r0, #128
+ 125 0130 4FF00101 		mov	r1, #1
+ 126 0134 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 127 0138 4FF08000 		mov	r0, #128
+ 128 013c 4FF00001 		mov	r1, #0
+ 129 0140 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 130 0144 12E0     		b	.L1
+ 131              	.L10:
+ 132 0146 019A     		ldr	r2, [sp, #4]
+ 133 0148 4FF40053 		mov	r3, #8192
+ 134 014c C4F20203 		movt	r3, 16386
+ 135 0150 9A42     		cmp	r2, r3
+ 136 0152 0BD1     		bne	.L1
+ 137 0154 4FF48070 		mov	r0, #256
+ 138 0158 4FF00101 		mov	r1, #1
+ 139 015c FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 140 0160 4FF48070 		mov	r0, #256
+ 141 0164 4FF00001 		mov	r1, #0
+ 142 0168 FFF7FEFF 		bl	RCC_AHB1PeriphResetCmd
+ 143              	.L1:
+ 144 016c 03B0     		add	sp, sp, #12
+ 145 016e 00BD     		pop	{pc}
+ 147              		.align	2
+ 148              		.global	GPIO_Init
+ 149              		.thumb
+ 150              		.thumb_func
+ 152              	GPIO_Init:
+ 153              		@ args = 0, pretend = 0, frame = 24
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155              		@ link register save eliminated.
+ 156 0170 86B0     		sub	sp, sp, #24
+ 157 0172 0190     		str	r0, [sp, #4]
+ 158 0174 0091     		str	r1, [sp, #0]
+ 159 0176 4FF00003 		mov	r3, #0
+ 160 017a 0593     		str	r3, [sp, #20]
+ 161 017c 4FF00003 		mov	r3, #0
+ 162 0180 0493     		str	r3, [sp, #16]
+ 163 0182 4FF00003 		mov	r3, #0
+ 164 0186 0393     		str	r3, [sp, #12]
+ 165 0188 4FF00003 		mov	r3, #0
+ 166 018c 0593     		str	r3, [sp, #20]
+ 167 018e 86E0     		b	.L12
+ 168              	.L16:
+ 169 0190 059B     		ldr	r3, [sp, #20]
+ 170 0192 4FF00102 		mov	r2, #1
+ 171 0196 02FA03F3 		lsl	r3, r2, r3
+ 172 019a 0493     		str	r3, [sp, #16]
+ 173 019c 009B     		ldr	r3, [sp, #0]
+ 174 019e 1A68     		ldr	r2, [r3, #0]
+ 175 01a0 049B     		ldr	r3, [sp, #16]
+ 176 01a2 1340     		ands	r3, r3, r2
+ 177 01a4 0393     		str	r3, [sp, #12]
+ 178 01a6 039A     		ldr	r2, [sp, #12]
+ 179 01a8 049B     		ldr	r3, [sp, #16]
+ 180 01aa 9A42     		cmp	r2, r3
+ 181 01ac 73D1     		bne	.L13
+ 182 01ae 019B     		ldr	r3, [sp, #4]
+ 183 01b0 1A68     		ldr	r2, [r3, #0]
+ 184 01b2 059B     		ldr	r3, [sp, #20]
+ 185 01b4 4FEA4303 		lsl	r3, r3, #1
+ 186 01b8 4FF00301 		mov	r1, #3
+ 187 01bc 01FA03F3 		lsl	r3, r1, r3
+ 188 01c0 6FEA0303 		mvn	r3, r3
+ 189 01c4 1A40     		ands	r2, r2, r3
+ 190 01c6 019B     		ldr	r3, [sp, #4]
+ 191 01c8 1A60     		str	r2, [r3, #0]
+ 192 01ca 019B     		ldr	r3, [sp, #4]
+ 193 01cc 1A68     		ldr	r2, [r3, #0]
+ 194 01ce 009B     		ldr	r3, [sp, #0]
+ 195 01d0 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 196 01d2 1946     		mov	r1, r3
+ 197 01d4 059B     		ldr	r3, [sp, #20]
+ 198 01d6 4FEA4303 		lsl	r3, r3, #1
+ 199 01da 01FA03F3 		lsl	r3, r1, r3
+ 200 01de 1A43     		orrs	r2, r2, r3
+ 201 01e0 019B     		ldr	r3, [sp, #4]
+ 202 01e2 1A60     		str	r2, [r3, #0]
+ 203 01e4 009B     		ldr	r3, [sp, #0]
+ 204 01e6 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 205 01e8 012B     		cmp	r3, #1
+ 206 01ea 03D0     		beq	.L14
+ 207 01ec 009B     		ldr	r3, [sp, #0]
+ 208 01ee 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 209 01f0 022B     		cmp	r3, #2
+ 210 01f2 34D1     		bne	.L15
+ 211              	.L14:
+ 212 01f4 019B     		ldr	r3, [sp, #4]
+ 213 01f6 9A68     		ldr	r2, [r3, #8]
+ 214 01f8 059B     		ldr	r3, [sp, #20]
+ 215 01fa 4FEA4303 		lsl	r3, r3, #1
+ 216 01fe 4FF00301 		mov	r1, #3
+ 217 0202 01FA03F3 		lsl	r3, r1, r3
+ 218 0206 6FEA0303 		mvn	r3, r3
+ 219 020a 1A40     		ands	r2, r2, r3
+ 220 020c 019B     		ldr	r3, [sp, #4]
+ 221 020e 9A60     		str	r2, [r3, #8]
+ 222 0210 019B     		ldr	r3, [sp, #4]
+ 223 0212 9A68     		ldr	r2, [r3, #8]
+ 224 0214 009B     		ldr	r3, [sp, #0]
+ 225 0216 5B79     		ldrb	r3, [r3, #5]	@ zero_extendqisi2
+ 226 0218 1946     		mov	r1, r3
+ 227 021a 059B     		ldr	r3, [sp, #20]
+ 228 021c 4FEA4303 		lsl	r3, r3, #1
+ 229 0220 01FA03F3 		lsl	r3, r1, r3
+ 230 0224 1A43     		orrs	r2, r2, r3
+ 231 0226 019B     		ldr	r3, [sp, #4]
+ 232 0228 9A60     		str	r2, [r3, #8]
+ 233 022a 019B     		ldr	r3, [sp, #4]
+ 234 022c 5A68     		ldr	r2, [r3, #4]
+ 235 022e 059B     		ldr	r3, [sp, #20]
+ 236 0230 9BB2     		uxth	r3, r3
+ 237 0232 4FF00101 		mov	r1, #1
+ 238 0236 01FA03F3 		lsl	r3, r1, r3
+ 239 023a 6FEA0303 		mvn	r3, r3
+ 240 023e 1A40     		ands	r2, r2, r3
+ 241 0240 019B     		ldr	r3, [sp, #4]
+ 242 0242 5A60     		str	r2, [r3, #4]
+ 243 0244 019B     		ldr	r3, [sp, #4]
+ 244 0246 5A68     		ldr	r2, [r3, #4]
+ 245 0248 009B     		ldr	r3, [sp, #0]
+ 246 024a 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 247 024c 1946     		mov	r1, r3
+ 248 024e 059B     		ldr	r3, [sp, #20]
+ 249 0250 9BB2     		uxth	r3, r3
+ 250 0252 01FA03F3 		lsl	r3, r1, r3
+ 251 0256 9BB2     		uxth	r3, r3
+ 252 0258 1A43     		orrs	r2, r2, r3
+ 253 025a 019B     		ldr	r3, [sp, #4]
+ 254 025c 5A60     		str	r2, [r3, #4]
+ 255              	.L15:
+ 256 025e 019B     		ldr	r3, [sp, #4]
+ 257 0260 DA68     		ldr	r2, [r3, #12]
+ 258 0262 059B     		ldr	r3, [sp, #20]
+ 259 0264 9BB2     		uxth	r3, r3
+ 260 0266 4FEA4303 		lsl	r3, r3, #1
+ 261 026a 4FF00301 		mov	r1, #3
+ 262 026e 01FA03F3 		lsl	r3, r1, r3
+ 263 0272 6FEA0303 		mvn	r3, r3
+ 264 0276 1A40     		ands	r2, r2, r3
+ 265 0278 019B     		ldr	r3, [sp, #4]
+ 266 027a DA60     		str	r2, [r3, #12]
+ 267 027c 019B     		ldr	r3, [sp, #4]
+ 268 027e DA68     		ldr	r2, [r3, #12]
+ 269 0280 009B     		ldr	r3, [sp, #0]
+ 270 0282 DB79     		ldrb	r3, [r3, #7]	@ zero_extendqisi2
+ 271 0284 1946     		mov	r1, r3
+ 272 0286 059B     		ldr	r3, [sp, #20]
+ 273 0288 4FEA4303 		lsl	r3, r3, #1
+ 274 028c 01FA03F3 		lsl	r3, r1, r3
+ 275 0290 1A43     		orrs	r2, r2, r3
+ 276 0292 019B     		ldr	r3, [sp, #4]
+ 277 0294 DA60     		str	r2, [r3, #12]
+ 278              	.L13:
+ 279 0296 059B     		ldr	r3, [sp, #20]
+ 280 0298 03F10103 		add	r3, r3, #1
+ 281 029c 0593     		str	r3, [sp, #20]
+ 282              	.L12:
+ 283 029e 059B     		ldr	r3, [sp, #20]
+ 284 02a0 0F2B     		cmp	r3, #15
+ 285 02a2 7FF675AF 		bls	.L16
+ 286 02a6 06B0     		add	sp, sp, #24
+ 287 02a8 7047     		bx	lr
+ 289 02aa 00BF     		.align	2
+ 290              		.global	GPIO_StructInit
+ 291              		.thumb
+ 292              		.thumb_func
+ 294              	GPIO_StructInit:
+ 295              		@ args = 0, pretend = 0, frame = 8
+ 296              		@ frame_needed = 0, uses_anonymous_args = 0
+ 297              		@ link register save eliminated.
+ 298 02ac 82B0     		sub	sp, sp, #8
+ 299 02ae 0190     		str	r0, [sp, #4]
+ 300 02b0 019B     		ldr	r3, [sp, #4]
+ 301 02b2 4FF6FF72 		movw	r2, #65535
+ 302 02b6 1A60     		str	r2, [r3, #0]
+ 303 02b8 019B     		ldr	r3, [sp, #4]
+ 304 02ba 4FF00002 		mov	r2, #0
+ 305 02be 1A71     		strb	r2, [r3, #4]
+ 306 02c0 019B     		ldr	r3, [sp, #4]
+ 307 02c2 4FF00002 		mov	r2, #0
+ 308 02c6 5A71     		strb	r2, [r3, #5]
+ 309 02c8 019B     		ldr	r3, [sp, #4]
+ 310 02ca 4FF00002 		mov	r2, #0
+ 311 02ce 9A71     		strb	r2, [r3, #6]
+ 312 02d0 019B     		ldr	r3, [sp, #4]
+ 313 02d2 4FF00002 		mov	r2, #0
+ 314 02d6 DA71     		strb	r2, [r3, #7]
+ 315 02d8 02B0     		add	sp, sp, #8
+ 316 02da 7047     		bx	lr
+ 318              		.align	2
+ 319              		.global	GPIO_PinLockConfig
+ 320              		.thumb
+ 321              		.thumb_func
+ 323              	GPIO_PinLockConfig:
+ 324              		@ args = 0, pretend = 0, frame = 16
+ 325              		@ frame_needed = 0, uses_anonymous_args = 0
+ 326              		@ link register save eliminated.
+ 327 02dc 84B0     		sub	sp, sp, #16
+ 328 02de 0190     		str	r0, [sp, #4]
+ 329 02e0 0B46     		mov	r3, r1
+ 330 02e2 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 331 02e6 4FF48033 		mov	r3, #65536
+ 332 02ea 0393     		str	r3, [sp, #12]
+ 333 02ec BDF80220 		ldrh	r2, [sp, #2]
+ 334 02f0 039B     		ldr	r3, [sp, #12]
+ 335 02f2 1343     		orrs	r3, r3, r2
+ 336 02f4 0393     		str	r3, [sp, #12]
+ 337 02f6 039A     		ldr	r2, [sp, #12]
+ 338 02f8 019B     		ldr	r3, [sp, #4]
+ 339 02fa DA61     		str	r2, [r3, #28]
+ 340 02fc BDF80220 		ldrh	r2, [sp, #2]
+ 341 0300 019B     		ldr	r3, [sp, #4]
+ 342 0302 DA61     		str	r2, [r3, #28]
+ 343 0304 039A     		ldr	r2, [sp, #12]
+ 344 0306 019B     		ldr	r3, [sp, #4]
+ 345 0308 DA61     		str	r2, [r3, #28]
+ 346 030a 019B     		ldr	r3, [sp, #4]
+ 347 030c DB69     		ldr	r3, [r3, #28]
+ 348 030e 0393     		str	r3, [sp, #12]
+ 349 0310 019B     		ldr	r3, [sp, #4]
+ 350 0312 DB69     		ldr	r3, [r3, #28]
+ 351 0314 0393     		str	r3, [sp, #12]
+ 352 0316 04B0     		add	sp, sp, #16
+ 353 0318 7047     		bx	lr
+ 355 031a 00BF     		.align	2
+ 356              		.global	GPIO_ReadInputDataBit
+ 357              		.thumb
+ 358              		.thumb_func
+ 360              	GPIO_ReadInputDataBit:
+ 361              		@ args = 0, pretend = 0, frame = 16
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              		@ link register save eliminated.
+ 364 031c 84B0     		sub	sp, sp, #16
+ 365 031e 0190     		str	r0, [sp, #4]
+ 366 0320 0B46     		mov	r3, r1
+ 367 0322 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 368 0326 4FF00003 		mov	r3, #0
+ 369 032a 8DF80F30 		strb	r3, [sp, #15]
+ 370 032e 019B     		ldr	r3, [sp, #4]
+ 371 0330 1A69     		ldr	r2, [r3, #16]
+ 372 0332 BDF80230 		ldrh	r3, [sp, #2]
+ 373 0336 1340     		ands	r3, r3, r2
+ 374 0338 002B     		cmp	r3, #0
+ 375 033a 04D0     		beq	.L20
+ 376 033c 4FF00103 		mov	r3, #1
+ 377 0340 8DF80F30 		strb	r3, [sp, #15]
+ 378 0344 03E0     		b	.L21
+ 379              	.L20:
+ 380 0346 4FF00003 		mov	r3, #0
+ 381 034a 8DF80F30 		strb	r3, [sp, #15]
+ 382              	.L21:
+ 383 034e 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 384 0352 1846     		mov	r0, r3
+ 385 0354 04B0     		add	sp, sp, #16
+ 386 0356 7047     		bx	lr
+ 388              		.align	2
+ 389              		.global	GPIO_ReadInputData
+ 390              		.thumb
+ 391              		.thumb_func
+ 393              	GPIO_ReadInputData:
+ 394              		@ args = 0, pretend = 0, frame = 8
+ 395              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396              		@ link register save eliminated.
+ 397 0358 82B0     		sub	sp, sp, #8
+ 398 035a 0190     		str	r0, [sp, #4]
+ 399 035c 019B     		ldr	r3, [sp, #4]
+ 400 035e 1B69     		ldr	r3, [r3, #16]
+ 401 0360 9BB2     		uxth	r3, r3
+ 402 0362 1846     		mov	r0, r3
+ 403 0364 02B0     		add	sp, sp, #8
+ 404 0366 7047     		bx	lr
+ 406              		.align	2
+ 407              		.global	GPIO_ReadOutputDataBit
+ 408              		.thumb
+ 409              		.thumb_func
+ 411              	GPIO_ReadOutputDataBit:
+ 412              		@ args = 0, pretend = 0, frame = 16
+ 413              		@ frame_needed = 0, uses_anonymous_args = 0
+ 414              		@ link register save eliminated.
+ 415 0368 84B0     		sub	sp, sp, #16
+ 416 036a 0190     		str	r0, [sp, #4]
+ 417 036c 0B46     		mov	r3, r1
+ 418 036e ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 419 0372 4FF00003 		mov	r3, #0
+ 420 0376 8DF80F30 		strb	r3, [sp, #15]
+ 421 037a 019B     		ldr	r3, [sp, #4]
+ 422 037c 5A69     		ldr	r2, [r3, #20]
+ 423 037e BDF80230 		ldrh	r3, [sp, #2]
+ 424 0382 1340     		ands	r3, r3, r2
+ 425 0384 002B     		cmp	r3, #0
+ 426 0386 04D0     		beq	.L24
+ 427 0388 4FF00103 		mov	r3, #1
+ 428 038c 8DF80F30 		strb	r3, [sp, #15]
+ 429 0390 03E0     		b	.L25
+ 430              	.L24:
+ 431 0392 4FF00003 		mov	r3, #0
+ 432 0396 8DF80F30 		strb	r3, [sp, #15]
+ 433              	.L25:
+ 434 039a 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 435 039e 1846     		mov	r0, r3
+ 436 03a0 04B0     		add	sp, sp, #16
+ 437 03a2 7047     		bx	lr
+ 439              		.align	2
+ 440              		.global	GPIO_ReadOutputData
+ 441              		.thumb
+ 442              		.thumb_func
+ 444              	GPIO_ReadOutputData:
+ 445              		@ args = 0, pretend = 0, frame = 8
+ 446              		@ frame_needed = 0, uses_anonymous_args = 0
+ 447              		@ link register save eliminated.
+ 448 03a4 82B0     		sub	sp, sp, #8
+ 449 03a6 0190     		str	r0, [sp, #4]
+ 450 03a8 019B     		ldr	r3, [sp, #4]
+ 451 03aa 5B69     		ldr	r3, [r3, #20]
+ 452 03ac 9BB2     		uxth	r3, r3
+ 453 03ae 1846     		mov	r0, r3
+ 454 03b0 02B0     		add	sp, sp, #8
+ 455 03b2 7047     		bx	lr
+ 457              		.align	2
+ 458              		.global	GPIO_SetBits
+ 459              		.thumb
+ 460              		.thumb_func
+ 462              	GPIO_SetBits:
+ 463              		@ args = 0, pretend = 0, frame = 8
+ 464              		@ frame_needed = 0, uses_anonymous_args = 0
+ 465              		@ link register save eliminated.
+ 466 03b4 82B0     		sub	sp, sp, #8
+ 467 03b6 0190     		str	r0, [sp, #4]
+ 468 03b8 0B46     		mov	r3, r1
+ 469 03ba ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 470 03be 019B     		ldr	r3, [sp, #4]
+ 471 03c0 BDF80220 		ldrh	r2, [sp, #2]	@ movhi
+ 472 03c4 1A83     		strh	r2, [r3, #24]	@ movhi
+ 473 03c6 02B0     		add	sp, sp, #8
+ 474 03c8 7047     		bx	lr
+ 476 03ca 00BF     		.align	2
+ 477              		.global	GPIO_ResetBits
+ 478              		.thumb
+ 479              		.thumb_func
+ 481              	GPIO_ResetBits:
+ 482              		@ args = 0, pretend = 0, frame = 8
+ 483              		@ frame_needed = 0, uses_anonymous_args = 0
+ 484              		@ link register save eliminated.
+ 485 03cc 82B0     		sub	sp, sp, #8
+ 486 03ce 0190     		str	r0, [sp, #4]
+ 487 03d0 0B46     		mov	r3, r1
+ 488 03d2 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 489 03d6 019B     		ldr	r3, [sp, #4]
+ 490 03d8 BDF80220 		ldrh	r2, [sp, #2]	@ movhi
+ 491 03dc 5A83     		strh	r2, [r3, #26]	@ movhi
+ 492 03de 02B0     		add	sp, sp, #8
+ 493 03e0 7047     		bx	lr
+ 495 03e2 00BF     		.align	2
+ 496              		.global	GPIO_WriteBit
+ 497              		.thumb
+ 498              		.thumb_func
+ 500              	GPIO_WriteBit:
+ 501              		@ args = 0, pretend = 0, frame = 8
+ 502              		@ frame_needed = 0, uses_anonymous_args = 0
+ 503              		@ link register save eliminated.
+ 504 03e4 82B0     		sub	sp, sp, #8
+ 505 03e6 0190     		str	r0, [sp, #4]
+ 506 03e8 1346     		mov	r3, r2
+ 507 03ea 0A46     		mov	r2, r1	@ movhi
+ 508 03ec ADF80220 		strh	r2, [sp, #2]	@ movhi
+ 509 03f0 8DF80130 		strb	r3, [sp, #1]
+ 510 03f4 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
+ 511 03f8 002B     		cmp	r3, #0
+ 512 03fa 04D0     		beq	.L30
+ 513 03fc 019B     		ldr	r3, [sp, #4]
+ 514 03fe BDF80220 		ldrh	r2, [sp, #2]	@ movhi
+ 515 0402 1A83     		strh	r2, [r3, #24]	@ movhi
+ 516 0404 03E0     		b	.L29
+ 517              	.L30:
+ 518 0406 019B     		ldr	r3, [sp, #4]
+ 519 0408 BDF80220 		ldrh	r2, [sp, #2]	@ movhi
+ 520 040c 5A83     		strh	r2, [r3, #26]	@ movhi
+ 521              	.L29:
+ 522 040e 02B0     		add	sp, sp, #8
+ 523 0410 7047     		bx	lr
+ 525 0412 00BF     		.align	2
+ 526              		.global	GPIO_Write
+ 527              		.thumb
+ 528              		.thumb_func
+ 530              	GPIO_Write:
+ 531              		@ args = 0, pretend = 0, frame = 8
+ 532              		@ frame_needed = 0, uses_anonymous_args = 0
+ 533              		@ link register save eliminated.
+ 534 0414 82B0     		sub	sp, sp, #8
+ 535 0416 0190     		str	r0, [sp, #4]
+ 536 0418 0B46     		mov	r3, r1
+ 537 041a ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 538 041e BDF80220 		ldrh	r2, [sp, #2]
+ 539 0422 019B     		ldr	r3, [sp, #4]
+ 540 0424 5A61     		str	r2, [r3, #20]
+ 541 0426 02B0     		add	sp, sp, #8
+ 542 0428 7047     		bx	lr
+ 544 042a 00BF     		.align	2
+ 545              		.global	GPIO_ToggleBits
+ 546              		.thumb
+ 547              		.thumb_func
+ 549              	GPIO_ToggleBits:
+ 550              		@ args = 0, pretend = 0, frame = 8
+ 551              		@ frame_needed = 0, uses_anonymous_args = 0
+ 552              		@ link register save eliminated.
+ 553 042c 82B0     		sub	sp, sp, #8
+ 554 042e 0190     		str	r0, [sp, #4]
+ 555 0430 0B46     		mov	r3, r1
+ 556 0432 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 557 0436 019B     		ldr	r3, [sp, #4]
+ 558 0438 5A69     		ldr	r2, [r3, #20]
+ 559 043a BDF80230 		ldrh	r3, [sp, #2]
+ 560 043e 5A40     		eors	r2, r2, r3
+ 561 0440 019B     		ldr	r3, [sp, #4]
+ 562 0442 5A61     		str	r2, [r3, #20]
+ 563 0444 02B0     		add	sp, sp, #8
+ 564 0446 7047     		bx	lr
+ 566              		.align	2
+ 567              		.global	GPIO_PinAFConfig
+ 568              		.thumb
+ 569              		.thumb_func
+ 571              	GPIO_PinAFConfig:
+ 572              		@ args = 0, pretend = 0, frame = 16
+ 573              		@ frame_needed = 0, uses_anonymous_args = 0
+ 574              		@ link register save eliminated.
+ 575 0448 84B0     		sub	sp, sp, #16
+ 576 044a 0190     		str	r0, [sp, #4]
+ 577 044c 1346     		mov	r3, r2
+ 578 044e 0A46     		mov	r2, r1	@ movhi
+ 579 0450 ADF80220 		strh	r2, [sp, #2]	@ movhi
+ 580 0454 8DF80130 		strb	r3, [sp, #1]
+ 581 0458 4FF00003 		mov	r3, #0
+ 582 045c 0393     		str	r3, [sp, #12]
+ 583 045e 4FF00003 		mov	r3, #0
+ 584 0462 0293     		str	r3, [sp, #8]
+ 585 0464 9DF80120 		ldrb	r2, [sp, #1]	@ zero_extendqisi2
+ 586 0468 BDF80230 		ldrh	r3, [sp, #2]
+ 587 046c 03F00703 		and	r3, r3, #7
+ 588 0470 4FEA8303 		lsl	r3, r3, #2
+ 589 0474 02FA03F3 		lsl	r3, r2, r3
+ 590 0478 0393     		str	r3, [sp, #12]
+ 591 047a BDF80230 		ldrh	r3, [sp, #2]
+ 592 047e 4FEAD303 		lsr	r3, r3, #3
+ 593 0482 9BB2     		uxth	r3, r3
+ 594 0484 1A46     		mov	r2, r3
+ 595 0486 BDF80230 		ldrh	r3, [sp, #2]
+ 596 048a 4FEAD303 		lsr	r3, r3, #3
+ 597 048e 9BB2     		uxth	r3, r3
+ 598 0490 1946     		mov	r1, r3
+ 599 0492 019B     		ldr	r3, [sp, #4]
+ 600 0494 01F10801 		add	r1, r1, #8
+ 601 0498 53F82110 		ldr	r1, [r3, r1, lsl #2]
+ 602 049c BDF80230 		ldrh	r3, [sp, #2]
+ 603 04a0 03F00703 		and	r3, r3, #7
+ 604 04a4 4FEA8303 		lsl	r3, r3, #2
+ 605 04a8 4FF00F00 		mov	r0, #15
+ 606 04ac 00FA03F3 		lsl	r3, r0, r3
+ 607 04b0 6FEA0303 		mvn	r3, r3
+ 608 04b4 1940     		ands	r1, r1, r3
+ 609 04b6 019B     		ldr	r3, [sp, #4]
+ 610 04b8 02F10802 		add	r2, r2, #8
+ 611 04bc 43F82210 		str	r1, [r3, r2, lsl #2]
+ 612 04c0 BDF80230 		ldrh	r3, [sp, #2]
+ 613 04c4 4FEAD303 		lsr	r3, r3, #3
+ 614 04c8 9BB2     		uxth	r3, r3
+ 615 04ca 1A46     		mov	r2, r3
+ 616 04cc 019B     		ldr	r3, [sp, #4]
+ 617 04ce 02F10802 		add	r2, r2, #8
+ 618 04d2 53F82220 		ldr	r2, [r3, r2, lsl #2]
+ 619 04d6 039B     		ldr	r3, [sp, #12]
+ 620 04d8 1343     		orrs	r3, r3, r2
+ 621 04da 0293     		str	r3, [sp, #8]
+ 622 04dc BDF80230 		ldrh	r3, [sp, #2]
+ 623 04e0 4FEAD303 		lsr	r3, r3, #3
+ 624 04e4 9BB2     		uxth	r3, r3
+ 625 04e6 1A46     		mov	r2, r3
+ 626 04e8 019B     		ldr	r3, [sp, #4]
+ 627 04ea 02F10802 		add	r2, r2, #8
+ 628 04ee 0299     		ldr	r1, [sp, #8]
+ 629 04f0 43F82210 		str	r1, [r3, r2, lsl #2]
+ 630 04f4 04B0     		add	sp, sp, #16
+ 631 04f6 7047     		bx	lr
+ 633              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_gpio.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:22     .text:00000000 GPIO_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:152    .text:00000170 GPIO_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:294    .text:000002ac GPIO_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:323    .text:000002dc GPIO_PinLockConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:360    .text:0000031c GPIO_ReadInputDataBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:393    .text:00000358 GPIO_ReadInputData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:411    .text:00000368 GPIO_ReadOutputDataBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:444    .text:000003a4 GPIO_ReadOutputData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:462    .text:000003b4 GPIO_SetBits
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:481    .text:000003cc GPIO_ResetBits
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:500    .text:000003e4 GPIO_WriteBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:530    .text:00000414 GPIO_Write
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:549    .text:0000042c GPIO_ToggleBits
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccmRVBpb.s:571    .text:00000448 GPIO_PinAFConfig
+
+UNDEFINED SYMBOLS
+RCC_AHB1PeriphResetCmd

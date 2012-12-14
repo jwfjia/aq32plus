@@ -1,0 +1,573 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_hash.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	HASH_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	HASH_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 4FF02000 		mov	r0, #32
+  27 0006 4FF00101 		mov	r1, #1
+  28 000a FFF7FEFF 		bl	RCC_AHB2PeriphResetCmd
+  29 000e 4FF02000 		mov	r0, #32
+  30 0012 4FF00001 		mov	r1, #0
+  31 0016 FFF7FEFF 		bl	RCC_AHB2PeriphResetCmd
+  32 001a 08BD     		pop	{r3, pc}
+  34              		.align	2
+  35              		.global	HASH_Init
+  36              		.thumb
+  37              		.thumb_func
+  39              	HASH_Init:
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 001c 82B0     		sub	sp, sp, #8
+  44 001e 0190     		str	r0, [sp, #4]
+  45 0020 4FF48063 		mov	r3, #1024
+  46 0024 C5F20603 		movt	r3, 20486
+  47 0028 4FF48062 		mov	r2, #1024
+  48 002c C5F20602 		movt	r2, 20486
+  49 0030 1268     		ldr	r2, [r2, #0]
+  50 0032 22F0F002 		bic	r2, r2, #240
+  51 0036 1A60     		str	r2, [r3, #0]
+  52 0038 4FF48063 		mov	r3, #1024
+  53 003c C5F20603 		movt	r3, 20486
+  54 0040 4FF48062 		mov	r2, #1024
+  55 0044 C5F20602 		movt	r2, 20486
+  56 0048 1168     		ldr	r1, [r2, #0]
+  57 004a 019A     		ldr	r2, [sp, #4]
+  58 004c 1068     		ldr	r0, [r2, #0]
+  59 004e 019A     		ldr	r2, [sp, #4]
+  60 0050 9268     		ldr	r2, [r2, #8]
+  61 0052 1043     		orrs	r0, r0, r2
+  62 0054 019A     		ldr	r2, [sp, #4]
+  63 0056 5268     		ldr	r2, [r2, #4]
+  64 0058 0243     		orrs	r2, r2, r0
+  65 005a 0A43     		orrs	r2, r2, r1
+  66 005c 1A60     		str	r2, [r3, #0]
+  67 005e 019B     		ldr	r3, [sp, #4]
+  68 0060 5B68     		ldr	r3, [r3, #4]
+  69 0062 402B     		cmp	r3, #64
+  70 0064 18D1     		bne	.L3
+  71 0066 4FF48063 		mov	r3, #1024
+  72 006a C5F20603 		movt	r3, 20486
+  73 006e 4FF48062 		mov	r2, #1024
+  74 0072 C5F20602 		movt	r2, 20486
+  75 0076 1268     		ldr	r2, [r2, #0]
+  76 0078 22F48032 		bic	r2, r2, #65536
+  77 007c 1A60     		str	r2, [r3, #0]
+  78 007e 4FF48063 		mov	r3, #1024
+  79 0082 C5F20603 		movt	r3, 20486
+  80 0086 4FF48062 		mov	r2, #1024
+  81 008a C5F20602 		movt	r2, 20486
+  82 008e 1168     		ldr	r1, [r2, #0]
+  83 0090 019A     		ldr	r2, [sp, #4]
+  84 0092 D268     		ldr	r2, [r2, #12]
+  85 0094 0A43     		orrs	r2, r2, r1
+  86 0096 1A60     		str	r2, [r3, #0]
+  87              	.L3:
+  88 0098 4FF48063 		mov	r3, #1024
+  89 009c C5F20603 		movt	r3, 20486
+  90 00a0 4FF48062 		mov	r2, #1024
+  91 00a4 C5F20602 		movt	r2, 20486
+  92 00a8 1268     		ldr	r2, [r2, #0]
+  93 00aa 42F00402 		orr	r2, r2, #4
+  94 00ae 1A60     		str	r2, [r3, #0]
+  95 00b0 02B0     		add	sp, sp, #8
+  96 00b2 7047     		bx	lr
+  98              		.align	2
+  99              		.global	HASH_StructInit
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	HASH_StructInit:
+ 104              		@ args = 0, pretend = 0, frame = 8
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107 00b4 82B0     		sub	sp, sp, #8
+ 108 00b6 0190     		str	r0, [sp, #4]
+ 109 00b8 019B     		ldr	r3, [sp, #4]
+ 110 00ba 4FF00002 		mov	r2, #0
+ 111 00be 1A60     		str	r2, [r3, #0]
+ 112 00c0 019B     		ldr	r3, [sp, #4]
+ 113 00c2 4FF00002 		mov	r2, #0
+ 114 00c6 5A60     		str	r2, [r3, #4]
+ 115 00c8 019B     		ldr	r3, [sp, #4]
+ 116 00ca 4FF00002 		mov	r2, #0
+ 117 00ce 9A60     		str	r2, [r3, #8]
+ 118 00d0 019B     		ldr	r3, [sp, #4]
+ 119 00d2 4FF00002 		mov	r2, #0
+ 120 00d6 DA60     		str	r2, [r3, #12]
+ 121 00d8 02B0     		add	sp, sp, #8
+ 122 00da 7047     		bx	lr
+ 124              		.align	2
+ 125              		.global	HASH_Reset
+ 126              		.thumb
+ 127              		.thumb_func
+ 129              	HASH_Reset:
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              		@ link register save eliminated.
+ 133 00dc 4FF48063 		mov	r3, #1024
+ 134 00e0 C5F20603 		movt	r3, 20486
+ 135 00e4 4FF48062 		mov	r2, #1024
+ 136 00e8 C5F20602 		movt	r2, 20486
+ 137 00ec 1268     		ldr	r2, [r2, #0]
+ 138 00ee 42F00402 		orr	r2, r2, #4
+ 139 00f2 1A60     		str	r2, [r3, #0]
+ 140 00f4 7047     		bx	lr
+ 142 00f6 00BF     		.align	2
+ 143              		.global	HASH_SetLastWordValidBitsNbr
+ 144              		.thumb
+ 145              		.thumb_func
+ 147              	HASH_SetLastWordValidBitsNbr:
+ 148              		@ args = 0, pretend = 0, frame = 8
+ 149              		@ frame_needed = 0, uses_anonymous_args = 0
+ 150              		@ link register save eliminated.
+ 151 00f8 82B0     		sub	sp, sp, #8
+ 152 00fa 0346     		mov	r3, r0
+ 153 00fc ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 154 0100 4FF48063 		mov	r3, #1024
+ 155 0104 C5F20603 		movt	r3, 20486
+ 156 0108 4FF48062 		mov	r2, #1024
+ 157 010c C5F20602 		movt	r2, 20486
+ 158 0110 9268     		ldr	r2, [r2, #8]
+ 159 0112 22F01F02 		bic	r2, r2, #31
+ 160 0116 9A60     		str	r2, [r3, #8]
+ 161 0118 4FF48063 		mov	r3, #1024
+ 162 011c C5F20603 		movt	r3, 20486
+ 163 0120 4FF48062 		mov	r2, #1024
+ 164 0124 C5F20602 		movt	r2, 20486
+ 165 0128 9168     		ldr	r1, [r2, #8]
+ 166 012a BDF80620 		ldrh	r2, [sp, #6]
+ 167 012e 0A43     		orrs	r2, r2, r1
+ 168 0130 9A60     		str	r2, [r3, #8]
+ 169 0132 02B0     		add	sp, sp, #8
+ 170 0134 7047     		bx	lr
+ 172 0136 00BF     		.align	2
+ 173              		.global	HASH_DataIn
+ 174              		.thumb
+ 175              		.thumb_func
+ 177              	HASH_DataIn:
+ 178              		@ args = 0, pretend = 0, frame = 8
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180              		@ link register save eliminated.
+ 181 0138 82B0     		sub	sp, sp, #8
+ 182 013a 0190     		str	r0, [sp, #4]
+ 183 013c 4FF48063 		mov	r3, #1024
+ 184 0140 C5F20603 		movt	r3, 20486
+ 185 0144 019A     		ldr	r2, [sp, #4]
+ 186 0146 5A60     		str	r2, [r3, #4]
+ 187 0148 02B0     		add	sp, sp, #8
+ 188 014a 7047     		bx	lr
+ 190              		.align	2
+ 191              		.global	HASH_GetInFIFOWordsNbr
+ 192              		.thumb
+ 193              		.thumb_func
+ 195              	HASH_GetInFIFOWordsNbr:
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198              		@ link register save eliminated.
+ 199 014c 4FF48063 		mov	r3, #1024
+ 200 0150 C5F20603 		movt	r3, 20486
+ 201 0154 1B68     		ldr	r3, [r3, #0]
+ 202 0156 03F47063 		and	r3, r3, #3840
+ 203 015a 4FEA1323 		lsr	r3, r3, #8
+ 204 015e DBB2     		uxtb	r3, r3
+ 205 0160 1846     		mov	r0, r3
+ 206 0162 7047     		bx	lr
+ 208              		.align	2
+ 209              		.global	HASH_GetDigest
+ 210              		.thumb
+ 211              		.thumb_func
+ 213              	HASH_GetDigest:
+ 214              		@ args = 0, pretend = 0, frame = 8
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              		@ link register save eliminated.
+ 217 0164 82B0     		sub	sp, sp, #8
+ 218 0166 0190     		str	r0, [sp, #4]
+ 219 0168 4FF48063 		mov	r3, #1024
+ 220 016c C5F20603 		movt	r3, 20486
+ 221 0170 DA68     		ldr	r2, [r3, #12]
+ 222 0172 019B     		ldr	r3, [sp, #4]
+ 223 0174 1A60     		str	r2, [r3, #0]
+ 224 0176 4FF48063 		mov	r3, #1024
+ 225 017a C5F20603 		movt	r3, 20486
+ 226 017e 1A69     		ldr	r2, [r3, #16]
+ 227 0180 019B     		ldr	r3, [sp, #4]
+ 228 0182 5A60     		str	r2, [r3, #4]
+ 229 0184 4FF48063 		mov	r3, #1024
+ 230 0188 C5F20603 		movt	r3, 20486
+ 231 018c 5A69     		ldr	r2, [r3, #20]
+ 232 018e 019B     		ldr	r3, [sp, #4]
+ 233 0190 9A60     		str	r2, [r3, #8]
+ 234 0192 4FF48063 		mov	r3, #1024
+ 235 0196 C5F20603 		movt	r3, 20486
+ 236 019a 9A69     		ldr	r2, [r3, #24]
+ 237 019c 019B     		ldr	r3, [sp, #4]
+ 238 019e DA60     		str	r2, [r3, #12]
+ 239 01a0 4FF48063 		mov	r3, #1024
+ 240 01a4 C5F20603 		movt	r3, 20486
+ 241 01a8 DA69     		ldr	r2, [r3, #28]
+ 242 01aa 019B     		ldr	r3, [sp, #4]
+ 243 01ac 1A61     		str	r2, [r3, #16]
+ 244 01ae 02B0     		add	sp, sp, #8
+ 245 01b0 7047     		bx	lr
+ 247 01b2 00BF     		.align	2
+ 248              		.global	HASH_StartDigest
+ 249              		.thumb
+ 250              		.thumb_func
+ 252              	HASH_StartDigest:
+ 253              		@ args = 0, pretend = 0, frame = 0
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 255              		@ link register save eliminated.
+ 256 01b4 4FF48063 		mov	r3, #1024
+ 257 01b8 C5F20603 		movt	r3, 20486
+ 258 01bc 4FF48062 		mov	r2, #1024
+ 259 01c0 C5F20602 		movt	r2, 20486
+ 260 01c4 9268     		ldr	r2, [r2, #8]
+ 261 01c6 42F48072 		orr	r2, r2, #256
+ 262 01ca 9A60     		str	r2, [r3, #8]
+ 263 01cc 7047     		bx	lr
+ 265 01ce 00BF     		.align	2
+ 266              		.global	HASH_SaveContext
+ 267              		.thumb
+ 268              		.thumb_func
+ 270              	HASH_SaveContext:
+ 271              		@ args = 0, pretend = 0, frame = 16
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 273              		@ link register save eliminated.
+ 274 01d0 84B0     		sub	sp, sp, #16
+ 275 01d2 0190     		str	r0, [sp, #4]
+ 276 01d4 4FF00003 		mov	r3, #0
+ 277 01d8 8DF80F30 		strb	r3, [sp, #15]
+ 278 01dc 4FF48063 		mov	r3, #1024
+ 279 01e0 C5F20603 		movt	r3, 20486
+ 280 01e4 1A6A     		ldr	r2, [r3, #32]
+ 281 01e6 019B     		ldr	r3, [sp, #4]
+ 282 01e8 1A60     		str	r2, [r3, #0]
+ 283 01ea 4FF48063 		mov	r3, #1024
+ 284 01ee C5F20603 		movt	r3, 20486
+ 285 01f2 9A68     		ldr	r2, [r3, #8]
+ 286 01f4 019B     		ldr	r3, [sp, #4]
+ 287 01f6 5A60     		str	r2, [r3, #4]
+ 288 01f8 4FF48063 		mov	r3, #1024
+ 289 01fc C5F20603 		movt	r3, 20486
+ 290 0200 1A68     		ldr	r2, [r3, #0]
+ 291 0202 019B     		ldr	r3, [sp, #4]
+ 292 0204 9A60     		str	r2, [r3, #8]
+ 293 0206 4FF00003 		mov	r3, #0
+ 294 020a 8DF80F30 		strb	r3, [sp, #15]
+ 295 020e 18E0     		b	.L12
+ 296              	.L13:
+ 297 0210 9DF80F00 		ldrb	r0, [sp, #15]	@ zero_extendqisi2
+ 298 0214 4FF48063 		mov	r3, #1024
+ 299 0218 C5F20603 		movt	r3, 20486
+ 300 021c 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 301 0220 02F13E02 		add	r2, r2, #62
+ 302 0224 53F82220 		ldr	r2, [r3, r2, lsl #2]
+ 303 0228 0199     		ldr	r1, [sp, #4]
+ 304 022a 00F10203 		add	r3, r0, #2
+ 305 022e 4FEA8303 		lsl	r3, r3, #2
+ 306 0232 CB18     		adds	r3, r1, r3
+ 307 0234 5A60     		str	r2, [r3, #4]
+ 308 0236 9DF80F30 		ldrb	r3, [sp, #15]
+ 309 023a 03F10103 		add	r3, r3, #1
+ 310 023e 8DF80F30 		strb	r3, [sp, #15]
+ 311              	.L12:
+ 312 0242 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 313 0246 322B     		cmp	r3, #50
+ 314 0248 E2D9     		bls	.L13
+ 315 024a 04B0     		add	sp, sp, #16
+ 316 024c 7047     		bx	lr
+ 318 024e 00BF     		.align	2
+ 319              		.global	HASH_RestoreContext
+ 320              		.thumb
+ 321              		.thumb_func
+ 323              	HASH_RestoreContext:
+ 324              		@ args = 0, pretend = 0, frame = 16
+ 325              		@ frame_needed = 0, uses_anonymous_args = 0
+ 326              		@ link register save eliminated.
+ 327 0250 84B0     		sub	sp, sp, #16
+ 328 0252 0190     		str	r0, [sp, #4]
+ 329 0254 4FF00003 		mov	r3, #0
+ 330 0258 8DF80F30 		strb	r3, [sp, #15]
+ 331 025c 4FF48063 		mov	r3, #1024
+ 332 0260 C5F20603 		movt	r3, 20486
+ 333 0264 019A     		ldr	r2, [sp, #4]
+ 334 0266 1268     		ldr	r2, [r2, #0]
+ 335 0268 1A62     		str	r2, [r3, #32]
+ 336 026a 4FF48063 		mov	r3, #1024
+ 337 026e C5F20603 		movt	r3, 20486
+ 338 0272 019A     		ldr	r2, [sp, #4]
+ 339 0274 5268     		ldr	r2, [r2, #4]
+ 340 0276 9A60     		str	r2, [r3, #8]
+ 341 0278 4FF48063 		mov	r3, #1024
+ 342 027c C5F20603 		movt	r3, 20486
+ 343 0280 019A     		ldr	r2, [sp, #4]
+ 344 0282 9268     		ldr	r2, [r2, #8]
+ 345 0284 1A60     		str	r2, [r3, #0]
+ 346 0286 4FF48063 		mov	r3, #1024
+ 347 028a C5F20603 		movt	r3, 20486
+ 348 028e 4FF48062 		mov	r2, #1024
+ 349 0292 C5F20602 		movt	r2, 20486
+ 350 0296 1268     		ldr	r2, [r2, #0]
+ 351 0298 42F00402 		orr	r2, r2, #4
+ 352 029c 1A60     		str	r2, [r3, #0]
+ 353 029e 4FF00003 		mov	r3, #0
+ 354 02a2 8DF80F30 		strb	r3, [sp, #15]
+ 355 02a6 18E0     		b	.L15
+ 356              	.L16:
+ 357 02a8 4FF48063 		mov	r3, #1024
+ 358 02ac C5F20603 		movt	r3, 20486
+ 359 02b0 9DF80F00 		ldrb	r0, [sp, #15]	@ zero_extendqisi2
+ 360 02b4 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 361 02b8 0199     		ldr	r1, [sp, #4]
+ 362 02ba 02F10202 		add	r2, r2, #2
+ 363 02be 4FEA8202 		lsl	r2, r2, #2
+ 364 02c2 8A18     		adds	r2, r1, r2
+ 365 02c4 5168     		ldr	r1, [r2, #4]
+ 366 02c6 00F13E02 		add	r2, r0, #62
+ 367 02ca 43F82210 		str	r1, [r3, r2, lsl #2]
+ 368 02ce 9DF80F30 		ldrb	r3, [sp, #15]
+ 369 02d2 03F10103 		add	r3, r3, #1
+ 370 02d6 8DF80F30 		strb	r3, [sp, #15]
+ 371              	.L15:
+ 372 02da 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 373 02de 322B     		cmp	r3, #50
+ 374 02e0 E2D9     		bls	.L16
+ 375 02e2 04B0     		add	sp, sp, #16
+ 376 02e4 7047     		bx	lr
+ 378 02e6 00BF     		.align	2
+ 379              		.global	HASH_DMACmd
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	HASH_DMACmd:
+ 384              		@ args = 0, pretend = 0, frame = 8
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 02e8 82B0     		sub	sp, sp, #8
+ 388 02ea 0346     		mov	r3, r0
+ 389 02ec 8DF80730 		strb	r3, [sp, #7]
+ 390 02f0 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 391 02f4 002B     		cmp	r3, #0
+ 392 02f6 0CD0     		beq	.L18
+ 393 02f8 4FF48063 		mov	r3, #1024
+ 394 02fc C5F20603 		movt	r3, 20486
+ 395 0300 4FF48062 		mov	r2, #1024
+ 396 0304 C5F20602 		movt	r2, 20486
+ 397 0308 1268     		ldr	r2, [r2, #0]
+ 398 030a 42F00802 		orr	r2, r2, #8
+ 399 030e 1A60     		str	r2, [r3, #0]
+ 400 0310 0BE0     		b	.L17
+ 401              	.L18:
+ 402 0312 4FF48063 		mov	r3, #1024
+ 403 0316 C5F20603 		movt	r3, 20486
+ 404 031a 4FF48062 		mov	r2, #1024
+ 405 031e C5F20602 		movt	r2, 20486
+ 406 0322 1268     		ldr	r2, [r2, #0]
+ 407 0324 22F00802 		bic	r2, r2, #8
+ 408 0328 1A60     		str	r2, [r3, #0]
+ 409              	.L17:
+ 410 032a 02B0     		add	sp, sp, #8
+ 411 032c 7047     		bx	lr
+ 413 032e 00BF     		.align	2
+ 414              		.global	HASH_ITConfig
+ 415              		.thumb
+ 416              		.thumb_func
+ 418              	HASH_ITConfig:
+ 419              		@ args = 0, pretend = 0, frame = 8
+ 420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 421              		@ link register save eliminated.
+ 422 0330 82B0     		sub	sp, sp, #8
+ 423 0332 0246     		mov	r2, r0
+ 424 0334 0B46     		mov	r3, r1
+ 425 0336 8DF80720 		strb	r2, [sp, #7]
+ 426 033a 8DF80630 		strb	r3, [sp, #6]
+ 427 033e 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 428 0342 002B     		cmp	r3, #0
+ 429 0344 0DD0     		beq	.L21
+ 430 0346 4FF48063 		mov	r3, #1024
+ 431 034a C5F20603 		movt	r3, 20486
+ 432 034e 4FF48062 		mov	r2, #1024
+ 433 0352 C5F20602 		movt	r2, 20486
+ 434 0356 116A     		ldr	r1, [r2, #32]
+ 435 0358 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 436 035c 0A43     		orrs	r2, r2, r1
+ 437 035e 1A62     		str	r2, [r3, #32]
+ 438 0360 0FE0     		b	.L20
+ 439              	.L21:
+ 440 0362 4FF48063 		mov	r3, #1024
+ 441 0366 C5F20603 		movt	r3, 20486
+ 442 036a 4FF48062 		mov	r2, #1024
+ 443 036e C5F20602 		movt	r2, 20486
+ 444 0372 116A     		ldr	r1, [r2, #32]
+ 445 0374 9DF80720 		ldrb	r2, [sp, #7]
+ 446 0378 6FEA0202 		mvn	r2, r2
+ 447 037c D2B2     		uxtb	r2, r2
+ 448 037e 0A40     		ands	r2, r2, r1
+ 449 0380 1A62     		str	r2, [r3, #32]
+ 450              	.L20:
+ 451 0382 02B0     		add	sp, sp, #8
+ 452 0384 7047     		bx	lr
+ 454 0386 00BF     		.align	2
+ 455              		.global	HASH_GetFlagStatus
+ 456              		.thumb
+ 457              		.thumb_func
+ 459              	HASH_GetFlagStatus:
+ 460              		@ args = 0, pretend = 0, frame = 16
+ 461              		@ frame_needed = 0, uses_anonymous_args = 0
+ 462              		@ link register save eliminated.
+ 463 0388 84B0     		sub	sp, sp, #16
+ 464 038a 0346     		mov	r3, r0
+ 465 038c ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 466 0390 4FF00003 		mov	r3, #0
+ 467 0394 8DF80F30 		strb	r3, [sp, #15]
+ 468 0398 4FF00003 		mov	r3, #0
+ 469 039c 0293     		str	r3, [sp, #8]
+ 470 039e BDF80630 		ldrh	r3, [sp, #6]
+ 471 03a2 03F48053 		and	r3, r3, #4096
+ 472 03a6 002B     		cmp	r3, #0
+ 473 03a8 06D0     		beq	.L24
+ 474 03aa 4FF48063 		mov	r3, #1024
+ 475 03ae C5F20603 		movt	r3, 20486
+ 476 03b2 1B68     		ldr	r3, [r3, #0]
+ 477 03b4 0293     		str	r3, [sp, #8]
+ 478 03b6 05E0     		b	.L25
+ 479              	.L24:
+ 480 03b8 4FF48063 		mov	r3, #1024
+ 481 03bc C5F20603 		movt	r3, 20486
+ 482 03c0 5B6A     		ldr	r3, [r3, #36]
+ 483 03c2 0293     		str	r3, [sp, #8]
+ 484              	.L25:
+ 485 03c4 BDF80620 		ldrh	r2, [sp, #6]
+ 486 03c8 029B     		ldr	r3, [sp, #8]
+ 487 03ca 1340     		ands	r3, r3, r2
+ 488 03cc 002B     		cmp	r3, #0
+ 489 03ce 04D0     		beq	.L26
+ 490 03d0 4FF00103 		mov	r3, #1
+ 491 03d4 8DF80F30 		strb	r3, [sp, #15]
+ 492 03d8 03E0     		b	.L27
+ 493              	.L26:
+ 494 03da 4FF00003 		mov	r3, #0
+ 495 03de 8DF80F30 		strb	r3, [sp, #15]
+ 496              	.L27:
+ 497 03e2 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 498 03e6 1846     		mov	r0, r3
+ 499 03e8 04B0     		add	sp, sp, #16
+ 500 03ea 7047     		bx	lr
+ 502              		.align	2
+ 503              		.global	HASH_ClearFlag
+ 504              		.thumb
+ 505              		.thumb_func
+ 507              	HASH_ClearFlag:
+ 508              		@ args = 0, pretend = 0, frame = 8
+ 509              		@ frame_needed = 0, uses_anonymous_args = 0
+ 510              		@ link register save eliminated.
+ 511 03ec 82B0     		sub	sp, sp, #8
+ 512 03ee 0346     		mov	r3, r0
+ 513 03f0 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 514 03f4 4FF48063 		mov	r3, #1024
+ 515 03f8 C5F20603 		movt	r3, 20486
+ 516 03fc BDF80620 		ldrh	r2, [sp, #6]
+ 517 0400 6FEA0202 		mvn	r2, r2
+ 518 0404 5A62     		str	r2, [r3, #36]
+ 519 0406 02B0     		add	sp, sp, #8
+ 520 0408 7047     		bx	lr
+ 522 040a 00BF     		.align	2
+ 523              		.global	HASH_GetITStatus
+ 524              		.thumb
+ 525              		.thumb_func
+ 527              	HASH_GetITStatus:
+ 528              		@ args = 0, pretend = 0, frame = 16
+ 529              		@ frame_needed = 0, uses_anonymous_args = 0
+ 530              		@ link register save eliminated.
+ 531 040c 84B0     		sub	sp, sp, #16
+ 532 040e 0346     		mov	r3, r0
+ 533 0410 8DF80730 		strb	r3, [sp, #7]
+ 534 0414 4FF00003 		mov	r3, #0
+ 535 0418 8DF80F30 		strb	r3, [sp, #15]
+ 536 041c 4FF00003 		mov	r3, #0
+ 537 0420 0293     		str	r3, [sp, #8]
+ 538 0422 4FF48063 		mov	r3, #1024
+ 539 0426 C5F20603 		movt	r3, 20486
+ 540 042a 5B6A     		ldr	r3, [r3, #36]
+ 541 042c 0293     		str	r3, [sp, #8]
+ 542 042e 4FF48063 		mov	r3, #1024
+ 543 0432 C5F20603 		movt	r3, 20486
+ 544 0436 1A6A     		ldr	r2, [r3, #32]
+ 545 0438 029B     		ldr	r3, [sp, #8]
+ 546 043a 1A40     		ands	r2, r2, r3
+ 547 043c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 548 0440 1340     		ands	r3, r3, r2
+ 549 0442 002B     		cmp	r3, #0
+ 550 0444 04D0     		beq	.L30
+ 551 0446 4FF00103 		mov	r3, #1
+ 552 044a 8DF80F30 		strb	r3, [sp, #15]
+ 553 044e 03E0     		b	.L31
+ 554              	.L30:
+ 555 0450 4FF00003 		mov	r3, #0
+ 556 0454 8DF80F30 		strb	r3, [sp, #15]
+ 557              	.L31:
+ 558 0458 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 559 045c 1846     		mov	r0, r3
+ 560 045e 04B0     		add	sp, sp, #16
+ 561 0460 7047     		bx	lr
+ 563 0462 00BF     		.align	2
+ 564              		.global	HASH_ClearITPendingBit
+ 565              		.thumb
+ 566              		.thumb_func
+ 568              	HASH_ClearITPendingBit:
+ 569              		@ args = 0, pretend = 0, frame = 8
+ 570              		@ frame_needed = 0, uses_anonymous_args = 0
+ 571              		@ link register save eliminated.
+ 572 0464 82B0     		sub	sp, sp, #8
+ 573 0466 0346     		mov	r3, r0
+ 574 0468 8DF80730 		strb	r3, [sp, #7]
+ 575 046c 4FF48063 		mov	r3, #1024
+ 576 0470 C5F20603 		movt	r3, 20486
+ 577 0474 9DF80720 		ldrb	r2, [sp, #7]
+ 578 0478 6FEA0202 		mvn	r2, r2
+ 579 047c D2B2     		uxtb	r2, r2
+ 580 047e 5A62     		str	r2, [r3, #36]
+ 581 0480 02B0     		add	sp, sp, #8
+ 582 0482 7047     		bx	lr
+ 584              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_hash.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:22     .text:00000000 HASH_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:39     .text:0000001c HASH_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:103    .text:000000b4 HASH_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:129    .text:000000dc HASH_Reset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:147    .text:000000f8 HASH_SetLastWordValidBitsNbr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:177    .text:00000138 HASH_DataIn
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:195    .text:0000014c HASH_GetInFIFOWordsNbr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:213    .text:00000164 HASH_GetDigest
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:252    .text:000001b4 HASH_StartDigest
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:270    .text:000001d0 HASH_SaveContext
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:323    .text:00000250 HASH_RestoreContext
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:383    .text:000002e8 HASH_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:418    .text:00000330 HASH_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:459    .text:00000388 HASH_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:507    .text:000003ec HASH_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:527    .text:0000040c HASH_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccC796at.s:568    .text:00000464 HASH_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_AHB2PeriphResetCmd

@@ -1,0 +1,122 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"usbd_usr.c"
+  16              		.global	USR_cb
+  17              		.data
+  18              		.align	2
+  21              	USR_cb:
+  22 0000 00000000 		.word	USBD_USR_Init
+  23 0004 00000000 		.word	USBD_USR_DeviceReset
+  24 0008 00000000 		.word	USBD_USR_DeviceConfigured
+  25 000c 00000000 		.word	USBD_USR_DeviceSuspended
+  26 0010 00000000 		.word	USBD_USR_DeviceResumed
+  27 0014 00000000 		.word	USBD_USR_DeviceConnected
+  28 0018 00000000 		.word	USBD_USR_DeviceDisconnected
+  29              		.text
+  30              		.align	2
+  31              		.global	USBD_USR_Init
+  32              		.thumb
+  33              		.thumb_func
+  35              	USBD_USR_Init:
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              		@ link register save eliminated.
+  39 0000 7047     		bx	lr
+  41 0002 00BF     		.align	2
+  42              		.global	USBD_USR_DeviceReset
+  43              		.thumb
+  44              		.thumb_func
+  46              	USBD_USR_DeviceReset:
+  47              		@ args = 0, pretend = 0, frame = 8
+  48              		@ frame_needed = 0, uses_anonymous_args = 0
+  49              		@ link register save eliminated.
+  50 0004 82B0     		sub	sp, sp, #8
+  51 0006 0346     		mov	r3, r0
+  52 0008 8DF80730 		strb	r3, [sp, #7]
+  53 000c 02B0     		add	sp, sp, #8
+  54 000e 7047     		bx	lr
+  56              		.align	2
+  57              		.global	USBD_USR_DeviceConfigured
+  58              		.thumb
+  59              		.thumb_func
+  61              	USBD_USR_DeviceConfigured:
+  62              		@ args = 0, pretend = 0, frame = 0
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64              		@ link register save eliminated.
+  65 0010 40F20003 		movw	r3, #:lower16:usbDeviceConfigured
+  66 0014 C0F20003 		movt	r3, #:upper16:usbDeviceConfigured
+  67 0018 4FF00102 		mov	r2, #1
+  68 001c 1A70     		strb	r2, [r3, #0]
+  69 001e 7047     		bx	lr
+  71              		.align	2
+  72              		.global	USBD_USR_DeviceSuspended
+  73              		.thumb
+  74              		.thumb_func
+  76              	USBD_USR_DeviceSuspended:
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              		@ link register save eliminated.
+  80 0020 40F20003 		movw	r3, #:lower16:usbDeviceConfigured
+  81 0024 C0F20003 		movt	r3, #:upper16:usbDeviceConfigured
+  82 0028 4FF00002 		mov	r2, #0
+  83 002c 1A70     		strb	r2, [r3, #0]
+  84 002e 7047     		bx	lr
+  86              		.align	2
+  87              		.global	USBD_USR_DeviceResumed
+  88              		.thumb
+  89              		.thumb_func
+  91              	USBD_USR_DeviceResumed:
+  92              		@ args = 0, pretend = 0, frame = 0
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94              		@ link register save eliminated.
+  95 0030 40F20003 		movw	r3, #:lower16:usbDeviceConfigured
+  96 0034 C0F20003 		movt	r3, #:upper16:usbDeviceConfigured
+  97 0038 4FF00102 		mov	r2, #1
+  98 003c 1A70     		strb	r2, [r3, #0]
+  99 003e 7047     		bx	lr
+ 101              		.align	2
+ 102              		.global	USBD_USR_DeviceConnected
+ 103              		.thumb
+ 104              		.thumb_func
+ 106              	USBD_USR_DeviceConnected:
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              		@ link register save eliminated.
+ 110 0040 7047     		bx	lr
+ 112 0042 00BF     		.align	2
+ 113              		.global	USBD_USR_DeviceDisconnected
+ 114              		.thumb
+ 115              		.thumb_func
+ 117              	USBD_USR_DeviceDisconnected:
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120              		@ link register save eliminated.
+ 121 0044 7047     		bx	lr
+ 123 0046 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usbd_usr.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:21     .data:00000000 USR_cb
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:35     .text:00000000 USBD_USR_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:46     .text:00000004 USBD_USR_DeviceReset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:61     .text:00000010 USBD_USR_DeviceConfigured
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:76     .text:00000020 USBD_USR_DeviceSuspended
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:91     .text:00000030 USBD_USR_DeviceResumed
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:106    .text:00000040 USBD_USR_DeviceConnected
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:117    .text:00000044 USBD_USR_DeviceDisconnected
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccAQSs3F.s:30     .text:00000000 $t
+
+UNDEFINED SYMBOLS
+usbDeviceConfigured

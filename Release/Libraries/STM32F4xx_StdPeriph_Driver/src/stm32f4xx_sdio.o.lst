@@ -1,0 +1,720 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_sdio.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	SDIO_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	SDIO_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 4FF40060 		mov	r0, #2048
+  27 0006 4FF00101 		mov	r1, #1
+  28 000a FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  29 000e 4FF40060 		mov	r0, #2048
+  30 0012 4FF00001 		mov	r1, #0
+  31 0016 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  32 001a 08BD     		pop	{r3, pc}
+  34              		.align	2
+  35              		.global	SDIO_Init
+  36              		.thumb
+  37              		.thumb_func
+  39              	SDIO_Init:
+  40              		@ args = 0, pretend = 0, frame = 16
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 001c 84B0     		sub	sp, sp, #16
+  44 001e 0190     		str	r0, [sp, #4]
+  45 0020 4FF00003 		mov	r3, #0
+  46 0024 0393     		str	r3, [sp, #12]
+  47 0026 4FF43053 		mov	r3, #11264
+  48 002a C4F20103 		movt	r3, 16385
+  49 002e 5B68     		ldr	r3, [r3, #4]
+  50 0030 0393     		str	r3, [sp, #12]
+  51 0032 039B     		ldr	r3, [sp, #12]
+  52 0034 23F4FC43 		bic	r3, r3, #32256
+  53 0038 23F0FF03 		bic	r3, r3, #255
+  54 003c 0393     		str	r3, [sp, #12]
+  55 003e 019B     		ldr	r3, [sp, #4]
+  56 0040 1B7D     		ldrb	r3, [r3, #20]	@ zero_extendqisi2
+  57 0042 1A46     		mov	r2, r3
+  58 0044 019B     		ldr	r3, [sp, #4]
+  59 0046 9B68     		ldr	r3, [r3, #8]
+  60 0048 1A43     		orrs	r2, r2, r3
+  61 004a 019B     		ldr	r3, [sp, #4]
+  62 004c 5B68     		ldr	r3, [r3, #4]
+  63 004e 1A43     		orrs	r2, r2, r3
+  64 0050 019B     		ldr	r3, [sp, #4]
+  65 0052 DB68     		ldr	r3, [r3, #12]
+  66 0054 1A43     		orrs	r2, r2, r3
+  67 0056 019B     		ldr	r3, [sp, #4]
+  68 0058 1B68     		ldr	r3, [r3, #0]
+  69 005a 1A43     		orrs	r2, r2, r3
+  70 005c 019B     		ldr	r3, [sp, #4]
+  71 005e 1B69     		ldr	r3, [r3, #16]
+  72 0060 1343     		orrs	r3, r3, r2
+  73 0062 039A     		ldr	r2, [sp, #12]
+  74 0064 1343     		orrs	r3, r3, r2
+  75 0066 0393     		str	r3, [sp, #12]
+  76 0068 4FF43053 		mov	r3, #11264
+  77 006c C4F20103 		movt	r3, 16385
+  78 0070 039A     		ldr	r2, [sp, #12]
+  79 0072 5A60     		str	r2, [r3, #4]
+  80 0074 04B0     		add	sp, sp, #16
+  81 0076 7047     		bx	lr
+  83              		.align	2
+  84              		.global	SDIO_StructInit
+  85              		.thumb
+  86              		.thumb_func
+  88              	SDIO_StructInit:
+  89              		@ args = 0, pretend = 0, frame = 8
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91              		@ link register save eliminated.
+  92 0078 82B0     		sub	sp, sp, #8
+  93 007a 0190     		str	r0, [sp, #4]
+  94 007c 019B     		ldr	r3, [sp, #4]
+  95 007e 4FF00002 		mov	r2, #0
+  96 0082 1A75     		strb	r2, [r3, #20]
+  97 0084 019B     		ldr	r3, [sp, #4]
+  98 0086 4FF00002 		mov	r2, #0
+  99 008a 1A60     		str	r2, [r3, #0]
+ 100 008c 019B     		ldr	r3, [sp, #4]
+ 101 008e 4FF00002 		mov	r2, #0
+ 102 0092 5A60     		str	r2, [r3, #4]
+ 103 0094 019B     		ldr	r3, [sp, #4]
+ 104 0096 4FF00002 		mov	r2, #0
+ 105 009a 9A60     		str	r2, [r3, #8]
+ 106 009c 019B     		ldr	r3, [sp, #4]
+ 107 009e 4FF00002 		mov	r2, #0
+ 108 00a2 DA60     		str	r2, [r3, #12]
+ 109 00a4 019B     		ldr	r3, [sp, #4]
+ 110 00a6 4FF00002 		mov	r2, #0
+ 111 00aa 1A61     		str	r2, [r3, #16]
+ 112 00ac 02B0     		add	sp, sp, #8
+ 113 00ae 7047     		bx	lr
+ 115              		.align	2
+ 116              		.global	SDIO_ClockCmd
+ 117              		.thumb
+ 118              		.thumb_func
+ 120              	SDIO_ClockCmd:
+ 121              		@ args = 0, pretend = 0, frame = 8
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		@ link register save eliminated.
+ 124 00b0 82B0     		sub	sp, sp, #8
+ 125 00b2 0346     		mov	r3, r0
+ 126 00b4 8DF80730 		strb	r3, [sp, #7]
+ 127 00b8 48F2A003 		movw	r3, #32928
+ 128 00bc C4F22523 		movt	r3, 16933
+ 129 00c0 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 130 00c4 1A60     		str	r2, [r3, #0]
+ 131 00c6 02B0     		add	sp, sp, #8
+ 132 00c8 7047     		bx	lr
+ 134 00ca 00BF     		.align	2
+ 135              		.global	SDIO_SetPowerState
+ 136              		.thumb
+ 137              		.thumb_func
+ 139              	SDIO_SetPowerState:
+ 140              		@ args = 0, pretend = 0, frame = 8
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+ 143 00cc 82B0     		sub	sp, sp, #8
+ 144 00ce 0190     		str	r0, [sp, #4]
+ 145 00d0 4FF43053 		mov	r3, #11264
+ 146 00d4 C4F20103 		movt	r3, 16385
+ 147 00d8 019A     		ldr	r2, [sp, #4]
+ 148 00da 1A60     		str	r2, [r3, #0]
+ 149 00dc 02B0     		add	sp, sp, #8
+ 150 00de 7047     		bx	lr
+ 152              		.align	2
+ 153              		.global	SDIO_GetPowerState
+ 154              		.thumb
+ 155              		.thumb_func
+ 157              	SDIO_GetPowerState:
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 160              		@ link register save eliminated.
+ 161 00e0 4FF43053 		mov	r3, #11264
+ 162 00e4 C4F20103 		movt	r3, 16385
+ 163 00e8 1B68     		ldr	r3, [r3, #0]
+ 164 00ea 03F00303 		and	r3, r3, #3
+ 165 00ee 1846     		mov	r0, r3
+ 166 00f0 7047     		bx	lr
+ 168 00f2 00BF     		.align	2
+ 169              		.global	SDIO_SendCommand
+ 170              		.thumb
+ 171              		.thumb_func
+ 173              	SDIO_SendCommand:
+ 174              		@ args = 0, pretend = 0, frame = 16
+ 175              		@ frame_needed = 0, uses_anonymous_args = 0
+ 176              		@ link register save eliminated.
+ 177 00f4 84B0     		sub	sp, sp, #16
+ 178 00f6 0190     		str	r0, [sp, #4]
+ 179 00f8 4FF00003 		mov	r3, #0
+ 180 00fc 0393     		str	r3, [sp, #12]
+ 181 00fe 4FF43053 		mov	r3, #11264
+ 182 0102 C4F20103 		movt	r3, 16385
+ 183 0106 019A     		ldr	r2, [sp, #4]
+ 184 0108 1268     		ldr	r2, [r2, #0]
+ 185 010a 9A60     		str	r2, [r3, #8]
+ 186 010c 4FF43053 		mov	r3, #11264
+ 187 0110 C4F20103 		movt	r3, 16385
+ 188 0114 DB68     		ldr	r3, [r3, #12]
+ 189 0116 0393     		str	r3, [sp, #12]
+ 190 0118 039B     		ldr	r3, [sp, #12]
+ 191 011a 23F4FE63 		bic	r3, r3, #2032
+ 192 011e 23F00F03 		bic	r3, r3, #15
+ 193 0122 0393     		str	r3, [sp, #12]
+ 194 0124 019B     		ldr	r3, [sp, #4]
+ 195 0126 5A68     		ldr	r2, [r3, #4]
+ 196 0128 019B     		ldr	r3, [sp, #4]
+ 197 012a 9B68     		ldr	r3, [r3, #8]
+ 198 012c 1A43     		orrs	r2, r2, r3
+ 199 012e 019B     		ldr	r3, [sp, #4]
+ 200 0130 DB68     		ldr	r3, [r3, #12]
+ 201 0132 1A43     		orrs	r2, r2, r3
+ 202 0134 019B     		ldr	r3, [sp, #4]
+ 203 0136 1B69     		ldr	r3, [r3, #16]
+ 204 0138 1343     		orrs	r3, r3, r2
+ 205 013a 039A     		ldr	r2, [sp, #12]
+ 206 013c 1343     		orrs	r3, r3, r2
+ 207 013e 0393     		str	r3, [sp, #12]
+ 208 0140 4FF43053 		mov	r3, #11264
+ 209 0144 C4F20103 		movt	r3, 16385
+ 210 0148 039A     		ldr	r2, [sp, #12]
+ 211 014a DA60     		str	r2, [r3, #12]
+ 212 014c 04B0     		add	sp, sp, #16
+ 213 014e 7047     		bx	lr
+ 215              		.align	2
+ 216              		.global	SDIO_CmdStructInit
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	SDIO_CmdStructInit:
+ 221              		@ args = 0, pretend = 0, frame = 8
+ 222              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223              		@ link register save eliminated.
+ 224 0150 82B0     		sub	sp, sp, #8
+ 225 0152 0190     		str	r0, [sp, #4]
+ 226 0154 019B     		ldr	r3, [sp, #4]
+ 227 0156 4FF00002 		mov	r2, #0
+ 228 015a 1A60     		str	r2, [r3, #0]
+ 229 015c 019B     		ldr	r3, [sp, #4]
+ 230 015e 4FF00002 		mov	r2, #0
+ 231 0162 5A60     		str	r2, [r3, #4]
+ 232 0164 019B     		ldr	r3, [sp, #4]
+ 233 0166 4FF00002 		mov	r2, #0
+ 234 016a 9A60     		str	r2, [r3, #8]
+ 235 016c 019B     		ldr	r3, [sp, #4]
+ 236 016e 4FF00002 		mov	r2, #0
+ 237 0172 DA60     		str	r2, [r3, #12]
+ 238 0174 019B     		ldr	r3, [sp, #4]
+ 239 0176 4FF00002 		mov	r2, #0
+ 240 017a 1A61     		str	r2, [r3, #16]
+ 241 017c 02B0     		add	sp, sp, #8
+ 242 017e 7047     		bx	lr
+ 244              		.align	2
+ 245              		.global	SDIO_GetCommandResponse
+ 246              		.thumb
+ 247              		.thumb_func
+ 249              	SDIO_GetCommandResponse:
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252              		@ link register save eliminated.
+ 253 0180 4FF43053 		mov	r3, #11264
+ 254 0184 C4F20103 		movt	r3, 16385
+ 255 0188 1B69     		ldr	r3, [r3, #16]
+ 256 018a DBB2     		uxtb	r3, r3
+ 257 018c 1846     		mov	r0, r3
+ 258 018e 7047     		bx	lr
+ 260              		.align	2
+ 261              		.global	SDIO_GetResponse
+ 262              		.thumb
+ 263              		.thumb_func
+ 265              	SDIO_GetResponse:
+ 266              		@ args = 0, pretend = 0, frame = 16
+ 267              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268              		@ link register save eliminated.
+ 269 0190 84B0     		sub	sp, sp, #16
+ 270 0192 0190     		str	r0, [sp, #4]
+ 271 0194 4FF00003 		mov	r3, #0
+ 272 0198 0393     		str	r3, [sp, #12]
+ 273 019a 019A     		ldr	r2, [sp, #4]
+ 274 019c 42F61443 		movw	r3, #11284
+ 275 01a0 C4F20103 		movt	r3, 16385
+ 276 01a4 D318     		adds	r3, r2, r3
+ 277 01a6 0393     		str	r3, [sp, #12]
+ 278 01a8 039B     		ldr	r3, [sp, #12]
+ 279 01aa 1B68     		ldr	r3, [r3, #0]
+ 280 01ac 1846     		mov	r0, r3
+ 281 01ae 04B0     		add	sp, sp, #16
+ 282 01b0 7047     		bx	lr
+ 284 01b2 00BF     		.align	2
+ 285              		.global	SDIO_DataConfig
+ 286              		.thumb
+ 287              		.thumb_func
+ 289              	SDIO_DataConfig:
+ 290              		@ args = 0, pretend = 0, frame = 16
+ 291              		@ frame_needed = 0, uses_anonymous_args = 0
+ 292              		@ link register save eliminated.
+ 293 01b4 84B0     		sub	sp, sp, #16
+ 294 01b6 0190     		str	r0, [sp, #4]
+ 295 01b8 4FF00003 		mov	r3, #0
+ 296 01bc 0393     		str	r3, [sp, #12]
+ 297 01be 4FF43053 		mov	r3, #11264
+ 298 01c2 C4F20103 		movt	r3, 16385
+ 299 01c6 019A     		ldr	r2, [sp, #4]
+ 300 01c8 1268     		ldr	r2, [r2, #0]
+ 301 01ca 5A62     		str	r2, [r3, #36]
+ 302 01cc 4FF43053 		mov	r3, #11264
+ 303 01d0 C4F20103 		movt	r3, 16385
+ 304 01d4 019A     		ldr	r2, [sp, #4]
+ 305 01d6 5268     		ldr	r2, [r2, #4]
+ 306 01d8 9A62     		str	r2, [r3, #40]
+ 307 01da 4FF43053 		mov	r3, #11264
+ 308 01de C4F20103 		movt	r3, 16385
+ 309 01e2 DB6A     		ldr	r3, [r3, #44]
+ 310 01e4 0393     		str	r3, [sp, #12]
+ 311 01e6 039B     		ldr	r3, [sp, #12]
+ 312 01e8 23F0F703 		bic	r3, r3, #247
+ 313 01ec 0393     		str	r3, [sp, #12]
+ 314 01ee 019B     		ldr	r3, [sp, #4]
+ 315 01f0 9A68     		ldr	r2, [r3, #8]
+ 316 01f2 019B     		ldr	r3, [sp, #4]
+ 317 01f4 DB68     		ldr	r3, [r3, #12]
+ 318 01f6 1A43     		orrs	r2, r2, r3
+ 319 01f8 019B     		ldr	r3, [sp, #4]
+ 320 01fa 1B69     		ldr	r3, [r3, #16]
+ 321 01fc 1A43     		orrs	r2, r2, r3
+ 322 01fe 019B     		ldr	r3, [sp, #4]
+ 323 0200 5B69     		ldr	r3, [r3, #20]
+ 324 0202 1343     		orrs	r3, r3, r2
+ 325 0204 039A     		ldr	r2, [sp, #12]
+ 326 0206 1343     		orrs	r3, r3, r2
+ 327 0208 0393     		str	r3, [sp, #12]
+ 328 020a 4FF43053 		mov	r3, #11264
+ 329 020e C4F20103 		movt	r3, 16385
+ 330 0212 039A     		ldr	r2, [sp, #12]
+ 331 0214 DA62     		str	r2, [r3, #44]
+ 332 0216 04B0     		add	sp, sp, #16
+ 333 0218 7047     		bx	lr
+ 335 021a 00BF     		.align	2
+ 336              		.global	SDIO_DataStructInit
+ 337              		.thumb
+ 338              		.thumb_func
+ 340              	SDIO_DataStructInit:
+ 341              		@ args = 0, pretend = 0, frame = 8
+ 342              		@ frame_needed = 0, uses_anonymous_args = 0
+ 343              		@ link register save eliminated.
+ 344 021c 82B0     		sub	sp, sp, #8
+ 345 021e 0190     		str	r0, [sp, #4]
+ 346 0220 019B     		ldr	r3, [sp, #4]
+ 347 0222 4FF0FF32 		mov	r2, #-1
+ 348 0226 1A60     		str	r2, [r3, #0]
+ 349 0228 019B     		ldr	r3, [sp, #4]
+ 350 022a 4FF00002 		mov	r2, #0
+ 351 022e 5A60     		str	r2, [r3, #4]
+ 352 0230 019B     		ldr	r3, [sp, #4]
+ 353 0232 4FF00002 		mov	r2, #0
+ 354 0236 9A60     		str	r2, [r3, #8]
+ 355 0238 019B     		ldr	r3, [sp, #4]
+ 356 023a 4FF00002 		mov	r2, #0
+ 357 023e DA60     		str	r2, [r3, #12]
+ 358 0240 019B     		ldr	r3, [sp, #4]
+ 359 0242 4FF00002 		mov	r2, #0
+ 360 0246 1A61     		str	r2, [r3, #16]
+ 361 0248 019B     		ldr	r3, [sp, #4]
+ 362 024a 4FF00002 		mov	r2, #0
+ 363 024e 5A61     		str	r2, [r3, #20]
+ 364 0250 02B0     		add	sp, sp, #8
+ 365 0252 7047     		bx	lr
+ 367              		.align	2
+ 368              		.global	SDIO_GetDataCounter
+ 369              		.thumb
+ 370              		.thumb_func
+ 372              	SDIO_GetDataCounter:
+ 373              		@ args = 0, pretend = 0, frame = 0
+ 374              		@ frame_needed = 0, uses_anonymous_args = 0
+ 375              		@ link register save eliminated.
+ 376 0254 4FF43053 		mov	r3, #11264
+ 377 0258 C4F20103 		movt	r3, 16385
+ 378 025c 1B6B     		ldr	r3, [r3, #48]
+ 379 025e 1846     		mov	r0, r3
+ 380 0260 7047     		bx	lr
+ 382 0262 00BF     		.align	2
+ 383              		.global	SDIO_ReadData
+ 384              		.thumb
+ 385              		.thumb_func
+ 387              	SDIO_ReadData:
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		@ link register save eliminated.
+ 391 0264 4FF43053 		mov	r3, #11264
+ 392 0268 C4F20103 		movt	r3, 16385
+ 393 026c D3F88030 		ldr	r3, [r3, #128]
+ 394 0270 1846     		mov	r0, r3
+ 395 0272 7047     		bx	lr
+ 397              		.align	2
+ 398              		.global	SDIO_WriteData
+ 399              		.thumb
+ 400              		.thumb_func
+ 402              	SDIO_WriteData:
+ 403              		@ args = 0, pretend = 0, frame = 8
+ 404              		@ frame_needed = 0, uses_anonymous_args = 0
+ 405              		@ link register save eliminated.
+ 406 0274 82B0     		sub	sp, sp, #8
+ 407 0276 0190     		str	r0, [sp, #4]
+ 408 0278 4FF43053 		mov	r3, #11264
+ 409 027c C4F20103 		movt	r3, 16385
+ 410 0280 019A     		ldr	r2, [sp, #4]
+ 411 0282 C3F88020 		str	r2, [r3, #128]
+ 412 0286 02B0     		add	sp, sp, #8
+ 413 0288 7047     		bx	lr
+ 415 028a 00BF     		.align	2
+ 416              		.global	SDIO_GetFIFOCount
+ 417              		.thumb
+ 418              		.thumb_func
+ 420              	SDIO_GetFIFOCount:
+ 421              		@ args = 0, pretend = 0, frame = 0
+ 422              		@ frame_needed = 0, uses_anonymous_args = 0
+ 423              		@ link register save eliminated.
+ 424 028c 4FF43053 		mov	r3, #11264
+ 425 0290 C4F20103 		movt	r3, 16385
+ 426 0294 9B6C     		ldr	r3, [r3, #72]
+ 427 0296 1846     		mov	r0, r3
+ 428 0298 7047     		bx	lr
+ 430 029a 00BF     		.align	2
+ 431              		.global	SDIO_StartSDIOReadWait
+ 432              		.thumb
+ 433              		.thumb_func
+ 435              	SDIO_StartSDIOReadWait:
+ 436              		@ args = 0, pretend = 0, frame = 8
+ 437              		@ frame_needed = 0, uses_anonymous_args = 0
+ 438              		@ link register save eliminated.
+ 439 029c 82B0     		sub	sp, sp, #8
+ 440 029e 0346     		mov	r3, r0
+ 441 02a0 8DF80730 		strb	r3, [sp, #7]
+ 442 02a4 48F2A053 		movw	r3, #34208
+ 443 02a8 C4F22523 		movt	r3, 16933
+ 444 02ac 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 445 02b0 1A60     		str	r2, [r3, #0]
+ 446 02b2 02B0     		add	sp, sp, #8
+ 447 02b4 7047     		bx	lr
+ 449 02b6 00BF     		.align	2
+ 450              		.global	SDIO_StopSDIOReadWait
+ 451              		.thumb
+ 452              		.thumb_func
+ 454              	SDIO_StopSDIOReadWait:
+ 455              		@ args = 0, pretend = 0, frame = 8
+ 456              		@ frame_needed = 0, uses_anonymous_args = 0
+ 457              		@ link register save eliminated.
+ 458 02b8 82B0     		sub	sp, sp, #8
+ 459 02ba 0346     		mov	r3, r0
+ 460 02bc 8DF80730 		strb	r3, [sp, #7]
+ 461 02c0 48F2A453 		movw	r3, #34212
+ 462 02c4 C4F22523 		movt	r3, 16933
+ 463 02c8 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 464 02cc 1A60     		str	r2, [r3, #0]
+ 465 02ce 02B0     		add	sp, sp, #8
+ 466 02d0 7047     		bx	lr
+ 468 02d2 00BF     		.align	2
+ 469              		.global	SDIO_SetSDIOReadWaitMode
+ 470              		.thumb
+ 471              		.thumb_func
+ 473              	SDIO_SetSDIOReadWaitMode:
+ 474              		@ args = 0, pretend = 0, frame = 8
+ 475              		@ frame_needed = 0, uses_anonymous_args = 0
+ 476              		@ link register save eliminated.
+ 477 02d4 82B0     		sub	sp, sp, #8
+ 478 02d6 0190     		str	r0, [sp, #4]
+ 479 02d8 48F2A853 		movw	r3, #34216
+ 480 02dc C4F22523 		movt	r3, 16933
+ 481 02e0 019A     		ldr	r2, [sp, #4]
+ 482 02e2 1A60     		str	r2, [r3, #0]
+ 483 02e4 02B0     		add	sp, sp, #8
+ 484 02e6 7047     		bx	lr
+ 486              		.align	2
+ 487              		.global	SDIO_SetSDIOOperation
+ 488              		.thumb
+ 489              		.thumb_func
+ 491              	SDIO_SetSDIOOperation:
+ 492              		@ args = 0, pretend = 0, frame = 8
+ 493              		@ frame_needed = 0, uses_anonymous_args = 0
+ 494              		@ link register save eliminated.
+ 495 02e8 82B0     		sub	sp, sp, #8
+ 496 02ea 0346     		mov	r3, r0
+ 497 02ec 8DF80730 		strb	r3, [sp, #7]
+ 498 02f0 48F2AC53 		movw	r3, #34220
+ 499 02f4 C4F22523 		movt	r3, 16933
+ 500 02f8 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 501 02fc 1A60     		str	r2, [r3, #0]
+ 502 02fe 02B0     		add	sp, sp, #8
+ 503 0300 7047     		bx	lr
+ 505 0302 00BF     		.align	2
+ 506              		.global	SDIO_SendSDIOSuspendCmd
+ 507              		.thumb
+ 508              		.thumb_func
+ 510              	SDIO_SendSDIOSuspendCmd:
+ 511              		@ args = 0, pretend = 0, frame = 8
+ 512              		@ frame_needed = 0, uses_anonymous_args = 0
+ 513              		@ link register save eliminated.
+ 514 0304 82B0     		sub	sp, sp, #8
+ 515 0306 0346     		mov	r3, r0
+ 516 0308 8DF80730 		strb	r3, [sp, #7]
+ 517 030c 48F2AC13 		movw	r3, #33196
+ 518 0310 C4F22523 		movt	r3, 16933
+ 519 0314 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 520 0318 1A60     		str	r2, [r3, #0]
+ 521 031a 02B0     		add	sp, sp, #8
+ 522 031c 7047     		bx	lr
+ 524 031e 00BF     		.align	2
+ 525              		.global	SDIO_CommandCompletionCmd
+ 526              		.thumb
+ 527              		.thumb_func
+ 529              	SDIO_CommandCompletionCmd:
+ 530              		@ args = 0, pretend = 0, frame = 8
+ 531              		@ frame_needed = 0, uses_anonymous_args = 0
+ 532              		@ link register save eliminated.
+ 533 0320 82B0     		sub	sp, sp, #8
+ 534 0322 0346     		mov	r3, r0
+ 535 0324 8DF80730 		strb	r3, [sp, #7]
+ 536 0328 48F2B013 		movw	r3, #33200
+ 537 032c C4F22523 		movt	r3, 16933
+ 538 0330 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 539 0334 1A60     		str	r2, [r3, #0]
+ 540 0336 02B0     		add	sp, sp, #8
+ 541 0338 7047     		bx	lr
+ 543 033a 00BF     		.align	2
+ 544              		.global	SDIO_CEATAITCmd
+ 545              		.thumb
+ 546              		.thumb_func
+ 548              	SDIO_CEATAITCmd:
+ 549              		@ args = 0, pretend = 0, frame = 8
+ 550              		@ frame_needed = 0, uses_anonymous_args = 0
+ 551              		@ link register save eliminated.
+ 552 033c 82B0     		sub	sp, sp, #8
+ 553 033e 0346     		mov	r3, r0
+ 554 0340 8DF80730 		strb	r3, [sp, #7]
+ 555 0344 48F2B413 		movw	r3, #33204
+ 556 0348 C4F22523 		movt	r3, 16933
+ 557 034c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 558 0350 02F00102 		and	r2, r2, #1
+ 559 0354 002A     		cmp	r2, #0
+ 560 0356 14BF     		ite	ne
+ 561 0358 0022     		movne	r2, #0
+ 562 035a 0122     		moveq	r2, #1
+ 563 035c 1A60     		str	r2, [r3, #0]
+ 564 035e 02B0     		add	sp, sp, #8
+ 565 0360 7047     		bx	lr
+ 567 0362 00BF     		.align	2
+ 568              		.global	SDIO_SendCEATACmd
+ 569              		.thumb
+ 570              		.thumb_func
+ 572              	SDIO_SendCEATACmd:
+ 573              		@ args = 0, pretend = 0, frame = 8
+ 574              		@ frame_needed = 0, uses_anonymous_args = 0
+ 575              		@ link register save eliminated.
+ 576 0364 82B0     		sub	sp, sp, #8
+ 577 0366 0346     		mov	r3, r0
+ 578 0368 8DF80730 		strb	r3, [sp, #7]
+ 579 036c 48F2B813 		movw	r3, #33208
+ 580 0370 C4F22523 		movt	r3, 16933
+ 581 0374 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 582 0378 1A60     		str	r2, [r3, #0]
+ 583 037a 02B0     		add	sp, sp, #8
+ 584 037c 7047     		bx	lr
+ 586 037e 00BF     		.align	2
+ 587              		.global	SDIO_DMACmd
+ 588              		.thumb
+ 589              		.thumb_func
+ 591              	SDIO_DMACmd:
+ 592              		@ args = 0, pretend = 0, frame = 8
+ 593              		@ frame_needed = 0, uses_anonymous_args = 0
+ 594              		@ link register save eliminated.
+ 595 0380 82B0     		sub	sp, sp, #8
+ 596 0382 0346     		mov	r3, r0
+ 597 0384 8DF80730 		strb	r3, [sp, #7]
+ 598 0388 48F28C53 		movw	r3, #34188
+ 599 038c C4F22523 		movt	r3, 16933
+ 600 0390 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 601 0394 1A60     		str	r2, [r3, #0]
+ 602 0396 02B0     		add	sp, sp, #8
+ 603 0398 7047     		bx	lr
+ 605 039a 00BF     		.align	2
+ 606              		.global	SDIO_ITConfig
+ 607              		.thumb
+ 608              		.thumb_func
+ 610              	SDIO_ITConfig:
+ 611              		@ args = 0, pretend = 0, frame = 8
+ 612              		@ frame_needed = 0, uses_anonymous_args = 0
+ 613              		@ link register save eliminated.
+ 614 039c 82B0     		sub	sp, sp, #8
+ 615 039e 0190     		str	r0, [sp, #4]
+ 616 03a0 0B46     		mov	r3, r1
+ 617 03a2 8DF80330 		strb	r3, [sp, #3]
+ 618 03a6 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 619 03aa 002B     		cmp	r3, #0
+ 620 03ac 0CD0     		beq	.L27
+ 621 03ae 4FF43053 		mov	r3, #11264
+ 622 03b2 C4F20103 		movt	r3, 16385
+ 623 03b6 4FF43052 		mov	r2, #11264
+ 624 03ba C4F20102 		movt	r2, 16385
+ 625 03be D16B     		ldr	r1, [r2, #60]
+ 626 03c0 019A     		ldr	r2, [sp, #4]
+ 627 03c2 0A43     		orrs	r2, r2, r1
+ 628 03c4 DA63     		str	r2, [r3, #60]
+ 629 03c6 0DE0     		b	.L26
+ 630              	.L27:
+ 631 03c8 4FF43053 		mov	r3, #11264
+ 632 03cc C4F20103 		movt	r3, 16385
+ 633 03d0 4FF43052 		mov	r2, #11264
+ 634 03d4 C4F20102 		movt	r2, 16385
+ 635 03d8 D16B     		ldr	r1, [r2, #60]
+ 636 03da 019A     		ldr	r2, [sp, #4]
+ 637 03dc 6FEA0202 		mvn	r2, r2
+ 638 03e0 0A40     		ands	r2, r2, r1
+ 639 03e2 DA63     		str	r2, [r3, #60]
+ 640              	.L26:
+ 641 03e4 02B0     		add	sp, sp, #8
+ 642 03e6 7047     		bx	lr
+ 644              		.align	2
+ 645              		.global	SDIO_GetFlagStatus
+ 646              		.thumb
+ 647              		.thumb_func
+ 649              	SDIO_GetFlagStatus:
+ 650              		@ args = 0, pretend = 0, frame = 16
+ 651              		@ frame_needed = 0, uses_anonymous_args = 0
+ 652              		@ link register save eliminated.
+ 653 03e8 84B0     		sub	sp, sp, #16
+ 654 03ea 0190     		str	r0, [sp, #4]
+ 655 03ec 4FF00003 		mov	r3, #0
+ 656 03f0 8DF80F30 		strb	r3, [sp, #15]
+ 657 03f4 4FF43053 		mov	r3, #11264
+ 658 03f8 C4F20103 		movt	r3, 16385
+ 659 03fc 5A6B     		ldr	r2, [r3, #52]
+ 660 03fe 019B     		ldr	r3, [sp, #4]
+ 661 0400 1340     		ands	r3, r3, r2
+ 662 0402 002B     		cmp	r3, #0
+ 663 0404 04D0     		beq	.L30
+ 664 0406 4FF00103 		mov	r3, #1
+ 665 040a 8DF80F30 		strb	r3, [sp, #15]
+ 666 040e 03E0     		b	.L31
+ 667              	.L30:
+ 668 0410 4FF00003 		mov	r3, #0
+ 669 0414 8DF80F30 		strb	r3, [sp, #15]
+ 670              	.L31:
+ 671 0418 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 672 041c 1846     		mov	r0, r3
+ 673 041e 04B0     		add	sp, sp, #16
+ 674 0420 7047     		bx	lr
+ 676 0422 00BF     		.align	2
+ 677              		.global	SDIO_ClearFlag
+ 678              		.thumb
+ 679              		.thumb_func
+ 681              	SDIO_ClearFlag:
+ 682              		@ args = 0, pretend = 0, frame = 8
+ 683              		@ frame_needed = 0, uses_anonymous_args = 0
+ 684              		@ link register save eliminated.
+ 685 0424 82B0     		sub	sp, sp, #8
+ 686 0426 0190     		str	r0, [sp, #4]
+ 687 0428 4FF43053 		mov	r3, #11264
+ 688 042c C4F20103 		movt	r3, 16385
+ 689 0430 019A     		ldr	r2, [sp, #4]
+ 690 0432 9A63     		str	r2, [r3, #56]
+ 691 0434 02B0     		add	sp, sp, #8
+ 692 0436 7047     		bx	lr
+ 694              		.align	2
+ 695              		.global	SDIO_GetITStatus
+ 696              		.thumb
+ 697              		.thumb_func
+ 699              	SDIO_GetITStatus:
+ 700              		@ args = 0, pretend = 0, frame = 16
+ 701              		@ frame_needed = 0, uses_anonymous_args = 0
+ 702              		@ link register save eliminated.
+ 703 0438 84B0     		sub	sp, sp, #16
+ 704 043a 0190     		str	r0, [sp, #4]
+ 705 043c 4FF00003 		mov	r3, #0
+ 706 0440 8DF80F30 		strb	r3, [sp, #15]
+ 707 0444 4FF43053 		mov	r3, #11264
+ 708 0448 C4F20103 		movt	r3, 16385
+ 709 044c 5A6B     		ldr	r2, [r3, #52]
+ 710 044e 019B     		ldr	r3, [sp, #4]
+ 711 0450 1340     		ands	r3, r3, r2
+ 712 0452 002B     		cmp	r3, #0
+ 713 0454 04D0     		beq	.L34
+ 714 0456 4FF00103 		mov	r3, #1
+ 715 045a 8DF80F30 		strb	r3, [sp, #15]
+ 716 045e 03E0     		b	.L35
+ 717              	.L34:
+ 718 0460 4FF00003 		mov	r3, #0
+ 719 0464 8DF80F30 		strb	r3, [sp, #15]
+ 720              	.L35:
+ 721 0468 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 722 046c 1846     		mov	r0, r3
+ 723 046e 04B0     		add	sp, sp, #16
+ 724 0470 7047     		bx	lr
+ 726 0472 00BF     		.align	2
+ 727              		.global	SDIO_ClearITPendingBit
+ 728              		.thumb
+ 729              		.thumb_func
+ 731              	SDIO_ClearITPendingBit:
+ 732              		@ args = 0, pretend = 0, frame = 8
+ 733              		@ frame_needed = 0, uses_anonymous_args = 0
+ 734              		@ link register save eliminated.
+ 735 0474 82B0     		sub	sp, sp, #8
+ 736 0476 0190     		str	r0, [sp, #4]
+ 737 0478 4FF43053 		mov	r3, #11264
+ 738 047c C4F20103 		movt	r3, 16385
+ 739 0480 019A     		ldr	r2, [sp, #4]
+ 740 0482 9A63     		str	r2, [r3, #56]
+ 741 0484 02B0     		add	sp, sp, #8
+ 742 0486 7047     		bx	lr
+ 744              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_sdio.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:22     .text:00000000 SDIO_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:39     .text:0000001c SDIO_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:88     .text:00000078 SDIO_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:120    .text:000000b0 SDIO_ClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:139    .text:000000cc SDIO_SetPowerState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:157    .text:000000e0 SDIO_GetPowerState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:173    .text:000000f4 SDIO_SendCommand
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:220    .text:00000150 SDIO_CmdStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:249    .text:00000180 SDIO_GetCommandResponse
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:265    .text:00000190 SDIO_GetResponse
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:289    .text:000001b4 SDIO_DataConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:340    .text:0000021c SDIO_DataStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:372    .text:00000254 SDIO_GetDataCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:387    .text:00000264 SDIO_ReadData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:402    .text:00000274 SDIO_WriteData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:420    .text:0000028c SDIO_GetFIFOCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:435    .text:0000029c SDIO_StartSDIOReadWait
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:454    .text:000002b8 SDIO_StopSDIOReadWait
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:473    .text:000002d4 SDIO_SetSDIOReadWaitMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:491    .text:000002e8 SDIO_SetSDIOOperation
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:510    .text:00000304 SDIO_SendSDIOSuspendCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:529    .text:00000320 SDIO_CommandCompletionCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:548    .text:0000033c SDIO_CEATAITCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:572    .text:00000364 SDIO_SendCEATACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:591    .text:00000380 SDIO_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:610    .text:0000039c SDIO_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:649    .text:000003e8 SDIO_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:681    .text:00000424 SDIO_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:699    .text:00000438 SDIO_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccDO5tbb.s:731    .text:00000474 SDIO_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphResetCmd

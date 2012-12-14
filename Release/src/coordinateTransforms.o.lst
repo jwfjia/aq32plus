@@ -1,0 +1,214 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"coordinateTransforms.c"
+  16              		.global	earthAxisAccels
+  17              		.bss
+  18              		.align	2
+  21              	earthAxisAccels:
+  22 0000 00000000 		.space	12
+  22      00000000 
+  22      00000000 
+  23              		.comm	rotationMatrix,36,4
+  24              		.text
+  25              		.align	2
+  26              		.global	createRotationMatrix
+  27              		.thumb
+  28              		.thumb_func
+  30              	createRotationMatrix:
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34 0000 40F20003 		movw	r3, #:lower16:q0q0
+  35 0004 C0F20003 		movt	r3, #:upper16:q0q0
+  36 0008 93ED007A 		flds	s14, [r3, #0]
+  37 000c 40F20003 		movw	r3, #:lower16:q1q1
+  38 0010 C0F20003 		movt	r3, #:upper16:q1q1
+  39 0014 D3ED007A 		flds	s15, [r3, #0]
+  40 0018 37EE277A 		fadds	s14, s14, s15
+  41 001c 40F20003 		movw	r3, #:lower16:q2q2
+  42 0020 C0F20003 		movt	r3, #:upper16:q2q2
+  43 0024 D3ED007A 		flds	s15, [r3, #0]
+  44 0028 37EE677A 		fsubs	s14, s14, s15
+  45 002c 40F20003 		movw	r3, #:lower16:q3q3
+  46 0030 C0F20003 		movt	r3, #:upper16:q3q3
+  47 0034 D3ED007A 		flds	s15, [r3, #0]
+  48 0038 77EE677A 		fsubs	s15, s14, s15
+  49 003c 40F20003 		movw	r3, #:lower16:rotationMatrix
+  50 0040 C0F20003 		movt	r3, #:upper16:rotationMatrix
+  51 0044 C3ED007A 		fsts	s15, [r3, #0]
+  52 0048 40F20003 		movw	r3, #:lower16:q1q2
+  53 004c C0F20003 		movt	r3, #:upper16:q1q2
+  54 0050 93ED007A 		flds	s14, [r3, #0]
+  55 0054 40F20003 		movw	r3, #:lower16:q0q3
+  56 0058 C0F20003 		movt	r3, #:upper16:q0q3
+  57 005c D3ED007A 		flds	s15, [r3, #0]
+  58 0060 77EE677A 		fsubs	s15, s14, s15
+  59 0064 77EEA77A 		fadds	s15, s15, s15
+  60 0068 40F20003 		movw	r3, #:lower16:rotationMatrix
+  61 006c C0F20003 		movt	r3, #:upper16:rotationMatrix
+  62 0070 C3ED017A 		fsts	s15, [r3, #4]
+  63 0074 40F20003 		movw	r3, #:lower16:q0q2
+  64 0078 C0F20003 		movt	r3, #:upper16:q0q2
+  65 007c 93ED007A 		flds	s14, [r3, #0]
+  66 0080 40F20003 		movw	r3, #:lower16:q1q3
+  67 0084 C0F20003 		movt	r3, #:upper16:q1q3
+  68 0088 D3ED007A 		flds	s15, [r3, #0]
+  69 008c 77EE277A 		fadds	s15, s14, s15
+  70 0090 77EEA77A 		fadds	s15, s15, s15
+  71 0094 40F20003 		movw	r3, #:lower16:rotationMatrix
+  72 0098 C0F20003 		movt	r3, #:upper16:rotationMatrix
+  73 009c C3ED027A 		fsts	s15, [r3, #8]
+  74 00a0 40F20003 		movw	r3, #:lower16:q1q2
+  75 00a4 C0F20003 		movt	r3, #:upper16:q1q2
+  76 00a8 93ED007A 		flds	s14, [r3, #0]
+  77 00ac 40F20003 		movw	r3, #:lower16:q0q3
+  78 00b0 C0F20003 		movt	r3, #:upper16:q0q3
+  79 00b4 D3ED007A 		flds	s15, [r3, #0]
+  80 00b8 77EE277A 		fadds	s15, s14, s15
+  81 00bc 77EEA77A 		fadds	s15, s15, s15
+  82 00c0 40F20003 		movw	r3, #:lower16:rotationMatrix
+  83 00c4 C0F20003 		movt	r3, #:upper16:rotationMatrix
+  84 00c8 C3ED037A 		fsts	s15, [r3, #12]
+  85 00cc 40F20003 		movw	r3, #:lower16:q0q0
+  86 00d0 C0F20003 		movt	r3, #:upper16:q0q0
+  87 00d4 93ED007A 		flds	s14, [r3, #0]
+  88 00d8 40F20003 		movw	r3, #:lower16:q1q1
+  89 00dc C0F20003 		movt	r3, #:upper16:q1q1
+  90 00e0 D3ED007A 		flds	s15, [r3, #0]
+  91 00e4 37EE677A 		fsubs	s14, s14, s15
+  92 00e8 40F20003 		movw	r3, #:lower16:q2q2
+  93 00ec C0F20003 		movt	r3, #:upper16:q2q2
+  94 00f0 D3ED007A 		flds	s15, [r3, #0]
+  95 00f4 37EE277A 		fadds	s14, s14, s15
+  96 00f8 40F20003 		movw	r3, #:lower16:q3q3
+  97 00fc C0F20003 		movt	r3, #:upper16:q3q3
+  98 0100 D3ED007A 		flds	s15, [r3, #0]
+  99 0104 77EE677A 		fsubs	s15, s14, s15
+ 100 0108 40F20003 		movw	r3, #:lower16:rotationMatrix
+ 101 010c C0F20003 		movt	r3, #:upper16:rotationMatrix
+ 102 0110 C3ED047A 		fsts	s15, [r3, #16]
+ 103 0114 40F20003 		movw	r3, #:lower16:q2q3
+ 104 0118 C0F20003 		movt	r3, #:upper16:q2q3
+ 105 011c 93ED007A 		flds	s14, [r3, #0]
+ 106 0120 40F20003 		movw	r3, #:lower16:q0q1
+ 107 0124 C0F20003 		movt	r3, #:upper16:q0q1
+ 108 0128 D3ED007A 		flds	s15, [r3, #0]
+ 109 012c 77EE677A 		fsubs	s15, s14, s15
+ 110 0130 77EEA77A 		fadds	s15, s15, s15
+ 111 0134 40F20003 		movw	r3, #:lower16:rotationMatrix
+ 112 0138 C0F20003 		movt	r3, #:upper16:rotationMatrix
+ 113 013c C3ED057A 		fsts	s15, [r3, #20]
+ 114 0140 40F20003 		movw	r3, #:lower16:q1q3
+ 115 0144 C0F20003 		movt	r3, #:upper16:q1q3
+ 116 0148 93ED007A 		flds	s14, [r3, #0]
+ 117 014c 40F20003 		movw	r3, #:lower16:q0q2
+ 118 0150 C0F20003 		movt	r3, #:upper16:q0q2
+ 119 0154 D3ED007A 		flds	s15, [r3, #0]
+ 120 0158 77EE677A 		fsubs	s15, s14, s15
+ 121 015c 77EEA77A 		fadds	s15, s15, s15
+ 122 0160 40F20003 		movw	r3, #:lower16:rotationMatrix
+ 123 0164 C0F20003 		movt	r3, #:upper16:rotationMatrix
+ 124 0168 C3ED067A 		fsts	s15, [r3, #24]
+ 125 016c 40F20003 		movw	r3, #:lower16:q0q1
+ 126 0170 C0F20003 		movt	r3, #:upper16:q0q1
+ 127 0174 93ED007A 		flds	s14, [r3, #0]
+ 128 0178 40F20003 		movw	r3, #:lower16:q2q3
+ 129 017c C0F20003 		movt	r3, #:upper16:q2q3
+ 130 0180 D3ED007A 		flds	s15, [r3, #0]
+ 131 0184 77EE277A 		fadds	s15, s14, s15
+ 132 0188 77EEA77A 		fadds	s15, s15, s15
+ 133 018c 40F20003 		movw	r3, #:lower16:rotationMatrix
+ 134 0190 C0F20003 		movt	r3, #:upper16:rotationMatrix
+ 135 0194 C3ED077A 		fsts	s15, [r3, #28]
+ 136 0198 40F20003 		movw	r3, #:lower16:q0q0
+ 137 019c C0F20003 		movt	r3, #:upper16:q0q0
+ 138 01a0 93ED007A 		flds	s14, [r3, #0]
+ 139 01a4 40F20003 		movw	r3, #:lower16:q1q1
+ 140 01a8 C0F20003 		movt	r3, #:upper16:q1q1
+ 141 01ac D3ED007A 		flds	s15, [r3, #0]
+ 142 01b0 37EE677A 		fsubs	s14, s14, s15
+ 143 01b4 40F20003 		movw	r3, #:lower16:q2q2
+ 144 01b8 C0F20003 		movt	r3, #:upper16:q2q2
+ 145 01bc D3ED007A 		flds	s15, [r3, #0]
+ 146 01c0 37EE677A 		fsubs	s14, s14, s15
+ 147 01c4 40F20003 		movw	r3, #:lower16:q3q3
+ 148 01c8 C0F20003 		movt	r3, #:upper16:q3q3
+ 149 01cc D3ED007A 		flds	s15, [r3, #0]
+ 150 01d0 77EE277A 		fadds	s15, s14, s15
+ 151 01d4 40F20003 		movw	r3, #:lower16:rotationMatrix
+ 152 01d8 C0F20003 		movt	r3, #:upper16:rotationMatrix
+ 153 01dc C3ED087A 		fsts	s15, [r3, #32]
+ 154 01e0 7047     		bx	lr
+ 156 01e2 00BF     		.align	2
+ 157              		.global	bodyAccelToEarthAccel
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	bodyAccelToEarthAccel:
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164 01e4 00B5     		push	{lr}
+ 165 01e6 83B0     		sub	sp, sp, #12
+ 166 01e8 40F20003 		movw	r3, #:lower16:rotationMatrix
+ 167 01ec C0F20003 		movt	r3, #:upper16:rotationMatrix
+ 168 01f0 0093     		str	r3, [sp, #0]
+ 169 01f2 124B     		ldr	r3, .L3
+ 170 01f4 0193     		str	r3, [sp, #4]
+ 171 01f6 4FF00300 		mov	r0, #3
+ 172 01fa 4FF00301 		mov	r1, #3
+ 173 01fe 4FF00102 		mov	r2, #1
+ 174 0202 40F20003 		movw	r3, #:lower16:earthAxisAccels
+ 175 0206 C0F20003 		movt	r3, #:upper16:earthAxisAccels
+ 176 020a FFF7FEFF 		bl	matrixMultiply
+ 177 020e 40F20003 		movw	r3, #:lower16:earthAxisAccels
+ 178 0212 C0F20003 		movt	r3, #:upper16:earthAxisAccels
+ 179 0216 93ED027A 		flds	s14, [r3, #8]
+ 180 021a 40F20003 		movw	r3, #:lower16:accelOneG
+ 181 021e C0F20003 		movt	r3, #:upper16:accelOneG
+ 182 0222 D3ED007A 		flds	s15, [r3, #0]
+ 183 0226 77EE277A 		fadds	s15, s14, s15
+ 184 022a 40F20003 		movw	r3, #:lower16:earthAxisAccels
+ 185 022e C0F20003 		movt	r3, #:upper16:earthAxisAccels
+ 186 0232 C3ED027A 		fsts	s15, [r3, #8]
+ 187 0236 03B0     		add	sp, sp, #12
+ 188 0238 00BD     		pop	{pc}
+ 189              	.L4:
+ 190 023a 00BF     		.align	2
+ 191              	.L3:
+ 192 023c 0C000000 		.word	sensors+12
+ 194              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 coordinateTransforms.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczBpO9q.s:21     .bss:00000000 earthAxisAccels
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczBpO9q.s:18     .bss:00000000 $d
+                            *COM*:00000024 rotationMatrix
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczBpO9q.s:25     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczBpO9q.s:30     .text:00000000 createRotationMatrix
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczBpO9q.s:161    .text:000001e4 bodyAccelToEarthAccel
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczBpO9q.s:192    .text:0000023c $d
+
+UNDEFINED SYMBOLS
+q0q0
+q1q1
+q2q2
+q3q3
+q1q2
+q0q3
+q0q2
+q1q3
+q2q3
+q0q1
+matrixMultiply
+accelOneG
+sensors

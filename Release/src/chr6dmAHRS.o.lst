@@ -1,0 +1,1732 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"chr6dmAHRS.c"
+  16              		.comm	gEstimatedStates,168,4
+  17              		.global	EKF_Initialized
+  18              		.bss
+  21              	EKF_Initialized:
+  22 0000 00       		.space	1
+  23              		.text
+  24              		.align	2
+  25              		.global	EKF_Init
+  26              		.thumb
+  27              		.thumb_func
+  29              	EKF_Init:
+  30              		@ args = 8, pretend = 0, frame = 48
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 00B5     		push	{lr}
+  33 0002 8DB0     		sub	sp, sp, #52
+  34 0004 0390     		str	r0, [sp, #12]	@ float
+  35 0006 0291     		str	r1, [sp, #8]	@ float
+  36 0008 0192     		str	r2, [sp, #4]	@ float
+  37 000a 0093     		str	r3, [sp, #0]	@ float
+  38 000c DDED027A 		flds	s15, [sp, #8]
+  39 0010 F1EE677A 		fnegs	s15, s15
+  40 0014 17EE902A 		fmrs	r2, s15
+  41 0018 DDED017A 		flds	s15, [sp, #4]
+  42 001c F1EE677A 		fnegs	s15, s15
+  43 0020 17EE903A 		fmrs	r3, s15
+  44 0024 1046     		mov	r0, r2	@ float
+  45 0026 1946     		mov	r1, r3	@ float
+  46 0028 FFF7FEFF 		bl	atan2f
+  47 002c 0246     		mov	r2, r0	@ float
+  48 002e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+  49 0032 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+  50 0036 9A60     		str	r2, [r3, #8]	@ float
+  51 0038 DDED017A 		flds	s15, [sp, #4]
+  52 003c F1EE677A 		fnegs	s15, s15
+  53 0040 17EE903A 		fmrs	r3, s15
+  54 0044 0398     		ldr	r0, [sp, #12]	@ float
+  55 0046 1946     		mov	r1, r3	@ float
+  56 0048 FFF7FEFF 		bl	atan2f
+  57 004c 0246     		mov	r2, r0	@ float
+  58 004e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+  59 0052 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+  60 0056 5A60     		str	r2, [r3, #4]	@ float
+  61 0058 40F20003 		movw	r3, #:lower16:gEstimatedStates
+  62 005c C0F20003 		movt	r3, #:upper16:gEstimatedStates
+  63 0060 9B68     		ldr	r3, [r3, #8]	@ float
+  64 0062 1846     		mov	r0, r3	@ float
+  65 0064 FFF7FEFF 		bl	cosf
+  66 0068 0990     		str	r0, [sp, #36]	@ float
+  67 006a 40F20003 		movw	r3, #:lower16:gEstimatedStates
+  68 006e C0F20003 		movt	r3, #:upper16:gEstimatedStates
+  69 0072 9B68     		ldr	r3, [r3, #8]	@ float
+  70 0074 1846     		mov	r0, r3	@ float
+  71 0076 FFF7FEFF 		bl	sinf
+  72 007a 0890     		str	r0, [sp, #32]	@ float
+  73 007c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+  74 0080 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+  75 0084 5B68     		ldr	r3, [r3, #4]	@ float
+  76 0086 1846     		mov	r0, r3	@ float
+  77 0088 FFF7FEFF 		bl	cosf
+  78 008c 0790     		str	r0, [sp, #28]	@ float
+  79 008e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+  80 0092 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+  81 0096 5B68     		ldr	r3, [r3, #4]	@ float
+  82 0098 1846     		mov	r0, r3	@ float
+  83 009a FFF7FEFF 		bl	sinf
+  84 009e 0690     		str	r0, [sp, #24]	@ float
+  85 00a0 9DED007A 		flds	s14, [sp, #0]
+  86 00a4 DDED077A 		flds	s15, [sp, #28]
+  87 00a8 27EE277A 		fmuls	s14, s14, s15
+  88 00ac DDED0E6A 		flds	s13, [sp, #56]
+  89 00b0 DDED087A 		flds	s15, [sp, #32]
+  90 00b4 66EEA77A 		fmuls	s15, s13, s15
+  91 00b8 DDED066A 		flds	s13, [sp, #24]
+  92 00bc 67EEA67A 		fmuls	s15, s15, s13
+  93 00c0 37EE277A 		fadds	s14, s14, s15
+  94 00c4 DDED0F6A 		flds	s13, [sp, #60]
+  95 00c8 DDED097A 		flds	s15, [sp, #36]
+  96 00cc 66EEA77A 		fmuls	s15, s13, s15
+  97 00d0 DDED066A 		flds	s13, [sp, #24]
+  98 00d4 67EEA67A 		fmuls	s15, s15, s13
+  99 00d8 77EE277A 		fadds	s15, s14, s15
+ 100 00dc CDED057A 		fsts	s15, [sp, #20]
+ 101 00e0 9DED0E7A 		flds	s14, [sp, #56]
+ 102 00e4 DDED097A 		flds	s15, [sp, #36]
+ 103 00e8 27EE277A 		fmuls	s14, s14, s15
+ 104 00ec DDED0F6A 		flds	s13, [sp, #60]
+ 105 00f0 DDED087A 		flds	s15, [sp, #32]
+ 106 00f4 66EEA77A 		fmuls	s15, s13, s15
+ 107 00f8 77EE677A 		fsubs	s15, s14, s15
+ 108 00fc CDED047A 		fsts	s15, [sp, #16]
+ 109 0100 DDED047A 		flds	s15, [sp, #16]
+ 110 0104 F1EE677A 		fnegs	s15, s15
+ 111 0108 17EE903A 		fmrs	r3, s15
+ 112 010c 1846     		mov	r0, r3	@ float
+ 113 010e 0599     		ldr	r1, [sp, #20]	@ float
+ 114 0110 FFF7FEFF 		bl	atan2f
+ 115 0114 0246     		mov	r2, r0	@ float
+ 116 0116 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 117 011a C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 118 011e 1A60     		str	r2, [r3, #0]	@ float
+ 119 0120 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 120 0124 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 121 0128 6D4A     		ldr	r2, .L7	@ float
+ 122 012a 5A61     		str	r2, [r3, #20]	@ float
+ 123 012c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 124 0130 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 125 0134 6A4A     		ldr	r2, .L7	@ float
+ 126 0136 1A61     		str	r2, [r3, #16]	@ float
+ 127 0138 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 128 013c C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 129 0140 674A     		ldr	r2, .L7	@ float
+ 130 0142 DA60     		str	r2, [r3, #12]	@ float
+ 131 0144 4FF00003 		mov	r3, #0
+ 132 0148 0B93     		str	r3, [sp, #44]
+ 133 014a BBE0     		b	.L2
+ 134              	.L6:
+ 135 014c 4FF00003 		mov	r3, #0
+ 136 0150 0A93     		str	r3, [sp, #40]
+ 137 0152 AFE0     		b	.L3
+ 138              	.L5:
+ 139 0154 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 140 0158 C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 141 015c 0B99     		ldr	r1, [sp, #44]
+ 142 015e 0B46     		mov	r3, r1
+ 143 0160 4FEA4303 		lsl	r3, r3, #1
+ 144 0164 5B18     		adds	r3, r3, r1
+ 145 0166 0A99     		ldr	r1, [sp, #40]
+ 146 0168 5B18     		adds	r3, r3, r1
+ 147 016a 03F12003 		add	r3, r3, #32
+ 148 016e 4FEA8303 		lsl	r3, r3, #2
+ 149 0172 D318     		adds	r3, r2, r3
+ 150 0174 03F10403 		add	r3, r3, #4
+ 151 0178 594A     		ldr	r2, .L7	@ float
+ 152 017a 1A60     		str	r2, [r3, #0]	@ float
+ 153 017c 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 154 0180 C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 155 0184 0B99     		ldr	r1, [sp, #44]
+ 156 0186 0B46     		mov	r3, r1
+ 157 0188 4FEA4303 		lsl	r3, r3, #1
+ 158 018c 5B18     		adds	r3, r3, r1
+ 159 018e 0A99     		ldr	r1, [sp, #40]
+ 160 0190 5B18     		adds	r3, r3, r1
+ 161 0192 03F10603 		add	r3, r3, #6
+ 162 0196 4FEA8303 		lsl	r3, r3, #2
+ 163 019a D318     		adds	r3, r2, r3
+ 164 019c 504A     		ldr	r2, .L7	@ float
+ 165 019e 1A60     		str	r2, [r3, #0]	@ float
+ 166 01a0 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 167 01a4 C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 168 01a8 0B99     		ldr	r1, [sp, #44]
+ 169 01aa 0B46     		mov	r3, r1
+ 170 01ac 4FEA4303 		lsl	r3, r3, #1
+ 171 01b0 5B18     		adds	r3, r3, r1
+ 172 01b2 0A99     		ldr	r1, [sp, #40]
+ 173 01b4 5B18     		adds	r3, r3, r1
+ 174 01b6 03F10E03 		add	r3, r3, #14
+ 175 01ba 4FEA8303 		lsl	r3, r3, #2
+ 176 01be D318     		adds	r3, r2, r3
+ 177 01c0 03F10403 		add	r3, r3, #4
+ 178 01c4 464A     		ldr	r2, .L7	@ float
+ 179 01c6 1A60     		str	r2, [r3, #0]	@ float
+ 180 01c8 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 181 01cc C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 182 01d0 0B99     		ldr	r1, [sp, #44]
+ 183 01d2 0B46     		mov	r3, r1
+ 184 01d4 4FEA4303 		lsl	r3, r3, #1
+ 185 01d8 5B18     		adds	r3, r3, r1
+ 186 01da 0A99     		ldr	r1, [sp, #40]
+ 187 01dc 5B18     		adds	r3, r3, r1
+ 188 01de 03F11803 		add	r3, r3, #24
+ 189 01e2 4FEA8303 		lsl	r3, r3, #2
+ 190 01e6 D318     		adds	r3, r2, r3
+ 191 01e8 3D4A     		ldr	r2, .L7	@ float
+ 192 01ea 1A60     		str	r2, [r3, #0]	@ float
+ 193 01ec 0B9A     		ldr	r2, [sp, #44]
+ 194 01ee 0A9B     		ldr	r3, [sp, #40]
+ 195 01f0 9A42     		cmp	r2, r3
+ 196 01f2 5BD1     		bne	.L4
+ 197 01f4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 198 01f8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 199 01fc 586E     		ldr	r0, [r3, #100]	@ float
+ 200 01fe 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 201 0202 C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 202 0206 0B99     		ldr	r1, [sp, #44]
+ 203 0208 0B46     		mov	r3, r1
+ 204 020a 4FEA4303 		lsl	r3, r3, #1
+ 205 020e 5B18     		adds	r3, r3, r1
+ 206 0210 0A99     		ldr	r1, [sp, #40]
+ 207 0212 5B18     		adds	r3, r3, r1
+ 208 0214 03F12003 		add	r3, r3, #32
+ 209 0218 4FEA8303 		lsl	r3, r3, #2
+ 210 021c D318     		adds	r3, r2, r3
+ 211 021e 03F10403 		add	r3, r3, #4
+ 212 0222 1860     		str	r0, [r3, #0]	@ float
+ 213 0224 40F20003 		movw	r3, #:lower16:eepromConfig
+ 214 0228 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 215 022c 586E     		ldr	r0, [r3, #100]	@ float
+ 216 022e 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 217 0232 C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 218 0236 0B99     		ldr	r1, [sp, #44]
+ 219 0238 0B46     		mov	r3, r1
+ 220 023a 4FEA4303 		lsl	r3, r3, #1
+ 221 023e 5B18     		adds	r3, r3, r1
+ 222 0240 0A99     		ldr	r1, [sp, #40]
+ 223 0242 5B18     		adds	r3, r3, r1
+ 224 0244 03F10603 		add	r3, r3, #6
+ 225 0248 4FEA8303 		lsl	r3, r3, #2
+ 226 024c D318     		adds	r3, r2, r3
+ 227 024e 1860     		str	r0, [r3, #0]	@ float
+ 228 0250 40F20003 		movw	r3, #:lower16:eepromConfig
+ 229 0254 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 230 0258 D86D     		ldr	r0, [r3, #92]	@ float
+ 231 025a 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 232 025e C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 233 0262 0B99     		ldr	r1, [sp, #44]
+ 234 0264 0B46     		mov	r3, r1
+ 235 0266 4FEA4303 		lsl	r3, r3, #1
+ 236 026a 5B18     		adds	r3, r3, r1
+ 237 026c 0A99     		ldr	r1, [sp, #40]
+ 238 026e 5B18     		adds	r3, r3, r1
+ 239 0270 03F10E03 		add	r3, r3, #14
+ 240 0274 4FEA8303 		lsl	r3, r3, #2
+ 241 0278 D318     		adds	r3, r2, r3
+ 242 027a 03F10403 		add	r3, r3, #4
+ 243 027e 1860     		str	r0, [r3, #0]	@ float
+ 244 0280 40F20003 		movw	r3, #:lower16:eepromConfig
+ 245 0284 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 246 0288 186E     		ldr	r0, [r3, #96]	@ float
+ 247 028a 40F20002 		movw	r2, #:lower16:gEstimatedStates
+ 248 028e C0F20002 		movt	r2, #:upper16:gEstimatedStates
+ 249 0292 0B99     		ldr	r1, [sp, #44]
+ 250 0294 0B46     		mov	r3, r1
+ 251 0296 4FEA4303 		lsl	r3, r3, #1
+ 252 029a 5B18     		adds	r3, r3, r1
+ 253 029c 0A99     		ldr	r1, [sp, #40]
+ 254 029e 5B18     		adds	r3, r3, r1
+ 255 02a0 03F11803 		add	r3, r3, #24
+ 256 02a4 4FEA8303 		lsl	r3, r3, #2
+ 257 02a8 D318     		adds	r3, r2, r3
+ 258 02aa 1860     		str	r0, [r3, #0]	@ float
+ 259              	.L4:
+ 260 02ac 0A9B     		ldr	r3, [sp, #40]
+ 261 02ae 03F10103 		add	r3, r3, #1
+ 262 02b2 0A93     		str	r3, [sp, #40]
+ 263              	.L3:
+ 264 02b4 0A9B     		ldr	r3, [sp, #40]
+ 265 02b6 022B     		cmp	r3, #2
+ 266 02b8 7FF74CAF 		ble	.L5
+ 267 02bc 0B9B     		ldr	r3, [sp, #44]
+ 268 02be 03F10103 		add	r3, r3, #1
+ 269 02c2 0B93     		str	r3, [sp, #44]
+ 270              	.L2:
+ 271 02c4 0B9B     		ldr	r3, [sp, #44]
+ 272 02c6 022B     		cmp	r3, #2
+ 273 02c8 7FF740AF 		ble	.L6
+ 274 02cc 40F20003 		movw	r3, #:lower16:EKF_Initialized
+ 275 02d0 C0F20003 		movt	r3, #:upper16:EKF_Initialized
+ 276 02d4 4FF00102 		mov	r2, #1
+ 277 02d8 1A70     		strb	r2, [r3, #0]
+ 278 02da 0DB0     		add	sp, sp, #52
+ 279 02dc 00BD     		pop	{pc}
+ 280              	.L8:
+ 281 02de 00BF     		.align	2
+ 282              	.L7:
+ 283 02e0 00000000 		.word	0
+ 285              		.align	2
+ 286              		.global	unroll_states
+ 287              		.thumb
+ 288              		.thumb_func
+ 290              	unroll_states:
+ 291              		@ args = 0, pretend = 0, frame = 0
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293              		@ link register save eliminated.
+ 294 02e4 0FE0     		b	.L10
+ 295              	.L11:
+ 296 02e6 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 297 02ea C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 298 02ee 93ED027A 		flds	s14, [r3, #8]
+ 299 02f2 DFED667A 		flds	s15, .L22
+ 300 02f6 77EE677A 		fsubs	s15, s14, s15
+ 301 02fa 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 302 02fe C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 303 0302 C3ED027A 		fsts	s15, [r3, #8]
+ 304              	.L10:
+ 305 0306 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 306 030a C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 307 030e 93ED027A 		flds	s14, [r3, #8]
+ 308 0312 DFED5F7A 		flds	s15, .L22+4
+ 309 0316 B4EEE77A 		fcmpes	s14, s15
+ 310 031a F1EE10FA 		fmstat
+ 311 031e D4BF     		ite	le
+ 312 0320 0023     		movle	r3, #0
+ 313 0322 0123     		movgt	r3, #1
+ 314 0324 DBB2     		uxtb	r3, r3
+ 315 0326 002B     		cmp	r3, #0
+ 316 0328 DDD1     		bne	.L11
+ 317 032a 0FE0     		b	.L12
+ 318              	.L13:
+ 319 032c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 320 0330 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 321 0334 93ED027A 		flds	s14, [r3, #8]
+ 322 0338 DFED547A 		flds	s15, .L22
+ 323 033c 77EE277A 		fadds	s15, s14, s15
+ 324 0340 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 325 0344 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 326 0348 C3ED027A 		fsts	s15, [r3, #8]
+ 327              	.L12:
+ 328 034c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 329 0350 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 330 0354 93ED027A 		flds	s14, [r3, #8]
+ 331 0358 DFED4E7A 		flds	s15, .L22+8
+ 332 035c B4EEE77A 		fcmpes	s14, s15
+ 333 0360 F1EE10FA 		fmstat
+ 334 0364 54BF     		ite	pl
+ 335 0366 0023     		movpl	r3, #0
+ 336 0368 0123     		movmi	r3, #1
+ 337 036a DBB2     		uxtb	r3, r3
+ 338 036c 002B     		cmp	r3, #0
+ 339 036e DDD1     		bne	.L13
+ 340 0370 0FE0     		b	.L14
+ 341              	.L15:
+ 342 0372 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 343 0376 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 344 037a 93ED017A 		flds	s14, [r3, #4]
+ 345 037e DFED437A 		flds	s15, .L22
+ 346 0382 77EE677A 		fsubs	s15, s14, s15
+ 347 0386 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 348 038a C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 349 038e C3ED017A 		fsts	s15, [r3, #4]
+ 350              	.L14:
+ 351 0392 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 352 0396 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 353 039a 93ED017A 		flds	s14, [r3, #4]
+ 354 039e DFED3C7A 		flds	s15, .L22+4
+ 355 03a2 B4EEE77A 		fcmpes	s14, s15
+ 356 03a6 F1EE10FA 		fmstat
+ 357 03aa D4BF     		ite	le
+ 358 03ac 0023     		movle	r3, #0
+ 359 03ae 0123     		movgt	r3, #1
+ 360 03b0 DBB2     		uxtb	r3, r3
+ 361 03b2 002B     		cmp	r3, #0
+ 362 03b4 DDD1     		bne	.L15
+ 363 03b6 0FE0     		b	.L16
+ 364              	.L17:
+ 365 03b8 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 366 03bc C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 367 03c0 93ED017A 		flds	s14, [r3, #4]
+ 368 03c4 DFED317A 		flds	s15, .L22
+ 369 03c8 77EE277A 		fadds	s15, s14, s15
+ 370 03cc 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 371 03d0 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 372 03d4 C3ED017A 		fsts	s15, [r3, #4]
+ 373              	.L16:
+ 374 03d8 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 375 03dc C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 376 03e0 93ED017A 		flds	s14, [r3, #4]
+ 377 03e4 DFED2B7A 		flds	s15, .L22+8
+ 378 03e8 B4EEE77A 		fcmpes	s14, s15
+ 379 03ec F1EE10FA 		fmstat
+ 380 03f0 54BF     		ite	pl
+ 381 03f2 0023     		movpl	r3, #0
+ 382 03f4 0123     		movmi	r3, #1
+ 383 03f6 DBB2     		uxtb	r3, r3
+ 384 03f8 002B     		cmp	r3, #0
+ 385 03fa DDD1     		bne	.L17
+ 386 03fc 0FE0     		b	.L18
+ 387              	.L19:
+ 388 03fe 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 389 0402 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 390 0406 93ED007A 		flds	s14, [r3, #0]
+ 391 040a DFED207A 		flds	s15, .L22
+ 392 040e 77EE677A 		fsubs	s15, s14, s15
+ 393 0412 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 394 0416 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 395 041a C3ED007A 		fsts	s15, [r3, #0]
+ 396              	.L18:
+ 397 041e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 398 0422 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 399 0426 93ED007A 		flds	s14, [r3, #0]
+ 400 042a DFED197A 		flds	s15, .L22+4
+ 401 042e B4EEE77A 		fcmpes	s14, s15
+ 402 0432 F1EE10FA 		fmstat
+ 403 0436 D4BF     		ite	le
+ 404 0438 0023     		movle	r3, #0
+ 405 043a 0123     		movgt	r3, #1
+ 406 043c DBB2     		uxtb	r3, r3
+ 407 043e 002B     		cmp	r3, #0
+ 408 0440 DDD1     		bne	.L19
+ 409 0442 0FE0     		b	.L20
+ 410              	.L21:
+ 411 0444 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 412 0448 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 413 044c 93ED007A 		flds	s14, [r3, #0]
+ 414 0450 DFED0E7A 		flds	s15, .L22
+ 415 0454 77EE277A 		fadds	s15, s14, s15
+ 416 0458 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 417 045c C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 418 0460 C3ED007A 		fsts	s15, [r3, #0]
+ 419              	.L20:
+ 420 0464 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 421 0468 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 422 046c 93ED007A 		flds	s14, [r3, #0]
+ 423 0470 DFED087A 		flds	s15, .L22+8
+ 424 0474 B4EEE77A 		fcmpes	s14, s15
+ 425 0478 F1EE10FA 		fmstat
+ 426 047c 54BF     		ite	pl
+ 427 047e 0023     		movpl	r3, #0
+ 428 0480 0123     		movmi	r3, #1
+ 429 0482 DBB2     		uxtb	r3, r3
+ 430 0484 002B     		cmp	r3, #0
+ 431 0486 DDD1     		bne	.L21
+ 432 0488 7047     		bx	lr
+ 433              	.L23:
+ 434 048a 00BF     		.align	2
+ 435              	.L22:
+ 436 048c DB0FC940 		.word	1086918619
+ 437 0490 DB0F4940 		.word	1078530011
+ 438 0494 DB0F49C0 		.word	-1068953637
+ 440              		.global	__aeabi_f2d
+ 441              		.global	__aeabi_d2f
+ 442              		.align	2
+ 443              		.global	EKF_Predict
+ 444              		.thumb
+ 445              		.thumb_func
+ 447              	EKF_Predict:
+ 448              		@ args = 0, pretend = 0, frame = 216
+ 449              		@ frame_needed = 0, uses_anonymous_args = 0
+ 450 0498 00B5     		push	{lr}
+ 451 049a B7B0     		sub	sp, sp, #220
+ 452 049c 0390     		str	r0, [sp, #12]	@ float
+ 453 049e 0291     		str	r1, [sp, #8]	@ float
+ 454 04a0 0192     		str	r2, [sp, #4]	@ float
+ 455 04a2 0093     		str	r3, [sp, #0]	@ float
+ 456 04a4 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 457 04a8 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 458 04ac 9B68     		ldr	r3, [r3, #8]	@ float
+ 459 04ae 1846     		mov	r0, r3	@ float
+ 460 04b0 FFF7FEFF 		bl	__aeabi_f2d
+ 461 04b4 0246     		mov	r2, r0
+ 462 04b6 0B46     		mov	r3, r1
+ 463 04b8 1046     		mov	r0, r2
+ 464 04ba 1946     		mov	r1, r3
+ 465 04bc FFF7FEFF 		bl	cos
+ 466 04c0 0246     		mov	r2, r0
+ 467 04c2 0B46     		mov	r3, r1
+ 468 04c4 1046     		mov	r0, r2
+ 469 04c6 1946     		mov	r1, r3
+ 470 04c8 FFF7FEFF 		bl	__aeabi_d2f
+ 471 04cc 0346     		mov	r3, r0	@ float
+ 472 04ce 3593     		str	r3, [sp, #212]	@ float
+ 473 04d0 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 474 04d4 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 475 04d8 9B68     		ldr	r3, [r3, #8]	@ float
+ 476 04da 1846     		mov	r0, r3	@ float
+ 477 04dc FFF7FEFF 		bl	__aeabi_f2d
+ 478 04e0 0246     		mov	r2, r0
+ 479 04e2 0B46     		mov	r3, r1
+ 480 04e4 1046     		mov	r0, r2
+ 481 04e6 1946     		mov	r1, r3
+ 482 04e8 FFF7FEFF 		bl	sin
+ 483 04ec 0246     		mov	r2, r0
+ 484 04ee 0B46     		mov	r3, r1
+ 485 04f0 1046     		mov	r0, r2
+ 486 04f2 1946     		mov	r1, r3
+ 487 04f4 FFF7FEFF 		bl	__aeabi_d2f
+ 488 04f8 0346     		mov	r3, r0	@ float
+ 489 04fa 3493     		str	r3, [sp, #208]	@ float
+ 490 04fc 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 491 0500 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 492 0504 5B68     		ldr	r3, [r3, #4]	@ float
+ 493 0506 1846     		mov	r0, r3	@ float
+ 494 0508 FFF7FEFF 		bl	__aeabi_f2d
+ 495 050c 0246     		mov	r2, r0
+ 496 050e 0B46     		mov	r3, r1
+ 497 0510 1046     		mov	r0, r2
+ 498 0512 1946     		mov	r1, r3
+ 499 0514 FFF7FEFF 		bl	cos
+ 500 0518 0246     		mov	r2, r0
+ 501 051a 0B46     		mov	r3, r1
+ 502 051c 1046     		mov	r0, r2
+ 503 051e 1946     		mov	r1, r3
+ 504 0520 FFF7FEFF 		bl	__aeabi_d2f
+ 505 0524 0346     		mov	r3, r0	@ float
+ 506 0526 3393     		str	r3, [sp, #204]	@ float
+ 507 0528 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 508 052c C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 509 0530 5B68     		ldr	r3, [r3, #4]	@ float
+ 510 0532 1846     		mov	r0, r3	@ float
+ 511 0534 FFF7FEFF 		bl	__aeabi_f2d
+ 512 0538 0246     		mov	r2, r0
+ 513 053a 0B46     		mov	r3, r1
+ 514 053c 1046     		mov	r0, r2
+ 515 053e 1946     		mov	r1, r3
+ 516 0540 FFF7FEFF 		bl	sin
+ 517 0544 0246     		mov	r2, r0
+ 518 0546 0B46     		mov	r3, r1
+ 519 0548 1046     		mov	r0, r2
+ 520 054a 1946     		mov	r1, r3
+ 521 054c FFF7FEFF 		bl	__aeabi_d2f
+ 522 0550 0346     		mov	r3, r0	@ float
+ 523 0552 3293     		str	r3, [sp, #200]	@ float
+ 524 0554 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 525 0558 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 526 055c 5B68     		ldr	r3, [r3, #4]	@ float
+ 527 055e 1846     		mov	r0, r3	@ float
+ 528 0560 FFF7FEFF 		bl	__aeabi_f2d
+ 529 0564 0246     		mov	r2, r0
+ 530 0566 0B46     		mov	r3, r1
+ 531 0568 1046     		mov	r0, r2
+ 532 056a 1946     		mov	r1, r3
+ 533 056c FFF7FEFF 		bl	tan
+ 534 0570 0246     		mov	r2, r0
+ 535 0572 0B46     		mov	r3, r1
+ 536 0574 1046     		mov	r0, r2
+ 537 0576 1946     		mov	r1, r3
+ 538 0578 FFF7FEFF 		bl	__aeabi_d2f
+ 539 057c 0346     		mov	r3, r0	@ float
+ 540 057e 3193     		str	r3, [sp, #196]	@ float
+ 541 0580 9DED347A 		flds	s14, [sp, #208]
+ 542 0584 DDED317A 		flds	s15, [sp, #196]
+ 543 0588 67EE277A 		fmuls	s15, s14, s15
+ 544 058c 9DED027A 		flds	s14, [sp, #8]
+ 545 0590 67EE877A 		fmuls	s15, s15, s14
+ 546 0594 9DED037A 		flds	s14, [sp, #12]
+ 547 0598 37EE877A 		fadds	s14, s15, s14
+ 548 059c DDED356A 		flds	s13, [sp, #212]
+ 549 05a0 DDED317A 		flds	s15, [sp, #196]
+ 550 05a4 66EEA77A 		fmuls	s15, s13, s15
+ 551 05a8 DDED016A 		flds	s13, [sp, #4]
+ 552 05ac 67EEA67A 		fmuls	s15, s15, s13
+ 553 05b0 77EE277A 		fadds	s15, s14, s15
+ 554 05b4 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 555 05b8 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 556 05bc C3ED057A 		fsts	s15, [r3, #20]
+ 557 05c0 9DED357A 		flds	s14, [sp, #212]
+ 558 05c4 DDED027A 		flds	s15, [sp, #8]
+ 559 05c8 27EE277A 		fmuls	s14, s14, s15
+ 560 05cc DDED346A 		flds	s13, [sp, #208]
+ 561 05d0 DDED017A 		flds	s15, [sp, #4]
+ 562 05d4 66EEA77A 		fmuls	s15, s13, s15
+ 563 05d8 77EE677A 		fsubs	s15, s14, s15
+ 564 05dc 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 565 05e0 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 566 05e4 C3ED047A 		fsts	s15, [r3, #16]
+ 567 05e8 9DED347A 		flds	s14, [sp, #208]
+ 568 05ec DDED337A 		flds	s15, [sp, #204]
+ 569 05f0 C7EE277A 		fdivs	s15, s14, s15
+ 570 05f4 9DED027A 		flds	s14, [sp, #8]
+ 571 05f8 27EE877A 		fmuls	s14, s15, s14
+ 572 05fc DDED356A 		flds	s13, [sp, #212]
+ 573 0600 DDED337A 		flds	s15, [sp, #204]
+ 574 0604 C6EEA77A 		fdivs	s15, s13, s15
+ 575 0608 DDED016A 		flds	s13, [sp, #4]
+ 576 060c 67EEA67A 		fmuls	s15, s15, s13
+ 577 0610 77EE277A 		fadds	s15, s14, s15
+ 578 0614 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 579 0618 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 580 061c C3ED037A 		fsts	s15, [r3, #12]
+ 581 0620 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 582 0624 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 583 0628 93ED027A 		flds	s14, [r3, #8]
+ 584 062c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 585 0630 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 586 0634 D3ED056A 		flds	s13, [r3, #20]
+ 587 0638 DDED007A 		flds	s15, [sp, #0]
+ 588 063c 66EEA77A 		fmuls	s15, s13, s15
+ 589 0640 77EE277A 		fadds	s15, s14, s15
+ 590 0644 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 591 0648 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 592 064c C3ED027A 		fsts	s15, [r3, #8]
+ 593 0650 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 594 0654 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 595 0658 93ED017A 		flds	s14, [r3, #4]
+ 596 065c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 597 0660 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 598 0664 D3ED046A 		flds	s13, [r3, #16]
+ 599 0668 DDED007A 		flds	s15, [sp, #0]
+ 600 066c 66EEA77A 		fmuls	s15, s13, s15
+ 601 0670 77EE277A 		fadds	s15, s14, s15
+ 602 0674 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 603 0678 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 604 067c C3ED017A 		fsts	s15, [r3, #4]
+ 605 0680 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 606 0684 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 607 0688 93ED007A 		flds	s14, [r3, #0]
+ 608 068c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 609 0690 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 610 0694 D3ED036A 		flds	s13, [r3, #12]
+ 611 0698 DDED007A 		flds	s15, [sp, #0]
+ 612 069c 66EEA77A 		fmuls	s15, s13, s15
+ 613 06a0 77EE277A 		fadds	s15, s14, s15
+ 614 06a4 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 615 06a8 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 616 06ac C3ED007A 		fsts	s15, [r3, #0]
+ 617 06b0 9DED027A 		flds	s14, [sp, #8]
+ 618 06b4 DDED357A 		flds	s15, [sp, #212]
+ 619 06b8 67EE277A 		fmuls	s15, s14, s15
+ 620 06bc 9DED317A 		flds	s14, [sp, #196]
+ 621 06c0 27EE877A 		fmuls	s14, s15, s14
+ 622 06c4 DDED016A 		flds	s13, [sp, #4]
+ 623 06c8 DDED347A 		flds	s15, [sp, #208]
+ 624 06cc 66EEA77A 		fmuls	s15, s13, s15
+ 625 06d0 DDED316A 		flds	s13, [sp, #196]
+ 626 06d4 67EEA67A 		fmuls	s15, s15, s13
+ 627 06d8 77EE677A 		fsubs	s15, s14, s15
+ 628 06dc CDED287A 		fsts	s15, [sp, #160]
+ 629 06e0 9DED017A 		flds	s14, [sp, #4]
+ 630 06e4 DDED357A 		flds	s15, [sp, #212]
+ 631 06e8 67EE277A 		fmuls	s15, s14, s15
+ 632 06ec DDED316A 		flds	s13, [sp, #196]
+ 633 06f0 9DED317A 		flds	s14, [sp, #196]
+ 634 06f4 26EE877A 		fmuls	s14, s13, s14
+ 635 06f8 F7EE006A 		fconsts	s13, #112
+ 636 06fc 37EE267A 		fadds	s14, s14, s13
+ 637 0700 27EE877A 		fmuls	s14, s15, s14
+ 638 0704 DDED026A 		flds	s13, [sp, #8]
+ 639 0708 DDED347A 		flds	s15, [sp, #208]
+ 640 070c 66EEA77A 		fmuls	s15, s13, s15
+ 641 0710 9DED316A 		flds	s12, [sp, #196]
+ 642 0714 DDED316A 		flds	s13, [sp, #196]
+ 643 0718 66EE266A 		fmuls	s13, s12, s13
+ 644 071c B7EE006A 		fconsts	s12, #112
+ 645 0720 76EE866A 		fadds	s13, s13, s12
+ 646 0724 67EEA67A 		fmuls	s15, s15, s13
+ 647 0728 77EE277A 		fadds	s15, s14, s15
+ 648 072c CDED297A 		fsts	s15, [sp, #164]
+ 649 0730 484B     		ldr	r3, .L25+8	@ float
+ 650 0732 2A93     		str	r3, [sp, #168]	@ float
+ 651 0734 DDED017A 		flds	s15, [sp, #4]
+ 652 0738 B1EE677A 		fnegs	s14, s15
+ 653 073c DDED357A 		flds	s15, [sp, #212]
+ 654 0740 27EE277A 		fmuls	s14, s14, s15
+ 655 0744 DDED026A 		flds	s13, [sp, #8]
+ 656 0748 DDED347A 		flds	s15, [sp, #208]
+ 657 074c 66EEA77A 		fmuls	s15, s13, s15
+ 658 0750 77EE677A 		fsubs	s15, s14, s15
+ 659 0754 CDED2B7A 		fsts	s15, [sp, #172]
+ 660 0758 3E4B     		ldr	r3, .L25+8	@ float
+ 661 075a 2C93     		str	r3, [sp, #176]	@ float
+ 662 075c 3D4B     		ldr	r3, .L25+8	@ float
+ 663 075e 2D93     		str	r3, [sp, #180]	@ float
+ 664 0760 9DED027A 		flds	s14, [sp, #8]
+ 665 0764 DDED357A 		flds	s15, [sp, #212]
+ 666 0768 67EE277A 		fmuls	s15, s14, s15
+ 667 076c 9DED337A 		flds	s14, [sp, #204]
+ 668 0770 87EE877A 		fdivs	s14, s15, s14
+ 669 0774 DDED016A 		flds	s13, [sp, #4]
+ 670 0778 DDED347A 		flds	s15, [sp, #208]
+ 671 077c 66EEA77A 		fmuls	s15, s13, s15
+ 672 0780 DDED336A 		flds	s13, [sp, #204]
+ 673 0784 C7EEA67A 		fdivs	s15, s15, s13
+ 674 0788 77EE677A 		fsubs	s15, s14, s15
+ 675 078c CDED2E7A 		fsts	s15, [sp, #184]
+ 676 0790 9DED017A 		flds	s14, [sp, #4]
+ 677 0794 DDED357A 		flds	s15, [sp, #212]
+ 678 0798 67EE277A 		fmuls	s15, s14, s15
+ 679 079c 9DED327A 		flds	s14, [sp, #200]
+ 680 07a0 27EE877A 		fmuls	s14, s15, s14
+ 681 07a4 DDED336A 		flds	s13, [sp, #204]
+ 682 07a8 DDED337A 		flds	s15, [sp, #204]
+ 683 07ac 66EEA77A 		fmuls	s15, s13, s15
+ 684 07b0 87EE277A 		fdivs	s14, s14, s15
+ 685 07b4 DDED026A 		flds	s13, [sp, #8]
+ 686 07b8 DDED347A 		flds	s15, [sp, #208]
+ 687 07bc 66EEA77A 		fmuls	s15, s13, s15
+ 688 07c0 DDED326A 		flds	s13, [sp, #200]
+ 689 07c4 67EEA66A 		fmuls	s13, s15, s13
+ 690 07c8 9DED336A 		flds	s12, [sp, #204]
+ 691 07cc DDED337A 		flds	s15, [sp, #204]
+ 692 07d0 66EE277A 		fmuls	s15, s12, s15
+ 693 07d4 C6EEA77A 		fdivs	s15, s13, s15
+ 694 07d8 77EE277A 		fadds	s15, s14, s15
+ 695 07dc CDED2F7A 		fsts	s15, [sp, #188]
+ 696 07e0 1C4B     		ldr	r3, .L25+8	@ float
+ 697 07e2 3093     		str	r3, [sp, #192]	@ float
+ 698 07e4 28AB     		add	r3, sp, #160
+ 699 07e6 1846     		mov	r0, r3
+ 700 07e8 1849     		ldr	r1, .L25
+ 701 07ea 16AB     		add	r3, sp, #88
+ 702 07ec 1A46     		mov	r2, r3
+ 703 07ee FFF7FEFF 		bl	MatMult3x3
+ 704 07f2 28AB     		add	r3, sp, #160
+ 705 07f4 1846     		mov	r0, r3
+ 706 07f6 1FAB     		add	r3, sp, #124
+ 707 07f8 1946     		mov	r1, r3
+ 708 07fa FFF7FEFF 		bl	MatTrans3x3
+ 709 07fe 1348     		ldr	r0, .L25
+ 710 0800 1FAB     		add	r3, sp, #124
+ 711 0802 1946     		mov	r1, r3
+ 712 0804 0DAB     		add	r3, sp, #52
+ 713 0806 1A46     		mov	r2, r3
+ 714 0808 FFF7FEFF 		bl	MatMult3x3
+ 715 080c 16AB     		add	r3, sp, #88
+ 716 080e 1846     		mov	r0, r3
+ 717 0810 0DAB     		add	r3, sp, #52
+ 718 0812 1946     		mov	r1, r3
+ 719 0814 04AB     		add	r3, sp, #16
+ 720 0816 1A46     		mov	r2, r3
+ 721 0818 FFF7FEFF 		bl	MatAdd3x3
+ 722 081c 04AB     		add	r3, sp, #16
+ 723 081e 1846     		mov	r0, r3
+ 724 0820 0B49     		ldr	r1, .L25+4
+ 725 0822 04AB     		add	r3, sp, #16
+ 726 0824 1A46     		mov	r2, r3
+ 727 0826 FFF7FEFF 		bl	MatAdd3x3
+ 728 082a 0098     		ldr	r0, [sp, #0]	@ float
+ 729 082c 04AB     		add	r3, sp, #16
+ 730 082e 1946     		mov	r1, r3
+ 731 0830 04AB     		add	r3, sp, #16
+ 732 0832 1A46     		mov	r2, r3
+ 733 0834 FFF7FEFF 		bl	ScalarMatMult3x3
+ 734 0838 04AB     		add	r3, sp, #16
+ 735 083a 1846     		mov	r0, r3
+ 736 083c 0349     		ldr	r1, .L25
+ 737 083e 034A     		ldr	r2, .L25
+ 738 0840 FFF7FEFF 		bl	MatAdd3x3
+ 739 0844 FFF7FEFF 		bl	unroll_states
+ 740 0848 37B0     		add	sp, sp, #220
+ 741 084a 00BD     		pop	{pc}
+ 742              	.L26:
+ 743              		.align	2
+ 744              	.L25:
+ 745 084c 84000000 		.word	gEstimatedStates+132
+ 746 0850 18000000 		.word	gEstimatedStates+24
+ 747 0854 00000000 		.word	0
+ 749              		.global	__aeabi_dsub
+ 750              		.global	__aeabi_dcmplt
+ 751              		.align	2
+ 752              		.global	EKF_Update
+ 753              		.thumb
+ 754              		.thumb_func
+ 756              	EKF_Update:
+ 757              		@ args = 16, pretend = 0, frame = 424
+ 758              		@ frame_needed = 0, uses_anonymous_args = 0
+ 759 0858 70B5     		push	{r4, r5, r6, lr}
+ 760 085a EAB0     		sub	sp, sp, #424
+ 761 085c 03AE     		add	r6, sp, #12
+ 762 085e 3060     		str	r0, [r6, #0]	@ float
+ 763 0860 02A8     		add	r0, sp, #8
+ 764 0862 0160     		str	r1, [r0, #0]	@ float
+ 765 0864 01A9     		add	r1, sp, #4
+ 766 0866 0A60     		str	r2, [r1, #0]	@ float
+ 767 0868 6A46     		mov	r2, sp
+ 768 086a 1360     		str	r3, [r2, #0]	@ float
+ 769 086c 16AB     		add	r3, sp, #88
+ 770 086e 1846     		mov	r0, r3
+ 771 0870 FFF7FEFF 		bl	CreateIdentity3x3
+ 772 0874 03AB     		add	r3, sp, #12
+ 773 0876 93ED007A 		flds	s14, [r3, #0]
+ 774 087a D3ED007A 		flds	s15, [r3, #0]
+ 775 087e 27EE277A 		fmuls	s14, s14, s15
+ 776 0882 02AB     		add	r3, sp, #8
+ 777 0884 D3ED006A 		flds	s13, [r3, #0]
+ 778 0888 D3ED007A 		flds	s15, [r3, #0]
+ 779 088c 66EEA77A 		fmuls	s15, s13, s15
+ 780 0890 37EE277A 		fadds	s14, s14, s15
+ 781 0894 01AB     		add	r3, sp, #4
+ 782 0896 D3ED006A 		flds	s13, [r3, #0]
+ 783 089a D3ED007A 		flds	s15, [r3, #0]
+ 784 089e 66EEA77A 		fmuls	s15, s13, s15
+ 785 08a2 37EE277A 		fadds	s14, s14, s15
+ 786 08a6 F1EEC77A 		fsqrts	s15, s14
+ 787 08aa F4EE677A 		fcmps	s15, s15
+ 788 08ae F1EE10FA 		fmstat
+ 789 08b2 05D0     		beq	.L28
+ 790 08b4 17EE100A 		fmrs	r0, s14
+ 791 08b8 FFF7FEFF 		bl	sqrtf
+ 792 08bc 07EE900A 		fmsr	s15, r0
+ 793              	.L28:
+ 794 08c0 CDED697A 		fsts	s15, [sp, #420]
+ 795 08c4 6998     		ldr	r0, [sp, #420]	@ float
+ 796 08c6 FFF7FEFF 		bl	__aeabi_f2d
+ 797 08ca 0246     		mov	r2, r0
+ 798 08cc 0B46     		mov	r3, r1
+ 799 08ce 1046     		mov	r0, r2
+ 800 08d0 1946     		mov	r1, r3
+ 801 08d2 0FF61C03 		adr	r3, .L32+8
+ 802 08d6 D3E90023 		ldrd	r2, [r3]
+ 803 08da FFF7FEFF 		bl	__aeabi_dsub
+ 804 08de 0246     		mov	r2, r0
+ 805 08e0 0B46     		mov	r3, r1
+ 806 08e2 1446     		mov	r4, r2
+ 807 08e4 23F00045 		bic	r5, r3, #-2147483648
+ 808 08e8 7098     		ldr	r0, [sp, #448]	@ float
+ 809 08ea FFF7FEFF 		bl	__aeabi_f2d
+ 810 08ee 0246     		mov	r2, r0
+ 811 08f0 0B46     		mov	r3, r1
+ 812 08f2 4FF00101 		mov	r1, #1
+ 813 08f6 0E46     		mov	r6, r1
+ 814 08f8 2046     		mov	r0, r4
+ 815 08fa 2946     		mov	r1, r5
+ 816 08fc FFF7FEFF 		bl	__aeabi_dcmplt
+ 817 0900 0346     		mov	r3, r0
+ 818 0902 002B     		cmp	r3, #0
+ 819 0904 02D1     		bne	.L29
+ 820 0906 4FF00003 		mov	r3, #0
+ 821 090a 1E46     		mov	r6, r3
+ 822              	.L29:
+ 823 090c F3B2     		uxtb	r3, r6
+ 824 090e 002B     		cmp	r3, #0
+ 825 0910 00F04083 		beq	.L30
+ 826 0914 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 827 0918 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 828 091c 9B68     		ldr	r3, [r3, #8]	@ float
+ 829 091e 1846     		mov	r0, r3	@ float
+ 830 0920 FFF7FEFF 		bl	__aeabi_f2d
+ 831 0924 0246     		mov	r2, r0
+ 832 0926 0B46     		mov	r3, r1
+ 833 0928 1046     		mov	r0, r2
+ 834 092a 1946     		mov	r1, r3
+ 835 092c FFF7FEFF 		bl	cos
+ 836 0930 0246     		mov	r2, r0
+ 837 0932 0B46     		mov	r3, r1
+ 838 0934 1046     		mov	r0, r2
+ 839 0936 1946     		mov	r1, r3
+ 840 0938 FFF7FEFF 		bl	__aeabi_d2f
+ 841 093c 0346     		mov	r3, r0	@ float
+ 842 093e 6893     		str	r3, [sp, #416]	@ float
+ 843 0940 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 844 0944 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 845 0948 5B68     		ldr	r3, [r3, #4]	@ float
+ 846 094a 1846     		mov	r0, r3	@ float
+ 847 094c FFF7FEFF 		bl	__aeabi_f2d
+ 848 0950 0246     		mov	r2, r0
+ 849 0952 0B46     		mov	r3, r1
+ 850 0954 1046     		mov	r0, r2
+ 851 0956 1946     		mov	r1, r3
+ 852 0958 FFF7FEFF 		bl	cos
+ 853 095c 0246     		mov	r2, r0
+ 854 095e 0B46     		mov	r3, r1
+ 855 0960 1046     		mov	r0, r2
+ 856 0962 1946     		mov	r1, r3
+ 857 0964 FFF7FEFF 		bl	__aeabi_d2f
+ 858 0968 0346     		mov	r3, r0	@ float
+ 859 096a 6793     		str	r3, [sp, #412]	@ float
+ 860 096c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 861 0970 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 862 0974 1B68     		ldr	r3, [r3, #0]	@ float
+ 863 0976 1846     		mov	r0, r3	@ float
+ 864 0978 FFF7FEFF 		bl	__aeabi_f2d
+ 865 097c 0246     		mov	r2, r0
+ 866 097e 0B46     		mov	r3, r1
+ 867 0980 1046     		mov	r0, r2
+ 868 0982 1946     		mov	r1, r3
+ 869 0984 FFF7FEFF 		bl	cos
+ 870 0988 0246     		mov	r2, r0
+ 871 098a 0B46     		mov	r3, r1
+ 872 098c 1046     		mov	r0, r2
+ 873 098e 1946     		mov	r1, r3
+ 874 0990 FFF7FEFF 		bl	__aeabi_d2f
+ 875 0994 0346     		mov	r3, r0	@ float
+ 876 0996 6693     		str	r3, [sp, #408]	@ float
+ 877 0998 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 878 099c C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 879 09a0 9B68     		ldr	r3, [r3, #8]	@ float
+ 880 09a2 1846     		mov	r0, r3	@ float
+ 881 09a4 FFF7FEFF 		bl	__aeabi_f2d
+ 882 09a8 0246     		mov	r2, r0
+ 883 09aa 0B46     		mov	r3, r1
+ 884 09ac 1046     		mov	r0, r2
+ 885 09ae 1946     		mov	r1, r3
+ 886 09b0 FFF7FEFF 		bl	sin
+ 887 09b4 0246     		mov	r2, r0
+ 888 09b6 0B46     		mov	r3, r1
+ 889 09b8 1046     		mov	r0, r2
+ 890 09ba 1946     		mov	r1, r3
+ 891 09bc FFF7FEFF 		bl	__aeabi_d2f
+ 892 09c0 0346     		mov	r3, r0	@ float
+ 893 09c2 6593     		str	r3, [sp, #404]	@ float
+ 894 09c4 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 895 09c8 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 896 09cc 5B68     		ldr	r3, [r3, #4]	@ float
+ 897 09ce 1846     		mov	r0, r3	@ float
+ 898 09d0 FFF7FEFF 		bl	__aeabi_f2d
+ 899 09d4 0246     		mov	r2, r0
+ 900 09d6 0B46     		mov	r3, r1
+ 901 09d8 1046     		mov	r0, r2
+ 902 09da 1946     		mov	r1, r3
+ 903 09dc FFF7FEFF 		bl	sin
+ 904 09e0 0246     		mov	r2, r0
+ 905 09e2 0B46     		mov	r3, r1
+ 906 09e4 1046     		mov	r0, r2
+ 907 09e6 1946     		mov	r1, r3
+ 908 09e8 FFF7FEFF 		bl	__aeabi_d2f
+ 909 09ec 0346     		mov	r3, r0	@ float
+ 910 09ee 6493     		str	r3, [sp, #400]	@ float
+ 911 09f0 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 912 09f4 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 913 09f8 1B68     		ldr	r3, [r3, #0]	@ float
+ 914 09fa 1846     		mov	r0, r3	@ float
+ 915 09fc FFF7FEFF 		bl	__aeabi_f2d
+ 916 0a00 0246     		mov	r2, r0
+ 917 0a02 0B46     		mov	r3, r1
+ 918 0a04 1046     		mov	r0, r2
+ 919 0a06 1946     		mov	r1, r3
+ 920 0a08 FFF7FEFF 		bl	sin
+ 921 0a0c 0246     		mov	r2, r0
+ 922 0a0e 0B46     		mov	r3, r1
+ 923 0a10 1046     		mov	r0, r2
+ 924 0a12 1946     		mov	r1, r3
+ 925 0a14 FFF7FEFF 		bl	__aeabi_d2f
+ 926 0a18 0346     		mov	r3, r0	@ float
+ 927 0a1a 6393     		str	r3, [sp, #396]	@ float
+ 928 0a1c 9DED667A 		flds	s14, [sp, #408]
+ 929 0a20 DDED677A 		flds	s15, [sp, #412]
+ 930 0a24 67EE277A 		fmuls	s15, s14, s15
+ 931 0a28 CDED557A 		fsts	s15, [sp, #340]
+ 932 0a2c 9DED677A 		flds	s14, [sp, #412]
+ 933 0a30 DDED637A 		flds	s15, [sp, #396]
+ 934 0a34 67EE277A 		fmuls	s15, s14, s15
+ 935 0a38 CDED567A 		fsts	s15, [sp, #344]
+ 936 0a3c DDED647A 		flds	s15, [sp, #400]
+ 937 0a40 F1EE677A 		fnegs	s15, s15
+ 938 0a44 CDED577A 		fsts	s15, [sp, #348]
+ 939 0a48 9DED667A 		flds	s14, [sp, #408]
+ 940 0a4c DDED657A 		flds	s15, [sp, #404]
+ 941 0a50 67EE277A 		fmuls	s15, s14, s15
+ 942 0a54 9DED647A 		flds	s14, [sp, #400]
+ 943 0a58 27EE877A 		fmuls	s14, s15, s14
+ 944 0a5c DDED686A 		flds	s13, [sp, #416]
+ 945 0a60 DDED637A 		flds	s15, [sp, #396]
+ 946 0a64 66EEA77A 		fmuls	s15, s13, s15
+ 947 0a68 77EE677A 		fsubs	s15, s14, s15
+ 948 0a6c CDED587A 		fsts	s15, [sp, #352]
+ 949 0a70 9DED687A 		flds	s14, [sp, #416]
+ 950 0a74 DDED667A 		flds	s15, [sp, #408]
+ 951 0a78 27EE277A 		fmuls	s14, s14, s15
+ 952 0a7c DDED656A 		flds	s13, [sp, #404]
+ 953 0a80 DDED637A 		flds	s15, [sp, #396]
+ 954 0a84 66EEA77A 		fmuls	s15, s13, s15
+ 955 0a88 DDED646A 		flds	s13, [sp, #400]
+ 956 0a8c 67EEA67A 		fmuls	s15, s15, s13
+ 957 0a90 77EE277A 		fadds	s15, s14, s15
+ 958 0a94 CDED597A 		fsts	s15, [sp, #356]
+ 959 0a98 9DED677A 		flds	s14, [sp, #412]
+ 960 0a9c DDED657A 		flds	s15, [sp, #404]
+ 961 0aa0 67EE277A 		fmuls	s15, s14, s15
+ 962 0aa4 CDED5A7A 		fsts	s15, [sp, #360]
+ 963 0aa8 9DED657A 		flds	s14, [sp, #404]
+ 964 0aac DDED637A 		flds	s15, [sp, #396]
+ 965 0ab0 27EE277A 		fmuls	s14, s14, s15
+ 966 0ab4 DDED686A 		flds	s13, [sp, #416]
+ 967 0ab8 DDED667A 		flds	s15, [sp, #408]
+ 968 0abc 66EEA77A 		fmuls	s15, s13, s15
+ 969 0ac0 DDED646A 		flds	s13, [sp, #400]
+ 970 0ac4 67EEA67A 		fmuls	s15, s15, s13
+ 971 0ac8 77EE277A 		fadds	s15, s14, s15
+ 972 0acc CDED5B7A 		fsts	s15, [sp, #364]
+ 973 0ad0 9DED687A 		flds	s14, [sp, #416]
+ 974 0ad4 DDED637A 		flds	s15, [sp, #396]
+ 975 0ad8 67EE277A 		fmuls	s15, s14, s15
+ 976 0adc 9DED647A 		flds	s14, [sp, #400]
+ 977 0ae0 27EE877A 		fmuls	s14, s15, s14
+ 978 0ae4 DDED666A 		flds	s13, [sp, #408]
+ 979 0ae8 DDED657A 		flds	s15, [sp, #404]
+ 980 0aec 66EEA77A 		fmuls	s15, s13, s15
+ 981 0af0 77EE677A 		fsubs	s15, s14, s15
+ 982 0af4 CDED5C7A 		fsts	s15, [sp, #368]
+ 983 0af8 9DED687A 		flds	s14, [sp, #416]
+ 984 0afc DDED677A 		flds	s15, [sp, #412]
+ 985 0b00 67EE277A 		fmuls	s15, s14, s15
+ 986 0b04 CDED5D7A 		fsts	s15, [sp, #372]
+ 987 0b08 40F20003 		movw	r3, #:lower16:eepromConfig
+ 988 0b0c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 989 0b10 9A6E     		ldr	r2, [r3, #104]	@ float
+ 990 0b12 13AB     		add	r3, sp, #76
+ 991 0b14 1A60     		str	r2, [r3, #0]	@ float
+ 992 0b16 40F20003 		movw	r3, #:lower16:eepromConfig
+ 993 0b1a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 994 0b1e DA6E     		ldr	r2, [r3, #108]	@ float
+ 995 0b20 13AB     		add	r3, sp, #76
+ 996 0b22 5A60     		str	r2, [r3, #4]	@ float
+ 997 0b24 40F20003 		movw	r3, #:lower16:eepromConfig
+ 998 0b28 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 999 0b2c 1A6F     		ldr	r2, [r3, #112]	@ float
+ 1000 0b2e 13AB     		add	r3, sp, #76
+ 1001 0b30 9A60     		str	r2, [r3, #8]	@ float
+ 1002 0b32 13AB     		add	r3, sp, #76
+ 1003 0b34 1B68     		ldr	r3, [r3, #0]	@ float
+ 1004 0b36 6293     		str	r3, [sp, #392]	@ float
+ 1005 0b38 13AB     		add	r3, sp, #76
+ 1006 0b3a 5B68     		ldr	r3, [r3, #4]	@ float
+ 1007 0b3c 6193     		str	r3, [sp, #388]	@ float
+ 1008 0b3e 13AB     		add	r3, sp, #76
+ 1009 0b40 9B68     		ldr	r3, [r3, #8]	@ float
+ 1010 0b42 6093     		str	r3, [sp, #384]	@ float
+ 1011 0b44 55AB     		add	r3, sp, #340
+ 1012 0b46 1846     		mov	r0, r3
+ 1013 0b48 13AB     		add	r3, sp, #76
+ 1014 0b4a 1946     		mov	r1, r3
+ 1015 0b4c 10AB     		add	r3, sp, #64
+ 1016 0b4e 1A46     		mov	r2, r3
+ 1017 0b50 FFF7FEFF 		bl	MatVectMult3
+ 1018 0b54 DFF8A035 		ldr	r3, .L32+16	@ float
+ 1019 0b58 4393     		str	r3, [sp, #268]	@ float
+ 1020 0b5a DDED607A 		flds	s15, [sp, #384]
+ 1021 0b5e B1EE677A 		fnegs	s14, s15
+ 1022 0b62 DDED677A 		flds	s15, [sp, #412]
+ 1023 0b66 27EE277A 		fmuls	s14, s14, s15
+ 1024 0b6a DDED626A 		flds	s13, [sp, #392]
+ 1025 0b6e DDED667A 		flds	s15, [sp, #408]
+ 1026 0b72 66EEA77A 		fmuls	s15, s13, s15
+ 1027 0b76 DDED646A 		flds	s13, [sp, #400]
+ 1028 0b7a 67EEA67A 		fmuls	s15, s15, s13
+ 1029 0b7e 37EE677A 		fsubs	s14, s14, s15
+ 1030 0b82 DDED616A 		flds	s13, [sp, #388]
+ 1031 0b86 DDED637A 		flds	s15, [sp, #396]
+ 1032 0b8a 66EEA77A 		fmuls	s15, s13, s15
+ 1033 0b8e DDED646A 		flds	s13, [sp, #400]
+ 1034 0b92 67EEA67A 		fmuls	s15, s15, s13
+ 1035 0b96 77EE677A 		fsubs	s15, s14, s15
+ 1036 0b9a CDED447A 		fsts	s15, [sp, #272]
+ 1037 0b9e 9DED617A 		flds	s14, [sp, #388]
+ 1038 0ba2 DDED667A 		flds	s15, [sp, #408]
+ 1039 0ba6 67EE277A 		fmuls	s15, s14, s15
+ 1040 0baa 9DED677A 		flds	s14, [sp, #412]
+ 1041 0bae 27EE877A 		fmuls	s14, s15, s14
+ 1042 0bb2 DDED626A 		flds	s13, [sp, #392]
+ 1043 0bb6 DDED677A 		flds	s15, [sp, #412]
+ 1044 0bba 66EEA77A 		fmuls	s15, s13, s15
+ 1045 0bbe DDED636A 		flds	s13, [sp, #396]
+ 1046 0bc2 67EEA67A 		fmuls	s15, s15, s13
+ 1047 0bc6 77EE677A 		fsubs	s15, s14, s15
+ 1048 0bca CDED457A 		fsts	s15, [sp, #276]
+ 1049 0bce 9DED657A 		flds	s14, [sp, #404]
+ 1050 0bd2 DDED637A 		flds	s15, [sp, #396]
+ 1051 0bd6 27EE277A 		fmuls	s14, s14, s15
+ 1052 0bda DDED686A 		flds	s13, [sp, #416]
+ 1053 0bde DDED667A 		flds	s15, [sp, #408]
+ 1054 0be2 66EEA77A 		fmuls	s15, s13, s15
+ 1055 0be6 DDED646A 		flds	s13, [sp, #400]
+ 1056 0bea 67EEA67A 		fmuls	s15, s15, s13
+ 1057 0bee 37EE277A 		fadds	s14, s14, s15
+ 1058 0bf2 DDED627A 		flds	s15, [sp, #392]
+ 1059 0bf6 27EE277A 		fmuls	s14, s14, s15
+ 1060 0bfa DDED666A 		flds	s13, [sp, #408]
+ 1061 0bfe DDED657A 		flds	s15, [sp, #404]
+ 1062 0c02 66EEA76A 		fmuls	s13, s13, s15
+ 1063 0c06 9DED686A 		flds	s12, [sp, #416]
+ 1064 0c0a DDED637A 		flds	s15, [sp, #396]
+ 1065 0c0e 66EE277A 		fmuls	s15, s12, s15
+ 1066 0c12 9DED646A 		flds	s12, [sp, #400]
+ 1067 0c16 67EE867A 		fmuls	s15, s15, s12
+ 1068 0c1a 76EEE76A 		fsubs	s13, s13, s15
+ 1069 0c1e DDED617A 		flds	s15, [sp, #388]
+ 1070 0c22 66EEA77A 		fmuls	s15, s13, s15
+ 1071 0c26 37EE677A 		fsubs	s14, s14, s15
+ 1072 0c2a DDED606A 		flds	s13, [sp, #384]
+ 1073 0c2e DDED687A 		flds	s15, [sp, #416]
+ 1074 0c32 66EEA77A 		fmuls	s15, s13, s15
+ 1075 0c36 DDED676A 		flds	s13, [sp, #412]
+ 1076 0c3a 67EEA67A 		fmuls	s15, s15, s13
+ 1077 0c3e 77EE277A 		fadds	s15, s14, s15
+ 1078 0c42 CDED467A 		fsts	s15, [sp, #280]
+ 1079 0c46 9DED627A 		flds	s14, [sp, #392]
+ 1080 0c4a DDED667A 		flds	s15, [sp, #408]
+ 1081 0c4e 67EE277A 		fmuls	s15, s14, s15
+ 1082 0c52 9DED677A 		flds	s14, [sp, #412]
+ 1083 0c56 67EE877A 		fmuls	s15, s15, s14
+ 1084 0c5a 9DED657A 		flds	s14, [sp, #404]
+ 1085 0c5e 27EE877A 		fmuls	s14, s15, s14
+ 1086 0c62 DDED606A 		flds	s13, [sp, #384]
+ 1087 0c66 DDED657A 		flds	s15, [sp, #404]
+ 1088 0c6a 66EEA77A 		fmuls	s15, s13, s15
+ 1089 0c6e DDED646A 		flds	s13, [sp, #400]
+ 1090 0c72 67EEA67A 		fmuls	s15, s15, s13
+ 1091 0c76 37EE677A 		fsubs	s14, s14, s15
+ 1092 0c7a DDED616A 		flds	s13, [sp, #388]
+ 1093 0c7e DDED677A 		flds	s15, [sp, #412]
+ 1094 0c82 66EEA77A 		fmuls	s15, s13, s15
+ 1095 0c86 DDED656A 		flds	s13, [sp, #404]
+ 1096 0c8a 67EEA67A 		fmuls	s15, s15, s13
+ 1097 0c8e DDED636A 		flds	s13, [sp, #396]
+ 1098 0c92 67EEA67A 		fmuls	s15, s15, s13
+ 1099 0c96 77EE277A 		fadds	s15, s14, s15
+ 1100 0c9a CDED477A 		fsts	s15, [sp, #284]
+ 1101 0c9e DDED627A 		flds	s15, [sp, #392]
+ 1102 0ca2 F1EE676A 		fnegs	s13, s15
+ 1103 0ca6 9DED687A 		flds	s14, [sp, #416]
+ 1104 0caa DDED667A 		flds	s15, [sp, #408]
+ 1105 0cae 27EE277A 		fmuls	s14, s14, s15
+ 1106 0cb2 9DED656A 		flds	s12, [sp, #404]
+ 1107 0cb6 DDED637A 		flds	s15, [sp, #396]
+ 1108 0cba 66EE277A 		fmuls	s15, s12, s15
+ 1109 0cbe 9DED646A 		flds	s12, [sp, #400]
+ 1110 0cc2 67EE867A 		fmuls	s15, s15, s12
+ 1111 0cc6 77EE277A 		fadds	s15, s14, s15
+ 1112 0cca 26EEA77A 		fmuls	s14, s13, s15
+ 1113 0cce DDED686A 		flds	s13, [sp, #416]
+ 1114 0cd2 DDED637A 		flds	s15, [sp, #396]
+ 1115 0cd6 66EEA76A 		fmuls	s13, s13, s15
+ 1116 0cda 9DED666A 		flds	s12, [sp, #408]
+ 1117 0cde DDED657A 		flds	s15, [sp, #404]
+ 1118 0ce2 66EE277A 		fmuls	s15, s12, s15
+ 1119 0ce6 9DED646A 		flds	s12, [sp, #400]
+ 1120 0cea 67EE867A 		fmuls	s15, s15, s12
+ 1121 0cee 76EEE76A 		fsubs	s13, s13, s15
+ 1122 0cf2 DDED617A 		flds	s15, [sp, #388]
+ 1123 0cf6 66EEA77A 		fmuls	s15, s13, s15
+ 1124 0cfa 77EE677A 		fsubs	s15, s14, s15
+ 1125 0cfe CDED487A 		fsts	s15, [sp, #288]
+ 1126 0d02 9DED687A 		flds	s14, [sp, #416]
+ 1127 0d06 DDED637A 		flds	s15, [sp, #396]
+ 1128 0d0a 27EE277A 		fmuls	s14, s14, s15
+ 1129 0d0e DDED666A 		flds	s13, [sp, #408]
+ 1130 0d12 DDED657A 		flds	s15, [sp, #404]
+ 1131 0d16 66EEA77A 		fmuls	s15, s13, s15
+ 1132 0d1a DDED646A 		flds	s13, [sp, #400]
+ 1133 0d1e 67EEA67A 		fmuls	s15, s15, s13
+ 1134 0d22 37EE677A 		fsubs	s14, s14, s15
+ 1135 0d26 DDED627A 		flds	s15, [sp, #392]
+ 1136 0d2a 27EE277A 		fmuls	s14, s14, s15
+ 1137 0d2e DDED686A 		flds	s13, [sp, #416]
+ 1138 0d32 DDED667A 		flds	s15, [sp, #408]
+ 1139 0d36 66EEA76A 		fmuls	s13, s13, s15
+ 1140 0d3a 9DED656A 		flds	s12, [sp, #404]
+ 1141 0d3e DDED637A 		flds	s15, [sp, #396]
+ 1142 0d42 66EE277A 		fmuls	s15, s12, s15
+ 1143 0d46 9DED646A 		flds	s12, [sp, #400]
+ 1144 0d4a 67EE867A 		fmuls	s15, s15, s12
+ 1145 0d4e 76EEA76A 		fadds	s13, s13, s15
+ 1146 0d52 DDED617A 		flds	s15, [sp, #388]
+ 1147 0d56 66EEA77A 		fmuls	s15, s13, s15
+ 1148 0d5a 37EE677A 		fsubs	s14, s14, s15
+ 1149 0d5e DDED606A 		flds	s13, [sp, #384]
+ 1150 0d62 DDED677A 		flds	s15, [sp, #412]
+ 1151 0d66 66EEA77A 		fmuls	s15, s13, s15
+ 1152 0d6a DDED656A 		flds	s13, [sp, #404]
+ 1153 0d6e 67EEA67A 		fmuls	s15, s15, s13
+ 1154 0d72 77EE677A 		fsubs	s15, s14, s15
+ 1155 0d76 CDED497A 		fsts	s15, [sp, #292]
+ 1156 0d7a 9DED627A 		flds	s14, [sp, #392]
+ 1157 0d7e DDED687A 		flds	s15, [sp, #416]
+ 1158 0d82 67EE277A 		fmuls	s15, s14, s15
+ 1159 0d86 9DED667A 		flds	s14, [sp, #408]
+ 1160 0d8a 67EE877A 		fmuls	s15, s15, s14
+ 1161 0d8e 9DED677A 		flds	s14, [sp, #412]
+ 1162 0d92 27EE877A 		fmuls	s14, s15, s14
+ 1163 0d96 DDED606A 		flds	s13, [sp, #384]
+ 1164 0d9a DDED687A 		flds	s15, [sp, #416]
+ 1165 0d9e 66EEA77A 		fmuls	s15, s13, s15
+ 1166 0da2 DDED646A 		flds	s13, [sp, #400]
+ 1167 0da6 67EEA67A 		fmuls	s15, s15, s13
+ 1168 0daa 37EE677A 		fsubs	s14, s14, s15
+ 1169 0dae DDED616A 		flds	s13, [sp, #388]
+ 1170 0db2 DDED687A 		flds	s15, [sp, #416]
+ 1171 0db6 66EEA77A 		fmuls	s15, s13, s15
+ 1172 0dba DDED676A 		flds	s13, [sp, #412]
+ 1173 0dbe 67EEA67A 		fmuls	s15, s15, s13
+ 1174 0dc2 DDED636A 		flds	s13, [sp, #396]
+ 1175 0dc6 67EEA67A 		fmuls	s15, s15, s13
+ 1176 0dca 77EE277A 		fadds	s15, s14, s15
+ 1177 0dce CDED4A7A 		fsts	s15, [sp, #296]
+ 1178 0dd2 9DED667A 		flds	s14, [sp, #408]
+ 1179 0dd6 DDED657A 		flds	s15, [sp, #404]
+ 1180 0dda 27EE277A 		fmuls	s14, s14, s15
+ 1181 0dde DDED686A 		flds	s13, [sp, #416]
+ 1182 0de2 DDED637A 		flds	s15, [sp, #396]
+ 1183 0de6 66EEA77A 		fmuls	s15, s13, s15
+ 1184 0dea DDED646A 		flds	s13, [sp, #400]
+ 1185 0dee 67EEA67A 		fmuls	s15, s15, s13
+ 1186 0df2 37EE677A 		fsubs	s14, s14, s15
+ 1187 0df6 DDED627A 		flds	s15, [sp, #392]
+ 1188 0dfa 27EE277A 		fmuls	s14, s14, s15
+ 1189 0dfe DDED656A 		flds	s13, [sp, #404]
+ 1190 0e02 DDED637A 		flds	s15, [sp, #396]
+ 1191 0e06 66EEA76A 		fmuls	s13, s13, s15
+ 1192 0e0a 9DED686A 		flds	s12, [sp, #416]
+ 1193 0e0e DDED667A 		flds	s15, [sp, #408]
+ 1194 0e12 66EE277A 		fmuls	s15, s12, s15
+ 1195 0e16 9DED646A 		flds	s12, [sp, #400]
+ 1196 0e1a 67EE867A 		fmuls	s15, s15, s12
+ 1197 0e1e 76EEA76A 		fadds	s13, s13, s15
+ 1198 0e22 DDED617A 		flds	s15, [sp, #388]
+ 1199 0e26 66EEA77A 		fmuls	s15, s13, s15
+ 1200 0e2a 77EE277A 		fadds	s15, s14, s15
+ 1201 0e2e CDED4B7A 		fsts	s15, [sp, #300]
+ 1202 0e32 43AB     		add	r3, sp, #268
+ 1203 0e34 1846     		mov	r0, r3
+ 1204 0e36 3AAB     		add	r3, sp, #232
+ 1205 0e38 1946     		mov	r1, r3
+ 1206 0e3a FFF7FEFF 		bl	MatTrans3x3
+ 1207 0e3e AA48     		ldr	r0, .L32
+ 1208 0e40 3AAB     		add	r3, sp, #232
+ 1209 0e42 1946     		mov	r1, r3
+ 1210 0e44 31AB     		add	r3, sp, #196
+ 1211 0e46 1A46     		mov	r2, r3
+ 1212 0e48 FFF7FEFF 		bl	MatMult3x3
+ 1213 0e4c 43AB     		add	r3, sp, #268
+ 1214 0e4e 1846     		mov	r0, r3
+ 1215 0e50 31AB     		add	r3, sp, #196
+ 1216 0e52 1946     		mov	r1, r3
+ 1217 0e54 1FAB     		add	r3, sp, #124
+ 1218 0e56 1A46     		mov	r2, r3
+ 1219 0e58 FFF7FEFF 		bl	MatMult3x3
+ 1220 0e5c 1FAB     		add	r3, sp, #124
+ 1221 0e5e 1846     		mov	r0, r3
+ 1222 0e60 A249     		ldr	r1, .L32+4
+ 1223 0e62 1FAB     		add	r3, sp, #124
+ 1224 0e64 1A46     		mov	r2, r3
+ 1225 0e66 FFF7FEFF 		bl	MatAdd3x3
+ 1226 0e6a 1FAB     		add	r3, sp, #124
+ 1227 0e6c 1846     		mov	r0, r3
+ 1228 0e6e 1FAB     		add	r3, sp, #124
+ 1229 0e70 1946     		mov	r1, r3
+ 1230 0e72 FFF7FEFF 		bl	MatInv3x3
+ 1231 0e76 31AB     		add	r3, sp, #196
+ 1232 0e78 1846     		mov	r0, r3
+ 1233 0e7a 1FAB     		add	r3, sp, #124
+ 1234 0e7c 1946     		mov	r1, r3
+ 1235 0e7e 4CAB     		add	r3, sp, #304
+ 1236 0e80 1A46     		mov	r2, r3
+ 1237 0e82 FFF7FEFF 		bl	MatMult3x3
+ 1238 0e86 4CAB     		add	r3, sp, #304
+ 1239 0e88 1846     		mov	r0, r3
+ 1240 0e8a 43AB     		add	r3, sp, #268
+ 1241 0e8c 1946     		mov	r1, r3
+ 1242 0e8e 28AB     		add	r3, sp, #160
+ 1243 0e90 1A46     		mov	r2, r3
+ 1244 0e92 FFF7FEFF 		bl	MatMult3x3
+ 1245 0e96 9948     		ldr	r0, .L32+20	@ float
+ 1246 0e98 28AB     		add	r3, sp, #160
+ 1247 0e9a 1946     		mov	r1, r3
+ 1248 0e9c 1FAB     		add	r3, sp, #124
+ 1249 0e9e 1A46     		mov	r2, r3
+ 1250 0ea0 FFF7FEFF 		bl	ScalarMatMult3x3
+ 1251 0ea4 16AB     		add	r3, sp, #88
+ 1252 0ea6 1846     		mov	r0, r3
+ 1253 0ea8 1FAB     		add	r3, sp, #124
+ 1254 0eaa 1946     		mov	r1, r3
+ 1255 0eac 1FAB     		add	r3, sp, #124
+ 1256 0eae 1A46     		mov	r2, r3
+ 1257 0eb0 FFF7FEFF 		bl	MatAdd3x3
+ 1258 0eb4 1FAB     		add	r3, sp, #124
+ 1259 0eb6 1846     		mov	r0, r3
+ 1260 0eb8 8B49     		ldr	r1, .L32
+ 1261 0eba 8B4A     		ldr	r2, .L32
+ 1262 0ebc FFF7FEFF 		bl	MatMult3x3
+ 1263 0ec0 03AB     		add	r3, sp, #12
+ 1264 0ec2 1A68     		ldr	r2, [r3, #0]	@ float
+ 1265 0ec4 0DAB     		add	r3, sp, #52
+ 1266 0ec6 1A60     		str	r2, [r3, #0]	@ float
+ 1267 0ec8 02AB     		add	r3, sp, #8
+ 1268 0eca 1A68     		ldr	r2, [r3, #0]	@ float
+ 1269 0ecc 0DAB     		add	r3, sp, #52
+ 1270 0ece 5A60     		str	r2, [r3, #4]	@ float
+ 1271 0ed0 01AB     		add	r3, sp, #4
+ 1272 0ed2 1A68     		ldr	r2, [r3, #0]	@ float
+ 1273 0ed4 0DAB     		add	r3, sp, #52
+ 1274 0ed6 9A60     		str	r2, [r3, #8]	@ float
+ 1275 0ed8 0DAB     		add	r3, sp, #52
+ 1276 0eda 93ED007A 		flds	s14, [r3, #0]
+ 1277 0ede 10AB     		add	r3, sp, #64
+ 1278 0ee0 D3ED007A 		flds	s15, [r3, #0]
+ 1279 0ee4 77EE677A 		fsubs	s15, s14, s15
+ 1280 0ee8 0DAB     		add	r3, sp, #52
+ 1281 0eea C3ED007A 		fsts	s15, [r3, #0]
+ 1282 0eee 0DAB     		add	r3, sp, #52
+ 1283 0ef0 93ED017A 		flds	s14, [r3, #4]
+ 1284 0ef4 10AB     		add	r3, sp, #64
+ 1285 0ef6 D3ED017A 		flds	s15, [r3, #4]
+ 1286 0efa 77EE677A 		fsubs	s15, s14, s15
+ 1287 0efe 0DAB     		add	r3, sp, #52
+ 1288 0f00 C3ED017A 		fsts	s15, [r3, #4]
+ 1289 0f04 0DAB     		add	r3, sp, #52
+ 1290 0f06 93ED027A 		flds	s14, [r3, #8]
+ 1291 0f0a 10AB     		add	r3, sp, #64
+ 1292 0f0c D3ED027A 		flds	s15, [r3, #8]
+ 1293 0f10 77EE677A 		fsubs	s15, s14, s15
+ 1294 0f14 0DAB     		add	r3, sp, #52
+ 1295 0f16 C3ED027A 		fsts	s15, [r3, #8]
+ 1296 0f1a 4CAB     		add	r3, sp, #304
+ 1297 0f1c 1846     		mov	r0, r3
+ 1298 0f1e 0DAB     		add	r3, sp, #52
+ 1299 0f20 1946     		mov	r1, r3
+ 1300 0f22 0AAB     		add	r3, sp, #40
+ 1301 0f24 1A46     		mov	r2, r3
+ 1302 0f26 FFF7FEFF 		bl	MatVectMult3
+ 1303 0f2a 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1304 0f2e C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1305 0f32 93ED027A 		flds	s14, [r3, #8]
+ 1306 0f36 0AAB     		add	r3, sp, #40
+ 1307 0f38 D3ED007A 		flds	s15, [r3, #0]
+ 1308 0f3c 77EE277A 		fadds	s15, s14, s15
+ 1309 0f40 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1310 0f44 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1311 0f48 C3ED027A 		fsts	s15, [r3, #8]
+ 1312 0f4c 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1313 0f50 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1314 0f54 93ED017A 		flds	s14, [r3, #4]
+ 1315 0f58 0AAB     		add	r3, sp, #40
+ 1316 0f5a D3ED017A 		flds	s15, [r3, #4]
+ 1317 0f5e 77EE277A 		fadds	s15, s14, s15
+ 1318 0f62 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1319 0f66 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1320 0f6a C3ED017A 		fsts	s15, [r3, #4]
+ 1321 0f6e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1322 0f72 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1323 0f76 93ED007A 		flds	s14, [r3, #0]
+ 1324 0f7a 0AAB     		add	r3, sp, #40
+ 1325 0f7c D3ED027A 		flds	s15, [r3, #8]
+ 1326 0f80 77EE277A 		fadds	s15, s14, s15
+ 1327 0f84 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1328 0f88 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1329 0f8c C3ED007A 		fsts	s15, [r3, #0]
+ 1330 0f90 FFF7FEFF 		bl	unroll_states
+ 1331              	.L30:
+ 1332 0f94 9DF8C431 		ldrb	r3, [sp, #452]	@ zero_extendqisi2
+ 1333 0f98 012B     		cmp	r3, #1
+ 1334 0f9a 40F0E681 		bne	.L27
+ 1335 0f9e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1336 0fa2 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1337 0fa6 9B68     		ldr	r3, [r3, #8]	@ float
+ 1338 0fa8 1846     		mov	r0, r3	@ float
+ 1339 0faa FFF7FEFF 		bl	__aeabi_f2d
+ 1340 0fae 0246     		mov	r2, r0
+ 1341 0fb0 0B46     		mov	r3, r1
+ 1342 0fb2 1046     		mov	r0, r2
+ 1343 0fb4 1946     		mov	r1, r3
+ 1344 0fb6 FFF7FEFF 		bl	cos
+ 1345 0fba 0246     		mov	r2, r0
+ 1346 0fbc 0B46     		mov	r3, r1
+ 1347 0fbe 1046     		mov	r0, r2
+ 1348 0fc0 1946     		mov	r1, r3
+ 1349 0fc2 FFF7FEFF 		bl	__aeabi_d2f
+ 1350 0fc6 0346     		mov	r3, r0	@ float
+ 1351 0fc8 6893     		str	r3, [sp, #416]	@ float
+ 1352 0fca 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1353 0fce C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1354 0fd2 5B68     		ldr	r3, [r3, #4]	@ float
+ 1355 0fd4 1846     		mov	r0, r3	@ float
+ 1356 0fd6 FFF7FEFF 		bl	__aeabi_f2d
+ 1357 0fda 0246     		mov	r2, r0
+ 1358 0fdc 0B46     		mov	r3, r1
+ 1359 0fde 1046     		mov	r0, r2
+ 1360 0fe0 1946     		mov	r1, r3
+ 1361 0fe2 FFF7FEFF 		bl	cos
+ 1362 0fe6 0246     		mov	r2, r0
+ 1363 0fe8 0B46     		mov	r3, r1
+ 1364 0fea 1046     		mov	r0, r2
+ 1365 0fec 1946     		mov	r1, r3
+ 1366 0fee FFF7FEFF 		bl	__aeabi_d2f
+ 1367 0ff2 0346     		mov	r3, r0	@ float
+ 1368 0ff4 6793     		str	r3, [sp, #412]	@ float
+ 1369 0ff6 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1370 0ffa C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1371 0ffe 1B68     		ldr	r3, [r3, #0]	@ float
+ 1372 1000 1846     		mov	r0, r3	@ float
+ 1373 1002 FFF7FEFF 		bl	__aeabi_f2d
+ 1374 1006 0246     		mov	r2, r0
+ 1375 1008 0B46     		mov	r3, r1
+ 1376 100a 1046     		mov	r0, r2
+ 1377 100c 1946     		mov	r1, r3
+ 1378 100e FFF7FEFF 		bl	cos
+ 1379 1012 0246     		mov	r2, r0
+ 1380 1014 0B46     		mov	r3, r1
+ 1381 1016 1046     		mov	r0, r2
+ 1382 1018 1946     		mov	r1, r3
+ 1383 101a FFF7FEFF 		bl	__aeabi_d2f
+ 1384 101e 0346     		mov	r3, r0	@ float
+ 1385 1020 6693     		str	r3, [sp, #408]	@ float
+ 1386 1022 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1387 1026 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1388 102a 9B68     		ldr	r3, [r3, #8]	@ float
+ 1389 102c 1846     		mov	r0, r3	@ float
+ 1390 102e FFF7FEFF 		bl	__aeabi_f2d
+ 1391 1032 0246     		mov	r2, r0
+ 1392 1034 0B46     		mov	r3, r1
+ 1393 1036 1046     		mov	r0, r2
+ 1394 1038 1946     		mov	r1, r3
+ 1395 103a FFF7FEFF 		bl	sin
+ 1396 103e 0246     		mov	r2, r0
+ 1397 1040 0B46     		mov	r3, r1
+ 1398 1042 1046     		mov	r0, r2
+ 1399 1044 1946     		mov	r1, r3
+ 1400 1046 FFF7FEFF 		bl	__aeabi_d2f
+ 1401 104a 0346     		mov	r3, r0	@ float
+ 1402 104c 6593     		str	r3, [sp, #404]	@ float
+ 1403 104e 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1404 1052 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1405 1056 5B68     		ldr	r3, [r3, #4]	@ float
+ 1406 1058 1846     		mov	r0, r3	@ float
+ 1407 105a FFF7FEFF 		bl	__aeabi_f2d
+ 1408 105e 0246     		mov	r2, r0
+ 1409 1060 0B46     		mov	r3, r1
+ 1410 1062 1046     		mov	r0, r2
+ 1411 1064 1946     		mov	r1, r3
+ 1412 1066 FFF7FEFF 		bl	sin
+ 1413 106a 0246     		mov	r2, r0
+ 1414 106c 0B46     		mov	r3, r1
+ 1415 106e 1046     		mov	r0, r2
+ 1416 1070 1946     		mov	r1, r3
+ 1417 1072 FFF7FEFF 		bl	__aeabi_d2f
+ 1418 1076 0346     		mov	r3, r0	@ float
+ 1419 1078 6493     		str	r3, [sp, #400]	@ float
+ 1420 107a 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1421 107e C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1422 1082 1B68     		ldr	r3, [r3, #0]	@ float
+ 1423 1084 1846     		mov	r0, r3	@ float
+ 1424 1086 FFF7FEFF 		bl	__aeabi_f2d
+ 1425 108a 0246     		mov	r2, r0
+ 1426 108c 0B46     		mov	r3, r1
+ 1427 108e 1046     		mov	r0, r2
+ 1428 1090 1946     		mov	r1, r3
+ 1429 1092 FFF7FEFF 		bl	sin
+ 1430 1096 0246     		mov	r2, r0
+ 1431 1098 0B46     		mov	r3, r1
+ 1432 109a 1046     		mov	r0, r2
+ 1433 109c 1946     		mov	r1, r3
+ 1434 109e FFF7FEFF 		bl	__aeabi_d2f
+ 1435 10a2 0346     		mov	r3, r0	@ float
+ 1436 10a4 6393     		str	r3, [sp, #396]	@ float
+ 1437 10a6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1438 10aa C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1439 10ae 5A6F     		ldr	r2, [r3, #116]	@ float
+ 1440 10b0 07AB     		add	r3, sp, #28
+ 1441 10b2 1A60     		str	r2, [r3, #0]	@ float
+ 1442 10b4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1443 10b8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1444 10bc 9A6F     		ldr	r2, [r3, #120]	@ float
+ 1445 10be 07AB     		add	r3, sp, #28
+ 1446 10c0 5A60     		str	r2, [r3, #4]	@ float
+ 1447 10c2 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1448 10c6 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1449 10ca DA6F     		ldr	r2, [r3, #124]	@ float
+ 1450 10cc 07AB     		add	r3, sp, #28
+ 1451 10ce 9A60     		str	r2, [r3, #8]	@ float
+ 1452 10d0 07AB     		add	r3, sp, #28
+ 1453 10d2 1B68     		ldr	r3, [r3, #0]	@ float
+ 1454 10d4 5F93     		str	r3, [sp, #380]	@ float
+ 1455 10d6 07AB     		add	r3, sp, #28
+ 1456 10d8 5B68     		ldr	r3, [r3, #4]	@ float
+ 1457 10da 5E93     		str	r3, [sp, #376]	@ float
+ 1458 10dc 064B     		ldr	r3, .L32+16	@ float
+ 1459 10de 4393     		str	r3, [sp, #268]	@ float
+ 1460 10e0 0EE0     		b	.L33
+ 1461              	.L34:
+ 1462 10e2 00BFAFF3 		.align	3
+ 1462      0080
+ 1463              	.L32:
+ 1464 10e8 84000000 		.word	gEstimatedStates+132
+ 1465 10ec 3C000000 		.word	gEstimatedStates+60
+ 1466 10f0 B0726891 		.word	-1855425872
+ 1467 10f4 ED9C2340 		.word	1076075757
+ 1468 10f8 00000000 		.word	0
+ 1469 10fc 000080BF 		.word	-1082130432
+ 1470              	.L33:
+ 1471 1100 9D4B     		ldr	r3, .L35+8	@ float
+ 1472 1102 4493     		str	r3, [sp, #272]	@ float
+ 1473 1104 9DED5E7A 		flds	s14, [sp, #376]
+ 1474 1108 DDED667A 		flds	s15, [sp, #408]
+ 1475 110c 27EE277A 		fmuls	s14, s14, s15
+ 1476 1110 DDED5F6A 		flds	s13, [sp, #380]
+ 1477 1114 DDED637A 		flds	s15, [sp, #396]
+ 1478 1118 66EEA77A 		fmuls	s15, s13, s15
+ 1479 111c 77EE677A 		fsubs	s15, s14, s15
+ 1480 1120 CDED457A 		fsts	s15, [sp, #276]
+ 1481 1124 944B     		ldr	r3, .L35+8	@ float
+ 1482 1126 4693     		str	r3, [sp, #280]	@ float
+ 1483 1128 934B     		ldr	r3, .L35+8	@ float
+ 1484 112a 4793     		str	r3, [sp, #284]	@ float
+ 1485 112c DDED5F7A 		flds	s15, [sp, #380]
+ 1486 1130 B1EE677A 		fnegs	s14, s15
+ 1487 1134 DDED667A 		flds	s15, [sp, #408]
+ 1488 1138 27EE277A 		fmuls	s14, s14, s15
+ 1489 113c DDED5E6A 		flds	s13, [sp, #376]
+ 1490 1140 DDED637A 		flds	s15, [sp, #396]
+ 1491 1144 66EEA77A 		fmuls	s15, s13, s15
+ 1492 1148 77EE677A 		fsubs	s15, s14, s15
+ 1493 114c CDED487A 		fsts	s15, [sp, #288]
+ 1494 1150 894B     		ldr	r3, .L35+8	@ float
+ 1495 1152 4993     		str	r3, [sp, #292]	@ float
+ 1496 1154 884B     		ldr	r3, .L35+8	@ float
+ 1497 1156 4A93     		str	r3, [sp, #296]	@ float
+ 1498 1158 874B     		ldr	r3, .L35+8	@ float
+ 1499 115a 4B93     		str	r3, [sp, #300]	@ float
+ 1500 115c 669B     		ldr	r3, [sp, #408]	@ float
+ 1501 115e 5593     		str	r3, [sp, #340]	@ float
+ 1502 1160 639B     		ldr	r3, [sp, #396]	@ float
+ 1503 1162 5693     		str	r3, [sp, #344]	@ float
+ 1504 1164 844B     		ldr	r3, .L35+8	@ float
+ 1505 1166 5793     		str	r3, [sp, #348]	@ float
+ 1506 1168 DDED637A 		flds	s15, [sp, #396]
+ 1507 116c F1EE677A 		fnegs	s15, s15
+ 1508 1170 CDED587A 		fsts	s15, [sp, #352]
+ 1509 1174 669B     		ldr	r3, [sp, #408]	@ float
+ 1510 1176 5993     		str	r3, [sp, #356]	@ float
+ 1511 1178 7F4B     		ldr	r3, .L35+8	@ float
+ 1512 117a 5A93     		str	r3, [sp, #360]	@ float
+ 1513 117c 7E4B     		ldr	r3, .L35+8	@ float
+ 1514 117e 5B93     		str	r3, [sp, #364]	@ float
+ 1515 1180 7D4B     		ldr	r3, .L35+8	@ float
+ 1516 1182 5C93     		str	r3, [sp, #368]	@ float
+ 1517 1184 7D4B     		ldr	r3, .L35+12	@ float
+ 1518 1186 5D93     		str	r3, [sp, #372]	@ float
+ 1519 1188 55AB     		add	r3, sp, #340
+ 1520 118a 1846     		mov	r0, r3
+ 1521 118c 07AB     		add	r3, sp, #28
+ 1522 118e 1946     		mov	r1, r3
+ 1523 1190 07AB     		add	r3, sp, #28
+ 1524 1192 1A46     		mov	r2, r3
+ 1525 1194 FFF7FEFF 		bl	MatVectMult3
+ 1526 1198 6B46     		mov	r3, sp
+ 1527 119a 1A68     		ldr	r2, [r3, #0]	@ float
+ 1528 119c 04AB     		add	r3, sp, #16
+ 1529 119e 1A60     		str	r2, [r3, #0]	@ float
+ 1530 11a0 6E9A     		ldr	r2, [sp, #440]	@ float
+ 1531 11a2 04AB     		add	r3, sp, #16
+ 1532 11a4 5A60     		str	r2, [r3, #4]	@ float
+ 1533 11a6 6F9A     		ldr	r2, [sp, #444]	@ float
+ 1534 11a8 04AB     		add	r3, sp, #16
+ 1535 11aa 9A60     		str	r2, [r3, #8]	@ float
+ 1536 11ac 679B     		ldr	r3, [sp, #412]	@ float
+ 1537 11ae 5593     		str	r3, [sp, #340]	@ float
+ 1538 11b0 9DED657A 		flds	s14, [sp, #404]
+ 1539 11b4 DDED647A 		flds	s15, [sp, #400]
+ 1540 11b8 67EE277A 		fmuls	s15, s14, s15
+ 1541 11bc CDED567A 		fsts	s15, [sp, #344]
+ 1542 11c0 9DED687A 		flds	s14, [sp, #416]
+ 1543 11c4 DDED647A 		flds	s15, [sp, #400]
+ 1544 11c8 67EE277A 		fmuls	s15, s14, s15
+ 1545 11cc CDED577A 		fsts	s15, [sp, #348]
+ 1546 11d0 694B     		ldr	r3, .L35+8	@ float
+ 1547 11d2 5893     		str	r3, [sp, #352]	@ float
+ 1548 11d4 689B     		ldr	r3, [sp, #416]	@ float
+ 1549 11d6 5993     		str	r3, [sp, #356]	@ float
+ 1550 11d8 DDED657A 		flds	s15, [sp, #404]
+ 1551 11dc F1EE677A 		fnegs	s15, s15
+ 1552 11e0 CDED5A7A 		fsts	s15, [sp, #360]
+ 1553 11e4 DDED647A 		flds	s15, [sp, #400]
+ 1554 11e8 F1EE677A 		fnegs	s15, s15
+ 1555 11ec CDED5B7A 		fsts	s15, [sp, #364]
+ 1556 11f0 9DED677A 		flds	s14, [sp, #412]
+ 1557 11f4 DDED657A 		flds	s15, [sp, #404]
+ 1558 11f8 67EE277A 		fmuls	s15, s14, s15
+ 1559 11fc CDED5C7A 		fsts	s15, [sp, #368]
+ 1560 1200 9DED687A 		flds	s14, [sp, #416]
+ 1561 1204 DDED677A 		flds	s15, [sp, #412]
+ 1562 1208 67EE277A 		fmuls	s15, s14, s15
+ 1563 120c CDED5D7A 		fsts	s15, [sp, #372]
+ 1564 1210 55AB     		add	r3, sp, #340
+ 1565 1212 1846     		mov	r0, r3
+ 1566 1214 04AB     		add	r3, sp, #16
+ 1567 1216 1946     		mov	r1, r3
+ 1568 1218 04AB     		add	r3, sp, #16
+ 1569 121a 1A46     		mov	r2, r3
+ 1570 121c FFF7FEFF 		bl	MatVectMult3
+ 1571 1220 04AB     		add	r3, sp, #16
+ 1572 1222 93ED007A 		flds	s14, [r3, #0]
+ 1573 1226 07AB     		add	r3, sp, #28
+ 1574 1228 D3ED007A 		flds	s15, [r3, #0]
+ 1575 122c 77EE677A 		fsubs	s15, s14, s15
+ 1576 1230 04AB     		add	r3, sp, #16
+ 1577 1232 C3ED007A 		fsts	s15, [r3, #0]
+ 1578 1236 04AB     		add	r3, sp, #16
+ 1579 1238 93ED017A 		flds	s14, [r3, #4]
+ 1580 123c 07AB     		add	r3, sp, #28
+ 1581 123e D3ED017A 		flds	s15, [r3, #4]
+ 1582 1242 77EE677A 		fsubs	s15, s14, s15
+ 1583 1246 04AB     		add	r3, sp, #16
+ 1584 1248 C3ED017A 		fsts	s15, [r3, #4]
+ 1585 124c 04AB     		add	r3, sp, #16
+ 1586 124e 93ED027A 		flds	s14, [r3, #8]
+ 1587 1252 07AB     		add	r3, sp, #28
+ 1588 1254 D3ED027A 		flds	s15, [r3, #8]
+ 1589 1258 77EE677A 		fsubs	s15, s14, s15
+ 1590 125c 04AB     		add	r3, sp, #16
+ 1591 125e C3ED027A 		fsts	s15, [r3, #8]
+ 1592 1262 43AB     		add	r3, sp, #268
+ 1593 1264 1846     		mov	r0, r3
+ 1594 1266 3AAB     		add	r3, sp, #232
+ 1595 1268 1946     		mov	r1, r3
+ 1596 126a FFF7FEFF 		bl	MatTrans3x3
+ 1597 126e 4048     		ldr	r0, .L35
+ 1598 1270 3AAB     		add	r3, sp, #232
+ 1599 1272 1946     		mov	r1, r3
+ 1600 1274 31AB     		add	r3, sp, #196
+ 1601 1276 1A46     		mov	r2, r3
+ 1602 1278 FFF7FEFF 		bl	MatMult3x3
+ 1603 127c 43AB     		add	r3, sp, #268
+ 1604 127e 1846     		mov	r0, r3
+ 1605 1280 31AB     		add	r3, sp, #196
+ 1606 1282 1946     		mov	r1, r3
+ 1607 1284 1FAB     		add	r3, sp, #124
+ 1608 1286 1A46     		mov	r2, r3
+ 1609 1288 FFF7FEFF 		bl	MatMult3x3
+ 1610 128c 1FAB     		add	r3, sp, #124
+ 1611 128e 1846     		mov	r0, r3
+ 1612 1290 3849     		ldr	r1, .L35+4
+ 1613 1292 1FAB     		add	r3, sp, #124
+ 1614 1294 1A46     		mov	r2, r3
+ 1615 1296 FFF7FEFF 		bl	MatAdd3x3
+ 1616 129a 1FAB     		add	r3, sp, #124
+ 1617 129c 1846     		mov	r0, r3
+ 1618 129e 1FAB     		add	r3, sp, #124
+ 1619 12a0 1946     		mov	r1, r3
+ 1620 12a2 FFF7FEFF 		bl	MatInv3x3
+ 1621 12a6 31AB     		add	r3, sp, #196
+ 1622 12a8 1846     		mov	r0, r3
+ 1623 12aa 1FAB     		add	r3, sp, #124
+ 1624 12ac 1946     		mov	r1, r3
+ 1625 12ae 4CAB     		add	r3, sp, #304
+ 1626 12b0 1A46     		mov	r2, r3
+ 1627 12b2 FFF7FEFF 		bl	MatMult3x3
+ 1628 12b6 4CAB     		add	r3, sp, #304
+ 1629 12b8 1846     		mov	r0, r3
+ 1630 12ba 43AB     		add	r3, sp, #268
+ 1631 12bc 1946     		mov	r1, r3
+ 1632 12be 28AB     		add	r3, sp, #160
+ 1633 12c0 1A46     		mov	r2, r3
+ 1634 12c2 FFF7FEFF 		bl	MatMult3x3
+ 1635 12c6 2E48     		ldr	r0, .L35+16	@ float
+ 1636 12c8 28AB     		add	r3, sp, #160
+ 1637 12ca 1946     		mov	r1, r3
+ 1638 12cc 1FAB     		add	r3, sp, #124
+ 1639 12ce 1A46     		mov	r2, r3
+ 1640 12d0 FFF7FEFF 		bl	ScalarMatMult3x3
+ 1641 12d4 16AB     		add	r3, sp, #88
+ 1642 12d6 1846     		mov	r0, r3
+ 1643 12d8 1FAB     		add	r3, sp, #124
+ 1644 12da 1946     		mov	r1, r3
+ 1645 12dc 1FAB     		add	r3, sp, #124
+ 1646 12de 1A46     		mov	r2, r3
+ 1647 12e0 FFF7FEFF 		bl	MatAdd3x3
+ 1648 12e4 1FAB     		add	r3, sp, #124
+ 1649 12e6 1846     		mov	r0, r3
+ 1650 12e8 2149     		ldr	r1, .L35
+ 1651 12ea 214A     		ldr	r2, .L35
+ 1652 12ec FFF7FEFF 		bl	MatMult3x3
+ 1653 12f0 4CAB     		add	r3, sp, #304
+ 1654 12f2 1846     		mov	r0, r3
+ 1655 12f4 04AB     		add	r3, sp, #16
+ 1656 12f6 1946     		mov	r1, r3
+ 1657 12f8 0AAB     		add	r3, sp, #40
+ 1658 12fa 1A46     		mov	r2, r3
+ 1659 12fc FFF7FEFF 		bl	MatVectMult3
+ 1660 1300 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1661 1304 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1662 1308 93ED027A 		flds	s14, [r3, #8]
+ 1663 130c 0AAB     		add	r3, sp, #40
+ 1664 130e D3ED007A 		flds	s15, [r3, #0]
+ 1665 1312 77EE277A 		fadds	s15, s14, s15
+ 1666 1316 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1667 131a C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1668 131e C3ED027A 		fsts	s15, [r3, #8]
+ 1669 1322 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1670 1326 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1671 132a 93ED017A 		flds	s14, [r3, #4]
+ 1672 132e 0AAB     		add	r3, sp, #40
+ 1673 1330 D3ED017A 		flds	s15, [r3, #4]
+ 1674 1334 77EE277A 		fadds	s15, s14, s15
+ 1675 1338 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1676 133c C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1677 1340 C3ED017A 		fsts	s15, [r3, #4]
+ 1678 1344 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1679 1348 C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1680 134c 93ED007A 		flds	s14, [r3, #0]
+ 1681 1350 0AAB     		add	r3, sp, #40
+ 1682 1352 D3ED027A 		flds	s15, [r3, #8]
+ 1683 1356 77EE277A 		fadds	s15, s14, s15
+ 1684 135a 40F20003 		movw	r3, #:lower16:gEstimatedStates
+ 1685 135e C0F20003 		movt	r3, #:upper16:gEstimatedStates
+ 1686 1362 C3ED007A 		fsts	s15, [r3, #0]
+ 1687 1366 FFF7FEFF 		bl	unroll_states
+ 1688              	.L27:
+ 1689 136a 6AB0     		add	sp, sp, #424
+ 1690 136c 70BD     		pop	{r4, r5, r6, pc}
+ 1691              	.L36:
+ 1692 136e 00BF     		.align	2
+ 1693              	.L35:
+ 1694 1370 84000000 		.word	gEstimatedStates+132
+ 1695 1374 60000000 		.word	gEstimatedStates+96
+ 1696 1378 00000000 		.word	0
+ 1697 137c 0000803F 		.word	1065353216
+ 1698 1380 000080BF 		.word	-1082130432
+ 1700 1384 AFF30080 		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 chr6dmAHRS.c
+                            *COM*:000000a8 gEstimatedStates
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:21     .bss:00000000 EKF_Initialized
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:22     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:24     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:29     .text:00000000 EKF_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:283    .text:000002e0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:285    .text:000002e4 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:290    .text:000002e4 unroll_states
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:436    .text:0000048c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:442    .text:00000498 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:447    .text:00000498 EKF_Predict
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:745    .text:0000084c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:751    .text:00000858 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:756    .text:00000858 EKF_Update
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:1464   .text:000010e8 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:1471   .text:00001100 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:1694   .text:00001370 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccyesm1a.s:1700   .text:00001384 $t
+
+UNDEFINED SYMBOLS
+atan2f
+cosf
+sinf
+eepromConfig
+__aeabi_f2d
+__aeabi_d2f
+cos
+sin
+tan
+MatMult3x3
+MatTrans3x3
+MatAdd3x3
+ScalarMatMult3x3
+__aeabi_dsub
+__aeabi_dcmplt
+CreateIdentity3x3
+sqrtf
+MatVectMult3
+MatInv3x3

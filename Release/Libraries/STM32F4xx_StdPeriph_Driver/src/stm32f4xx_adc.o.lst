@@ -1,0 +1,1469 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_adc.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	ADC_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	ADC_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 4FF48070 		mov	r0, #256
+  27 0006 4FF00101 		mov	r1, #1
+  28 000a FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  29 000e 4FF48070 		mov	r0, #256
+  30 0012 4FF00001 		mov	r1, #0
+  31 0016 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  32 001a 08BD     		pop	{r3, pc}
+  34              		.align	2
+  35              		.global	ADC_Init
+  36              		.thumb
+  37              		.thumb_func
+  39              	ADC_Init:
+  40              		@ args = 0, pretend = 0, frame = 16
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 001c 84B0     		sub	sp, sp, #16
+  44 001e 0190     		str	r0, [sp, #4]
+  45 0020 0091     		str	r1, [sp, #0]
+  46 0022 4FF00003 		mov	r3, #0
+  47 0026 0393     		str	r3, [sp, #12]
+  48 0028 4FF00003 		mov	r3, #0
+  49 002c 8DF80B30 		strb	r3, [sp, #11]
+  50 0030 019B     		ldr	r3, [sp, #4]
+  51 0032 5B68     		ldr	r3, [r3, #4]
+  52 0034 0393     		str	r3, [sp, #12]
+  53 0036 039B     		ldr	r3, [sp, #12]
+  54 0038 23F04073 		bic	r3, r3, #50331648
+  55 003c 23F48073 		bic	r3, r3, #256
+  56 0040 0393     		str	r3, [sp, #12]
+  57 0042 009B     		ldr	r3, [sp, #0]
+  58 0044 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+  59 0046 4FEA0322 		lsl	r2, r3, #8
+  60 004a 009B     		ldr	r3, [sp, #0]
+  61 004c 1B68     		ldr	r3, [r3, #0]
+  62 004e 1343     		orrs	r3, r3, r2
+  63 0050 039A     		ldr	r2, [sp, #12]
+  64 0052 1343     		orrs	r3, r3, r2
+  65 0054 0393     		str	r3, [sp, #12]
+  66 0056 019B     		ldr	r3, [sp, #4]
+  67 0058 039A     		ldr	r2, [sp, #12]
+  68 005a 5A60     		str	r2, [r3, #4]
+  69 005c 019B     		ldr	r3, [sp, #4]
+  70 005e 9B68     		ldr	r3, [r3, #8]
+  71 0060 0393     		str	r3, [sp, #12]
+  72 0062 039A     		ldr	r2, [sp, #12]
+  73 0064 4FF2FD73 		movw	r3, #63485
+  74 0068 CCF2FF03 		movt	r3, 49407
+  75 006c 1340     		ands	r3, r3, r2
+  76 006e 0393     		str	r3, [sp, #12]
+  77 0070 009B     		ldr	r3, [sp, #0]
+  78 0072 1A69     		ldr	r2, [r3, #16]
+  79 0074 009B     		ldr	r3, [sp, #0]
+  80 0076 DB68     		ldr	r3, [r3, #12]
+  81 0078 1A43     		orrs	r2, r2, r3
+  82 007a 009B     		ldr	r3, [sp, #0]
+  83 007c 9B68     		ldr	r3, [r3, #8]
+  84 007e 1A43     		orrs	r2, r2, r3
+  85 0080 009B     		ldr	r3, [sp, #0]
+  86 0082 5B79     		ldrb	r3, [r3, #5]	@ zero_extendqisi2
+  87 0084 4FEA4303 		lsl	r3, r3, #1
+  88 0088 1343     		orrs	r3, r3, r2
+  89 008a 039A     		ldr	r2, [sp, #12]
+  90 008c 1343     		orrs	r3, r3, r2
+  91 008e 0393     		str	r3, [sp, #12]
+  92 0090 019B     		ldr	r3, [sp, #4]
+  93 0092 039A     		ldr	r2, [sp, #12]
+  94 0094 9A60     		str	r2, [r3, #8]
+  95 0096 019B     		ldr	r3, [sp, #4]
+  96 0098 DB6A     		ldr	r3, [r3, #44]
+  97 009a 0393     		str	r3, [sp, #12]
+  98 009c 039B     		ldr	r3, [sp, #12]
+  99 009e 23F47003 		bic	r3, r3, #15728640
+ 100 00a2 0393     		str	r3, [sp, #12]
+ 101 00a4 009B     		ldr	r3, [sp, #0]
+ 102 00a6 1B7D     		ldrb	r3, [r3, #20]	@ zero_extendqisi2
+ 103 00a8 03F1FF33 		add	r3, r3, #-1
+ 104 00ac DAB2     		uxtb	r2, r3
+ 105 00ae 9DF80B30 		ldrb	r3, [sp, #11]
+ 106 00b2 1343     		orrs	r3, r3, r2
+ 107 00b4 8DF80B30 		strb	r3, [sp, #11]
+ 108 00b8 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+ 109 00bc 4FEA0353 		lsl	r3, r3, #20
+ 110 00c0 039A     		ldr	r2, [sp, #12]
+ 111 00c2 1343     		orrs	r3, r3, r2
+ 112 00c4 0393     		str	r3, [sp, #12]
+ 113 00c6 019B     		ldr	r3, [sp, #4]
+ 114 00c8 039A     		ldr	r2, [sp, #12]
+ 115 00ca DA62     		str	r2, [r3, #44]
+ 116 00cc 04B0     		add	sp, sp, #16
+ 117 00ce 7047     		bx	lr
+ 119              		.align	2
+ 120              		.global	ADC_StructInit
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	ADC_StructInit:
+ 125              		@ args = 0, pretend = 0, frame = 8
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127              		@ link register save eliminated.
+ 128 00d0 82B0     		sub	sp, sp, #8
+ 129 00d2 0190     		str	r0, [sp, #4]
+ 130 00d4 019B     		ldr	r3, [sp, #4]
+ 131 00d6 4FF00002 		mov	r2, #0
+ 132 00da 1A60     		str	r2, [r3, #0]
+ 133 00dc 019B     		ldr	r3, [sp, #4]
+ 134 00de 4FF00002 		mov	r2, #0
+ 135 00e2 1A71     		strb	r2, [r3, #4]
+ 136 00e4 019B     		ldr	r3, [sp, #4]
+ 137 00e6 4FF00002 		mov	r2, #0
+ 138 00ea 5A71     		strb	r2, [r3, #5]
+ 139 00ec 019B     		ldr	r3, [sp, #4]
+ 140 00ee 4FF00002 		mov	r2, #0
+ 141 00f2 9A60     		str	r2, [r3, #8]
+ 142 00f4 019B     		ldr	r3, [sp, #4]
+ 143 00f6 4FF00002 		mov	r2, #0
+ 144 00fa DA60     		str	r2, [r3, #12]
+ 145 00fc 019B     		ldr	r3, [sp, #4]
+ 146 00fe 4FF00002 		mov	r2, #0
+ 147 0102 1A61     		str	r2, [r3, #16]
+ 148 0104 019B     		ldr	r3, [sp, #4]
+ 149 0106 4FF00102 		mov	r2, #1
+ 150 010a 1A75     		strb	r2, [r3, #20]
+ 151 010c 02B0     		add	sp, sp, #8
+ 152 010e 7047     		bx	lr
+ 154              		.align	2
+ 155              		.global	ADC_CommonInit
+ 156              		.thumb
+ 157              		.thumb_func
+ 159              	ADC_CommonInit:
+ 160              		@ args = 0, pretend = 0, frame = 16
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162              		@ link register save eliminated.
+ 163 0110 84B0     		sub	sp, sp, #16
+ 164 0112 0190     		str	r0, [sp, #4]
+ 165 0114 4FF00003 		mov	r3, #0
+ 166 0118 0393     		str	r3, [sp, #12]
+ 167 011a 4FF40C53 		mov	r3, #8960
+ 168 011e C4F20103 		movt	r3, 16385
+ 169 0122 5B68     		ldr	r3, [r3, #4]
+ 170 0124 0393     		str	r3, [sp, #12]
+ 171 0126 039A     		ldr	r2, [sp, #12]
+ 172 0128 43F2E003 		movw	r3, #12512
+ 173 012c CFF6FC73 		movt	r3, 65532
+ 174 0130 1340     		ands	r3, r3, r2
+ 175 0132 0393     		str	r3, [sp, #12]
+ 176 0134 019B     		ldr	r3, [sp, #4]
+ 177 0136 1A68     		ldr	r2, [r3, #0]
+ 178 0138 019B     		ldr	r3, [sp, #4]
+ 179 013a 5B68     		ldr	r3, [r3, #4]
+ 180 013c 1A43     		orrs	r2, r2, r3
+ 181 013e 019B     		ldr	r3, [sp, #4]
+ 182 0140 9B68     		ldr	r3, [r3, #8]
+ 183 0142 1A43     		orrs	r2, r2, r3
+ 184 0144 019B     		ldr	r3, [sp, #4]
+ 185 0146 DB68     		ldr	r3, [r3, #12]
+ 186 0148 1343     		orrs	r3, r3, r2
+ 187 014a 039A     		ldr	r2, [sp, #12]
+ 188 014c 1343     		orrs	r3, r3, r2
+ 189 014e 0393     		str	r3, [sp, #12]
+ 190 0150 4FF40C53 		mov	r3, #8960
+ 191 0154 C4F20103 		movt	r3, 16385
+ 192 0158 039A     		ldr	r2, [sp, #12]
+ 193 015a 5A60     		str	r2, [r3, #4]
+ 194 015c 04B0     		add	sp, sp, #16
+ 195 015e 7047     		bx	lr
+ 197              		.align	2
+ 198              		.global	ADC_CommonStructInit
+ 199              		.thumb
+ 200              		.thumb_func
+ 202              	ADC_CommonStructInit:
+ 203              		@ args = 0, pretend = 0, frame = 8
+ 204              		@ frame_needed = 0, uses_anonymous_args = 0
+ 205              		@ link register save eliminated.
+ 206 0160 82B0     		sub	sp, sp, #8
+ 207 0162 0190     		str	r0, [sp, #4]
+ 208 0164 019B     		ldr	r3, [sp, #4]
+ 209 0166 4FF00002 		mov	r2, #0
+ 210 016a 1A60     		str	r2, [r3, #0]
+ 211 016c 019B     		ldr	r3, [sp, #4]
+ 212 016e 4FF00002 		mov	r2, #0
+ 213 0172 5A60     		str	r2, [r3, #4]
+ 214 0174 019B     		ldr	r3, [sp, #4]
+ 215 0176 4FF00002 		mov	r2, #0
+ 216 017a 9A60     		str	r2, [r3, #8]
+ 217 017c 019B     		ldr	r3, [sp, #4]
+ 218 017e 4FF00002 		mov	r2, #0
+ 219 0182 DA60     		str	r2, [r3, #12]
+ 220 0184 02B0     		add	sp, sp, #8
+ 221 0186 7047     		bx	lr
+ 223              		.align	2
+ 224              		.global	ADC_Cmd
+ 225              		.thumb
+ 226              		.thumb_func
+ 228              	ADC_Cmd:
+ 229              		@ args = 0, pretend = 0, frame = 8
+ 230              		@ frame_needed = 0, uses_anonymous_args = 0
+ 231              		@ link register save eliminated.
+ 232 0188 82B0     		sub	sp, sp, #8
+ 233 018a 0190     		str	r0, [sp, #4]
+ 234 018c 0B46     		mov	r3, r1
+ 235 018e 8DF80330 		strb	r3, [sp, #3]
+ 236 0192 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 237 0196 002B     		cmp	r3, #0
+ 238 0198 06D0     		beq	.L7
+ 239 019a 019B     		ldr	r3, [sp, #4]
+ 240 019c 9B68     		ldr	r3, [r3, #8]
+ 241 019e 43F00102 		orr	r2, r3, #1
+ 242 01a2 019B     		ldr	r3, [sp, #4]
+ 243 01a4 9A60     		str	r2, [r3, #8]
+ 244 01a6 05E0     		b	.L6
+ 245              	.L7:
+ 246 01a8 019B     		ldr	r3, [sp, #4]
+ 247 01aa 9B68     		ldr	r3, [r3, #8]
+ 248 01ac 23F00102 		bic	r2, r3, #1
+ 249 01b0 019B     		ldr	r3, [sp, #4]
+ 250 01b2 9A60     		str	r2, [r3, #8]
+ 251              	.L6:
+ 252 01b4 02B0     		add	sp, sp, #8
+ 253 01b6 7047     		bx	lr
+ 255              		.align	2
+ 256              		.global	ADC_AnalogWatchdogCmd
+ 257              		.thumb
+ 258              		.thumb_func
+ 260              	ADC_AnalogWatchdogCmd:
+ 261              		@ args = 0, pretend = 0, frame = 16
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		@ link register save eliminated.
+ 264 01b8 84B0     		sub	sp, sp, #16
+ 265 01ba 0190     		str	r0, [sp, #4]
+ 266 01bc 0091     		str	r1, [sp, #0]
+ 267 01be 4FF00003 		mov	r3, #0
+ 268 01c2 0393     		str	r3, [sp, #12]
+ 269 01c4 019B     		ldr	r3, [sp, #4]
+ 270 01c6 5B68     		ldr	r3, [r3, #4]
+ 271 01c8 0393     		str	r3, [sp, #12]
+ 272 01ca 039B     		ldr	r3, [sp, #12]
+ 273 01cc 23F44003 		bic	r3, r3, #12582912
+ 274 01d0 23F40073 		bic	r3, r3, #512
+ 275 01d4 0393     		str	r3, [sp, #12]
+ 276 01d6 039A     		ldr	r2, [sp, #12]
+ 277 01d8 009B     		ldr	r3, [sp, #0]
+ 278 01da 1343     		orrs	r3, r3, r2
+ 279 01dc 0393     		str	r3, [sp, #12]
+ 280 01de 019B     		ldr	r3, [sp, #4]
+ 281 01e0 039A     		ldr	r2, [sp, #12]
+ 282 01e2 5A60     		str	r2, [r3, #4]
+ 283 01e4 04B0     		add	sp, sp, #16
+ 284 01e6 7047     		bx	lr
+ 286              		.align	2
+ 287              		.global	ADC_AnalogWatchdogThresholdsConfig
+ 288              		.thumb
+ 289              		.thumb_func
+ 291              	ADC_AnalogWatchdogThresholdsConfig:
+ 292              		@ args = 0, pretend = 0, frame = 8
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294              		@ link register save eliminated.
+ 295 01e8 82B0     		sub	sp, sp, #8
+ 296 01ea 0190     		str	r0, [sp, #4]
+ 297 01ec 1346     		mov	r3, r2
+ 298 01ee 0A46     		mov	r2, r1	@ movhi
+ 299 01f0 ADF80220 		strh	r2, [sp, #2]	@ movhi
+ 300 01f4 ADF80030 		strh	r3, [sp, #0]	@ movhi
+ 301 01f8 BDF80220 		ldrh	r2, [sp, #2]
+ 302 01fc 019B     		ldr	r3, [sp, #4]
+ 303 01fe 5A62     		str	r2, [r3, #36]
+ 304 0200 BDF80020 		ldrh	r2, [sp, #0]
+ 305 0204 019B     		ldr	r3, [sp, #4]
+ 306 0206 9A62     		str	r2, [r3, #40]
+ 307 0208 02B0     		add	sp, sp, #8
+ 308 020a 7047     		bx	lr
+ 310              		.align	2
+ 311              		.global	ADC_AnalogWatchdogSingleChannelConfig
+ 312              		.thumb
+ 313              		.thumb_func
+ 315              	ADC_AnalogWatchdogSingleChannelConfig:
+ 316              		@ args = 0, pretend = 0, frame = 16
+ 317              		@ frame_needed = 0, uses_anonymous_args = 0
+ 318              		@ link register save eliminated.
+ 319 020c 84B0     		sub	sp, sp, #16
+ 320 020e 0190     		str	r0, [sp, #4]
+ 321 0210 0B46     		mov	r3, r1
+ 322 0212 8DF80330 		strb	r3, [sp, #3]
+ 323 0216 4FF00003 		mov	r3, #0
+ 324 021a 0393     		str	r3, [sp, #12]
+ 325 021c 019B     		ldr	r3, [sp, #4]
+ 326 021e 5B68     		ldr	r3, [r3, #4]
+ 327 0220 0393     		str	r3, [sp, #12]
+ 328 0222 039B     		ldr	r3, [sp, #12]
+ 329 0224 23F01F03 		bic	r3, r3, #31
+ 330 0228 0393     		str	r3, [sp, #12]
+ 331 022a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 332 022e 039A     		ldr	r2, [sp, #12]
+ 333 0230 1343     		orrs	r3, r3, r2
+ 334 0232 0393     		str	r3, [sp, #12]
+ 335 0234 019B     		ldr	r3, [sp, #4]
+ 336 0236 039A     		ldr	r2, [sp, #12]
+ 337 0238 5A60     		str	r2, [r3, #4]
+ 338 023a 04B0     		add	sp, sp, #16
+ 339 023c 7047     		bx	lr
+ 341 023e 00BF     		.align	2
+ 342              		.global	ADC_TempSensorVrefintCmd
+ 343              		.thumb
+ 344              		.thumb_func
+ 346              	ADC_TempSensorVrefintCmd:
+ 347              		@ args = 0, pretend = 0, frame = 8
+ 348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 349              		@ link register save eliminated.
+ 350 0240 82B0     		sub	sp, sp, #8
+ 351 0242 0346     		mov	r3, r0
+ 352 0244 8DF80730 		strb	r3, [sp, #7]
+ 353 0248 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 354 024c 002B     		cmp	r3, #0
+ 355 024e 0CD0     		beq	.L13
+ 356 0250 4FF40C53 		mov	r3, #8960
+ 357 0254 C4F20103 		movt	r3, 16385
+ 358 0258 4FF40C52 		mov	r2, #8960
+ 359 025c C4F20102 		movt	r2, 16385
+ 360 0260 5268     		ldr	r2, [r2, #4]
+ 361 0262 42F40002 		orr	r2, r2, #8388608
+ 362 0266 5A60     		str	r2, [r3, #4]
+ 363 0268 0BE0     		b	.L12
+ 364              	.L13:
+ 365 026a 4FF40C53 		mov	r3, #8960
+ 366 026e C4F20103 		movt	r3, 16385
+ 367 0272 4FF40C52 		mov	r2, #8960
+ 368 0276 C4F20102 		movt	r2, 16385
+ 369 027a 5268     		ldr	r2, [r2, #4]
+ 370 027c 22F40002 		bic	r2, r2, #8388608
+ 371 0280 5A60     		str	r2, [r3, #4]
+ 372              	.L12:
+ 373 0282 02B0     		add	sp, sp, #8
+ 374 0284 7047     		bx	lr
+ 376 0286 00BF     		.align	2
+ 377              		.global	ADC_VBATCmd
+ 378              		.thumb
+ 379              		.thumb_func
+ 381              	ADC_VBATCmd:
+ 382              		@ args = 0, pretend = 0, frame = 8
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384              		@ link register save eliminated.
+ 385 0288 82B0     		sub	sp, sp, #8
+ 386 028a 0346     		mov	r3, r0
+ 387 028c 8DF80730 		strb	r3, [sp, #7]
+ 388 0290 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 389 0294 002B     		cmp	r3, #0
+ 390 0296 0CD0     		beq	.L16
+ 391 0298 4FF40C53 		mov	r3, #8960
+ 392 029c C4F20103 		movt	r3, 16385
+ 393 02a0 4FF40C52 		mov	r2, #8960
+ 394 02a4 C4F20102 		movt	r2, 16385
+ 395 02a8 5268     		ldr	r2, [r2, #4]
+ 396 02aa 42F48002 		orr	r2, r2, #4194304
+ 397 02ae 5A60     		str	r2, [r3, #4]
+ 398 02b0 0BE0     		b	.L15
+ 399              	.L16:
+ 400 02b2 4FF40C53 		mov	r3, #8960
+ 401 02b6 C4F20103 		movt	r3, 16385
+ 402 02ba 4FF40C52 		mov	r2, #8960
+ 403 02be C4F20102 		movt	r2, 16385
+ 404 02c2 5268     		ldr	r2, [r2, #4]
+ 405 02c4 22F48002 		bic	r2, r2, #4194304
+ 406 02c8 5A60     		str	r2, [r3, #4]
+ 407              	.L15:
+ 408 02ca 02B0     		add	sp, sp, #8
+ 409 02cc 7047     		bx	lr
+ 411 02ce 00BF     		.align	2
+ 412              		.global	ADC_RegularChannelConfig
+ 413              		.thumb
+ 414              		.thumb_func
+ 416              	ADC_RegularChannelConfig:
+ 417              		@ args = 0, pretend = 0, frame = 16
+ 418              		@ frame_needed = 0, uses_anonymous_args = 0
+ 419              		@ link register save eliminated.
+ 420 02d0 84B0     		sub	sp, sp, #16
+ 421 02d2 0190     		str	r0, [sp, #4]
+ 422 02d4 8DF80310 		strb	r1, [sp, #3]
+ 423 02d8 8DF80220 		strb	r2, [sp, #2]
+ 424 02dc 8DF80130 		strb	r3, [sp, #1]
+ 425 02e0 4FF00003 		mov	r3, #0
+ 426 02e4 0393     		str	r3, [sp, #12]
+ 427 02e6 4FF00003 		mov	r3, #0
+ 428 02ea 0293     		str	r3, [sp, #8]
+ 429 02ec 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 430 02f0 092B     		cmp	r3, #9
+ 431 02f2 2AD9     		bls	.L19
+ 432 02f4 019B     		ldr	r3, [sp, #4]
+ 433 02f6 DB68     		ldr	r3, [r3, #12]
+ 434 02f8 0393     		str	r3, [sp, #12]
+ 435 02fa 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 436 02fe 1346     		mov	r3, r2
+ 437 0300 4FEA4303 		lsl	r3, r3, #1
+ 438 0304 9B18     		adds	r3, r3, r2
+ 439 0306 A3F11E03 		sub	r3, r3, #30
+ 440 030a 4FF00702 		mov	r2, #7
+ 441 030e 02FA03F3 		lsl	r3, r2, r3
+ 442 0312 0293     		str	r3, [sp, #8]
+ 443 0314 029B     		ldr	r3, [sp, #8]
+ 444 0316 6FEA0303 		mvn	r3, r3
+ 445 031a 039A     		ldr	r2, [sp, #12]
+ 446 031c 1340     		ands	r3, r3, r2
+ 447 031e 0393     		str	r3, [sp, #12]
+ 448 0320 9DF80110 		ldrb	r1, [sp, #1]	@ zero_extendqisi2
+ 449 0324 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 450 0328 1346     		mov	r3, r2
+ 451 032a 4FEA4303 		lsl	r3, r3, #1
+ 452 032e 9B18     		adds	r3, r3, r2
+ 453 0330 A3F11E03 		sub	r3, r3, #30
+ 454 0334 01FA03F3 		lsl	r3, r1, r3
+ 455 0338 0293     		str	r3, [sp, #8]
+ 456 033a 039A     		ldr	r2, [sp, #12]
+ 457 033c 029B     		ldr	r3, [sp, #8]
+ 458 033e 1343     		orrs	r3, r3, r2
+ 459 0340 0393     		str	r3, [sp, #12]
+ 460 0342 019B     		ldr	r3, [sp, #4]
+ 461 0344 039A     		ldr	r2, [sp, #12]
+ 462 0346 DA60     		str	r2, [r3, #12]
+ 463 0348 25E0     		b	.L20
+ 464              	.L19:
+ 465 034a 019B     		ldr	r3, [sp, #4]
+ 466 034c 1B69     		ldr	r3, [r3, #16]
+ 467 034e 0393     		str	r3, [sp, #12]
+ 468 0350 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 469 0354 1346     		mov	r3, r2
+ 470 0356 4FEA4303 		lsl	r3, r3, #1
+ 471 035a 9B18     		adds	r3, r3, r2
+ 472 035c 4FF00702 		mov	r2, #7
+ 473 0360 02FA03F3 		lsl	r3, r2, r3
+ 474 0364 0293     		str	r3, [sp, #8]
+ 475 0366 029B     		ldr	r3, [sp, #8]
+ 476 0368 6FEA0303 		mvn	r3, r3
+ 477 036c 039A     		ldr	r2, [sp, #12]
+ 478 036e 1340     		ands	r3, r3, r2
+ 479 0370 0393     		str	r3, [sp, #12]
+ 480 0372 9DF80110 		ldrb	r1, [sp, #1]	@ zero_extendqisi2
+ 481 0376 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 482 037a 1346     		mov	r3, r2
+ 483 037c 4FEA4303 		lsl	r3, r3, #1
+ 484 0380 9B18     		adds	r3, r3, r2
+ 485 0382 01FA03F3 		lsl	r3, r1, r3
+ 486 0386 0293     		str	r3, [sp, #8]
+ 487 0388 039A     		ldr	r2, [sp, #12]
+ 488 038a 029B     		ldr	r3, [sp, #8]
+ 489 038c 1343     		orrs	r3, r3, r2
+ 490 038e 0393     		str	r3, [sp, #12]
+ 491 0390 019B     		ldr	r3, [sp, #4]
+ 492 0392 039A     		ldr	r2, [sp, #12]
+ 493 0394 1A61     		str	r2, [r3, #16]
+ 494              	.L20:
+ 495 0396 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 496 039a 062B     		cmp	r3, #6
+ 497 039c 2AD8     		bhi	.L21
+ 498 039e 019B     		ldr	r3, [sp, #4]
+ 499 03a0 5B6B     		ldr	r3, [r3, #52]
+ 500 03a2 0393     		str	r3, [sp, #12]
+ 501 03a4 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 502 03a8 03F1FF32 		add	r2, r3, #-1
+ 503 03ac 1346     		mov	r3, r2
+ 504 03ae 4FEA8303 		lsl	r3, r3, #2
+ 505 03b2 9B18     		adds	r3, r3, r2
+ 506 03b4 4FF01F02 		mov	r2, #31
+ 507 03b8 02FA03F3 		lsl	r3, r2, r3
+ 508 03bc 0293     		str	r3, [sp, #8]
+ 509 03be 029B     		ldr	r3, [sp, #8]
+ 510 03c0 6FEA0303 		mvn	r3, r3
+ 511 03c4 039A     		ldr	r2, [sp, #12]
+ 512 03c6 1340     		ands	r3, r3, r2
+ 513 03c8 0393     		str	r3, [sp, #12]
+ 514 03ca 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 515 03ce 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 516 03d2 03F1FF32 		add	r2, r3, #-1
+ 517 03d6 1346     		mov	r3, r2
+ 518 03d8 4FEA8303 		lsl	r3, r3, #2
+ 519 03dc 9B18     		adds	r3, r3, r2
+ 520 03de 01FA03F3 		lsl	r3, r1, r3
+ 521 03e2 0293     		str	r3, [sp, #8]
+ 522 03e4 039A     		ldr	r2, [sp, #12]
+ 523 03e6 029B     		ldr	r3, [sp, #8]
+ 524 03e8 1343     		orrs	r3, r3, r2
+ 525 03ea 0393     		str	r3, [sp, #12]
+ 526 03ec 019B     		ldr	r3, [sp, #4]
+ 527 03ee 039A     		ldr	r2, [sp, #12]
+ 528 03f0 5A63     		str	r2, [r3, #52]
+ 529 03f2 58E0     		b	.L18
+ 530              	.L21:
+ 531 03f4 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 532 03f8 0C2B     		cmp	r3, #12
+ 533 03fa 2AD8     		bhi	.L23
+ 534 03fc 019B     		ldr	r3, [sp, #4]
+ 535 03fe 1B6B     		ldr	r3, [r3, #48]
+ 536 0400 0393     		str	r3, [sp, #12]
+ 537 0402 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
+ 538 0406 1346     		mov	r3, r2
+ 539 0408 4FEA8303 		lsl	r3, r3, #2
+ 540 040c 9B18     		adds	r3, r3, r2
+ 541 040e A3F12303 		sub	r3, r3, #35
+ 542 0412 4FF01F02 		mov	r2, #31
+ 543 0416 02FA03F3 		lsl	r3, r2, r3
+ 544 041a 0293     		str	r3, [sp, #8]
+ 545 041c 029B     		ldr	r3, [sp, #8]
+ 546 041e 6FEA0303 		mvn	r3, r3
+ 547 0422 039A     		ldr	r2, [sp, #12]
+ 548 0424 1340     		ands	r3, r3, r2
+ 549 0426 0393     		str	r3, [sp, #12]
+ 550 0428 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 551 042c 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
+ 552 0430 1346     		mov	r3, r2
+ 553 0432 4FEA8303 		lsl	r3, r3, #2
+ 554 0436 9B18     		adds	r3, r3, r2
+ 555 0438 A3F12303 		sub	r3, r3, #35
+ 556 043c 01FA03F3 		lsl	r3, r1, r3
+ 557 0440 0293     		str	r3, [sp, #8]
+ 558 0442 039A     		ldr	r2, [sp, #12]
+ 559 0444 029B     		ldr	r3, [sp, #8]
+ 560 0446 1343     		orrs	r3, r3, r2
+ 561 0448 0393     		str	r3, [sp, #12]
+ 562 044a 019B     		ldr	r3, [sp, #4]
+ 563 044c 039A     		ldr	r2, [sp, #12]
+ 564 044e 1A63     		str	r2, [r3, #48]
+ 565 0450 29E0     		b	.L18
+ 566              	.L23:
+ 567 0452 019B     		ldr	r3, [sp, #4]
+ 568 0454 DB6A     		ldr	r3, [r3, #44]
+ 569 0456 0393     		str	r3, [sp, #12]
+ 570 0458 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
+ 571 045c 1346     		mov	r3, r2
+ 572 045e 4FEA8303 		lsl	r3, r3, #2
+ 573 0462 9B18     		adds	r3, r3, r2
+ 574 0464 A3F14103 		sub	r3, r3, #65
+ 575 0468 4FF01F02 		mov	r2, #31
+ 576 046c 02FA03F3 		lsl	r3, r2, r3
+ 577 0470 0293     		str	r3, [sp, #8]
+ 578 0472 029B     		ldr	r3, [sp, #8]
+ 579 0474 6FEA0303 		mvn	r3, r3
+ 580 0478 039A     		ldr	r2, [sp, #12]
+ 581 047a 1340     		ands	r3, r3, r2
+ 582 047c 0393     		str	r3, [sp, #12]
+ 583 047e 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 584 0482 9DF80220 		ldrb	r2, [sp, #2]	@ zero_extendqisi2
+ 585 0486 1346     		mov	r3, r2
+ 586 0488 4FEA8303 		lsl	r3, r3, #2
+ 587 048c 9B18     		adds	r3, r3, r2
+ 588 048e A3F14103 		sub	r3, r3, #65
+ 589 0492 01FA03F3 		lsl	r3, r1, r3
+ 590 0496 0293     		str	r3, [sp, #8]
+ 591 0498 039A     		ldr	r2, [sp, #12]
+ 592 049a 029B     		ldr	r3, [sp, #8]
+ 593 049c 1343     		orrs	r3, r3, r2
+ 594 049e 0393     		str	r3, [sp, #12]
+ 595 04a0 019B     		ldr	r3, [sp, #4]
+ 596 04a2 039A     		ldr	r2, [sp, #12]
+ 597 04a4 DA62     		str	r2, [r3, #44]
+ 598              	.L18:
+ 599 04a6 04B0     		add	sp, sp, #16
+ 600 04a8 7047     		bx	lr
+ 602 04aa 00BF     		.align	2
+ 603              		.global	ADC_SoftwareStartConv
+ 604              		.thumb
+ 605              		.thumb_func
+ 607              	ADC_SoftwareStartConv:
+ 608              		@ args = 0, pretend = 0, frame = 8
+ 609              		@ frame_needed = 0, uses_anonymous_args = 0
+ 610              		@ link register save eliminated.
+ 611 04ac 82B0     		sub	sp, sp, #8
+ 612 04ae 0190     		str	r0, [sp, #4]
+ 613 04b0 019B     		ldr	r3, [sp, #4]
+ 614 04b2 9B68     		ldr	r3, [r3, #8]
+ 615 04b4 43F08042 		orr	r2, r3, #1073741824
+ 616 04b8 019B     		ldr	r3, [sp, #4]
+ 617 04ba 9A60     		str	r2, [r3, #8]
+ 618 04bc 02B0     		add	sp, sp, #8
+ 619 04be 7047     		bx	lr
+ 621              		.align	2
+ 622              		.global	ADC_GetSoftwareStartConvStatus
+ 623              		.thumb
+ 624              		.thumb_func
+ 626              	ADC_GetSoftwareStartConvStatus:
+ 627              		@ args = 0, pretend = 0, frame = 16
+ 628              		@ frame_needed = 0, uses_anonymous_args = 0
+ 629              		@ link register save eliminated.
+ 630 04c0 84B0     		sub	sp, sp, #16
+ 631 04c2 0190     		str	r0, [sp, #4]
+ 632 04c4 4FF00003 		mov	r3, #0
+ 633 04c8 8DF80F30 		strb	r3, [sp, #15]
+ 634 04cc 019B     		ldr	r3, [sp, #4]
+ 635 04ce 9B68     		ldr	r3, [r3, #8]
+ 636 04d0 03F48003 		and	r3, r3, #4194304
+ 637 04d4 002B     		cmp	r3, #0
+ 638 04d6 04D0     		beq	.L26
+ 639 04d8 4FF00103 		mov	r3, #1
+ 640 04dc 8DF80F30 		strb	r3, [sp, #15]
+ 641 04e0 03E0     		b	.L27
+ 642              	.L26:
+ 643 04e2 4FF00003 		mov	r3, #0
+ 644 04e6 8DF80F30 		strb	r3, [sp, #15]
+ 645              	.L27:
+ 646 04ea 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 647 04ee 1846     		mov	r0, r3
+ 648 04f0 04B0     		add	sp, sp, #16
+ 649 04f2 7047     		bx	lr
+ 651              		.align	2
+ 652              		.global	ADC_EOCOnEachRegularChannelCmd
+ 653              		.thumb
+ 654              		.thumb_func
+ 656              	ADC_EOCOnEachRegularChannelCmd:
+ 657              		@ args = 0, pretend = 0, frame = 8
+ 658              		@ frame_needed = 0, uses_anonymous_args = 0
+ 659              		@ link register save eliminated.
+ 660 04f4 82B0     		sub	sp, sp, #8
+ 661 04f6 0190     		str	r0, [sp, #4]
+ 662 04f8 0B46     		mov	r3, r1
+ 663 04fa 8DF80330 		strb	r3, [sp, #3]
+ 664 04fe 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 665 0502 002B     		cmp	r3, #0
+ 666 0504 06D0     		beq	.L29
+ 667 0506 019B     		ldr	r3, [sp, #4]
+ 668 0508 9B68     		ldr	r3, [r3, #8]
+ 669 050a 43F48062 		orr	r2, r3, #1024
+ 670 050e 019B     		ldr	r3, [sp, #4]
+ 671 0510 9A60     		str	r2, [r3, #8]
+ 672 0512 05E0     		b	.L28
+ 673              	.L29:
+ 674 0514 019B     		ldr	r3, [sp, #4]
+ 675 0516 9B68     		ldr	r3, [r3, #8]
+ 676 0518 23F48062 		bic	r2, r3, #1024
+ 677 051c 019B     		ldr	r3, [sp, #4]
+ 678 051e 9A60     		str	r2, [r3, #8]
+ 679              	.L28:
+ 680 0520 02B0     		add	sp, sp, #8
+ 681 0522 7047     		bx	lr
+ 683              		.align	2
+ 684              		.global	ADC_ContinuousModeCmd
+ 685              		.thumb
+ 686              		.thumb_func
+ 688              	ADC_ContinuousModeCmd:
+ 689              		@ args = 0, pretend = 0, frame = 8
+ 690              		@ frame_needed = 0, uses_anonymous_args = 0
+ 691              		@ link register save eliminated.
+ 692 0524 82B0     		sub	sp, sp, #8
+ 693 0526 0190     		str	r0, [sp, #4]
+ 694 0528 0B46     		mov	r3, r1
+ 695 052a 8DF80330 		strb	r3, [sp, #3]
+ 696 052e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 697 0532 002B     		cmp	r3, #0
+ 698 0534 06D0     		beq	.L32
+ 699 0536 019B     		ldr	r3, [sp, #4]
+ 700 0538 9B68     		ldr	r3, [r3, #8]
+ 701 053a 43F00202 		orr	r2, r3, #2
+ 702 053e 019B     		ldr	r3, [sp, #4]
+ 703 0540 9A60     		str	r2, [r3, #8]
+ 704 0542 05E0     		b	.L31
+ 705              	.L32:
+ 706 0544 019B     		ldr	r3, [sp, #4]
+ 707 0546 9B68     		ldr	r3, [r3, #8]
+ 708 0548 23F00202 		bic	r2, r3, #2
+ 709 054c 019B     		ldr	r3, [sp, #4]
+ 710 054e 9A60     		str	r2, [r3, #8]
+ 711              	.L31:
+ 712 0550 02B0     		add	sp, sp, #8
+ 713 0552 7047     		bx	lr
+ 715              		.align	2
+ 716              		.global	ADC_DiscModeChannelCountConfig
+ 717              		.thumb
+ 718              		.thumb_func
+ 720              	ADC_DiscModeChannelCountConfig:
+ 721              		@ args = 0, pretend = 0, frame = 16
+ 722              		@ frame_needed = 0, uses_anonymous_args = 0
+ 723              		@ link register save eliminated.
+ 724 0554 84B0     		sub	sp, sp, #16
+ 725 0556 0190     		str	r0, [sp, #4]
+ 726 0558 0B46     		mov	r3, r1
+ 727 055a 8DF80330 		strb	r3, [sp, #3]
+ 728 055e 4FF00003 		mov	r3, #0
+ 729 0562 0393     		str	r3, [sp, #12]
+ 730 0564 4FF00003 		mov	r3, #0
+ 731 0568 0293     		str	r3, [sp, #8]
+ 732 056a 019B     		ldr	r3, [sp, #4]
+ 733 056c 5B68     		ldr	r3, [r3, #4]
+ 734 056e 0393     		str	r3, [sp, #12]
+ 735 0570 039B     		ldr	r3, [sp, #12]
+ 736 0572 23F46043 		bic	r3, r3, #57344
+ 737 0576 0393     		str	r3, [sp, #12]
+ 738 0578 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 739 057c 03F1FF33 		add	r3, r3, #-1
+ 740 0580 0293     		str	r3, [sp, #8]
+ 741 0582 029B     		ldr	r3, [sp, #8]
+ 742 0584 4FEA4333 		lsl	r3, r3, #13
+ 743 0588 039A     		ldr	r2, [sp, #12]
+ 744 058a 1343     		orrs	r3, r3, r2
+ 745 058c 0393     		str	r3, [sp, #12]
+ 746 058e 019B     		ldr	r3, [sp, #4]
+ 747 0590 039A     		ldr	r2, [sp, #12]
+ 748 0592 5A60     		str	r2, [r3, #4]
+ 749 0594 04B0     		add	sp, sp, #16
+ 750 0596 7047     		bx	lr
+ 752              		.align	2
+ 753              		.global	ADC_DiscModeCmd
+ 754              		.thumb
+ 755              		.thumb_func
+ 757              	ADC_DiscModeCmd:
+ 758              		@ args = 0, pretend = 0, frame = 8
+ 759              		@ frame_needed = 0, uses_anonymous_args = 0
+ 760              		@ link register save eliminated.
+ 761 0598 82B0     		sub	sp, sp, #8
+ 762 059a 0190     		str	r0, [sp, #4]
+ 763 059c 0B46     		mov	r3, r1
+ 764 059e 8DF80330 		strb	r3, [sp, #3]
+ 765 05a2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 766 05a6 002B     		cmp	r3, #0
+ 767 05a8 06D0     		beq	.L36
+ 768 05aa 019B     		ldr	r3, [sp, #4]
+ 769 05ac 5B68     		ldr	r3, [r3, #4]
+ 770 05ae 43F40062 		orr	r2, r3, #2048
+ 771 05b2 019B     		ldr	r3, [sp, #4]
+ 772 05b4 5A60     		str	r2, [r3, #4]
+ 773 05b6 05E0     		b	.L35
+ 774              	.L36:
+ 775 05b8 019B     		ldr	r3, [sp, #4]
+ 776 05ba 5B68     		ldr	r3, [r3, #4]
+ 777 05bc 23F40062 		bic	r2, r3, #2048
+ 778 05c0 019B     		ldr	r3, [sp, #4]
+ 779 05c2 5A60     		str	r2, [r3, #4]
+ 780              	.L35:
+ 781 05c4 02B0     		add	sp, sp, #8
+ 782 05c6 7047     		bx	lr
+ 784              		.align	2
+ 785              		.global	ADC_GetConversionValue
+ 786              		.thumb
+ 787              		.thumb_func
+ 789              	ADC_GetConversionValue:
+ 790              		@ args = 0, pretend = 0, frame = 8
+ 791              		@ frame_needed = 0, uses_anonymous_args = 0
+ 792              		@ link register save eliminated.
+ 793 05c8 82B0     		sub	sp, sp, #8
+ 794 05ca 0190     		str	r0, [sp, #4]
+ 795 05cc 019B     		ldr	r3, [sp, #4]
+ 796 05ce DB6C     		ldr	r3, [r3, #76]
+ 797 05d0 9BB2     		uxth	r3, r3
+ 798 05d2 1846     		mov	r0, r3
+ 799 05d4 02B0     		add	sp, sp, #8
+ 800 05d6 7047     		bx	lr
+ 802              		.align	2
+ 803              		.global	ADC_GetMultiModeConversionValue
+ 804              		.thumb
+ 805              		.thumb_func
+ 807              	ADC_GetMultiModeConversionValue:
+ 808              		@ args = 0, pretend = 0, frame = 0
+ 809              		@ frame_needed = 0, uses_anonymous_args = 0
+ 810              		@ link register save eliminated.
+ 811 05d8 42F20833 		movw	r3, #8968
+ 812 05dc C4F20103 		movt	r3, 16385
+ 813 05e0 1B68     		ldr	r3, [r3, #0]
+ 814 05e2 1846     		mov	r0, r3
+ 815 05e4 7047     		bx	lr
+ 817 05e6 00BF     		.align	2
+ 818              		.global	ADC_DMACmd
+ 819              		.thumb
+ 820              		.thumb_func
+ 822              	ADC_DMACmd:
+ 823              		@ args = 0, pretend = 0, frame = 8
+ 824              		@ frame_needed = 0, uses_anonymous_args = 0
+ 825              		@ link register save eliminated.
+ 826 05e8 82B0     		sub	sp, sp, #8
+ 827 05ea 0190     		str	r0, [sp, #4]
+ 828 05ec 0B46     		mov	r3, r1
+ 829 05ee 8DF80330 		strb	r3, [sp, #3]
+ 830 05f2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 831 05f6 002B     		cmp	r3, #0
+ 832 05f8 06D0     		beq	.L41
+ 833 05fa 019B     		ldr	r3, [sp, #4]
+ 834 05fc 9B68     		ldr	r3, [r3, #8]
+ 835 05fe 43F48072 		orr	r2, r3, #256
+ 836 0602 019B     		ldr	r3, [sp, #4]
+ 837 0604 9A60     		str	r2, [r3, #8]
+ 838 0606 05E0     		b	.L40
+ 839              	.L41:
+ 840 0608 019B     		ldr	r3, [sp, #4]
+ 841 060a 9B68     		ldr	r3, [r3, #8]
+ 842 060c 23F48072 		bic	r2, r3, #256
+ 843 0610 019B     		ldr	r3, [sp, #4]
+ 844 0612 9A60     		str	r2, [r3, #8]
+ 845              	.L40:
+ 846 0614 02B0     		add	sp, sp, #8
+ 847 0616 7047     		bx	lr
+ 849              		.align	2
+ 850              		.global	ADC_DMARequestAfterLastTransferCmd
+ 851              		.thumb
+ 852              		.thumb_func
+ 854              	ADC_DMARequestAfterLastTransferCmd:
+ 855              		@ args = 0, pretend = 0, frame = 8
+ 856              		@ frame_needed = 0, uses_anonymous_args = 0
+ 857              		@ link register save eliminated.
+ 858 0618 82B0     		sub	sp, sp, #8
+ 859 061a 0190     		str	r0, [sp, #4]
+ 860 061c 0B46     		mov	r3, r1
+ 861 061e 8DF80330 		strb	r3, [sp, #3]
+ 862 0622 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 863 0626 002B     		cmp	r3, #0
+ 864 0628 06D0     		beq	.L44
+ 865 062a 019B     		ldr	r3, [sp, #4]
+ 866 062c 9B68     		ldr	r3, [r3, #8]
+ 867 062e 43F40072 		orr	r2, r3, #512
+ 868 0632 019B     		ldr	r3, [sp, #4]
+ 869 0634 9A60     		str	r2, [r3, #8]
+ 870 0636 05E0     		b	.L43
+ 871              	.L44:
+ 872 0638 019B     		ldr	r3, [sp, #4]
+ 873 063a 9B68     		ldr	r3, [r3, #8]
+ 874 063c 23F40072 		bic	r2, r3, #512
+ 875 0640 019B     		ldr	r3, [sp, #4]
+ 876 0642 9A60     		str	r2, [r3, #8]
+ 877              	.L43:
+ 878 0644 02B0     		add	sp, sp, #8
+ 879 0646 7047     		bx	lr
+ 881              		.align	2
+ 882              		.global	ADC_MultiModeDMARequestAfterLastTransferCmd
+ 883              		.thumb
+ 884              		.thumb_func
+ 886              	ADC_MultiModeDMARequestAfterLastTransferCmd:
+ 887              		@ args = 0, pretend = 0, frame = 8
+ 888              		@ frame_needed = 0, uses_anonymous_args = 0
+ 889              		@ link register save eliminated.
+ 890 0648 82B0     		sub	sp, sp, #8
+ 891 064a 0346     		mov	r3, r0
+ 892 064c 8DF80730 		strb	r3, [sp, #7]
+ 893 0650 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 894 0654 002B     		cmp	r3, #0
+ 895 0656 0CD0     		beq	.L47
+ 896 0658 4FF40C53 		mov	r3, #8960
+ 897 065c C4F20103 		movt	r3, 16385
+ 898 0660 4FF40C52 		mov	r2, #8960
+ 899 0664 C4F20102 		movt	r2, 16385
+ 900 0668 5268     		ldr	r2, [r2, #4]
+ 901 066a 42F40052 		orr	r2, r2, #8192
+ 902 066e 5A60     		str	r2, [r3, #4]
+ 903 0670 0BE0     		b	.L46
+ 904              	.L47:
+ 905 0672 4FF40C53 		mov	r3, #8960
+ 906 0676 C4F20103 		movt	r3, 16385
+ 907 067a 4FF40C52 		mov	r2, #8960
+ 908 067e C4F20102 		movt	r2, 16385
+ 909 0682 5268     		ldr	r2, [r2, #4]
+ 910 0684 22F40052 		bic	r2, r2, #8192
+ 911 0688 5A60     		str	r2, [r3, #4]
+ 912              	.L46:
+ 913 068a 02B0     		add	sp, sp, #8
+ 914 068c 7047     		bx	lr
+ 916 068e 00BF     		.align	2
+ 917              		.global	ADC_InjectedChannelConfig
+ 918              		.thumb
+ 919              		.thumb_func
+ 921              	ADC_InjectedChannelConfig:
+ 922              		@ args = 0, pretend = 0, frame = 24
+ 923              		@ frame_needed = 0, uses_anonymous_args = 0
+ 924              		@ link register save eliminated.
+ 925 0690 86B0     		sub	sp, sp, #24
+ 926 0692 0190     		str	r0, [sp, #4]
+ 927 0694 8DF80310 		strb	r1, [sp, #3]
+ 928 0698 8DF80220 		strb	r2, [sp, #2]
+ 929 069c 8DF80130 		strb	r3, [sp, #1]
+ 930 06a0 4FF00003 		mov	r3, #0
+ 931 06a4 0593     		str	r3, [sp, #20]
+ 932 06a6 4FF00003 		mov	r3, #0
+ 933 06aa 0493     		str	r3, [sp, #16]
+ 934 06ac 4FF00003 		mov	r3, #0
+ 935 06b0 0393     		str	r3, [sp, #12]
+ 936 06b2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 937 06b6 092B     		cmp	r3, #9
+ 938 06b8 2AD9     		bls	.L50
+ 939 06ba 019B     		ldr	r3, [sp, #4]
+ 940 06bc DB68     		ldr	r3, [r3, #12]
+ 941 06be 0593     		str	r3, [sp, #20]
+ 942 06c0 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 943 06c4 1346     		mov	r3, r2
+ 944 06c6 4FEA4303 		lsl	r3, r3, #1
+ 945 06ca 9B18     		adds	r3, r3, r2
+ 946 06cc A3F11E03 		sub	r3, r3, #30
+ 947 06d0 4FF00702 		mov	r2, #7
+ 948 06d4 02FA03F3 		lsl	r3, r2, r3
+ 949 06d8 0493     		str	r3, [sp, #16]
+ 950 06da 049B     		ldr	r3, [sp, #16]
+ 951 06dc 6FEA0303 		mvn	r3, r3
+ 952 06e0 059A     		ldr	r2, [sp, #20]
+ 953 06e2 1340     		ands	r3, r3, r2
+ 954 06e4 0593     		str	r3, [sp, #20]
+ 955 06e6 9DF80110 		ldrb	r1, [sp, #1]	@ zero_extendqisi2
+ 956 06ea 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 957 06ee 1346     		mov	r3, r2
+ 958 06f0 4FEA4303 		lsl	r3, r3, #1
+ 959 06f4 9B18     		adds	r3, r3, r2
+ 960 06f6 A3F11E03 		sub	r3, r3, #30
+ 961 06fa 01FA03F3 		lsl	r3, r1, r3
+ 962 06fe 0493     		str	r3, [sp, #16]
+ 963 0700 059A     		ldr	r2, [sp, #20]
+ 964 0702 049B     		ldr	r3, [sp, #16]
+ 965 0704 1343     		orrs	r3, r3, r2
+ 966 0706 0593     		str	r3, [sp, #20]
+ 967 0708 019B     		ldr	r3, [sp, #4]
+ 968 070a 059A     		ldr	r2, [sp, #20]
+ 969 070c DA60     		str	r2, [r3, #12]
+ 970 070e 25E0     		b	.L51
+ 971              	.L50:
+ 972 0710 019B     		ldr	r3, [sp, #4]
+ 973 0712 1B69     		ldr	r3, [r3, #16]
+ 974 0714 0593     		str	r3, [sp, #20]
+ 975 0716 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 976 071a 1346     		mov	r3, r2
+ 977 071c 4FEA4303 		lsl	r3, r3, #1
+ 978 0720 9B18     		adds	r3, r3, r2
+ 979 0722 4FF00702 		mov	r2, #7
+ 980 0726 02FA03F3 		lsl	r3, r2, r3
+ 981 072a 0493     		str	r3, [sp, #16]
+ 982 072c 049B     		ldr	r3, [sp, #16]
+ 983 072e 6FEA0303 		mvn	r3, r3
+ 984 0732 059A     		ldr	r2, [sp, #20]
+ 985 0734 1340     		ands	r3, r3, r2
+ 986 0736 0593     		str	r3, [sp, #20]
+ 987 0738 9DF80110 		ldrb	r1, [sp, #1]	@ zero_extendqisi2
+ 988 073c 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 989 0740 1346     		mov	r3, r2
+ 990 0742 4FEA4303 		lsl	r3, r3, #1
+ 991 0746 9B18     		adds	r3, r3, r2
+ 992 0748 01FA03F3 		lsl	r3, r1, r3
+ 993 074c 0493     		str	r3, [sp, #16]
+ 994 074e 059A     		ldr	r2, [sp, #20]
+ 995 0750 049B     		ldr	r3, [sp, #16]
+ 996 0752 1343     		orrs	r3, r3, r2
+ 997 0754 0593     		str	r3, [sp, #20]
+ 998 0756 019B     		ldr	r3, [sp, #4]
+ 999 0758 059A     		ldr	r2, [sp, #20]
+ 1000 075a 1A61     		str	r2, [r3, #16]
+ 1001              	.L51:
+ 1002 075c 019B     		ldr	r3, [sp, #4]
+ 1003 075e 9B6B     		ldr	r3, [r3, #56]
+ 1004 0760 0593     		str	r3, [sp, #20]
+ 1005 0762 059B     		ldr	r3, [sp, #20]
+ 1006 0764 03F44013 		and	r3, r3, #3145728
+ 1007 0768 4FEA1353 		lsr	r3, r3, #20
+ 1008 076c 0393     		str	r3, [sp, #12]
+ 1009 076e 039B     		ldr	r3, [sp, #12]
+ 1010 0770 DBB2     		uxtb	r3, r3
+ 1011 0772 6FEA0303 		mvn	r3, r3
+ 1012 0776 DAB2     		uxtb	r2, r3
+ 1013 0778 9DF80230 		ldrb	r3, [sp, #2]
+ 1014 077c D318     		adds	r3, r2, r3
+ 1015 077e DBB2     		uxtb	r3, r3
+ 1016 0780 03F10303 		add	r3, r3, #3
+ 1017 0784 DBB2     		uxtb	r3, r3
+ 1018 0786 1A46     		mov	r2, r3
+ 1019 0788 1346     		mov	r3, r2
+ 1020 078a 4FEA8303 		lsl	r3, r3, #2
+ 1021 078e 9B18     		adds	r3, r3, r2
+ 1022 0790 4FF01F02 		mov	r2, #31
+ 1023 0794 02FA03F3 		lsl	r3, r2, r3
+ 1024 0798 0493     		str	r3, [sp, #16]
+ 1025 079a 049B     		ldr	r3, [sp, #16]
+ 1026 079c 6FEA0303 		mvn	r3, r3
+ 1027 07a0 059A     		ldr	r2, [sp, #20]
+ 1028 07a2 1340     		ands	r3, r3, r2
+ 1029 07a4 0593     		str	r3, [sp, #20]
+ 1030 07a6 9DF80310 		ldrb	r1, [sp, #3]	@ zero_extendqisi2
+ 1031 07aa 039B     		ldr	r3, [sp, #12]
+ 1032 07ac DBB2     		uxtb	r3, r3
+ 1033 07ae 6FEA0303 		mvn	r3, r3
+ 1034 07b2 DAB2     		uxtb	r2, r3
+ 1035 07b4 9DF80230 		ldrb	r3, [sp, #2]
+ 1036 07b8 D318     		adds	r3, r2, r3
+ 1037 07ba DBB2     		uxtb	r3, r3
+ 1038 07bc 03F10303 		add	r3, r3, #3
+ 1039 07c0 DBB2     		uxtb	r3, r3
+ 1040 07c2 1A46     		mov	r2, r3
+ 1041 07c4 1346     		mov	r3, r2
+ 1042 07c6 4FEA8303 		lsl	r3, r3, #2
+ 1043 07ca 9B18     		adds	r3, r3, r2
+ 1044 07cc 01FA03F3 		lsl	r3, r1, r3
+ 1045 07d0 0493     		str	r3, [sp, #16]
+ 1046 07d2 059A     		ldr	r2, [sp, #20]
+ 1047 07d4 049B     		ldr	r3, [sp, #16]
+ 1048 07d6 1343     		orrs	r3, r3, r2
+ 1049 07d8 0593     		str	r3, [sp, #20]
+ 1050 07da 019B     		ldr	r3, [sp, #4]
+ 1051 07dc 059A     		ldr	r2, [sp, #20]
+ 1052 07de 9A63     		str	r2, [r3, #56]
+ 1053 07e0 06B0     		add	sp, sp, #24
+ 1054 07e2 7047     		bx	lr
+ 1056              		.align	2
+ 1057              		.global	ADC_InjectedSequencerLengthConfig
+ 1058              		.thumb
+ 1059              		.thumb_func
+ 1061              	ADC_InjectedSequencerLengthConfig:
+ 1062              		@ args = 0, pretend = 0, frame = 16
+ 1063              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1064              		@ link register save eliminated.
+ 1065 07e4 84B0     		sub	sp, sp, #16
+ 1066 07e6 0190     		str	r0, [sp, #4]
+ 1067 07e8 0B46     		mov	r3, r1
+ 1068 07ea 8DF80330 		strb	r3, [sp, #3]
+ 1069 07ee 4FF00003 		mov	r3, #0
+ 1070 07f2 0393     		str	r3, [sp, #12]
+ 1071 07f4 4FF00003 		mov	r3, #0
+ 1072 07f8 0293     		str	r3, [sp, #8]
+ 1073 07fa 019B     		ldr	r3, [sp, #4]
+ 1074 07fc 9B6B     		ldr	r3, [r3, #56]
+ 1075 07fe 0393     		str	r3, [sp, #12]
+ 1076 0800 039B     		ldr	r3, [sp, #12]
+ 1077 0802 23F44013 		bic	r3, r3, #3145728
+ 1078 0806 0393     		str	r3, [sp, #12]
+ 1079 0808 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1080 080c 03F1FF33 		add	r3, r3, #-1
+ 1081 0810 0293     		str	r3, [sp, #8]
+ 1082 0812 029B     		ldr	r3, [sp, #8]
+ 1083 0814 4FEA0353 		lsl	r3, r3, #20
+ 1084 0818 039A     		ldr	r2, [sp, #12]
+ 1085 081a 1343     		orrs	r3, r3, r2
+ 1086 081c 0393     		str	r3, [sp, #12]
+ 1087 081e 019B     		ldr	r3, [sp, #4]
+ 1088 0820 039A     		ldr	r2, [sp, #12]
+ 1089 0822 9A63     		str	r2, [r3, #56]
+ 1090 0824 04B0     		add	sp, sp, #16
+ 1091 0826 7047     		bx	lr
+ 1093              		.align	2
+ 1094              		.global	ADC_SetInjectedOffset
+ 1095              		.thumb
+ 1096              		.thumb_func
+ 1098              	ADC_SetInjectedOffset:
+ 1099              		@ args = 0, pretend = 0, frame = 16
+ 1100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1101              		@ link register save eliminated.
+ 1102 0828 84B0     		sub	sp, sp, #16
+ 1103 082a 0190     		str	r0, [sp, #4]
+ 1104 082c 1346     		mov	r3, r2
+ 1105 082e 0A46     		mov	r2, r1
+ 1106 0830 8DF80320 		strb	r2, [sp, #3]
+ 1107 0834 ADF80030 		strh	r3, [sp, #0]	@ movhi
+ 1108 0838 4FF00003 		mov	r3, #0
+ 1109 083c 0393     		str	r3, [sp, #12]
+ 1110 083e 019B     		ldr	r3, [sp, #4]
+ 1111 0840 0393     		str	r3, [sp, #12]
+ 1112 0842 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 1113 0846 039B     		ldr	r3, [sp, #12]
+ 1114 0848 D318     		adds	r3, r2, r3
+ 1115 084a 0393     		str	r3, [sp, #12]
+ 1116 084c 039B     		ldr	r3, [sp, #12]
+ 1117 084e BDF80020 		ldrh	r2, [sp, #0]
+ 1118 0852 1A60     		str	r2, [r3, #0]
+ 1119 0854 04B0     		add	sp, sp, #16
+ 1120 0856 7047     		bx	lr
+ 1122              		.align	2
+ 1123              		.global	ADC_ExternalTrigInjectedConvConfig
+ 1124              		.thumb
+ 1125              		.thumb_func
+ 1127              	ADC_ExternalTrigInjectedConvConfig:
+ 1128              		@ args = 0, pretend = 0, frame = 16
+ 1129              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1130              		@ link register save eliminated.
+ 1131 0858 84B0     		sub	sp, sp, #16
+ 1132 085a 0190     		str	r0, [sp, #4]
+ 1133 085c 0091     		str	r1, [sp, #0]
+ 1134 085e 4FF00003 		mov	r3, #0
+ 1135 0862 0393     		str	r3, [sp, #12]
+ 1136 0864 019B     		ldr	r3, [sp, #4]
+ 1137 0866 9B68     		ldr	r3, [r3, #8]
+ 1138 0868 0393     		str	r3, [sp, #12]
+ 1139 086a 039B     		ldr	r3, [sp, #12]
+ 1140 086c 23F47023 		bic	r3, r3, #983040
+ 1141 0870 0393     		str	r3, [sp, #12]
+ 1142 0872 039A     		ldr	r2, [sp, #12]
+ 1143 0874 009B     		ldr	r3, [sp, #0]
+ 1144 0876 1343     		orrs	r3, r3, r2
+ 1145 0878 0393     		str	r3, [sp, #12]
+ 1146 087a 019B     		ldr	r3, [sp, #4]
+ 1147 087c 039A     		ldr	r2, [sp, #12]
+ 1148 087e 9A60     		str	r2, [r3, #8]
+ 1149 0880 04B0     		add	sp, sp, #16
+ 1150 0882 7047     		bx	lr
+ 1152              		.align	2
+ 1153              		.global	ADC_ExternalTrigInjectedConvEdgeConfig
+ 1154              		.thumb
+ 1155              		.thumb_func
+ 1157              	ADC_ExternalTrigInjectedConvEdgeConfig:
+ 1158              		@ args = 0, pretend = 0, frame = 16
+ 1159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1160              		@ link register save eliminated.
+ 1161 0884 84B0     		sub	sp, sp, #16
+ 1162 0886 0190     		str	r0, [sp, #4]
+ 1163 0888 0091     		str	r1, [sp, #0]
+ 1164 088a 4FF00003 		mov	r3, #0
+ 1165 088e 0393     		str	r3, [sp, #12]
+ 1166 0890 019B     		ldr	r3, [sp, #4]
+ 1167 0892 9B68     		ldr	r3, [r3, #8]
+ 1168 0894 0393     		str	r3, [sp, #12]
+ 1169 0896 039B     		ldr	r3, [sp, #12]
+ 1170 0898 23F44013 		bic	r3, r3, #3145728
+ 1171 089c 0393     		str	r3, [sp, #12]
+ 1172 089e 039A     		ldr	r2, [sp, #12]
+ 1173 08a0 009B     		ldr	r3, [sp, #0]
+ 1174 08a2 1343     		orrs	r3, r3, r2
+ 1175 08a4 0393     		str	r3, [sp, #12]
+ 1176 08a6 019B     		ldr	r3, [sp, #4]
+ 1177 08a8 039A     		ldr	r2, [sp, #12]
+ 1178 08aa 9A60     		str	r2, [r3, #8]
+ 1179 08ac 04B0     		add	sp, sp, #16
+ 1180 08ae 7047     		bx	lr
+ 1182              		.align	2
+ 1183              		.global	ADC_SoftwareStartInjectedConv
+ 1184              		.thumb
+ 1185              		.thumb_func
+ 1187              	ADC_SoftwareStartInjectedConv:
+ 1188              		@ args = 0, pretend = 0, frame = 8
+ 1189              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1190              		@ link register save eliminated.
+ 1191 08b0 82B0     		sub	sp, sp, #8
+ 1192 08b2 0190     		str	r0, [sp, #4]
+ 1193 08b4 019B     		ldr	r3, [sp, #4]
+ 1194 08b6 9B68     		ldr	r3, [r3, #8]
+ 1195 08b8 43F48002 		orr	r2, r3, #4194304
+ 1196 08bc 019B     		ldr	r3, [sp, #4]
+ 1197 08be 9A60     		str	r2, [r3, #8]
+ 1198 08c0 02B0     		add	sp, sp, #8
+ 1199 08c2 7047     		bx	lr
+ 1201              		.align	2
+ 1202              		.global	ADC_GetSoftwareStartInjectedConvCmdStatus
+ 1203              		.thumb
+ 1204              		.thumb_func
+ 1206              	ADC_GetSoftwareStartInjectedConvCmdStatus:
+ 1207              		@ args = 0, pretend = 0, frame = 16
+ 1208              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1209              		@ link register save eliminated.
+ 1210 08c4 84B0     		sub	sp, sp, #16
+ 1211 08c6 0190     		str	r0, [sp, #4]
+ 1212 08c8 4FF00003 		mov	r3, #0
+ 1213 08cc 8DF80F30 		strb	r3, [sp, #15]
+ 1214 08d0 019B     		ldr	r3, [sp, #4]
+ 1215 08d2 9B68     		ldr	r3, [r3, #8]
+ 1216 08d4 03F48003 		and	r3, r3, #4194304
+ 1217 08d8 002B     		cmp	r3, #0
+ 1218 08da 04D0     		beq	.L58
+ 1219 08dc 4FF00103 		mov	r3, #1
+ 1220 08e0 8DF80F30 		strb	r3, [sp, #15]
+ 1221 08e4 03E0     		b	.L59
+ 1222              	.L58:
+ 1223 08e6 4FF00003 		mov	r3, #0
+ 1224 08ea 8DF80F30 		strb	r3, [sp, #15]
+ 1225              	.L59:
+ 1226 08ee 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1227 08f2 1846     		mov	r0, r3
+ 1228 08f4 04B0     		add	sp, sp, #16
+ 1229 08f6 7047     		bx	lr
+ 1231              		.align	2
+ 1232              		.global	ADC_AutoInjectedConvCmd
+ 1233              		.thumb
+ 1234              		.thumb_func
+ 1236              	ADC_AutoInjectedConvCmd:
+ 1237              		@ args = 0, pretend = 0, frame = 8
+ 1238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1239              		@ link register save eliminated.
+ 1240 08f8 82B0     		sub	sp, sp, #8
+ 1241 08fa 0190     		str	r0, [sp, #4]
+ 1242 08fc 0B46     		mov	r3, r1
+ 1243 08fe 8DF80330 		strb	r3, [sp, #3]
+ 1244 0902 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1245 0906 002B     		cmp	r3, #0
+ 1246 0908 06D0     		beq	.L61
+ 1247 090a 019B     		ldr	r3, [sp, #4]
+ 1248 090c 5B68     		ldr	r3, [r3, #4]
+ 1249 090e 43F48062 		orr	r2, r3, #1024
+ 1250 0912 019B     		ldr	r3, [sp, #4]
+ 1251 0914 5A60     		str	r2, [r3, #4]
+ 1252 0916 05E0     		b	.L60
+ 1253              	.L61:
+ 1254 0918 019B     		ldr	r3, [sp, #4]
+ 1255 091a 5B68     		ldr	r3, [r3, #4]
+ 1256 091c 23F48062 		bic	r2, r3, #1024
+ 1257 0920 019B     		ldr	r3, [sp, #4]
+ 1258 0922 5A60     		str	r2, [r3, #4]
+ 1259              	.L60:
+ 1260 0924 02B0     		add	sp, sp, #8
+ 1261 0926 7047     		bx	lr
+ 1263              		.align	2
+ 1264              		.global	ADC_InjectedDiscModeCmd
+ 1265              		.thumb
+ 1266              		.thumb_func
+ 1268              	ADC_InjectedDiscModeCmd:
+ 1269              		@ args = 0, pretend = 0, frame = 8
+ 1270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1271              		@ link register save eliminated.
+ 1272 0928 82B0     		sub	sp, sp, #8
+ 1273 092a 0190     		str	r0, [sp, #4]
+ 1274 092c 0B46     		mov	r3, r1
+ 1275 092e 8DF80330 		strb	r3, [sp, #3]
+ 1276 0932 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1277 0936 002B     		cmp	r3, #0
+ 1278 0938 06D0     		beq	.L64
+ 1279 093a 019B     		ldr	r3, [sp, #4]
+ 1280 093c 5B68     		ldr	r3, [r3, #4]
+ 1281 093e 43F48052 		orr	r2, r3, #4096
+ 1282 0942 019B     		ldr	r3, [sp, #4]
+ 1283 0944 5A60     		str	r2, [r3, #4]
+ 1284 0946 05E0     		b	.L63
+ 1285              	.L64:
+ 1286 0948 019B     		ldr	r3, [sp, #4]
+ 1287 094a 5B68     		ldr	r3, [r3, #4]
+ 1288 094c 23F48052 		bic	r2, r3, #4096
+ 1289 0950 019B     		ldr	r3, [sp, #4]
+ 1290 0952 5A60     		str	r2, [r3, #4]
+ 1291              	.L63:
+ 1292 0954 02B0     		add	sp, sp, #8
+ 1293 0956 7047     		bx	lr
+ 1295              		.align	2
+ 1296              		.global	ADC_GetInjectedConversionValue
+ 1297              		.thumb
+ 1298              		.thumb_func
+ 1300              	ADC_GetInjectedConversionValue:
+ 1301              		@ args = 0, pretend = 0, frame = 16
+ 1302              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1303              		@ link register save eliminated.
+ 1304 0958 84B0     		sub	sp, sp, #16
+ 1305 095a 0190     		str	r0, [sp, #4]
+ 1306 095c 0B46     		mov	r3, r1
+ 1307 095e 8DF80330 		strb	r3, [sp, #3]
+ 1308 0962 4FF00003 		mov	r3, #0
+ 1309 0966 0393     		str	r3, [sp, #12]
+ 1310 0968 019B     		ldr	r3, [sp, #4]
+ 1311 096a 0393     		str	r3, [sp, #12]
+ 1312 096c 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 1313 0970 039B     		ldr	r3, [sp, #12]
+ 1314 0972 D318     		adds	r3, r2, r3
+ 1315 0974 03F12803 		add	r3, r3, #40
+ 1316 0978 0393     		str	r3, [sp, #12]
+ 1317 097a 039B     		ldr	r3, [sp, #12]
+ 1318 097c 1B68     		ldr	r3, [r3, #0]
+ 1319 097e 9BB2     		uxth	r3, r3
+ 1320 0980 1846     		mov	r0, r3
+ 1321 0982 04B0     		add	sp, sp, #16
+ 1322 0984 7047     		bx	lr
+ 1324 0986 00BF     		.align	2
+ 1325              		.global	ADC_ITConfig
+ 1326              		.thumb
+ 1327              		.thumb_func
+ 1329              	ADC_ITConfig:
+ 1330              		@ args = 0, pretend = 0, frame = 16
+ 1331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1332              		@ link register save eliminated.
+ 1333 0988 84B0     		sub	sp, sp, #16
+ 1334 098a 0190     		str	r0, [sp, #4]
+ 1335 098c 1346     		mov	r3, r2
+ 1336 098e 0A46     		mov	r2, r1	@ movhi
+ 1337 0990 ADF80220 		strh	r2, [sp, #2]	@ movhi
+ 1338 0994 8DF80130 		strb	r3, [sp, #1]
+ 1339 0998 4FF00003 		mov	r3, #0
+ 1340 099c 0393     		str	r3, [sp, #12]
+ 1341 099e BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 1342 09a2 DBB2     		uxtb	r3, r3
+ 1343 09a4 0393     		str	r3, [sp, #12]
+ 1344 09a6 039B     		ldr	r3, [sp, #12]
+ 1345 09a8 4FF00102 		mov	r2, #1
+ 1346 09ac 02FA03F3 		lsl	r3, r2, r3
+ 1347 09b0 0393     		str	r3, [sp, #12]
+ 1348 09b2 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
+ 1349 09b6 002B     		cmp	r3, #0
+ 1350 09b8 06D0     		beq	.L68
+ 1351 09ba 019B     		ldr	r3, [sp, #4]
+ 1352 09bc 5A68     		ldr	r2, [r3, #4]
+ 1353 09be 039B     		ldr	r3, [sp, #12]
+ 1354 09c0 1A43     		orrs	r2, r2, r3
+ 1355 09c2 019B     		ldr	r3, [sp, #4]
+ 1356 09c4 5A60     		str	r2, [r3, #4]
+ 1357 09c6 07E0     		b	.L67
+ 1358              	.L68:
+ 1359 09c8 019B     		ldr	r3, [sp, #4]
+ 1360 09ca 5A68     		ldr	r2, [r3, #4]
+ 1361 09cc 039B     		ldr	r3, [sp, #12]
+ 1362 09ce 6FEA0303 		mvn	r3, r3
+ 1363 09d2 1A40     		ands	r2, r2, r3
+ 1364 09d4 019B     		ldr	r3, [sp, #4]
+ 1365 09d6 5A60     		str	r2, [r3, #4]
+ 1366              	.L67:
+ 1367 09d8 04B0     		add	sp, sp, #16
+ 1368 09da 7047     		bx	lr
+ 1370              		.align	2
+ 1371              		.global	ADC_GetFlagStatus
+ 1372              		.thumb
+ 1373              		.thumb_func
+ 1375              	ADC_GetFlagStatus:
+ 1376              		@ args = 0, pretend = 0, frame = 16
+ 1377              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1378              		@ link register save eliminated.
+ 1379 09dc 84B0     		sub	sp, sp, #16
+ 1380 09de 0190     		str	r0, [sp, #4]
+ 1381 09e0 0B46     		mov	r3, r1
+ 1382 09e2 8DF80330 		strb	r3, [sp, #3]
+ 1383 09e6 4FF00003 		mov	r3, #0
+ 1384 09ea 8DF80F30 		strb	r3, [sp, #15]
+ 1385 09ee 019B     		ldr	r3, [sp, #4]
+ 1386 09f0 1A68     		ldr	r2, [r3, #0]
+ 1387 09f2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1388 09f6 1340     		ands	r3, r3, r2
+ 1389 09f8 002B     		cmp	r3, #0
+ 1390 09fa 04D0     		beq	.L71
+ 1391 09fc 4FF00103 		mov	r3, #1
+ 1392 0a00 8DF80F30 		strb	r3, [sp, #15]
+ 1393 0a04 03E0     		b	.L72
+ 1394              	.L71:
+ 1395 0a06 4FF00003 		mov	r3, #0
+ 1396 0a0a 8DF80F30 		strb	r3, [sp, #15]
+ 1397              	.L72:
+ 1398 0a0e 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1399 0a12 1846     		mov	r0, r3
+ 1400 0a14 04B0     		add	sp, sp, #16
+ 1401 0a16 7047     		bx	lr
+ 1403              		.align	2
+ 1404              		.global	ADC_ClearFlag
+ 1405              		.thumb
+ 1406              		.thumb_func
+ 1408              	ADC_ClearFlag:
+ 1409              		@ args = 0, pretend = 0, frame = 8
+ 1410              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1411              		@ link register save eliminated.
+ 1412 0a18 82B0     		sub	sp, sp, #8
+ 1413 0a1a 0190     		str	r0, [sp, #4]
+ 1414 0a1c 0B46     		mov	r3, r1
+ 1415 0a1e 8DF80330 		strb	r3, [sp, #3]
+ 1416 0a22 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1417 0a26 6FEA0302 		mvn	r2, r3
+ 1418 0a2a 019B     		ldr	r3, [sp, #4]
+ 1419 0a2c 1A60     		str	r2, [r3, #0]
+ 1420 0a2e 02B0     		add	sp, sp, #8
+ 1421 0a30 7047     		bx	lr
+ 1423 0a32 00BF     		.align	2
+ 1424              		.global	ADC_GetITStatus
+ 1425              		.thumb
+ 1426              		.thumb_func
+ 1428              	ADC_GetITStatus:
+ 1429              		@ args = 0, pretend = 0, frame = 24
+ 1430              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1431              		@ link register save eliminated.
+ 1432 0a34 86B0     		sub	sp, sp, #24
+ 1433 0a36 0190     		str	r0, [sp, #4]
+ 1434 0a38 0B46     		mov	r3, r1
+ 1435 0a3a ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 1436 0a3e 4FF00003 		mov	r3, #0
+ 1437 0a42 8DF81730 		strb	r3, [sp, #23]
+ 1438 0a46 4FF00003 		mov	r3, #0
+ 1439 0a4a 0493     		str	r3, [sp, #16]
+ 1440 0a4c 4FF00003 		mov	r3, #0
+ 1441 0a50 0393     		str	r3, [sp, #12]
+ 1442 0a52 BDF80230 		ldrh	r3, [sp, #2]
+ 1443 0a56 4FEA1323 		lsr	r3, r3, #8
+ 1444 0a5a 9BB2     		uxth	r3, r3
+ 1445 0a5c 0493     		str	r3, [sp, #16]
+ 1446 0a5e 019B     		ldr	r3, [sp, #4]
+ 1447 0a60 5A68     		ldr	r2, [r3, #4]
+ 1448 0a62 BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 1449 0a66 DBB2     		uxtb	r3, r3
+ 1450 0a68 4FF00101 		mov	r1, #1
+ 1451 0a6c 01FA03F3 		lsl	r3, r1, r3
+ 1452 0a70 1340     		ands	r3, r3, r2
+ 1453 0a72 0393     		str	r3, [sp, #12]
+ 1454 0a74 019B     		ldr	r3, [sp, #4]
+ 1455 0a76 1A68     		ldr	r2, [r3, #0]
+ 1456 0a78 049B     		ldr	r3, [sp, #16]
+ 1457 0a7a 1340     		ands	r3, r3, r2
+ 1458 0a7c 002B     		cmp	r3, #0
+ 1459 0a7e 07D0     		beq	.L75
+ 1460 0a80 039B     		ldr	r3, [sp, #12]
+ 1461 0a82 002B     		cmp	r3, #0
+ 1462 0a84 04D0     		beq	.L75
+ 1463 0a86 4FF00103 		mov	r3, #1
+ 1464 0a8a 8DF81730 		strb	r3, [sp, #23]
+ 1465 0a8e 03E0     		b	.L76
+ 1466              	.L75:
+ 1467 0a90 4FF00003 		mov	r3, #0
+ 1468 0a94 8DF81730 		strb	r3, [sp, #23]
+ 1469              	.L76:
+ 1470 0a98 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1471 0a9c 1846     		mov	r0, r3
+ 1472 0a9e 06B0     		add	sp, sp, #24
+ 1473 0aa0 7047     		bx	lr
+ 1475 0aa2 00BF     		.align	2
+ 1476              		.global	ADC_ClearITPendingBit
+ 1477              		.thumb
+ 1478              		.thumb_func
+ 1480              	ADC_ClearITPendingBit:
+ 1481              		@ args = 0, pretend = 0, frame = 16
+ 1482              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1483              		@ link register save eliminated.
+ 1484 0aa4 84B0     		sub	sp, sp, #16
+ 1485 0aa6 0190     		str	r0, [sp, #4]
+ 1486 0aa8 0B46     		mov	r3, r1
+ 1487 0aaa ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 1488 0aae 4FF00003 		mov	r3, #0
+ 1489 0ab2 8DF80F30 		strb	r3, [sp, #15]
+ 1490 0ab6 BDF80230 		ldrh	r3, [sp, #2]
+ 1491 0aba 4FEA1323 		lsr	r3, r3, #8
+ 1492 0abe 9BB2     		uxth	r3, r3
+ 1493 0ac0 8DF80F30 		strb	r3, [sp, #15]
+ 1494 0ac4 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1495 0ac8 6FEA0302 		mvn	r2, r3
+ 1496 0acc 019B     		ldr	r3, [sp, #4]
+ 1497 0ace 1A60     		str	r2, [r3, #0]
+ 1498 0ad0 04B0     		add	sp, sp, #16
+ 1499 0ad2 7047     		bx	lr
+ 1501              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_adc.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:22     .text:00000000 ADC_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:39     .text:0000001c ADC_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:124    .text:000000d0 ADC_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:159    .text:00000110 ADC_CommonInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:202    .text:00000160 ADC_CommonStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:228    .text:00000188 ADC_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:260    .text:000001b8 ADC_AnalogWatchdogCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:291    .text:000001e8 ADC_AnalogWatchdogThresholdsConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:315    .text:0000020c ADC_AnalogWatchdogSingleChannelConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:346    .text:00000240 ADC_TempSensorVrefintCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:381    .text:00000288 ADC_VBATCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:416    .text:000002d0 ADC_RegularChannelConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:607    .text:000004ac ADC_SoftwareStartConv
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:626    .text:000004c0 ADC_GetSoftwareStartConvStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:656    .text:000004f4 ADC_EOCOnEachRegularChannelCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:688    .text:00000524 ADC_ContinuousModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:720    .text:00000554 ADC_DiscModeChannelCountConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:757    .text:00000598 ADC_DiscModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:789    .text:000005c8 ADC_GetConversionValue
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:807    .text:000005d8 ADC_GetMultiModeConversionValue
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:822    .text:000005e8 ADC_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:854    .text:00000618 ADC_DMARequestAfterLastTransferCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:886    .text:00000648 ADC_MultiModeDMARequestAfterLastTransferCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:921    .text:00000690 ADC_InjectedChannelConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1061   .text:000007e4 ADC_InjectedSequencerLengthConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1098   .text:00000828 ADC_SetInjectedOffset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1127   .text:00000858 ADC_ExternalTrigInjectedConvConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1157   .text:00000884 ADC_ExternalTrigInjectedConvEdgeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1187   .text:000008b0 ADC_SoftwareStartInjectedConv
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1206   .text:000008c4 ADC_GetSoftwareStartInjectedConvCmdStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1236   .text:000008f8 ADC_AutoInjectedConvCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1268   .text:00000928 ADC_InjectedDiscModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1300   .text:00000958 ADC_GetInjectedConversionValue
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1329   .text:00000988 ADC_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1375   .text:000009dc ADC_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1408   .text:00000a18 ADC_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1428   .text:00000a34 ADC_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPi6QJV.s:1480   .text:00000aa4 ADC_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphResetCmd

@@ -1,0 +1,311 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"escCalibration.c"
+  16              		.global	escCalibrating
+  17              		.bss
+  20              	escCalibrating:
+  21 0000 00       		.space	1
+  22              		.comm	temp,1,1
+  23              		.section	.rodata
+  24              		.align	2
+  25              	.LC0:
+  26 0000 0A455343 		.ascii	"\012ESC Calibration:\012\012\000"
+  26      2043616C 
+  26      69627261 
+  26      74696F6E 
+  26      3A0A0A00 
+  27              		.align	2
+  28              	.LC1:
+  29 0014 21212121 		.ascii	"!!!! CAUTION - Remove all propellers and disconnect"
+  29      20434155 
+  29      54494F4E 
+  29      202D2052 
+  29      656D6F76 
+  30 0047 20212121 		.ascii	" !!!!\012\000"
+  30      210A00
+  31 004e 0000     		.align	2
+  32              	.LC2:
+  33 0050 21212121 		.ascii	"!!!! flight battery before proceeding any further  "
+  33      20666C69 
+  33      67687420 
+  33      62617474 
+  33      65727920 
+  34 0083 20212121 		.ascii	" !!!!\012\012\000"
+  34      210A0A00 
+  35 008b 00       		.align	2
+  36              	.LC3:
+  37 008c 54797065 		.ascii	"Type 'Y' to continue, anything other character exit"
+  37      20275927 
+  37      20746F20 
+  37      636F6E74 
+  37      696E7565 
+  38 00bf 730A0A00 		.ascii	"s\012\012\000"
+  39 00c3 00       		.align	2
+  40              	.LC4:
+  41 00c4 45534320 		.ascii	"ESC Calibration Canceled!!\012\012\000"
+  41      43616C69 
+  41      62726174 
+  41      696F6E20 
+  41      43616E63 
+  42 00e1 000000   		.align	2
+  43              	.LC5:
+  44 00e4 456E7465 		.ascii	"Enter 'h' for Max Command....\012\000"
+  44      72202768 
+  44      2720666F 
+  44      72204D61 
+  44      7820436F 
+  45 0103 00       		.align	2
+  46              	.LC6:
+  47 0104 456E7465 		.ascii	"Enter 'm' for Mid Command....\012\000"
+  47      7220276D 
+  47      2720666F 
+  47      72204D69 
+  47      6420436F 
+  48 0123 00       		.align	2
+  49              	.LC7:
+  50 0124 456E7465 		.ascii	"Enter 'l' for Min Command....\012\000"
+  50      7220276C 
+  50      2720666F 
+  50      72204D69 
+  50      6E20436F 
+  51 0143 00       		.align	2
+  52              	.LC8:
+  53 0144 456E7465 		.ascii	"Enter 'x' to exit....\012\012\000"
+  53      72202778 
+  53      2720746F 
+  53      20657869 
+  53      742E2E2E 
+  54              		.align	2
+  55              	.LC9:
+  56 015c 4170706C 		.ascii	"Applying Max Command....\012\012\000"
+  56      79696E67 
+  56      204D6178 
+  56      20436F6D 
+  56      6D616E64 
+  57 0177 00       		.align	2
+  58              	.LC10:
+  59 0178 4170706C 		.ascii	"Applying Mid Command....\012\012\000"
+  59      79696E67 
+  59      204D6964 
+  59      20436F6D 
+  59      6D616E64 
+  60 0193 00       		.align	2
+  61              	.LC11:
+  62 0194 4170706C 		.ascii	"Applying Min Command....\012\012\000"
+  62      79696E67 
+  62      204D696E 
+  62      20436F6D 
+  62      6D616E64 
+  63 01af 00       		.align	2
+  64              	.LC12:
+  65 01b0 4170706C 		.ascii	"Applying Min Command, Exiting Calibration....\012\012"
+  65      79696E67 
+  65      204D696E 
+  65      20436F6D 
+  65      6D616E64 
+  66 01df 00       		.ascii	"\000"
+  67              		.text
+  68              		.align	2
+  69              		.global	escCalibration
+  70              		.thumb
+  71              		.thumb_func
+  73              	escCalibration:
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76 0000 08B5     		push	{r3, lr}
+  77 0002 40F20003 		movw	r3, #:lower16:escCalibrating
+  78 0006 C0F20003 		movt	r3, #:upper16:escCalibrating
+  79 000a 4FF00102 		mov	r2, #1
+  80 000e 1A70     		strb	r2, [r3, #0]
+  81 0010 40F20003 		movw	r3, #:lower16:armed
+  82 0014 C0F20003 		movt	r3, #:upper16:armed
+  83 0018 4FF00002 		mov	r2, #0
+  84 001c 1A70     		strb	r2, [r3, #0]
+  85 001e 40F20000 		movw	r0, #:lower16:.LC0
+  86 0022 C0F20000 		movt	r0, #:upper16:.LC0
+  87 0026 FFF7FEFF 		bl	usbPrint
+  88 002a 40F20000 		movw	r0, #:lower16:.LC1
+  89 002e C0F20000 		movt	r0, #:upper16:.LC1
+  90 0032 FFF7FEFF 		bl	usbPrint
+  91 0036 40F20000 		movw	r0, #:lower16:.LC2
+  92 003a C0F20000 		movt	r0, #:upper16:.LC2
+  93 003e FFF7FEFF 		bl	usbPrint
+  94 0042 40F20000 		movw	r0, #:lower16:.LC3
+  95 0046 C0F20000 		movt	r0, #:upper16:.LC3
+  96 004a FFF7FEFF 		bl	usbPrint
+  97 004e 00BF     		nop
+  98              	.L2:
+  99 0050 FFF7FEFF 		bl	usbAvailable
+ 100 0054 0346     		mov	r3, r0
+ 101 0056 002B     		cmp	r3, #0
+ 102 0058 FAD0     		beq	.L2
+ 103 005a FFF7FEFF 		bl	usbRead
+ 104 005e 0346     		mov	r3, r0
+ 105 0060 1A46     		mov	r2, r3
+ 106 0062 40F20003 		movw	r3, #:lower16:temp
+ 107 0066 C0F20003 		movt	r3, #:upper16:temp
+ 108 006a 1A70     		strb	r2, [r3, #0]
+ 109 006c 40F20003 		movw	r3, #:lower16:temp
+ 110 0070 C0F20003 		movt	r3, #:upper16:temp
+ 111 0074 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 112 0076 5BB2     		sxtb	r3, r3
+ 113 0078 592B     		cmp	r3, #89
+ 114 007a 0DD0     		beq	.L3
+ 115 007c 40F20000 		movw	r0, #:lower16:.LC4
+ 116 0080 C0F20000 		movt	r0, #:upper16:.LC4
+ 117 0084 FFF7FEFF 		bl	usbPrint
+ 118 0088 40F20003 		movw	r3, #:lower16:escCalibrating
+ 119 008c C0F20003 		movt	r3, #:upper16:escCalibrating
+ 120 0090 4FF00002 		mov	r2, #0
+ 121 0094 1A70     		strb	r2, [r3, #0]
+ 122 0096 92E0     		b	.L1
+ 123              	.L3:
+ 124 0098 40F20000 		movw	r0, #:lower16:.LC5
+ 125 009c C0F20000 		movt	r0, #:upper16:.LC5
+ 126 00a0 FFF7FEFF 		bl	usbPrint
+ 127 00a4 40F20000 		movw	r0, #:lower16:.LC6
+ 128 00a8 C0F20000 		movt	r0, #:upper16:.LC6
+ 129 00ac FFF7FEFF 		bl	usbPrint
+ 130 00b0 40F20000 		movw	r0, #:lower16:.LC7
+ 131 00b4 C0F20000 		movt	r0, #:upper16:.LC7
+ 132 00b8 FFF7FEFF 		bl	usbPrint
+ 133 00bc 40F20000 		movw	r0, #:lower16:.LC8
+ 134 00c0 C0F20000 		movt	r0, #:upper16:.LC8
+ 135 00c4 FFF7FEFF 		bl	usbPrint
+ 136 00c8 00E0     		b	.L13
+ 137              	.L14:
+ 138 00ca 00BF     		nop
+ 139              	.L12:
+ 140              	.L13:
+ 141 00cc 00BF     		nop
+ 142              	.L5:
+ 143 00ce FFF7FEFF 		bl	usbAvailable
+ 144 00d2 0346     		mov	r3, r0
+ 145 00d4 002B     		cmp	r3, #0
+ 146 00d6 FAD0     		beq	.L5
+ 147 00d8 FFF7FEFF 		bl	usbRead
+ 148 00dc 0346     		mov	r3, r0
+ 149 00de 1A46     		mov	r2, r3
+ 150 00e0 40F20003 		movw	r3, #:lower16:temp
+ 151 00e4 C0F20003 		movt	r3, #:upper16:temp
+ 152 00e8 1A70     		strb	r2, [r3, #0]
+ 153 00ea 40F20003 		movw	r3, #:lower16:temp
+ 154 00ee C0F20003 		movt	r3, #:upper16:temp
+ 155 00f2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 156 00f4 5BB2     		sxtb	r3, r3
+ 157 00f6 A3F16803 		sub	r3, r3, #104
+ 158 00fa 102B     		cmp	r3, #16
+ 159 00fc E5D8     		bhi	.L14
+ 160 00fe 01A2     		adr	r2, .L11
+ 161 0100 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 162              		.align	2
+ 163              	.L11:
+ 164 0104 49010000 		.word	.L7+1
+ 165 0108 CB000000 		.word	.L14+1
+ 166 010c CB000000 		.word	.L14+1
+ 167 0110 CB000000 		.word	.L14+1
+ 168 0114 85010000 		.word	.L8+1
+ 169 0118 67010000 		.word	.L9+1
+ 170 011c CB000000 		.word	.L14+1
+ 171 0120 CB000000 		.word	.L14+1
+ 172 0124 CB000000 		.word	.L14+1
+ 173 0128 CB000000 		.word	.L14+1
+ 174 012c CB000000 		.word	.L14+1
+ 175 0130 CB000000 		.word	.L14+1
+ 176 0134 CB000000 		.word	.L14+1
+ 177 0138 CB000000 		.word	.L14+1
+ 178 013c CB000000 		.word	.L14+1
+ 179 0140 CB000000 		.word	.L14+1
+ 180 0144 99010000 		.word	.L10+1
+ 181              	.L7:
+ 182 0148 40F20000 		movw	r0, #:lower16:.LC9
+ 183 014c C0F20000 		movt	r0, #:upper16:.LC9
+ 184 0150 FFF7FEFF 		bl	usbPrint
+ 185 0154 40F20003 		movw	r3, #:lower16:eepromConfig
+ 186 0158 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 187 015c DB6F     		ldr	r3, [r3, #124]	@ float
+ 188 015e 1846     		mov	r0, r3	@ float
+ 189 0160 FFF7FEFF 		bl	writeAllMotors
+ 190 0164 2AE0     		b	.L6
+ 191              	.L9:
+ 192 0166 40F20000 		movw	r0, #:lower16:.LC10
+ 193 016a C0F20000 		movt	r0, #:upper16:.LC10
+ 194 016e FFF7FEFF 		bl	usbPrint
+ 195 0172 40F20003 		movw	r3, #:lower16:eepromConfig
+ 196 0176 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 197 017a DB6E     		ldr	r3, [r3, #108]	@ float
+ 198 017c 1846     		mov	r0, r3	@ float
+ 199 017e FFF7FEFF 		bl	writeAllMotors
+ 200 0182 1BE0     		b	.L6
+ 201              	.L8:
+ 202 0184 40F20000 		movw	r0, #:lower16:.LC11
+ 203 0188 C0F20000 		movt	r0, #:upper16:.LC11
+ 204 018c FFF7FEFF 		bl	usbPrint
+ 205 0190 0B48     		ldr	r0, .L15	@ float
+ 206 0192 FFF7FEFF 		bl	writeAllMotors
+ 207 0196 11E0     		b	.L6
+ 208              	.L10:
+ 209 0198 40F20000 		movw	r0, #:lower16:.LC12
+ 210 019c C0F20000 		movt	r0, #:upper16:.LC12
+ 211 01a0 FFF7FEFF 		bl	usbPrint
+ 212 01a4 0648     		ldr	r0, .L15	@ float
+ 213 01a6 FFF7FEFF 		bl	writeAllMotors
+ 214 01aa 40F20003 		movw	r3, #:lower16:escCalibrating
+ 215 01ae C0F20003 		movt	r3, #:upper16:escCalibrating
+ 216 01b2 4FF00002 		mov	r2, #0
+ 217 01b6 1A70     		strb	r2, [r3, #0]
+ 218 01b8 00BF     		nop
+ 219 01ba 00E0     		b	.L1
+ 220              	.L6:
+ 221 01bc 85E7     		b	.L14
+ 222              	.L1:
+ 223 01be 08BD     		pop	{r3, pc}
+ 224              	.L16:
+ 225              		.align	2
+ 226              	.L15:
+ 227 01c0 0000FA44 		.word	1157234688
+ 229              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 escCalibration.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:20     .bss:00000000 escCalibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:21     .bss:00000000 $d
+                            *COM*:00000001 temp
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:24     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:25     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:28     .rodata:00000014 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:32     .rodata:00000050 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:36     .rodata:0000008c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:40     .rodata:000000c4 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:43     .rodata:000000e4 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:46     .rodata:00000104 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:49     .rodata:00000124 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:52     .rodata:00000144 .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:55     .rodata:0000015c .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:58     .rodata:00000178 .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:61     .rodata:00000194 .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:64     .rodata:000001b0 .LC12
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:68     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:73     .text:00000000 escCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:164    .text:00000104 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:182    .text:00000148 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:227    .text:000001c0 $d
+
+UNDEFINED SYMBOLS
+armed
+usbPrint
+usbAvailable
+usbRead
+eepromConfig
+writeAllMotors

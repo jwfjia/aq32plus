@@ -1,0 +1,2888 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"usb_core.c"
+  16              		.text
+  17              		.align	2
+  18              		.thumb
+  19              		.thumb_func
+  21              	USB_OTG_EnableCommonInt:
+  22              		@ args = 0, pretend = 0, frame = 16
+  23              		@ frame_needed = 0, uses_anonymous_args = 0
+  24              		@ link register save eliminated.
+  25 0000 84B0     		sub	sp, sp, #16
+  26 0002 0190     		str	r0, [sp, #4]
+  27 0004 4FF00003 		mov	r3, #0
+  28 0008 0393     		str	r3, [sp, #12]
+  29 000a 019B     		ldr	r3, [sp, #4]
+  30 000c DB68     		ldr	r3, [r3, #12]
+  31 000e 4FF0FF32 		mov	r2, #-1
+  32 0012 5A60     		str	r2, [r3, #4]
+  33 0014 019B     		ldr	r3, [sp, #4]
+  34 0016 DB68     		ldr	r3, [r3, #12]
+  35 0018 4FF0FF32 		mov	r2, #-1
+  36 001c 5A61     		str	r2, [r3, #20]
+  37 001e 039B     		ldr	r3, [sp, #12]
+  38 0020 43F00043 		orr	r3, r3, #-2147483648
+  39 0024 0393     		str	r3, [sp, #12]
+  40 0026 039B     		ldr	r3, [sp, #12]
+  41 0028 43F40063 		orr	r3, r3, #2048
+  42 002c 0393     		str	r3, [sp, #12]
+  43 002e 019B     		ldr	r3, [sp, #4]
+  44 0030 DB68     		ldr	r3, [r3, #12]
+  45 0032 039A     		ldr	r2, [sp, #12]
+  46 0034 9A61     		str	r2, [r3, #24]
+  47 0036 04B0     		add	sp, sp, #16
+  48 0038 7047     		bx	lr
+  50 003a 00BF     		.align	2
+  51              		.thumb
+  52              		.thumb_func
+  54              	USB_OTG_CoreReset:
+  55              		@ args = 0, pretend = 0, frame = 24
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57 003c 00B5     		push	{lr}
+  58 003e 87B0     		sub	sp, sp, #28
+  59 0040 0190     		str	r0, [sp, #4]
+  60 0042 4FF00003 		mov	r3, #0
+  61 0046 8DF81330 		strb	r3, [sp, #19]
+  62 004a 4FF00003 		mov	r3, #0
+  63 004e 0593     		str	r3, [sp, #20]
+  64 0050 4FF00003 		mov	r3, #0
+  65 0054 0393     		str	r3, [sp, #12]
+  66              	.L5:
+  67 0056 4FF00300 		mov	r0, #3
+  68 005a FFF7FEFF 		bl	USB_OTG_BSP_uDelay
+  69 005e 019B     		ldr	r3, [sp, #4]
+  70 0060 DB68     		ldr	r3, [r3, #12]
+  71 0062 1B69     		ldr	r3, [r3, #16]
+  72 0064 0393     		str	r3, [sp, #12]
+  73 0066 059B     		ldr	r3, [sp, #20]
+  74 0068 03F10103 		add	r3, r3, #1
+  75 006c 0593     		str	r3, [sp, #20]
+  76 006e 059A     		ldr	r2, [sp, #20]
+  77 0070 4FF45463 		mov	r3, #3392
+  78 0074 C0F20303 		movt	r3, 3
+  79 0078 9A42     		cmp	r2, r3
+  80 007a 02D9     		bls	.L3
+  81 007c 4FF00003 		mov	r3, #0
+  82 0080 2BE0     		b	.L4
+  83              	.L3:
+  84 0082 039B     		ldr	r3, [sp, #12]
+  85 0084 03F00043 		and	r3, r3, #-2147483648
+  86 0088 002B     		cmp	r3, #0
+  87 008a E4D0     		beq	.L5
+  88 008c 4FF00003 		mov	r3, #0
+  89 0090 0593     		str	r3, [sp, #20]
+  90 0092 039B     		ldr	r3, [sp, #12]
+  91 0094 43F00103 		orr	r3, r3, #1
+  92 0098 0393     		str	r3, [sp, #12]
+  93 009a 019B     		ldr	r3, [sp, #4]
+  94 009c DB68     		ldr	r3, [r3, #12]
+  95 009e 039A     		ldr	r2, [sp, #12]
+  96 00a0 1A61     		str	r2, [r3, #16]
+  97              	.L8:
+  98 00a2 019B     		ldr	r3, [sp, #4]
+  99 00a4 DB68     		ldr	r3, [r3, #12]
+ 100 00a6 1B69     		ldr	r3, [r3, #16]
+ 101 00a8 0393     		str	r3, [sp, #12]
+ 102 00aa 059B     		ldr	r3, [sp, #20]
+ 103 00ac 03F10103 		add	r3, r3, #1
+ 104 00b0 0593     		str	r3, [sp, #20]
+ 105 00b2 059A     		ldr	r2, [sp, #20]
+ 106 00b4 4FF45463 		mov	r3, #3392
+ 107 00b8 C0F20303 		movt	r3, 3
+ 108 00bc 9A42     		cmp	r2, r3
+ 109 00be 05D8     		bhi	.L9
+ 110              	.L6:
+ 111 00c0 039B     		ldr	r3, [sp, #12]
+ 112 00c2 03F00103 		and	r3, r3, #1
+ 113 00c6 002B     		cmp	r3, #0
+ 114 00c8 EBD1     		bne	.L8
+ 115 00ca 00E0     		b	.L7
+ 116              	.L9:
+ 117 00cc 00BF     		nop
+ 118              	.L7:
+ 119 00ce 4FF00300 		mov	r0, #3
+ 120 00d2 FFF7FEFF 		bl	USB_OTG_BSP_uDelay
+ 121 00d6 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 122              	.L4:
+ 123 00da 1846     		mov	r0, r3
+ 124 00dc 07B0     		add	sp, sp, #28
+ 125 00de 00BD     		pop	{pc}
+ 127              		.align	2
+ 128              		.global	USB_OTG_WritePacket
+ 129              		.thumb
+ 130              		.thumb_func
+ 132              	USB_OTG_WritePacket:
+ 133              		@ args = 0, pretend = 0, frame = 32
+ 134              		@ frame_needed = 0, uses_anonymous_args = 0
+ 135              		@ link register save eliminated.
+ 136 00e0 88B0     		sub	sp, sp, #32
+ 137 00e2 0390     		str	r0, [sp, #12]
+ 138 00e4 0291     		str	r1, [sp, #8]
+ 139 00e6 8DF80720 		strb	r2, [sp, #7]
+ 140 00ea ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 141 00ee 4FF00003 		mov	r3, #0
+ 142 00f2 8DF81B30 		strb	r3, [sp, #27]
+ 143 00f6 039B     		ldr	r3, [sp, #12]
+ 144 00f8 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 145 00fa 002B     		cmp	r3, #0
+ 146 00fc 2FD1     		bne	.L11
+ 147 00fe 4FF00003 		mov	r3, #0
+ 148 0102 0593     		str	r3, [sp, #20]
+ 149 0104 4FF00003 		mov	r3, #0
+ 150 0108 0793     		str	r3, [sp, #28]
+ 151 010a BDF80430 		ldrh	r3, [sp, #4]
+ 152 010e 03F10303 		add	r3, r3, #3
+ 153 0112 03F10302 		add	r2, r3, #3
+ 154 0116 002B     		cmp	r3, #0
+ 155 0118 B8BF     		it	lt
+ 156 011a 1346     		movlt	r3, r2
+ 157 011c 4FEAA303 		asr	r3, r3, #2
+ 158 0120 0593     		str	r3, [sp, #20]
+ 159 0122 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 160 0126 039A     		ldr	r2, [sp, #12]
+ 161 0128 03F13203 		add	r3, r3, #50
+ 162 012c 4FEA8303 		lsl	r3, r3, #2
+ 163 0130 D318     		adds	r3, r2, r3
+ 164 0132 9B68     		ldr	r3, [r3, #8]
+ 165 0134 0493     		str	r3, [sp, #16]
+ 166 0136 4FF00003 		mov	r3, #0
+ 167 013a 0793     		str	r3, [sp, #28]
+ 168 013c 0BE0     		b	.L12
+ 169              	.L13:
+ 170 013e 029B     		ldr	r3, [sp, #8]
+ 171 0140 1A68     		ldr	r2, [r3, #0]
+ 172 0142 049B     		ldr	r3, [sp, #16]
+ 173 0144 1A60     		str	r2, [r3, #0]
+ 174 0146 079B     		ldr	r3, [sp, #28]
+ 175 0148 03F10103 		add	r3, r3, #1
+ 176 014c 0793     		str	r3, [sp, #28]
+ 177 014e 029B     		ldr	r3, [sp, #8]
+ 178 0150 03F10403 		add	r3, r3, #4
+ 179 0154 0293     		str	r3, [sp, #8]
+ 180              	.L12:
+ 181 0156 079A     		ldr	r2, [sp, #28]
+ 182 0158 059B     		ldr	r3, [sp, #20]
+ 183 015a 9A42     		cmp	r2, r3
+ 184 015c EFD3     		bcc	.L13
+ 185              	.L11:
+ 186 015e 9DF81B30 		ldrb	r3, [sp, #27]	@ zero_extendqisi2
+ 187 0162 1846     		mov	r0, r3
+ 188 0164 08B0     		add	sp, sp, #32
+ 189 0166 7047     		bx	lr
+ 191              		.align	2
+ 192              		.global	USB_OTG_ReadPacket
+ 193              		.thumb
+ 194              		.thumb_func
+ 196              	USB_OTG_ReadPacket:
+ 197              		@ args = 0, pretend = 0, frame = 32
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199              		@ link register save eliminated.
+ 200 0168 88B0     		sub	sp, sp, #32
+ 201 016a 0390     		str	r0, [sp, #12]
+ 202 016c 0291     		str	r1, [sp, #8]
+ 203 016e 1346     		mov	r3, r2
+ 204 0170 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 205 0174 4FF00003 		mov	r3, #0
+ 206 0178 0793     		str	r3, [sp, #28]
+ 207 017a BDF80630 		ldrh	r3, [sp, #6]
+ 208 017e 03F10303 		add	r3, r3, #3
+ 209 0182 03F10302 		add	r2, r3, #3
+ 210 0186 002B     		cmp	r3, #0
+ 211 0188 B8BF     		it	lt
+ 212 018a 1346     		movlt	r3, r2
+ 213 018c 4FEAA303 		asr	r3, r3, #2
+ 214 0190 0693     		str	r3, [sp, #24]
+ 215 0192 039B     		ldr	r3, [sp, #12]
+ 216 0194 D3F8D030 		ldr	r3, [r3, #208]
+ 217 0198 0593     		str	r3, [sp, #20]
+ 218 019a 4FF00003 		mov	r3, #0
+ 219 019e 0793     		str	r3, [sp, #28]
+ 220 01a0 0BE0     		b	.L15
+ 221              	.L16:
+ 222 01a2 059B     		ldr	r3, [sp, #20]
+ 223 01a4 1A68     		ldr	r2, [r3, #0]
+ 224 01a6 029B     		ldr	r3, [sp, #8]
+ 225 01a8 1A60     		str	r2, [r3, #0]
+ 226 01aa 079B     		ldr	r3, [sp, #28]
+ 227 01ac 03F10103 		add	r3, r3, #1
+ 228 01b0 0793     		str	r3, [sp, #28]
+ 229 01b2 029B     		ldr	r3, [sp, #8]
+ 230 01b4 03F10403 		add	r3, r3, #4
+ 231 01b8 0293     		str	r3, [sp, #8]
+ 232              	.L15:
+ 233 01ba 079A     		ldr	r2, [sp, #28]
+ 234 01bc 069B     		ldr	r3, [sp, #24]
+ 235 01be 9A42     		cmp	r2, r3
+ 236 01c0 EFD3     		bcc	.L16
+ 237 01c2 029B     		ldr	r3, [sp, #8]
+ 238 01c4 1846     		mov	r0, r3
+ 239 01c6 08B0     		add	sp, sp, #32
+ 240 01c8 7047     		bx	lr
+ 242 01ca 00BF     		.align	2
+ 243              		.global	USB_OTG_SelectCore
+ 244              		.thumb
+ 245              		.thumb_func
+ 247              	USB_OTG_SelectCore:
+ 248              		@ args = 0, pretend = 0, frame = 24
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250              		@ link register save eliminated.
+ 251 01cc 86B0     		sub	sp, sp, #24
+ 252 01ce 0190     		str	r0, [sp, #4]
+ 253 01d0 0B46     		mov	r3, r1
+ 254 01d2 8DF80330 		strb	r3, [sp, #3]
+ 255 01d6 4FF00003 		mov	r3, #0
+ 256 01da 0493     		str	r3, [sp, #16]
+ 257 01dc 4FF00003 		mov	r3, #0
+ 258 01e0 8DF80F30 		strb	r3, [sp, #15]
+ 259 01e4 019B     		ldr	r3, [sp, #4]
+ 260 01e6 4FF00002 		mov	r2, #0
+ 261 01ea DA70     		strb	r2, [r3, #3]
+ 262 01ec 019B     		ldr	r3, [sp, #4]
+ 263 01ee 4FF00102 		mov	r2, #1
+ 264 01f2 9A70     		strb	r2, [r3, #2]
+ 265 01f4 019B     		ldr	r3, [sp, #4]
+ 266 01f6 4FF04002 		mov	r2, #64
+ 267 01fa 9A80     		strh	r2, [r3, #4]	@ movhi
+ 268 01fc 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 269 0200 012B     		cmp	r3, #1
+ 270 0202 17D1     		bne	.L18
+ 271 0204 4FF0A043 		mov	r3, #1342177280
+ 272 0208 0493     		str	r3, [sp, #16]
+ 273 020a 019B     		ldr	r3, [sp, #4]
+ 274 020c 4FF00102 		mov	r2, #1
+ 275 0210 DA72     		strb	r2, [r3, #11]
+ 276 0212 019B     		ldr	r3, [sp, #4]
+ 277 0214 4FF00802 		mov	r2, #8
+ 278 0218 1A70     		strb	r2, [r3, #0]
+ 279 021a 019B     		ldr	r3, [sp, #4]
+ 280 021c 4FF00402 		mov	r2, #4
+ 281 0220 5A70     		strb	r2, [r3, #1]
+ 282 0222 019B     		ldr	r3, [sp, #4]
+ 283 0224 4FF4A072 		mov	r2, #320
+ 284 0228 DA80     		strh	r2, [r3, #6]	@ movhi
+ 285 022a 019B     		ldr	r3, [sp, #4]
+ 286 022c 4FF00202 		mov	r2, #2
+ 287 0230 1A72     		strb	r2, [r3, #8]
+ 288 0232 18E0     		b	.L19
+ 289              	.L18:
+ 290 0234 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 291 0238 002B     		cmp	r3, #0
+ 292 023a 14D1     		bne	.L19
+ 293 023c 4FF00003 		mov	r3, #0
+ 294 0240 C4F20403 		movt	r3, 16388
+ 295 0244 0493     		str	r3, [sp, #16]
+ 296 0246 019B     		ldr	r3, [sp, #4]
+ 297 0248 4FF00002 		mov	r2, #0
+ 298 024c DA72     		strb	r2, [r3, #11]
+ 299 024e 019B     		ldr	r3, [sp, #4]
+ 300 0250 4FF00C02 		mov	r2, #12
+ 301 0254 1A70     		strb	r2, [r3, #0]
+ 302 0256 019B     		ldr	r3, [sp, #4]
+ 303 0258 4FF00602 		mov	r2, #6
+ 304 025c 5A70     		strb	r2, [r3, #1]
+ 305 025e 019B     		ldr	r3, [sp, #4]
+ 306 0260 4FF4A062 		mov	r2, #1280
+ 307 0264 DA80     		strh	r2, [r3, #6]	@ movhi
+ 308              	.L19:
+ 309 0266 049A     		ldr	r2, [sp, #16]
+ 310 0268 019B     		ldr	r3, [sp, #4]
+ 311 026a DA60     		str	r2, [r3, #12]
+ 312 026c 049B     		ldr	r3, [sp, #16]
+ 313 026e 03F50063 		add	r3, r3, #2048
+ 314 0272 1A46     		mov	r2, r3
+ 315 0274 019B     		ldr	r3, [sp, #4]
+ 316 0276 1A61     		str	r2, [r3, #16]
+ 317 0278 4FF00003 		mov	r3, #0
+ 318 027c 0593     		str	r3, [sp, #20]
+ 319 027e 23E0     		b	.L20
+ 320              	.L21:
+ 321 0280 059B     		ldr	r3, [sp, #20]
+ 322 0282 4FEA4312 		lsl	r2, r3, #5
+ 323 0286 049B     		ldr	r3, [sp, #16]
+ 324 0288 D318     		adds	r3, r2, r3
+ 325 028a 03F51063 		add	r3, r3, #2304
+ 326 028e 1A46     		mov	r2, r3
+ 327 0290 0199     		ldr	r1, [sp, #4]
+ 328 0292 059B     		ldr	r3, [sp, #20]
+ 329 0294 03F10403 		add	r3, r3, #4
+ 330 0298 4FEA8303 		lsl	r3, r3, #2
+ 331 029c CB18     		adds	r3, r1, r3
+ 332 029e 9A60     		str	r2, [r3, #8]
+ 333 02a0 059B     		ldr	r3, [sp, #20]
+ 334 02a2 4FEA4312 		lsl	r2, r3, #5
+ 335 02a6 049B     		ldr	r3, [sp, #16]
+ 336 02a8 D318     		adds	r3, r2, r3
+ 337 02aa 03F53063 		add	r3, r3, #2816
+ 338 02ae 1A46     		mov	r2, r3
+ 339 02b0 0199     		ldr	r1, [sp, #4]
+ 340 02b2 059B     		ldr	r3, [sp, #20]
+ 341 02b4 03F11403 		add	r3, r3, #20
+ 342 02b8 4FEA8303 		lsl	r3, r3, #2
+ 343 02bc CB18     		adds	r3, r1, r3
+ 344 02be 5A60     		str	r2, [r3, #4]
+ 345 02c0 059B     		ldr	r3, [sp, #20]
+ 346 02c2 03F10103 		add	r3, r3, #1
+ 347 02c6 0593     		str	r3, [sp, #20]
+ 348              	.L20:
+ 349 02c8 019B     		ldr	r3, [sp, #4]
+ 350 02ca 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 351 02cc 1A46     		mov	r2, r3
+ 352 02ce 059B     		ldr	r3, [sp, #20]
+ 353 02d0 9A42     		cmp	r2, r3
+ 354 02d2 D5D8     		bhi	.L21
+ 355 02d4 049B     		ldr	r3, [sp, #16]
+ 356 02d6 03F58063 		add	r3, r3, #1024
+ 357 02da 1A46     		mov	r2, r3
+ 358 02dc 019B     		ldr	r3, [sp, #4]
+ 359 02de 5A61     		str	r2, [r3, #20]
+ 360 02e0 049B     		ldr	r3, [sp, #16]
+ 361 02e2 03F58863 		add	r3, r3, #1088
+ 362 02e6 1A46     		mov	r2, r3
+ 363 02e8 019B     		ldr	r3, [sp, #4]
+ 364 02ea C3F8CC20 		str	r2, [r3, #204]
+ 365 02ee 4FF00003 		mov	r3, #0
+ 366 02f2 0593     		str	r3, [sp, #20]
+ 367 02f4 13E0     		b	.L22
+ 368              	.L23:
+ 369 02f6 059B     		ldr	r3, [sp, #20]
+ 370 02f8 4FEA4312 		lsl	r2, r3, #5
+ 371 02fc 049B     		ldr	r3, [sp, #16]
+ 372 02fe D318     		adds	r3, r2, r3
+ 373 0300 03F5A063 		add	r3, r3, #1280
+ 374 0304 1A46     		mov	r2, r3
+ 375 0306 0199     		ldr	r1, [sp, #4]
+ 376 0308 059B     		ldr	r3, [sp, #20]
+ 377 030a 03F12203 		add	r3, r3, #34
+ 378 030e 4FEA8303 		lsl	r3, r3, #2
+ 379 0312 CB18     		adds	r3, r1, r3
+ 380 0314 9A60     		str	r2, [r3, #8]
+ 381 0316 059B     		ldr	r3, [sp, #20]
+ 382 0318 03F10103 		add	r3, r3, #1
+ 383 031c 0593     		str	r3, [sp, #20]
+ 384              	.L22:
+ 385 031e 019B     		ldr	r3, [sp, #4]
+ 386 0320 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 387 0322 1A46     		mov	r2, r3
+ 388 0324 059B     		ldr	r3, [sp, #20]
+ 389 0326 9A42     		cmp	r2, r3
+ 390 0328 E5D8     		bhi	.L23
+ 391 032a 4FF00003 		mov	r3, #0
+ 392 032e 0593     		str	r3, [sp, #20]
+ 393 0330 13E0     		b	.L24
+ 394              	.L25:
+ 395 0332 059B     		ldr	r3, [sp, #20]
+ 396 0334 4FEA0332 		lsl	r2, r3, #12
+ 397 0338 049B     		ldr	r3, [sp, #16]
+ 398 033a D318     		adds	r3, r2, r3
+ 399 033c 03F58053 		add	r3, r3, #4096
+ 400 0340 1A46     		mov	r2, r3
+ 401 0342 0199     		ldr	r1, [sp, #4]
+ 402 0344 059B     		ldr	r3, [sp, #20]
+ 403 0346 03F13203 		add	r3, r3, #50
+ 404 034a 4FEA8303 		lsl	r3, r3, #2
+ 405 034e CB18     		adds	r3, r1, r3
+ 406 0350 9A60     		str	r2, [r3, #8]
+ 407 0352 059B     		ldr	r3, [sp, #20]
+ 408 0354 03F10103 		add	r3, r3, #1
+ 409 0358 0593     		str	r3, [sp, #20]
+ 410              	.L24:
+ 411 035a 019B     		ldr	r3, [sp, #4]
+ 412 035c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 413 035e 1A46     		mov	r2, r3
+ 414 0360 059B     		ldr	r3, [sp, #20]
+ 415 0362 9A42     		cmp	r2, r3
+ 416 0364 E5D8     		bhi	.L25
+ 417 0366 049B     		ldr	r3, [sp, #16]
+ 418 0368 03F56063 		add	r3, r3, #3584
+ 419 036c 1A46     		mov	r2, r3
+ 420 036e 019B     		ldr	r3, [sp, #4]
+ 421 0370 C3F80C21 		str	r2, [r3, #268]
+ 422 0374 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 423 0378 1846     		mov	r0, r3
+ 424 037a 06B0     		add	sp, sp, #24
+ 425 037c 7047     		bx	lr
+ 427 037e 00BF     		.align	2
+ 428              		.global	USB_OTG_CoreInit
+ 429              		.thumb
+ 430              		.thumb_func
+ 432              	USB_OTG_CoreInit:
+ 433              		@ args = 0, pretend = 0, frame = 32
+ 434              		@ frame_needed = 0, uses_anonymous_args = 0
+ 435 0380 00B5     		push	{lr}
+ 436 0382 89B0     		sub	sp, sp, #36
+ 437 0384 0190     		str	r0, [sp, #4]
+ 438 0386 4FF00003 		mov	r3, #0
+ 439 038a 8DF81F30 		strb	r3, [sp, #31]
+ 440 038e 4FF00003 		mov	r3, #0
+ 441 0392 0693     		str	r3, [sp, #24]
+ 442 0394 4FF00003 		mov	r3, #0
+ 443 0398 0593     		str	r3, [sp, #20]
+ 444 039a 4FF00003 		mov	r3, #0
+ 445 039e 0393     		str	r3, [sp, #12]
+ 446 03a0 019B     		ldr	r3, [sp, #4]
+ 447 03a2 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 448 03a4 012B     		cmp	r3, #1
+ 449 03a6 51D1     		bne	.L27
+ 450 03a8 019B     		ldr	r3, [sp, #4]
+ 451 03aa DB68     		ldr	r3, [r3, #12]
+ 452 03ac 9B6B     		ldr	r3, [r3, #56]
+ 453 03ae 0593     		str	r3, [sp, #20]
+ 454 03b0 059B     		ldr	r3, [sp, #20]
+ 455 03b2 6FF31043 		bfc	r3, #16, #1
+ 456 03b6 0593     		str	r3, [sp, #20]
+ 457 03b8 019B     		ldr	r3, [sp, #4]
+ 458 03ba 5B7A     		ldrb	r3, [r3, #9]	@ zero_extendqisi2
+ 459 03bc 002B     		cmp	r3, #0
+ 460 03be 03D0     		beq	.L28
+ 461 03c0 059B     		ldr	r3, [sp, #20]
+ 462 03c2 43F48013 		orr	r3, r3, #1048576
+ 463 03c6 0593     		str	r3, [sp, #20]
+ 464              	.L28:
+ 465 03c8 019B     		ldr	r3, [sp, #4]
+ 466 03ca DB68     		ldr	r3, [r3, #12]
+ 467 03cc 059A     		ldr	r2, [sp, #20]
+ 468 03ce 9A63     		str	r2, [r3, #56]
+ 469 03d0 4FF00003 		mov	r3, #0
+ 470 03d4 0693     		str	r3, [sp, #24]
+ 471 03d6 019B     		ldr	r3, [sp, #4]
+ 472 03d8 DB68     		ldr	r3, [r3, #12]
+ 473 03da DB68     		ldr	r3, [r3, #12]
+ 474 03dc 0693     		str	r3, [sp, #24]
+ 475 03de 069B     		ldr	r3, [sp, #24]
+ 476 03e0 6FF38613 		bfc	r3, #6, #1
+ 477 03e4 0693     		str	r3, [sp, #24]
+ 478 03e6 069B     		ldr	r3, [sp, #24]
+ 479 03e8 6FF39653 		bfc	r3, #22, #1
+ 480 03ec 0693     		str	r3, [sp, #24]
+ 481 03ee 069B     		ldr	r3, [sp, #24]
+ 482 03f0 43F01003 		orr	r3, r3, #16
+ 483 03f4 0693     		str	r3, [sp, #24]
+ 484 03f6 069B     		ldr	r3, [sp, #24]
+ 485 03f8 6FF3C303 		bfc	r3, #3, #1
+ 486 03fc 0693     		str	r3, [sp, #24]
+ 487 03fe 069B     		ldr	r3, [sp, #24]
+ 488 0400 6FF3C713 		bfc	r3, #7, #1
+ 489 0404 0693     		str	r3, [sp, #24]
+ 490 0406 069B     		ldr	r3, [sp, #24]
+ 491 0408 6FF35143 		bfc	r3, #17, #1
+ 492 040c 0693     		str	r3, [sp, #24]
+ 493 040e 069B     		ldr	r3, [sp, #24]
+ 494 0410 6FF3D343 		bfc	r3, #19, #1
+ 495 0414 0693     		str	r3, [sp, #24]
+ 496 0416 019B     		ldr	r3, [sp, #4]
+ 497 0418 DB68     		ldr	r3, [r3, #12]
+ 498 041a 069A     		ldr	r2, [sp, #24]
+ 499 041c DA60     		str	r2, [r3, #12]
+ 500 041e 0198     		ldr	r0, [sp, #4]
+ 501 0420 FFF70CFE 		bl	USB_OTG_CoreReset
+ 502 0424 019B     		ldr	r3, [sp, #4]
+ 503 0426 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 504 0428 012B     		cmp	r3, #1
+ 505 042a 40F08980 		bne	.L29
+ 506 042e 039B     		ldr	r3, [sp, #12]
+ 507 0430 4FF00502 		mov	r2, #5
+ 508 0434 62F34403 		bfi	r3, r2, #1, #4
+ 509 0438 0393     		str	r3, [sp, #12]
+ 510 043a 039B     		ldr	r3, [sp, #12]
+ 511 043c 43F02003 		orr	r3, r3, #32
+ 512 0440 0393     		str	r3, [sp, #12]
+ 513 0442 019B     		ldr	r3, [sp, #4]
+ 514 0444 DB68     		ldr	r3, [r3, #12]
+ 515 0446 039A     		ldr	r2, [sp, #12]
+ 516 0448 9A60     		str	r2, [r3, #8]
+ 517 044a 79E0     		b	.L29
+ 518              	.L27:
+ 519 044c 019B     		ldr	r3, [sp, #4]
+ 520 044e DB68     		ldr	r3, [r3, #12]
+ 521 0450 DB68     		ldr	r3, [r3, #12]
+ 522 0452 0693     		str	r3, [sp, #24]
+ 523 0454 069B     		ldr	r3, [sp, #24]
+ 524 0456 43F04003 		orr	r3, r3, #64
+ 525 045a 0693     		str	r3, [sp, #24]
+ 526 045c 019B     		ldr	r3, [sp, #4]
+ 527 045e DB68     		ldr	r3, [r3, #12]
+ 528 0460 069A     		ldr	r2, [sp, #24]
+ 529 0462 DA60     		str	r2, [r3, #12]
+ 530 0464 0198     		ldr	r0, [sp, #4]
+ 531 0466 FFF7E9FD 		bl	USB_OTG_CoreReset
+ 532 046a 4FF00003 		mov	r3, #0
+ 533 046e 0593     		str	r3, [sp, #20]
+ 534 0470 059B     		ldr	r3, [sp, #20]
+ 535 0472 43F48033 		orr	r3, r3, #65536
+ 536 0476 0593     		str	r3, [sp, #20]
+ 537 0478 019B     		ldr	r3, [sp, #4]
+ 538 047a 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 539 047c 032B     		cmp	r3, #3
+ 540 047e 03D1     		bne	.L30
+ 541 0480 059B     		ldr	r3, [sp, #20]
+ 542 0482 43F40033 		orr	r3, r3, #131072
+ 543 0486 0593     		str	r3, [sp, #20]
+ 544              	.L30:
+ 545 0488 059B     		ldr	r3, [sp, #20]
+ 546 048a 43F48023 		orr	r3, r3, #262144
+ 547 048e 0593     		str	r3, [sp, #20]
+ 548 0490 059B     		ldr	r3, [sp, #20]
+ 549 0492 43F40023 		orr	r3, r3, #524288
+ 550 0496 0593     		str	r3, [sp, #20]
+ 551 0498 059B     		ldr	r3, [sp, #20]
+ 552 049a 43F40013 		orr	r3, r3, #2097152
+ 553 049e 0593     		str	r3, [sp, #20]
+ 554 04a0 019B     		ldr	r3, [sp, #4]
+ 555 04a2 5B7A     		ldrb	r3, [r3, #9]	@ zero_extendqisi2
+ 556 04a4 002B     		cmp	r3, #0
+ 557 04a6 03D0     		beq	.L31
+ 558 04a8 059B     		ldr	r3, [sp, #20]
+ 559 04aa 43F48013 		orr	r3, r3, #1048576
+ 560 04ae 0593     		str	r3, [sp, #20]
+ 561              	.L31:
+ 562 04b0 019B     		ldr	r3, [sp, #4]
+ 563 04b2 DB68     		ldr	r3, [r3, #12]
+ 564 04b4 059A     		ldr	r2, [sp, #20]
+ 565 04b6 9A63     		str	r2, [r3, #56]
+ 566 04b8 4FF01400 		mov	r0, #20
+ 567 04bc FFF7FEFF 		bl	USB_OTG_BSP_mDelay
+ 568 04c0 019B     		ldr	r3, [sp, #4]
+ 569 04c2 DB68     		ldr	r3, [r3, #12]
+ 570 04c4 DB68     		ldr	r3, [r3, #12]
+ 571 04c6 0693     		str	r3, [sp, #24]
+ 572 04c8 019B     		ldr	r3, [sp, #4]
+ 573 04ca 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 574 04cc 032B     		cmp	r3, #3
+ 575 04ce 03D1     		bne	.L32
+ 576 04d0 069B     		ldr	r3, [sp, #24]
+ 577 04d2 43F48033 		orr	r3, r3, #65536
+ 578 04d6 0693     		str	r3, [sp, #24]
+ 579              	.L32:
+ 580 04d8 019B     		ldr	r3, [sp, #4]
+ 581 04da DB68     		ldr	r3, [r3, #12]
+ 582 04dc 069A     		ldr	r2, [sp, #24]
+ 583 04de DA60     		str	r2, [r3, #12]
+ 584 04e0 019B     		ldr	r3, [sp, #4]
+ 585 04e2 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 586 04e4 032B     		cmp	r3, #3
+ 587 04e6 2BD1     		bne	.L29
+ 588 04e8 019B     		ldr	r3, [sp, #4]
+ 589 04ea DB68     		ldr	r3, [r3, #12]
+ 590 04ec 1B6B     		ldr	r3, [r3, #48]
+ 591 04ee 0493     		str	r3, [sp, #16]
+ 592 04f0 049B     		ldr	r3, [sp, #16]
+ 593 04f2 4FF00102 		mov	r2, #1
+ 594 04f6 62F39B63 		bfi	r3, r2, #26, #2
+ 595 04fa 0493     		str	r3, [sp, #16]
+ 596 04fc 049B     		ldr	r3, [sp, #16]
+ 597 04fe 6FF3D753 		bfc	r3, #23, #1
+ 598 0502 0493     		str	r3, [sp, #16]
+ 599 0504 049B     		ldr	r3, [sp, #16]
+ 600 0506 43F08053 		orr	r3, r3, #268435456
+ 601 050a 0493     		str	r3, [sp, #16]
+ 602 050c 049B     		ldr	r3, [sp, #16]
+ 603 050e 4FF02D02 		mov	r2, #45
+ 604 0512 62F31643 		bfi	r3, r2, #16, #7
+ 605 0516 0493     		str	r3, [sp, #16]
+ 606 0518 019B     		ldr	r3, [sp, #4]
+ 607 051a DB68     		ldr	r3, [r3, #12]
+ 608 051c 049A     		ldr	r2, [sp, #16]
+ 609 051e 1A63     		str	r2, [r3, #48]
+ 610 0520 4FF0C800 		mov	r0, #200
+ 611 0524 FFF7FEFF 		bl	USB_OTG_BSP_mDelay
+ 612 0528 049B     		ldr	r3, [sp, #16]
+ 613 052a 43F40003 		orr	r3, r3, #8388608
+ 614 052e 0493     		str	r3, [sp, #16]
+ 615 0530 019B     		ldr	r3, [sp, #4]
+ 616 0532 DB68     		ldr	r3, [r3, #12]
+ 617 0534 049A     		ldr	r2, [sp, #16]
+ 618 0536 1A63     		str	r2, [r3, #48]
+ 619 0538 4FF0C800 		mov	r0, #200
+ 620 053c FFF7FEFF 		bl	USB_OTG_BSP_mDelay
+ 621              	.L29:
+ 622 0540 019B     		ldr	r3, [sp, #4]
+ 623 0542 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 624 0544 012B     		cmp	r3, #1
+ 625 0546 11D1     		bne	.L33
+ 626 0548 019B     		ldr	r3, [sp, #4]
+ 627 054a DB68     		ldr	r3, [r3, #12]
+ 628 054c 9B68     		ldr	r3, [r3, #8]
+ 629 054e 0393     		str	r3, [sp, #12]
+ 630 0550 039B     		ldr	r3, [sp, #12]
+ 631 0552 4FF00502 		mov	r2, #5
+ 632 0556 62F34403 		bfi	r3, r2, #1, #4
+ 633 055a 0393     		str	r3, [sp, #12]
+ 634 055c 039B     		ldr	r3, [sp, #12]
+ 635 055e 43F02003 		orr	r3, r3, #32
+ 636 0562 0393     		str	r3, [sp, #12]
+ 637 0564 019B     		ldr	r3, [sp, #4]
+ 638 0566 DB68     		ldr	r3, [r3, #12]
+ 639 0568 039A     		ldr	r2, [sp, #12]
+ 640 056a 9A60     		str	r2, [r3, #8]
+ 641              	.L33:
+ 642 056c 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 643 0570 1846     		mov	r0, r3
+ 644 0572 09B0     		add	sp, sp, #36
+ 645 0574 00BD     		pop	{pc}
+ 647 0576 00BF     		.align	2
+ 648              		.global	USB_OTG_EnableGlobalInt
+ 649              		.thumb
+ 650              		.thumb_func
+ 652              	USB_OTG_EnableGlobalInt:
+ 653              		@ args = 0, pretend = 0, frame = 16
+ 654              		@ frame_needed = 0, uses_anonymous_args = 0
+ 655              		@ link register save eliminated.
+ 656 0578 84B0     		sub	sp, sp, #16
+ 657 057a 0190     		str	r0, [sp, #4]
+ 658 057c 4FF00003 		mov	r3, #0
+ 659 0580 8DF80F30 		strb	r3, [sp, #15]
+ 660 0584 4FF00003 		mov	r3, #0
+ 661 0588 0293     		str	r3, [sp, #8]
+ 662 058a 029B     		ldr	r3, [sp, #8]
+ 663 058c 43F00103 		orr	r3, r3, #1
+ 664 0590 0293     		str	r3, [sp, #8]
+ 665 0592 019B     		ldr	r3, [sp, #4]
+ 666 0594 DB68     		ldr	r3, [r3, #12]
+ 667 0596 019A     		ldr	r2, [sp, #4]
+ 668 0598 D268     		ldr	r2, [r2, #12]
+ 669 059a 9168     		ldr	r1, [r2, #8]
+ 670 059c 029A     		ldr	r2, [sp, #8]
+ 671 059e 0A43     		orrs	r2, r2, r1
+ 672 05a0 9A60     		str	r2, [r3, #8]
+ 673 05a2 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 674 05a6 1846     		mov	r0, r3
+ 675 05a8 04B0     		add	sp, sp, #16
+ 676 05aa 7047     		bx	lr
+ 678              		.align	2
+ 679              		.global	USB_OTG_DisableGlobalInt
+ 680              		.thumb
+ 681              		.thumb_func
+ 683              	USB_OTG_DisableGlobalInt:
+ 684              		@ args = 0, pretend = 0, frame = 16
+ 685              		@ frame_needed = 0, uses_anonymous_args = 0
+ 686              		@ link register save eliminated.
+ 687 05ac 84B0     		sub	sp, sp, #16
+ 688 05ae 0190     		str	r0, [sp, #4]
+ 689 05b0 4FF00003 		mov	r3, #0
+ 690 05b4 8DF80F30 		strb	r3, [sp, #15]
+ 691 05b8 4FF00003 		mov	r3, #0
+ 692 05bc 0293     		str	r3, [sp, #8]
+ 693 05be 029B     		ldr	r3, [sp, #8]
+ 694 05c0 43F00103 		orr	r3, r3, #1
+ 695 05c4 0293     		str	r3, [sp, #8]
+ 696 05c6 019B     		ldr	r3, [sp, #4]
+ 697 05c8 DB68     		ldr	r3, [r3, #12]
+ 698 05ca 019A     		ldr	r2, [sp, #4]
+ 699 05cc D268     		ldr	r2, [r2, #12]
+ 700 05ce 9168     		ldr	r1, [r2, #8]
+ 701 05d0 029A     		ldr	r2, [sp, #8]
+ 702 05d2 6FEA0202 		mvn	r2, r2
+ 703 05d6 0A40     		ands	r2, r2, r1
+ 704 05d8 9A60     		str	r2, [r3, #8]
+ 705 05da 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 706 05de 1846     		mov	r0, r3
+ 707 05e0 04B0     		add	sp, sp, #16
+ 708 05e2 7047     		bx	lr
+ 710              		.align	2
+ 711              		.global	USB_OTG_FlushTxFifo
+ 712              		.thumb
+ 713              		.thumb_func
+ 715              	USB_OTG_FlushTxFifo:
+ 716              		@ args = 0, pretend = 0, frame = 24
+ 717              		@ frame_needed = 0, uses_anonymous_args = 0
+ 718 05e4 00B5     		push	{lr}
+ 719 05e6 87B0     		sub	sp, sp, #28
+ 720 05e8 0190     		str	r0, [sp, #4]
+ 721 05ea 0091     		str	r1, [sp, #0]
+ 722 05ec 4FF00003 		mov	r3, #0
+ 723 05f0 8DF81330 		strb	r3, [sp, #19]
+ 724 05f4 4FF00003 		mov	r3, #0
+ 725 05f8 0593     		str	r3, [sp, #20]
+ 726 05fa 4FF00003 		mov	r3, #0
+ 727 05fe 0393     		str	r3, [sp, #12]
+ 728 0600 039B     		ldr	r3, [sp, #12]
+ 729 0602 43F02003 		orr	r3, r3, #32
+ 730 0606 0393     		str	r3, [sp, #12]
+ 731 0608 009B     		ldr	r3, [sp, #0]
+ 732 060a DBB2     		uxtb	r3, r3
+ 733 060c 03F01F03 		and	r3, r3, #31
+ 734 0610 DAB2     		uxtb	r2, r3
+ 735 0612 039B     		ldr	r3, [sp, #12]
+ 736 0614 62F38A13 		bfi	r3, r2, #6, #5
+ 737 0618 0393     		str	r3, [sp, #12]
+ 738 061a 019B     		ldr	r3, [sp, #4]
+ 739 061c DB68     		ldr	r3, [r3, #12]
+ 740 061e 039A     		ldr	r2, [sp, #12]
+ 741 0620 1A61     		str	r2, [r3, #16]
+ 742              	.L39:
+ 743 0622 019B     		ldr	r3, [sp, #4]
+ 744 0624 DB68     		ldr	r3, [r3, #12]
+ 745 0626 1B69     		ldr	r3, [r3, #16]
+ 746 0628 0393     		str	r3, [sp, #12]
+ 747 062a 059B     		ldr	r3, [sp, #20]
+ 748 062c 03F10103 		add	r3, r3, #1
+ 749 0630 0593     		str	r3, [sp, #20]
+ 750 0632 059A     		ldr	r2, [sp, #20]
+ 751 0634 4FF45463 		mov	r3, #3392
+ 752 0638 C0F20303 		movt	r3, 3
+ 753 063c 9A42     		cmp	r2, r3
+ 754 063e 05D8     		bhi	.L40
+ 755              	.L37:
+ 756 0640 039B     		ldr	r3, [sp, #12]
+ 757 0642 03F02003 		and	r3, r3, #32
+ 758 0646 002B     		cmp	r3, #0
+ 759 0648 EBD1     		bne	.L39
+ 760 064a 00E0     		b	.L38
+ 761              	.L40:
+ 762 064c 00BF     		nop
+ 763              	.L38:
+ 764 064e 4FF00300 		mov	r0, #3
+ 765 0652 FFF7FEFF 		bl	USB_OTG_BSP_uDelay
+ 766 0656 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 767 065a 1846     		mov	r0, r3
+ 768 065c 07B0     		add	sp, sp, #28
+ 769 065e 00BD     		pop	{pc}
+ 771              		.align	2
+ 772              		.global	USB_OTG_FlushRxFifo
+ 773              		.thumb
+ 774              		.thumb_func
+ 776              	USB_OTG_FlushRxFifo:
+ 777              		@ args = 0, pretend = 0, frame = 24
+ 778              		@ frame_needed = 0, uses_anonymous_args = 0
+ 779 0660 00B5     		push	{lr}
+ 780 0662 87B0     		sub	sp, sp, #28
+ 781 0664 0190     		str	r0, [sp, #4]
+ 782 0666 4FF00003 		mov	r3, #0
+ 783 066a 8DF81330 		strb	r3, [sp, #19]
+ 784 066e 4FF00003 		mov	r3, #0
+ 785 0672 0593     		str	r3, [sp, #20]
+ 786 0674 4FF00003 		mov	r3, #0
+ 787 0678 0393     		str	r3, [sp, #12]
+ 788 067a 039B     		ldr	r3, [sp, #12]
+ 789 067c 43F01003 		orr	r3, r3, #16
+ 790 0680 0393     		str	r3, [sp, #12]
+ 791 0682 019B     		ldr	r3, [sp, #4]
+ 792 0684 DB68     		ldr	r3, [r3, #12]
+ 793 0686 039A     		ldr	r2, [sp, #12]
+ 794 0688 1A61     		str	r2, [r3, #16]
+ 795              	.L44:
+ 796 068a 019B     		ldr	r3, [sp, #4]
+ 797 068c DB68     		ldr	r3, [r3, #12]
+ 798 068e 1B69     		ldr	r3, [r3, #16]
+ 799 0690 0393     		str	r3, [sp, #12]
+ 800 0692 059B     		ldr	r3, [sp, #20]
+ 801 0694 03F10103 		add	r3, r3, #1
+ 802 0698 0593     		str	r3, [sp, #20]
+ 803 069a 059A     		ldr	r2, [sp, #20]
+ 804 069c 4FF45463 		mov	r3, #3392
+ 805 06a0 C0F20303 		movt	r3, 3
+ 806 06a4 9A42     		cmp	r2, r3
+ 807 06a6 05D8     		bhi	.L45
+ 808              	.L42:
+ 809 06a8 039B     		ldr	r3, [sp, #12]
+ 810 06aa 03F01003 		and	r3, r3, #16
+ 811 06ae 002B     		cmp	r3, #0
+ 812 06b0 EBD1     		bne	.L44
+ 813 06b2 00E0     		b	.L43
+ 814              	.L45:
+ 815 06b4 00BF     		nop
+ 816              	.L43:
+ 817 06b6 4FF00300 		mov	r0, #3
+ 818 06ba FFF7FEFF 		bl	USB_OTG_BSP_uDelay
+ 819 06be 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 820 06c2 1846     		mov	r0, r3
+ 821 06c4 07B0     		add	sp, sp, #28
+ 822 06c6 00BD     		pop	{pc}
+ 824              		.align	2
+ 825              		.global	USB_OTG_SetCurrentMode
+ 826              		.thumb
+ 827              		.thumb_func
+ 829              	USB_OTG_SetCurrentMode:
+ 830              		@ args = 0, pretend = 0, frame = 16
+ 831              		@ frame_needed = 0, uses_anonymous_args = 0
+ 832 06c8 00B5     		push	{lr}
+ 833 06ca 85B0     		sub	sp, sp, #20
+ 834 06cc 0190     		str	r0, [sp, #4]
+ 835 06ce 0B46     		mov	r3, r1
+ 836 06d0 8DF80330 		strb	r3, [sp, #3]
+ 837 06d4 4FF00003 		mov	r3, #0
+ 838 06d8 8DF80F30 		strb	r3, [sp, #15]
+ 839 06dc 019B     		ldr	r3, [sp, #4]
+ 840 06de DB68     		ldr	r3, [r3, #12]
+ 841 06e0 DB68     		ldr	r3, [r3, #12]
+ 842 06e2 0293     		str	r3, [sp, #8]
+ 843 06e4 029B     		ldr	r3, [sp, #8]
+ 844 06e6 6FF35D73 		bfc	r3, #29, #1
+ 845 06ea 0293     		str	r3, [sp, #8]
+ 846 06ec 029B     		ldr	r3, [sp, #8]
+ 847 06ee 6FF39E73 		bfc	r3, #30, #1
+ 848 06f2 0293     		str	r3, [sp, #8]
+ 849 06f4 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 850 06f8 012B     		cmp	r3, #1
+ 851 06fa 04D1     		bne	.L47
+ 852 06fc 029B     		ldr	r3, [sp, #8]
+ 853 06fe 43F00053 		orr	r3, r3, #536870912
+ 854 0702 0293     		str	r3, [sp, #8]
+ 855 0704 07E0     		b	.L48
+ 856              	.L47:
+ 857 0706 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 858 070a 002B     		cmp	r3, #0
+ 859 070c 03D1     		bne	.L48
+ 860 070e 029B     		ldr	r3, [sp, #8]
+ 861 0710 43F08043 		orr	r3, r3, #1073741824
+ 862 0714 0293     		str	r3, [sp, #8]
+ 863              	.L48:
+ 864 0716 019B     		ldr	r3, [sp, #4]
+ 865 0718 DB68     		ldr	r3, [r3, #12]
+ 866 071a 029A     		ldr	r2, [sp, #8]
+ 867 071c DA60     		str	r2, [r3, #12]
+ 868 071e 4FF03200 		mov	r0, #50
+ 869 0722 FFF7FEFF 		bl	USB_OTG_BSP_mDelay
+ 870 0726 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 871 072a 1846     		mov	r0, r3
+ 872 072c 05B0     		add	sp, sp, #20
+ 873 072e 00BD     		pop	{pc}
+ 875              		.align	2
+ 876              		.global	USB_OTG_GetMode
+ 877              		.thumb
+ 878              		.thumb_func
+ 880              	USB_OTG_GetMode:
+ 881              		@ args = 0, pretend = 0, frame = 8
+ 882              		@ frame_needed = 0, uses_anonymous_args = 0
+ 883              		@ link register save eliminated.
+ 884 0730 82B0     		sub	sp, sp, #8
+ 885 0732 0190     		str	r0, [sp, #4]
+ 886 0734 019B     		ldr	r3, [sp, #4]
+ 887 0736 DB68     		ldr	r3, [r3, #12]
+ 888 0738 5B69     		ldr	r3, [r3, #20]
+ 889 073a 03F00103 		and	r3, r3, #1
+ 890 073e 1846     		mov	r0, r3
+ 891 0740 02B0     		add	sp, sp, #8
+ 892 0742 7047     		bx	lr
+ 894              		.align	2
+ 895              		.global	USB_OTG_IsDeviceMode
+ 896              		.thumb
+ 897              		.thumb_func
+ 899              	USB_OTG_IsDeviceMode:
+ 900              		@ args = 0, pretend = 0, frame = 8
+ 901              		@ frame_needed = 0, uses_anonymous_args = 0
+ 902 0744 00B5     		push	{lr}
+ 903 0746 83B0     		sub	sp, sp, #12
+ 904 0748 0190     		str	r0, [sp, #4]
+ 905 074a 0198     		ldr	r0, [sp, #4]
+ 906 074c FFF7FEFF 		bl	USB_OTG_GetMode
+ 907 0750 0346     		mov	r3, r0
+ 908 0752 012B     		cmp	r3, #1
+ 909 0754 0CBF     		ite	eq
+ 910 0756 0023     		moveq	r3, #0
+ 911 0758 0123     		movne	r3, #1
+ 912 075a DBB2     		uxtb	r3, r3
+ 913 075c 1846     		mov	r0, r3
+ 914 075e 03B0     		add	sp, sp, #12
+ 915 0760 00BD     		pop	{pc}
+ 917 0762 00BF     		.align	2
+ 918              		.global	USB_OTG_IsHostMode
+ 919              		.thumb
+ 920              		.thumb_func
+ 922              	USB_OTG_IsHostMode:
+ 923              		@ args = 0, pretend = 0, frame = 8
+ 924              		@ frame_needed = 0, uses_anonymous_args = 0
+ 925 0764 00B5     		push	{lr}
+ 926 0766 83B0     		sub	sp, sp, #12
+ 927 0768 0190     		str	r0, [sp, #4]
+ 928 076a 0198     		ldr	r0, [sp, #4]
+ 929 076c FFF7FEFF 		bl	USB_OTG_GetMode
+ 930 0770 0346     		mov	r3, r0
+ 931 0772 012B     		cmp	r3, #1
+ 932 0774 14BF     		ite	ne
+ 933 0776 0023     		movne	r3, #0
+ 934 0778 0123     		moveq	r3, #1
+ 935 077a DBB2     		uxtb	r3, r3
+ 936 077c 1846     		mov	r0, r3
+ 937 077e 03B0     		add	sp, sp, #12
+ 938 0780 00BD     		pop	{pc}
+ 940 0782 00BF     		.align	2
+ 941              		.global	USB_OTG_ReadCoreItr
+ 942              		.thumb
+ 943              		.thumb_func
+ 945              	USB_OTG_ReadCoreItr:
+ 946              		@ args = 0, pretend = 0, frame = 16
+ 947              		@ frame_needed = 0, uses_anonymous_args = 0
+ 948              		@ link register save eliminated.
+ 949 0784 84B0     		sub	sp, sp, #16
+ 950 0786 0190     		str	r0, [sp, #4]
+ 951 0788 4FF00003 		mov	r3, #0
+ 952 078c 0393     		str	r3, [sp, #12]
+ 953 078e 019B     		ldr	r3, [sp, #4]
+ 954 0790 DB68     		ldr	r3, [r3, #12]
+ 955 0792 5B69     		ldr	r3, [r3, #20]
+ 956 0794 0393     		str	r3, [sp, #12]
+ 957 0796 019B     		ldr	r3, [sp, #4]
+ 958 0798 DB68     		ldr	r3, [r3, #12]
+ 959 079a 9B69     		ldr	r3, [r3, #24]
+ 960 079c 039A     		ldr	r2, [sp, #12]
+ 961 079e 1340     		ands	r3, r3, r2
+ 962 07a0 0393     		str	r3, [sp, #12]
+ 963 07a2 039B     		ldr	r3, [sp, #12]
+ 964 07a4 1846     		mov	r0, r3
+ 965 07a6 04B0     		add	sp, sp, #16
+ 966 07a8 7047     		bx	lr
+ 968 07aa 00BF     		.align	2
+ 969              		.global	USB_OTG_ReadOtgItr
+ 970              		.thumb
+ 971              		.thumb_func
+ 973              	USB_OTG_ReadOtgItr:
+ 974              		@ args = 0, pretend = 0, frame = 8
+ 975              		@ frame_needed = 0, uses_anonymous_args = 0
+ 976              		@ link register save eliminated.
+ 977 07ac 82B0     		sub	sp, sp, #8
+ 978 07ae 0190     		str	r0, [sp, #4]
+ 979 07b0 019B     		ldr	r3, [sp, #4]
+ 980 07b2 DB68     		ldr	r3, [r3, #12]
+ 981 07b4 5B68     		ldr	r3, [r3, #4]
+ 982 07b6 1846     		mov	r0, r3
+ 983 07b8 02B0     		add	sp, sp, #8
+ 984 07ba 7047     		bx	lr
+ 986              		.align	2
+ 987              		.global	USB_OTG_InitDevSpeed
+ 988              		.thumb
+ 989              		.thumb_func
+ 991              	USB_OTG_InitDevSpeed:
+ 992              		@ args = 0, pretend = 0, frame = 16
+ 993              		@ frame_needed = 0, uses_anonymous_args = 0
+ 994              		@ link register save eliminated.
+ 995 07bc 84B0     		sub	sp, sp, #16
+ 996 07be 0190     		str	r0, [sp, #4]
+ 997 07c0 0B46     		mov	r3, r1
+ 998 07c2 8DF80330 		strb	r3, [sp, #3]
+ 999 07c6 019B     		ldr	r3, [sp, #4]
+ 1000 07c8 1B69     		ldr	r3, [r3, #16]
+ 1001 07ca 1B68     		ldr	r3, [r3, #0]
+ 1002 07cc 0393     		str	r3, [sp, #12]
+ 1003 07ce 9DF80330 		ldrb	r3, [sp, #3]
+ 1004 07d2 03F00303 		and	r3, r3, #3
+ 1005 07d6 DAB2     		uxtb	r2, r3
+ 1006 07d8 039B     		ldr	r3, [sp, #12]
+ 1007 07da 62F30103 		bfi	r3, r2, #0, #2
+ 1008 07de 0393     		str	r3, [sp, #12]
+ 1009 07e0 019B     		ldr	r3, [sp, #4]
+ 1010 07e2 1B69     		ldr	r3, [r3, #16]
+ 1011 07e4 039A     		ldr	r2, [sp, #12]
+ 1012 07e6 1A60     		str	r2, [r3, #0]
+ 1013 07e8 04B0     		add	sp, sp, #16
+ 1014 07ea 7047     		bx	lr
+ 1016              		.align	2
+ 1017              		.global	USB_OTG_CoreInitDev
+ 1018              		.thumb
+ 1019              		.thumb_func
+ 1021              	USB_OTG_CoreInitDev:
+ 1022              		@ args = 0, pretend = 0, frame = 48
+ 1023              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1024 07ec 00B5     		push	{lr}
+ 1025 07ee 8DB0     		sub	sp, sp, #52
+ 1026 07f0 0190     		str	r0, [sp, #4]
+ 1027 07f2 4FF00003 		mov	r3, #0
+ 1028 07f6 8DF82B30 		strb	r3, [sp, #43]
+ 1029 07fa 4FF00003 		mov	r3, #0
+ 1030 07fe 0993     		str	r3, [sp, #36]
+ 1031 0800 4FF00003 		mov	r3, #0
+ 1032 0804 0893     		str	r3, [sp, #32]
+ 1033 0806 4FF00003 		mov	r3, #0
+ 1034 080a 0793     		str	r3, [sp, #28]
+ 1035 080c 4FF00003 		mov	r3, #0
+ 1036 0810 0693     		str	r3, [sp, #24]
+ 1037 0812 4FF00003 		mov	r3, #0
+ 1038 0816 0593     		str	r3, [sp, #20]
+ 1039 0818 019B     		ldr	r3, [sp, #4]
+ 1040 081a D3F80C31 		ldr	r3, [r3, #268]
+ 1041 081e 4FF00002 		mov	r2, #0
+ 1042 0822 1A60     		str	r2, [r3, #0]
+ 1043 0824 019B     		ldr	r3, [sp, #4]
+ 1044 0826 1B69     		ldr	r3, [r3, #16]
+ 1045 0828 1B68     		ldr	r3, [r3, #0]
+ 1046 082a 0893     		str	r3, [sp, #32]
+ 1047 082c 089B     		ldr	r3, [sp, #32]
+ 1048 082e 6FF3CC23 		bfc	r3, #11, #2
+ 1049 0832 0893     		str	r3, [sp, #32]
+ 1050 0834 019B     		ldr	r3, [sp, #4]
+ 1051 0836 1B69     		ldr	r3, [r3, #16]
+ 1052 0838 089A     		ldr	r2, [sp, #32]
+ 1053 083a 1A60     		str	r2, [r3, #0]
+ 1054 083c 019B     		ldr	r3, [sp, #4]
+ 1055 083e DB7A     		ldrb	r3, [r3, #11]	@ zero_extendqisi2
+ 1056 0840 012B     		cmp	r3, #1
+ 1057 0842 50D1     		bne	.L56
+ 1058 0844 0198     		ldr	r0, [sp, #4]
+ 1059 0846 4FF00301 		mov	r1, #3
+ 1060 084a FFF7FEFF 		bl	USB_OTG_InitDevSpeed
+ 1061 084e 019B     		ldr	r3, [sp, #4]
+ 1062 0850 DB68     		ldr	r3, [r3, #12]
+ 1063 0852 4FF08002 		mov	r2, #128
+ 1064 0856 5A62     		str	r2, [r3, #36]
+ 1065 0858 079B     		ldr	r3, [sp, #28]
+ 1066 085a 4FF02002 		mov	r2, #32
+ 1067 085e 62F31F43 		bfi	r3, r2, #16, #16
+ 1068 0862 0793     		str	r3, [sp, #28]
+ 1069 0864 079B     		ldr	r3, [sp, #28]
+ 1070 0866 4FF08002 		mov	r2, #128
+ 1071 086a 62F30F03 		bfi	r3, r2, #0, #16
+ 1072 086e 0793     		str	r3, [sp, #28]
+ 1073 0870 019B     		ldr	r3, [sp, #4]
+ 1074 0872 DB68     		ldr	r3, [r3, #12]
+ 1075 0874 079A     		ldr	r2, [sp, #28]
+ 1076 0876 9A62     		str	r2, [r3, #40]
+ 1077 0878 BDF81C20 		ldrh	r2, [sp, #28]
+ 1078 087c BDF81E30 		ldrh	r3, [sp, #30]
+ 1079 0880 D318     		adds	r3, r2, r3
+ 1080 0882 9BB2     		uxth	r3, r3
+ 1081 0884 ADF81830 		strh	r3, [sp, #24]	@ unaligned
+ 1082 0888 069B     		ldr	r3, [sp, #24]
+ 1083 088a 4FF08002 		mov	r2, #128
+ 1084 088e 62F31F43 		bfi	r3, r2, #16, #16
+ 1085 0892 0693     		str	r3, [sp, #24]
+ 1086 0894 019B     		ldr	r3, [sp, #4]
+ 1087 0896 DB68     		ldr	r3, [r3, #12]
+ 1088 0898 069A     		ldr	r2, [sp, #24]
+ 1089 089a C3F80421 		str	r2, [r3, #260]
+ 1090 089e BDF81820 		ldrh	r2, [sp, #24]
+ 1091 08a2 BDF81A30 		ldrh	r3, [sp, #26]
+ 1092 08a6 D318     		adds	r3, r2, r3
+ 1093 08a8 9BB2     		uxth	r3, r3
+ 1094 08aa ADF81830 		strh	r3, [sp, #24]	@ unaligned
+ 1095 08ae 069B     		ldr	r3, [sp, #24]
+ 1096 08b0 4FF02002 		mov	r2, #32
+ 1097 08b4 62F31F43 		bfi	r3, r2, #16, #16
+ 1098 08b8 0693     		str	r3, [sp, #24]
+ 1099 08ba 019B     		ldr	r3, [sp, #4]
+ 1100 08bc DB68     		ldr	r3, [r3, #12]
+ 1101 08be 069A     		ldr	r2, [sp, #24]
+ 1102 08c0 C3F80821 		str	r2, [r3, #264]
+ 1103 08c4 BDF81820 		ldrh	r2, [sp, #24]
+ 1104 08c8 BDF81A30 		ldrh	r3, [sp, #26]
+ 1105 08cc D318     		adds	r3, r2, r3
+ 1106 08ce 9BB2     		uxth	r3, r3
+ 1107 08d0 ADF81830 		strh	r3, [sp, #24]	@ unaligned
+ 1108 08d4 069B     		ldr	r3, [sp, #24]
+ 1109 08d6 6FF31F43 		bfc	r3, #16, #16
+ 1110 08da 0693     		str	r3, [sp, #24]
+ 1111 08dc 019B     		ldr	r3, [sp, #4]
+ 1112 08de DB68     		ldr	r3, [r3, #12]
+ 1113 08e0 069A     		ldr	r2, [sp, #24]
+ 1114 08e2 C3F80C21 		str	r2, [r3, #268]
+ 1115              	.L56:
+ 1116 08e6 0198     		ldr	r0, [sp, #4]
+ 1117 08e8 4FF01001 		mov	r1, #16
+ 1118 08ec FFF7FEFF 		bl	USB_OTG_FlushTxFifo
+ 1119 08f0 0198     		ldr	r0, [sp, #4]
+ 1120 08f2 FFF7FEFF 		bl	USB_OTG_FlushRxFifo
+ 1121 08f6 019B     		ldr	r3, [sp, #4]
+ 1122 08f8 1B69     		ldr	r3, [r3, #16]
+ 1123 08fa 4FF00002 		mov	r2, #0
+ 1124 08fe 1A61     		str	r2, [r3, #16]
+ 1125 0900 019B     		ldr	r3, [sp, #4]
+ 1126 0902 1B69     		ldr	r3, [r3, #16]
+ 1127 0904 4FF00002 		mov	r2, #0
+ 1128 0908 5A61     		str	r2, [r3, #20]
+ 1129 090a 019B     		ldr	r3, [sp, #4]
+ 1130 090c 1B69     		ldr	r3, [r3, #16]
+ 1131 090e 4FF0FF32 		mov	r2, #-1
+ 1132 0912 9A61     		str	r2, [r3, #24]
+ 1133 0914 019B     		ldr	r3, [sp, #4]
+ 1134 0916 1B69     		ldr	r3, [r3, #16]
+ 1135 0918 4FF00002 		mov	r2, #0
+ 1136 091c DA61     		str	r2, [r3, #28]
+ 1137 091e 4FF00003 		mov	r3, #0
+ 1138 0922 0B93     		str	r3, [sp, #44]
+ 1139 0924 43E0     		b	.L57
+ 1140              	.L60:
+ 1141 0926 019A     		ldr	r2, [sp, #4]
+ 1142 0928 0B9B     		ldr	r3, [sp, #44]
+ 1143 092a 03F10403 		add	r3, r3, #4
+ 1144 092e 4FEA8303 		lsl	r3, r3, #2
+ 1145 0932 D318     		adds	r3, r2, r3
+ 1146 0934 9B68     		ldr	r3, [r3, #8]
+ 1147 0936 1B68     		ldr	r3, [r3, #0]
+ 1148 0938 0993     		str	r3, [sp, #36]
+ 1149 093a 9DF82730 		ldrb	r3, [sp, #39]	@ zero_extendqisi2
+ 1150 093e 23F07F03 		bic	r3, r3, #127
+ 1151 0942 DBB2     		uxtb	r3, r3
+ 1152 0944 002B     		cmp	r3, #0
+ 1153 0946 0BD0     		beq	.L58
+ 1154 0948 4FF00003 		mov	r3, #0
+ 1155 094c 0993     		str	r3, [sp, #36]
+ 1156 094e 099B     		ldr	r3, [sp, #36]
+ 1157 0950 43F08043 		orr	r3, r3, #1073741824
+ 1158 0954 0993     		str	r3, [sp, #36]
+ 1159 0956 099B     		ldr	r3, [sp, #36]
+ 1160 0958 43F00063 		orr	r3, r3, #134217728
+ 1161 095c 0993     		str	r3, [sp, #36]
+ 1162 095e 02E0     		b	.L59
+ 1163              	.L58:
+ 1164 0960 4FF00003 		mov	r3, #0
+ 1165 0964 0993     		str	r3, [sp, #36]
+ 1166              	.L59:
+ 1167 0966 019A     		ldr	r2, [sp, #4]
+ 1168 0968 0B9B     		ldr	r3, [sp, #44]
+ 1169 096a 03F10403 		add	r3, r3, #4
+ 1170 096e 4FEA8303 		lsl	r3, r3, #2
+ 1171 0972 D318     		adds	r3, r2, r3
+ 1172 0974 9B68     		ldr	r3, [r3, #8]
+ 1173 0976 099A     		ldr	r2, [sp, #36]
+ 1174 0978 1A60     		str	r2, [r3, #0]
+ 1175 097a 019A     		ldr	r2, [sp, #4]
+ 1176 097c 0B9B     		ldr	r3, [sp, #44]
+ 1177 097e 03F10403 		add	r3, r3, #4
+ 1178 0982 4FEA8303 		lsl	r3, r3, #2
+ 1179 0986 D318     		adds	r3, r2, r3
+ 1180 0988 9B68     		ldr	r3, [r3, #8]
+ 1181 098a 4FF00002 		mov	r2, #0
+ 1182 098e 1A61     		str	r2, [r3, #16]
+ 1183 0990 019A     		ldr	r2, [sp, #4]
+ 1184 0992 0B9B     		ldr	r3, [sp, #44]
+ 1185 0994 03F10403 		add	r3, r3, #4
+ 1186 0998 4FEA8303 		lsl	r3, r3, #2
+ 1187 099c D318     		adds	r3, r2, r3
+ 1188 099e 9B68     		ldr	r3, [r3, #8]
+ 1189 09a0 4FF0FF02 		mov	r2, #255
+ 1190 09a4 9A60     		str	r2, [r3, #8]
+ 1191 09a6 0B9B     		ldr	r3, [sp, #44]
+ 1192 09a8 03F10103 		add	r3, r3, #1
+ 1193 09ac 0B93     		str	r3, [sp, #44]
+ 1194              	.L57:
+ 1195 09ae 019B     		ldr	r3, [sp, #4]
+ 1196 09b0 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1197 09b2 1A46     		mov	r2, r3
+ 1198 09b4 0B9B     		ldr	r3, [sp, #44]
+ 1199 09b6 9A42     		cmp	r2, r3
+ 1200 09b8 B5D8     		bhi	.L60
+ 1201 09ba 4FF00003 		mov	r3, #0
+ 1202 09be 0B93     		str	r3, [sp, #44]
+ 1203 09c0 43E0     		b	.L61
+ 1204              	.L64:
+ 1205 09c2 019A     		ldr	r2, [sp, #4]
+ 1206 09c4 0B9B     		ldr	r3, [sp, #44]
+ 1207 09c6 03F11403 		add	r3, r3, #20
+ 1208 09ca 4FEA8303 		lsl	r3, r3, #2
+ 1209 09ce D318     		adds	r3, r2, r3
+ 1210 09d0 5B68     		ldr	r3, [r3, #4]
+ 1211 09d2 1B68     		ldr	r3, [r3, #0]
+ 1212 09d4 0393     		str	r3, [sp, #12]
+ 1213 09d6 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1214 09da 23F07F03 		bic	r3, r3, #127
+ 1215 09de DBB2     		uxtb	r3, r3
+ 1216 09e0 002B     		cmp	r3, #0
+ 1217 09e2 0BD0     		beq	.L62
+ 1218 09e4 4FF00003 		mov	r3, #0
+ 1219 09e8 0393     		str	r3, [sp, #12]
+ 1220 09ea 039B     		ldr	r3, [sp, #12]
+ 1221 09ec 43F08043 		orr	r3, r3, #1073741824
+ 1222 09f0 0393     		str	r3, [sp, #12]
+ 1223 09f2 039B     		ldr	r3, [sp, #12]
+ 1224 09f4 43F00063 		orr	r3, r3, #134217728
+ 1225 09f8 0393     		str	r3, [sp, #12]
+ 1226 09fa 02E0     		b	.L63
+ 1227              	.L62:
+ 1228 09fc 4FF00003 		mov	r3, #0
+ 1229 0a00 0393     		str	r3, [sp, #12]
+ 1230              	.L63:
+ 1231 0a02 019A     		ldr	r2, [sp, #4]
+ 1232 0a04 0B9B     		ldr	r3, [sp, #44]
+ 1233 0a06 03F11403 		add	r3, r3, #20
+ 1234 0a0a 4FEA8303 		lsl	r3, r3, #2
+ 1235 0a0e D318     		adds	r3, r2, r3
+ 1236 0a10 5B68     		ldr	r3, [r3, #4]
+ 1237 0a12 039A     		ldr	r2, [sp, #12]
+ 1238 0a14 1A60     		str	r2, [r3, #0]
+ 1239 0a16 019A     		ldr	r2, [sp, #4]
+ 1240 0a18 0B9B     		ldr	r3, [sp, #44]
+ 1241 0a1a 03F11403 		add	r3, r3, #20
+ 1242 0a1e 4FEA8303 		lsl	r3, r3, #2
+ 1243 0a22 D318     		adds	r3, r2, r3
+ 1244 0a24 5B68     		ldr	r3, [r3, #4]
+ 1245 0a26 4FF00002 		mov	r2, #0
+ 1246 0a2a 1A61     		str	r2, [r3, #16]
+ 1247 0a2c 019A     		ldr	r2, [sp, #4]
+ 1248 0a2e 0B9B     		ldr	r3, [sp, #44]
+ 1249 0a30 03F11403 		add	r3, r3, #20
+ 1250 0a34 4FEA8303 		lsl	r3, r3, #2
+ 1251 0a38 D318     		adds	r3, r2, r3
+ 1252 0a3a 5B68     		ldr	r3, [r3, #4]
+ 1253 0a3c 4FF0FF02 		mov	r2, #255
+ 1254 0a40 9A60     		str	r2, [r3, #8]
+ 1255 0a42 0B9B     		ldr	r3, [sp, #44]
+ 1256 0a44 03F10103 		add	r3, r3, #1
+ 1257 0a48 0B93     		str	r3, [sp, #44]
+ 1258              	.L61:
+ 1259 0a4a 019B     		ldr	r3, [sp, #4]
+ 1260 0a4c 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1261 0a4e 1A46     		mov	r2, r3
+ 1262 0a50 0B9B     		ldr	r3, [sp, #44]
+ 1263 0a52 9A42     		cmp	r2, r3
+ 1264 0a54 B5D8     		bhi	.L64
+ 1265 0a56 4FF00003 		mov	r3, #0
+ 1266 0a5a 0593     		str	r3, [sp, #20]
+ 1267 0a5c 059B     		ldr	r3, [sp, #20]
+ 1268 0a5e 43F48073 		orr	r3, r3, #256
+ 1269 0a62 0593     		str	r3, [sp, #20]
+ 1270 0a64 019B     		ldr	r3, [sp, #4]
+ 1271 0a66 1B69     		ldr	r3, [r3, #16]
+ 1272 0a68 019A     		ldr	r2, [sp, #4]
+ 1273 0a6a 1269     		ldr	r2, [r2, #16]
+ 1274 0a6c 1169     		ldr	r1, [r2, #16]
+ 1275 0a6e 059A     		ldr	r2, [sp, #20]
+ 1276 0a70 6FEA0202 		mvn	r2, r2
+ 1277 0a74 1140     		ands	r1, r1, r2
+ 1278 0a76 059A     		ldr	r2, [sp, #20]
+ 1279 0a78 0A43     		orrs	r2, r2, r1
+ 1280 0a7a 1A61     		str	r2, [r3, #16]
+ 1281 0a7c 019B     		ldr	r3, [sp, #4]
+ 1282 0a7e DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1283 0a80 012B     		cmp	r3, #1
+ 1284 0a82 1ED1     		bne	.L65
+ 1285 0a84 4FF00003 		mov	r3, #0
+ 1286 0a88 0493     		str	r3, [sp, #16]
+ 1287 0a8a 049B     		ldr	r3, [sp, #16]
+ 1288 0a8c 43F00103 		orr	r3, r3, #1
+ 1289 0a90 0493     		str	r3, [sp, #16]
+ 1290 0a92 049B     		ldr	r3, [sp, #16]
+ 1291 0a94 43F00203 		orr	r3, r3, #2
+ 1292 0a98 0493     		str	r3, [sp, #16]
+ 1293 0a9a 049B     		ldr	r3, [sp, #16]
+ 1294 0a9c 4FF04002 		mov	r2, #64
+ 1295 0aa0 62F38A03 		bfi	r3, r2, #2, #9
+ 1296 0aa4 0493     		str	r3, [sp, #16]
+ 1297 0aa6 049B     		ldr	r3, [sp, #16]
+ 1298 0aa8 43F48033 		orr	r3, r3, #65536
+ 1299 0aac 0493     		str	r3, [sp, #16]
+ 1300 0aae 049B     		ldr	r3, [sp, #16]
+ 1301 0ab0 4FF04002 		mov	r2, #64
+ 1302 0ab4 62F35943 		bfi	r3, r2, #17, #9
+ 1303 0ab8 0493     		str	r3, [sp, #16]
+ 1304 0aba 019B     		ldr	r3, [sp, #4]
+ 1305 0abc 1B69     		ldr	r3, [r3, #16]
+ 1306 0abe 049A     		ldr	r2, [sp, #16]
+ 1307 0ac0 1A63     		str	r2, [r3, #48]
+ 1308              	.L65:
+ 1309 0ac2 0198     		ldr	r0, [sp, #4]
+ 1310 0ac4 FFF7FEFF 		bl	USB_OTG_EnableDevInt
+ 1311 0ac8 9DF82B30 		ldrb	r3, [sp, #43]	@ zero_extendqisi2
+ 1312 0acc 1846     		mov	r0, r3
+ 1313 0ace 0DB0     		add	sp, sp, #52
+ 1314 0ad0 00BD     		pop	{pc}
+ 1316 0ad2 00BF     		.align	2
+ 1317              		.global	USB_OTG_EnableDevInt
+ 1318              		.thumb
+ 1319              		.thumb_func
+ 1321              	USB_OTG_EnableDevInt:
+ 1322              		@ args = 0, pretend = 0, frame = 16
+ 1323              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1324 0ad4 00B5     		push	{lr}
+ 1325 0ad6 85B0     		sub	sp, sp, #20
+ 1326 0ad8 0190     		str	r0, [sp, #4]
+ 1327 0ada 4FF00003 		mov	r3, #0
+ 1328 0ade 8DF80F30 		strb	r3, [sp, #15]
+ 1329 0ae2 4FF00003 		mov	r3, #0
+ 1330 0ae6 0293     		str	r3, [sp, #8]
+ 1331 0ae8 019B     		ldr	r3, [sp, #4]
+ 1332 0aea DB68     		ldr	r3, [r3, #12]
+ 1333 0aec 4FF00002 		mov	r2, #0
+ 1334 0af0 9A61     		str	r2, [r3, #24]
+ 1335 0af2 019B     		ldr	r3, [sp, #4]
+ 1336 0af4 DB68     		ldr	r3, [r3, #12]
+ 1337 0af6 4FF0FF32 		mov	r2, #-1
+ 1338 0afa 5A61     		str	r2, [r3, #20]
+ 1339 0afc 0198     		ldr	r0, [sp, #4]
+ 1340 0afe FFF77FFA 		bl	USB_OTG_EnableCommonInt
+ 1341 0b02 019B     		ldr	r3, [sp, #4]
+ 1342 0b04 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1343 0b06 002B     		cmp	r3, #0
+ 1344 0b08 03D1     		bne	.L67
+ 1345 0b0a 029B     		ldr	r3, [sp, #8]
+ 1346 0b0c 43F01003 		orr	r3, r3, #16
+ 1347 0b10 0293     		str	r3, [sp, #8]
+ 1348              	.L67:
+ 1349 0b12 029B     		ldr	r3, [sp, #8]
+ 1350 0b14 43F40063 		orr	r3, r3, #2048
+ 1351 0b18 0293     		str	r3, [sp, #8]
+ 1352 0b1a 029B     		ldr	r3, [sp, #8]
+ 1353 0b1c 43F48053 		orr	r3, r3, #4096
+ 1354 0b20 0293     		str	r3, [sp, #8]
+ 1355 0b22 029B     		ldr	r3, [sp, #8]
+ 1356 0b24 43F40053 		orr	r3, r3, #8192
+ 1357 0b28 0293     		str	r3, [sp, #8]
+ 1358 0b2a 029B     		ldr	r3, [sp, #8]
+ 1359 0b2c 43F48023 		orr	r3, r3, #262144
+ 1360 0b30 0293     		str	r3, [sp, #8]
+ 1361 0b32 029B     		ldr	r3, [sp, #8]
+ 1362 0b34 43F40023 		orr	r3, r3, #524288
+ 1363 0b38 0293     		str	r3, [sp, #8]
+ 1364 0b3a 029B     		ldr	r3, [sp, #8]
+ 1365 0b3c 43F00803 		orr	r3, r3, #8
+ 1366 0b40 0293     		str	r3, [sp, #8]
+ 1367 0b42 029B     		ldr	r3, [sp, #8]
+ 1368 0b44 43F48013 		orr	r3, r3, #1048576
+ 1369 0b48 0293     		str	r3, [sp, #8]
+ 1370 0b4a 029B     		ldr	r3, [sp, #8]
+ 1371 0b4c 43F40013 		orr	r3, r3, #2097152
+ 1372 0b50 0293     		str	r3, [sp, #8]
+ 1373 0b52 019B     		ldr	r3, [sp, #4]
+ 1374 0b54 DB68     		ldr	r3, [r3, #12]
+ 1375 0b56 019A     		ldr	r2, [sp, #4]
+ 1376 0b58 D268     		ldr	r2, [r2, #12]
+ 1377 0b5a 9169     		ldr	r1, [r2, #24]
+ 1378 0b5c 029A     		ldr	r2, [sp, #8]
+ 1379 0b5e 6FEA0202 		mvn	r2, r2
+ 1380 0b62 1140     		ands	r1, r1, r2
+ 1381 0b64 029A     		ldr	r2, [sp, #8]
+ 1382 0b66 0A43     		orrs	r2, r2, r1
+ 1383 0b68 9A61     		str	r2, [r3, #24]
+ 1384 0b6a 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1385 0b6e 1846     		mov	r0, r3
+ 1386 0b70 05B0     		add	sp, sp, #20
+ 1387 0b72 00BD     		pop	{pc}
+ 1389              		.align	2
+ 1390              		.global	USB_OTG_GetDeviceSpeed
+ 1391              		.thumb
+ 1392              		.thumb_func
+ 1394              	USB_OTG_GetDeviceSpeed:
+ 1395              		@ args = 0, pretend = 0, frame = 16
+ 1396              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1397              		@ link register save eliminated.
+ 1398 0b74 84B0     		sub	sp, sp, #16
+ 1399 0b76 0190     		str	r0, [sp, #4]
+ 1400 0b78 4FF00003 		mov	r3, #0
+ 1401 0b7c 8DF80F30 		strb	r3, [sp, #15]
+ 1402 0b80 019B     		ldr	r3, [sp, #4]
+ 1403 0b82 1B69     		ldr	r3, [r3, #16]
+ 1404 0b84 9B68     		ldr	r3, [r3, #8]
+ 1405 0b86 0293     		str	r3, [sp, #8]
+ 1406 0b88 029B     		ldr	r3, [sp, #8]
+ 1407 0b8a C3F34103 		ubfx	r3, r3, #1, #2
+ 1408 0b8e DBB2     		uxtb	r3, r3
+ 1409 0b90 022B     		cmp	r3, #2
+ 1410 0b92 0DD0     		beq	.L71
+ 1411 0b94 032B     		cmp	r3, #3
+ 1412 0b96 06D0     		beq	.L70
+ 1413 0b98 012B     		cmp	r3, #1
+ 1414 0b9a 04D0     		beq	.L70
+ 1415 0b9c 4FF00303 		mov	r3, #3
+ 1416 0ba0 8DF80F30 		strb	r3, [sp, #15]
+ 1417 0ba4 09E0     		b	.L72
+ 1418              	.L70:
+ 1419 0ba6 4FF00203 		mov	r3, #2
+ 1420 0baa 8DF80F30 		strb	r3, [sp, #15]
+ 1421 0bae 04E0     		b	.L72
+ 1422              	.L71:
+ 1423 0bb0 4FF00103 		mov	r3, #1
+ 1424 0bb4 8DF80F30 		strb	r3, [sp, #15]
+ 1425 0bb8 00BF     		nop
+ 1426              	.L72:
+ 1427 0bba 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1428 0bbe 1846     		mov	r0, r3
+ 1429 0bc0 04B0     		add	sp, sp, #16
+ 1430 0bc2 7047     		bx	lr
+ 1432              		.align	2
+ 1433              		.global	USB_OTG_EP0Activate
+ 1434              		.thumb
+ 1435              		.thumb_func
+ 1437              	USB_OTG_EP0Activate:
+ 1438              		@ args = 0, pretend = 0, frame = 24
+ 1439              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1440              		@ link register save eliminated.
+ 1441 0bc4 86B0     		sub	sp, sp, #24
+ 1442 0bc6 0190     		str	r0, [sp, #4]
+ 1443 0bc8 4FF00003 		mov	r3, #0
+ 1444 0bcc 8DF81730 		strb	r3, [sp, #23]
+ 1445 0bd0 4FF00003 		mov	r3, #0
+ 1446 0bd4 0293     		str	r3, [sp, #8]
+ 1447 0bd6 019B     		ldr	r3, [sp, #4]
+ 1448 0bd8 1B69     		ldr	r3, [r3, #16]
+ 1449 0bda 9B68     		ldr	r3, [r3, #8]
+ 1450 0bdc 0493     		str	r3, [sp, #16]
+ 1451 0bde 019B     		ldr	r3, [sp, #4]
+ 1452 0be0 9B69     		ldr	r3, [r3, #24]
+ 1453 0be2 1B68     		ldr	r3, [r3, #0]
+ 1454 0be4 0393     		str	r3, [sp, #12]
+ 1455 0be6 049B     		ldr	r3, [sp, #16]
+ 1456 0be8 C3F34103 		ubfx	r3, r3, #1, #2
+ 1457 0bec DBB2     		uxtb	r3, r3
+ 1458 0bee 022B     		cmp	r3, #2
+ 1459 0bf0 04D0     		beq	.L75
+ 1460 0bf2 039B     		ldr	r3, [sp, #12]
+ 1461 0bf4 6FF30A03 		bfc	r3, #0, #11
+ 1462 0bf8 0393     		str	r3, [sp, #12]
+ 1463 0bfa 06E0     		b	.L76
+ 1464              	.L75:
+ 1465 0bfc 039B     		ldr	r3, [sp, #12]
+ 1466 0bfe 4FF00302 		mov	r2, #3
+ 1467 0c02 62F30A03 		bfi	r3, r2, #0, #11
+ 1468 0c06 0393     		str	r3, [sp, #12]
+ 1469 0c08 00BF     		nop
+ 1470              	.L76:
+ 1471 0c0a 019B     		ldr	r3, [sp, #4]
+ 1472 0c0c 9B69     		ldr	r3, [r3, #24]
+ 1473 0c0e 039A     		ldr	r2, [sp, #12]
+ 1474 0c10 1A60     		str	r2, [r3, #0]
+ 1475 0c12 029B     		ldr	r3, [sp, #8]
+ 1476 0c14 43F48073 		orr	r3, r3, #256
+ 1477 0c18 0293     		str	r3, [sp, #8]
+ 1478 0c1a 019B     		ldr	r3, [sp, #4]
+ 1479 0c1c 1B69     		ldr	r3, [r3, #16]
+ 1480 0c1e 019A     		ldr	r2, [sp, #4]
+ 1481 0c20 1269     		ldr	r2, [r2, #16]
+ 1482 0c22 5168     		ldr	r1, [r2, #4]
+ 1483 0c24 029A     		ldr	r2, [sp, #8]
+ 1484 0c26 6FEA0202 		mvn	r2, r2
+ 1485 0c2a 1140     		ands	r1, r1, r2
+ 1486 0c2c 029A     		ldr	r2, [sp, #8]
+ 1487 0c2e 0A43     		orrs	r2, r2, r1
+ 1488 0c30 5A60     		str	r2, [r3, #4]
+ 1489 0c32 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1490 0c36 1846     		mov	r0, r3
+ 1491 0c38 06B0     		add	sp, sp, #24
+ 1492 0c3a 7047     		bx	lr
+ 1494              		.align	2
+ 1495              		.global	USB_OTG_EPActivate
+ 1496              		.thumb
+ 1497              		.thumb_func
+ 1499              	USB_OTG_EPActivate:
+ 1500              		@ args = 0, pretend = 0, frame = 24
+ 1501              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1502              		@ link register save eliminated.
+ 1503 0c3c 86B0     		sub	sp, sp, #24
+ 1504 0c3e 0190     		str	r0, [sp, #4]
+ 1505 0c40 0091     		str	r1, [sp, #0]
+ 1506 0c42 4FF00003 		mov	r3, #0
+ 1507 0c46 8DF81330 		strb	r3, [sp, #19]
+ 1508 0c4a 4FF00003 		mov	r3, #0
+ 1509 0c4e 0393     		str	r3, [sp, #12]
+ 1510 0c50 4FF00003 		mov	r3, #0
+ 1511 0c54 0293     		str	r3, [sp, #8]
+ 1512 0c56 009B     		ldr	r3, [sp, #0]
+ 1513 0c58 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1514 0c5a 012B     		cmp	r3, #1
+ 1515 0c5c 13D1     		bne	.L78
+ 1516 0c5e 009B     		ldr	r3, [sp, #0]
+ 1517 0c60 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1518 0c62 019A     		ldr	r2, [sp, #4]
+ 1519 0c64 03F10403 		add	r3, r3, #4
+ 1520 0c68 4FEA8303 		lsl	r3, r3, #2
+ 1521 0c6c D318     		adds	r3, r2, r3
+ 1522 0c6e 9B68     		ldr	r3, [r3, #8]
+ 1523 0c70 0593     		str	r3, [sp, #20]
+ 1524 0c72 009B     		ldr	r3, [sp, #0]
+ 1525 0c74 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1526 0c76 4FF00102 		mov	r2, #1
+ 1527 0c7a 02FA03F3 		lsl	r3, r2, r3
+ 1528 0c7e 9BB2     		uxth	r3, r3
+ 1529 0c80 ADF80830 		strh	r3, [sp, #8]	@ unaligned
+ 1530 0c84 12E0     		b	.L79
+ 1531              	.L78:
+ 1532 0c86 009B     		ldr	r3, [sp, #0]
+ 1533 0c88 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1534 0c8a 019A     		ldr	r2, [sp, #4]
+ 1535 0c8c 03F11403 		add	r3, r3, #20
+ 1536 0c90 4FEA8303 		lsl	r3, r3, #2
+ 1537 0c94 D318     		adds	r3, r2, r3
+ 1538 0c96 5B68     		ldr	r3, [r3, #4]
+ 1539 0c98 0593     		str	r3, [sp, #20]
+ 1540 0c9a 009B     		ldr	r3, [sp, #0]
+ 1541 0c9c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1542 0c9e 4FF00102 		mov	r2, #1
+ 1543 0ca2 02FA03F3 		lsl	r3, r2, r3
+ 1544 0ca6 9BB2     		uxth	r3, r3
+ 1545 0ca8 ADF80A30 		strh	r3, [sp, #10]	@ unaligned
+ 1546              	.L79:
+ 1547 0cac 059B     		ldr	r3, [sp, #20]
+ 1548 0cae 1B68     		ldr	r3, [r3, #0]
+ 1549 0cb0 0393     		str	r3, [sp, #12]
+ 1550 0cb2 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+ 1551 0cb6 23F07F03 		bic	r3, r3, #127
+ 1552 0cba DBB2     		uxtb	r3, r3
+ 1553 0cbc 002B     		cmp	r3, #0
+ 1554 0cbe 29D1     		bne	.L80
+ 1555 0cc0 009B     		ldr	r3, [sp, #0]
+ 1556 0cc2 9B68     		ldr	r3, [r3, #8]
+ 1557 0cc4 9BB2     		uxth	r3, r3
+ 1558 0cc6 4FEA4353 		lsl	r3, r3, #21
+ 1559 0cca 4FEA5353 		lsr	r3, r3, #21
+ 1560 0cce 9AB2     		uxth	r2, r3
+ 1561 0cd0 039B     		ldr	r3, [sp, #12]
+ 1562 0cd2 62F30A03 		bfi	r3, r2, #0, #11
+ 1563 0cd6 0393     		str	r3, [sp, #12]
+ 1564 0cd8 009B     		ldr	r3, [sp, #0]
+ 1565 0cda DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1566 0cdc 03F00303 		and	r3, r3, #3
+ 1567 0ce0 DAB2     		uxtb	r2, r3
+ 1568 0ce2 039B     		ldr	r3, [sp, #12]
+ 1569 0ce4 62F39343 		bfi	r3, r2, #18, #2
+ 1570 0ce8 0393     		str	r3, [sp, #12]
+ 1571 0cea 009B     		ldr	r3, [sp, #0]
+ 1572 0cec DB88     		ldrh	r3, [r3, #6]
+ 1573 0cee DBB2     		uxtb	r3, r3
+ 1574 0cf0 03F00F03 		and	r3, r3, #15
+ 1575 0cf4 DAB2     		uxtb	r2, r3
+ 1576 0cf6 039B     		ldr	r3, [sp, #12]
+ 1577 0cf8 62F39953 		bfi	r3, r2, #22, #4
+ 1578 0cfc 0393     		str	r3, [sp, #12]
+ 1579 0cfe 039B     		ldr	r3, [sp, #12]
+ 1580 0d00 43F08053 		orr	r3, r3, #268435456
+ 1581 0d04 0393     		str	r3, [sp, #12]
+ 1582 0d06 039B     		ldr	r3, [sp, #12]
+ 1583 0d08 43F40043 		orr	r3, r3, #32768
+ 1584 0d0c 0393     		str	r3, [sp, #12]
+ 1585 0d0e 039A     		ldr	r2, [sp, #12]
+ 1586 0d10 059B     		ldr	r3, [sp, #20]
+ 1587 0d12 1A60     		str	r2, [r3, #0]
+ 1588              	.L80:
+ 1589 0d14 019B     		ldr	r3, [sp, #4]
+ 1590 0d16 1B69     		ldr	r3, [r3, #16]
+ 1591 0d18 019A     		ldr	r2, [sp, #4]
+ 1592 0d1a 1269     		ldr	r2, [r2, #16]
+ 1593 0d1c D169     		ldr	r1, [r2, #28]
+ 1594 0d1e 029A     		ldr	r2, [sp, #8]
+ 1595 0d20 0A43     		orrs	r2, r2, r1
+ 1596 0d22 DA61     		str	r2, [r3, #28]
+ 1597 0d24 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 1598 0d28 1846     		mov	r0, r3
+ 1599 0d2a 06B0     		add	sp, sp, #24
+ 1600 0d2c 7047     		bx	lr
+ 1602 0d2e 00BF     		.align	2
+ 1603              		.global	USB_OTG_EPDeactivate
+ 1604              		.thumb
+ 1605              		.thumb_func
+ 1607              	USB_OTG_EPDeactivate:
+ 1608              		@ args = 0, pretend = 0, frame = 24
+ 1609              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1610              		@ link register save eliminated.
+ 1611 0d30 86B0     		sub	sp, sp, #24
+ 1612 0d32 0190     		str	r0, [sp, #4]
+ 1613 0d34 0091     		str	r1, [sp, #0]
+ 1614 0d36 4FF00003 		mov	r3, #0
+ 1615 0d3a 8DF81330 		strb	r3, [sp, #19]
+ 1616 0d3e 4FF00003 		mov	r3, #0
+ 1617 0d42 0393     		str	r3, [sp, #12]
+ 1618 0d44 4FF00003 		mov	r3, #0
+ 1619 0d48 0293     		str	r3, [sp, #8]
+ 1620 0d4a 009B     		ldr	r3, [sp, #0]
+ 1621 0d4c 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1622 0d4e 012B     		cmp	r3, #1
+ 1623 0d50 13D1     		bne	.L82
+ 1624 0d52 009B     		ldr	r3, [sp, #0]
+ 1625 0d54 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1626 0d56 019A     		ldr	r2, [sp, #4]
+ 1627 0d58 03F10403 		add	r3, r3, #4
+ 1628 0d5c 4FEA8303 		lsl	r3, r3, #2
+ 1629 0d60 D318     		adds	r3, r2, r3
+ 1630 0d62 9B68     		ldr	r3, [r3, #8]
+ 1631 0d64 0593     		str	r3, [sp, #20]
+ 1632 0d66 009B     		ldr	r3, [sp, #0]
+ 1633 0d68 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1634 0d6a 4FF00102 		mov	r2, #1
+ 1635 0d6e 02FA03F3 		lsl	r3, r2, r3
+ 1636 0d72 9BB2     		uxth	r3, r3
+ 1637 0d74 ADF80830 		strh	r3, [sp, #8]	@ unaligned
+ 1638 0d78 12E0     		b	.L83
+ 1639              	.L82:
+ 1640 0d7a 009B     		ldr	r3, [sp, #0]
+ 1641 0d7c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1642 0d7e 019A     		ldr	r2, [sp, #4]
+ 1643 0d80 03F11403 		add	r3, r3, #20
+ 1644 0d84 4FEA8303 		lsl	r3, r3, #2
+ 1645 0d88 D318     		adds	r3, r2, r3
+ 1646 0d8a 5B68     		ldr	r3, [r3, #4]
+ 1647 0d8c 0593     		str	r3, [sp, #20]
+ 1648 0d8e 009B     		ldr	r3, [sp, #0]
+ 1649 0d90 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1650 0d92 4FF00102 		mov	r2, #1
+ 1651 0d96 02FA03F3 		lsl	r3, r2, r3
+ 1652 0d9a 9BB2     		uxth	r3, r3
+ 1653 0d9c ADF80A30 		strh	r3, [sp, #10]	@ unaligned
+ 1654              	.L83:
+ 1655 0da0 039B     		ldr	r3, [sp, #12]
+ 1656 0da2 6FF3CF33 		bfc	r3, #15, #1
+ 1657 0da6 0393     		str	r3, [sp, #12]
+ 1658 0da8 039A     		ldr	r2, [sp, #12]
+ 1659 0daa 059B     		ldr	r3, [sp, #20]
+ 1660 0dac 1A60     		str	r2, [r3, #0]
+ 1661 0dae 019B     		ldr	r3, [sp, #4]
+ 1662 0db0 1B69     		ldr	r3, [r3, #16]
+ 1663 0db2 019A     		ldr	r2, [sp, #4]
+ 1664 0db4 1269     		ldr	r2, [r2, #16]
+ 1665 0db6 D169     		ldr	r1, [r2, #28]
+ 1666 0db8 029A     		ldr	r2, [sp, #8]
+ 1667 0dba 6FEA0202 		mvn	r2, r2
+ 1668 0dbe 0A40     		ands	r2, r2, r1
+ 1669 0dc0 DA61     		str	r2, [r3, #28]
+ 1670 0dc2 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 1671 0dc6 1846     		mov	r0, r3
+ 1672 0dc8 06B0     		add	sp, sp, #24
+ 1673 0dca 7047     		bx	lr
+ 1675              		.align	2
+ 1676              		.global	USB_OTG_EPStartXfer
+ 1677              		.thumb
+ 1678              		.thumb_func
+ 1680              	USB_OTG_EPStartXfer:
+ 1681              		@ args = 0, pretend = 0, frame = 32
+ 1682              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1683 0dcc 00B5     		push	{lr}
+ 1684 0dce 89B0     		sub	sp, sp, #36
+ 1685 0dd0 0190     		str	r0, [sp, #4]
+ 1686 0dd2 0091     		str	r1, [sp, #0]
+ 1687 0dd4 4FF00003 		mov	r3, #0
+ 1688 0dd8 8DF81F30 		strb	r3, [sp, #31]
+ 1689 0ddc 4FF00003 		mov	r3, #0
+ 1690 0de0 0693     		str	r3, [sp, #24]
+ 1691 0de2 4FF00003 		mov	r3, #0
+ 1692 0de6 0593     		str	r3, [sp, #20]
+ 1693 0de8 4FF00003 		mov	r3, #0
+ 1694 0dec 0493     		str	r3, [sp, #16]
+ 1695 0dee 009B     		ldr	r3, [sp, #0]
+ 1696 0df0 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1697 0df2 012B     		cmp	r3, #1
+ 1698 0df4 40F0BD80 		bne	.L85
+ 1699 0df8 009B     		ldr	r3, [sp, #0]
+ 1700 0dfa 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1701 0dfc 019A     		ldr	r2, [sp, #4]
+ 1702 0dfe 03F10403 		add	r3, r3, #4
+ 1703 0e02 4FEA8303 		lsl	r3, r3, #2
+ 1704 0e06 D318     		adds	r3, r2, r3
+ 1705 0e08 9B68     		ldr	r3, [r3, #8]
+ 1706 0e0a 1B68     		ldr	r3, [r3, #0]
+ 1707 0e0c 0593     		str	r3, [sp, #20]
+ 1708 0e0e 009B     		ldr	r3, [sp, #0]
+ 1709 0e10 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1710 0e12 019A     		ldr	r2, [sp, #4]
+ 1711 0e14 03F10403 		add	r3, r3, #4
+ 1712 0e18 4FEA8303 		lsl	r3, r3, #2
+ 1713 0e1c D318     		adds	r3, r2, r3
+ 1714 0e1e 9B68     		ldr	r3, [r3, #8]
+ 1715 0e20 1B69     		ldr	r3, [r3, #16]
+ 1716 0e22 0493     		str	r3, [sp, #16]
+ 1717 0e24 009B     		ldr	r3, [sp, #0]
+ 1718 0e26 5B69     		ldr	r3, [r3, #20]
+ 1719 0e28 002B     		cmp	r3, #0
+ 1720 0e2a 0AD1     		bne	.L86
+ 1721 0e2c 049B     		ldr	r3, [sp, #16]
+ 1722 0e2e 6FF31203 		bfc	r3, #0, #19
+ 1723 0e32 0493     		str	r3, [sp, #16]
+ 1724 0e34 049B     		ldr	r3, [sp, #16]
+ 1725 0e36 4FF00102 		mov	r2, #1
+ 1726 0e3a 62F3DC43 		bfi	r3, r2, #19, #10
+ 1727 0e3e 0493     		str	r3, [sp, #16]
+ 1728 0e40 28E0     		b	.L87
+ 1729              	.L86:
+ 1730 0e42 009B     		ldr	r3, [sp, #0]
+ 1731 0e44 5B69     		ldr	r3, [r3, #20]
+ 1732 0e46 23F07F42 		bic	r2, r3, #-16777216
+ 1733 0e4a 22F47802 		bic	r2, r2, #16252928
+ 1734 0e4e 049B     		ldr	r3, [sp, #16]
+ 1735 0e50 62F31203 		bfi	r3, r2, #0, #19
+ 1736 0e54 0493     		str	r3, [sp, #16]
+ 1737 0e56 009B     		ldr	r3, [sp, #0]
+ 1738 0e58 5A69     		ldr	r2, [r3, #20]
+ 1739 0e5a 009B     		ldr	r3, [sp, #0]
+ 1740 0e5c 9B68     		ldr	r3, [r3, #8]
+ 1741 0e5e D318     		adds	r3, r2, r3
+ 1742 0e60 03F1FF32 		add	r2, r3, #-1
+ 1743 0e64 009B     		ldr	r3, [sp, #0]
+ 1744 0e66 9B68     		ldr	r3, [r3, #8]
+ 1745 0e68 B2FBF3F3 		udiv	r3, r2, r3
+ 1746 0e6c 9BB2     		uxth	r3, r3
+ 1747 0e6e 4FEA8353 		lsl	r3, r3, #22
+ 1748 0e72 4FEA9353 		lsr	r3, r3, #22
+ 1749 0e76 9AB2     		uxth	r2, r3
+ 1750 0e78 049B     		ldr	r3, [sp, #16]
+ 1751 0e7a 62F3DC43 		bfi	r3, r2, #19, #10
+ 1752 0e7e 0493     		str	r3, [sp, #16]
+ 1753 0e80 009B     		ldr	r3, [sp, #0]
+ 1754 0e82 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1755 0e84 012B     		cmp	r3, #1
+ 1756 0e86 05D1     		bne	.L87
+ 1757 0e88 049B     		ldr	r3, [sp, #16]
+ 1758 0e8a 4FF00102 		mov	r2, #1
+ 1759 0e8e 62F35E73 		bfi	r3, r2, #29, #2
+ 1760 0e92 0493     		str	r3, [sp, #16]
+ 1761              	.L87:
+ 1762 0e94 009B     		ldr	r3, [sp, #0]
+ 1763 0e96 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1764 0e98 019A     		ldr	r2, [sp, #4]
+ 1765 0e9a 03F10403 		add	r3, r3, #4
+ 1766 0e9e 4FEA8303 		lsl	r3, r3, #2
+ 1767 0ea2 D318     		adds	r3, r2, r3
+ 1768 0ea4 9B68     		ldr	r3, [r3, #8]
+ 1769 0ea6 049A     		ldr	r2, [sp, #16]
+ 1770 0ea8 1A61     		str	r2, [r3, #16]
+ 1771 0eaa 019B     		ldr	r3, [sp, #4]
+ 1772 0eac DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1773 0eae 012B     		cmp	r3, #1
+ 1774 0eb0 0CD1     		bne	.L88
+ 1775 0eb2 009B     		ldr	r3, [sp, #0]
+ 1776 0eb4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1777 0eb6 019A     		ldr	r2, [sp, #4]
+ 1778 0eb8 03F10403 		add	r3, r3, #4
+ 1779 0ebc 4FEA8303 		lsl	r3, r3, #2
+ 1780 0ec0 D318     		adds	r3, r2, r3
+ 1781 0ec2 9B68     		ldr	r3, [r3, #8]
+ 1782 0ec4 009A     		ldr	r2, [sp, #0]
+ 1783 0ec6 1269     		ldr	r2, [r2, #16]
+ 1784 0ec8 5A61     		str	r2, [r3, #20]
+ 1785 0eca 16E0     		b	.L89
+ 1786              	.L88:
+ 1787 0ecc 009B     		ldr	r3, [sp, #0]
+ 1788 0ece DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1789 0ed0 012B     		cmp	r3, #1
+ 1790 0ed2 12D0     		beq	.L89
+ 1791 0ed4 009B     		ldr	r3, [sp, #0]
+ 1792 0ed6 5B69     		ldr	r3, [r3, #20]
+ 1793 0ed8 002B     		cmp	r3, #0
+ 1794 0eda 0ED0     		beq	.L89
+ 1795 0edc 009B     		ldr	r3, [sp, #0]
+ 1796 0ede 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1797 0ee0 4FF00102 		mov	r2, #1
+ 1798 0ee4 02FA03F3 		lsl	r3, r2, r3
+ 1799 0ee8 0693     		str	r3, [sp, #24]
+ 1800 0eea 019B     		ldr	r3, [sp, #4]
+ 1801 0eec 1B69     		ldr	r3, [r3, #16]
+ 1802 0eee 019A     		ldr	r2, [sp, #4]
+ 1803 0ef0 1269     		ldr	r2, [r2, #16]
+ 1804 0ef2 516B     		ldr	r1, [r2, #52]
+ 1805 0ef4 069A     		ldr	r2, [sp, #24]
+ 1806 0ef6 0A43     		orrs	r2, r2, r1
+ 1807 0ef8 5A63     		str	r2, [r3, #52]
+ 1808              	.L89:
+ 1809 0efa 009B     		ldr	r3, [sp, #0]
+ 1810 0efc DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1811 0efe 012B     		cmp	r3, #1
+ 1812 0f00 14D1     		bne	.L90
+ 1813 0f02 019B     		ldr	r3, [sp, #4]
+ 1814 0f04 1B69     		ldr	r3, [r3, #16]
+ 1815 0f06 9B68     		ldr	r3, [r3, #8]
+ 1816 0f08 0393     		str	r3, [sp, #12]
+ 1817 0f0a 039B     		ldr	r3, [sp, #12]
+ 1818 0f0c C3F30D23 		ubfx	r3, r3, #8, #14
+ 1819 0f10 9BB2     		uxth	r3, r3
+ 1820 0f12 03F00103 		and	r3, r3, #1
+ 1821 0f16 002B     		cmp	r3, #0
+ 1822 0f18 04D1     		bne	.L91
+ 1823 0f1a 059B     		ldr	r3, [sp, #20]
+ 1824 0f1c 43F00053 		orr	r3, r3, #536870912
+ 1825 0f20 0593     		str	r3, [sp, #20]
+ 1826 0f22 03E0     		b	.L90
+ 1827              	.L91:
+ 1828 0f24 059B     		ldr	r3, [sp, #20]
+ 1829 0f26 43F08053 		orr	r3, r3, #268435456
+ 1830 0f2a 0593     		str	r3, [sp, #20]
+ 1831              	.L90:
+ 1832 0f2c 059B     		ldr	r3, [sp, #20]
+ 1833 0f2e 43F08063 		orr	r3, r3, #67108864
+ 1834 0f32 0593     		str	r3, [sp, #20]
+ 1835 0f34 059B     		ldr	r3, [sp, #20]
+ 1836 0f36 43F00043 		orr	r3, r3, #-2147483648
+ 1837 0f3a 0593     		str	r3, [sp, #20]
+ 1838 0f3c 009B     		ldr	r3, [sp, #0]
+ 1839 0f3e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1840 0f40 019A     		ldr	r2, [sp, #4]
+ 1841 0f42 03F10403 		add	r3, r3, #4
+ 1842 0f46 4FEA8303 		lsl	r3, r3, #2
+ 1843 0f4a D318     		adds	r3, r2, r3
+ 1844 0f4c 9B68     		ldr	r3, [r3, #8]
+ 1845 0f4e 059A     		ldr	r2, [sp, #20]
+ 1846 0f50 1A60     		str	r2, [r3, #0]
+ 1847 0f52 009B     		ldr	r3, [sp, #0]
+ 1848 0f54 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1849 0f56 012B     		cmp	r3, #1
+ 1850 0f58 40F09A80 		bne	.L92
+ 1851 0f5c 009B     		ldr	r3, [sp, #0]
+ 1852 0f5e D968     		ldr	r1, [r3, #12]
+ 1853 0f60 009B     		ldr	r3, [sp, #0]
+ 1854 0f62 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+ 1855 0f64 009B     		ldr	r3, [sp, #0]
+ 1856 0f66 5B69     		ldr	r3, [r3, #20]
+ 1857 0f68 9BB2     		uxth	r3, r3
+ 1858 0f6a 0198     		ldr	r0, [sp, #4]
+ 1859 0f6c FFF7FEFF 		bl	USB_OTG_WritePacket
+ 1860 0f70 8EE0     		b	.L92
+ 1861              	.L85:
+ 1862 0f72 009B     		ldr	r3, [sp, #0]
+ 1863 0f74 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1864 0f76 019A     		ldr	r2, [sp, #4]
+ 1865 0f78 03F11403 		add	r3, r3, #20
+ 1866 0f7c 4FEA8303 		lsl	r3, r3, #2
+ 1867 0f80 D318     		adds	r3, r2, r3
+ 1868 0f82 5B68     		ldr	r3, [r3, #4]
+ 1869 0f84 1B68     		ldr	r3, [r3, #0]
+ 1870 0f86 0593     		str	r3, [sp, #20]
+ 1871 0f88 009B     		ldr	r3, [sp, #0]
+ 1872 0f8a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1873 0f8c 019A     		ldr	r2, [sp, #4]
+ 1874 0f8e 03F11403 		add	r3, r3, #20
+ 1875 0f92 4FEA8303 		lsl	r3, r3, #2
+ 1876 0f96 D318     		adds	r3, r2, r3
+ 1877 0f98 5B68     		ldr	r3, [r3, #4]
+ 1878 0f9a 1B69     		ldr	r3, [r3, #16]
+ 1879 0f9c 0493     		str	r3, [sp, #16]
+ 1880 0f9e 009B     		ldr	r3, [sp, #0]
+ 1881 0fa0 5B69     		ldr	r3, [r3, #20]
+ 1882 0fa2 002B     		cmp	r3, #0
+ 1883 0fa4 10D1     		bne	.L93
+ 1884 0fa6 009B     		ldr	r3, [sp, #0]
+ 1885 0fa8 9B68     		ldr	r3, [r3, #8]
+ 1886 0faa 23F07F42 		bic	r2, r3, #-16777216
+ 1887 0fae 22F47802 		bic	r2, r2, #16252928
+ 1888 0fb2 049B     		ldr	r3, [sp, #16]
+ 1889 0fb4 62F31203 		bfi	r3, r2, #0, #19
+ 1890 0fb8 0493     		str	r3, [sp, #16]
+ 1891 0fba 049B     		ldr	r3, [sp, #16]
+ 1892 0fbc 4FF00102 		mov	r2, #1
+ 1893 0fc0 62F3DC43 		bfi	r3, r2, #19, #10
+ 1894 0fc4 0493     		str	r3, [sp, #16]
+ 1895 0fc6 24E0     		b	.L94
+ 1896              	.L93:
+ 1897 0fc8 009B     		ldr	r3, [sp, #0]
+ 1898 0fca 5A69     		ldr	r2, [r3, #20]
+ 1899 0fcc 009B     		ldr	r3, [sp, #0]
+ 1900 0fce 9B68     		ldr	r3, [r3, #8]
+ 1901 0fd0 D318     		adds	r3, r2, r3
+ 1902 0fd2 03F1FF32 		add	r2, r3, #-1
+ 1903 0fd6 009B     		ldr	r3, [sp, #0]
+ 1904 0fd8 9B68     		ldr	r3, [r3, #8]
+ 1905 0fda B2FBF3F3 		udiv	r3, r2, r3
+ 1906 0fde 9BB2     		uxth	r3, r3
+ 1907 0fe0 4FEA8353 		lsl	r3, r3, #22
+ 1908 0fe4 4FEA9353 		lsr	r3, r3, #22
+ 1909 0fe8 9AB2     		uxth	r2, r3
+ 1910 0fea 049B     		ldr	r3, [sp, #16]
+ 1911 0fec 62F3DC43 		bfi	r3, r2, #19, #10
+ 1912 0ff0 0493     		str	r3, [sp, #16]
+ 1913 0ff2 049B     		ldr	r3, [sp, #16]
+ 1914 0ff4 C3F3C943 		ubfx	r3, r3, #19, #10
+ 1915 0ff8 9BB2     		uxth	r3, r3
+ 1916 0ffa 009A     		ldr	r2, [sp, #0]
+ 1917 0ffc 9268     		ldr	r2, [r2, #8]
+ 1918 0ffe 02FB03F3 		mul	r3, r2, r3
+ 1919 1002 23F07F42 		bic	r2, r3, #-16777216
+ 1920 1006 22F47802 		bic	r2, r2, #16252928
+ 1921 100a 049B     		ldr	r3, [sp, #16]
+ 1922 100c 62F31203 		bfi	r3, r2, #0, #19
+ 1923 1010 0493     		str	r3, [sp, #16]
+ 1924              	.L94:
+ 1925 1012 009B     		ldr	r3, [sp, #0]
+ 1926 1014 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1927 1016 019A     		ldr	r2, [sp, #4]
+ 1928 1018 03F11403 		add	r3, r3, #20
+ 1929 101c 4FEA8303 		lsl	r3, r3, #2
+ 1930 1020 D318     		adds	r3, r2, r3
+ 1931 1022 5B68     		ldr	r3, [r3, #4]
+ 1932 1024 049A     		ldr	r2, [sp, #16]
+ 1933 1026 1A61     		str	r2, [r3, #16]
+ 1934 1028 019B     		ldr	r3, [sp, #4]
+ 1935 102a DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1936 102c 012B     		cmp	r3, #1
+ 1937 102e 0BD1     		bne	.L95
+ 1938 1030 009B     		ldr	r3, [sp, #0]
+ 1939 1032 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1940 1034 019A     		ldr	r2, [sp, #4]
+ 1941 1036 03F11403 		add	r3, r3, #20
+ 1942 103a 4FEA8303 		lsl	r3, r3, #2
+ 1943 103e D318     		adds	r3, r2, r3
+ 1944 1040 5B68     		ldr	r3, [r3, #4]
+ 1945 1042 009A     		ldr	r2, [sp, #0]
+ 1946 1044 1269     		ldr	r2, [r2, #16]
+ 1947 1046 5A61     		str	r2, [r3, #20]
+ 1948              	.L95:
+ 1949 1048 009B     		ldr	r3, [sp, #0]
+ 1950 104a DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1951 104c 012B     		cmp	r3, #1
+ 1952 104e 0CD1     		bne	.L96
+ 1953 1050 009B     		ldr	r3, [sp, #0]
+ 1954 1052 5B79     		ldrb	r3, [r3, #5]	@ zero_extendqisi2
+ 1955 1054 002B     		cmp	r3, #0
+ 1956 1056 04D0     		beq	.L97
+ 1957 1058 059B     		ldr	r3, [sp, #20]
+ 1958 105a 43F00053 		orr	r3, r3, #536870912
+ 1959 105e 0593     		str	r3, [sp, #20]
+ 1960 1060 03E0     		b	.L96
+ 1961              	.L97:
+ 1962 1062 059B     		ldr	r3, [sp, #20]
+ 1963 1064 43F08053 		orr	r3, r3, #268435456
+ 1964 1068 0593     		str	r3, [sp, #20]
+ 1965              	.L96:
+ 1966 106a 059B     		ldr	r3, [sp, #20]
+ 1967 106c 43F08063 		orr	r3, r3, #67108864
+ 1968 1070 0593     		str	r3, [sp, #20]
+ 1969 1072 059B     		ldr	r3, [sp, #20]
+ 1970 1074 43F00043 		orr	r3, r3, #-2147483648
+ 1971 1078 0593     		str	r3, [sp, #20]
+ 1972 107a 009B     		ldr	r3, [sp, #0]
+ 1973 107c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1974 107e 019A     		ldr	r2, [sp, #4]
+ 1975 1080 03F11403 		add	r3, r3, #20
+ 1976 1084 4FEA8303 		lsl	r3, r3, #2
+ 1977 1088 D318     		adds	r3, r2, r3
+ 1978 108a 5B68     		ldr	r3, [r3, #4]
+ 1979 108c 059A     		ldr	r2, [sp, #20]
+ 1980 108e 1A60     		str	r2, [r3, #0]
+ 1981              	.L92:
+ 1982 1090 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 1983 1094 1846     		mov	r0, r3
+ 1984 1096 09B0     		add	sp, sp, #36
+ 1985 1098 00BD     		pop	{pc}
+ 1987 109a 00BF     		.align	2
+ 1988              		.global	USB_OTG_EP0StartXfer
+ 1989              		.thumb
+ 1990              		.thumb_func
+ 1992              	USB_OTG_EP0StartXfer:
+ 1993              		@ args = 0, pretend = 0, frame = 32
+ 1994              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1995              		@ link register save eliminated.
+ 1996 109c 88B0     		sub	sp, sp, #32
+ 1997 109e 0190     		str	r0, [sp, #4]
+ 1998 10a0 0091     		str	r1, [sp, #0]
+ 1999 10a2 4FF00003 		mov	r3, #0
+ 2000 10a6 8DF81F30 		strb	r3, [sp, #31]
+ 2001 10aa 4FF00003 		mov	r3, #0
+ 2002 10ae 0693     		str	r3, [sp, #24]
+ 2003 10b0 4FF00003 		mov	r3, #0
+ 2004 10b4 0493     		str	r3, [sp, #16]
+ 2005 10b6 4FF00003 		mov	r3, #0
+ 2006 10ba 0293     		str	r3, [sp, #8]
+ 2007 10bc 009B     		ldr	r3, [sp, #0]
+ 2008 10be 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2009 10c0 012B     		cmp	r3, #1
+ 2010 10c2 40F08180 		bne	.L99
+ 2011 10c6 019B     		ldr	r3, [sp, #4]
+ 2012 10c8 9B69     		ldr	r3, [r3, #24]
+ 2013 10ca 0593     		str	r3, [sp, #20]
+ 2014 10cc 059B     		ldr	r3, [sp, #20]
+ 2015 10ce 1B68     		ldr	r3, [r3, #0]
+ 2016 10d0 0493     		str	r3, [sp, #16]
+ 2017 10d2 059B     		ldr	r3, [sp, #20]
+ 2018 10d4 1B69     		ldr	r3, [r3, #16]
+ 2019 10d6 0293     		str	r3, [sp, #8]
+ 2020 10d8 009B     		ldr	r3, [sp, #0]
+ 2021 10da 5B69     		ldr	r3, [r3, #20]
+ 2022 10dc 002B     		cmp	r3, #0
+ 2023 10de 0ED1     		bne	.L100
+ 2024 10e0 9DF80830 		ldrb	r3, [sp, #8]
+ 2025 10e4 6FF30603 		bfc	r3, #0, #7
+ 2026 10e8 8DF80830 		strb	r3, [sp, #8]
+ 2027 10ec 9DF80A30 		ldrb	r3, [sp, #10]
+ 2028 10f0 4FF00102 		mov	r2, #1
+ 2029 10f4 62F3C403 		bfi	r3, r2, #3, #2
+ 2030 10f8 8DF80A30 		strb	r3, [sp, #10]
+ 2031 10fc 2AE0     		b	.L101
+ 2032              	.L100:
+ 2033 10fe 009B     		ldr	r3, [sp, #0]
+ 2034 1100 5A69     		ldr	r2, [r3, #20]
+ 2035 1102 009B     		ldr	r3, [sp, #0]
+ 2036 1104 9B68     		ldr	r3, [r3, #8]
+ 2037 1106 9A42     		cmp	r2, r3
+ 2038 1108 10D9     		bls	.L102
+ 2039 110a 009B     		ldr	r3, [sp, #0]
+ 2040 110c 9A68     		ldr	r2, [r3, #8]
+ 2041 110e 009B     		ldr	r3, [sp, #0]
+ 2042 1110 5A61     		str	r2, [r3, #20]
+ 2043 1112 009B     		ldr	r3, [sp, #0]
+ 2044 1114 9B68     		ldr	r3, [r3, #8]
+ 2045 1116 DBB2     		uxtb	r3, r3
+ 2046 1118 03F07F03 		and	r3, r3, #127
+ 2047 111c DAB2     		uxtb	r2, r3
+ 2048 111e 9DF80830 		ldrb	r3, [sp, #8]
+ 2049 1122 62F30603 		bfi	r3, r2, #0, #7
+ 2050 1126 8DF80830 		strb	r3, [sp, #8]
+ 2051 112a 0BE0     		b	.L103
+ 2052              	.L102:
+ 2053 112c 009B     		ldr	r3, [sp, #0]
+ 2054 112e 5B69     		ldr	r3, [r3, #20]
+ 2055 1130 DBB2     		uxtb	r3, r3
+ 2056 1132 03F07F03 		and	r3, r3, #127
+ 2057 1136 DAB2     		uxtb	r2, r3
+ 2058 1138 9DF80830 		ldrb	r3, [sp, #8]
+ 2059 113c 62F30603 		bfi	r3, r2, #0, #7
+ 2060 1140 8DF80830 		strb	r3, [sp, #8]
+ 2061              	.L103:
+ 2062 1144 9DF80A30 		ldrb	r3, [sp, #10]
+ 2063 1148 4FF00102 		mov	r2, #1
+ 2064 114c 62F3C403 		bfi	r3, r2, #3, #2
+ 2065 1150 8DF80A30 		strb	r3, [sp, #10]
+ 2066              	.L101:
+ 2067 1154 029A     		ldr	r2, [sp, #8]
+ 2068 1156 059B     		ldr	r3, [sp, #20]
+ 2069 1158 1A61     		str	r2, [r3, #16]
+ 2070 115a 019B     		ldr	r3, [sp, #4]
+ 2071 115c DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 2072 115e 012B     		cmp	r3, #1
+ 2073 1160 0BD1     		bne	.L104
+ 2074 1162 009B     		ldr	r3, [sp, #0]
+ 2075 1164 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2076 1166 019A     		ldr	r2, [sp, #4]
+ 2077 1168 03F10403 		add	r3, r3, #4
+ 2078 116c 4FEA8303 		lsl	r3, r3, #2
+ 2079 1170 D318     		adds	r3, r2, r3
+ 2080 1172 9B68     		ldr	r3, [r3, #8]
+ 2081 1174 009A     		ldr	r2, [sp, #0]
+ 2082 1176 1269     		ldr	r2, [r2, #16]
+ 2083 1178 5A61     		str	r2, [r3, #20]
+ 2084              	.L104:
+ 2085 117a 049B     		ldr	r3, [sp, #16]
+ 2086 117c 43F08063 		orr	r3, r3, #67108864
+ 2087 1180 0493     		str	r3, [sp, #16]
+ 2088 1182 049B     		ldr	r3, [sp, #16]
+ 2089 1184 43F00043 		orr	r3, r3, #-2147483648
+ 2090 1188 0493     		str	r3, [sp, #16]
+ 2091 118a 049A     		ldr	r2, [sp, #16]
+ 2092 118c 059B     		ldr	r3, [sp, #20]
+ 2093 118e 1A60     		str	r2, [r3, #0]
+ 2094 1190 019B     		ldr	r3, [sp, #4]
+ 2095 1192 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 2096 1194 002B     		cmp	r3, #0
+ 2097 1196 40F08C80 		bne	.L105
+ 2098 119a 009B     		ldr	r3, [sp, #0]
+ 2099 119c 5B69     		ldr	r3, [r3, #20]
+ 2100 119e 002B     		cmp	r3, #0
+ 2101 11a0 00F08780 		beq	.L105
+ 2102 11a4 009B     		ldr	r3, [sp, #0]
+ 2103 11a6 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2104 11a8 4FF00102 		mov	r2, #1
+ 2105 11ac 02FA03F3 		lsl	r3, r2, r3
+ 2106 11b0 069A     		ldr	r2, [sp, #24]
+ 2107 11b2 1343     		orrs	r3, r3, r2
+ 2108 11b4 0693     		str	r3, [sp, #24]
+ 2109 11b6 019B     		ldr	r3, [sp, #4]
+ 2110 11b8 1B69     		ldr	r3, [r3, #16]
+ 2111 11ba 019A     		ldr	r2, [sp, #4]
+ 2112 11bc 1269     		ldr	r2, [r2, #16]
+ 2113 11be 516B     		ldr	r1, [r2, #52]
+ 2114 11c0 069A     		ldr	r2, [sp, #24]
+ 2115 11c2 0A43     		orrs	r2, r2, r1
+ 2116 11c4 5A63     		str	r2, [r3, #52]
+ 2117 11c6 74E0     		b	.L105
+ 2118              	.L99:
+ 2119 11c8 009B     		ldr	r3, [sp, #0]
+ 2120 11ca 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2121 11cc 019A     		ldr	r2, [sp, #4]
+ 2122 11ce 03F11403 		add	r3, r3, #20
+ 2123 11d2 4FEA8303 		lsl	r3, r3, #2
+ 2124 11d6 D318     		adds	r3, r2, r3
+ 2125 11d8 5B68     		ldr	r3, [r3, #4]
+ 2126 11da 1B68     		ldr	r3, [r3, #0]
+ 2127 11dc 0493     		str	r3, [sp, #16]
+ 2128 11de 009B     		ldr	r3, [sp, #0]
+ 2129 11e0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2130 11e2 019A     		ldr	r2, [sp, #4]
+ 2131 11e4 03F11403 		add	r3, r3, #20
+ 2132 11e8 4FEA8303 		lsl	r3, r3, #2
+ 2133 11ec D318     		adds	r3, r2, r3
+ 2134 11ee 5B68     		ldr	r3, [r3, #4]
+ 2135 11f0 1B69     		ldr	r3, [r3, #16]
+ 2136 11f2 0293     		str	r3, [sp, #8]
+ 2137 11f4 009B     		ldr	r3, [sp, #0]
+ 2138 11f6 5B69     		ldr	r3, [r3, #20]
+ 2139 11f8 002B     		cmp	r3, #0
+ 2140 11fa 14D1     		bne	.L106
+ 2141 11fc 009B     		ldr	r3, [sp, #0]
+ 2142 11fe 9B68     		ldr	r3, [r3, #8]
+ 2143 1200 DBB2     		uxtb	r3, r3
+ 2144 1202 03F07F03 		and	r3, r3, #127
+ 2145 1206 DAB2     		uxtb	r2, r3
+ 2146 1208 9DF80830 		ldrb	r3, [sp, #8]
+ 2147 120c 62F30603 		bfi	r3, r2, #0, #7
+ 2148 1210 8DF80830 		strb	r3, [sp, #8]
+ 2149 1214 9DF80A30 		ldrb	r3, [sp, #10]
+ 2150 1218 4FF00102 		mov	r2, #1
+ 2151 121c 62F3C403 		bfi	r3, r2, #3, #2
+ 2152 1220 8DF80A30 		strb	r3, [sp, #10]
+ 2153 1224 17E0     		b	.L107
+ 2154              	.L106:
+ 2155 1226 009B     		ldr	r3, [sp, #0]
+ 2156 1228 9A68     		ldr	r2, [r3, #8]
+ 2157 122a 009B     		ldr	r3, [sp, #0]
+ 2158 122c 5A61     		str	r2, [r3, #20]
+ 2159 122e 009B     		ldr	r3, [sp, #0]
+ 2160 1230 9B68     		ldr	r3, [r3, #8]
+ 2161 1232 DBB2     		uxtb	r3, r3
+ 2162 1234 03F07F03 		and	r3, r3, #127
+ 2163 1238 DAB2     		uxtb	r2, r3
+ 2164 123a 9DF80830 		ldrb	r3, [sp, #8]
+ 2165 123e 62F30603 		bfi	r3, r2, #0, #7
+ 2166 1242 8DF80830 		strb	r3, [sp, #8]
+ 2167 1246 9DF80A30 		ldrb	r3, [sp, #10]
+ 2168 124a 4FF00102 		mov	r2, #1
+ 2169 124e 62F3C403 		bfi	r3, r2, #3, #2
+ 2170 1252 8DF80A30 		strb	r3, [sp, #10]
+ 2171              	.L107:
+ 2172 1256 009B     		ldr	r3, [sp, #0]
+ 2173 1258 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2174 125a 019A     		ldr	r2, [sp, #4]
+ 2175 125c 03F11403 		add	r3, r3, #20
+ 2176 1260 4FEA8303 		lsl	r3, r3, #2
+ 2177 1264 D318     		adds	r3, r2, r3
+ 2178 1266 5B68     		ldr	r3, [r3, #4]
+ 2179 1268 029A     		ldr	r2, [sp, #8]
+ 2180 126a 1A61     		str	r2, [r3, #16]
+ 2181 126c 019B     		ldr	r3, [sp, #4]
+ 2182 126e DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 2183 1270 012B     		cmp	r3, #1
+ 2184 1272 0BD1     		bne	.L108
+ 2185 1274 009B     		ldr	r3, [sp, #0]
+ 2186 1276 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2187 1278 019A     		ldr	r2, [sp, #4]
+ 2188 127a 03F11403 		add	r3, r3, #20
+ 2189 127e 4FEA8303 		lsl	r3, r3, #2
+ 2190 1282 D318     		adds	r3, r2, r3
+ 2191 1284 5B68     		ldr	r3, [r3, #4]
+ 2192 1286 009A     		ldr	r2, [sp, #0]
+ 2193 1288 1269     		ldr	r2, [r2, #16]
+ 2194 128a 5A61     		str	r2, [r3, #20]
+ 2195              	.L108:
+ 2196 128c 049B     		ldr	r3, [sp, #16]
+ 2197 128e 43F08063 		orr	r3, r3, #67108864
+ 2198 1292 0493     		str	r3, [sp, #16]
+ 2199 1294 049B     		ldr	r3, [sp, #16]
+ 2200 1296 43F00043 		orr	r3, r3, #-2147483648
+ 2201 129a 0493     		str	r3, [sp, #16]
+ 2202 129c 009B     		ldr	r3, [sp, #0]
+ 2203 129e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2204 12a0 019A     		ldr	r2, [sp, #4]
+ 2205 12a2 03F11403 		add	r3, r3, #20
+ 2206 12a6 4FEA8303 		lsl	r3, r3, #2
+ 2207 12aa D318     		adds	r3, r2, r3
+ 2208 12ac 5B68     		ldr	r3, [r3, #4]
+ 2209 12ae 049A     		ldr	r2, [sp, #16]
+ 2210 12b0 1A60     		str	r2, [r3, #0]
+ 2211              	.L105:
+ 2212 12b2 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 2213 12b6 1846     		mov	r0, r3
+ 2214 12b8 08B0     		add	sp, sp, #32
+ 2215 12ba 7047     		bx	lr
+ 2217              		.align	2
+ 2218              		.global	USB_OTG_EPSetStall
+ 2219              		.thumb
+ 2220              		.thumb_func
+ 2222              	USB_OTG_EPSetStall:
+ 2223              		@ args = 0, pretend = 0, frame = 24
+ 2224              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2225              		@ link register save eliminated.
+ 2226 12bc 86B0     		sub	sp, sp, #24
+ 2227 12be 0190     		str	r0, [sp, #4]
+ 2228 12c0 0091     		str	r1, [sp, #0]
+ 2229 12c2 4FF00003 		mov	r3, #0
+ 2230 12c6 8DF81730 		strb	r3, [sp, #23]
+ 2231 12ca 4FF00003 		mov	r3, #0
+ 2232 12ce 0393     		str	r3, [sp, #12]
+ 2233 12d0 009B     		ldr	r3, [sp, #0]
+ 2234 12d2 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2235 12d4 012B     		cmp	r3, #1
+ 2236 12d6 1FD1     		bne	.L110
+ 2237 12d8 009B     		ldr	r3, [sp, #0]
+ 2238 12da 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2239 12dc 019A     		ldr	r2, [sp, #4]
+ 2240 12de 03F10403 		add	r3, r3, #4
+ 2241 12e2 4FEA8303 		lsl	r3, r3, #2
+ 2242 12e6 D318     		adds	r3, r2, r3
+ 2243 12e8 9B68     		ldr	r3, [r3, #8]
+ 2244 12ea 0493     		str	r3, [sp, #16]
+ 2245 12ec 049B     		ldr	r3, [sp, #16]
+ 2246 12ee 1B68     		ldr	r3, [r3, #0]
+ 2247 12f0 0393     		str	r3, [sp, #12]
+ 2248 12f2 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 2249 12f6 23F07F03 		bic	r3, r3, #127
+ 2250 12fa DBB2     		uxtb	r3, r3
+ 2251 12fc 002B     		cmp	r3, #0
+ 2252 12fe 03D0     		beq	.L111
+ 2253 1300 039B     		ldr	r3, [sp, #12]
+ 2254 1302 43F08043 		orr	r3, r3, #1073741824
+ 2255 1306 0393     		str	r3, [sp, #12]
+ 2256              	.L111:
+ 2257 1308 039B     		ldr	r3, [sp, #12]
+ 2258 130a 43F40013 		orr	r3, r3, #2097152
+ 2259 130e 0393     		str	r3, [sp, #12]
+ 2260 1310 039A     		ldr	r2, [sp, #12]
+ 2261 1312 049B     		ldr	r3, [sp, #16]
+ 2262 1314 1A60     		str	r2, [r3, #0]
+ 2263 1316 13E0     		b	.L112
+ 2264              	.L110:
+ 2265 1318 009B     		ldr	r3, [sp, #0]
+ 2266 131a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2267 131c 019A     		ldr	r2, [sp, #4]
+ 2268 131e 03F11403 		add	r3, r3, #20
+ 2269 1322 4FEA8303 		lsl	r3, r3, #2
+ 2270 1326 D318     		adds	r3, r2, r3
+ 2271 1328 5B68     		ldr	r3, [r3, #4]
+ 2272 132a 0493     		str	r3, [sp, #16]
+ 2273 132c 049B     		ldr	r3, [sp, #16]
+ 2274 132e 1B68     		ldr	r3, [r3, #0]
+ 2275 1330 0393     		str	r3, [sp, #12]
+ 2276 1332 039B     		ldr	r3, [sp, #12]
+ 2277 1334 43F40013 		orr	r3, r3, #2097152
+ 2278 1338 0393     		str	r3, [sp, #12]
+ 2279 133a 039A     		ldr	r2, [sp, #12]
+ 2280 133c 049B     		ldr	r3, [sp, #16]
+ 2281 133e 1A60     		str	r2, [r3, #0]
+ 2282              	.L112:
+ 2283 1340 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 2284 1344 1846     		mov	r0, r3
+ 2285 1346 06B0     		add	sp, sp, #24
+ 2286 1348 7047     		bx	lr
+ 2288 134a 00BF     		.align	2
+ 2289              		.global	USB_OTG_EPClearStall
+ 2290              		.thumb
+ 2291              		.thumb_func
+ 2293              	USB_OTG_EPClearStall:
+ 2294              		@ args = 0, pretend = 0, frame = 24
+ 2295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2296              		@ link register save eliminated.
+ 2297 134c 86B0     		sub	sp, sp, #24
+ 2298 134e 0190     		str	r0, [sp, #4]
+ 2299 1350 0091     		str	r1, [sp, #0]
+ 2300 1352 4FF00003 		mov	r3, #0
+ 2301 1356 8DF81330 		strb	r3, [sp, #19]
+ 2302 135a 4FF00003 		mov	r3, #0
+ 2303 135e 0393     		str	r3, [sp, #12]
+ 2304 1360 009B     		ldr	r3, [sp, #0]
+ 2305 1362 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2306 1364 012B     		cmp	r3, #1
+ 2307 1366 0AD1     		bne	.L114
+ 2308 1368 009B     		ldr	r3, [sp, #0]
+ 2309 136a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2310 136c 019A     		ldr	r2, [sp, #4]
+ 2311 136e 03F10403 		add	r3, r3, #4
+ 2312 1372 4FEA8303 		lsl	r3, r3, #2
+ 2313 1376 D318     		adds	r3, r2, r3
+ 2314 1378 9B68     		ldr	r3, [r3, #8]
+ 2315 137a 0593     		str	r3, [sp, #20]
+ 2316 137c 09E0     		b	.L115
+ 2317              	.L114:
+ 2318 137e 009B     		ldr	r3, [sp, #0]
+ 2319 1380 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2320 1382 019A     		ldr	r2, [sp, #4]
+ 2321 1384 03F11403 		add	r3, r3, #20
+ 2322 1388 4FEA8303 		lsl	r3, r3, #2
+ 2323 138c D318     		adds	r3, r2, r3
+ 2324 138e 5B68     		ldr	r3, [r3, #4]
+ 2325 1390 0593     		str	r3, [sp, #20]
+ 2326              	.L115:
+ 2327 1392 059B     		ldr	r3, [sp, #20]
+ 2328 1394 1B68     		ldr	r3, [r3, #0]
+ 2329 1396 0393     		str	r3, [sp, #12]
+ 2330 1398 039B     		ldr	r3, [sp, #12]
+ 2331 139a 6FF35553 		bfc	r3, #21, #1
+ 2332 139e 0393     		str	r3, [sp, #12]
+ 2333 13a0 009B     		ldr	r3, [sp, #0]
+ 2334 13a2 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 2335 13a4 032B     		cmp	r3, #3
+ 2336 13a6 03D0     		beq	.L116
+ 2337 13a8 009B     		ldr	r3, [sp, #0]
+ 2338 13aa DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 2339 13ac 022B     		cmp	r3, #2
+ 2340 13ae 03D1     		bne	.L117
+ 2341              	.L116:
+ 2342 13b0 039B     		ldr	r3, [sp, #12]
+ 2343 13b2 43F08053 		orr	r3, r3, #268435456
+ 2344 13b6 0393     		str	r3, [sp, #12]
+ 2345              	.L117:
+ 2346 13b8 039A     		ldr	r2, [sp, #12]
+ 2347 13ba 059B     		ldr	r3, [sp, #20]
+ 2348 13bc 1A60     		str	r2, [r3, #0]
+ 2349 13be 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 2350 13c2 1846     		mov	r0, r3
+ 2351 13c4 06B0     		add	sp, sp, #24
+ 2352 13c6 7047     		bx	lr
+ 2354              		.align	2
+ 2355              		.global	USB_OTG_ReadDevAllOutEp_itr
+ 2356              		.thumb
+ 2357              		.thumb_func
+ 2359              	USB_OTG_ReadDevAllOutEp_itr:
+ 2360              		@ args = 0, pretend = 0, frame = 16
+ 2361              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2362              		@ link register save eliminated.
+ 2363 13c8 84B0     		sub	sp, sp, #16
+ 2364 13ca 0190     		str	r0, [sp, #4]
+ 2365 13cc 019B     		ldr	r3, [sp, #4]
+ 2366 13ce 1B69     		ldr	r3, [r3, #16]
+ 2367 13d0 9B69     		ldr	r3, [r3, #24]
+ 2368 13d2 0393     		str	r3, [sp, #12]
+ 2369 13d4 019B     		ldr	r3, [sp, #4]
+ 2370 13d6 1B69     		ldr	r3, [r3, #16]
+ 2371 13d8 DB69     		ldr	r3, [r3, #28]
+ 2372 13da 039A     		ldr	r2, [sp, #12]
+ 2373 13dc 1340     		ands	r3, r3, r2
+ 2374 13de 0393     		str	r3, [sp, #12]
+ 2375 13e0 039B     		ldr	r3, [sp, #12]
+ 2376 13e2 4FEA1343 		lsr	r3, r3, #16
+ 2377 13e6 1846     		mov	r0, r3
+ 2378 13e8 04B0     		add	sp, sp, #16
+ 2379 13ea 7047     		bx	lr
+ 2381              		.align	2
+ 2382              		.global	USB_OTG_ReadDevOutEP_itr
+ 2383              		.thumb
+ 2384              		.thumb_func
+ 2386              	USB_OTG_ReadDevOutEP_itr:
+ 2387              		@ args = 0, pretend = 0, frame = 16
+ 2388              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2389              		@ link register save eliminated.
+ 2390 13ec 84B0     		sub	sp, sp, #16
+ 2391 13ee 0190     		str	r0, [sp, #4]
+ 2392 13f0 0B46     		mov	r3, r1
+ 2393 13f2 8DF80330 		strb	r3, [sp, #3]
+ 2394 13f6 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 2395 13fa 019A     		ldr	r2, [sp, #4]
+ 2396 13fc 03F11403 		add	r3, r3, #20
+ 2397 1400 4FEA8303 		lsl	r3, r3, #2
+ 2398 1404 D318     		adds	r3, r2, r3
+ 2399 1406 5B68     		ldr	r3, [r3, #4]
+ 2400 1408 9B68     		ldr	r3, [r3, #8]
+ 2401 140a 0393     		str	r3, [sp, #12]
+ 2402 140c 019B     		ldr	r3, [sp, #4]
+ 2403 140e 1B69     		ldr	r3, [r3, #16]
+ 2404 1410 5B69     		ldr	r3, [r3, #20]
+ 2405 1412 039A     		ldr	r2, [sp, #12]
+ 2406 1414 1340     		ands	r3, r3, r2
+ 2407 1416 0393     		str	r3, [sp, #12]
+ 2408 1418 039B     		ldr	r3, [sp, #12]
+ 2409 141a 1846     		mov	r0, r3
+ 2410 141c 04B0     		add	sp, sp, #16
+ 2411 141e 7047     		bx	lr
+ 2413              		.align	2
+ 2414              		.global	USB_OTG_ReadDevAllInEPItr
+ 2415              		.thumb
+ 2416              		.thumb_func
+ 2418              	USB_OTG_ReadDevAllInEPItr:
+ 2419              		@ args = 0, pretend = 0, frame = 16
+ 2420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2421              		@ link register save eliminated.
+ 2422 1420 84B0     		sub	sp, sp, #16
+ 2423 1422 0190     		str	r0, [sp, #4]
+ 2424 1424 019B     		ldr	r3, [sp, #4]
+ 2425 1426 1B69     		ldr	r3, [r3, #16]
+ 2426 1428 9B69     		ldr	r3, [r3, #24]
+ 2427 142a 0393     		str	r3, [sp, #12]
+ 2428 142c 019B     		ldr	r3, [sp, #4]
+ 2429 142e 1B69     		ldr	r3, [r3, #16]
+ 2430 1430 DB69     		ldr	r3, [r3, #28]
+ 2431 1432 039A     		ldr	r2, [sp, #12]
+ 2432 1434 1340     		ands	r3, r3, r2
+ 2433 1436 0393     		str	r3, [sp, #12]
+ 2434 1438 039B     		ldr	r3, [sp, #12]
+ 2435 143a 4FEA0343 		lsl	r3, r3, #16
+ 2436 143e 4FEA1343 		lsr	r3, r3, #16
+ 2437 1442 1846     		mov	r0, r3
+ 2438 1444 04B0     		add	sp, sp, #16
+ 2439 1446 7047     		bx	lr
+ 2441              		.align	2
+ 2442              		.global	USB_OTG_EP0_OutStart
+ 2443              		.thumb
+ 2444              		.thumb_func
+ 2446              	USB_OTG_EP0_OutStart:
+ 2447              		@ args = 0, pretend = 0, frame = 24
+ 2448              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2449              		@ link register save eliminated.
+ 2450 1448 86B0     		sub	sp, sp, #24
+ 2451 144a 0190     		str	r0, [sp, #4]
+ 2452 144c 4FF00003 		mov	r3, #0
+ 2453 1450 0493     		str	r3, [sp, #16]
+ 2454 1452 9DF81330 		ldrb	r3, [sp, #19]
+ 2455 1456 43F0C003 		orr	r3, r3, #192
+ 2456 145a 8DF81330 		strb	r3, [sp, #19]
+ 2457 145e 9DF81230 		ldrb	r3, [sp, #18]
+ 2458 1462 4FF00102 		mov	r2, #1
+ 2459 1466 62F3C403 		bfi	r3, r2, #3, #2
+ 2460 146a 8DF81230 		strb	r3, [sp, #18]
+ 2461 146e 9DF81030 		ldrb	r3, [sp, #16]
+ 2462 1472 4FF01802 		mov	r2, #24
+ 2463 1476 62F30603 		bfi	r3, r2, #0, #7
+ 2464 147a 8DF81030 		strb	r3, [sp, #16]
+ 2465 147e 019B     		ldr	r3, [sp, #4]
+ 2466 1480 5B6D     		ldr	r3, [r3, #84]
+ 2467 1482 049A     		ldr	r2, [sp, #16]
+ 2468 1484 1A61     		str	r2, [r3, #16]
+ 2469 1486 019B     		ldr	r3, [sp, #4]
+ 2470 1488 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 2471 148a 012B     		cmp	r3, #1
+ 2472 148c 17D1     		bne	.L121
+ 2473 148e 4FF00003 		mov	r3, #0
+ 2474 1492 0393     		str	r3, [sp, #12]
+ 2475 1494 019B     		ldr	r3, [sp, #4]
+ 2476 1496 5B6D     		ldr	r3, [r3, #84]
+ 2477 1498 019A     		ldr	r2, [sp, #4]
+ 2478 149a 02F5B962 		add	r2, r2, #1480
+ 2479 149e 5A61     		str	r2, [r3, #20]
+ 2480 14a0 019B     		ldr	r3, [sp, #4]
+ 2481 14a2 5B6D     		ldr	r3, [r3, #84]
+ 2482 14a4 1B68     		ldr	r3, [r3, #0]
+ 2483 14a6 0393     		str	r3, [sp, #12]
+ 2484 14a8 039B     		ldr	r3, [sp, #12]
+ 2485 14aa 43F00043 		orr	r3, r3, #-2147483648
+ 2486 14ae 0393     		str	r3, [sp, #12]
+ 2487 14b0 4FF08023 		mov	r3, #-2147450880
+ 2488 14b4 0393     		str	r3, [sp, #12]
+ 2489 14b6 019B     		ldr	r3, [sp, #4]
+ 2490 14b8 5B6D     		ldr	r3, [r3, #84]
+ 2491 14ba 039A     		ldr	r2, [sp, #12]
+ 2492 14bc 1A60     		str	r2, [r3, #0]
+ 2493              	.L121:
+ 2494 14be 06B0     		add	sp, sp, #24
+ 2495 14c0 7047     		bx	lr
+ 2497 14c2 00BF     		.align	2
+ 2498              		.global	USB_OTG_ActiveRemoteWakeup
+ 2499              		.thumb
+ 2500              		.thumb_func
+ 2502              	USB_OTG_ActiveRemoteWakeup:
+ 2503              		@ args = 0, pretend = 0, frame = 24
+ 2504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2505 14c4 00B5     		push	{lr}
+ 2506 14c6 87B0     		sub	sp, sp, #28
+ 2507 14c8 0190     		str	r0, [sp, #4]
+ 2508 14ca 019B     		ldr	r3, [sp, #4]
+ 2509 14cc D3F81431 		ldr	r3, [r3, #276]
+ 2510 14d0 002B     		cmp	r3, #0
+ 2511 14d2 3DD0     		beq	.L123
+ 2512 14d4 019B     		ldr	r3, [sp, #4]
+ 2513 14d6 1B69     		ldr	r3, [r3, #16]
+ 2514 14d8 9B68     		ldr	r3, [r3, #8]
+ 2515 14da 0493     		str	r3, [sp, #16]
+ 2516 14dc 9DF81030 		ldrb	r3, [sp, #16]	@ zero_extendqisi2
+ 2517 14e0 03F00103 		and	r3, r3, #1
+ 2518 14e4 DBB2     		uxtb	r3, r3
+ 2519 14e6 002B     		cmp	r3, #0
+ 2520 14e8 32D0     		beq	.L123
+ 2521 14ea 019B     		ldr	r3, [sp, #4]
+ 2522 14ec 9B7A     		ldrb	r3, [r3, #10]	@ zero_extendqisi2
+ 2523 14ee 002B     		cmp	r3, #0
+ 2524 14f0 11D0     		beq	.L125
+ 2525 14f2 019B     		ldr	r3, [sp, #4]
+ 2526 14f4 03F58673 		add	r3, r3, #268
+ 2527 14f8 1B68     		ldr	r3, [r3, #0]
+ 2528 14fa 0393     		str	r3, [sp, #12]
+ 2529 14fc 039B     		ldr	r3, [sp, #12]
+ 2530 14fe 6FF34103 		bfc	r3, #1, #1
+ 2531 1502 0393     		str	r3, [sp, #12]
+ 2532 1504 039B     		ldr	r3, [sp, #12]
+ 2533 1506 6FF30003 		bfc	r3, #0, #1
+ 2534 150a 0393     		str	r3, [sp, #12]
+ 2535 150c 019B     		ldr	r3, [sp, #4]
+ 2536 150e D3F80C31 		ldr	r3, [r3, #268]
+ 2537 1512 039A     		ldr	r2, [sp, #12]
+ 2538 1514 1A60     		str	r2, [r3, #0]
+ 2539              	.L125:
+ 2540 1516 4FF00003 		mov	r3, #0
+ 2541 151a 0593     		str	r3, [sp, #20]
+ 2542 151c 059B     		ldr	r3, [sp, #20]
+ 2543 151e 43F00103 		orr	r3, r3, #1
+ 2544 1522 0593     		str	r3, [sp, #20]
+ 2545 1524 019B     		ldr	r3, [sp, #4]
+ 2546 1526 1B69     		ldr	r3, [r3, #16]
+ 2547 1528 019A     		ldr	r2, [sp, #4]
+ 2548 152a 1269     		ldr	r2, [r2, #16]
+ 2549 152c 5168     		ldr	r1, [r2, #4]
+ 2550 152e 059A     		ldr	r2, [sp, #20]
+ 2551 1530 0A43     		orrs	r2, r2, r1
+ 2552 1532 5A60     		str	r2, [r3, #4]
+ 2553 1534 4FF00500 		mov	r0, #5
+ 2554 1538 FFF7FEFF 		bl	USB_OTG_BSP_mDelay
+ 2555 153c 019B     		ldr	r3, [sp, #4]
+ 2556 153e 1B69     		ldr	r3, [r3, #16]
+ 2557 1540 019A     		ldr	r2, [sp, #4]
+ 2558 1542 1269     		ldr	r2, [r2, #16]
+ 2559 1544 5168     		ldr	r1, [r2, #4]
+ 2560 1546 059A     		ldr	r2, [sp, #20]
+ 2561 1548 6FEA0202 		mvn	r2, r2
+ 2562 154c 0A40     		ands	r2, r2, r1
+ 2563 154e 5A60     		str	r2, [r3, #4]
+ 2564              	.L123:
+ 2565 1550 07B0     		add	sp, sp, #28
+ 2566 1552 00BD     		pop	{pc}
+ 2568              		.align	2
+ 2569              		.global	USB_OTG_UngateClock
+ 2570              		.thumb
+ 2571              		.thumb_func
+ 2573              	USB_OTG_UngateClock:
+ 2574              		@ args = 0, pretend = 0, frame = 16
+ 2575              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2576              		@ link register save eliminated.
+ 2577 1554 84B0     		sub	sp, sp, #16
+ 2578 1556 0190     		str	r0, [sp, #4]
+ 2579 1558 019B     		ldr	r3, [sp, #4]
+ 2580 155a 9B7A     		ldrb	r3, [r3, #10]	@ zero_extendqisi2
+ 2581 155c 002B     		cmp	r3, #0
+ 2582 155e 1CD0     		beq	.L126
+ 2583 1560 019B     		ldr	r3, [sp, #4]
+ 2584 1562 1B69     		ldr	r3, [r3, #16]
+ 2585 1564 9B68     		ldr	r3, [r3, #8]
+ 2586 1566 0393     		str	r3, [sp, #12]
+ 2587 1568 9DF80C30 		ldrb	r3, [sp, #12]	@ zero_extendqisi2
+ 2588 156c 03F00103 		and	r3, r3, #1
+ 2589 1570 DBB2     		uxtb	r3, r3
+ 2590 1572 002B     		cmp	r3, #0
+ 2591 1574 11D0     		beq	.L126
+ 2592 1576 019B     		ldr	r3, [sp, #4]
+ 2593 1578 03F58673 		add	r3, r3, #268
+ 2594 157c 1B68     		ldr	r3, [r3, #0]
+ 2595 157e 0293     		str	r3, [sp, #8]
+ 2596 1580 029B     		ldr	r3, [sp, #8]
+ 2597 1582 6FF34103 		bfc	r3, #1, #1
+ 2598 1586 0293     		str	r3, [sp, #8]
+ 2599 1588 029B     		ldr	r3, [sp, #8]
+ 2600 158a 6FF30003 		bfc	r3, #0, #1
+ 2601 158e 0293     		str	r3, [sp, #8]
+ 2602 1590 019B     		ldr	r3, [sp, #4]
+ 2603 1592 D3F80C31 		ldr	r3, [r3, #268]
+ 2604 1596 029A     		ldr	r2, [sp, #8]
+ 2605 1598 1A60     		str	r2, [r3, #0]
+ 2606              	.L126:
+ 2607 159a 04B0     		add	sp, sp, #16
+ 2608 159c 7047     		bx	lr
+ 2610 159e 00BF     		.align	2
+ 2611              		.global	USB_OTG_StopDevice
+ 2612              		.thumb
+ 2613              		.thumb_func
+ 2615              	USB_OTG_StopDevice:
+ 2616              		@ args = 0, pretend = 0, frame = 16
+ 2617              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2618 15a0 00B5     		push	{lr}
+ 2619 15a2 85B0     		sub	sp, sp, #20
+ 2620 15a4 0190     		str	r0, [sp, #4]
+ 2621 15a6 019B     		ldr	r3, [sp, #4]
+ 2622 15a8 4FF00102 		mov	r2, #1
+ 2623 15ac 83F81221 		strb	r2, [r3, #274]
+ 2624 15b0 4FF00003 		mov	r3, #0
+ 2625 15b4 0393     		str	r3, [sp, #12]
+ 2626 15b6 19E0     		b	.L129
+ 2627              	.L130:
+ 2628 15b8 019A     		ldr	r2, [sp, #4]
+ 2629 15ba 039B     		ldr	r3, [sp, #12]
+ 2630 15bc 03F10403 		add	r3, r3, #4
+ 2631 15c0 4FEA8303 		lsl	r3, r3, #2
+ 2632 15c4 D318     		adds	r3, r2, r3
+ 2633 15c6 9B68     		ldr	r3, [r3, #8]
+ 2634 15c8 4FF0FF02 		mov	r2, #255
+ 2635 15cc 9A60     		str	r2, [r3, #8]
+ 2636 15ce 019A     		ldr	r2, [sp, #4]
+ 2637 15d0 039B     		ldr	r3, [sp, #12]
+ 2638 15d2 03F11403 		add	r3, r3, #20
+ 2639 15d6 4FEA8303 		lsl	r3, r3, #2
+ 2640 15da D318     		adds	r3, r2, r3
+ 2641 15dc 5B68     		ldr	r3, [r3, #4]
+ 2642 15de 4FF0FF02 		mov	r2, #255
+ 2643 15e2 9A60     		str	r2, [r3, #8]
+ 2644 15e4 039B     		ldr	r3, [sp, #12]
+ 2645 15e6 03F10103 		add	r3, r3, #1
+ 2646 15ea 0393     		str	r3, [sp, #12]
+ 2647              	.L129:
+ 2648 15ec 019B     		ldr	r3, [sp, #4]
+ 2649 15ee 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2650 15f0 1A46     		mov	r2, r3
+ 2651 15f2 039B     		ldr	r3, [sp, #12]
+ 2652 15f4 9A42     		cmp	r2, r3
+ 2653 15f6 DFD8     		bhi	.L130
+ 2654 15f8 019B     		ldr	r3, [sp, #4]
+ 2655 15fa 1B69     		ldr	r3, [r3, #16]
+ 2656 15fc 4FF00002 		mov	r2, #0
+ 2657 1600 1A61     		str	r2, [r3, #16]
+ 2658 1602 019B     		ldr	r3, [sp, #4]
+ 2659 1604 1B69     		ldr	r3, [r3, #16]
+ 2660 1606 4FF00002 		mov	r2, #0
+ 2661 160a 5A61     		str	r2, [r3, #20]
+ 2662 160c 019B     		ldr	r3, [sp, #4]
+ 2663 160e 1B69     		ldr	r3, [r3, #16]
+ 2664 1610 4FF00002 		mov	r2, #0
+ 2665 1614 DA61     		str	r2, [r3, #28]
+ 2666 1616 019B     		ldr	r3, [sp, #4]
+ 2667 1618 1B69     		ldr	r3, [r3, #16]
+ 2668 161a 4FF0FF32 		mov	r2, #-1
+ 2669 161e 9A61     		str	r2, [r3, #24]
+ 2670 1620 0198     		ldr	r0, [sp, #4]
+ 2671 1622 FFF7FEFF 		bl	USB_OTG_FlushRxFifo
+ 2672 1626 0198     		ldr	r0, [sp, #4]
+ 2673 1628 4FF01001 		mov	r1, #16
+ 2674 162c FFF7FEFF 		bl	USB_OTG_FlushTxFifo
+ 2675 1630 05B0     		add	sp, sp, #20
+ 2676 1632 00BD     		pop	{pc}
+ 2678              		.align	2
+ 2679              		.global	USB_OTG_GetEPStatus
+ 2680              		.thumb
+ 2681              		.thumb_func
+ 2683              	USB_OTG_GetEPStatus:
+ 2684              		@ args = 0, pretend = 0, frame = 24
+ 2685              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2686              		@ link register save eliminated.
+ 2687 1634 86B0     		sub	sp, sp, #24
+ 2688 1636 0190     		str	r0, [sp, #4]
+ 2689 1638 0091     		str	r1, [sp, #0]
+ 2690 163a 4FF00003 		mov	r3, #0
+ 2691 163e 0593     		str	r3, [sp, #20]
+ 2692 1640 4FF00003 		mov	r3, #0
+ 2693 1644 0393     		str	r3, [sp, #12]
+ 2694 1646 009B     		ldr	r3, [sp, #0]
+ 2695 1648 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2696 164a 012B     		cmp	r3, #1
+ 2697 164c 26D1     		bne	.L132
+ 2698 164e 009B     		ldr	r3, [sp, #0]
+ 2699 1650 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2700 1652 019A     		ldr	r2, [sp, #4]
+ 2701 1654 03F10403 		add	r3, r3, #4
+ 2702 1658 4FEA8303 		lsl	r3, r3, #2
+ 2703 165c D318     		adds	r3, r2, r3
+ 2704 165e 9B68     		ldr	r3, [r3, #8]
+ 2705 1660 0493     		str	r3, [sp, #16]
+ 2706 1662 049B     		ldr	r3, [sp, #16]
+ 2707 1664 1B68     		ldr	r3, [r3, #0]
+ 2708 1666 0393     		str	r3, [sp, #12]
+ 2709 1668 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 2710 166c 03F02003 		and	r3, r3, #32
+ 2711 1670 DBB2     		uxtb	r3, r3
+ 2712 1672 002B     		cmp	r3, #0
+ 2713 1674 03D0     		beq	.L133
+ 2714 1676 4FF01003 		mov	r3, #16
+ 2715 167a 0593     		str	r3, [sp, #20]
+ 2716 167c 34E0     		b	.L134
+ 2717              	.L133:
+ 2718 167e 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 2719 1682 03F00203 		and	r3, r3, #2
+ 2720 1686 DBB2     		uxtb	r3, r3
+ 2721 1688 002B     		cmp	r3, #0
+ 2722 168a 03D0     		beq	.L135
+ 2723 168c 4FF02003 		mov	r3, #32
+ 2724 1690 0593     		str	r3, [sp, #20]
+ 2725 1692 29E0     		b	.L134
+ 2726              	.L135:
+ 2727 1694 4FF03003 		mov	r3, #48
+ 2728 1698 0593     		str	r3, [sp, #20]
+ 2729 169a 25E0     		b	.L134
+ 2730              	.L132:
+ 2731 169c 009B     		ldr	r3, [sp, #0]
+ 2732 169e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2733 16a0 019A     		ldr	r2, [sp, #4]
+ 2734 16a2 03F11403 		add	r3, r3, #20
+ 2735 16a6 4FEA8303 		lsl	r3, r3, #2
+ 2736 16aa D318     		adds	r3, r2, r3
+ 2737 16ac 5B68     		ldr	r3, [r3, #4]
+ 2738 16ae 0493     		str	r3, [sp, #16]
+ 2739 16b0 049B     		ldr	r3, [sp, #16]
+ 2740 16b2 1B68     		ldr	r3, [r3, #0]
+ 2741 16b4 0393     		str	r3, [sp, #12]
+ 2742 16b6 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 2743 16ba 03F02003 		and	r3, r3, #32
+ 2744 16be DBB2     		uxtb	r3, r3
+ 2745 16c0 002B     		cmp	r3, #0
+ 2746 16c2 03D0     		beq	.L136
+ 2747 16c4 4FF48053 		mov	r3, #4096
+ 2748 16c8 0593     		str	r3, [sp, #20]
+ 2749 16ca 0DE0     		b	.L134
+ 2750              	.L136:
+ 2751 16cc 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 2752 16d0 03F00203 		and	r3, r3, #2
+ 2753 16d4 DBB2     		uxtb	r3, r3
+ 2754 16d6 002B     		cmp	r3, #0
+ 2755 16d8 03D0     		beq	.L137
+ 2756 16da 4FF40053 		mov	r3, #8192
+ 2757 16de 0593     		str	r3, [sp, #20]
+ 2758 16e0 02E0     		b	.L134
+ 2759              	.L137:
+ 2760 16e2 4FF44053 		mov	r3, #12288
+ 2761 16e6 0593     		str	r3, [sp, #20]
+ 2762              	.L134:
+ 2763 16e8 059B     		ldr	r3, [sp, #20]
+ 2764 16ea 1846     		mov	r0, r3
+ 2765 16ec 06B0     		add	sp, sp, #24
+ 2766 16ee 7047     		bx	lr
+ 2768              		.align	2
+ 2769              		.global	USB_OTG_SetEPStatus
+ 2770              		.thumb
+ 2771              		.thumb_func
+ 2773              	USB_OTG_SetEPStatus:
+ 2774              		@ args = 0, pretend = 0, frame = 24
+ 2775              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2776 16f0 00B5     		push	{lr}
+ 2777 16f2 87B0     		sub	sp, sp, #28
+ 2778 16f4 0390     		str	r0, [sp, #12]
+ 2779 16f6 0291     		str	r1, [sp, #8]
+ 2780 16f8 0192     		str	r2, [sp, #4]
+ 2781 16fa 4FF00003 		mov	r3, #0
+ 2782 16fe 0493     		str	r3, [sp, #16]
+ 2783 1700 029B     		ldr	r3, [sp, #8]
+ 2784 1702 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2785 1704 012B     		cmp	r3, #1
+ 2786 1706 44D1     		bne	.L139
+ 2787 1708 029B     		ldr	r3, [sp, #8]
+ 2788 170a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2789 170c 039A     		ldr	r2, [sp, #12]
+ 2790 170e 03F10403 		add	r3, r3, #4
+ 2791 1712 4FEA8303 		lsl	r3, r3, #2
+ 2792 1716 D318     		adds	r3, r2, r3
+ 2793 1718 9B68     		ldr	r3, [r3, #8]
+ 2794 171a 0593     		str	r3, [sp, #20]
+ 2795 171c 059B     		ldr	r3, [sp, #20]
+ 2796 171e 1B68     		ldr	r3, [r3, #0]
+ 2797 1720 0493     		str	r3, [sp, #16]
+ 2798 1722 019B     		ldr	r3, [sp, #4]
+ 2799 1724 102B     		cmp	r3, #16
+ 2800 1726 04D1     		bne	.L140
+ 2801 1728 0398     		ldr	r0, [sp, #12]
+ 2802 172a 0299     		ldr	r1, [sp, #8]
+ 2803 172c FFF7FEFF 		bl	USB_OTG_EPSetStall
+ 2804 1730 79E0     		b	.L138
+ 2805              	.L140:
+ 2806 1732 019B     		ldr	r3, [sp, #4]
+ 2807 1734 202B     		cmp	r3, #32
+ 2808 1736 04D1     		bne	.L142
+ 2809 1738 049B     		ldr	r3, [sp, #16]
+ 2810 173a 43F00063 		orr	r3, r3, #134217728
+ 2811 173e 0493     		str	r3, [sp, #16]
+ 2812 1740 6EE0     		b	.L143
+ 2813              	.L142:
+ 2814 1742 019B     		ldr	r3, [sp, #4]
+ 2815 1744 302B     		cmp	r3, #48
+ 2816 1746 1CD1     		bne	.L144
+ 2817 1748 9DF81230 		ldrb	r3, [sp, #18]	@ zero_extendqisi2
+ 2818 174c 03F02003 		and	r3, r3, #32
+ 2819 1750 DBB2     		uxtb	r3, r3
+ 2820 1752 002B     		cmp	r3, #0
+ 2821 1754 08D0     		beq	.L145
+ 2822 1756 029B     		ldr	r3, [sp, #8]
+ 2823 1758 4FF00002 		mov	r2, #0
+ 2824 175c 5A71     		strb	r2, [r3, #5]
+ 2825 175e 0398     		ldr	r0, [sp, #12]
+ 2826 1760 0299     		ldr	r1, [sp, #8]
+ 2827 1762 FFF7FEFF 		bl	USB_OTG_EPClearStall
+ 2828 1766 5EE0     		b	.L138
+ 2829              	.L145:
+ 2830 1768 049B     		ldr	r3, [sp, #16]
+ 2831 176a 43F08063 		orr	r3, r3, #67108864
+ 2832 176e 0493     		str	r3, [sp, #16]
+ 2833 1770 049B     		ldr	r3, [sp, #16]
+ 2834 1772 43F40043 		orr	r3, r3, #32768
+ 2835 1776 0493     		str	r3, [sp, #16]
+ 2836 1778 049B     		ldr	r3, [sp, #16]
+ 2837 177a 43F00043 		orr	r3, r3, #-2147483648
+ 2838 177e 0493     		str	r3, [sp, #16]
+ 2839 1780 4EE0     		b	.L143
+ 2840              	.L144:
+ 2841 1782 019B     		ldr	r3, [sp, #4]
+ 2842 1784 002B     		cmp	r3, #0
+ 2843 1786 4BD1     		bne	.L143
+ 2844 1788 049B     		ldr	r3, [sp, #16]
+ 2845 178a 6FF3CF33 		bfc	r3, #15, #1
+ 2846 178e 0493     		str	r3, [sp, #16]
+ 2847 1790 46E0     		b	.L143
+ 2848              	.L139:
+ 2849 1792 029B     		ldr	r3, [sp, #8]
+ 2850 1794 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2851 1796 039A     		ldr	r2, [sp, #12]
+ 2852 1798 03F11403 		add	r3, r3, #20
+ 2853 179c 4FEA8303 		lsl	r3, r3, #2
+ 2854 17a0 D318     		adds	r3, r2, r3
+ 2855 17a2 5B68     		ldr	r3, [r3, #4]
+ 2856 17a4 0593     		str	r3, [sp, #20]
+ 2857 17a6 059B     		ldr	r3, [sp, #20]
+ 2858 17a8 1B68     		ldr	r3, [r3, #0]
+ 2859 17aa 0493     		str	r3, [sp, #16]
+ 2860 17ac 019B     		ldr	r3, [sp, #4]
+ 2861 17ae B3F5805F 		cmp	r3, #4096
+ 2862 17b2 04D1     		bne	.L146
+ 2863 17b4 049B     		ldr	r3, [sp, #16]
+ 2864 17b6 43F40013 		orr	r3, r3, #2097152
+ 2865 17ba 0493     		str	r3, [sp, #16]
+ 2866 17bc 30E0     		b	.L143
+ 2867              	.L146:
+ 2868 17be 019B     		ldr	r3, [sp, #4]
+ 2869 17c0 B3F5005F 		cmp	r3, #8192
+ 2870 17c4 04D1     		bne	.L147
+ 2871 17c6 049B     		ldr	r3, [sp, #16]
+ 2872 17c8 43F00063 		orr	r3, r3, #134217728
+ 2873 17cc 0493     		str	r3, [sp, #16]
+ 2874 17ce 27E0     		b	.L143
+ 2875              	.L147:
+ 2876 17d0 019B     		ldr	r3, [sp, #4]
+ 2877 17d2 B3F5405F 		cmp	r3, #12288
+ 2878 17d6 1CD1     		bne	.L148
+ 2879 17d8 9DF81230 		ldrb	r3, [sp, #18]	@ zero_extendqisi2
+ 2880 17dc 03F02003 		and	r3, r3, #32
+ 2881 17e0 DBB2     		uxtb	r3, r3
+ 2882 17e2 002B     		cmp	r3, #0
+ 2883 17e4 08D0     		beq	.L149
+ 2884 17e6 029B     		ldr	r3, [sp, #8]
+ 2885 17e8 4FF00002 		mov	r2, #0
+ 2886 17ec 5A71     		strb	r2, [r3, #5]
+ 2887 17ee 0398     		ldr	r0, [sp, #12]
+ 2888 17f0 0299     		ldr	r1, [sp, #8]
+ 2889 17f2 FFF7FEFF 		bl	USB_OTG_EPClearStall
+ 2890 17f6 16E0     		b	.L138
+ 2891              	.L149:
+ 2892 17f8 049B     		ldr	r3, [sp, #16]
+ 2893 17fa 43F08063 		orr	r3, r3, #67108864
+ 2894 17fe 0493     		str	r3, [sp, #16]
+ 2895 1800 049B     		ldr	r3, [sp, #16]
+ 2896 1802 43F40043 		orr	r3, r3, #32768
+ 2897 1806 0493     		str	r3, [sp, #16]
+ 2898 1808 049B     		ldr	r3, [sp, #16]
+ 2899 180a 43F00043 		orr	r3, r3, #-2147483648
+ 2900 180e 0493     		str	r3, [sp, #16]
+ 2901 1810 06E0     		b	.L143
+ 2902              	.L148:
+ 2903 1812 019B     		ldr	r3, [sp, #4]
+ 2904 1814 002B     		cmp	r3, #0
+ 2905 1816 03D1     		bne	.L143
+ 2906 1818 049B     		ldr	r3, [sp, #16]
+ 2907 181a 6FF3CF33 		bfc	r3, #15, #1
+ 2908 181e 0493     		str	r3, [sp, #16]
+ 2909              	.L143:
+ 2910 1820 049A     		ldr	r2, [sp, #16]
+ 2911 1822 059B     		ldr	r3, [sp, #20]
+ 2912 1824 1A60     		str	r2, [r3, #0]
+ 2913              	.L138:
+ 2914 1826 07B0     		add	sp, sp, #28
+ 2915 1828 00BD     		pop	{pc}
+ 2917 182a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_core.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:21     .text:00000000 USB_OTG_EnableCommonInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:54     .text:0000003c USB_OTG_CoreReset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:132    .text:000000e0 USB_OTG_WritePacket
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:196    .text:00000168 USB_OTG_ReadPacket
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:247    .text:000001cc USB_OTG_SelectCore
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:432    .text:00000380 USB_OTG_CoreInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:652    .text:00000578 USB_OTG_EnableGlobalInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:683    .text:000005ac USB_OTG_DisableGlobalInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:715    .text:000005e4 USB_OTG_FlushTxFifo
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:776    .text:00000660 USB_OTG_FlushRxFifo
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:829    .text:000006c8 USB_OTG_SetCurrentMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:880    .text:00000730 USB_OTG_GetMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:899    .text:00000744 USB_OTG_IsDeviceMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:922    .text:00000764 USB_OTG_IsHostMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:945    .text:00000784 USB_OTG_ReadCoreItr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:973    .text:000007ac USB_OTG_ReadOtgItr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:991    .text:000007bc USB_OTG_InitDevSpeed
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1021   .text:000007ec USB_OTG_CoreInitDev
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1321   .text:00000ad4 USB_OTG_EnableDevInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1394   .text:00000b74 USB_OTG_GetDeviceSpeed
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1437   .text:00000bc4 USB_OTG_EP0Activate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1499   .text:00000c3c USB_OTG_EPActivate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1607   .text:00000d30 USB_OTG_EPDeactivate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1680   .text:00000dcc USB_OTG_EPStartXfer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:1992   .text:0000109c USB_OTG_EP0StartXfer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2222   .text:000012bc USB_OTG_EPSetStall
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2293   .text:0000134c USB_OTG_EPClearStall
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2359   .text:000013c8 USB_OTG_ReadDevAllOutEp_itr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2386   .text:000013ec USB_OTG_ReadDevOutEP_itr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2418   .text:00001420 USB_OTG_ReadDevAllInEPItr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2446   .text:00001448 USB_OTG_EP0_OutStart
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2502   .text:000014c4 USB_OTG_ActiveRemoteWakeup
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2573   .text:00001554 USB_OTG_UngateClock
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2615   .text:000015a0 USB_OTG_StopDevice
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2683   .text:00001634 USB_OTG_GetEPStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccLnSjFp.s:2773   .text:000016f0 USB_OTG_SetEPStatus
+
+UNDEFINED SYMBOLS
+USB_OTG_BSP_uDelay
+USB_OTG_BSP_mDelay

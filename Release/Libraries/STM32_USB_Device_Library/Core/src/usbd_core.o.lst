@@ -1,0 +1,590 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"usbd_core.c"
+  16              		.global	USBD_DCD_INT_cb
+  17              		.data
+  18              		.align	2
+  21              	USBD_DCD_INT_cb:
+  22 0000 00000000 		.word	USBD_DataOutStage
+  23 0004 00000000 		.word	USBD_DataInStage
+  24 0008 00000000 		.word	USBD_SetupStage
+  25 000c 00000000 		.word	USBD_SOF
+  26 0010 00000000 		.word	USBD_Reset
+  27 0014 00000000 		.word	USBD_Suspend
+  28 0018 00000000 		.word	USBD_Resume
+  29 001c 00000000 		.word	USBD_IsoINIncomplete
+  30 0020 00000000 		.word	USBD_IsoOUTIncomplete
+  31 0024 00000000 		.space	8
+  31      00000000 
+  32              		.global	USBD_DCD_INT_fops
+  33              		.align	2
+  36              	USBD_DCD_INT_fops:
+  37 002c 00000000 		.word	USBD_DCD_INT_cb
+  38              		.text
+  39              		.align	2
+  40              		.global	USBD_Init
+  41              		.thumb
+  42              		.thumb_func
+  44              	USBD_Init:
+  45              		@ args = 4, pretend = 0, frame = 16
+  46              		@ frame_needed = 0, uses_anonymous_args = 0
+  47 0000 00B5     		push	{lr}
+  48 0002 85B0     		sub	sp, sp, #20
+  49 0004 0390     		str	r0, [sp, #12]
+  50 0006 0192     		str	r2, [sp, #4]
+  51 0008 0093     		str	r3, [sp, #0]
+  52 000a 0B46     		mov	r3, r1
+  53 000c 8DF80B30 		strb	r3, [sp, #11]
+  54 0010 0398     		ldr	r0, [sp, #12]
+  55 0012 FFF7FEFF 		bl	USB_OTG_BSP_Init
+  56 0016 0398     		ldr	r0, [sp, #12]
+  57 0018 FFF7FEFF 		bl	USBD_DeInit
+  58 001c 039B     		ldr	r3, [sp, #12]
+  59 001e 009A     		ldr	r2, [sp, #0]
+  60 0020 C3F8E025 		str	r2, [r3, #1504]
+  61 0024 039B     		ldr	r3, [sp, #12]
+  62 0026 069A     		ldr	r2, [sp, #24]
+  63 0028 C3F8E425 		str	r2, [r3, #1508]
+  64 002c 039B     		ldr	r3, [sp, #12]
+  65 002e 019A     		ldr	r2, [sp, #4]
+  66 0030 C3F8E825 		str	r2, [r3, #1512]
+  67 0034 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+  68 0038 0398     		ldr	r0, [sp, #12]
+  69 003a 1946     		mov	r1, r3
+  70 003c FFF7FEFF 		bl	DCD_Init
+  71 0040 039B     		ldr	r3, [sp, #12]
+  72 0042 D3F8E435 		ldr	r3, [r3, #1508]
+  73 0046 1B68     		ldr	r3, [r3, #0]
+  74 0048 9847     		blx	r3
+  75 004a 0398     		ldr	r0, [sp, #12]
+  76 004c FFF7FEFF 		bl	USB_OTG_BSP_EnableInterrupt
+  77 0050 05B0     		add	sp, sp, #20
+  78 0052 00BD     		pop	{pc}
+  80              		.align	2
+  81              		.global	USBD_DeInit
+  82              		.thumb
+  83              		.thumb_func
+  85              	USBD_DeInit:
+  86              		@ args = 0, pretend = 0, frame = 8
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88              		@ link register save eliminated.
+  89 0054 82B0     		sub	sp, sp, #8
+  90 0056 0190     		str	r0, [sp, #4]
+  91 0058 4FF00003 		mov	r3, #0
+  92 005c 1846     		mov	r0, r3
+  93 005e 02B0     		add	sp, sp, #8
+  94 0060 7047     		bx	lr
+  96 0062 00BF     		.align	2
+  97              		.thumb
+  98              		.thumb_func
+ 100              	USBD_SetupStage:
+ 101              		@ args = 0, pretend = 0, frame = 16
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103 0064 00B5     		push	{lr}
+ 104 0066 85B0     		sub	sp, sp, #20
+ 105 0068 0190     		str	r0, [sp, #4]
+ 106 006a 0198     		ldr	r0, [sp, #4]
+ 107 006c 02AB     		add	r3, sp, #8
+ 108 006e 1946     		mov	r1, r3
+ 109 0070 FFF7FEFF 		bl	USBD_ParseSetupRequest
+ 110 0074 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 111 0078 03F01F03 		and	r3, r3, #31
+ 112 007c 012B     		cmp	r3, #1
+ 113 007e 09D0     		beq	.L6
+ 114 0080 022B     		cmp	r3, #2
+ 115 0082 0DD0     		beq	.L7
+ 116 0084 002B     		cmp	r3, #0
+ 117 0086 11D1     		bne	.L9
+ 118              	.L5:
+ 119 0088 0198     		ldr	r0, [sp, #4]
+ 120 008a 02AB     		add	r3, sp, #8
+ 121 008c 1946     		mov	r1, r3
+ 122 008e FFF7FEFF 		bl	USBD_StdDevReq
+ 123 0092 15E0     		b	.L8
+ 124              	.L6:
+ 125 0094 0198     		ldr	r0, [sp, #4]
+ 126 0096 02AB     		add	r3, sp, #8
+ 127 0098 1946     		mov	r1, r3
+ 128 009a FFF7FEFF 		bl	USBD_StdItfReq
+ 129 009e 0FE0     		b	.L8
+ 130              	.L7:
+ 131 00a0 0198     		ldr	r0, [sp, #4]
+ 132 00a2 02AB     		add	r3, sp, #8
+ 133 00a4 1946     		mov	r1, r3
+ 134 00a6 FFF7FEFF 		bl	USBD_StdEPReq
+ 135 00aa 09E0     		b	.L8
+ 136              	.L9:
+ 137 00ac 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 138 00b0 23F07F03 		bic	r3, r3, #127
+ 139 00b4 DBB2     		uxtb	r3, r3
+ 140 00b6 0198     		ldr	r0, [sp, #4]
+ 141 00b8 1946     		mov	r1, r3
+ 142 00ba FFF7FEFF 		bl	DCD_EP_Stall
+ 143 00be 00BF     		nop
+ 144              	.L8:
+ 145 00c0 4FF00003 		mov	r3, #0
+ 146 00c4 1846     		mov	r0, r3
+ 147 00c6 05B0     		add	sp, sp, #20
+ 148 00c8 00BD     		pop	{pc}
+ 150 00ca 00BF     		.align	2
+ 151              		.thumb
+ 152              		.thumb_func
+ 154              	USBD_DataOutStage:
+ 155              		@ args = 0, pretend = 0, frame = 16
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157 00cc 00B5     		push	{lr}
+ 158 00ce 85B0     		sub	sp, sp, #20
+ 159 00d0 0190     		str	r0, [sp, #4]
+ 160 00d2 0B46     		mov	r3, r1
+ 161 00d4 8DF80330 		strb	r3, [sp, #3]
+ 162 00d8 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 163 00dc 002B     		cmp	r3, #0
+ 164 00de 45D1     		bne	.L11
+ 165 00e0 019B     		ldr	r3, [sp, #4]
+ 166 00e2 03F55C73 		add	r3, r3, #880
+ 167 00e6 0393     		str	r3, [sp, #12]
+ 168 00e8 019B     		ldr	r3, [sp, #4]
+ 169 00ea 93F81131 		ldrb	r3, [r3, #273]	@ zero_extendqisi2
+ 170 00ee 032B     		cmp	r3, #3
+ 171 00f0 50D1     		bne	.L12
+ 172 00f2 039B     		ldr	r3, [sp, #12]
+ 173 00f4 DA69     		ldr	r2, [r3, #28]
+ 174 00f6 039B     		ldr	r3, [sp, #12]
+ 175 00f8 9B68     		ldr	r3, [r3, #8]
+ 176 00fa 9A42     		cmp	r2, r3
+ 177 00fc 21D9     		bls	.L13
+ 178 00fe 039B     		ldr	r3, [sp, #12]
+ 179 0100 DA69     		ldr	r2, [r3, #28]
+ 180 0102 039B     		ldr	r3, [sp, #12]
+ 181 0104 9B68     		ldr	r3, [r3, #8]
+ 182 0106 D21A     		subs	r2, r2, r3
+ 183 0108 039B     		ldr	r3, [sp, #12]
+ 184 010a DA61     		str	r2, [r3, #28]
+ 185 010c 019B     		ldr	r3, [sp, #4]
+ 186 010e DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 187 0110 012B     		cmp	r3, #1
+ 188 0112 06D1     		bne	.L14
+ 189 0114 039B     		ldr	r3, [sp, #12]
+ 190 0116 DA68     		ldr	r2, [r3, #12]
+ 191 0118 039B     		ldr	r3, [sp, #12]
+ 192 011a 9B68     		ldr	r3, [r3, #8]
+ 193 011c D218     		adds	r2, r2, r3
+ 194 011e 039B     		ldr	r3, [sp, #12]
+ 195 0120 DA60     		str	r2, [r3, #12]
+ 196              	.L14:
+ 197 0122 039B     		ldr	r3, [sp, #12]
+ 198 0124 DA68     		ldr	r2, [r3, #12]
+ 199 0126 039B     		ldr	r3, [sp, #12]
+ 200 0128 9968     		ldr	r1, [r3, #8]
+ 201 012a 039B     		ldr	r3, [sp, #12]
+ 202 012c DB69     		ldr	r3, [r3, #28]
+ 203 012e 9942     		cmp	r1, r3
+ 204 0130 38BF     		it	cc
+ 205 0132 0B46     		movcc	r3, r1
+ 206 0134 9BB2     		uxth	r3, r3
+ 207 0136 0198     		ldr	r0, [sp, #4]
+ 208 0138 1146     		mov	r1, r2
+ 209 013a 1A46     		mov	r2, r3
+ 210 013c FFF7FEFF 		bl	USBD_CtlContinueRx
+ 211 0140 28E0     		b	.L12
+ 212              	.L13:
+ 213 0142 019B     		ldr	r3, [sp, #4]
+ 214 0144 D3F8E035 		ldr	r3, [r3, #1504]
+ 215 0148 1B69     		ldr	r3, [r3, #16]
+ 216 014a 002B     		cmp	r3, #0
+ 217 014c 0AD0     		beq	.L15
+ 218 014e 019B     		ldr	r3, [sp, #4]
+ 219 0150 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 220 0154 032B     		cmp	r3, #3
+ 221 0156 05D1     		bne	.L15
+ 222 0158 019B     		ldr	r3, [sp, #4]
+ 223 015a D3F8E035 		ldr	r3, [r3, #1504]
+ 224 015e 1B69     		ldr	r3, [r3, #16]
+ 225 0160 0198     		ldr	r0, [sp, #4]
+ 226 0162 9847     		blx	r3
+ 227              	.L15:
+ 228 0164 0198     		ldr	r0, [sp, #4]
+ 229 0166 FFF7FEFF 		bl	USBD_CtlSendStatus
+ 230 016a 13E0     		b	.L12
+ 231              	.L11:
+ 232 016c 019B     		ldr	r3, [sp, #4]
+ 233 016e D3F8E035 		ldr	r3, [r3, #1504]
+ 234 0172 9B69     		ldr	r3, [r3, #24]
+ 235 0174 002B     		cmp	r3, #0
+ 236 0176 0DD0     		beq	.L12
+ 237 0178 019B     		ldr	r3, [sp, #4]
+ 238 017a 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 239 017e 032B     		cmp	r3, #3
+ 240 0180 08D1     		bne	.L12
+ 241 0182 019B     		ldr	r3, [sp, #4]
+ 242 0184 D3F8E035 		ldr	r3, [r3, #1504]
+ 243 0188 9B69     		ldr	r3, [r3, #24]
+ 244 018a 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 245 018e 0198     		ldr	r0, [sp, #4]
+ 246 0190 1146     		mov	r1, r2
+ 247 0192 9847     		blx	r3
+ 248              	.L12:
+ 249 0194 4FF00003 		mov	r3, #0
+ 250 0198 1846     		mov	r0, r3
+ 251 019a 05B0     		add	sp, sp, #20
+ 252 019c 00BD     		pop	{pc}
+ 254 019e 00BF     		.align	2
+ 255              		.thumb
+ 256              		.thumb_func
+ 258              	USBD_DataInStage:
+ 259              		@ args = 0, pretend = 0, frame = 16
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261 01a0 00B5     		push	{lr}
+ 262 01a2 85B0     		sub	sp, sp, #20
+ 263 01a4 0190     		str	r0, [sp, #4]
+ 264 01a6 0B46     		mov	r3, r1
+ 265 01a8 8DF80330 		strb	r3, [sp, #3]
+ 266 01ac 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 267 01b0 002B     		cmp	r3, #0
+ 268 01b2 63D1     		bne	.L17
+ 269 01b4 019B     		ldr	r3, [sp, #4]
+ 270 01b6 03F58C73 		add	r3, r3, #280
+ 271 01ba 0393     		str	r3, [sp, #12]
+ 272 01bc 019B     		ldr	r3, [sp, #4]
+ 273 01be 93F81131 		ldrb	r3, [r3, #273]	@ zero_extendqisi2
+ 274 01c2 022B     		cmp	r3, #2
+ 275 01c4 6FD1     		bne	.L24
+ 276 01c6 039B     		ldr	r3, [sp, #12]
+ 277 01c8 DA69     		ldr	r2, [r3, #28]
+ 278 01ca 039B     		ldr	r3, [sp, #12]
+ 279 01cc 9B68     		ldr	r3, [r3, #8]
+ 280 01ce 9A42     		cmp	r2, r3
+ 281 01d0 1CD9     		bls	.L19
+ 282 01d2 039B     		ldr	r3, [sp, #12]
+ 283 01d4 DA69     		ldr	r2, [r3, #28]
+ 284 01d6 039B     		ldr	r3, [sp, #12]
+ 285 01d8 9B68     		ldr	r3, [r3, #8]
+ 286 01da D21A     		subs	r2, r2, r3
+ 287 01dc 039B     		ldr	r3, [sp, #12]
+ 288 01de DA61     		str	r2, [r3, #28]
+ 289 01e0 019B     		ldr	r3, [sp, #4]
+ 290 01e2 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 291 01e4 012B     		cmp	r3, #1
+ 292 01e6 06D1     		bne	.L20
+ 293 01e8 039B     		ldr	r3, [sp, #12]
+ 294 01ea DA68     		ldr	r2, [r3, #12]
+ 295 01ec 039B     		ldr	r3, [sp, #12]
+ 296 01ee 9B68     		ldr	r3, [r3, #8]
+ 297 01f0 D218     		adds	r2, r2, r3
+ 298 01f2 039B     		ldr	r3, [sp, #12]
+ 299 01f4 DA60     		str	r2, [r3, #12]
+ 300              	.L20:
+ 301 01f6 039B     		ldr	r3, [sp, #12]
+ 302 01f8 DA68     		ldr	r2, [r3, #12]
+ 303 01fa 039B     		ldr	r3, [sp, #12]
+ 304 01fc DB69     		ldr	r3, [r3, #28]
+ 305 01fe 9BB2     		uxth	r3, r3
+ 306 0200 0198     		ldr	r0, [sp, #4]
+ 307 0202 1146     		mov	r1, r2
+ 308 0204 1A46     		mov	r2, r3
+ 309 0206 FFF7FEFF 		bl	USBD_CtlContinueSendData
+ 310 020a 4CE0     		b	.L24
+ 311              	.L19:
+ 312 020c 039B     		ldr	r3, [sp, #12]
+ 313 020e 1B6A     		ldr	r3, [r3, #32]
+ 314 0210 039A     		ldr	r2, [sp, #12]
+ 315 0212 9268     		ldr	r2, [r2, #8]
+ 316 0214 B3FBF2F1 		udiv	r1, r3, r2
+ 317 0218 02FB01F2 		mul	r2, r2, r1
+ 318 021c 9B1A     		subs	r3, r3, r2
+ 319 021e 002B     		cmp	r3, #0
+ 320 0220 17D1     		bne	.L21
+ 321 0222 039B     		ldr	r3, [sp, #12]
+ 322 0224 1A6A     		ldr	r2, [r3, #32]
+ 323 0226 039B     		ldr	r3, [sp, #12]
+ 324 0228 9B68     		ldr	r3, [r3, #8]
+ 325 022a 9A42     		cmp	r2, r3
+ 326 022c 11D3     		bcc	.L21
+ 327 022e 039B     		ldr	r3, [sp, #12]
+ 328 0230 1A6A     		ldr	r2, [r3, #32]
+ 329 0232 039B     		ldr	r3, [sp, #12]
+ 330 0234 5B6A     		ldr	r3, [r3, #36]
+ 331 0236 9A42     		cmp	r2, r3
+ 332 0238 0BD2     		bcs	.L21
+ 333 023a 0198     		ldr	r0, [sp, #4]
+ 334 023c 4FF00001 		mov	r1, #0
+ 335 0240 4FF00002 		mov	r2, #0
+ 336 0244 FFF7FEFF 		bl	USBD_CtlContinueSendData
+ 337 0248 039B     		ldr	r3, [sp, #12]
+ 338 024a 4FF00002 		mov	r2, #0
+ 339 024e 5A62     		str	r2, [r3, #36]
+ 340 0250 2AE0     		b	.L23
+ 341              	.L21:
+ 342 0252 019B     		ldr	r3, [sp, #4]
+ 343 0254 D3F8E035 		ldr	r3, [r3, #1504]
+ 344 0258 DB68     		ldr	r3, [r3, #12]
+ 345 025a 002B     		cmp	r3, #0
+ 346 025c 0AD0     		beq	.L22
+ 347 025e 019B     		ldr	r3, [sp, #4]
+ 348 0260 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 349 0264 032B     		cmp	r3, #3
+ 350 0266 05D1     		bne	.L22
+ 351 0268 019B     		ldr	r3, [sp, #4]
+ 352 026a D3F8E035 		ldr	r3, [r3, #1504]
+ 353 026e DB68     		ldr	r3, [r3, #12]
+ 354 0270 0198     		ldr	r0, [sp, #4]
+ 355 0272 9847     		blx	r3
+ 356              	.L22:
+ 357 0274 0198     		ldr	r0, [sp, #4]
+ 358 0276 FFF7FEFF 		bl	USBD_CtlReceiveStatus
+ 359 027a 14E0     		b	.L24
+ 360              	.L17:
+ 361 027c 019B     		ldr	r3, [sp, #4]
+ 362 027e D3F8E035 		ldr	r3, [r3, #1504]
+ 363 0282 5B69     		ldr	r3, [r3, #20]
+ 364 0284 002B     		cmp	r3, #0
+ 365 0286 0FD0     		beq	.L23
+ 366 0288 019B     		ldr	r3, [sp, #4]
+ 367 028a 93F81231 		ldrb	r3, [r3, #274]	@ zero_extendqisi2
+ 368 028e 032B     		cmp	r3, #3
+ 369 0290 0AD1     		bne	.L23
+ 370 0292 019B     		ldr	r3, [sp, #4]
+ 371 0294 D3F8E035 		ldr	r3, [r3, #1504]
+ 372 0298 5B69     		ldr	r3, [r3, #20]
+ 373 029a 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 374 029e 0198     		ldr	r0, [sp, #4]
+ 375 02a0 1146     		mov	r1, r2
+ 376 02a2 9847     		blx	r3
+ 377 02a4 00E0     		b	.L23
+ 378              	.L24:
+ 379 02a6 00BF     		nop
+ 380              	.L23:
+ 381 02a8 4FF00003 		mov	r3, #0
+ 382 02ac 1846     		mov	r0, r3
+ 383 02ae 05B0     		add	sp, sp, #20
+ 384 02b0 00BD     		pop	{pc}
+ 386 02b2 00BF     		.align	2
+ 387              		.thumb
+ 388              		.thumb_func
+ 390              	USBD_Reset:
+ 391              		@ args = 0, pretend = 0, frame = 8
+ 392              		@ frame_needed = 0, uses_anonymous_args = 0
+ 393 02b4 00B5     		push	{lr}
+ 394 02b6 83B0     		sub	sp, sp, #12
+ 395 02b8 0190     		str	r0, [sp, #4]
+ 396 02ba 0198     		ldr	r0, [sp, #4]
+ 397 02bc 4FF00001 		mov	r1, #0
+ 398 02c0 4FF00802 		mov	r2, #8
+ 399 02c4 4FF00003 		mov	r3, #0
+ 400 02c8 FFF7FEFF 		bl	DCD_EP_Open
+ 401 02cc 0198     		ldr	r0, [sp, #4]
+ 402 02ce 4FF08001 		mov	r1, #128
+ 403 02d2 4FF00802 		mov	r2, #8
+ 404 02d6 4FF00003 		mov	r3, #0
+ 405 02da FFF7FEFF 		bl	DCD_EP_Open
+ 406 02de 019B     		ldr	r3, [sp, #4]
+ 407 02e0 4FF00102 		mov	r2, #1
+ 408 02e4 83F81221 		strb	r2, [r3, #274]
+ 409 02e8 019B     		ldr	r3, [sp, #4]
+ 410 02ea D3F8E435 		ldr	r3, [r3, #1508]
+ 411 02ee 5B68     		ldr	r3, [r3, #4]
+ 412 02f0 019A     		ldr	r2, [sp, #4]
+ 413 02f2 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 414 02f4 1046     		mov	r0, r2
+ 415 02f6 9847     		blx	r3
+ 416 02f8 4FF00003 		mov	r3, #0
+ 417 02fc 1846     		mov	r0, r3
+ 418 02fe 03B0     		add	sp, sp, #12
+ 419 0300 00BD     		pop	{pc}
+ 421 0302 00BF     		.align	2
+ 422              		.thumb
+ 423              		.thumb_func
+ 425              	USBD_Resume:
+ 426              		@ args = 0, pretend = 0, frame = 8
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ 428 0304 00B5     		push	{lr}
+ 429 0306 83B0     		sub	sp, sp, #12
+ 430 0308 0190     		str	r0, [sp, #4]
+ 431 030a 019B     		ldr	r3, [sp, #4]
+ 432 030c D3F8E435 		ldr	r3, [r3, #1508]
+ 433 0310 1B69     		ldr	r3, [r3, #16]
+ 434 0312 9847     		blx	r3
+ 435 0314 019B     		ldr	r3, [sp, #4]
+ 436 0316 4FF00302 		mov	r2, #3
+ 437 031a 83F81221 		strb	r2, [r3, #274]
+ 438 031e 4FF00003 		mov	r3, #0
+ 439 0322 1846     		mov	r0, r3
+ 440 0324 03B0     		add	sp, sp, #12
+ 441 0326 00BD     		pop	{pc}
+ 443              		.align	2
+ 444              		.thumb
+ 445              		.thumb_func
+ 447              	USBD_Suspend:
+ 448              		@ args = 0, pretend = 0, frame = 8
+ 449              		@ frame_needed = 0, uses_anonymous_args = 0
+ 450 0328 00B5     		push	{lr}
+ 451 032a 83B0     		sub	sp, sp, #12
+ 452 032c 0190     		str	r0, [sp, #4]
+ 453 032e 019B     		ldr	r3, [sp, #4]
+ 454 0330 4FF00402 		mov	r2, #4
+ 455 0334 83F81221 		strb	r2, [r3, #274]
+ 456 0338 019B     		ldr	r3, [sp, #4]
+ 457 033a D3F8E435 		ldr	r3, [r3, #1508]
+ 458 033e DB68     		ldr	r3, [r3, #12]
+ 459 0340 9847     		blx	r3
+ 460 0342 4FF00003 		mov	r3, #0
+ 461 0346 1846     		mov	r0, r3
+ 462 0348 03B0     		add	sp, sp, #12
+ 463 034a 00BD     		pop	{pc}
+ 465              		.align	2
+ 466              		.thumb
+ 467              		.thumb_func
+ 469              	USBD_SOF:
+ 470              		@ args = 0, pretend = 0, frame = 8
+ 471              		@ frame_needed = 0, uses_anonymous_args = 0
+ 472 034c 00B5     		push	{lr}
+ 473 034e 83B0     		sub	sp, sp, #12
+ 474 0350 0190     		str	r0, [sp, #4]
+ 475 0352 019B     		ldr	r3, [sp, #4]
+ 476 0354 D3F8E035 		ldr	r3, [r3, #1504]
+ 477 0358 DB69     		ldr	r3, [r3, #28]
+ 478 035a 002B     		cmp	r3, #0
+ 479 035c 05D0     		beq	.L29
+ 480 035e 019B     		ldr	r3, [sp, #4]
+ 481 0360 D3F8E035 		ldr	r3, [r3, #1504]
+ 482 0364 DB69     		ldr	r3, [r3, #28]
+ 483 0366 0198     		ldr	r0, [sp, #4]
+ 484 0368 9847     		blx	r3
+ 485              	.L29:
+ 486 036a 4FF00003 		mov	r3, #0
+ 487 036e 1846     		mov	r0, r3
+ 488 0370 03B0     		add	sp, sp, #12
+ 489 0372 00BD     		pop	{pc}
+ 491              		.align	2
+ 492              		.global	USBD_SetCfg
+ 493              		.thumb
+ 494              		.thumb_func
+ 496              	USBD_SetCfg:
+ 497              		@ args = 0, pretend = 0, frame = 8
+ 498              		@ frame_needed = 0, uses_anonymous_args = 0
+ 499 0374 00B5     		push	{lr}
+ 500 0376 83B0     		sub	sp, sp, #12
+ 501 0378 0190     		str	r0, [sp, #4]
+ 502 037a 0B46     		mov	r3, r1
+ 503 037c 8DF80330 		strb	r3, [sp, #3]
+ 504 0380 019B     		ldr	r3, [sp, #4]
+ 505 0382 D3F8E035 		ldr	r3, [r3, #1504]
+ 506 0386 1B68     		ldr	r3, [r3, #0]
+ 507 0388 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 508 038c 0198     		ldr	r0, [sp, #4]
+ 509 038e 1146     		mov	r1, r2
+ 510 0390 9847     		blx	r3
+ 511 0392 019B     		ldr	r3, [sp, #4]
+ 512 0394 D3F8E435 		ldr	r3, [r3, #1508]
+ 513 0398 9B68     		ldr	r3, [r3, #8]
+ 514 039a 9847     		blx	r3
+ 515 039c 4FF00003 		mov	r3, #0
+ 516 03a0 1846     		mov	r0, r3
+ 517 03a2 03B0     		add	sp, sp, #12
+ 518 03a4 00BD     		pop	{pc}
+ 520 03a6 00BF     		.align	2
+ 521              		.global	USBD_ClrCfg
+ 522              		.thumb
+ 523              		.thumb_func
+ 525              	USBD_ClrCfg:
+ 526              		@ args = 0, pretend = 0, frame = 8
+ 527              		@ frame_needed = 0, uses_anonymous_args = 0
+ 528 03a8 00B5     		push	{lr}
+ 529 03aa 83B0     		sub	sp, sp, #12
+ 530 03ac 0190     		str	r0, [sp, #4]
+ 531 03ae 0B46     		mov	r3, r1
+ 532 03b0 8DF80330 		strb	r3, [sp, #3]
+ 533 03b4 019B     		ldr	r3, [sp, #4]
+ 534 03b6 D3F8E035 		ldr	r3, [r3, #1504]
+ 535 03ba 5B68     		ldr	r3, [r3, #4]
+ 536 03bc 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 537 03c0 0198     		ldr	r0, [sp, #4]
+ 538 03c2 1146     		mov	r1, r2
+ 539 03c4 9847     		blx	r3
+ 540 03c6 4FF00003 		mov	r3, #0
+ 541 03ca 1846     		mov	r0, r3
+ 542 03cc 03B0     		add	sp, sp, #12
+ 543 03ce 00BD     		pop	{pc}
+ 545              		.align	2
+ 546              		.thumb
+ 547              		.thumb_func
+ 549              	USBD_IsoINIncomplete:
+ 550              		@ args = 0, pretend = 0, frame = 8
+ 551              		@ frame_needed = 0, uses_anonymous_args = 0
+ 552 03d0 00B5     		push	{lr}
+ 553 03d2 83B0     		sub	sp, sp, #12
+ 554 03d4 0190     		str	r0, [sp, #4]
+ 555 03d6 019B     		ldr	r3, [sp, #4]
+ 556 03d8 D3F8E035 		ldr	r3, [r3, #1504]
+ 557 03dc 1B6A     		ldr	r3, [r3, #32]
+ 558 03de 0198     		ldr	r0, [sp, #4]
+ 559 03e0 9847     		blx	r3
+ 560 03e2 4FF00003 		mov	r3, #0
+ 561 03e6 1846     		mov	r0, r3
+ 562 03e8 03B0     		add	sp, sp, #12
+ 563 03ea 00BD     		pop	{pc}
+ 565              		.align	2
+ 566              		.thumb
+ 567              		.thumb_func
+ 569              	USBD_IsoOUTIncomplete:
+ 570              		@ args = 0, pretend = 0, frame = 8
+ 571              		@ frame_needed = 0, uses_anonymous_args = 0
+ 572 03ec 00B5     		push	{lr}
+ 573 03ee 83B0     		sub	sp, sp, #12
+ 574 03f0 0190     		str	r0, [sp, #4]
+ 575 03f2 019B     		ldr	r3, [sp, #4]
+ 576 03f4 D3F8E035 		ldr	r3, [r3, #1504]
+ 577 03f8 5B6A     		ldr	r3, [r3, #36]
+ 578 03fa 0198     		ldr	r0, [sp, #4]
+ 579 03fc 9847     		blx	r3
+ 580 03fe 4FF00003 		mov	r3, #0
+ 581 0402 1846     		mov	r0, r3
+ 582 0404 03B0     		add	sp, sp, #12
+ 583 0406 00BD     		pop	{pc}
+ 585              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usbd_core.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:21     .data:00000000 USBD_DCD_INT_cb
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:154    .text:000000cc USBD_DataOutStage
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:258    .text:000001a0 USBD_DataInStage
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:100    .text:00000064 USBD_SetupStage
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:469    .text:0000034c USBD_SOF
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:390    .text:000002b4 USBD_Reset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:447    .text:00000328 USBD_Suspend
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:425    .text:00000304 USBD_Resume
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:549    .text:000003d0 USBD_IsoINIncomplete
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:569    .text:000003ec USBD_IsoOUTIncomplete
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:36     .data:0000002c USBD_DCD_INT_fops
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:39     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:44     .text:00000000 USBD_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:85     .text:00000054 USBD_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:496    .text:00000374 USBD_SetCfg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgbpcCm.s:525    .text:000003a8 USBD_ClrCfg
+
+UNDEFINED SYMBOLS
+USB_OTG_BSP_Init
+DCD_Init
+USB_OTG_BSP_EnableInterrupt
+USBD_ParseSetupRequest
+USBD_StdDevReq
+USBD_StdItfReq
+USBD_StdEPReq
+DCD_EP_Stall
+USBD_CtlContinueRx
+USBD_CtlSendStatus
+USBD_CtlContinueSendData
+USBD_CtlReceiveStatus
+DCD_EP_Open

@@ -1,0 +1,153 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_it.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	NMI_Handler
+  19              		.thumb
+  20              		.thumb_func
+  22              	NMI_Handler:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 7047     		bx	lr
+  28 0002 00BF     		.align	2
+  29              		.global	HardFault_Handler
+  30              		.thumb
+  31              		.thumb_func
+  33              	HardFault_Handler:
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 0, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37              	.L3:
+  38 0004 FEE7     		b	.L3
+  40 0006 00BF     		.align	2
+  41              		.global	MemManage_Handler
+  42              		.thumb
+  43              		.thumb_func
+  45              	MemManage_Handler:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49              	.L5:
+  50 0008 FEE7     		b	.L5
+  52 000a 00BF     		.align	2
+  53              		.global	BusFault_Handler
+  54              		.thumb
+  55              		.thumb_func
+  57              	BusFault_Handler:
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60              		@ link register save eliminated.
+  61              	.L7:
+  62 000c FEE7     		b	.L7
+  64 000e 00BF     		.align	2
+  65              		.global	UsageFault_Handler
+  66              		.thumb
+  67              		.thumb_func
+  69              	UsageFault_Handler:
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+  73              	.L9:
+  74 0010 FEE7     		b	.L9
+  76 0012 00BF     		.align	2
+  77              		.global	SVC_Handler
+  78              		.thumb
+  79              		.thumb_func
+  81              	SVC_Handler:
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85 0014 7047     		bx	lr
+  87 0016 00BF     		.align	2
+  88              		.global	DebugMon_Handler
+  89              		.thumb
+  90              		.thumb_func
+  92              	DebugMon_Handler:
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  96 0018 7047     		bx	lr
+  98 001a 00BF     		.align	2
+  99              		.global	PendSV_Handler
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	PendSV_Handler:
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107 001c 7047     		bx	lr
+ 109 001e 00BF     		.align	2
+ 110              		.global	OTG_FS_WKUP_IRQHandler
+ 111              		.thumb
+ 112              		.thumb_func
+ 114              	OTG_FS_WKUP_IRQHandler:
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 117 0020 08B5     		push	{r3, lr}
+ 118 0022 40F20003 		movw	r3, #:lower16:USB_OTG_dev
+ 119 0026 C0F20003 		movt	r3, #:upper16:USB_OTG_dev
+ 120 002a 9B7A     		ldrb	r3, [r3, #10]	@ zero_extendqisi2
+ 121 002c 002B     		cmp	r3, #0
+ 122 002e 13D0     		beq	.L14
+ 123 0030 4EF61053 		movw	r3, #60688
+ 124 0034 CEF20003 		movt	r3, 57344
+ 125 0038 4EF61052 		movw	r2, #60688
+ 126 003c CEF20002 		movt	r2, 57344
+ 127 0040 1268     		ldr	r2, [r2, #0]
+ 128 0042 22F00602 		bic	r2, r2, #6
+ 129 0046 1A60     		str	r2, [r3, #0]
+ 130 0048 FFF7FEFF 		bl	SystemInit
+ 131 004c 40F20000 		movw	r0, #:lower16:USB_OTG_dev
+ 132 0050 C0F20000 		movt	r0, #:upper16:USB_OTG_dev
+ 133 0054 FFF7FEFF 		bl	USB_OTG_UngateClock
+ 134              	.L14:
+ 135 0058 4FF48020 		mov	r0, #262144
+ 136 005c FFF7FEFF 		bl	EXTI_ClearITPendingBit
+ 137 0060 08BD     		pop	{r3, pc}
+ 139 0062 00BF     		.align	2
+ 140              		.global	OTG_FS_IRQHandler
+ 141              		.thumb
+ 142              		.thumb_func
+ 144              	OTG_FS_IRQHandler:
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147 0064 08B5     		push	{r3, lr}
+ 148 0066 40F20000 		movw	r0, #:lower16:USB_OTG_dev
+ 149 006a C0F20000 		movt	r0, #:upper16:USB_OTG_dev
+ 150 006e FFF7FEFF 		bl	USBD_OTG_ISR_Handler
+ 151 0072 08BD     		pop	{r3, pc}
+ 153              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_it.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:22     .text:00000000 NMI_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:33     .text:00000004 HardFault_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:45     .text:00000008 MemManage_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:57     .text:0000000c BusFault_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:69     .text:00000010 UsageFault_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:81     .text:00000014 SVC_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:92     .text:00000018 DebugMon_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:103    .text:0000001c PendSV_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:114    .text:00000020 OTG_FS_WKUP_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccV9h3E8.s:144    .text:00000064 OTG_FS_IRQHandler
+
+UNDEFINED SYMBOLS
+USB_OTG_dev
+SystemInit
+USB_OTG_UngateClock
+EXTI_ClearITPendingBit
+USBD_OTG_ISR_Handler

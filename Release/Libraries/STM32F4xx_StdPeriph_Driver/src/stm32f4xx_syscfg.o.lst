@@ -1,0 +1,186 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_syscfg.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	SYSCFG_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	SYSCFG_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 4FF48040 		mov	r0, #16384
+  27 0006 4FF00101 		mov	r1, #1
+  28 000a FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  29 000e 4FF48040 		mov	r0, #16384
+  30 0012 4FF00001 		mov	r1, #0
+  31 0016 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  32 001a 08BD     		pop	{r3, pc}
+  34              		.align	2
+  35              		.global	SYSCFG_MemoryRemapConfig
+  36              		.thumb
+  37              		.thumb_func
+  39              	SYSCFG_MemoryRemapConfig:
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 001c 82B0     		sub	sp, sp, #8
+  44 001e 0346     		mov	r3, r0
+  45 0020 8DF80730 		strb	r3, [sp, #7]
+  46 0024 4FF46053 		mov	r3, #14336
+  47 0028 C4F20103 		movt	r3, 16385
+  48 002c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+  49 0030 1A60     		str	r2, [r3, #0]
+  50 0032 02B0     		add	sp, sp, #8
+  51 0034 7047     		bx	lr
+  53 0036 00BF     		.align	2
+  54              		.global	SYSCFG_EXTILineConfig
+  55              		.thumb
+  56              		.thumb_func
+  58              	SYSCFG_EXTILineConfig:
+  59              		@ args = 0, pretend = 0, frame = 16
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61              		@ link register save eliminated.
+  62 0038 10B4     		push	{r4}
+  63 003a 85B0     		sub	sp, sp, #20
+  64 003c 0246     		mov	r2, r0
+  65 003e 0B46     		mov	r3, r1
+  66 0040 8DF80720 		strb	r2, [sp, #7]
+  67 0044 8DF80630 		strb	r3, [sp, #6]
+  68 0048 4FF00003 		mov	r3, #0
+  69 004c 0393     		str	r3, [sp, #12]
+  70 004e 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+  71 0052 03F00303 		and	r3, r3, #3
+  72 0056 4FEA8303 		lsl	r3, r3, #2
+  73 005a 4FF00F02 		mov	r2, #15
+  74 005e 02FA03F3 		lsl	r3, r2, r3
+  75 0062 0393     		str	r3, [sp, #12]
+  76 0064 4FF46053 		mov	r3, #14336
+  77 0068 C4F20103 		movt	r3, 16385
+  78 006c 9DF80620 		ldrb	r2, [sp, #6]	@ zero_extendqisi2
+  79 0070 4FEA9202 		lsr	r2, r2, #2
+  80 0074 D2B2     		uxtb	r2, r2
+  81 0076 1046     		mov	r0, r2
+  82 0078 4FF46052 		mov	r2, #14336
+  83 007c C4F20102 		movt	r2, 16385
+  84 0080 9DF80610 		ldrb	r1, [sp, #6]	@ zero_extendqisi2
+  85 0084 4FEA9101 		lsr	r1, r1, #2
+  86 0088 C9B2     		uxtb	r1, r1
+  87 008a 01F10201 		add	r1, r1, #2
+  88 008e 52F82110 		ldr	r1, [r2, r1, lsl #2]
+  89 0092 039A     		ldr	r2, [sp, #12]
+  90 0094 6FEA0202 		mvn	r2, r2
+  91 0098 1140     		ands	r1, r1, r2
+  92 009a 00F10202 		add	r2, r0, #2
+  93 009e 43F82210 		str	r1, [r3, r2, lsl #2]
+  94 00a2 4FF46053 		mov	r3, #14336
+  95 00a6 C4F20103 		movt	r3, 16385
+  96 00aa 9DF80620 		ldrb	r2, [sp, #6]	@ zero_extendqisi2
+  97 00ae 4FEA9202 		lsr	r2, r2, #2
+  98 00b2 D2B2     		uxtb	r2, r2
+  99 00b4 1046     		mov	r0, r2
+ 100 00b6 4FF46052 		mov	r2, #14336
+ 101 00ba C4F20102 		movt	r2, 16385
+ 102 00be 9DF80610 		ldrb	r1, [sp, #6]	@ zero_extendqisi2
+ 103 00c2 4FEA9101 		lsr	r1, r1, #2
+ 104 00c6 C9B2     		uxtb	r1, r1
+ 105 00c8 01F10201 		add	r1, r1, #2
+ 106 00cc 52F82110 		ldr	r1, [r2, r1, lsl #2]
+ 107 00d0 9DF80740 		ldrb	r4, [sp, #7]	@ zero_extendqisi2
+ 108 00d4 9DF80620 		ldrb	r2, [sp, #6]	@ zero_extendqisi2
+ 109 00d8 02F00302 		and	r2, r2, #3
+ 110 00dc 4FEA8202 		lsl	r2, r2, #2
+ 111 00e0 04FA02F2 		lsl	r2, r4, r2
+ 112 00e4 1143     		orrs	r1, r1, r2
+ 113 00e6 00F10202 		add	r2, r0, #2
+ 114 00ea 43F82210 		str	r1, [r3, r2, lsl #2]
+ 115 00ee 05B0     		add	sp, sp, #20
+ 116 00f0 10BC     		pop	{r4}
+ 117 00f2 7047     		bx	lr
+ 119              		.align	2
+ 120              		.global	SYSCFG_ETH_MediaInterfaceConfig
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	SYSCFG_ETH_MediaInterfaceConfig:
+ 125              		@ args = 0, pretend = 0, frame = 8
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127              		@ link register save eliminated.
+ 128 00f4 82B0     		sub	sp, sp, #8
+ 129 00f6 0190     		str	r0, [sp, #4]
+ 130 00f8 4FF0DC03 		mov	r3, #220
+ 131 00fc C4F22723 		movt	r3, 16935
+ 132 0100 019A     		ldr	r2, [sp, #4]
+ 133 0102 1A60     		str	r2, [r3, #0]
+ 134 0104 02B0     		add	sp, sp, #8
+ 135 0106 7047     		bx	lr
+ 137              		.align	2
+ 138              		.global	SYSCFG_CompensationCellCmd
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	SYSCFG_CompensationCellCmd:
+ 143              		@ args = 0, pretend = 0, frame = 8
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              		@ link register save eliminated.
+ 146 0108 82B0     		sub	sp, sp, #8
+ 147 010a 0346     		mov	r3, r0
+ 148 010c 8DF80730 		strb	r3, [sp, #7]
+ 149 0110 4FF48063 		mov	r3, #1024
+ 150 0114 C4F22723 		movt	r3, 16935
+ 151 0118 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 152 011c 1A60     		str	r2, [r3, #0]
+ 153 011e 02B0     		add	sp, sp, #8
+ 154 0120 7047     		bx	lr
+ 156 0122 00BF     		.align	2
+ 157              		.global	SYSCFG_GetCompensationCellStatus
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	SYSCFG_GetCompensationCellStatus:
+ 162              		@ args = 0, pretend = 0, frame = 8
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		@ link register save eliminated.
+ 165 0124 82B0     		sub	sp, sp, #8
+ 166 0126 4FF00003 		mov	r3, #0
+ 167 012a 8DF80730 		strb	r3, [sp, #7]
+ 168 012e 4FF46053 		mov	r3, #14336
+ 169 0132 C4F20103 		movt	r3, 16385
+ 170 0136 1B6A     		ldr	r3, [r3, #32]
+ 171 0138 03F48073 		and	r3, r3, #256
+ 172 013c 002B     		cmp	r3, #0
+ 173 013e 04D0     		beq	.L7
+ 174 0140 4FF00103 		mov	r3, #1
+ 175 0144 8DF80730 		strb	r3, [sp, #7]
+ 176 0148 03E0     		b	.L8
+ 177              	.L7:
+ 178 014a 4FF00003 		mov	r3, #0
+ 179 014e 8DF80730 		strb	r3, [sp, #7]
+ 180              	.L8:
+ 181 0152 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 182 0156 1846     		mov	r0, r3
+ 183 0158 02B0     		add	sp, sp, #8
+ 184 015a 7047     		bx	lr
+ 186              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_syscfg.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:22     .text:00000000 SYSCFG_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:39     .text:0000001c SYSCFG_MemoryRemapConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:58     .text:00000038 SYSCFG_EXTILineConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:124    .text:000000f4 SYSCFG_ETH_MediaInterfaceConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:142    .text:00000108 SYSCFG_CompensationCellCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczIhyrR.s:161    .text:00000124 SYSCFG_GetCompensationCellStatus
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphResetCmd

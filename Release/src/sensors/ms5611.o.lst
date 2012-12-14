@@ -1,0 +1,527 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"ms5611.c"
+  16              		.comm	d1Average,4,4
+  17              		.global	d1Sum
+  18              		.bss
+  19              		.align	2
+  22              	d1Sum:
+  23 0000 00000000 		.space	4
+  24              		.comm	c1,2,4
+  25              		.comm	c2,2,4
+  26              		.comm	c3,2,4
+  27              		.comm	c4,2,4
+  28              		.comm	c5,2,4
+  29              		.comm	c6,2,4
+  30              		.comm	d1,4,4
+  31              		.comm	d2,4,4
+  32              		.comm	dT,4,4
+  33              		.comm	temp,4,4
+  34              		.comm	offset,8,8
+  35              		.comm	sens,8,8
+  36              		.comm	p,4,4
+  37              		.global	pressureAltValid
+  40              	pressureAltValid:
+  41 0004 00       		.space	1
+  42 0005 000000   		.text
+  43              		.align	2
+  44              		.global	readTemperatureRequestPressure
+  45              		.thumb
+  46              		.thumb_func
+  48              	readTemperatureRequestPressure:
+  49              		@ args = 0, pretend = 0, frame = 8
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51 0000 00B5     		push	{lr}
+  52 0002 85B0     		sub	sp, sp, #20
+  53 0004 03AB     		add	r3, sp, #12
+  54 0006 0093     		str	r3, [sp, #0]
+  55 0008 4FF4A840 		mov	r0, #21504
+  56 000c C4F20000 		movt	r0, 16384
+  57 0010 4FF07601 		mov	r1, #118
+  58 0014 4FF00002 		mov	r2, #0
+  59 0018 4FF00303 		mov	r3, #3
+  60 001c FFF7FEFF 		bl	i2cRead
+  61 0020 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+  62 0024 40F20003 		movw	r3, #:lower16:d2
+  63 0028 C0F20003 		movt	r3, #:upper16:d2
+  64 002c 9A70     		strb	r2, [r3, #2]
+  65 002e 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+  66 0032 40F20003 		movw	r3, #:lower16:d2
+  67 0036 C0F20003 		movt	r3, #:upper16:d2
+  68 003a 5A70     		strb	r2, [r3, #1]
+  69 003c 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
+  70 0040 40F20003 		movw	r3, #:lower16:d2
+  71 0044 C0F20003 		movt	r3, #:upper16:d2
+  72 0048 1A70     		strb	r2, [r3, #0]
+  73 004a 4FF4A840 		mov	r0, #21504
+  74 004e C4F20000 		movt	r0, 16384
+  75 0052 4FF07601 		mov	r1, #118
+  76 0056 4FF0FF02 		mov	r2, #255
+  77 005a 4FF04803 		mov	r3, #72
+  78 005e FFF7FEFF 		bl	i2cWrite
+  79 0062 05B0     		add	sp, sp, #20
+  80 0064 00BD     		pop	{pc}
+  82 0066 00BF     		.align	2
+  83              		.global	readPressureRequestPressure
+  84              		.thumb
+  85              		.thumb_func
+  87              	readPressureRequestPressure:
+  88              		@ args = 0, pretend = 0, frame = 8
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90 0068 00B5     		push	{lr}
+  91 006a 85B0     		sub	sp, sp, #20
+  92 006c 03AB     		add	r3, sp, #12
+  93 006e 0093     		str	r3, [sp, #0]
+  94 0070 4FF4A840 		mov	r0, #21504
+  95 0074 C4F20000 		movt	r0, 16384
+  96 0078 4FF07601 		mov	r1, #118
+  97 007c 4FF00002 		mov	r2, #0
+  98 0080 4FF00303 		mov	r3, #3
+  99 0084 FFF7FEFF 		bl	i2cRead
+ 100 0088 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 101 008c 40F20003 		movw	r3, #:lower16:d1
+ 102 0090 C0F20003 		movt	r3, #:upper16:d1
+ 103 0094 9A70     		strb	r2, [r3, #2]
+ 104 0096 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 105 009a 40F20003 		movw	r3, #:lower16:d1
+ 106 009e C0F20003 		movt	r3, #:upper16:d1
+ 107 00a2 5A70     		strb	r2, [r3, #1]
+ 108 00a4 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
+ 109 00a8 40F20003 		movw	r3, #:lower16:d1
+ 110 00ac C0F20003 		movt	r3, #:upper16:d1
+ 111 00b0 1A70     		strb	r2, [r3, #0]
+ 112 00b2 4FF4A840 		mov	r0, #21504
+ 113 00b6 C4F20000 		movt	r0, 16384
+ 114 00ba 4FF07601 		mov	r1, #118
+ 115 00be 4FF0FF02 		mov	r2, #255
+ 116 00c2 4FF04803 		mov	r3, #72
+ 117 00c6 FFF7FEFF 		bl	i2cWrite
+ 118 00ca 05B0     		add	sp, sp, #20
+ 119 00cc 00BD     		pop	{pc}
+ 121 00ce 00BF     		.align	2
+ 122              		.global	readPressureRequestTemperature
+ 123              		.thumb
+ 124              		.thumb_func
+ 126              	readPressureRequestTemperature:
+ 127              		@ args = 0, pretend = 0, frame = 8
+ 128              		@ frame_needed = 0, uses_anonymous_args = 0
+ 129 00d0 00B5     		push	{lr}
+ 130 00d2 85B0     		sub	sp, sp, #20
+ 131 00d4 03AB     		add	r3, sp, #12
+ 132 00d6 0093     		str	r3, [sp, #0]
+ 133 00d8 4FF4A840 		mov	r0, #21504
+ 134 00dc C4F20000 		movt	r0, 16384
+ 135 00e0 4FF07601 		mov	r1, #118
+ 136 00e4 4FF00002 		mov	r2, #0
+ 137 00e8 4FF00303 		mov	r3, #3
+ 138 00ec FFF7FEFF 		bl	i2cRead
+ 139 00f0 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 140 00f4 40F20003 		movw	r3, #:lower16:d1
+ 141 00f8 C0F20003 		movt	r3, #:upper16:d1
+ 142 00fc 9A70     		strb	r2, [r3, #2]
+ 143 00fe 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 144 0102 40F20003 		movw	r3, #:lower16:d1
+ 145 0106 C0F20003 		movt	r3, #:upper16:d1
+ 146 010a 5A70     		strb	r2, [r3, #1]
+ 147 010c 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
+ 148 0110 40F20003 		movw	r3, #:lower16:d1
+ 149 0114 C0F20003 		movt	r3, #:upper16:d1
+ 150 0118 1A70     		strb	r2, [r3, #0]
+ 151 011a 4FF4A840 		mov	r0, #21504
+ 152 011e C4F20000 		movt	r0, 16384
+ 153 0122 4FF07601 		mov	r1, #118
+ 154 0126 4FF0FF02 		mov	r2, #255
+ 155 012a 4FF05803 		mov	r3, #88
+ 156 012e FFF7FEFF 		bl	i2cWrite
+ 157 0132 05B0     		add	sp, sp, #20
+ 158 0134 00BD     		pop	{pc}
+ 160 0136 00BF     		.align	2
+ 161              		.global	calculateTemperature
+ 162              		.thumb
+ 163              		.thumb_func
+ 165              	calculateTemperature:
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168              		@ link register save eliminated.
+ 169 0138 2DE9F003 		push	{r4, r5, r6, r7, r8, r9}
+ 170 013c 40F20003 		movw	r3, #:lower16:d2
+ 171 0140 C0F20003 		movt	r3, #:upper16:d2
+ 172 0144 1A68     		ldr	r2, [r3, #0]
+ 173 0146 40F20003 		movw	r3, #:lower16:c5
+ 174 014a C0F20003 		movt	r3, #:upper16:c5
+ 175 014e 1B88     		ldrh	r3, [r3, #0]
+ 176 0150 4FEA0323 		lsl	r3, r3, #8
+ 177 0154 D31A     		subs	r3, r2, r3
+ 178 0156 1A46     		mov	r2, r3
+ 179 0158 40F20003 		movw	r3, #:lower16:dT
+ 180 015c C0F20003 		movt	r3, #:upper16:dT
+ 181 0160 1A60     		str	r2, [r3, #0]
+ 182 0162 40F20003 		movw	r3, #:lower16:dT
+ 183 0166 C0F20003 		movt	r3, #:upper16:dT
+ 184 016a 1B68     		ldr	r3, [r3, #0]
+ 185 016c 1E46     		mov	r6, r3
+ 186 016e 4FEAE677 		asr	r7, r6, #31
+ 187 0172 40F20003 		movw	r3, #:lower16:c6
+ 188 0176 C0F20003 		movt	r3, #:upper16:c6
+ 189 017a 1B88     		ldrh	r3, [r3, #0]
+ 190 017c 9CB2     		uxth	r4, r3
+ 191 017e 4FF00005 		mov	r5, #0
+ 192 0182 04FB07F2 		mul	r2, r4, r7
+ 193 0186 06FB05F3 		mul	r3, r6, r5
+ 194 018a D118     		adds	r1, r2, r3
+ 195 018c A6FB0423 		umull	r2, r3, r6, r4
+ 196 0190 C918     		adds	r1, r1, r3
+ 197 0192 0B46     		mov	r3, r1
+ 198 0194 4FEA4321 		lsl	r1, r3, #9
+ 199 0198 4FEAD258 		lsr	r8, r2, #23
+ 200 019c 41EA0808 		orr	r8, r1, r8
+ 201 01a0 4FEAE359 		asr	r9, r3, #23
+ 202 01a4 4346     		mov	r3, r8
+ 203 01a6 03F5FA62 		add	r2, r3, #2000
+ 204 01aa 40F20003 		movw	r3, #:lower16:temp
+ 205 01ae C0F20003 		movt	r3, #:upper16:temp
+ 206 01b2 1A60     		str	r2, [r3, #0]
+ 207 01b4 BDE8F003 		pop	{r4, r5, r6, r7, r8, r9}
+ 208 01b8 7047     		bx	lr
+ 210              		.global	__aeabi_f2d
+ 211              		.global	__aeabi_dsub
+ 212              		.global	__aeabi_dmul
+ 213              		.global	__aeabi_d2f
+ 214 01ba 00BF     		.align	2
+ 215              		.global	calculatePressureAltitude
+ 216              		.thumb
+ 217              		.thumb_func
+ 219              	calculatePressureAltitude:
+ 220              		@ args = 0, pretend = 0, frame = 16
+ 221              		@ frame_needed = 0, uses_anonymous_args = 0
+ 222 01bc 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 223 01c0 85B0     		sub	sp, sp, #20
+ 224 01c2 40F20003 		movw	r3, #:lower16:c2
+ 225 01c6 C0F20003 		movt	r3, #:upper16:c2
+ 226 01ca 1B88     		ldrh	r3, [r3, #0]
+ 227 01cc 4FEA0343 		lsl	r3, r3, #16
+ 228 01d0 0293     		str	r3, [sp, #8]
+ 229 01d2 4FF00000 		mov	r0, #0
+ 230 01d6 0390     		str	r0, [sp, #12]
+ 231 01d8 40F20003 		movw	r3, #:lower16:c4
+ 232 01dc C0F20003 		movt	r3, #:upper16:c4
+ 233 01e0 1B88     		ldrh	r3, [r3, #0]
+ 234 01e2 9CB2     		uxth	r4, r3
+ 235 01e4 4FF00005 		mov	r5, #0
+ 236 01e8 40F20003 		movw	r3, #:lower16:dT
+ 237 01ec C0F20003 		movt	r3, #:upper16:dT
+ 238 01f0 1968     		ldr	r1, [r3, #0]
+ 239 01f2 0A46     		mov	r2, r1
+ 240 01f4 4FEAE273 		asr	r3, r2, #31
+ 241 01f8 02FB05F0 		mul	r0, r2, r5
+ 242 01fc 04FB03F1 		mul	r1, r4, r3
+ 243 0200 4118     		adds	r1, r0, r1
+ 244 0202 A4FB0223 		umull	r2, r3, r4, r2
+ 245 0206 C918     		adds	r1, r1, r3
+ 246 0208 0B46     		mov	r3, r1
+ 247 020a 4FEA4361 		lsl	r1, r3, #25
+ 248 020e 4FEAD216 		lsr	r6, r2, #7
+ 249 0212 0E43     		orrs	r6, r6, r1
+ 250 0214 4FEAE317 		asr	r7, r3, #7
+ 251 0218 DDE90201 		ldrd	r0, [sp, #8]
+ 252 021c 8019     		adds	r0, r0, r6
+ 253 021e 41EB0701 		adc	r1, r1, r7
+ 254 0222 40F20003 		movw	r3, #:lower16:offset
+ 255 0226 C0F20003 		movt	r3, #:upper16:offset
+ 256 022a C3E90001 		strd	r0, [r3]
+ 257 022e 40F20003 		movw	r3, #:lower16:c1
+ 258 0232 C0F20003 		movt	r3, #:upper16:c1
+ 259 0236 1B88     		ldrh	r3, [r3, #0]
+ 260 0238 4FEAC333 		lsl	r3, r3, #15
+ 261 023c 1E46     		mov	r6, r3
+ 262 023e 4FF00007 		mov	r7, #0
+ 263 0242 40F20003 		movw	r3, #:lower16:c3
+ 264 0246 C0F20003 		movt	r3, #:upper16:c3
+ 265 024a 1B88     		ldrh	r3, [r3, #0]
+ 266 024c 9CB2     		uxth	r4, r3
+ 267 024e 4FF00005 		mov	r5, #0
+ 268 0252 40F20003 		movw	r3, #:lower16:dT
+ 269 0256 C0F20003 		movt	r3, #:upper16:dT
+ 270 025a 1968     		ldr	r1, [r3, #0]
+ 271 025c 0A46     		mov	r2, r1
+ 272 025e 4FEAE273 		asr	r3, r2, #31
+ 273 0262 02FB05F0 		mul	r0, r2, r5
+ 274 0266 04FB03F1 		mul	r1, r4, r3
+ 275 026a 4118     		adds	r1, r0, r1
+ 276 026c A4FB0223 		umull	r2, r3, r4, r2
+ 277 0270 C918     		adds	r1, r1, r3
+ 278 0272 0B46     		mov	r3, r1
+ 279 0274 4FEA0361 		lsl	r1, r3, #24
+ 280 0278 4FEA1228 		lsr	r8, r2, #8
+ 281 027c 41EA0808 		orr	r8, r1, r8
+ 282 0280 4FEA2329 		asr	r9, r3, #8
+ 283 0284 3046     		mov	r0, r6
+ 284 0286 3946     		mov	r1, r7
+ 285 0288 10EB0800 		adds	r0, r0, r8
+ 286 028c 41EB0901 		adc	r1, r1, r9
+ 287 0290 40F20003 		movw	r3, #:lower16:sens
+ 288 0294 C0F20003 		movt	r3, #:upper16:sens
+ 289 0298 C3E90001 		strd	r0, [r3]
+ 290 029c 40F20003 		movw	r3, #:lower16:d1Average
+ 291 02a0 C0F20003 		movt	r3, #:upper16:d1Average
+ 292 02a4 1B68     		ldr	r3, [r3, #0]
+ 293 02a6 1C46     		mov	r4, r3
+ 294 02a8 4FF00005 		mov	r5, #0
+ 295 02ac 40F20003 		movw	r3, #:lower16:sens
+ 296 02b0 C0F20003 		movt	r3, #:upper16:sens
+ 297 02b4 D3E90023 		ldrd	r2, [r3]
+ 298 02b8 02FB05F0 		mul	r0, r2, r5
+ 299 02bc 04FB03F1 		mul	r1, r4, r3
+ 300 02c0 4118     		adds	r1, r0, r1
+ 301 02c2 A4FB0223 		umull	r2, r3, r4, r2
+ 302 02c6 C918     		adds	r1, r1, r3
+ 303 02c8 0B46     		mov	r3, r1
+ 304 02ca 4FEAC321 		lsl	r1, r3, #11
+ 305 02ce 4FEA5250 		lsr	r0, r2, #21
+ 306 02d2 0090     		str	r0, [sp, #0]
+ 307 02d4 0098     		ldr	r0, [sp, #0]
+ 308 02d6 0843     		orrs	r0, r0, r1
+ 309 02d8 0090     		str	r0, [sp, #0]
+ 310 02da 4FEA6351 		asr	r1, r3, #21
+ 311 02de 0191     		str	r1, [sp, #4]
+ 312 02e0 40F20003 		movw	r3, #:lower16:offset
+ 313 02e4 C0F20003 		movt	r3, #:upper16:offset
+ 314 02e8 D3E90023 		ldrd	r2, [r3]
+ 315 02ec DDE90001 		ldrd	r0, [sp]
+ 316 02f0 821A     		subs	r2, r0, r2
+ 317 02f2 61EB0303 		sbc	r3, r1, r3
+ 318 02f6 4FEA4341 		lsl	r1, r3, #17
+ 319 02fa 4FEAD23A 		lsr	sl, r2, #15
+ 320 02fe 41EA0A0A 		orr	sl, r1, sl
+ 321 0302 4FEAE33B 		asr	fp, r3, #15
+ 322 0306 5246     		mov	r2, sl
+ 323 0308 40F20003 		movw	r3, #:lower16:p
+ 324 030c C0F20003 		movt	r3, #:upper16:p
+ 325 0310 1A60     		str	r2, [r3, #0]
+ 326 0312 40F20003 		movw	r3, #:lower16:p
+ 327 0316 C0F20003 		movt	r3, #:upper16:p
+ 328 031a 1B68     		ldr	r3, [r3, #0]
+ 329 031c 07EE903A 		fmsr	s15, r3	@ int
+ 330 0320 B8EEE77A 		fsitos	s14, s15
+ 331 0324 DFED1E7A 		flds	s15, .L6+24
+ 332 0328 C7EE277A 		fdivs	s15, s14, s15
+ 333 032c 17EE900A 		fmrs	r0, s15
+ 334 0330 FFF7FEFF 		bl	__aeabi_f2d
+ 335 0334 0246     		mov	r2, r0
+ 336 0336 0B46     		mov	r3, r1
+ 337 0338 1046     		mov	r0, r2
+ 338 033a 1946     		mov	r1, r3
+ 339 033c 12A3     		adr	r3, .L6
+ 340 033e D3E90023 		ldrd	r2, [r3]
+ 341 0342 FFF7FEFF 		bl	pow
+ 342 0346 0246     		mov	r2, r0
+ 343 0348 0B46     		mov	r3, r1
+ 344 034a 11A1     		adr	r1, .L6+8
+ 345 034c D1E90001 		ldrd	r0, [r1]
+ 346 0350 FFF7FEFF 		bl	__aeabi_dsub
+ 347 0354 0246     		mov	r2, r0
+ 348 0356 0B46     		mov	r3, r1
+ 349 0358 1046     		mov	r0, r2
+ 350 035a 1946     		mov	r1, r3
+ 351 035c 0EA3     		adr	r3, .L6+16
+ 352 035e D3E90023 		ldrd	r2, [r3]
+ 353 0362 FFF7FEFF 		bl	__aeabi_dmul
+ 354 0366 0246     		mov	r2, r0
+ 355 0368 0B46     		mov	r3, r1
+ 356 036a 1046     		mov	r0, r2
+ 357 036c 1946     		mov	r1, r3
+ 358 036e FFF7FEFF 		bl	__aeabi_d2f
+ 359 0372 0246     		mov	r2, r0	@ float
+ 360 0374 40F20003 		movw	r3, #:lower16:sensors
+ 361 0378 C0F20003 		movt	r3, #:upper16:sensors
+ 362 037c DA63     		str	r2, [r3, #60]	@ float
+ 363 037e 05B0     		add	sp, sp, #20
+ 364 0380 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 365              	.L7:
+ 366 0384 AFF30080 		.align	3
+ 367              	.L6:
+ 368 0388 00000020 		.word	536870912
+ 369 038c 965BC83F 		.word	1070095254
+ 370 0390 00000000 		.word	0
+ 371 0394 0000F03F 		.word	1072693248
+ 372 0398 00000000 		.word	0
+ 373 039c 40A5E540 		.word	1088791872
+ 374 03a0 80E6C547 		.word	1204151936
+ 376              		.align	2
+ 377              		.global	initPressure
+ 378              		.thumb
+ 379              		.thumb_func
+ 381              	initPressure:
+ 382              		@ args = 0, pretend = 0, frame = 8
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384 03a4 00B5     		push	{lr}
+ 385 03a6 85B0     		sub	sp, sp, #20
+ 386 03a8 4FF4A840 		mov	r0, #21504
+ 387 03ac C4F20000 		movt	r0, 16384
+ 388 03b0 4FF07601 		mov	r1, #118
+ 389 03b4 4FF0FF02 		mov	r2, #255
+ 390 03b8 4FF01E03 		mov	r3, #30
+ 391 03bc FFF7FEFF 		bl	i2cWrite
+ 392 03c0 4FF00A00 		mov	r0, #10
+ 393 03c4 FFF7FEFF 		bl	delay
+ 394 03c8 03AB     		add	r3, sp, #12
+ 395 03ca 0093     		str	r3, [sp, #0]
+ 396 03cc 4FF4A840 		mov	r0, #21504
+ 397 03d0 C4F20000 		movt	r0, 16384
+ 398 03d4 4FF07601 		mov	r1, #118
+ 399 03d8 4FF0A202 		mov	r2, #162
+ 400 03dc 4FF00203 		mov	r3, #2
+ 401 03e0 FFF7FEFF 		bl	i2cRead
+ 402 03e4 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 403 03e8 40F20003 		movw	r3, #:lower16:c1
+ 404 03ec C0F20003 		movt	r3, #:upper16:c1
+ 405 03f0 5A70     		strb	r2, [r3, #1]
+ 406 03f2 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 407 03f6 40F20003 		movw	r3, #:lower16:c1
+ 408 03fa C0F20003 		movt	r3, #:upper16:c1
+ 409 03fe 1A70     		strb	r2, [r3, #0]
+ 410 0400 03AB     		add	r3, sp, #12
+ 411 0402 0093     		str	r3, [sp, #0]
+ 412 0404 4FF4A840 		mov	r0, #21504
+ 413 0408 C4F20000 		movt	r0, 16384
+ 414 040c 4FF07601 		mov	r1, #118
+ 415 0410 4FF0A402 		mov	r2, #164
+ 416 0414 4FF00203 		mov	r3, #2
+ 417 0418 FFF7FEFF 		bl	i2cRead
+ 418 041c 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 419 0420 40F20003 		movw	r3, #:lower16:c2
+ 420 0424 C0F20003 		movt	r3, #:upper16:c2
+ 421 0428 5A70     		strb	r2, [r3, #1]
+ 422 042a 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 423 042e 40F20003 		movw	r3, #:lower16:c2
+ 424 0432 C0F20003 		movt	r3, #:upper16:c2
+ 425 0436 1A70     		strb	r2, [r3, #0]
+ 426 0438 03AB     		add	r3, sp, #12
+ 427 043a 0093     		str	r3, [sp, #0]
+ 428 043c 4FF4A840 		mov	r0, #21504
+ 429 0440 C4F20000 		movt	r0, 16384
+ 430 0444 4FF07601 		mov	r1, #118
+ 431 0448 4FF0A602 		mov	r2, #166
+ 432 044c 4FF00203 		mov	r3, #2
+ 433 0450 FFF7FEFF 		bl	i2cRead
+ 434 0454 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 435 0458 40F20003 		movw	r3, #:lower16:c3
+ 436 045c C0F20003 		movt	r3, #:upper16:c3
+ 437 0460 5A70     		strb	r2, [r3, #1]
+ 438 0462 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 439 0466 40F20003 		movw	r3, #:lower16:c3
+ 440 046a C0F20003 		movt	r3, #:upper16:c3
+ 441 046e 1A70     		strb	r2, [r3, #0]
+ 442 0470 03AB     		add	r3, sp, #12
+ 443 0472 0093     		str	r3, [sp, #0]
+ 444 0474 4FF4A840 		mov	r0, #21504
+ 445 0478 C4F20000 		movt	r0, 16384
+ 446 047c 4FF07601 		mov	r1, #118
+ 447 0480 4FF0A802 		mov	r2, #168
+ 448 0484 4FF00203 		mov	r3, #2
+ 449 0488 FFF7FEFF 		bl	i2cRead
+ 450 048c 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 451 0490 40F20003 		movw	r3, #:lower16:c4
+ 452 0494 C0F20003 		movt	r3, #:upper16:c4
+ 453 0498 5A70     		strb	r2, [r3, #1]
+ 454 049a 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 455 049e 40F20003 		movw	r3, #:lower16:c4
+ 456 04a2 C0F20003 		movt	r3, #:upper16:c4
+ 457 04a6 1A70     		strb	r2, [r3, #0]
+ 458 04a8 03AB     		add	r3, sp, #12
+ 459 04aa 0093     		str	r3, [sp, #0]
+ 460 04ac 4FF4A840 		mov	r0, #21504
+ 461 04b0 C4F20000 		movt	r0, 16384
+ 462 04b4 4FF07601 		mov	r1, #118
+ 463 04b8 4FF0AA02 		mov	r2, #170
+ 464 04bc 4FF00203 		mov	r3, #2
+ 465 04c0 FFF7FEFF 		bl	i2cRead
+ 466 04c4 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 467 04c8 40F20003 		movw	r3, #:lower16:c5
+ 468 04cc C0F20003 		movt	r3, #:upper16:c5
+ 469 04d0 5A70     		strb	r2, [r3, #1]
+ 470 04d2 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 471 04d6 40F20003 		movw	r3, #:lower16:c5
+ 472 04da C0F20003 		movt	r3, #:upper16:c5
+ 473 04de 1A70     		strb	r2, [r3, #0]
+ 474 04e0 03AB     		add	r3, sp, #12
+ 475 04e2 0093     		str	r3, [sp, #0]
+ 476 04e4 4FF4A840 		mov	r0, #21504
+ 477 04e8 C4F20000 		movt	r0, 16384
+ 478 04ec 4FF07601 		mov	r1, #118
+ 479 04f0 4FF0AC02 		mov	r2, #172
+ 480 04f4 4FF00203 		mov	r3, #2
+ 481 04f8 FFF7FEFF 		bl	i2cRead
+ 482 04fc 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
+ 483 0500 40F20003 		movw	r3, #:lower16:c6
+ 484 0504 C0F20003 		movt	r3, #:upper16:c6
+ 485 0508 5A70     		strb	r2, [r3, #1]
+ 486 050a 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
+ 487 050e 40F20003 		movw	r3, #:lower16:c6
+ 488 0512 C0F20003 		movt	r3, #:upper16:c6
+ 489 0516 1A70     		strb	r2, [r3, #0]
+ 490 0518 4FF4A840 		mov	r0, #21504
+ 491 051c C4F20000 		movt	r0, 16384
+ 492 0520 4FF07601 		mov	r1, #118
+ 493 0524 4FF0FF02 		mov	r2, #255
+ 494 0528 4FF05803 		mov	r3, #88
+ 495 052c FFF7FEFF 		bl	i2cWrite
+ 496 0530 4FF00A00 		mov	r0, #10
+ 497 0534 FFF7FEFF 		bl	delay
+ 498 0538 FFF7FEFF 		bl	readTemperatureRequestPressure
+ 499 053c 4FF00A00 		mov	r0, #10
+ 500 0540 FFF7FEFF 		bl	delay
+ 501 0544 05B0     		add	sp, sp, #20
+ 502 0546 00BD     		pop	{pc}
+ 504              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ms5611.c
+                            *COM*:00000004 d1Average
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:22     .bss:00000000 d1Sum
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:19     .bss:00000000 $d
+                            *COM*:00000002 c1
+                            *COM*:00000002 c2
+                            *COM*:00000002 c3
+                            *COM*:00000002 c4
+                            *COM*:00000002 c5
+                            *COM*:00000002 c6
+                            *COM*:00000004 d1
+                            *COM*:00000004 d2
+                            *COM*:00000004 dT
+                            *COM*:00000004 temp
+                            *COM*:00000008 offset
+                            *COM*:00000008 sens
+                            *COM*:00000004 p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:40     .bss:00000004 pressureAltValid
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:43     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:48     .text:00000000 readTemperatureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:87     .text:00000068 readPressureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:126    .text:000000d0 readPressureRequestTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:165    .text:00000138 calculateTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:219    .text:000001bc calculatePressureAltitude
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:368    .text:00000388 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:376    .text:000003a4 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:381    .text:000003a4 initPressure
+
+UNDEFINED SYMBOLS
+i2cRead
+i2cWrite
+__aeabi_f2d
+__aeabi_dsub
+__aeabi_dmul
+__aeabi_d2f
+pow
+sensors
+delay

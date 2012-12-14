@@ -1,0 +1,144 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_crc.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	CRC_ResetDR
+  19              		.thumb
+  20              		.thumb_func
+  22              	CRC_ResetDR:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 4FF44053 		mov	r3, #12288
+  27 0004 C4F20203 		movt	r3, 16386
+  28 0008 4FF00102 		mov	r2, #1
+  29 000c 9A60     		str	r2, [r3, #8]
+  30 000e 7047     		bx	lr
+  32              		.align	2
+  33              		.global	CRC_CalcCRC
+  34              		.thumb
+  35              		.thumb_func
+  37              	CRC_CalcCRC:
+  38              		@ args = 0, pretend = 0, frame = 8
+  39              		@ frame_needed = 0, uses_anonymous_args = 0
+  40              		@ link register save eliminated.
+  41 0010 82B0     		sub	sp, sp, #8
+  42 0012 0190     		str	r0, [sp, #4]
+  43 0014 4FF44053 		mov	r3, #12288
+  44 0018 C4F20203 		movt	r3, 16386
+  45 001c 019A     		ldr	r2, [sp, #4]
+  46 001e 1A60     		str	r2, [r3, #0]
+  47 0020 4FF44053 		mov	r3, #12288
+  48 0024 C4F20203 		movt	r3, 16386
+  49 0028 1B68     		ldr	r3, [r3, #0]
+  50 002a 1846     		mov	r0, r3
+  51 002c 02B0     		add	sp, sp, #8
+  52 002e 7047     		bx	lr
+  54              		.align	2
+  55              		.global	CRC_CalcBlockCRC
+  56              		.thumb
+  57              		.thumb_func
+  59              	CRC_CalcBlockCRC:
+  60              		@ args = 0, pretend = 0, frame = 16
+  61              		@ frame_needed = 0, uses_anonymous_args = 0
+  62              		@ link register save eliminated.
+  63 0030 84B0     		sub	sp, sp, #16
+  64 0032 0190     		str	r0, [sp, #4]
+  65 0034 0091     		str	r1, [sp, #0]
+  66 0036 4FF00003 		mov	r3, #0
+  67 003a 0393     		str	r3, [sp, #12]
+  68 003c 4FF00003 		mov	r3, #0
+  69 0040 0393     		str	r3, [sp, #12]
+  70 0042 0EE0     		b	.L4
+  71              	.L5:
+  72 0044 4FF44053 		mov	r3, #12288
+  73 0048 C4F20203 		movt	r3, 16386
+  74 004c 039A     		ldr	r2, [sp, #12]
+  75 004e 4FEA8202 		lsl	r2, r2, #2
+  76 0052 0199     		ldr	r1, [sp, #4]
+  77 0054 8A18     		adds	r2, r1, r2
+  78 0056 1268     		ldr	r2, [r2, #0]
+  79 0058 1A60     		str	r2, [r3, #0]
+  80 005a 039B     		ldr	r3, [sp, #12]
+  81 005c 03F10103 		add	r3, r3, #1
+  82 0060 0393     		str	r3, [sp, #12]
+  83              	.L4:
+  84 0062 039A     		ldr	r2, [sp, #12]
+  85 0064 009B     		ldr	r3, [sp, #0]
+  86 0066 9A42     		cmp	r2, r3
+  87 0068 ECD3     		bcc	.L5
+  88 006a 4FF44053 		mov	r3, #12288
+  89 006e C4F20203 		movt	r3, 16386
+  90 0072 1B68     		ldr	r3, [r3, #0]
+  91 0074 1846     		mov	r0, r3
+  92 0076 04B0     		add	sp, sp, #16
+  93 0078 7047     		bx	lr
+  95 007a 00BF     		.align	2
+  96              		.global	CRC_GetCRC
+  97              		.thumb
+  98              		.thumb_func
+ 100              	CRC_GetCRC:
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 104 007c 4FF44053 		mov	r3, #12288
+ 105 0080 C4F20203 		movt	r3, 16386
+ 106 0084 1B68     		ldr	r3, [r3, #0]
+ 107 0086 1846     		mov	r0, r3
+ 108 0088 7047     		bx	lr
+ 110 008a 00BF     		.align	2
+ 111              		.global	CRC_SetIDRegister
+ 112              		.thumb
+ 113              		.thumb_func
+ 115              	CRC_SetIDRegister:
+ 116              		@ args = 0, pretend = 0, frame = 8
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118              		@ link register save eliminated.
+ 119 008c 82B0     		sub	sp, sp, #8
+ 120 008e 0346     		mov	r3, r0
+ 121 0090 8DF80730 		strb	r3, [sp, #7]
+ 122 0094 4FF44053 		mov	r3, #12288
+ 123 0098 C4F20203 		movt	r3, 16386
+ 124 009c 9DF80720 		ldrb	r2, [sp, #7]
+ 125 00a0 1A71     		strb	r2, [r3, #4]
+ 126 00a2 02B0     		add	sp, sp, #8
+ 127 00a4 7047     		bx	lr
+ 129 00a6 00BF     		.align	2
+ 130              		.global	CRC_GetIDRegister
+ 131              		.thumb
+ 132              		.thumb_func
+ 134              	CRC_GetIDRegister:
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+ 138 00a8 4FF44053 		mov	r3, #12288
+ 139 00ac C4F20203 		movt	r3, 16386
+ 140 00b0 1B79     		ldrb	r3, [r3, #4]
+ 141 00b2 DBB2     		uxtb	r3, r3
+ 142 00b4 1846     		mov	r0, r3
+ 143 00b6 7047     		bx	lr
+ 145              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_crc.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:22     .text:00000000 CRC_ResetDR
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:37     .text:00000010 CRC_CalcCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:59     .text:00000030 CRC_CalcBlockCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:100    .text:0000007c CRC_GetCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:115    .text:0000008c CRC_SetIDRegister
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccA0ssZH.s:134    .text:000000a8 CRC_GetIDRegister
+
+NO UNDEFINED SYMBOLS

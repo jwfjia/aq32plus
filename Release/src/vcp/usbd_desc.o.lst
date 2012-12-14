@@ -1,0 +1,353 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"usbd_desc.c"
+  16              		.global	USR_desc
+  17              		.data
+  18              		.align	2
+  21              	USR_desc:
+  22 0000 00000000 		.word	USBD_USR_DeviceDescriptor
+  23 0004 00000000 		.word	USBD_USR_LangIDStrDescriptor
+  24 0008 00000000 		.word	USBD_USR_ManufacturerStrDescriptor
+  25 000c 00000000 		.word	USBD_USR_ProductStrDescriptor
+  26 0010 00000000 		.word	USBD_USR_SerialStrDescriptor
+  27 0014 00000000 		.word	USBD_USR_ConfigStrDescriptor
+  28 0018 00000000 		.word	USBD_USR_InterfaceStrDescriptor
+  29              		.global	USBD_DeviceDesc
+  30              		.align	2
+  33              	USBD_DeviceDesc:
+  34 001c 12       		.byte	18
+  35 001d 01       		.byte	1
+  36 001e 00       		.byte	0
+  37 001f 02       		.byte	2
+  38 0020 00       		.byte	0
+  39 0021 00       		.byte	0
+  40 0022 00       		.byte	0
+  41 0023 08       		.byte	8
+  42 0024 83       		.byte	-125
+  43 0025 04       		.byte	4
+  44 0026 40       		.byte	64
+  45 0027 57       		.byte	87
+  46 0028 00       		.byte	0
+  47 0029 02       		.byte	2
+  48 002a 01       		.byte	1
+  49 002b 02       		.byte	2
+  50 002c 03       		.byte	3
+  51 002d 01       		.byte	1
+  52              		.global	USBD_DeviceQualifierDesc
+  53 002e 0000     		.align	2
+  56              	USBD_DeviceQualifierDesc:
+  57 0030 0A       		.byte	10
+  58 0031 06       		.byte	6
+  59 0032 00       		.byte	0
+  60 0033 02       		.byte	2
+  61 0034 00       		.byte	0
+  62 0035 00       		.byte	0
+  63 0036 00       		.byte	0
+  64 0037 40       		.byte	64
+  65 0038 01       		.byte	1
+  66 0039 00       		.byte	0
+  67              		.global	USBD_LangIDDesc
+  68 003a 0000     		.align	2
+  71              	USBD_LangIDDesc:
+  72 003c 04       		.byte	4
+  73 003d 03       		.byte	3
+  74 003e 09       		.byte	9
+  75 003f 04       		.byte	4
+  76              		.text
+  77              		.align	2
+  78              		.global	USBD_USR_DeviceDescriptor
+  79              		.thumb
+  80              		.thumb_func
+  82              	USBD_USR_DeviceDescriptor:
+  83              		@ args = 0, pretend = 0, frame = 8
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		@ link register save eliminated.
+  86 0000 82B0     		sub	sp, sp, #8
+  87 0002 0346     		mov	r3, r0
+  88 0004 0091     		str	r1, [sp, #0]
+  89 0006 8DF80730 		strb	r3, [sp, #7]
+  90 000a 009B     		ldr	r3, [sp, #0]
+  91 000c 4FF01202 		mov	r2, #18
+  92 0010 1A80     		strh	r2, [r3, #0]	@ movhi
+  93 0012 40F20003 		movw	r3, #:lower16:USBD_DeviceDesc
+  94 0016 C0F20003 		movt	r3, #:upper16:USBD_DeviceDesc
+  95 001a 1846     		mov	r0, r3
+  96 001c 02B0     		add	sp, sp, #8
+  97 001e 7047     		bx	lr
+  99              		.align	2
+ 100              		.global	USBD_USR_LangIDStrDescriptor
+ 101              		.thumb
+ 102              		.thumb_func
+ 104              	USBD_USR_LangIDStrDescriptor:
+ 105              		@ args = 0, pretend = 0, frame = 8
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107              		@ link register save eliminated.
+ 108 0020 82B0     		sub	sp, sp, #8
+ 109 0022 0346     		mov	r3, r0
+ 110 0024 0091     		str	r1, [sp, #0]
+ 111 0026 8DF80730 		strb	r3, [sp, #7]
+ 112 002a 009B     		ldr	r3, [sp, #0]
+ 113 002c 4FF00402 		mov	r2, #4
+ 114 0030 1A80     		strh	r2, [r3, #0]	@ movhi
+ 115 0032 40F20003 		movw	r3, #:lower16:USBD_LangIDDesc
+ 116 0036 C0F20003 		movt	r3, #:upper16:USBD_LangIDDesc
+ 117 003a 1846     		mov	r0, r3
+ 118 003c 02B0     		add	sp, sp, #8
+ 119 003e 7047     		bx	lr
+ 121              		.section	.rodata
+ 122              		.align	2
+ 123              	.LC0:
+ 124 0000 53544D33 		.ascii	"STM32 Virtual ComPort in HS mode\000"
+ 124      32205669 
+ 124      72747561 
+ 124      6C20436F 
+ 124      6D506F72 
+ 125 0021 000000   		.align	2
+ 126              	.LC1:
+ 127 0024 53544D33 		.ascii	"STM32 Virtual ComPort in FS Mode\000"
+ 127      32205669 
+ 127      72747561 
+ 127      6C20436F 
+ 127      6D506F72 
+ 128              		.text
+ 129              		.align	2
+ 130              		.global	USBD_USR_ProductStrDescriptor
+ 131              		.thumb
+ 132              		.thumb_func
+ 134              	USBD_USR_ProductStrDescriptor:
+ 135              		@ args = 0, pretend = 0, frame = 8
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137 0040 00B5     		push	{lr}
+ 138 0042 83B0     		sub	sp, sp, #12
+ 139 0044 0346     		mov	r3, r0
+ 140 0046 0091     		str	r1, [sp, #0]
+ 141 0048 8DF80730 		strb	r3, [sp, #7]
+ 142 004c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 143 0050 002B     		cmp	r3, #0
+ 144 0052 0BD1     		bne	.L4
+ 145 0054 40F20000 		movw	r0, #:lower16:.LC0
+ 146 0058 C0F20000 		movt	r0, #:upper16:.LC0
+ 147 005c 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 148 0060 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 149 0064 009A     		ldr	r2, [sp, #0]
+ 150 0066 FFF7FEFF 		bl	USBD_GetString
+ 151 006a 0AE0     		b	.L5
+ 152              	.L4:
+ 153 006c 40F20000 		movw	r0, #:lower16:.LC1
+ 154 0070 C0F20000 		movt	r0, #:upper16:.LC1
+ 155 0074 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 156 0078 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 157 007c 009A     		ldr	r2, [sp, #0]
+ 158 007e FFF7FEFF 		bl	USBD_GetString
+ 159              	.L5:
+ 160 0082 40F20003 		movw	r3, #:lower16:USBD_StrDesc
+ 161 0086 C0F20003 		movt	r3, #:upper16:USBD_StrDesc
+ 162 008a 1846     		mov	r0, r3
+ 163 008c 03B0     		add	sp, sp, #12
+ 164 008e 00BD     		pop	{pc}
+ 166              		.section	.rodata
+ 167 0045 000000   		.align	2
+ 168              	.LC2:
+ 169 0048 53544D69 		.ascii	"STMicroelectronics\000"
+ 169      63726F65 
+ 169      6C656374 
+ 169      726F6E69 
+ 169      637300
+ 170              		.text
+ 171              		.align	2
+ 172              		.global	USBD_USR_ManufacturerStrDescriptor
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	USBD_USR_ManufacturerStrDescriptor:
+ 177              		@ args = 0, pretend = 0, frame = 8
+ 178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 179 0090 00B5     		push	{lr}
+ 180 0092 83B0     		sub	sp, sp, #12
+ 181 0094 0346     		mov	r3, r0
+ 182 0096 0091     		str	r1, [sp, #0]
+ 183 0098 8DF80730 		strb	r3, [sp, #7]
+ 184 009c 40F20000 		movw	r0, #:lower16:.LC2
+ 185 00a0 C0F20000 		movt	r0, #:upper16:.LC2
+ 186 00a4 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 187 00a8 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 188 00ac 009A     		ldr	r2, [sp, #0]
+ 189 00ae FFF7FEFF 		bl	USBD_GetString
+ 190 00b2 40F20003 		movw	r3, #:lower16:USBD_StrDesc
+ 191 00b6 C0F20003 		movt	r3, #:upper16:USBD_StrDesc
+ 192 00ba 1846     		mov	r0, r3
+ 193 00bc 03B0     		add	sp, sp, #12
+ 194 00be 00BD     		pop	{pc}
+ 196              		.section	.rodata
+ 197 005b 00       		.align	2
+ 198              	.LC3:
+ 199 005c 30303030 		.ascii	"00000000050B\000"
+ 199      30303030 
+ 199      30353042 
+ 199      00
+ 200 0069 000000   		.align	2
+ 201              	.LC4:
+ 202 006c 30303030 		.ascii	"00000000050C\000"
+ 202      30303030 
+ 202      30353043 
+ 202      00
+ 203              		.text
+ 204              		.align	2
+ 205              		.global	USBD_USR_SerialStrDescriptor
+ 206              		.thumb
+ 207              		.thumb_func
+ 209              	USBD_USR_SerialStrDescriptor:
+ 210              		@ args = 0, pretend = 0, frame = 8
+ 211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 212 00c0 00B5     		push	{lr}
+ 213 00c2 83B0     		sub	sp, sp, #12
+ 214 00c4 0346     		mov	r3, r0
+ 215 00c6 0091     		str	r1, [sp, #0]
+ 216 00c8 8DF80730 		strb	r3, [sp, #7]
+ 217 00cc 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 218 00d0 002B     		cmp	r3, #0
+ 219 00d2 0BD1     		bne	.L8
+ 220 00d4 40F20000 		movw	r0, #:lower16:.LC3
+ 221 00d8 C0F20000 		movt	r0, #:upper16:.LC3
+ 222 00dc 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 223 00e0 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 224 00e4 009A     		ldr	r2, [sp, #0]
+ 225 00e6 FFF7FEFF 		bl	USBD_GetString
+ 226 00ea 0AE0     		b	.L9
+ 227              	.L8:
+ 228 00ec 40F20000 		movw	r0, #:lower16:.LC4
+ 229 00f0 C0F20000 		movt	r0, #:upper16:.LC4
+ 230 00f4 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 231 00f8 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 232 00fc 009A     		ldr	r2, [sp, #0]
+ 233 00fe FFF7FEFF 		bl	USBD_GetString
+ 234              	.L9:
+ 235 0102 40F20003 		movw	r3, #:lower16:USBD_StrDesc
+ 236 0106 C0F20003 		movt	r3, #:upper16:USBD_StrDesc
+ 237 010a 1846     		mov	r0, r3
+ 238 010c 03B0     		add	sp, sp, #12
+ 239 010e 00BD     		pop	{pc}
+ 241              		.section	.rodata
+ 242 0079 000000   		.align	2
+ 243              	.LC5:
+ 244 007c 56435020 		.ascii	"VCP Config\000"
+ 244      436F6E66 
+ 244      696700
+ 245              		.text
+ 246              		.align	2
+ 247              		.global	USBD_USR_ConfigStrDescriptor
+ 248              		.thumb
+ 249              		.thumb_func
+ 251              	USBD_USR_ConfigStrDescriptor:
+ 252              		@ args = 0, pretend = 0, frame = 8
+ 253              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254 0110 00B5     		push	{lr}
+ 255 0112 83B0     		sub	sp, sp, #12
+ 256 0114 0346     		mov	r3, r0
+ 257 0116 0091     		str	r1, [sp, #0]
+ 258 0118 8DF80730 		strb	r3, [sp, #7]
+ 259 011c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 260 0120 002B     		cmp	r3, #0
+ 261 0122 0BD1     		bne	.L11
+ 262 0124 40F20000 		movw	r0, #:lower16:.LC5
+ 263 0128 C0F20000 		movt	r0, #:upper16:.LC5
+ 264 012c 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 265 0130 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 266 0134 009A     		ldr	r2, [sp, #0]
+ 267 0136 FFF7FEFF 		bl	USBD_GetString
+ 268 013a 0AE0     		b	.L12
+ 269              	.L11:
+ 270 013c 40F20000 		movw	r0, #:lower16:.LC5
+ 271 0140 C0F20000 		movt	r0, #:upper16:.LC5
+ 272 0144 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 273 0148 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 274 014c 009A     		ldr	r2, [sp, #0]
+ 275 014e FFF7FEFF 		bl	USBD_GetString
+ 276              	.L12:
+ 277 0152 40F20003 		movw	r3, #:lower16:USBD_StrDesc
+ 278 0156 C0F20003 		movt	r3, #:upper16:USBD_StrDesc
+ 279 015a 1846     		mov	r0, r3
+ 280 015c 03B0     		add	sp, sp, #12
+ 281 015e 00BD     		pop	{pc}
+ 283              		.section	.rodata
+ 284 0087 00       		.align	2
+ 285              	.LC6:
+ 286 0088 56435020 		.ascii	"VCP Interface\000"
+ 286      496E7465 
+ 286      72666163 
+ 286      6500
+ 287 0096 0000     		.text
+ 288              		.align	2
+ 289              		.global	USBD_USR_InterfaceStrDescriptor
+ 290              		.thumb
+ 291              		.thumb_func
+ 293              	USBD_USR_InterfaceStrDescriptor:
+ 294              		@ args = 0, pretend = 0, frame = 8
+ 295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 296 0160 00B5     		push	{lr}
+ 297 0162 83B0     		sub	sp, sp, #12
+ 298 0164 0346     		mov	r3, r0
+ 299 0166 0091     		str	r1, [sp, #0]
+ 300 0168 8DF80730 		strb	r3, [sp, #7]
+ 301 016c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 302 0170 002B     		cmp	r3, #0
+ 303 0172 0BD1     		bne	.L14
+ 304 0174 40F20000 		movw	r0, #:lower16:.LC6
+ 305 0178 C0F20000 		movt	r0, #:upper16:.LC6
+ 306 017c 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 307 0180 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 308 0184 009A     		ldr	r2, [sp, #0]
+ 309 0186 FFF7FEFF 		bl	USBD_GetString
+ 310 018a 0AE0     		b	.L15
+ 311              	.L14:
+ 312 018c 40F20000 		movw	r0, #:lower16:.LC6
+ 313 0190 C0F20000 		movt	r0, #:upper16:.LC6
+ 314 0194 40F20001 		movw	r1, #:lower16:USBD_StrDesc
+ 315 0198 C0F20001 		movt	r1, #:upper16:USBD_StrDesc
+ 316 019c 009A     		ldr	r2, [sp, #0]
+ 317 019e FFF7FEFF 		bl	USBD_GetString
+ 318              	.L15:
+ 319 01a2 40F20003 		movw	r3, #:lower16:USBD_StrDesc
+ 320 01a6 C0F20003 		movt	r3, #:upper16:USBD_StrDesc
+ 321 01aa 1846     		mov	r0, r3
+ 322 01ac 03B0     		add	sp, sp, #12
+ 323 01ae 00BD     		pop	{pc}
+ 325              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usbd_desc.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:21     .data:00000000 USR_desc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:82     .text:00000000 USBD_USR_DeviceDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:104    .text:00000020 USBD_USR_LangIDStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:176    .text:00000090 USBD_USR_ManufacturerStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:134    .text:00000040 USBD_USR_ProductStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:209    .text:000000c0 USBD_USR_SerialStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:251    .text:00000110 USBD_USR_ConfigStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:293    .text:00000160 USBD_USR_InterfaceStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:33     .data:0000001c USBD_DeviceDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:56     .data:00000030 USBD_DeviceQualifierDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:71     .data:0000003c USBD_LangIDDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:77     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:122    .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:123    .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:126    .rodata:00000024 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:168    .rodata:00000048 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:198    .rodata:0000005c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:201    .rodata:0000006c .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:243    .rodata:0000007c .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0bRiAF.s:285    .rodata:00000088 .LC6
+
+UNDEFINED SYMBOLS
+USBD_StrDesc
+USBD_GetString

@@ -1,0 +1,1542 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_cryp_aes.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	CRYP_AES_ECB
+  19              		.thumb
+  20              		.thumb_func
+  22              	CRYP_AES_ECB:
+  23              		@ args = 8, pretend = 0, frame = 232
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 BAB0     		sub	sp, sp, #232
+  27 0004 0291     		str	r1, [sp, #8]
+  28 0006 0193     		str	r3, [sp, #4]
+  29 0008 0346     		mov	r3, r0
+  30 000a 8DF80F30 		strb	r3, [sp, #15]
+  31 000e 1346     		mov	r3, r2	@ movhi
+  32 0010 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+  33 0014 4FF00003 		mov	r3, #0
+  34 0018 0593     		str	r3, [sp, #20]
+  35 001a 4FF00003 		mov	r3, #0
+  36 001e 3593     		str	r3, [sp, #212]
+  37 0020 4FF00103 		mov	r3, #1
+  38 0024 8DF8E730 		strb	r3, [sp, #231]
+  39 0028 029B     		ldr	r3, [sp, #8]
+  40 002a 3493     		str	r3, [sp, #208]
+  41 002c 019B     		ldr	r3, [sp, #4]
+  42 002e 3893     		str	r3, [sp, #224]
+  43 0030 3D9B     		ldr	r3, [sp, #244]
+  44 0032 3793     		str	r3, [sp, #220]
+  45 0034 4FF00003 		mov	r3, #0
+  46 0038 3693     		str	r3, [sp, #216]
+  47 003a 06AB     		add	r3, sp, #24
+  48 003c 1846     		mov	r0, r3
+  49 003e FFF7FEFF 		bl	CRYP_KeyStructInit
+  50 0042 BDF80C30 		ldrh	r3, [sp, #12]
+  51 0046 C02B     		cmp	r3, #192
+  52 0048 36D0     		beq	.L4
+  53 004a B3F5807F 		cmp	r3, #256
+  54 004e 7CD0     		beq	.L5
+  55 0050 802B     		cmp	r3, #128
+  56 0052 40F0DB80 		bne	.L19
+  57              	.L3:
+  58 0056 4FF00003 		mov	r3, #0
+  59 005a ADF83E30 		strh	r3, [sp, #62]	@ movhi
+  60 005e 349B     		ldr	r3, [sp, #208]
+  61 0060 1B68     		ldr	r3, [r3, #0]
+  62 0062 3393     		str	r3, [sp, #204]
+  63 0064 339B     		ldr	r3, [sp, #204]
+  64              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+  65 0066 1CBA     		rev r4, r3
+  66              	@ 0 "" 2
+  67              		.thumb
+  68 0068 3294     		str	r4, [sp, #200]
+  69 006a 329B     		ldr	r3, [sp, #200]
+  70 006c 0A93     		str	r3, [sp, #40]
+  71 006e 349B     		ldr	r3, [sp, #208]
+  72 0070 03F10403 		add	r3, r3, #4
+  73 0074 3493     		str	r3, [sp, #208]
+  74 0076 349B     		ldr	r3, [sp, #208]
+  75 0078 1B68     		ldr	r3, [r3, #0]
+  76 007a 3193     		str	r3, [sp, #196]
+  77 007c 319B     		ldr	r3, [sp, #196]
+  78              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+  79 007e 1CBA     		rev r4, r3
+  80              	@ 0 "" 2
+  81              		.thumb
+  82 0080 3094     		str	r4, [sp, #192]
+  83 0082 309B     		ldr	r3, [sp, #192]
+  84 0084 0B93     		str	r3, [sp, #44]
+  85 0086 349B     		ldr	r3, [sp, #208]
+  86 0088 03F10403 		add	r3, r3, #4
+  87 008c 3493     		str	r3, [sp, #208]
+  88 008e 349B     		ldr	r3, [sp, #208]
+  89 0090 1B68     		ldr	r3, [r3, #0]
+  90 0092 2F93     		str	r3, [sp, #188]
+  91 0094 2F9B     		ldr	r3, [sp, #188]
+  92              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+  93 0096 1CBA     		rev r4, r3
+  94              	@ 0 "" 2
+  95              		.thumb
+  96 0098 2E94     		str	r4, [sp, #184]
+  97 009a 2E9B     		ldr	r3, [sp, #184]
+  98 009c 0C93     		str	r3, [sp, #48]
+  99 009e 349B     		ldr	r3, [sp, #208]
+ 100 00a0 03F10403 		add	r3, r3, #4
+ 101 00a4 3493     		str	r3, [sp, #208]
+ 102 00a6 349B     		ldr	r3, [sp, #208]
+ 103 00a8 1B68     		ldr	r3, [r3, #0]
+ 104 00aa 2D93     		str	r3, [sp, #180]
+ 105 00ac 2D9B     		ldr	r3, [sp, #180]
+ 106              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 107 00ae 1CBA     		rev r4, r3
+ 108              	@ 0 "" 2
+ 109              		.thumb
+ 110 00b0 2C94     		str	r4, [sp, #176]
+ 111 00b2 2C9B     		ldr	r3, [sp, #176]
+ 112 00b4 0D93     		str	r3, [sp, #52]
+ 113 00b6 AAE0     		b	.L6
+ 114              	.L4:
+ 115 00b8 4FF48073 		mov	r3, #256
+ 116 00bc ADF83E30 		strh	r3, [sp, #62]	@ movhi
+ 117 00c0 349B     		ldr	r3, [sp, #208]
+ 118 00c2 1B68     		ldr	r3, [r3, #0]
+ 119 00c4 2B93     		str	r3, [sp, #172]
+ 120 00c6 2B9B     		ldr	r3, [sp, #172]
+ 121              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 122 00c8 1CBA     		rev r4, r3
+ 123              	@ 0 "" 2
+ 124              		.thumb
+ 125 00ca 2A94     		str	r4, [sp, #168]
+ 126 00cc 2A9B     		ldr	r3, [sp, #168]
+ 127 00ce 0893     		str	r3, [sp, #32]
+ 128 00d0 349B     		ldr	r3, [sp, #208]
+ 129 00d2 03F10403 		add	r3, r3, #4
+ 130 00d6 3493     		str	r3, [sp, #208]
+ 131 00d8 349B     		ldr	r3, [sp, #208]
+ 132 00da 1B68     		ldr	r3, [r3, #0]
+ 133 00dc 2993     		str	r3, [sp, #164]
+ 134 00de 299B     		ldr	r3, [sp, #164]
+ 135              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 136 00e0 1CBA     		rev r4, r3
+ 137              	@ 0 "" 2
+ 138              		.thumb
+ 139 00e2 2894     		str	r4, [sp, #160]
+ 140 00e4 289B     		ldr	r3, [sp, #160]
+ 141 00e6 0993     		str	r3, [sp, #36]
+ 142 00e8 349B     		ldr	r3, [sp, #208]
+ 143 00ea 03F10403 		add	r3, r3, #4
+ 144 00ee 3493     		str	r3, [sp, #208]
+ 145 00f0 349B     		ldr	r3, [sp, #208]
+ 146 00f2 1B68     		ldr	r3, [r3, #0]
+ 147 00f4 2793     		str	r3, [sp, #156]
+ 148 00f6 279B     		ldr	r3, [sp, #156]
+ 149              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 150 00f8 1CBA     		rev r4, r3
+ 151              	@ 0 "" 2
+ 152              		.thumb
+ 153 00fa 2694     		str	r4, [sp, #152]
+ 154 00fc 269B     		ldr	r3, [sp, #152]
+ 155 00fe 0A93     		str	r3, [sp, #40]
+ 156 0100 349B     		ldr	r3, [sp, #208]
+ 157 0102 03F10403 		add	r3, r3, #4
+ 158 0106 3493     		str	r3, [sp, #208]
+ 159 0108 349B     		ldr	r3, [sp, #208]
+ 160 010a 1B68     		ldr	r3, [r3, #0]
+ 161 010c 2593     		str	r3, [sp, #148]
+ 162 010e 259B     		ldr	r3, [sp, #148]
+ 163              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 164 0110 1CBA     		rev r4, r3
+ 165              	@ 0 "" 2
+ 166              		.thumb
+ 167 0112 2494     		str	r4, [sp, #144]
+ 168 0114 249B     		ldr	r3, [sp, #144]
+ 169 0116 0B93     		str	r3, [sp, #44]
+ 170 0118 349B     		ldr	r3, [sp, #208]
+ 171 011a 03F10403 		add	r3, r3, #4
+ 172 011e 3493     		str	r3, [sp, #208]
+ 173 0120 349B     		ldr	r3, [sp, #208]
+ 174 0122 1B68     		ldr	r3, [r3, #0]
+ 175 0124 2393     		str	r3, [sp, #140]
+ 176 0126 239B     		ldr	r3, [sp, #140]
+ 177              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 178 0128 1CBA     		rev r4, r3
+ 179              	@ 0 "" 2
+ 180              		.thumb
+ 181 012a 2294     		str	r4, [sp, #136]
+ 182 012c 229B     		ldr	r3, [sp, #136]
+ 183 012e 0C93     		str	r3, [sp, #48]
+ 184 0130 349B     		ldr	r3, [sp, #208]
+ 185 0132 03F10403 		add	r3, r3, #4
+ 186 0136 3493     		str	r3, [sp, #208]
+ 187 0138 349B     		ldr	r3, [sp, #208]
+ 188 013a 1B68     		ldr	r3, [r3, #0]
+ 189 013c 2193     		str	r3, [sp, #132]
+ 190 013e 219B     		ldr	r3, [sp, #132]
+ 191              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 192 0140 1CBA     		rev r4, r3
+ 193              	@ 0 "" 2
+ 194              		.thumb
+ 195 0142 2094     		str	r4, [sp, #128]
+ 196 0144 209B     		ldr	r3, [sp, #128]
+ 197 0146 0D93     		str	r3, [sp, #52]
+ 198 0148 61E0     		b	.L6
+ 199              	.L5:
+ 200 014a 4FF40073 		mov	r3, #512
+ 201 014e ADF83E30 		strh	r3, [sp, #62]	@ movhi
+ 202 0152 349B     		ldr	r3, [sp, #208]
+ 203 0154 1B68     		ldr	r3, [r3, #0]
+ 204 0156 1F93     		str	r3, [sp, #124]
+ 205 0158 1F9B     		ldr	r3, [sp, #124]
+ 206              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 207 015a 1CBA     		rev r4, r3
+ 208              	@ 0 "" 2
+ 209              		.thumb
+ 210 015c 1E94     		str	r4, [sp, #120]
+ 211 015e 1E9B     		ldr	r3, [sp, #120]
+ 212 0160 0693     		str	r3, [sp, #24]
+ 213 0162 349B     		ldr	r3, [sp, #208]
+ 214 0164 03F10403 		add	r3, r3, #4
+ 215 0168 3493     		str	r3, [sp, #208]
+ 216 016a 349B     		ldr	r3, [sp, #208]
+ 217 016c 1B68     		ldr	r3, [r3, #0]
+ 218 016e 1D93     		str	r3, [sp, #116]
+ 219 0170 1D9B     		ldr	r3, [sp, #116]
+ 220              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 221 0172 1CBA     		rev r4, r3
+ 222              	@ 0 "" 2
+ 223              		.thumb
+ 224 0174 1C94     		str	r4, [sp, #112]
+ 225 0176 1C9B     		ldr	r3, [sp, #112]
+ 226 0178 0793     		str	r3, [sp, #28]
+ 227 017a 349B     		ldr	r3, [sp, #208]
+ 228 017c 03F10403 		add	r3, r3, #4
+ 229 0180 3493     		str	r3, [sp, #208]
+ 230 0182 349B     		ldr	r3, [sp, #208]
+ 231 0184 1B68     		ldr	r3, [r3, #0]
+ 232 0186 1B93     		str	r3, [sp, #108]
+ 233 0188 1B9B     		ldr	r3, [sp, #108]
+ 234              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 235 018a 1CBA     		rev r4, r3
+ 236              	@ 0 "" 2
+ 237              		.thumb
+ 238 018c 1A94     		str	r4, [sp, #104]
+ 239 018e 1A9B     		ldr	r3, [sp, #104]
+ 240 0190 0893     		str	r3, [sp, #32]
+ 241 0192 349B     		ldr	r3, [sp, #208]
+ 242 0194 03F10403 		add	r3, r3, #4
+ 243 0198 3493     		str	r3, [sp, #208]
+ 244 019a 349B     		ldr	r3, [sp, #208]
+ 245 019c 1B68     		ldr	r3, [r3, #0]
+ 246 019e 1993     		str	r3, [sp, #100]
+ 247 01a0 199B     		ldr	r3, [sp, #100]
+ 248              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 249 01a2 1CBA     		rev r4, r3
+ 250              	@ 0 "" 2
+ 251              		.thumb
+ 252 01a4 1894     		str	r4, [sp, #96]
+ 253 01a6 189B     		ldr	r3, [sp, #96]
+ 254 01a8 0993     		str	r3, [sp, #36]
+ 255 01aa 349B     		ldr	r3, [sp, #208]
+ 256 01ac 03F10403 		add	r3, r3, #4
+ 257 01b0 3493     		str	r3, [sp, #208]
+ 258 01b2 349B     		ldr	r3, [sp, #208]
+ 259 01b4 1B68     		ldr	r3, [r3, #0]
+ 260 01b6 1793     		str	r3, [sp, #92]
+ 261 01b8 179B     		ldr	r3, [sp, #92]
+ 262              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 263 01ba 1CBA     		rev r4, r3
+ 264              	@ 0 "" 2
+ 265              		.thumb
+ 266 01bc 1694     		str	r4, [sp, #88]
+ 267 01be 169B     		ldr	r3, [sp, #88]
+ 268 01c0 0A93     		str	r3, [sp, #40]
+ 269 01c2 349B     		ldr	r3, [sp, #208]
+ 270 01c4 03F10403 		add	r3, r3, #4
+ 271 01c8 3493     		str	r3, [sp, #208]
+ 272 01ca 349B     		ldr	r3, [sp, #208]
+ 273 01cc 1B68     		ldr	r3, [r3, #0]
+ 274 01ce 1593     		str	r3, [sp, #84]
+ 275 01d0 159B     		ldr	r3, [sp, #84]
+ 276              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 277 01d2 1CBA     		rev r4, r3
+ 278              	@ 0 "" 2
+ 279              		.thumb
+ 280 01d4 1494     		str	r4, [sp, #80]
+ 281 01d6 149B     		ldr	r3, [sp, #80]
+ 282 01d8 0B93     		str	r3, [sp, #44]
+ 283 01da 349B     		ldr	r3, [sp, #208]
+ 284 01dc 03F10403 		add	r3, r3, #4
+ 285 01e0 3493     		str	r3, [sp, #208]
+ 286 01e2 349B     		ldr	r3, [sp, #208]
+ 287 01e4 1B68     		ldr	r3, [r3, #0]
+ 288 01e6 1393     		str	r3, [sp, #76]
+ 289 01e8 139B     		ldr	r3, [sp, #76]
+ 290              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 291 01ea 1CBA     		rev r4, r3
+ 292              	@ 0 "" 2
+ 293              		.thumb
+ 294 01ec 1294     		str	r4, [sp, #72]
+ 295 01ee 129B     		ldr	r3, [sp, #72]
+ 296 01f0 0C93     		str	r3, [sp, #48]
+ 297 01f2 349B     		ldr	r3, [sp, #208]
+ 298 01f4 03F10403 		add	r3, r3, #4
+ 299 01f8 3493     		str	r3, [sp, #208]
+ 300 01fa 349B     		ldr	r3, [sp, #208]
+ 301 01fc 1B68     		ldr	r3, [r3, #0]
+ 302 01fe 1193     		str	r3, [sp, #68]
+ 303 0200 119B     		ldr	r3, [sp, #68]
+ 304              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 305 0202 1CBA     		rev r4, r3
+ 306              	@ 0 "" 2
+ 307              		.thumb
+ 308 0204 1094     		str	r4, [sp, #64]
+ 309 0206 109B     		ldr	r3, [sp, #64]
+ 310 0208 0D93     		str	r3, [sp, #52]
+ 311 020a 00E0     		b	.L6
+ 312              	.L19:
+ 313 020c 00BF     		nop
+ 314              	.L6:
+ 315 020e 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 316 0212 002B     		cmp	r3, #0
+ 317 0214 37D1     		bne	.L7
+ 318 0216 FFF7FEFF 		bl	CRYP_FIFOFlush
+ 319 021a 4FF00403 		mov	r3, #4
+ 320 021e ADF83830 		strh	r3, [sp, #56]	@ movhi
+ 321 0222 4FF03803 		mov	r3, #56
+ 322 0226 ADF83A30 		strh	r3, [sp, #58]	@ movhi
+ 323 022a 4FF00003 		mov	r3, #0
+ 324 022e ADF83C30 		strh	r3, [sp, #60]	@ movhi
+ 325 0232 0EAB     		add	r3, sp, #56
+ 326 0234 1846     		mov	r0, r3
+ 327 0236 FFF7FEFF 		bl	CRYP_Init
+ 328 023a 06AB     		add	r3, sp, #24
+ 329 023c 1846     		mov	r0, r3
+ 330 023e FFF7FEFF 		bl	CRYP_KeyInit
+ 331 0242 4FF00100 		mov	r0, #1
+ 332 0246 FFF7FEFF 		bl	CRYP_Cmd
+ 333              	.L9:
+ 334 024a 4FF01000 		mov	r0, #16
+ 335 024e FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 336 0252 0346     		mov	r3, r0
+ 337 0254 3593     		str	r3, [sp, #212]
+ 338 0256 059B     		ldr	r3, [sp, #20]
+ 339 0258 03F10103 		add	r3, r3, #1
+ 340 025c 0593     		str	r3, [sp, #20]
+ 341 025e 059B     		ldr	r3, [sp, #20]
+ 342 0260 B3F5803F 		cmp	r3, #65536
+ 343 0264 02D0     		beq	.L8
+ 344 0266 359B     		ldr	r3, [sp, #212]
+ 345 0268 002B     		cmp	r3, #0
+ 346 026a EED1     		bne	.L9
+ 347              	.L8:
+ 348 026c 359B     		ldr	r3, [sp, #212]
+ 349 026e 002B     		cmp	r3, #0
+ 350 0270 04D0     		beq	.L10
+ 351 0272 4FF00003 		mov	r3, #0
+ 352 0276 8DF8E730 		strb	r3, [sp, #231]
+ 353 027a 0CE0     		b	.L11
+ 354              	.L10:
+ 355 027c 4FF00403 		mov	r3, #4
+ 356 0280 ADF83830 		strh	r3, [sp, #56]	@ movhi
+ 357 0284 07E0     		b	.L11
+ 358              	.L7:
+ 359 0286 06AB     		add	r3, sp, #24
+ 360 0288 1846     		mov	r0, r3
+ 361 028a FFF7FEFF 		bl	CRYP_KeyInit
+ 362 028e 4FF00003 		mov	r3, #0
+ 363 0292 ADF83830 		strh	r3, [sp, #56]	@ movhi
+ 364              	.L11:
+ 365 0296 4FF02003 		mov	r3, #32
+ 366 029a ADF83A30 		strh	r3, [sp, #58]	@ movhi
+ 367 029e 4FF08003 		mov	r3, #128
+ 368 02a2 ADF83C30 		strh	r3, [sp, #60]	@ movhi
+ 369 02a6 0EAB     		add	r3, sp, #56
+ 370 02a8 1846     		mov	r0, r3
+ 371 02aa FFF7FEFF 		bl	CRYP_Init
+ 372 02ae FFF7FEFF 		bl	CRYP_FIFOFlush
+ 373 02b2 4FF00100 		mov	r0, #1
+ 374 02b6 FFF7FEFF 		bl	CRYP_Cmd
+ 375 02ba 4FF00003 		mov	r3, #0
+ 376 02be 3693     		str	r3, [sp, #216]
+ 377 02c0 67E0     		b	.L12
+ 378              	.L18:
+ 379 02c2 389B     		ldr	r3, [sp, #224]
+ 380 02c4 1B68     		ldr	r3, [r3, #0]
+ 381 02c6 1846     		mov	r0, r3
+ 382 02c8 FFF7FEFF 		bl	CRYP_DataIn
+ 383 02cc 389B     		ldr	r3, [sp, #224]
+ 384 02ce 03F10403 		add	r3, r3, #4
+ 385 02d2 3893     		str	r3, [sp, #224]
+ 386 02d4 389B     		ldr	r3, [sp, #224]
+ 387 02d6 1B68     		ldr	r3, [r3, #0]
+ 388 02d8 1846     		mov	r0, r3
+ 389 02da FFF7FEFF 		bl	CRYP_DataIn
+ 390 02de 389B     		ldr	r3, [sp, #224]
+ 391 02e0 03F10403 		add	r3, r3, #4
+ 392 02e4 3893     		str	r3, [sp, #224]
+ 393 02e6 389B     		ldr	r3, [sp, #224]
+ 394 02e8 1B68     		ldr	r3, [r3, #0]
+ 395 02ea 1846     		mov	r0, r3
+ 396 02ec FFF7FEFF 		bl	CRYP_DataIn
+ 397 02f0 389B     		ldr	r3, [sp, #224]
+ 398 02f2 03F10403 		add	r3, r3, #4
+ 399 02f6 3893     		str	r3, [sp, #224]
+ 400 02f8 389B     		ldr	r3, [sp, #224]
+ 401 02fa 1B68     		ldr	r3, [r3, #0]
+ 402 02fc 1846     		mov	r0, r3
+ 403 02fe FFF7FEFF 		bl	CRYP_DataIn
+ 404 0302 389B     		ldr	r3, [sp, #224]
+ 405 0304 03F10403 		add	r3, r3, #4
+ 406 0308 3893     		str	r3, [sp, #224]
+ 407 030a 4FF00003 		mov	r3, #0
+ 408 030e 0593     		str	r3, [sp, #20]
+ 409              	.L14:
+ 410 0310 4FF01000 		mov	r0, #16
+ 411 0314 FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 412 0318 0346     		mov	r3, r0
+ 413 031a 3593     		str	r3, [sp, #212]
+ 414 031c 059B     		ldr	r3, [sp, #20]
+ 415 031e 03F10103 		add	r3, r3, #1
+ 416 0322 0593     		str	r3, [sp, #20]
+ 417 0324 059B     		ldr	r3, [sp, #20]
+ 418 0326 B3F5803F 		cmp	r3, #65536
+ 419 032a 02D0     		beq	.L13
+ 420 032c 359B     		ldr	r3, [sp, #212]
+ 421 032e 002B     		cmp	r3, #0
+ 422 0330 EED1     		bne	.L14
+ 423              	.L13:
+ 424 0332 359B     		ldr	r3, [sp, #212]
+ 425 0334 002B     		cmp	r3, #0
+ 426 0336 04D0     		beq	.L15
+ 427 0338 4FF00003 		mov	r3, #0
+ 428 033c 8DF8E730 		strb	r3, [sp, #231]
+ 429 0340 23E0     		b	.L16
+ 430              	.L15:
+ 431 0342 379C     		ldr	r4, [sp, #220]
+ 432 0344 FFF7FEFF 		bl	CRYP_DataOut
+ 433 0348 0346     		mov	r3, r0
+ 434 034a 2360     		str	r3, [r4, #0]
+ 435 034c 379B     		ldr	r3, [sp, #220]
+ 436 034e 03F10403 		add	r3, r3, #4
+ 437 0352 3793     		str	r3, [sp, #220]
+ 438 0354 379C     		ldr	r4, [sp, #220]
+ 439 0356 FFF7FEFF 		bl	CRYP_DataOut
+ 440 035a 0346     		mov	r3, r0
+ 441 035c 2360     		str	r3, [r4, #0]
+ 442 035e 379B     		ldr	r3, [sp, #220]
+ 443 0360 03F10403 		add	r3, r3, #4
+ 444 0364 3793     		str	r3, [sp, #220]
+ 445 0366 379C     		ldr	r4, [sp, #220]
+ 446 0368 FFF7FEFF 		bl	CRYP_DataOut
+ 447 036c 0346     		mov	r3, r0
+ 448 036e 2360     		str	r3, [r4, #0]
+ 449 0370 379B     		ldr	r3, [sp, #220]
+ 450 0372 03F10403 		add	r3, r3, #4
+ 451 0376 3793     		str	r3, [sp, #220]
+ 452 0378 379C     		ldr	r4, [sp, #220]
+ 453 037a FFF7FEFF 		bl	CRYP_DataOut
+ 454 037e 0346     		mov	r3, r0
+ 455 0380 2360     		str	r3, [r4, #0]
+ 456 0382 379B     		ldr	r3, [sp, #220]
+ 457 0384 03F10403 		add	r3, r3, #4
+ 458 0388 3793     		str	r3, [sp, #220]
+ 459              	.L16:
+ 460 038a 369B     		ldr	r3, [sp, #216]
+ 461 038c 03F11003 		add	r3, r3, #16
+ 462 0390 3693     		str	r3, [sp, #216]
+ 463              	.L12:
+ 464 0392 369A     		ldr	r2, [sp, #216]
+ 465 0394 3C9B     		ldr	r3, [sp, #240]
+ 466 0396 9A42     		cmp	r2, r3
+ 467 0398 03D2     		bcs	.L17
+ 468 039a 9DF8E730 		ldrb	r3, [sp, #231]	@ zero_extendqisi2
+ 469 039e 002B     		cmp	r3, #0
+ 470 03a0 8FD1     		bne	.L18
+ 471              	.L17:
+ 472 03a2 4FF00000 		mov	r0, #0
+ 473 03a6 FFF7FEFF 		bl	CRYP_Cmd
+ 474 03aa 9DF8E730 		ldrb	r3, [sp, #231]	@ zero_extendqisi2
+ 475 03ae 1846     		mov	r0, r3
+ 476 03b0 3AB0     		add	sp, sp, #232
+ 477 03b2 10BD     		pop	{r4, pc}
+ 479              		.align	2
+ 480              		.global	CRYP_AES_CBC
+ 481              		.thumb
+ 482              		.thumb_func
+ 484              	CRYP_AES_CBC:
+ 485              		@ args = 12, pretend = 0, frame = 280
+ 486              		@ frame_needed = 0, uses_anonymous_args = 0
+ 487 03b4 10B5     		push	{r4, lr}
+ 488 03b6 C6B0     		sub	sp, sp, #280
+ 489 03b8 02AC     		add	r4, sp, #8
+ 490 03ba 2160     		str	r1, [r4, #0]
+ 491 03bc 01A9     		add	r1, sp, #4
+ 492 03be 0A60     		str	r2, [r1, #0]
+ 493 03c0 1A46     		mov	r2, r3
+ 494 03c2 04AB     		add	r3, sp, #16
+ 495 03c4 03F1FF33 		add	r3, r3, #-1
+ 496 03c8 0146     		mov	r1, r0
+ 497 03ca 1970     		strb	r1, [r3, #0]
+ 498 03cc 03AB     		add	r3, sp, #12
+ 499 03ce 1A80     		strh	r2, [r3, #0]	@ movhi
+ 500 03d0 4FF00002 		mov	r2, #0
+ 501 03d4 04AB     		add	r3, sp, #16
+ 502 03d6 1A60     		str	r2, [r3, #0]
+ 503 03d8 4FF00003 		mov	r3, #0
+ 504 03dc 4193     		str	r3, [sp, #260]
+ 505 03de 4FF00103 		mov	r3, #1
+ 506 03e2 8DF81731 		strb	r3, [sp, #279]
+ 507 03e6 01AB     		add	r3, sp, #4
+ 508 03e8 1B68     		ldr	r3, [r3, #0]
+ 509 03ea 4093     		str	r3, [sp, #256]
+ 510 03ec 489B     		ldr	r3, [sp, #288]
+ 511 03ee 4493     		str	r3, [sp, #272]
+ 512 03f0 4A9B     		ldr	r3, [sp, #296]
+ 513 03f2 4393     		str	r3, [sp, #268]
+ 514 03f4 02AB     		add	r3, sp, #8
+ 515 03f6 1B68     		ldr	r3, [r3, #0]
+ 516 03f8 3F93     		str	r3, [sp, #252]
+ 517 03fa 4FF00003 		mov	r3, #0
+ 518 03fe 4293     		str	r3, [sp, #264]
+ 519 0400 09AB     		add	r3, sp, #36
+ 520 0402 1846     		mov	r0, r3
+ 521 0404 FFF7FEFF 		bl	CRYP_KeyStructInit
+ 522 0408 03AB     		add	r3, sp, #12
+ 523 040a 1B88     		ldrh	r3, [r3, #0]
+ 524 040c C02B     		cmp	r3, #192
+ 525 040e 36D0     		beq	.L23
+ 526 0410 B3F5807F 		cmp	r3, #256
+ 527 0414 7CD0     		beq	.L24
+ 528 0416 802B     		cmp	r3, #128
+ 529 0418 40F0DB80 		bne	.L38
+ 530              	.L22:
+ 531 041c 4FF00003 		mov	r3, #0
+ 532 0420 ADF84A30 		strh	r3, [sp, #74]	@ movhi
+ 533 0424 409B     		ldr	r3, [sp, #256]
+ 534 0426 1B68     		ldr	r3, [r3, #0]
+ 535 0428 3E93     		str	r3, [sp, #248]
+ 536 042a 3E9B     		ldr	r3, [sp, #248]
+ 537              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 538 042c 1CBA     		rev r4, r3
+ 539              	@ 0 "" 2
+ 540              		.thumb
+ 541 042e 3D94     		str	r4, [sp, #244]
+ 542 0430 3D9B     		ldr	r3, [sp, #244]
+ 543 0432 0D93     		str	r3, [sp, #52]
+ 544 0434 409B     		ldr	r3, [sp, #256]
+ 545 0436 03F10403 		add	r3, r3, #4
+ 546 043a 4093     		str	r3, [sp, #256]
+ 547 043c 409B     		ldr	r3, [sp, #256]
+ 548 043e 1B68     		ldr	r3, [r3, #0]
+ 549 0440 3C93     		str	r3, [sp, #240]
+ 550 0442 3C9B     		ldr	r3, [sp, #240]
+ 551              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 552 0444 1CBA     		rev r4, r3
+ 553              	@ 0 "" 2
+ 554              		.thumb
+ 555 0446 3B94     		str	r4, [sp, #236]
+ 556 0448 3B9B     		ldr	r3, [sp, #236]
+ 557 044a 0E93     		str	r3, [sp, #56]
+ 558 044c 409B     		ldr	r3, [sp, #256]
+ 559 044e 03F10403 		add	r3, r3, #4
+ 560 0452 4093     		str	r3, [sp, #256]
+ 561 0454 409B     		ldr	r3, [sp, #256]
+ 562 0456 1B68     		ldr	r3, [r3, #0]
+ 563 0458 3A93     		str	r3, [sp, #232]
+ 564 045a 3A9B     		ldr	r3, [sp, #232]
+ 565              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 566 045c 1CBA     		rev r4, r3
+ 567              	@ 0 "" 2
+ 568              		.thumb
+ 569 045e 3994     		str	r4, [sp, #228]
+ 570 0460 399B     		ldr	r3, [sp, #228]
+ 571 0462 0F93     		str	r3, [sp, #60]
+ 572 0464 409B     		ldr	r3, [sp, #256]
+ 573 0466 03F10403 		add	r3, r3, #4
+ 574 046a 4093     		str	r3, [sp, #256]
+ 575 046c 409B     		ldr	r3, [sp, #256]
+ 576 046e 1B68     		ldr	r3, [r3, #0]
+ 577 0470 3893     		str	r3, [sp, #224]
+ 578 0472 389B     		ldr	r3, [sp, #224]
+ 579              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 580 0474 1CBA     		rev r4, r3
+ 581              	@ 0 "" 2
+ 582              		.thumb
+ 583 0476 3794     		str	r4, [sp, #220]
+ 584 0478 379B     		ldr	r3, [sp, #220]
+ 585 047a 1093     		str	r3, [sp, #64]
+ 586 047c AAE0     		b	.L25
+ 587              	.L23:
+ 588 047e 4FF48073 		mov	r3, #256
+ 589 0482 ADF84A30 		strh	r3, [sp, #74]	@ movhi
+ 590 0486 409B     		ldr	r3, [sp, #256]
+ 591 0488 1B68     		ldr	r3, [r3, #0]
+ 592 048a 3693     		str	r3, [sp, #216]
+ 593 048c 369B     		ldr	r3, [sp, #216]
+ 594              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 595 048e 1CBA     		rev r4, r3
+ 596              	@ 0 "" 2
+ 597              		.thumb
+ 598 0490 3594     		str	r4, [sp, #212]
+ 599 0492 359B     		ldr	r3, [sp, #212]
+ 600 0494 0B93     		str	r3, [sp, #44]
+ 601 0496 409B     		ldr	r3, [sp, #256]
+ 602 0498 03F10403 		add	r3, r3, #4
+ 603 049c 4093     		str	r3, [sp, #256]
+ 604 049e 409B     		ldr	r3, [sp, #256]
+ 605 04a0 1B68     		ldr	r3, [r3, #0]
+ 606 04a2 3493     		str	r3, [sp, #208]
+ 607 04a4 349B     		ldr	r3, [sp, #208]
+ 608              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 609 04a6 1CBA     		rev r4, r3
+ 610              	@ 0 "" 2
+ 611              		.thumb
+ 612 04a8 3394     		str	r4, [sp, #204]
+ 613 04aa 339B     		ldr	r3, [sp, #204]
+ 614 04ac 0C93     		str	r3, [sp, #48]
+ 615 04ae 409B     		ldr	r3, [sp, #256]
+ 616 04b0 03F10403 		add	r3, r3, #4
+ 617 04b4 4093     		str	r3, [sp, #256]
+ 618 04b6 409B     		ldr	r3, [sp, #256]
+ 619 04b8 1B68     		ldr	r3, [r3, #0]
+ 620 04ba 3293     		str	r3, [sp, #200]
+ 621 04bc 329B     		ldr	r3, [sp, #200]
+ 622              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 623 04be 1CBA     		rev r4, r3
+ 624              	@ 0 "" 2
+ 625              		.thumb
+ 626 04c0 3194     		str	r4, [sp, #196]
+ 627 04c2 319B     		ldr	r3, [sp, #196]
+ 628 04c4 0D93     		str	r3, [sp, #52]
+ 629 04c6 409B     		ldr	r3, [sp, #256]
+ 630 04c8 03F10403 		add	r3, r3, #4
+ 631 04cc 4093     		str	r3, [sp, #256]
+ 632 04ce 409B     		ldr	r3, [sp, #256]
+ 633 04d0 1B68     		ldr	r3, [r3, #0]
+ 634 04d2 3093     		str	r3, [sp, #192]
+ 635 04d4 309B     		ldr	r3, [sp, #192]
+ 636              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 637 04d6 1CBA     		rev r4, r3
+ 638              	@ 0 "" 2
+ 639              		.thumb
+ 640 04d8 2F94     		str	r4, [sp, #188]
+ 641 04da 2F9B     		ldr	r3, [sp, #188]
+ 642 04dc 0E93     		str	r3, [sp, #56]
+ 643 04de 409B     		ldr	r3, [sp, #256]
+ 644 04e0 03F10403 		add	r3, r3, #4
+ 645 04e4 4093     		str	r3, [sp, #256]
+ 646 04e6 409B     		ldr	r3, [sp, #256]
+ 647 04e8 1B68     		ldr	r3, [r3, #0]
+ 648 04ea 2E93     		str	r3, [sp, #184]
+ 649 04ec 2E9B     		ldr	r3, [sp, #184]
+ 650              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 651 04ee 1CBA     		rev r4, r3
+ 652              	@ 0 "" 2
+ 653              		.thumb
+ 654 04f0 2D94     		str	r4, [sp, #180]
+ 655 04f2 2D9B     		ldr	r3, [sp, #180]
+ 656 04f4 0F93     		str	r3, [sp, #60]
+ 657 04f6 409B     		ldr	r3, [sp, #256]
+ 658 04f8 03F10403 		add	r3, r3, #4
+ 659 04fc 4093     		str	r3, [sp, #256]
+ 660 04fe 409B     		ldr	r3, [sp, #256]
+ 661 0500 1B68     		ldr	r3, [r3, #0]
+ 662 0502 2C93     		str	r3, [sp, #176]
+ 663 0504 2C9B     		ldr	r3, [sp, #176]
+ 664              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 665 0506 1CBA     		rev r4, r3
+ 666              	@ 0 "" 2
+ 667              		.thumb
+ 668 0508 2B94     		str	r4, [sp, #172]
+ 669 050a 2B9B     		ldr	r3, [sp, #172]
+ 670 050c 1093     		str	r3, [sp, #64]
+ 671 050e 61E0     		b	.L25
+ 672              	.L24:
+ 673 0510 4FF40073 		mov	r3, #512
+ 674 0514 ADF84A30 		strh	r3, [sp, #74]	@ movhi
+ 675 0518 409B     		ldr	r3, [sp, #256]
+ 676 051a 1B68     		ldr	r3, [r3, #0]
+ 677 051c 2A93     		str	r3, [sp, #168]
+ 678 051e 2A9B     		ldr	r3, [sp, #168]
+ 679              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 680 0520 1CBA     		rev r4, r3
+ 681              	@ 0 "" 2
+ 682              		.thumb
+ 683 0522 2994     		str	r4, [sp, #164]
+ 684 0524 299B     		ldr	r3, [sp, #164]
+ 685 0526 0993     		str	r3, [sp, #36]
+ 686 0528 409B     		ldr	r3, [sp, #256]
+ 687 052a 03F10403 		add	r3, r3, #4
+ 688 052e 4093     		str	r3, [sp, #256]
+ 689 0530 409B     		ldr	r3, [sp, #256]
+ 690 0532 1B68     		ldr	r3, [r3, #0]
+ 691 0534 2893     		str	r3, [sp, #160]
+ 692 0536 289B     		ldr	r3, [sp, #160]
+ 693              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 694 0538 1CBA     		rev r4, r3
+ 695              	@ 0 "" 2
+ 696              		.thumb
+ 697 053a 2794     		str	r4, [sp, #156]
+ 698 053c 279B     		ldr	r3, [sp, #156]
+ 699 053e 0A93     		str	r3, [sp, #40]
+ 700 0540 409B     		ldr	r3, [sp, #256]
+ 701 0542 03F10403 		add	r3, r3, #4
+ 702 0546 4093     		str	r3, [sp, #256]
+ 703 0548 409B     		ldr	r3, [sp, #256]
+ 704 054a 1B68     		ldr	r3, [r3, #0]
+ 705 054c 2693     		str	r3, [sp, #152]
+ 706 054e 269B     		ldr	r3, [sp, #152]
+ 707              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 708 0550 1CBA     		rev r4, r3
+ 709              	@ 0 "" 2
+ 710              		.thumb
+ 711 0552 2594     		str	r4, [sp, #148]
+ 712 0554 259B     		ldr	r3, [sp, #148]
+ 713 0556 0B93     		str	r3, [sp, #44]
+ 714 0558 409B     		ldr	r3, [sp, #256]
+ 715 055a 03F10403 		add	r3, r3, #4
+ 716 055e 4093     		str	r3, [sp, #256]
+ 717 0560 409B     		ldr	r3, [sp, #256]
+ 718 0562 1B68     		ldr	r3, [r3, #0]
+ 719 0564 2493     		str	r3, [sp, #144]
+ 720 0566 249B     		ldr	r3, [sp, #144]
+ 721              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 722 0568 1CBA     		rev r4, r3
+ 723              	@ 0 "" 2
+ 724              		.thumb
+ 725 056a 2394     		str	r4, [sp, #140]
+ 726 056c 239B     		ldr	r3, [sp, #140]
+ 727 056e 0C93     		str	r3, [sp, #48]
+ 728 0570 409B     		ldr	r3, [sp, #256]
+ 729 0572 03F10403 		add	r3, r3, #4
+ 730 0576 4093     		str	r3, [sp, #256]
+ 731 0578 409B     		ldr	r3, [sp, #256]
+ 732 057a 1B68     		ldr	r3, [r3, #0]
+ 733 057c 2293     		str	r3, [sp, #136]
+ 734 057e 229B     		ldr	r3, [sp, #136]
+ 735              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 736 0580 1CBA     		rev r4, r3
+ 737              	@ 0 "" 2
+ 738              		.thumb
+ 739 0582 2194     		str	r4, [sp, #132]
+ 740 0584 219B     		ldr	r3, [sp, #132]
+ 741 0586 0D93     		str	r3, [sp, #52]
+ 742 0588 409B     		ldr	r3, [sp, #256]
+ 743 058a 03F10403 		add	r3, r3, #4
+ 744 058e 4093     		str	r3, [sp, #256]
+ 745 0590 409B     		ldr	r3, [sp, #256]
+ 746 0592 1B68     		ldr	r3, [r3, #0]
+ 747 0594 2093     		str	r3, [sp, #128]
+ 748 0596 209B     		ldr	r3, [sp, #128]
+ 749              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 750 0598 1CBA     		rev r4, r3
+ 751              	@ 0 "" 2
+ 752              		.thumb
+ 753 059a 1F94     		str	r4, [sp, #124]
+ 754 059c 1F9B     		ldr	r3, [sp, #124]
+ 755 059e 0E93     		str	r3, [sp, #56]
+ 756 05a0 409B     		ldr	r3, [sp, #256]
+ 757 05a2 03F10403 		add	r3, r3, #4
+ 758 05a6 4093     		str	r3, [sp, #256]
+ 759 05a8 409B     		ldr	r3, [sp, #256]
+ 760 05aa 1B68     		ldr	r3, [r3, #0]
+ 761 05ac 1E93     		str	r3, [sp, #120]
+ 762 05ae 1E9B     		ldr	r3, [sp, #120]
+ 763              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 764 05b0 1CBA     		rev r4, r3
+ 765              	@ 0 "" 2
+ 766              		.thumb
+ 767 05b2 1D94     		str	r4, [sp, #116]
+ 768 05b4 1D9B     		ldr	r3, [sp, #116]
+ 769 05b6 0F93     		str	r3, [sp, #60]
+ 770 05b8 409B     		ldr	r3, [sp, #256]
+ 771 05ba 03F10403 		add	r3, r3, #4
+ 772 05be 4093     		str	r3, [sp, #256]
+ 773 05c0 409B     		ldr	r3, [sp, #256]
+ 774 05c2 1B68     		ldr	r3, [r3, #0]
+ 775 05c4 1C93     		str	r3, [sp, #112]
+ 776 05c6 1C9B     		ldr	r3, [sp, #112]
+ 777              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 778 05c8 1CBA     		rev r4, r3
+ 779              	@ 0 "" 2
+ 780              		.thumb
+ 781 05ca 1B94     		str	r4, [sp, #108]
+ 782 05cc 1B9B     		ldr	r3, [sp, #108]
+ 783 05ce 1093     		str	r3, [sp, #64]
+ 784 05d0 00E0     		b	.L25
+ 785              	.L38:
+ 786 05d2 00BF     		nop
+ 787              	.L25:
+ 788 05d4 3F9B     		ldr	r3, [sp, #252]
+ 789 05d6 1B68     		ldr	r3, [r3, #0]
+ 790 05d8 1A93     		str	r3, [sp, #104]
+ 791 05da 1A9B     		ldr	r3, [sp, #104]
+ 792              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 793 05dc 1CBA     		rev r4, r3
+ 794              	@ 0 "" 2
+ 795              		.thumb
+ 796 05de 1994     		str	r4, [sp, #100]
+ 797 05e0 199B     		ldr	r3, [sp, #100]
+ 798 05e2 1A46     		mov	r2, r3
+ 799 05e4 05AB     		add	r3, sp, #20
+ 800 05e6 1A60     		str	r2, [r3, #0]
+ 801 05e8 3F9B     		ldr	r3, [sp, #252]
+ 802 05ea 03F10403 		add	r3, r3, #4
+ 803 05ee 3F93     		str	r3, [sp, #252]
+ 804 05f0 3F9B     		ldr	r3, [sp, #252]
+ 805 05f2 1B68     		ldr	r3, [r3, #0]
+ 806 05f4 1893     		str	r3, [sp, #96]
+ 807 05f6 189B     		ldr	r3, [sp, #96]
+ 808              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 809 05f8 1CBA     		rev r4, r3
+ 810              	@ 0 "" 2
+ 811              		.thumb
+ 812 05fa 1794     		str	r4, [sp, #92]
+ 813 05fc 179B     		ldr	r3, [sp, #92]
+ 814 05fe 1A46     		mov	r2, r3
+ 815 0600 05AB     		add	r3, sp, #20
+ 816 0602 5A60     		str	r2, [r3, #4]
+ 817 0604 3F9B     		ldr	r3, [sp, #252]
+ 818 0606 03F10403 		add	r3, r3, #4
+ 819 060a 3F93     		str	r3, [sp, #252]
+ 820 060c 3F9B     		ldr	r3, [sp, #252]
+ 821 060e 1B68     		ldr	r3, [r3, #0]
+ 822 0610 1693     		str	r3, [sp, #88]
+ 823 0612 169B     		ldr	r3, [sp, #88]
+ 824              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 825 0614 1CBA     		rev r4, r3
+ 826              	@ 0 "" 2
+ 827              		.thumb
+ 828 0616 1594     		str	r4, [sp, #84]
+ 829 0618 159B     		ldr	r3, [sp, #84]
+ 830 061a 1A46     		mov	r2, r3
+ 831 061c 05AB     		add	r3, sp, #20
+ 832 061e 9A60     		str	r2, [r3, #8]
+ 833 0620 3F9B     		ldr	r3, [sp, #252]
+ 834 0622 03F10403 		add	r3, r3, #4
+ 835 0626 3F93     		str	r3, [sp, #252]
+ 836 0628 3F9B     		ldr	r3, [sp, #252]
+ 837 062a 1B68     		ldr	r3, [r3, #0]
+ 838 062c 1493     		str	r3, [sp, #80]
+ 839 062e 149B     		ldr	r3, [sp, #80]
+ 840              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 841 0630 1CBA     		rev r4, r3
+ 842              	@ 0 "" 2
+ 843              		.thumb
+ 844 0632 1394     		str	r4, [sp, #76]
+ 845 0634 139B     		ldr	r3, [sp, #76]
+ 846 0636 1A46     		mov	r2, r3
+ 847 0638 05AB     		add	r3, sp, #20
+ 848 063a DA60     		str	r2, [r3, #12]
+ 849 063c 04AB     		add	r3, sp, #16
+ 850 063e 03F1FF33 		add	r3, r3, #-1
+ 851 0642 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 852 0644 002B     		cmp	r3, #0
+ 853 0646 3AD1     		bne	.L26
+ 854 0648 FFF7FEFF 		bl	CRYP_FIFOFlush
+ 855 064c 4FF00403 		mov	r3, #4
+ 856 0650 ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 857 0654 4FF03803 		mov	r3, #56
+ 858 0658 ADF84630 		strh	r3, [sp, #70]	@ movhi
+ 859 065c 4FF00003 		mov	r3, #0
+ 860 0660 ADF84830 		strh	r3, [sp, #72]	@ movhi
+ 861 0664 11AB     		add	r3, sp, #68
+ 862 0666 1846     		mov	r0, r3
+ 863 0668 FFF7FEFF 		bl	CRYP_Init
+ 864 066c 09AB     		add	r3, sp, #36
+ 865 066e 1846     		mov	r0, r3
+ 866 0670 FFF7FEFF 		bl	CRYP_KeyInit
+ 867 0674 4FF00100 		mov	r0, #1
+ 868 0678 FFF7FEFF 		bl	CRYP_Cmd
+ 869              	.L28:
+ 870 067c 4FF01000 		mov	r0, #16
+ 871 0680 FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 872 0684 0346     		mov	r3, r0
+ 873 0686 4193     		str	r3, [sp, #260]
+ 874 0688 04AB     		add	r3, sp, #16
+ 875 068a 1B68     		ldr	r3, [r3, #0]
+ 876 068c 03F10102 		add	r2, r3, #1
+ 877 0690 04AB     		add	r3, sp, #16
+ 878 0692 1A60     		str	r2, [r3, #0]
+ 879 0694 04AB     		add	r3, sp, #16
+ 880 0696 1B68     		ldr	r3, [r3, #0]
+ 881 0698 B3F5803F 		cmp	r3, #65536
+ 882 069c 02D0     		beq	.L27
+ 883 069e 419B     		ldr	r3, [sp, #260]
+ 884 06a0 002B     		cmp	r3, #0
+ 885 06a2 EBD1     		bne	.L28
+ 886              	.L27:
+ 887 06a4 419B     		ldr	r3, [sp, #260]
+ 888 06a6 002B     		cmp	r3, #0
+ 889 06a8 04D0     		beq	.L29
+ 890 06aa 4FF00003 		mov	r3, #0
+ 891 06ae 8DF81731 		strb	r3, [sp, #279]
+ 892 06b2 0CE0     		b	.L30
+ 893              	.L29:
+ 894 06b4 4FF00403 		mov	r3, #4
+ 895 06b8 ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 896 06bc 07E0     		b	.L30
+ 897              	.L26:
+ 898 06be 09AB     		add	r3, sp, #36
+ 899 06c0 1846     		mov	r0, r3
+ 900 06c2 FFF7FEFF 		bl	CRYP_KeyInit
+ 901 06c6 4FF00003 		mov	r3, #0
+ 902 06ca ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 903              	.L30:
+ 904 06ce 4FF02803 		mov	r3, #40
+ 905 06d2 ADF84630 		strh	r3, [sp, #70]	@ movhi
+ 906 06d6 4FF08003 		mov	r3, #128
+ 907 06da ADF84830 		strh	r3, [sp, #72]	@ movhi
+ 908 06de 11AB     		add	r3, sp, #68
+ 909 06e0 1846     		mov	r0, r3
+ 910 06e2 FFF7FEFF 		bl	CRYP_Init
+ 911 06e6 05AB     		add	r3, sp, #20
+ 912 06e8 1846     		mov	r0, r3
+ 913 06ea FFF7FEFF 		bl	CRYP_IVInit
+ 914 06ee FFF7FEFF 		bl	CRYP_FIFOFlush
+ 915 06f2 4FF00100 		mov	r0, #1
+ 916 06f6 FFF7FEFF 		bl	CRYP_Cmd
+ 917 06fa 4FF00003 		mov	r3, #0
+ 918 06fe 4293     		str	r3, [sp, #264]
+ 919 0700 6BE0     		b	.L31
+ 920              	.L37:
+ 921 0702 449B     		ldr	r3, [sp, #272]
+ 922 0704 1B68     		ldr	r3, [r3, #0]
+ 923 0706 1846     		mov	r0, r3
+ 924 0708 FFF7FEFF 		bl	CRYP_DataIn
+ 925 070c 449B     		ldr	r3, [sp, #272]
+ 926 070e 03F10403 		add	r3, r3, #4
+ 927 0712 4493     		str	r3, [sp, #272]
+ 928 0714 449B     		ldr	r3, [sp, #272]
+ 929 0716 1B68     		ldr	r3, [r3, #0]
+ 930 0718 1846     		mov	r0, r3
+ 931 071a FFF7FEFF 		bl	CRYP_DataIn
+ 932 071e 449B     		ldr	r3, [sp, #272]
+ 933 0720 03F10403 		add	r3, r3, #4
+ 934 0724 4493     		str	r3, [sp, #272]
+ 935 0726 449B     		ldr	r3, [sp, #272]
+ 936 0728 1B68     		ldr	r3, [r3, #0]
+ 937 072a 1846     		mov	r0, r3
+ 938 072c FFF7FEFF 		bl	CRYP_DataIn
+ 939 0730 449B     		ldr	r3, [sp, #272]
+ 940 0732 03F10403 		add	r3, r3, #4
+ 941 0736 4493     		str	r3, [sp, #272]
+ 942 0738 449B     		ldr	r3, [sp, #272]
+ 943 073a 1B68     		ldr	r3, [r3, #0]
+ 944 073c 1846     		mov	r0, r3
+ 945 073e FFF7FEFF 		bl	CRYP_DataIn
+ 946 0742 449B     		ldr	r3, [sp, #272]
+ 947 0744 03F10403 		add	r3, r3, #4
+ 948 0748 4493     		str	r3, [sp, #272]
+ 949 074a 4FF00002 		mov	r2, #0
+ 950 074e 04AB     		add	r3, sp, #16
+ 951 0750 1A60     		str	r2, [r3, #0]
+ 952              	.L33:
+ 953 0752 4FF01000 		mov	r0, #16
+ 954 0756 FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 955 075a 0346     		mov	r3, r0
+ 956 075c 4193     		str	r3, [sp, #260]
+ 957 075e 04AB     		add	r3, sp, #16
+ 958 0760 1B68     		ldr	r3, [r3, #0]
+ 959 0762 03F10102 		add	r2, r3, #1
+ 960 0766 04AB     		add	r3, sp, #16
+ 961 0768 1A60     		str	r2, [r3, #0]
+ 962 076a 04AB     		add	r3, sp, #16
+ 963 076c 1B68     		ldr	r3, [r3, #0]
+ 964 076e B3F5803F 		cmp	r3, #65536
+ 965 0772 02D0     		beq	.L32
+ 966 0774 419B     		ldr	r3, [sp, #260]
+ 967 0776 002B     		cmp	r3, #0
+ 968 0778 EBD1     		bne	.L33
+ 969              	.L32:
+ 970 077a 419B     		ldr	r3, [sp, #260]
+ 971 077c 002B     		cmp	r3, #0
+ 972 077e 04D0     		beq	.L34
+ 973 0780 4FF00003 		mov	r3, #0
+ 974 0784 8DF81731 		strb	r3, [sp, #279]
+ 975 0788 23E0     		b	.L35
+ 976              	.L34:
+ 977 078a 439C     		ldr	r4, [sp, #268]
+ 978 078c FFF7FEFF 		bl	CRYP_DataOut
+ 979 0790 0346     		mov	r3, r0
+ 980 0792 2360     		str	r3, [r4, #0]
+ 981 0794 439B     		ldr	r3, [sp, #268]
+ 982 0796 03F10403 		add	r3, r3, #4
+ 983 079a 4393     		str	r3, [sp, #268]
+ 984 079c 439C     		ldr	r4, [sp, #268]
+ 985 079e FFF7FEFF 		bl	CRYP_DataOut
+ 986 07a2 0346     		mov	r3, r0
+ 987 07a4 2360     		str	r3, [r4, #0]
+ 988 07a6 439B     		ldr	r3, [sp, #268]
+ 989 07a8 03F10403 		add	r3, r3, #4
+ 990 07ac 4393     		str	r3, [sp, #268]
+ 991 07ae 439C     		ldr	r4, [sp, #268]
+ 992 07b0 FFF7FEFF 		bl	CRYP_DataOut
+ 993 07b4 0346     		mov	r3, r0
+ 994 07b6 2360     		str	r3, [r4, #0]
+ 995 07b8 439B     		ldr	r3, [sp, #268]
+ 996 07ba 03F10403 		add	r3, r3, #4
+ 997 07be 4393     		str	r3, [sp, #268]
+ 998 07c0 439C     		ldr	r4, [sp, #268]
+ 999 07c2 FFF7FEFF 		bl	CRYP_DataOut
+ 1000 07c6 0346     		mov	r3, r0
+ 1001 07c8 2360     		str	r3, [r4, #0]
+ 1002 07ca 439B     		ldr	r3, [sp, #268]
+ 1003 07cc 03F10403 		add	r3, r3, #4
+ 1004 07d0 4393     		str	r3, [sp, #268]
+ 1005              	.L35:
+ 1006 07d2 429B     		ldr	r3, [sp, #264]
+ 1007 07d4 03F11003 		add	r3, r3, #16
+ 1008 07d8 4293     		str	r3, [sp, #264]
+ 1009              	.L31:
+ 1010 07da 429A     		ldr	r2, [sp, #264]
+ 1011 07dc 499B     		ldr	r3, [sp, #292]
+ 1012 07de 9A42     		cmp	r2, r3
+ 1013 07e0 03D2     		bcs	.L36
+ 1014 07e2 9DF81731 		ldrb	r3, [sp, #279]	@ zero_extendqisi2
+ 1015 07e6 002B     		cmp	r3, #0
+ 1016 07e8 8BD1     		bne	.L37
+ 1017              	.L36:
+ 1018 07ea 4FF00000 		mov	r0, #0
+ 1019 07ee FFF7FEFF 		bl	CRYP_Cmd
+ 1020 07f2 9DF81731 		ldrb	r3, [sp, #279]	@ zero_extendqisi2
+ 1021 07f6 1846     		mov	r0, r3
+ 1022 07f8 46B0     		add	sp, sp, #280
+ 1023 07fa 10BD     		pop	{r4, pc}
+ 1025              		.align	2
+ 1026              		.global	CRYP_AES_CTR
+ 1027              		.thumb
+ 1028              		.thumb_func
+ 1030              	CRYP_AES_CTR:
+ 1031              		@ args = 12, pretend = 0, frame = 280
+ 1032              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1033 07fc 10B5     		push	{r4, lr}
+ 1034 07fe C6B0     		sub	sp, sp, #280
+ 1035 0800 02AC     		add	r4, sp, #8
+ 1036 0802 2160     		str	r1, [r4, #0]
+ 1037 0804 01A9     		add	r1, sp, #4
+ 1038 0806 0A60     		str	r2, [r1, #0]
+ 1039 0808 1A46     		mov	r2, r3
+ 1040 080a 04AB     		add	r3, sp, #16
+ 1041 080c 03F1FF33 		add	r3, r3, #-1
+ 1042 0810 0146     		mov	r1, r0
+ 1043 0812 1970     		strb	r1, [r3, #0]
+ 1044 0814 03AB     		add	r3, sp, #12
+ 1045 0816 1A80     		strh	r2, [r3, #0]	@ movhi
+ 1046 0818 4FF00002 		mov	r2, #0
+ 1047 081c 04AB     		add	r3, sp, #16
+ 1048 081e 1A60     		str	r2, [r3, #0]
+ 1049 0820 4FF00003 		mov	r3, #0
+ 1050 0824 4193     		str	r3, [sp, #260]
+ 1051 0826 4FF00103 		mov	r3, #1
+ 1052 082a 8DF81731 		strb	r3, [sp, #279]
+ 1053 082e 01AB     		add	r3, sp, #4
+ 1054 0830 1B68     		ldr	r3, [r3, #0]
+ 1055 0832 4093     		str	r3, [sp, #256]
+ 1056 0834 489B     		ldr	r3, [sp, #288]
+ 1057 0836 4493     		str	r3, [sp, #272]
+ 1058 0838 4A9B     		ldr	r3, [sp, #296]
+ 1059 083a 4393     		str	r3, [sp, #268]
+ 1060 083c 02AB     		add	r3, sp, #8
+ 1061 083e 1B68     		ldr	r3, [r3, #0]
+ 1062 0840 3F93     		str	r3, [sp, #252]
+ 1063 0842 4FF00003 		mov	r3, #0
+ 1064 0846 4293     		str	r3, [sp, #264]
+ 1065 0848 09AB     		add	r3, sp, #36
+ 1066 084a 1846     		mov	r0, r3
+ 1067 084c FFF7FEFF 		bl	CRYP_KeyStructInit
+ 1068 0850 03AB     		add	r3, sp, #12
+ 1069 0852 1B88     		ldrh	r3, [r3, #0]
+ 1070 0854 C02B     		cmp	r3, #192
+ 1071 0856 36D0     		beq	.L42
+ 1072 0858 B3F5807F 		cmp	r3, #256
+ 1073 085c 7CD0     		beq	.L43
+ 1074 085e 802B     		cmp	r3, #128
+ 1075 0860 40F0DB80 		bne	.L54
+ 1076              	.L41:
+ 1077 0864 4FF00003 		mov	r3, #0
+ 1078 0868 ADF84A30 		strh	r3, [sp, #74]	@ movhi
+ 1079 086c 409B     		ldr	r3, [sp, #256]
+ 1080 086e 1B68     		ldr	r3, [r3, #0]
+ 1081 0870 3E93     		str	r3, [sp, #248]
+ 1082 0872 3E9B     		ldr	r3, [sp, #248]
+ 1083              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1084 0874 1CBA     		rev r4, r3
+ 1085              	@ 0 "" 2
+ 1086              		.thumb
+ 1087 0876 3D94     		str	r4, [sp, #244]
+ 1088 0878 3D9B     		ldr	r3, [sp, #244]
+ 1089 087a 0D93     		str	r3, [sp, #52]
+ 1090 087c 409B     		ldr	r3, [sp, #256]
+ 1091 087e 03F10403 		add	r3, r3, #4
+ 1092 0882 4093     		str	r3, [sp, #256]
+ 1093 0884 409B     		ldr	r3, [sp, #256]
+ 1094 0886 1B68     		ldr	r3, [r3, #0]
+ 1095 0888 3C93     		str	r3, [sp, #240]
+ 1096 088a 3C9B     		ldr	r3, [sp, #240]
+ 1097              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1098 088c 1CBA     		rev r4, r3
+ 1099              	@ 0 "" 2
+ 1100              		.thumb
+ 1101 088e 3B94     		str	r4, [sp, #236]
+ 1102 0890 3B9B     		ldr	r3, [sp, #236]
+ 1103 0892 0E93     		str	r3, [sp, #56]
+ 1104 0894 409B     		ldr	r3, [sp, #256]
+ 1105 0896 03F10403 		add	r3, r3, #4
+ 1106 089a 4093     		str	r3, [sp, #256]
+ 1107 089c 409B     		ldr	r3, [sp, #256]
+ 1108 089e 1B68     		ldr	r3, [r3, #0]
+ 1109 08a0 3A93     		str	r3, [sp, #232]
+ 1110 08a2 3A9B     		ldr	r3, [sp, #232]
+ 1111              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1112 08a4 1CBA     		rev r4, r3
+ 1113              	@ 0 "" 2
+ 1114              		.thumb
+ 1115 08a6 3994     		str	r4, [sp, #228]
+ 1116 08a8 399B     		ldr	r3, [sp, #228]
+ 1117 08aa 0F93     		str	r3, [sp, #60]
+ 1118 08ac 409B     		ldr	r3, [sp, #256]
+ 1119 08ae 03F10403 		add	r3, r3, #4
+ 1120 08b2 4093     		str	r3, [sp, #256]
+ 1121 08b4 409B     		ldr	r3, [sp, #256]
+ 1122 08b6 1B68     		ldr	r3, [r3, #0]
+ 1123 08b8 3893     		str	r3, [sp, #224]
+ 1124 08ba 389B     		ldr	r3, [sp, #224]
+ 1125              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1126 08bc 1CBA     		rev r4, r3
+ 1127              	@ 0 "" 2
+ 1128              		.thumb
+ 1129 08be 3794     		str	r4, [sp, #220]
+ 1130 08c0 379B     		ldr	r3, [sp, #220]
+ 1131 08c2 1093     		str	r3, [sp, #64]
+ 1132 08c4 AAE0     		b	.L44
+ 1133              	.L42:
+ 1134 08c6 4FF48073 		mov	r3, #256
+ 1135 08ca ADF84A30 		strh	r3, [sp, #74]	@ movhi
+ 1136 08ce 409B     		ldr	r3, [sp, #256]
+ 1137 08d0 1B68     		ldr	r3, [r3, #0]
+ 1138 08d2 3693     		str	r3, [sp, #216]
+ 1139 08d4 369B     		ldr	r3, [sp, #216]
+ 1140              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1141 08d6 1CBA     		rev r4, r3
+ 1142              	@ 0 "" 2
+ 1143              		.thumb
+ 1144 08d8 3594     		str	r4, [sp, #212]
+ 1145 08da 359B     		ldr	r3, [sp, #212]
+ 1146 08dc 0B93     		str	r3, [sp, #44]
+ 1147 08de 409B     		ldr	r3, [sp, #256]
+ 1148 08e0 03F10403 		add	r3, r3, #4
+ 1149 08e4 4093     		str	r3, [sp, #256]
+ 1150 08e6 409B     		ldr	r3, [sp, #256]
+ 1151 08e8 1B68     		ldr	r3, [r3, #0]
+ 1152 08ea 3493     		str	r3, [sp, #208]
+ 1153 08ec 349B     		ldr	r3, [sp, #208]
+ 1154              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1155 08ee 1CBA     		rev r4, r3
+ 1156              	@ 0 "" 2
+ 1157              		.thumb
+ 1158 08f0 3394     		str	r4, [sp, #204]
+ 1159 08f2 339B     		ldr	r3, [sp, #204]
+ 1160 08f4 0C93     		str	r3, [sp, #48]
+ 1161 08f6 409B     		ldr	r3, [sp, #256]
+ 1162 08f8 03F10403 		add	r3, r3, #4
+ 1163 08fc 4093     		str	r3, [sp, #256]
+ 1164 08fe 409B     		ldr	r3, [sp, #256]
+ 1165 0900 1B68     		ldr	r3, [r3, #0]
+ 1166 0902 3293     		str	r3, [sp, #200]
+ 1167 0904 329B     		ldr	r3, [sp, #200]
+ 1168              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1169 0906 1CBA     		rev r4, r3
+ 1170              	@ 0 "" 2
+ 1171              		.thumb
+ 1172 0908 3194     		str	r4, [sp, #196]
+ 1173 090a 319B     		ldr	r3, [sp, #196]
+ 1174 090c 0D93     		str	r3, [sp, #52]
+ 1175 090e 409B     		ldr	r3, [sp, #256]
+ 1176 0910 03F10403 		add	r3, r3, #4
+ 1177 0914 4093     		str	r3, [sp, #256]
+ 1178 0916 409B     		ldr	r3, [sp, #256]
+ 1179 0918 1B68     		ldr	r3, [r3, #0]
+ 1180 091a 3093     		str	r3, [sp, #192]
+ 1181 091c 309B     		ldr	r3, [sp, #192]
+ 1182              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1183 091e 1CBA     		rev r4, r3
+ 1184              	@ 0 "" 2
+ 1185              		.thumb
+ 1186 0920 2F94     		str	r4, [sp, #188]
+ 1187 0922 2F9B     		ldr	r3, [sp, #188]
+ 1188 0924 0E93     		str	r3, [sp, #56]
+ 1189 0926 409B     		ldr	r3, [sp, #256]
+ 1190 0928 03F10403 		add	r3, r3, #4
+ 1191 092c 4093     		str	r3, [sp, #256]
+ 1192 092e 409B     		ldr	r3, [sp, #256]
+ 1193 0930 1B68     		ldr	r3, [r3, #0]
+ 1194 0932 2E93     		str	r3, [sp, #184]
+ 1195 0934 2E9B     		ldr	r3, [sp, #184]
+ 1196              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1197 0936 1CBA     		rev r4, r3
+ 1198              	@ 0 "" 2
+ 1199              		.thumb
+ 1200 0938 2D94     		str	r4, [sp, #180]
+ 1201 093a 2D9B     		ldr	r3, [sp, #180]
+ 1202 093c 0F93     		str	r3, [sp, #60]
+ 1203 093e 409B     		ldr	r3, [sp, #256]
+ 1204 0940 03F10403 		add	r3, r3, #4
+ 1205 0944 4093     		str	r3, [sp, #256]
+ 1206 0946 409B     		ldr	r3, [sp, #256]
+ 1207 0948 1B68     		ldr	r3, [r3, #0]
+ 1208 094a 2C93     		str	r3, [sp, #176]
+ 1209 094c 2C9B     		ldr	r3, [sp, #176]
+ 1210              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1211 094e 1CBA     		rev r4, r3
+ 1212              	@ 0 "" 2
+ 1213              		.thumb
+ 1214 0950 2B94     		str	r4, [sp, #172]
+ 1215 0952 2B9B     		ldr	r3, [sp, #172]
+ 1216 0954 1093     		str	r3, [sp, #64]
+ 1217 0956 61E0     		b	.L44
+ 1218              	.L43:
+ 1219 0958 4FF40073 		mov	r3, #512
+ 1220 095c ADF84A30 		strh	r3, [sp, #74]	@ movhi
+ 1221 0960 409B     		ldr	r3, [sp, #256]
+ 1222 0962 1B68     		ldr	r3, [r3, #0]
+ 1223 0964 2A93     		str	r3, [sp, #168]
+ 1224 0966 2A9B     		ldr	r3, [sp, #168]
+ 1225              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1226 0968 1CBA     		rev r4, r3
+ 1227              	@ 0 "" 2
+ 1228              		.thumb
+ 1229 096a 2994     		str	r4, [sp, #164]
+ 1230 096c 299B     		ldr	r3, [sp, #164]
+ 1231 096e 0993     		str	r3, [sp, #36]
+ 1232 0970 409B     		ldr	r3, [sp, #256]
+ 1233 0972 03F10403 		add	r3, r3, #4
+ 1234 0976 4093     		str	r3, [sp, #256]
+ 1235 0978 409B     		ldr	r3, [sp, #256]
+ 1236 097a 1B68     		ldr	r3, [r3, #0]
+ 1237 097c 2893     		str	r3, [sp, #160]
+ 1238 097e 289B     		ldr	r3, [sp, #160]
+ 1239              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1240 0980 1CBA     		rev r4, r3
+ 1241              	@ 0 "" 2
+ 1242              		.thumb
+ 1243 0982 2794     		str	r4, [sp, #156]
+ 1244 0984 279B     		ldr	r3, [sp, #156]
+ 1245 0986 0A93     		str	r3, [sp, #40]
+ 1246 0988 409B     		ldr	r3, [sp, #256]
+ 1247 098a 03F10403 		add	r3, r3, #4
+ 1248 098e 4093     		str	r3, [sp, #256]
+ 1249 0990 409B     		ldr	r3, [sp, #256]
+ 1250 0992 1B68     		ldr	r3, [r3, #0]
+ 1251 0994 2693     		str	r3, [sp, #152]
+ 1252 0996 269B     		ldr	r3, [sp, #152]
+ 1253              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1254 0998 1CBA     		rev r4, r3
+ 1255              	@ 0 "" 2
+ 1256              		.thumb
+ 1257 099a 2594     		str	r4, [sp, #148]
+ 1258 099c 259B     		ldr	r3, [sp, #148]
+ 1259 099e 0B93     		str	r3, [sp, #44]
+ 1260 09a0 409B     		ldr	r3, [sp, #256]
+ 1261 09a2 03F10403 		add	r3, r3, #4
+ 1262 09a6 4093     		str	r3, [sp, #256]
+ 1263 09a8 409B     		ldr	r3, [sp, #256]
+ 1264 09aa 1B68     		ldr	r3, [r3, #0]
+ 1265 09ac 2493     		str	r3, [sp, #144]
+ 1266 09ae 249B     		ldr	r3, [sp, #144]
+ 1267              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1268 09b0 1CBA     		rev r4, r3
+ 1269              	@ 0 "" 2
+ 1270              		.thumb
+ 1271 09b2 2394     		str	r4, [sp, #140]
+ 1272 09b4 239B     		ldr	r3, [sp, #140]
+ 1273 09b6 0C93     		str	r3, [sp, #48]
+ 1274 09b8 409B     		ldr	r3, [sp, #256]
+ 1275 09ba 03F10403 		add	r3, r3, #4
+ 1276 09be 4093     		str	r3, [sp, #256]
+ 1277 09c0 409B     		ldr	r3, [sp, #256]
+ 1278 09c2 1B68     		ldr	r3, [r3, #0]
+ 1279 09c4 2293     		str	r3, [sp, #136]
+ 1280 09c6 229B     		ldr	r3, [sp, #136]
+ 1281              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1282 09c8 1CBA     		rev r4, r3
+ 1283              	@ 0 "" 2
+ 1284              		.thumb
+ 1285 09ca 2194     		str	r4, [sp, #132]
+ 1286 09cc 219B     		ldr	r3, [sp, #132]
+ 1287 09ce 0D93     		str	r3, [sp, #52]
+ 1288 09d0 409B     		ldr	r3, [sp, #256]
+ 1289 09d2 03F10403 		add	r3, r3, #4
+ 1290 09d6 4093     		str	r3, [sp, #256]
+ 1291 09d8 409B     		ldr	r3, [sp, #256]
+ 1292 09da 1B68     		ldr	r3, [r3, #0]
+ 1293 09dc 2093     		str	r3, [sp, #128]
+ 1294 09de 209B     		ldr	r3, [sp, #128]
+ 1295              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1296 09e0 1CBA     		rev r4, r3
+ 1297              	@ 0 "" 2
+ 1298              		.thumb
+ 1299 09e2 1F94     		str	r4, [sp, #124]
+ 1300 09e4 1F9B     		ldr	r3, [sp, #124]
+ 1301 09e6 0E93     		str	r3, [sp, #56]
+ 1302 09e8 409B     		ldr	r3, [sp, #256]
+ 1303 09ea 03F10403 		add	r3, r3, #4
+ 1304 09ee 4093     		str	r3, [sp, #256]
+ 1305 09f0 409B     		ldr	r3, [sp, #256]
+ 1306 09f2 1B68     		ldr	r3, [r3, #0]
+ 1307 09f4 1E93     		str	r3, [sp, #120]
+ 1308 09f6 1E9B     		ldr	r3, [sp, #120]
+ 1309              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1310 09f8 1CBA     		rev r4, r3
+ 1311              	@ 0 "" 2
+ 1312              		.thumb
+ 1313 09fa 1D94     		str	r4, [sp, #116]
+ 1314 09fc 1D9B     		ldr	r3, [sp, #116]
+ 1315 09fe 0F93     		str	r3, [sp, #60]
+ 1316 0a00 409B     		ldr	r3, [sp, #256]
+ 1317 0a02 03F10403 		add	r3, r3, #4
+ 1318 0a06 4093     		str	r3, [sp, #256]
+ 1319 0a08 409B     		ldr	r3, [sp, #256]
+ 1320 0a0a 1B68     		ldr	r3, [r3, #0]
+ 1321 0a0c 1C93     		str	r3, [sp, #112]
+ 1322 0a0e 1C9B     		ldr	r3, [sp, #112]
+ 1323              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1324 0a10 1CBA     		rev r4, r3
+ 1325              	@ 0 "" 2
+ 1326              		.thumb
+ 1327 0a12 1B94     		str	r4, [sp, #108]
+ 1328 0a14 1B9B     		ldr	r3, [sp, #108]
+ 1329 0a16 1093     		str	r3, [sp, #64]
+ 1330 0a18 00E0     		b	.L44
+ 1331              	.L54:
+ 1332 0a1a 00BF     		nop
+ 1333              	.L44:
+ 1334 0a1c 3F9B     		ldr	r3, [sp, #252]
+ 1335 0a1e 1B68     		ldr	r3, [r3, #0]
+ 1336 0a20 1A93     		str	r3, [sp, #104]
+ 1337 0a22 1A9B     		ldr	r3, [sp, #104]
+ 1338              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1339 0a24 1CBA     		rev r4, r3
+ 1340              	@ 0 "" 2
+ 1341              		.thumb
+ 1342 0a26 1994     		str	r4, [sp, #100]
+ 1343 0a28 199B     		ldr	r3, [sp, #100]
+ 1344 0a2a 1A46     		mov	r2, r3
+ 1345 0a2c 05AB     		add	r3, sp, #20
+ 1346 0a2e 1A60     		str	r2, [r3, #0]
+ 1347 0a30 3F9B     		ldr	r3, [sp, #252]
+ 1348 0a32 03F10403 		add	r3, r3, #4
+ 1349 0a36 3F93     		str	r3, [sp, #252]
+ 1350 0a38 3F9B     		ldr	r3, [sp, #252]
+ 1351 0a3a 1B68     		ldr	r3, [r3, #0]
+ 1352 0a3c 1893     		str	r3, [sp, #96]
+ 1353 0a3e 189B     		ldr	r3, [sp, #96]
+ 1354              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1355 0a40 1CBA     		rev r4, r3
+ 1356              	@ 0 "" 2
+ 1357              		.thumb
+ 1358 0a42 1794     		str	r4, [sp, #92]
+ 1359 0a44 179B     		ldr	r3, [sp, #92]
+ 1360 0a46 1A46     		mov	r2, r3
+ 1361 0a48 05AB     		add	r3, sp, #20
+ 1362 0a4a 5A60     		str	r2, [r3, #4]
+ 1363 0a4c 3F9B     		ldr	r3, [sp, #252]
+ 1364 0a4e 03F10403 		add	r3, r3, #4
+ 1365 0a52 3F93     		str	r3, [sp, #252]
+ 1366 0a54 3F9B     		ldr	r3, [sp, #252]
+ 1367 0a56 1B68     		ldr	r3, [r3, #0]
+ 1368 0a58 1693     		str	r3, [sp, #88]
+ 1369 0a5a 169B     		ldr	r3, [sp, #88]
+ 1370              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1371 0a5c 1CBA     		rev r4, r3
+ 1372              	@ 0 "" 2
+ 1373              		.thumb
+ 1374 0a5e 1594     		str	r4, [sp, #84]
+ 1375 0a60 159B     		ldr	r3, [sp, #84]
+ 1376 0a62 1A46     		mov	r2, r3
+ 1377 0a64 05AB     		add	r3, sp, #20
+ 1378 0a66 9A60     		str	r2, [r3, #8]
+ 1379 0a68 3F9B     		ldr	r3, [sp, #252]
+ 1380 0a6a 03F10403 		add	r3, r3, #4
+ 1381 0a6e 3F93     		str	r3, [sp, #252]
+ 1382 0a70 3F9B     		ldr	r3, [sp, #252]
+ 1383 0a72 1B68     		ldr	r3, [r3, #0]
+ 1384 0a74 1493     		str	r3, [sp, #80]
+ 1385 0a76 149B     		ldr	r3, [sp, #80]
+ 1386              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 1387 0a78 1CBA     		rev r4, r3
+ 1388              	@ 0 "" 2
+ 1389              		.thumb
+ 1390 0a7a 1394     		str	r4, [sp, #76]
+ 1391 0a7c 139B     		ldr	r3, [sp, #76]
+ 1392 0a7e 1A46     		mov	r2, r3
+ 1393 0a80 05AB     		add	r3, sp, #20
+ 1394 0a82 DA60     		str	r2, [r3, #12]
+ 1395 0a84 09AB     		add	r3, sp, #36
+ 1396 0a86 1846     		mov	r0, r3
+ 1397 0a88 FFF7FEFF 		bl	CRYP_KeyInit
+ 1398 0a8c 04AB     		add	r3, sp, #16
+ 1399 0a8e 03F1FF33 		add	r3, r3, #-1
+ 1400 0a92 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1401 0a94 002B     		cmp	r3, #0
+ 1402 0a96 04D1     		bne	.L45
+ 1403 0a98 4FF00403 		mov	r3, #4
+ 1404 0a9c ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 1405 0aa0 03E0     		b	.L46
+ 1406              	.L45:
+ 1407 0aa2 4FF00003 		mov	r3, #0
+ 1408 0aa6 ADF84430 		strh	r3, [sp, #68]	@ movhi
+ 1409              	.L46:
+ 1410 0aaa 4FF03003 		mov	r3, #48
+ 1411 0aae ADF84630 		strh	r3, [sp, #70]	@ movhi
+ 1412 0ab2 4FF08003 		mov	r3, #128
+ 1413 0ab6 ADF84830 		strh	r3, [sp, #72]	@ movhi
+ 1414 0aba 11AB     		add	r3, sp, #68
+ 1415 0abc 1846     		mov	r0, r3
+ 1416 0abe FFF7FEFF 		bl	CRYP_Init
+ 1417 0ac2 05AB     		add	r3, sp, #20
+ 1418 0ac4 1846     		mov	r0, r3
+ 1419 0ac6 FFF7FEFF 		bl	CRYP_IVInit
+ 1420 0aca FFF7FEFF 		bl	CRYP_FIFOFlush
+ 1421 0ace 4FF00100 		mov	r0, #1
+ 1422 0ad2 FFF7FEFF 		bl	CRYP_Cmd
+ 1423 0ad6 4FF00003 		mov	r3, #0
+ 1424 0ada 4293     		str	r3, [sp, #264]
+ 1425 0adc 6BE0     		b	.L47
+ 1426              	.L53:
+ 1427 0ade 449B     		ldr	r3, [sp, #272]
+ 1428 0ae0 1B68     		ldr	r3, [r3, #0]
+ 1429 0ae2 1846     		mov	r0, r3
+ 1430 0ae4 FFF7FEFF 		bl	CRYP_DataIn
+ 1431 0ae8 449B     		ldr	r3, [sp, #272]
+ 1432 0aea 03F10403 		add	r3, r3, #4
+ 1433 0aee 4493     		str	r3, [sp, #272]
+ 1434 0af0 449B     		ldr	r3, [sp, #272]
+ 1435 0af2 1B68     		ldr	r3, [r3, #0]
+ 1436 0af4 1846     		mov	r0, r3
+ 1437 0af6 FFF7FEFF 		bl	CRYP_DataIn
+ 1438 0afa 449B     		ldr	r3, [sp, #272]
+ 1439 0afc 03F10403 		add	r3, r3, #4
+ 1440 0b00 4493     		str	r3, [sp, #272]
+ 1441 0b02 449B     		ldr	r3, [sp, #272]
+ 1442 0b04 1B68     		ldr	r3, [r3, #0]
+ 1443 0b06 1846     		mov	r0, r3
+ 1444 0b08 FFF7FEFF 		bl	CRYP_DataIn
+ 1445 0b0c 449B     		ldr	r3, [sp, #272]
+ 1446 0b0e 03F10403 		add	r3, r3, #4
+ 1447 0b12 4493     		str	r3, [sp, #272]
+ 1448 0b14 449B     		ldr	r3, [sp, #272]
+ 1449 0b16 1B68     		ldr	r3, [r3, #0]
+ 1450 0b18 1846     		mov	r0, r3
+ 1451 0b1a FFF7FEFF 		bl	CRYP_DataIn
+ 1452 0b1e 449B     		ldr	r3, [sp, #272]
+ 1453 0b20 03F10403 		add	r3, r3, #4
+ 1454 0b24 4493     		str	r3, [sp, #272]
+ 1455 0b26 4FF00002 		mov	r2, #0
+ 1456 0b2a 04AB     		add	r3, sp, #16
+ 1457 0b2c 1A60     		str	r2, [r3, #0]
+ 1458              	.L49:
+ 1459 0b2e 4FF01000 		mov	r0, #16
+ 1460 0b32 FFF7FEFF 		bl	CRYP_GetFlagStatus
+ 1461 0b36 0346     		mov	r3, r0
+ 1462 0b38 4193     		str	r3, [sp, #260]
+ 1463 0b3a 04AB     		add	r3, sp, #16
+ 1464 0b3c 1B68     		ldr	r3, [r3, #0]
+ 1465 0b3e 03F10102 		add	r2, r3, #1
+ 1466 0b42 04AB     		add	r3, sp, #16
+ 1467 0b44 1A60     		str	r2, [r3, #0]
+ 1468 0b46 04AB     		add	r3, sp, #16
+ 1469 0b48 1B68     		ldr	r3, [r3, #0]
+ 1470 0b4a B3F5803F 		cmp	r3, #65536
+ 1471 0b4e 02D0     		beq	.L48
+ 1472 0b50 419B     		ldr	r3, [sp, #260]
+ 1473 0b52 002B     		cmp	r3, #0
+ 1474 0b54 EBD1     		bne	.L49
+ 1475              	.L48:
+ 1476 0b56 419B     		ldr	r3, [sp, #260]
+ 1477 0b58 002B     		cmp	r3, #0
+ 1478 0b5a 04D0     		beq	.L50
+ 1479 0b5c 4FF00003 		mov	r3, #0
+ 1480 0b60 8DF81731 		strb	r3, [sp, #279]
+ 1481 0b64 23E0     		b	.L51
+ 1482              	.L50:
+ 1483 0b66 439C     		ldr	r4, [sp, #268]
+ 1484 0b68 FFF7FEFF 		bl	CRYP_DataOut
+ 1485 0b6c 0346     		mov	r3, r0
+ 1486 0b6e 2360     		str	r3, [r4, #0]
+ 1487 0b70 439B     		ldr	r3, [sp, #268]
+ 1488 0b72 03F10403 		add	r3, r3, #4
+ 1489 0b76 4393     		str	r3, [sp, #268]
+ 1490 0b78 439C     		ldr	r4, [sp, #268]
+ 1491 0b7a FFF7FEFF 		bl	CRYP_DataOut
+ 1492 0b7e 0346     		mov	r3, r0
+ 1493 0b80 2360     		str	r3, [r4, #0]
+ 1494 0b82 439B     		ldr	r3, [sp, #268]
+ 1495 0b84 03F10403 		add	r3, r3, #4
+ 1496 0b88 4393     		str	r3, [sp, #268]
+ 1497 0b8a 439C     		ldr	r4, [sp, #268]
+ 1498 0b8c FFF7FEFF 		bl	CRYP_DataOut
+ 1499 0b90 0346     		mov	r3, r0
+ 1500 0b92 2360     		str	r3, [r4, #0]
+ 1501 0b94 439B     		ldr	r3, [sp, #268]
+ 1502 0b96 03F10403 		add	r3, r3, #4
+ 1503 0b9a 4393     		str	r3, [sp, #268]
+ 1504 0b9c 439C     		ldr	r4, [sp, #268]
+ 1505 0b9e FFF7FEFF 		bl	CRYP_DataOut
+ 1506 0ba2 0346     		mov	r3, r0
+ 1507 0ba4 2360     		str	r3, [r4, #0]
+ 1508 0ba6 439B     		ldr	r3, [sp, #268]
+ 1509 0ba8 03F10403 		add	r3, r3, #4
+ 1510 0bac 4393     		str	r3, [sp, #268]
+ 1511              	.L51:
+ 1512 0bae 429B     		ldr	r3, [sp, #264]
+ 1513 0bb0 03F11003 		add	r3, r3, #16
+ 1514 0bb4 4293     		str	r3, [sp, #264]
+ 1515              	.L47:
+ 1516 0bb6 429A     		ldr	r2, [sp, #264]
+ 1517 0bb8 499B     		ldr	r3, [sp, #292]
+ 1518 0bba 9A42     		cmp	r2, r3
+ 1519 0bbc 03D2     		bcs	.L52
+ 1520 0bbe 9DF81731 		ldrb	r3, [sp, #279]	@ zero_extendqisi2
+ 1521 0bc2 002B     		cmp	r3, #0
+ 1522 0bc4 8BD1     		bne	.L53
+ 1523              	.L52:
+ 1524 0bc6 4FF00000 		mov	r0, #0
+ 1525 0bca FFF7FEFF 		bl	CRYP_Cmd
+ 1526 0bce 9DF81731 		ldrb	r3, [sp, #279]	@ zero_extendqisi2
+ 1527 0bd2 1846     		mov	r0, r3
+ 1528 0bd4 46B0     		add	sp, sp, #280
+ 1529 0bd6 10BD     		pop	{r4, pc}
+ 1531              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_cryp_aes.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccJW8tql.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccJW8tql.s:22     .text:00000000 CRYP_AES_ECB
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccJW8tql.s:484    .text:000003b4 CRYP_AES_CBC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccJW8tql.s:1030   .text:000007fc CRYP_AES_CTR
+
+UNDEFINED SYMBOLS
+CRYP_KeyStructInit
+CRYP_FIFOFlush
+CRYP_Init
+CRYP_KeyInit
+CRYP_Cmd
+CRYP_GetFlagStatus
+CRYP_DataIn
+CRYP_DataOut
+CRYP_IVInit

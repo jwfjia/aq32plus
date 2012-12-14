@@ -1,0 +1,451 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_hash_md5.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	HASH_MD5
+  19              		.thumb
+  20              		.thumb_func
+  22              	HASH_MD5:
+  23              		@ args = 0, pretend = 0, frame = 112
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 9CB0     		sub	sp, sp, #112
+  27 0004 0390     		str	r0, [sp, #12]
+  28 0006 0291     		str	r1, [sp, #8]
+  29 0008 0192     		str	r2, [sp, #4]
+  30 000a 4FF00003 		mov	r3, #0
+  31 000e ADF81630 		strh	r3, [sp, #22]	@ movhi
+  32 0012 4FF00003 		mov	r3, #0
+  33 0016 1B93     		str	r3, [sp, #108]
+  34 0018 4FF00003 		mov	r3, #0
+  35 001c 0493     		str	r3, [sp, #16]
+  36 001e 4FF00003 		mov	r3, #0
+  37 0022 1893     		str	r3, [sp, #96]
+  38 0024 4FF00103 		mov	r3, #1
+  39 0028 8DF86B30 		strb	r3, [sp, #107]
+  40 002c 039B     		ldr	r3, [sp, #12]
+  41 002e 1993     		str	r3, [sp, #100]
+  42 0030 019B     		ldr	r3, [sp, #4]
+  43 0032 1793     		str	r3, [sp, #92]
+  44 0034 029B     		ldr	r3, [sp, #8]
+  45 0036 9BB2     		uxth	r3, r3
+  46 0038 03F00303 		and	r3, r3, #3
+  47 003c 9BB2     		uxth	r3, r3
+  48 003e 4FEAC303 		lsl	r3, r3, #3
+  49 0042 9BB2     		uxth	r3, r3
+  50 0044 ADF81630 		strh	r3, [sp, #22]	@ movhi
+  51 0048 FFF7FEFF 		bl	HASH_DeInit
+  52 004c 4FF08003 		mov	r3, #128
+  53 0050 0B93     		str	r3, [sp, #44]
+  54 0052 4FF00003 		mov	r3, #0
+  55 0056 0C93     		str	r3, [sp, #48]
+  56 0058 4FF02003 		mov	r3, #32
+  57 005c 0D93     		str	r3, [sp, #52]
+  58 005e 0BAB     		add	r3, sp, #44
+  59 0060 1846     		mov	r0, r3
+  60 0062 FFF7FEFF 		bl	HASH_Init
+  61 0066 BDF81630 		ldrh	r3, [sp, #22]	@ movhi
+  62 006a 9BB2     		uxth	r3, r3
+  63 006c 1846     		mov	r0, r3
+  64 006e FFF7FEFF 		bl	HASH_SetLastWordValidBitsNbr
+  65 0072 4FF00003 		mov	r3, #0
+  66 0076 1B93     		str	r3, [sp, #108]
+  67 0078 0CE0     		b	.L2
+  68              	.L3:
+  69 007a 199B     		ldr	r3, [sp, #100]
+  70 007c 1B68     		ldr	r3, [r3, #0]
+  71 007e 1846     		mov	r0, r3
+  72 0080 FFF7FEFF 		bl	HASH_DataIn
+  73 0084 199B     		ldr	r3, [sp, #100]
+  74 0086 03F10403 		add	r3, r3, #4
+  75 008a 1993     		str	r3, [sp, #100]
+  76 008c 1B9B     		ldr	r3, [sp, #108]
+  77 008e 03F10403 		add	r3, r3, #4
+  78 0092 1B93     		str	r3, [sp, #108]
+  79              	.L2:
+  80 0094 1B9A     		ldr	r2, [sp, #108]
+  81 0096 029B     		ldr	r3, [sp, #8]
+  82 0098 9A42     		cmp	r2, r3
+  83 009a EED3     		bcc	.L3
+  84 009c FFF7FEFF 		bl	HASH_StartDigest
+  85              	.L5:
+  86 00a0 4FF00800 		mov	r0, #8
+  87 00a4 FFF7FEFF 		bl	HASH_GetFlagStatus
+  88 00a8 0346     		mov	r3, r0
+  89 00aa 1893     		str	r3, [sp, #96]
+  90 00ac 049B     		ldr	r3, [sp, #16]
+  91 00ae 03F10103 		add	r3, r3, #1
+  92 00b2 0493     		str	r3, [sp, #16]
+  93 00b4 049B     		ldr	r3, [sp, #16]
+  94 00b6 B3F5803F 		cmp	r3, #65536
+  95 00ba 02D0     		beq	.L4
+  96 00bc 189B     		ldr	r3, [sp, #96]
+  97 00be 002B     		cmp	r3, #0
+  98 00c0 EED1     		bne	.L5
+  99              	.L4:
+ 100 00c2 189B     		ldr	r3, [sp, #96]
+ 101 00c4 002B     		cmp	r3, #0
+ 102 00c6 04D0     		beq	.L6
+ 103 00c8 4FF00003 		mov	r3, #0
+ 104 00cc 8DF86B30 		strb	r3, [sp, #107]
+ 105 00d0 2FE0     		b	.L7
+ 106              	.L6:
+ 107 00d2 06AB     		add	r3, sp, #24
+ 108 00d4 1846     		mov	r0, r3
+ 109 00d6 FFF7FEFF 		bl	HASH_GetDigest
+ 110 00da 179B     		ldr	r3, [sp, #92]
+ 111 00dc 069A     		ldr	r2, [sp, #24]
+ 112 00de 1692     		str	r2, [sp, #88]
+ 113 00e0 169A     		ldr	r2, [sp, #88]
+ 114              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 115 00e2 14BA     		rev r4, r2
+ 116              	@ 0 "" 2
+ 117              		.thumb
+ 118 00e4 1594     		str	r4, [sp, #84]
+ 119 00e6 159A     		ldr	r2, [sp, #84]
+ 120 00e8 1A60     		str	r2, [r3, #0]
+ 121 00ea 179B     		ldr	r3, [sp, #92]
+ 122 00ec 03F10403 		add	r3, r3, #4
+ 123 00f0 1793     		str	r3, [sp, #92]
+ 124 00f2 179B     		ldr	r3, [sp, #92]
+ 125 00f4 079A     		ldr	r2, [sp, #28]
+ 126 00f6 1492     		str	r2, [sp, #80]
+ 127 00f8 149A     		ldr	r2, [sp, #80]
+ 128              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 129 00fa 14BA     		rev r4, r2
+ 130              	@ 0 "" 2
+ 131              		.thumb
+ 132 00fc 1394     		str	r4, [sp, #76]
+ 133 00fe 139A     		ldr	r2, [sp, #76]
+ 134 0100 1A60     		str	r2, [r3, #0]
+ 135 0102 179B     		ldr	r3, [sp, #92]
+ 136 0104 03F10403 		add	r3, r3, #4
+ 137 0108 1793     		str	r3, [sp, #92]
+ 138 010a 179B     		ldr	r3, [sp, #92]
+ 139 010c 089A     		ldr	r2, [sp, #32]
+ 140 010e 1292     		str	r2, [sp, #72]
+ 141 0110 129A     		ldr	r2, [sp, #72]
+ 142              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 143 0112 14BA     		rev r4, r2
+ 144              	@ 0 "" 2
+ 145              		.thumb
+ 146 0114 1194     		str	r4, [sp, #68]
+ 147 0116 119A     		ldr	r2, [sp, #68]
+ 148 0118 1A60     		str	r2, [r3, #0]
+ 149 011a 179B     		ldr	r3, [sp, #92]
+ 150 011c 03F10403 		add	r3, r3, #4
+ 151 0120 1793     		str	r3, [sp, #92]
+ 152 0122 179B     		ldr	r3, [sp, #92]
+ 153 0124 099A     		ldr	r2, [sp, #36]
+ 154 0126 1092     		str	r2, [sp, #64]
+ 155 0128 109A     		ldr	r2, [sp, #64]
+ 156              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 157 012a 14BA     		rev r4, r2
+ 158              	@ 0 "" 2
+ 159              		.thumb
+ 160 012c 0F94     		str	r4, [sp, #60]
+ 161 012e 0F9A     		ldr	r2, [sp, #60]
+ 162 0130 1A60     		str	r2, [r3, #0]
+ 163              	.L7:
+ 164 0132 9DF86B30 		ldrb	r3, [sp, #107]	@ zero_extendqisi2
+ 165 0136 1846     		mov	r0, r3
+ 166 0138 1CB0     		add	sp, sp, #112
+ 167 013a 10BD     		pop	{r4, pc}
+ 169              		.align	2
+ 170              		.global	HMAC_MD5
+ 171              		.thumb
+ 172              		.thumb_func
+ 174              	HMAC_MD5:
+ 175              		@ args = 4, pretend = 0, frame = 120
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177 013c 10B5     		push	{r4, lr}
+ 178 013e 9EB0     		sub	sp, sp, #120
+ 179 0140 0390     		str	r0, [sp, #12]
+ 180 0142 0291     		str	r1, [sp, #8]
+ 181 0144 0192     		str	r2, [sp, #4]
+ 182 0146 0093     		str	r3, [sp, #0]
+ 183 0148 4FF00003 		mov	r3, #0
+ 184 014c ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 185 0150 4FF00003 		mov	r3, #0
+ 186 0154 ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 187 0158 4FF00003 		mov	r3, #0
+ 188 015c 1D93     		str	r3, [sp, #116]
+ 189 015e 4FF00003 		mov	r3, #0
+ 190 0162 0593     		str	r3, [sp, #20]
+ 191 0164 4FF00003 		mov	r3, #0
+ 192 0168 1993     		str	r3, [sp, #100]
+ 193 016a 4FF00103 		mov	r3, #1
+ 194 016e 8DF87330 		strb	r3, [sp, #115]
+ 195 0172 039B     		ldr	r3, [sp, #12]
+ 196 0174 1B93     		str	r3, [sp, #108]
+ 197 0176 019B     		ldr	r3, [sp, #4]
+ 198 0178 1A93     		str	r3, [sp, #104]
+ 199 017a 209B     		ldr	r3, [sp, #128]
+ 200 017c 1893     		str	r3, [sp, #96]
+ 201 017e 009B     		ldr	r3, [sp, #0]
+ 202 0180 9BB2     		uxth	r3, r3
+ 203 0182 03F00303 		and	r3, r3, #3
+ 204 0186 9BB2     		uxth	r3, r3
+ 205 0188 4FEAC303 		lsl	r3, r3, #3
+ 206 018c 9BB2     		uxth	r3, r3
+ 207 018e ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 208 0192 029B     		ldr	r3, [sp, #8]
+ 209 0194 9BB2     		uxth	r3, r3
+ 210 0196 03F00303 		and	r3, r3, #3
+ 211 019a 9BB2     		uxth	r3, r3
+ 212 019c 4FEAC303 		lsl	r3, r3, #3
+ 213 01a0 9BB2     		uxth	r3, r3
+ 214 01a2 ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 215 01a6 FFF7FEFF 		bl	HASH_DeInit
+ 216 01aa 4FF08003 		mov	r3, #128
+ 217 01ae 0C93     		str	r3, [sp, #48]
+ 218 01b0 4FF04003 		mov	r3, #64
+ 219 01b4 0D93     		str	r3, [sp, #52]
+ 220 01b6 4FF02003 		mov	r3, #32
+ 221 01ba 0E93     		str	r3, [sp, #56]
+ 222 01bc 029B     		ldr	r3, [sp, #8]
+ 223 01be 402B     		cmp	r3, #64
+ 224 01c0 03D9     		bls	.L9
+ 225 01c2 4FF48033 		mov	r3, #65536
+ 226 01c6 0F93     		str	r3, [sp, #60]
+ 227 01c8 02E0     		b	.L10
+ 228              	.L9:
+ 229 01ca 4FF00003 		mov	r3, #0
+ 230 01ce 0F93     		str	r3, [sp, #60]
+ 231              	.L10:
+ 232 01d0 0CAB     		add	r3, sp, #48
+ 233 01d2 1846     		mov	r0, r3
+ 234 01d4 FFF7FEFF 		bl	HASH_Init
+ 235 01d8 BDF81830 		ldrh	r3, [sp, #24]	@ movhi
+ 236 01dc 9BB2     		uxth	r3, r3
+ 237 01de 1846     		mov	r0, r3
+ 238 01e0 FFF7FEFF 		bl	HASH_SetLastWordValidBitsNbr
+ 239 01e4 4FF00003 		mov	r3, #0
+ 240 01e8 1D93     		str	r3, [sp, #116]
+ 241 01ea 0CE0     		b	.L11
+ 242              	.L12:
+ 243 01ec 1B9B     		ldr	r3, [sp, #108]
+ 244 01ee 1B68     		ldr	r3, [r3, #0]
+ 245 01f0 1846     		mov	r0, r3
+ 246 01f2 FFF7FEFF 		bl	HASH_DataIn
+ 247 01f6 1B9B     		ldr	r3, [sp, #108]
+ 248 01f8 03F10403 		add	r3, r3, #4
+ 249 01fc 1B93     		str	r3, [sp, #108]
+ 250 01fe 1D9B     		ldr	r3, [sp, #116]
+ 251 0200 03F10403 		add	r3, r3, #4
+ 252 0204 1D93     		str	r3, [sp, #116]
+ 253              	.L11:
+ 254 0206 1D9A     		ldr	r2, [sp, #116]
+ 255 0208 029B     		ldr	r3, [sp, #8]
+ 256 020a 9A42     		cmp	r2, r3
+ 257 020c EED3     		bcc	.L12
+ 258 020e FFF7FEFF 		bl	HASH_StartDigest
+ 259              	.L14:
+ 260 0212 4FF00800 		mov	r0, #8
+ 261 0216 FFF7FEFF 		bl	HASH_GetFlagStatus
+ 262 021a 0346     		mov	r3, r0
+ 263 021c 1993     		str	r3, [sp, #100]
+ 264 021e 059B     		ldr	r3, [sp, #20]
+ 265 0220 03F10103 		add	r3, r3, #1
+ 266 0224 0593     		str	r3, [sp, #20]
+ 267 0226 059B     		ldr	r3, [sp, #20]
+ 268 0228 B3F5803F 		cmp	r3, #65536
+ 269 022c 02D0     		beq	.L13
+ 270 022e 199B     		ldr	r3, [sp, #100]
+ 271 0230 002B     		cmp	r3, #0
+ 272 0232 EED1     		bne	.L14
+ 273              	.L13:
+ 274 0234 199B     		ldr	r3, [sp, #100]
+ 275 0236 002B     		cmp	r3, #0
+ 276 0238 04D0     		beq	.L15
+ 277 023a 4FF00003 		mov	r3, #0
+ 278 023e 8DF87330 		strb	r3, [sp, #115]
+ 279 0242 A3E0     		b	.L16
+ 280              	.L15:
+ 281 0244 BDF81A30 		ldrh	r3, [sp, #26]	@ movhi
+ 282 0248 9BB2     		uxth	r3, r3
+ 283 024a 1846     		mov	r0, r3
+ 284 024c FFF7FEFF 		bl	HASH_SetLastWordValidBitsNbr
+ 285 0250 4FF00003 		mov	r3, #0
+ 286 0254 1D93     		str	r3, [sp, #116]
+ 287 0256 0CE0     		b	.L17
+ 288              	.L18:
+ 289 0258 1A9B     		ldr	r3, [sp, #104]
+ 290 025a 1B68     		ldr	r3, [r3, #0]
+ 291 025c 1846     		mov	r0, r3
+ 292 025e FFF7FEFF 		bl	HASH_DataIn
+ 293 0262 1A9B     		ldr	r3, [sp, #104]
+ 294 0264 03F10403 		add	r3, r3, #4
+ 295 0268 1A93     		str	r3, [sp, #104]
+ 296 026a 1D9B     		ldr	r3, [sp, #116]
+ 297 026c 03F10403 		add	r3, r3, #4
+ 298 0270 1D93     		str	r3, [sp, #116]
+ 299              	.L17:
+ 300 0272 1D9A     		ldr	r2, [sp, #116]
+ 301 0274 009B     		ldr	r3, [sp, #0]
+ 302 0276 9A42     		cmp	r2, r3
+ 303 0278 EED3     		bcc	.L18
+ 304 027a FFF7FEFF 		bl	HASH_StartDigest
+ 305 027e 4FF00003 		mov	r3, #0
+ 306 0282 0593     		str	r3, [sp, #20]
+ 307              	.L20:
+ 308 0284 4FF00800 		mov	r0, #8
+ 309 0288 FFF7FEFF 		bl	HASH_GetFlagStatus
+ 310 028c 0346     		mov	r3, r0
+ 311 028e 1993     		str	r3, [sp, #100]
+ 312 0290 059B     		ldr	r3, [sp, #20]
+ 313 0292 03F10103 		add	r3, r3, #1
+ 314 0296 0593     		str	r3, [sp, #20]
+ 315 0298 059B     		ldr	r3, [sp, #20]
+ 316 029a B3F5803F 		cmp	r3, #65536
+ 317 029e 02D0     		beq	.L19
+ 318 02a0 199B     		ldr	r3, [sp, #100]
+ 319 02a2 002B     		cmp	r3, #0
+ 320 02a4 EED1     		bne	.L20
+ 321              	.L19:
+ 322 02a6 199B     		ldr	r3, [sp, #100]
+ 323 02a8 002B     		cmp	r3, #0
+ 324 02aa 04D0     		beq	.L21
+ 325 02ac 4FF00003 		mov	r3, #0
+ 326 02b0 8DF87330 		strb	r3, [sp, #115]
+ 327 02b4 6AE0     		b	.L16
+ 328              	.L21:
+ 329 02b6 BDF81830 		ldrh	r3, [sp, #24]	@ movhi
+ 330 02ba 9BB2     		uxth	r3, r3
+ 331 02bc 1846     		mov	r0, r3
+ 332 02be FFF7FEFF 		bl	HASH_SetLastWordValidBitsNbr
+ 333 02c2 039B     		ldr	r3, [sp, #12]
+ 334 02c4 1B93     		str	r3, [sp, #108]
+ 335 02c6 4FF00003 		mov	r3, #0
+ 336 02ca 1D93     		str	r3, [sp, #116]
+ 337 02cc 0CE0     		b	.L22
+ 338              	.L23:
+ 339 02ce 1B9B     		ldr	r3, [sp, #108]
+ 340 02d0 1B68     		ldr	r3, [r3, #0]
+ 341 02d2 1846     		mov	r0, r3
+ 342 02d4 FFF7FEFF 		bl	HASH_DataIn
+ 343 02d8 1B9B     		ldr	r3, [sp, #108]
+ 344 02da 03F10403 		add	r3, r3, #4
+ 345 02de 1B93     		str	r3, [sp, #108]
+ 346 02e0 1D9B     		ldr	r3, [sp, #116]
+ 347 02e2 03F10403 		add	r3, r3, #4
+ 348 02e6 1D93     		str	r3, [sp, #116]
+ 349              	.L22:
+ 350 02e8 1D9A     		ldr	r2, [sp, #116]
+ 351 02ea 029B     		ldr	r3, [sp, #8]
+ 352 02ec 9A42     		cmp	r2, r3
+ 353 02ee EED3     		bcc	.L23
+ 354 02f0 FFF7FEFF 		bl	HASH_StartDigest
+ 355 02f4 4FF00003 		mov	r3, #0
+ 356 02f8 0593     		str	r3, [sp, #20]
+ 357              	.L25:
+ 358 02fa 4FF00800 		mov	r0, #8
+ 359 02fe FFF7FEFF 		bl	HASH_GetFlagStatus
+ 360 0302 0346     		mov	r3, r0
+ 361 0304 1993     		str	r3, [sp, #100]
+ 362 0306 059B     		ldr	r3, [sp, #20]
+ 363 0308 03F10103 		add	r3, r3, #1
+ 364 030c 0593     		str	r3, [sp, #20]
+ 365 030e 059B     		ldr	r3, [sp, #20]
+ 366 0310 B3F5803F 		cmp	r3, #65536
+ 367 0314 02D0     		beq	.L24
+ 368 0316 199B     		ldr	r3, [sp, #100]
+ 369 0318 002B     		cmp	r3, #0
+ 370 031a EED1     		bne	.L25
+ 371              	.L24:
+ 372 031c 199B     		ldr	r3, [sp, #100]
+ 373 031e 002B     		cmp	r3, #0
+ 374 0320 04D0     		beq	.L26
+ 375 0322 4FF00003 		mov	r3, #0
+ 376 0326 8DF87330 		strb	r3, [sp, #115]
+ 377 032a 2FE0     		b	.L16
+ 378              	.L26:
+ 379 032c 07AB     		add	r3, sp, #28
+ 380 032e 1846     		mov	r0, r3
+ 381 0330 FFF7FEFF 		bl	HASH_GetDigest
+ 382 0334 189B     		ldr	r3, [sp, #96]
+ 383 0336 079A     		ldr	r2, [sp, #28]
+ 384 0338 1792     		str	r2, [sp, #92]
+ 385 033a 179A     		ldr	r2, [sp, #92]
+ 386              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 387 033c 14BA     		rev r4, r2
+ 388              	@ 0 "" 2
+ 389              		.thumb
+ 390 033e 1694     		str	r4, [sp, #88]
+ 391 0340 169A     		ldr	r2, [sp, #88]
+ 392 0342 1A60     		str	r2, [r3, #0]
+ 393 0344 189B     		ldr	r3, [sp, #96]
+ 394 0346 03F10403 		add	r3, r3, #4
+ 395 034a 1893     		str	r3, [sp, #96]
+ 396 034c 189B     		ldr	r3, [sp, #96]
+ 397 034e 089A     		ldr	r2, [sp, #32]
+ 398 0350 1592     		str	r2, [sp, #84]
+ 399 0352 159A     		ldr	r2, [sp, #84]
+ 400              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 401 0354 14BA     		rev r4, r2
+ 402              	@ 0 "" 2
+ 403              		.thumb
+ 404 0356 1494     		str	r4, [sp, #80]
+ 405 0358 149A     		ldr	r2, [sp, #80]
+ 406 035a 1A60     		str	r2, [r3, #0]
+ 407 035c 189B     		ldr	r3, [sp, #96]
+ 408 035e 03F10403 		add	r3, r3, #4
+ 409 0362 1893     		str	r3, [sp, #96]
+ 410 0364 189B     		ldr	r3, [sp, #96]
+ 411 0366 099A     		ldr	r2, [sp, #36]
+ 412 0368 1392     		str	r2, [sp, #76]
+ 413 036a 139A     		ldr	r2, [sp, #76]
+ 414              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 415 036c 14BA     		rev r4, r2
+ 416              	@ 0 "" 2
+ 417              		.thumb
+ 418 036e 1294     		str	r4, [sp, #72]
+ 419 0370 129A     		ldr	r2, [sp, #72]
+ 420 0372 1A60     		str	r2, [r3, #0]
+ 421 0374 189B     		ldr	r3, [sp, #96]
+ 422 0376 03F10403 		add	r3, r3, #4
+ 423 037a 1893     		str	r3, [sp, #96]
+ 424 037c 189B     		ldr	r3, [sp, #96]
+ 425 037e 0A9A     		ldr	r2, [sp, #40]
+ 426 0380 1192     		str	r2, [sp, #68]
+ 427 0382 119A     		ldr	r2, [sp, #68]
+ 428              	@ 352 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 429 0384 14BA     		rev r4, r2
+ 430              	@ 0 "" 2
+ 431              		.thumb
+ 432 0386 1094     		str	r4, [sp, #64]
+ 433 0388 109A     		ldr	r2, [sp, #64]
+ 434 038a 1A60     		str	r2, [r3, #0]
+ 435              	.L16:
+ 436 038c 9DF87330 		ldrb	r3, [sp, #115]	@ zero_extendqisi2
+ 437 0390 1846     		mov	r0, r3
+ 438 0392 1EB0     		add	sp, sp, #120
+ 439 0394 10BD     		pop	{r4, pc}
+ 441 0396 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_hash_md5.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSfXdwO.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSfXdwO.s:22     .text:00000000 HASH_MD5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSfXdwO.s:174    .text:0000013c HMAC_MD5
+
+UNDEFINED SYMBOLS
+HASH_DeInit
+HASH_Init
+HASH_SetLastWordValidBitsNbr
+HASH_DataIn
+HASH_StartDigest
+HASH_GetFlagStatus
+HASH_GetDigest

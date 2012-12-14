@@ -1,0 +1,1284 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"drv_i2c1.c"
+  16              		.bss
+  17              		.align	1
+  18              	i2c1ErrorCount:
+  19 0000 0000     		.space	2
+  20              	busy:
+  21 0002 00       		.space	1
+  22              	addr:
+  23 0003 00       		.space	1
+  24              	reg:
+  25 0004 00       		.space	1
+  26              	bytes:
+  27 0005 00       		.space	1
+  28              	writing:
+  29 0006 00       		.space	1
+  30              	reading:
+  31 0007 00       		.space	1
+  32              		.align	2
+  33              	write_p:
+  34 0008 00000000 		.space	4
+  35              		.align	2
+  36              	read_p:
+  37 000c 00000000 		.space	4
+  38              		.text
+  39              		.align	2
+  40              		.global	I2C1_EV_IRQHandler
+  41              		.thumb
+  42              		.thumb_func
+  44              	I2C1_EV_IRQHandler:
+  45              		@ args = 0, pretend = 0, frame = 8
+  46              		@ frame_needed = 0, uses_anonymous_args = 0
+  47 0000 30B5     		push	{r4, r5, lr}
+  48 0002 83B0     		sub	sp, sp, #12
+  49 0004 4FF4A843 		mov	r3, #21504
+  50 0008 C4F20003 		movt	r3, 16384
+  51 000c 9B8A     		ldrh	r3, [r3, #20]	@ movhi
+  52 000e 9BB2     		uxth	r3, r3
+  53 0010 8DF80730 		strb	r3, [sp, #7]
+  54 0014 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+  55 0018 03F00103 		and	r3, r3, #1
+  56 001c DBB2     		uxtb	r3, r3
+  57 001e 002B     		cmp	r3, #0
+  58 0020 00F08180 		beq	.L2
+  59 0024 4FF4A843 		mov	r3, #21504
+  60 0028 C4F20003 		movt	r3, 16384
+  61 002c 4FF4A842 		mov	r2, #21504
+  62 0030 C4F20002 		movt	r2, 16384
+  63 0034 1288     		ldrh	r2, [r2, #0]	@ movhi
+  64 0036 92B2     		uxth	r2, r2
+  65 0038 22F40062 		bic	r2, r2, #2048
+  66 003c 92B2     		uxth	r2, r2
+  67 003e 1A80     		strh	r2, [r3, #0]	@ movhi
+  68 0040 4FF4A840 		mov	r0, #21504
+  69 0044 C4F20000 		movt	r0, 16384
+  70 0048 4FF00101 		mov	r1, #1
+  71 004c FFF7FEFF 		bl	I2C_AcknowledgeConfig
+  72 0050 40F20003 		movw	r3, #:lower16:index.9880
+  73 0054 C0F20003 		movt	r3, #:upper16:index.9880
+  74 0058 4FF00002 		mov	r2, #0
+  75 005c 1A70     		strb	r2, [r3, #0]
+  76 005e 40F20003 		movw	r3, #:lower16:reading
+  77 0062 C0F20003 		movt	r3, #:upper16:reading
+  78 0066 1B78     		ldrb	r3, [r3, #0]
+  79 0068 DBB2     		uxtb	r3, r3
+  80 006a 002B     		cmp	r3, #0
+  81 006c 3BD0     		beq	.L3
+  82 006e 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+  83 0072 C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+  84 0076 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  85 0078 002B     		cmp	r3, #0
+  86 007a 07D1     		bne	.L4
+  87 007c 40F20003 		movw	r3, #:lower16:reg
+  88 0080 C0F20003 		movt	r3, #:upper16:reg
+  89 0084 1B78     		ldrb	r3, [r3, #0]
+  90 0086 DBB2     		uxtb	r3, r3
+  91 0088 FF2B     		cmp	r3, #255
+  92 008a 2CD1     		bne	.L3
+  93              	.L4:
+  94 008c 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+  95 0090 C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+  96 0094 4FF00102 		mov	r2, #1
+  97 0098 1A70     		strb	r2, [r3, #0]
+  98 009a 40F20003 		movw	r3, #:lower16:bytes
+  99 009e C0F20003 		movt	r3, #:upper16:bytes
+ 100 00a2 1B78     		ldrb	r3, [r3, #0]
+ 101 00a4 DBB2     		uxtb	r3, r3
+ 102 00a6 022B     		cmp	r3, #2
+ 103 00a8 0DD1     		bne	.L5
+ 104 00aa 4FF4A843 		mov	r3, #21504
+ 105 00ae C4F20003 		movt	r3, 16384
+ 106 00b2 4FF4A842 		mov	r2, #21504
+ 107 00b6 C4F20002 		movt	r2, 16384
+ 108 00ba 1288     		ldrh	r2, [r2, #0]	@ movhi
+ 109 00bc 92B2     		uxth	r2, r2
+ 110 00be 42F40062 		orr	r2, r2, #2048
+ 111 00c2 92B2     		uxth	r2, r2
+ 112 00c4 1A80     		strh	r2, [r3, #0]	@ movhi
+ 113              	.L5:
+ 114 00c6 40F20003 		movw	r3, #:lower16:addr
+ 115 00ca C0F20003 		movt	r3, #:upper16:addr
+ 116 00ce 1B78     		ldrb	r3, [r3, #0]
+ 117 00d0 DBB2     		uxtb	r3, r3
+ 118 00d2 4FF4A840 		mov	r0, #21504
+ 119 00d6 C4F20000 		movt	r0, 16384
+ 120 00da 1946     		mov	r1, r3
+ 121 00dc 4FF00102 		mov	r2, #1
+ 122 00e0 FFF7FEFF 		bl	I2C_Send7bitAddress
+ 123 00e4 D9E2     		b	.L7
+ 124              	.L3:
+ 125 00e6 40F20003 		movw	r3, #:lower16:addr
+ 126 00ea C0F20003 		movt	r3, #:upper16:addr
+ 127 00ee 1B78     		ldrb	r3, [r3, #0]
+ 128 00f0 DBB2     		uxtb	r3, r3
+ 129 00f2 4FF4A840 		mov	r0, #21504
+ 130 00f6 C4F20000 		movt	r0, 16384
+ 131 00fa 1946     		mov	r1, r3
+ 132 00fc 4FF00002 		mov	r2, #0
+ 133 0100 FFF7FEFF 		bl	I2C_Send7bitAddress
+ 134 0104 40F20003 		movw	r3, #:lower16:reg
+ 135 0108 C0F20003 		movt	r3, #:upper16:reg
+ 136 010c 1B78     		ldrb	r3, [r3, #0]
+ 137 010e DBB2     		uxtb	r3, r3
+ 138 0110 FF2B     		cmp	r3, #255
+ 139 0112 00F0C182 		beq	.L31
+ 140 0116 40F20003 		movw	r3, #:lower16:index.9880
+ 141 011a C0F20003 		movt	r3, #:upper16:index.9880
+ 142 011e 4FF0FF02 		mov	r2, #255
+ 143 0122 1A70     		strb	r2, [r3, #0]
+ 144 0124 B8E2     		b	.L31
+ 145              	.L2:
+ 146 0126 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 147 012a 03F00203 		and	r3, r3, #2
+ 148 012e 002B     		cmp	r3, #0
+ 149 0130 00F0A880 		beq	.L8
+ 150              	@ 337 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 151 0134 BFF35F8F 		dmb
+ 152              	@ 0 "" 2
+ 153              		.thumb
+ 154 0138 40F20003 		movw	r3, #:lower16:bytes
+ 155 013c C0F20003 		movt	r3, #:upper16:bytes
+ 156 0140 1B78     		ldrb	r3, [r3, #0]
+ 157 0142 DBB2     		uxtb	r3, r3
+ 158 0144 012B     		cmp	r3, #1
+ 159 0146 3BD1     		bne	.L9
+ 160 0148 40F20003 		movw	r3, #:lower16:reading
+ 161 014c C0F20003 		movt	r3, #:upper16:reading
+ 162 0150 1B78     		ldrb	r3, [r3, #0]
+ 163 0152 DBB2     		uxtb	r3, r3
+ 164 0154 002B     		cmp	r3, #0
+ 165 0156 33D0     		beq	.L9
+ 166 0158 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 167 015c C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 168 0160 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 169 0162 002B     		cmp	r3, #0
+ 170 0164 2CD0     		beq	.L9
+ 171 0166 4FF4A840 		mov	r0, #21504
+ 172 016a C4F20000 		movt	r0, 16384
+ 173 016e 4FF00001 		mov	r1, #0
+ 174 0172 FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 175              	@ 337 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 176 0176 BFF35F8F 		dmb
+ 177              	@ 0 "" 2
+ 178              		.thumb
+ 179 017a 4FF4A843 		mov	r3, #21504
+ 180 017e C4F20003 		movt	r3, 16384
+ 181 0182 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 182 0184 9BB2     		uxth	r3, r3
+ 183 0186 DBB2     		uxtb	r3, r3
+ 184 0188 8DF80630 		strb	r3, [sp, #6]
+ 185 018c 4FF4A840 		mov	r0, #21504
+ 186 0190 C4F20000 		movt	r0, 16384
+ 187 0194 4FF00101 		mov	r1, #1
+ 188 0198 FFF7FEFF 		bl	I2C_GenerateSTOP
+ 189 019c 40F20003 		movw	r3, #:lower16:final_stop.9879
+ 190 01a0 C0F20003 		movt	r3, #:upper16:final_stop.9879
+ 191 01a4 4FF00102 		mov	r2, #1
+ 192 01a8 1A70     		strb	r2, [r3, #0]
+ 193 01aa 4FF4A840 		mov	r0, #21504
+ 194 01ae C4F20000 		movt	r0, 16384
+ 195 01b2 4FF48061 		mov	r1, #1024
+ 196 01b6 4FF00102 		mov	r2, #1
+ 197 01ba FFF7FEFF 		bl	I2C_ITConfig
+ 198 01be 6CE2     		b	.L7
+ 199              	.L9:
+ 200 01c0 4FF4A843 		mov	r3, #21504
+ 201 01c4 C4F20003 		movt	r3, 16384
+ 202 01c8 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 203 01ca 9BB2     		uxth	r3, r3
+ 204 01cc DBB2     		uxtb	r3, r3
+ 205 01ce 8DF80630 		strb	r3, [sp, #6]
+ 206              	@ 337 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 207 01d2 BFF35F8F 		dmb
+ 208              	@ 0 "" 2
+ 209              		.thumb
+ 210 01d6 40F20003 		movw	r3, #:lower16:bytes
+ 211 01da C0F20003 		movt	r3, #:upper16:bytes
+ 212 01de 1B78     		ldrb	r3, [r3, #0]
+ 213 01e0 DBB2     		uxtb	r3, r3
+ 214 01e2 022B     		cmp	r3, #2
+ 215 01e4 21D1     		bne	.L11
+ 216 01e6 40F20003 		movw	r3, #:lower16:reading
+ 217 01ea C0F20003 		movt	r3, #:upper16:reading
+ 218 01ee 1B78     		ldrb	r3, [r3, #0]
+ 219 01f0 DBB2     		uxtb	r3, r3
+ 220 01f2 002B     		cmp	r3, #0
+ 221 01f4 19D0     		beq	.L11
+ 222 01f6 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 223 01fa C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 224 01fe 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 225 0200 002B     		cmp	r3, #0
+ 226 0202 12D0     		beq	.L11
+ 227 0204 4FF4A840 		mov	r0, #21504
+ 228 0208 C4F20000 		movt	r0, 16384
+ 229 020c 4FF00001 		mov	r1, #0
+ 230 0210 FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 231 0214 4FF4A840 		mov	r0, #21504
+ 232 0218 C4F20000 		movt	r0, 16384
+ 233 021c 4FF48061 		mov	r1, #1024
+ 234 0220 4FF00002 		mov	r2, #0
+ 235 0224 FFF7FEFF 		bl	I2C_ITConfig
+ 236 0228 37E2     		b	.L7
+ 237              	.L11:
+ 238 022a 40F20003 		movw	r3, #:lower16:bytes
+ 239 022e C0F20003 		movt	r3, #:upper16:bytes
+ 240 0232 1B78     		ldrb	r3, [r3, #0]
+ 241 0234 DBB2     		uxtb	r3, r3
+ 242 0236 032B     		cmp	r3, #3
+ 243 0238 19D1     		bne	.L12
+ 244 023a 40F20003 		movw	r3, #:lower16:reading
+ 245 023e C0F20003 		movt	r3, #:upper16:reading
+ 246 0242 1B78     		ldrb	r3, [r3, #0]
+ 247 0244 DBB2     		uxtb	r3, r3
+ 248 0246 002B     		cmp	r3, #0
+ 249 0248 11D0     		beq	.L12
+ 250 024a 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 251 024e C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 252 0252 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 253 0254 002B     		cmp	r3, #0
+ 254 0256 0AD0     		beq	.L12
+ 255 0258 4FF4A840 		mov	r0, #21504
+ 256 025c C4F20000 		movt	r0, 16384
+ 257 0260 4FF48061 		mov	r1, #1024
+ 258 0264 4FF00002 		mov	r2, #0
+ 259 0268 FFF7FEFF 		bl	I2C_ITConfig
+ 260 026c 15E2     		b	.L7
+ 261              	.L12:
+ 262 026e 4FF4A840 		mov	r0, #21504
+ 263 0272 C4F20000 		movt	r0, 16384
+ 264 0276 4FF48061 		mov	r1, #1024
+ 265 027a 4FF00102 		mov	r2, #1
+ 266 027e FFF7FEFF 		bl	I2C_ITConfig
+ 267 0282 0AE2     		b	.L7
+ 268              	.L8:
+ 269 0284 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 270 0288 03F00403 		and	r3, r3, #4
+ 271 028c 002B     		cmp	r3, #0
+ 272 028e 00F02D81 		beq	.L13
+ 273 0292 40F20003 		movw	r3, #:lower16:final_stop.9879
+ 274 0296 C0F20003 		movt	r3, #:upper16:final_stop.9879
+ 275 029a 4FF00102 		mov	r2, #1
+ 276 029e 1A70     		strb	r2, [r3, #0]
+ 277 02a0 40F20003 		movw	r3, #:lower16:reading
+ 278 02a4 C0F20003 		movt	r3, #:upper16:reading
+ 279 02a8 1B78     		ldrb	r3, [r3, #0]
+ 280 02aa DBB2     		uxtb	r3, r3
+ 281 02ac 002B     		cmp	r3, #0
+ 282 02ae 00F0CC80 		beq	.L14
+ 283 02b2 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 284 02b6 C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 285 02ba 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 286 02bc 002B     		cmp	r3, #0
+ 287 02be 00F0C480 		beq	.L14
+ 288 02c2 40F20003 		movw	r3, #:lower16:bytes
+ 289 02c6 C0F20003 		movt	r3, #:upper16:bytes
+ 290 02ca 1B78     		ldrb	r3, [r3, #0]
+ 291 02cc DBB2     		uxtb	r3, r3
+ 292 02ce 022B     		cmp	r3, #2
+ 293 02d0 5BD9     		bls	.L15
+ 294 02d2 4FF4A840 		mov	r0, #21504
+ 295 02d6 C4F20000 		movt	r0, 16384
+ 296 02da 4FF00001 		mov	r1, #0
+ 297 02de FFF7FEFF 		bl	I2C_AcknowledgeConfig
+ 298 02e2 40F20003 		movw	r3, #:lower16:read_p
+ 299 02e6 C0F20003 		movt	r3, #:upper16:read_p
+ 300 02ea 1A68     		ldr	r2, [r3, #0]
+ 301 02ec 40F20003 		movw	r3, #:lower16:index.9880
+ 302 02f0 C0F20003 		movt	r3, #:upper16:index.9880
+ 303 02f4 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
+ 304 02f6 63B2     		sxtb	r3, r4
+ 305 02f8 D518     		adds	r5, r2, r3
+ 306 02fa 4FF4A840 		mov	r0, #21504
+ 307 02fe C4F20000 		movt	r0, 16384
+ 308 0302 FFF7FEFF 		bl	I2C_ReceiveData
+ 309 0306 0346     		mov	r3, r0
+ 310 0308 2B70     		strb	r3, [r5, #0]
+ 311 030a 2346     		mov	r3, r4
+ 312 030c 03F10103 		add	r3, r3, #1
+ 313 0310 DAB2     		uxtb	r2, r3
+ 314 0312 40F20003 		movw	r3, #:lower16:index.9880
+ 315 0316 C0F20003 		movt	r3, #:upper16:index.9880
+ 316 031a 1A70     		strb	r2, [r3, #0]
+ 317 031c 4FF4A840 		mov	r0, #21504
+ 318 0320 C4F20000 		movt	r0, 16384
+ 319 0324 4FF00101 		mov	r1, #1
+ 320 0328 FFF7FEFF 		bl	I2C_GenerateSTOP
+ 321 032c 40F20003 		movw	r3, #:lower16:final_stop.9879
+ 322 0330 C0F20003 		movt	r3, #:upper16:final_stop.9879
+ 323 0334 4FF00102 		mov	r2, #1
+ 324 0338 1A70     		strb	r2, [r3, #0]
+ 325 033a 40F20003 		movw	r3, #:lower16:read_p
+ 326 033e C0F20003 		movt	r3, #:upper16:read_p
+ 327 0342 1A68     		ldr	r2, [r3, #0]
+ 328 0344 40F20003 		movw	r3, #:lower16:index.9880
+ 329 0348 C0F20003 		movt	r3, #:upper16:index.9880
+ 330 034c 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
+ 331 034e 63B2     		sxtb	r3, r4
+ 332 0350 D518     		adds	r5, r2, r3
+ 333 0352 4FF4A840 		mov	r0, #21504
+ 334 0356 C4F20000 		movt	r0, 16384
+ 335 035a FFF7FEFF 		bl	I2C_ReceiveData
+ 336 035e 0346     		mov	r3, r0
+ 337 0360 2B70     		strb	r3, [r5, #0]
+ 338 0362 2346     		mov	r3, r4
+ 339 0364 03F10103 		add	r3, r3, #1
+ 340 0368 DAB2     		uxtb	r2, r3
+ 341 036a 40F20003 		movw	r3, #:lower16:index.9880
+ 342 036e C0F20003 		movt	r3, #:upper16:index.9880
+ 343 0372 1A70     		strb	r2, [r3, #0]
+ 344 0374 4FF4A840 		mov	r0, #21504
+ 345 0378 C4F20000 		movt	r0, 16384
+ 346 037c 4FF48061 		mov	r1, #1024
+ 347 0380 4FF00102 		mov	r2, #1
+ 348 0384 FFF7FEFF 		bl	I2C_ITConfig
+ 349 0388 A4E0     		b	.L19
+ 350              	.L15:
+ 351 038a 40F20003 		movw	r3, #:lower16:final_stop.9879
+ 352 038e C0F20003 		movt	r3, #:upper16:final_stop.9879
+ 353 0392 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 354 0394 002B     		cmp	r3, #0
+ 355 0396 08D0     		beq	.L17
+ 356 0398 4FF4A840 		mov	r0, #21504
+ 357 039c C4F20000 		movt	r0, 16384
+ 358 03a0 4FF00101 		mov	r1, #1
+ 359 03a4 FFF7FEFF 		bl	I2C_GenerateSTOP
+ 360 03a8 07E0     		b	.L18
+ 361              	.L17:
+ 362 03aa 4FF4A840 		mov	r0, #21504
+ 363 03ae C4F20000 		movt	r0, 16384
+ 364 03b2 4FF00101 		mov	r1, #1
+ 365 03b6 FFF7FEFF 		bl	I2C_GenerateSTART
+ 366              	.L18:
+ 367 03ba 40F20003 		movw	r3, #:lower16:read_p
+ 368 03be C0F20003 		movt	r3, #:upper16:read_p
+ 369 03c2 1A68     		ldr	r2, [r3, #0]
+ 370 03c4 40F20003 		movw	r3, #:lower16:index.9880
+ 371 03c8 C0F20003 		movt	r3, #:upper16:index.9880
+ 372 03cc 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
+ 373 03ce 63B2     		sxtb	r3, r4
+ 374 03d0 D518     		adds	r5, r2, r3
+ 375 03d2 4FF4A840 		mov	r0, #21504
+ 376 03d6 C4F20000 		movt	r0, 16384
+ 377 03da FFF7FEFF 		bl	I2C_ReceiveData
+ 378 03de 0346     		mov	r3, r0
+ 379 03e0 2B70     		strb	r3, [r5, #0]
+ 380 03e2 2346     		mov	r3, r4
+ 381 03e4 03F10103 		add	r3, r3, #1
+ 382 03e8 DAB2     		uxtb	r2, r3
+ 383 03ea 40F20003 		movw	r3, #:lower16:index.9880
+ 384 03ee C0F20003 		movt	r3, #:upper16:index.9880
+ 385 03f2 1A70     		strb	r2, [r3, #0]
+ 386 03f4 40F20003 		movw	r3, #:lower16:read_p
+ 387 03f8 C0F20003 		movt	r3, #:upper16:read_p
+ 388 03fc 1A68     		ldr	r2, [r3, #0]
+ 389 03fe 40F20003 		movw	r3, #:lower16:index.9880
+ 390 0402 C0F20003 		movt	r3, #:upper16:index.9880
+ 391 0406 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
+ 392 0408 63B2     		sxtb	r3, r4
+ 393 040a D518     		adds	r5, r2, r3
+ 394 040c 4FF4A840 		mov	r0, #21504
+ 395 0410 C4F20000 		movt	r0, 16384
+ 396 0414 FFF7FEFF 		bl	I2C_ReceiveData
+ 397 0418 0346     		mov	r3, r0
+ 398 041a 2B70     		strb	r3, [r5, #0]
+ 399 041c 2346     		mov	r3, r4
+ 400 041e 03F10103 		add	r3, r3, #1
+ 401 0422 DAB2     		uxtb	r2, r3
+ 402 0424 40F20003 		movw	r3, #:lower16:index.9880
+ 403 0428 C0F20003 		movt	r3, #:upper16:index.9880
+ 404 042c 1A70     		strb	r2, [r3, #0]
+ 405 042e 40F20003 		movw	r3, #:lower16:index.9880
+ 406 0432 C0F20003 		movt	r3, #:upper16:index.9880
+ 407 0436 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 408 0438 03F10103 		add	r3, r3, #1
+ 409 043c DAB2     		uxtb	r2, r3
+ 410 043e 40F20003 		movw	r3, #:lower16:index.9880
+ 411 0442 C0F20003 		movt	r3, #:upper16:index.9880
+ 412 0446 1A70     		strb	r2, [r3, #0]
+ 413 0448 44E0     		b	.L19
+ 414              	.L14:
+ 415 044a 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 416 044e C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 417 0452 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 418 0454 002B     		cmp	r3, #0
+ 419 0456 07D1     		bne	.L20
+ 420 0458 40F20003 		movw	r3, #:lower16:writing
+ 421 045c C0F20003 		movt	r3, #:upper16:writing
+ 422 0460 1B78     		ldrb	r3, [r3, #0]
+ 423 0462 DBB2     		uxtb	r3, r3
+ 424 0464 002B     		cmp	r3, #0
+ 425 0466 25D0     		beq	.L21
+ 426              	.L20:
+ 427 0468 40F20003 		movw	r3, #:lower16:final_stop.9879
+ 428 046c C0F20003 		movt	r3, #:upper16:final_stop.9879
+ 429 0470 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 430 0472 002B     		cmp	r3, #0
+ 431 0474 08D0     		beq	.L22
+ 432 0476 4FF4A840 		mov	r0, #21504
+ 433 047a C4F20000 		movt	r0, 16384
+ 434 047e 4FF00101 		mov	r1, #1
+ 435 0482 FFF7FEFF 		bl	I2C_GenerateSTOP
+ 436 0486 07E0     		b	.L23
+ 437              	.L22:
+ 438 0488 4FF4A840 		mov	r0, #21504
+ 439 048c C4F20000 		movt	r0, 16384
+ 440 0490 4FF00101 		mov	r1, #1
+ 441 0494 FFF7FEFF 		bl	I2C_GenerateSTART
+ 442              	.L23:
+ 443 0498 40F20003 		movw	r3, #:lower16:index.9880
+ 444 049c C0F20003 		movt	r3, #:upper16:index.9880
+ 445 04a0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 446 04a2 03F10103 		add	r3, r3, #1
+ 447 04a6 DAB2     		uxtb	r2, r3
+ 448 04a8 40F20003 		movw	r3, #:lower16:index.9880
+ 449 04ac C0F20003 		movt	r3, #:upper16:index.9880
+ 450 04b0 1A70     		strb	r2, [r3, #0]
+ 451 04b2 0FE0     		b	.L19
+ 452              	.L21:
+ 453 04b4 4FF4A840 		mov	r0, #21504
+ 454 04b8 C4F20000 		movt	r0, 16384
+ 455 04bc 4FF00101 		mov	r1, #1
+ 456 04c0 FFF7FEFF 		bl	I2C_GenerateSTART
+ 457 04c4 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 458 04c8 C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 459 04cc 4FF00102 		mov	r2, #1
+ 460 04d0 1A70     		strb	r2, [r3, #0]
+ 461 04d2 FFE7     		b	.L32
+ 462              	.L19:
+ 463              	.L32:
+ 464 04d4 00BF     		nop
+ 465              	.L24:
+ 466 04d6 4FF4A843 		mov	r3, #21504
+ 467 04da C4F20003 		movt	r3, 16384
+ 468 04de 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 469 04e0 9BB2     		uxth	r3, r3
+ 470 04e2 03F48073 		and	r3, r3, #256
+ 471 04e6 002B     		cmp	r3, #0
+ 472 04e8 F5D1     		bne	.L24
+ 473 04ea D6E0     		b	.L7
+ 474              	.L13:
+ 475 04ec 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 476 04f0 03F04003 		and	r3, r3, #64
+ 477 04f4 002B     		cmp	r3, #0
+ 478 04f6 55D0     		beq	.L25
+ 479 04f8 40F20003 		movw	r3, #:lower16:read_p
+ 480 04fc C0F20003 		movt	r3, #:upper16:read_p
+ 481 0500 1A68     		ldr	r2, [r3, #0]
+ 482 0502 40F20003 		movw	r3, #:lower16:index.9880
+ 483 0506 C0F20003 		movt	r3, #:upper16:index.9880
+ 484 050a 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
+ 485 050c 63B2     		sxtb	r3, r4
+ 486 050e D518     		adds	r5, r2, r3
+ 487 0510 4FF4A840 		mov	r0, #21504
+ 488 0514 C4F20000 		movt	r0, 16384
+ 489 0518 FFF7FEFF 		bl	I2C_ReceiveData
+ 490 051c 0346     		mov	r3, r0
+ 491 051e 2B70     		strb	r3, [r5, #0]
+ 492 0520 2346     		mov	r3, r4
+ 493 0522 03F10103 		add	r3, r3, #1
+ 494 0526 DAB2     		uxtb	r2, r3
+ 495 0528 40F20003 		movw	r3, #:lower16:index.9880
+ 496 052c C0F20003 		movt	r3, #:upper16:index.9880
+ 497 0530 1A70     		strb	r2, [r3, #0]
+ 498 0532 40F20003 		movw	r3, #:lower16:bytes
+ 499 0536 C0F20003 		movt	r3, #:upper16:bytes
+ 500 053a 1B78     		ldrb	r3, [r3, #0]
+ 501 053c DBB2     		uxtb	r3, r3
+ 502 053e 1A46     		mov	r2, r3
+ 503 0540 40F20003 		movw	r3, #:lower16:index.9880
+ 504 0544 C0F20003 		movt	r3, #:upper16:index.9880
+ 505 0548 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 506 054a 5BB2     		sxtb	r3, r3
+ 507 054c 03F10303 		add	r3, r3, #3
+ 508 0550 9A42     		cmp	r2, r3
+ 509 0552 09D1     		bne	.L26
+ 510 0554 4FF4A840 		mov	r0, #21504
+ 511 0558 C4F20000 		movt	r0, 16384
+ 512 055c 4FF48061 		mov	r1, #1024
+ 513 0560 4FF00002 		mov	r2, #0
+ 514 0564 FFF7FEFF 		bl	I2C_ITConfig
+ 515              	.L26:
+ 516 0568 40F20003 		movw	r3, #:lower16:bytes
+ 517 056c C0F20003 		movt	r3, #:upper16:bytes
+ 518 0570 1B78     		ldrb	r3, [r3, #0]
+ 519 0572 DBB2     		uxtb	r3, r3
+ 520 0574 1A46     		mov	r2, r3
+ 521 0576 40F20003 		movw	r3, #:lower16:index.9880
+ 522 057a C0F20003 		movt	r3, #:upper16:index.9880
+ 523 057e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 524 0580 5BB2     		sxtb	r3, r3
+ 525 0582 9A42     		cmp	r2, r3
+ 526 0584 40F08980 		bne	.L7
+ 527 0588 40F20003 		movw	r3, #:lower16:index.9880
+ 528 058c C0F20003 		movt	r3, #:upper16:index.9880
+ 529 0590 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 530 0592 03F10103 		add	r3, r3, #1
+ 531 0596 DAB2     		uxtb	r2, r3
+ 532 0598 40F20003 		movw	r3, #:lower16:index.9880
+ 533 059c C0F20003 		movt	r3, #:upper16:index.9880
+ 534 05a0 1A70     		strb	r2, [r3, #0]
+ 535 05a2 7AE0     		b	.L7
+ 536              	.L25:
+ 537 05a4 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 538 05a8 5BB2     		sxtb	r3, r3
+ 539 05aa 002B     		cmp	r3, #0
+ 540 05ac 75DA     		bge	.L7
+ 541 05ae 40F20003 		movw	r3, #:lower16:index.9880
+ 542 05b2 C0F20003 		movt	r3, #:upper16:index.9880
+ 543 05b6 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 544 05b8 5BB2     		sxtb	r3, r3
+ 545 05ba B3F1FF3F 		cmp	r3, #-1
+ 546 05be 36D0     		beq	.L27
+ 547 05c0 40F20003 		movw	r3, #:lower16:write_p
+ 548 05c4 C0F20003 		movt	r3, #:upper16:write_p
+ 549 05c8 1968     		ldr	r1, [r3, #0]
+ 550 05ca 40F20003 		movw	r3, #:lower16:index.9880
+ 551 05ce C0F20003 		movt	r3, #:upper16:index.9880
+ 552 05d2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 553 05d4 5AB2     		sxtb	r2, r3
+ 554 05d6 8A18     		adds	r2, r1, r2
+ 555 05d8 1278     		ldrb	r2, [r2, #0]
+ 556 05da D2B2     		uxtb	r2, r2
+ 557 05dc 03F10103 		add	r3, r3, #1
+ 558 05e0 D9B2     		uxtb	r1, r3
+ 559 05e2 40F20003 		movw	r3, #:lower16:index.9880
+ 560 05e6 C0F20003 		movt	r3, #:upper16:index.9880
+ 561 05ea 1970     		strb	r1, [r3, #0]
+ 562 05ec 4FF4A840 		mov	r0, #21504
+ 563 05f0 C4F20000 		movt	r0, 16384
+ 564 05f4 1146     		mov	r1, r2
+ 565 05f6 FFF7FEFF 		bl	I2C_SendData
+ 566 05fa 40F20003 		movw	r3, #:lower16:bytes
+ 567 05fe C0F20003 		movt	r3, #:upper16:bytes
+ 568 0602 1B78     		ldrb	r3, [r3, #0]
+ 569 0604 DBB2     		uxtb	r3, r3
+ 570 0606 1A46     		mov	r2, r3
+ 571 0608 40F20003 		movw	r3, #:lower16:index.9880
+ 572 060c C0F20003 		movt	r3, #:upper16:index.9880
+ 573 0610 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 574 0612 5BB2     		sxtb	r3, r3
+ 575 0614 9A42     		cmp	r2, r3
+ 576 0616 40D1     		bne	.L7
+ 577 0618 4FF4A840 		mov	r0, #21504
+ 578 061c C4F20000 		movt	r0, 16384
+ 579 0620 4FF48061 		mov	r1, #1024
+ 580 0624 4FF00002 		mov	r2, #0
+ 581 0628 FFF7FEFF 		bl	I2C_ITConfig
+ 582 062c 35E0     		b	.L7
+ 583              	.L27:
+ 584 062e 40F20003 		movw	r3, #:lower16:index.9880
+ 585 0632 C0F20003 		movt	r3, #:upper16:index.9880
+ 586 0636 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 587 0638 03F10103 		add	r3, r3, #1
+ 588 063c DAB2     		uxtb	r2, r3
+ 589 063e 40F20003 		movw	r3, #:lower16:index.9880
+ 590 0642 C0F20003 		movt	r3, #:upper16:index.9880
+ 591 0646 1A70     		strb	r2, [r3, #0]
+ 592 0648 40F20003 		movw	r3, #:lower16:reg
+ 593 064c C0F20003 		movt	r3, #:upper16:reg
+ 594 0650 1B78     		ldrb	r3, [r3, #0]
+ 595 0652 DBB2     		uxtb	r3, r3
+ 596 0654 4FF4A840 		mov	r0, #21504
+ 597 0658 C4F20000 		movt	r0, 16384
+ 598 065c 1946     		mov	r1, r3
+ 599 065e FFF7FEFF 		bl	I2C_SendData
+ 600 0662 40F20003 		movw	r3, #:lower16:reading
+ 601 0666 C0F20003 		movt	r3, #:upper16:reading
+ 602 066a 1B78     		ldrb	r3, [r3, #0]
+ 603 066c DBB2     		uxtb	r3, r3
+ 604 066e 002B     		cmp	r3, #0
+ 605 0670 07D1     		bne	.L28
+ 606 0672 40F20003 		movw	r3, #:lower16:bytes
+ 607 0676 C0F20003 		movt	r3, #:upper16:bytes
+ 608 067a 1B78     		ldrb	r3, [r3, #0]
+ 609 067c DBB2     		uxtb	r3, r3
+ 610 067e 002B     		cmp	r3, #0
+ 611 0680 0BD1     		bne	.L7
+ 612              	.L28:
+ 613 0682 4FF4A840 		mov	r0, #21504
+ 614 0686 C4F20000 		movt	r0, 16384
+ 615 068a 4FF48061 		mov	r1, #1024
+ 616 068e 4FF00002 		mov	r2, #0
+ 617 0692 FFF7FEFF 		bl	I2C_ITConfig
+ 618 0696 00E0     		b	.L7
+ 619              	.L31:
+ 620 0698 00BF     		nop
+ 621              	.L7:
+ 622 069a 40F20003 		movw	r3, #:lower16:index.9880
+ 623 069e C0F20003 		movt	r3, #:upper16:index.9880
+ 624 06a2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 625 06a4 5AB2     		sxtb	r2, r3
+ 626 06a6 40F20003 		movw	r3, #:lower16:bytes
+ 627 06aa C0F20003 		movt	r3, #:upper16:bytes
+ 628 06ae 1B78     		ldrb	r3, [r3, #0]
+ 629 06b0 DBB2     		uxtb	r3, r3
+ 630 06b2 03F10103 		add	r3, r3, #1
+ 631 06b6 9A42     		cmp	r2, r3
+ 632 06b8 1ED1     		bne	.L1
+ 633 06ba 40F20003 		movw	r3, #:lower16:subaddress_sent.9878
+ 634 06be C0F20003 		movt	r3, #:upper16:subaddress_sent.9878
+ 635 06c2 4FF00002 		mov	r2, #0
+ 636 06c6 1A70     		strb	r2, [r3, #0]
+ 637 06c8 40F20003 		movw	r3, #:lower16:final_stop.9879
+ 638 06cc C0F20003 		movt	r3, #:upper16:final_stop.9879
+ 639 06d0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 640 06d2 002B     		cmp	r3, #0
+ 641 06d4 09D0     		beq	.L30
+ 642 06d6 4FF4A840 		mov	r0, #21504
+ 643 06da C4F20000 		movt	r0, 16384
+ 644 06de 4FF44071 		mov	r1, #768
+ 645 06e2 4FF00002 		mov	r2, #0
+ 646 06e6 FFF7FEFF 		bl	I2C_ITConfig
+ 647              	.L30:
+ 648 06ea 40F20003 		movw	r3, #:lower16:busy
+ 649 06ee C0F20003 		movt	r3, #:upper16:busy
+ 650 06f2 4FF00002 		mov	r2, #0
+ 651 06f6 1A70     		strb	r2, [r3, #0]
+ 652              	.L1:
+ 653 06f8 03B0     		add	sp, sp, #12
+ 654 06fa 30BD     		pop	{r4, r5, pc}
+ 656              		.align	2
+ 657              		.global	I2C1_ER_IRQHandler
+ 658              		.thumb
+ 659              		.thumb_func
+ 661              	I2C1_ER_IRQHandler:
+ 662              		@ args = 0, pretend = 0, frame = 8
+ 663              		@ frame_needed = 0, uses_anonymous_args = 0
+ 664 06fc 00B5     		push	{lr}
+ 665 06fe 83B0     		sub	sp, sp, #12
+ 666 0700 4FF4A843 		mov	r3, #21504
+ 667 0704 C4F20003 		movt	r3, 16384
+ 668 0708 9B8A     		ldrh	r3, [r3, #20]	@ movhi
+ 669 070a 9BB2     		uxth	r3, r3
+ 670 070c 0193     		str	r3, [sp, #4]
+ 671 070e 019B     		ldr	r3, [sp, #4]
+ 672 0710 019B     		ldr	r3, [sp, #4]
+ 673 0712 03F4E063 		and	r3, r3, #1792
+ 674 0716 002B     		cmp	r3, #0
+ 675 0718 5CD0     		beq	.L34
+ 676 071a 4FF4A843 		mov	r3, #21504
+ 677 071e C4F20003 		movt	r3, 16384
+ 678 0722 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 679 0724 9BB2     		uxth	r3, r3
+ 680 0726 0093     		str	r3, [sp, #0]
+ 681 0728 4FF4A840 		mov	r0, #21504
+ 682 072c C4F20000 		movt	r0, 16384
+ 683 0730 4FF48061 		mov	r1, #1024
+ 684 0734 4FF00002 		mov	r2, #0
+ 685 0738 FFF7FEFF 		bl	I2C_ITConfig
+ 686 073c 019B     		ldr	r3, [sp, #4]
+ 687 073e 03F40073 		and	r3, r3, #512
+ 688 0742 002B     		cmp	r3, #0
+ 689 0744 46D1     		bne	.L34
+ 690 0746 4FF4A843 		mov	r3, #21504
+ 691 074a C4F20003 		movt	r3, 16384
+ 692 074e 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 693 0750 9BB2     		uxth	r3, r3
+ 694 0752 03F40073 		and	r3, r3, #512
+ 695 0756 002B     		cmp	r3, #0
+ 696 0758 3CD1     		bne	.L34
+ 697 075a 4FF4A843 		mov	r3, #21504
+ 698 075e C4F20003 		movt	r3, 16384
+ 699 0762 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 700 0764 9BB2     		uxth	r3, r3
+ 701 0766 03F48073 		and	r3, r3, #256
+ 702 076a 002B     		cmp	r3, #0
+ 703 076c 20D0     		beq	.L35
+ 704 076e 00BF     		nop
+ 705              	.L36:
+ 706 0770 4FF4A843 		mov	r3, #21504
+ 707 0774 C4F20003 		movt	r3, 16384
+ 708 0778 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 709 077a 9BB2     		uxth	r3, r3
+ 710 077c 03F48073 		and	r3, r3, #256
+ 711 0780 002B     		cmp	r3, #0
+ 712 0782 F5D1     		bne	.L36
+ 713 0784 4FF4A840 		mov	r0, #21504
+ 714 0788 C4F20000 		movt	r0, 16384
+ 715 078c 4FF00101 		mov	r1, #1
+ 716 0790 FFF7FEFF 		bl	I2C_GenerateSTOP
+ 717 0794 00BF     		nop
+ 718              	.L37:
+ 719 0796 4FF4A843 		mov	r3, #21504
+ 720 079a C4F20003 		movt	r3, 16384
+ 721 079e 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 722 07a0 9BB2     		uxth	r3, r3
+ 723 07a2 03F40073 		and	r3, r3, #512
+ 724 07a6 002B     		cmp	r3, #0
+ 725 07a8 F5D1     		bne	.L37
+ 726 07aa FFF7FEFF 		bl	i2c1Init
+ 727 07ae 11E0     		b	.L34
+ 728              	.L35:
+ 729 07b0 4FF4A840 		mov	r0, #21504
+ 730 07b4 C4F20000 		movt	r0, 16384
+ 731 07b8 4FF00101 		mov	r1, #1
+ 732 07bc FFF7FEFF 		bl	I2C_GenerateSTOP
+ 733 07c0 4FF4A840 		mov	r0, #21504
+ 734 07c4 C4F20000 		movt	r0, 16384
+ 735 07c8 4FF44071 		mov	r1, #768
+ 736 07cc 4FF00002 		mov	r2, #0
+ 737 07d0 FFF7FEFF 		bl	I2C_ITConfig
+ 738              	.L34:
+ 739 07d4 4FF4A843 		mov	r3, #21504
+ 740 07d8 C4F20003 		movt	r3, 16384
+ 741 07dc 4FF4A842 		mov	r2, #21504
+ 742 07e0 C4F20002 		movt	r2, 16384
+ 743 07e4 928A     		ldrh	r2, [r2, #20]	@ movhi
+ 744 07e6 92B2     		uxth	r2, r2
+ 745 07e8 22F47062 		bic	r2, r2, #3840
+ 746 07ec 92B2     		uxth	r2, r2
+ 747 07ee 9A82     		strh	r2, [r3, #20]	@ movhi
+ 748 07f0 40F20003 		movw	r3, #:lower16:busy
+ 749 07f4 C0F20003 		movt	r3, #:upper16:busy
+ 750 07f8 4FF00002 		mov	r2, #0
+ 751 07fc 1A70     		strb	r2, [r3, #0]
+ 752 07fe 03B0     		add	sp, sp, #12
+ 753 0800 00BD     		pop	{pc}
+ 755 0802 00BF     		.align	2
+ 756              		.global	i2c1WriteBuffer
+ 757              		.thumb
+ 758              		.thumb_func
+ 760              	i2c1WriteBuffer:
+ 761              		@ args = 0, pretend = 0, frame = 32
+ 762              		@ frame_needed = 0, uses_anonymous_args = 0
+ 763 0804 00B5     		push	{lr}
+ 764 0806 89B0     		sub	sp, sp, #36
+ 765 0808 0093     		str	r3, [sp, #0]
+ 766 080a 0346     		mov	r3, r0
+ 767 080c 8DF80730 		strb	r3, [sp, #7]
+ 768 0810 0B46     		mov	r3, r1
+ 769 0812 8DF80630 		strb	r3, [sp, #6]
+ 770 0816 1346     		mov	r3, r2
+ 771 0818 8DF80530 		strb	r3, [sp, #5]
+ 772 081c 47F23053 		movw	r3, #30000
+ 773 0820 0693     		str	r3, [sp, #24]
+ 774 0822 9DF80730 		ldrb	r3, [sp, #7]
+ 775 0826 4FEA4303 		lsl	r3, r3, #1
+ 776 082a DAB2     		uxtb	r2, r3
+ 777 082c 40F20003 		movw	r3, #:lower16:addr
+ 778 0830 C0F20003 		movt	r3, #:upper16:addr
+ 779 0834 1A70     		strb	r2, [r3, #0]
+ 780 0836 40F20003 		movw	r3, #:lower16:reg
+ 781 083a C0F20003 		movt	r3, #:upper16:reg
+ 782 083e 9DF80620 		ldrb	r2, [sp, #6]
+ 783 0842 1A70     		strb	r2, [r3, #0]
+ 784 0844 40F20003 		movw	r3, #:lower16:writing
+ 785 0848 C0F20003 		movt	r3, #:upper16:writing
+ 786 084c 4FF00102 		mov	r2, #1
+ 787 0850 1A70     		strb	r2, [r3, #0]
+ 788 0852 40F20003 		movw	r3, #:lower16:reading
+ 789 0856 C0F20003 		movt	r3, #:upper16:reading
+ 790 085a 4FF00002 		mov	r2, #0
+ 791 085e 1A70     		strb	r2, [r3, #0]
+ 792 0860 40F20003 		movw	r3, #:lower16:write_p
+ 793 0864 C0F20003 		movt	r3, #:upper16:write_p
+ 794 0868 02AA     		add	r2, sp, #8
+ 795 086a 1A60     		str	r2, [r3, #0]
+ 796 086c 40F20003 		movw	r3, #:lower16:read_p
+ 797 0870 C0F20003 		movt	r3, #:upper16:read_p
+ 798 0874 02AA     		add	r2, sp, #8
+ 799 0876 1A60     		str	r2, [r3, #0]
+ 800 0878 40F20003 		movw	r3, #:lower16:bytes
+ 801 087c C0F20003 		movt	r3, #:upper16:bytes
+ 802 0880 9DF80520 		ldrb	r2, [sp, #5]
+ 803 0884 1A70     		strb	r2, [r3, #0]
+ 804 0886 40F20003 		movw	r3, #:lower16:busy
+ 805 088a C0F20003 		movt	r3, #:upper16:busy
+ 806 088e 4FF00102 		mov	r2, #1
+ 807 0892 1A70     		strb	r2, [r3, #0]
+ 808 0894 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 809 0898 102B     		cmp	r3, #16
+ 810 089a 02D9     		bls	.L39
+ 811 089c 4FF00003 		mov	r3, #0
+ 812 08a0 74E0     		b	.L40
+ 813              	.L39:
+ 814 08a2 4FF00003 		mov	r3, #0
+ 815 08a6 8DF81F30 		strb	r3, [sp, #31]
+ 816 08aa 10E0     		b	.L41
+ 817              	.L42:
+ 818 08ac 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 819 08b0 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+ 820 08b4 0099     		ldr	r1, [sp, #0]
+ 821 08b6 8A18     		adds	r2, r1, r2
+ 822 08b8 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 823 08ba 08A9     		add	r1, sp, #32
+ 824 08bc CB18     		adds	r3, r1, r3
+ 825 08be 03F8182C 		strb	r2, [r3, #-24]
+ 826 08c2 9DF81F30 		ldrb	r3, [sp, #31]
+ 827 08c6 03F10103 		add	r3, r3, #1
+ 828 08ca 8DF81F30 		strb	r3, [sp, #31]
+ 829              	.L41:
+ 830 08ce 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+ 831 08d2 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2
+ 832 08d6 9A42     		cmp	r2, r3
+ 833 08d8 E8D3     		bcc	.L42
+ 834 08da 4FF4A843 		mov	r3, #21504
+ 835 08de C4F20003 		movt	r3, 16384
+ 836 08e2 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 837 08e4 9BB2     		uxth	r3, r3
+ 838 08e6 03F40073 		and	r3, r3, #512
+ 839 08ea 002B     		cmp	r3, #0
+ 840 08ec 26D1     		bne	.L49
+ 841 08ee 4FF4A843 		mov	r3, #21504
+ 842 08f2 C4F20003 		movt	r3, 16384
+ 843 08f6 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 844 08f8 9BB2     		uxth	r3, r3
+ 845 08fa 03F48073 		and	r3, r3, #256
+ 846 08fe 002B     		cmp	r3, #0
+ 847 0900 12D1     		bne	.L44
+ 848 0902 00BF     		nop
+ 849              	.L45:
+ 850 0904 4FF4A843 		mov	r3, #21504
+ 851 0908 C4F20003 		movt	r3, 16384
+ 852 090c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 853 090e 9BB2     		uxth	r3, r3
+ 854 0910 03F40073 		and	r3, r3, #512
+ 855 0914 002B     		cmp	r3, #0
+ 856 0916 F5D1     		bne	.L45
+ 857 0918 4FF4A840 		mov	r0, #21504
+ 858 091c C4F20000 		movt	r0, 16384
+ 859 0920 4FF00101 		mov	r1, #1
+ 860 0924 FFF7FEFF 		bl	I2C_GenerateSTART
+ 861              	.L44:
+ 862 0928 4FF4A840 		mov	r0, #21504
+ 863 092c C4F20000 		movt	r0, 16384
+ 864 0930 4FF44071 		mov	r1, #768
+ 865 0934 4FF00102 		mov	r2, #1
+ 866 0938 FFF7FEFF 		bl	I2C_ITConfig
+ 867              	.L49:
+ 868 093c 00BF     		nop
+ 869              	.L47:
+ 870 093e 40F20003 		movw	r3, #:lower16:busy
+ 871 0942 C0F20003 		movt	r3, #:upper16:busy
+ 872 0946 1B78     		ldrb	r3, [r3, #0]
+ 873 0948 DBB2     		uxtb	r3, r3
+ 874 094a 002B     		cmp	r3, #0
+ 875 094c 06D0     		beq	.L46
+ 876 094e 069B     		ldr	r3, [sp, #24]
+ 877 0950 03F1FF33 		add	r3, r3, #-1
+ 878 0954 0693     		str	r3, [sp, #24]
+ 879 0956 069B     		ldr	r3, [sp, #24]
+ 880 0958 002B     		cmp	r3, #0
+ 881 095a F0D1     		bne	.L47
+ 882              	.L46:
+ 883 095c 069B     		ldr	r3, [sp, #24]
+ 884 095e 002B     		cmp	r3, #0
+ 885 0960 12D1     		bne	.L48
+ 886 0962 40F20003 		movw	r3, #:lower16:i2c1ErrorCount
+ 887 0966 C0F20003 		movt	r3, #:upper16:i2c1ErrorCount
+ 888 096a 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 889 096c 9BB2     		uxth	r3, r3
+ 890 096e 03F10103 		add	r3, r3, #1
+ 891 0972 9AB2     		uxth	r2, r3
+ 892 0974 40F20003 		movw	r3, #:lower16:i2c1ErrorCount
+ 893 0978 C0F20003 		movt	r3, #:upper16:i2c1ErrorCount
+ 894 097c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 895 097e FFF7FEFF 		bl	i2c1Init
+ 896 0982 4FF00003 		mov	r3, #0
+ 897 0986 01E0     		b	.L40
+ 898              	.L48:
+ 899 0988 4FF00103 		mov	r3, #1
+ 900              	.L40:
+ 901 098c 1846     		mov	r0, r3
+ 902 098e 09B0     		add	sp, sp, #36
+ 903 0990 00BD     		pop	{pc}
+ 905 0992 00BF     		.align	2
+ 906              		.global	i2c1Write
+ 907              		.thumb
+ 908              		.thumb_func
+ 910              	i2c1Write:
+ 911              		@ args = 0, pretend = 0, frame = 8
+ 912              		@ frame_needed = 0, uses_anonymous_args = 0
+ 913 0994 00B5     		push	{lr}
+ 914 0996 83B0     		sub	sp, sp, #12
+ 915 0998 1346     		mov	r3, r2
+ 916 099a 0246     		mov	r2, r0
+ 917 099c 8DF80720 		strb	r2, [sp, #7]
+ 918 09a0 0A46     		mov	r2, r1
+ 919 09a2 8DF80620 		strb	r2, [sp, #6]
+ 920 09a6 8DF80530 		strb	r3, [sp, #5]
+ 921 09aa 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 922 09ae 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 923 09b2 1046     		mov	r0, r2
+ 924 09b4 1946     		mov	r1, r3
+ 925 09b6 4FF00102 		mov	r2, #1
+ 926 09ba 0DF10503 		add	r3, sp, #5
+ 927 09be FFF7FEFF 		bl	i2c1WriteBuffer
+ 928 09c2 0346     		mov	r3, r0
+ 929 09c4 1846     		mov	r0, r3
+ 930 09c6 03B0     		add	sp, sp, #12
+ 931 09c8 00BD     		pop	{pc}
+ 933 09ca 00BF     		.align	2
+ 934              		.global	i2c1Read
+ 935              		.thumb
+ 936              		.thumb_func
+ 938              	i2c1Read:
+ 939              		@ args = 0, pretend = 0, frame = 16
+ 940              		@ frame_needed = 0, uses_anonymous_args = 0
+ 941 09cc 00B5     		push	{lr}
+ 942 09ce 85B0     		sub	sp, sp, #20
+ 943 09d0 0093     		str	r3, [sp, #0]
+ 944 09d2 0346     		mov	r3, r0
+ 945 09d4 8DF80730 		strb	r3, [sp, #7]
+ 946 09d8 0B46     		mov	r3, r1
+ 947 09da 8DF80630 		strb	r3, [sp, #6]
+ 948 09de 1346     		mov	r3, r2
+ 949 09e0 8DF80530 		strb	r3, [sp, #5]
+ 950 09e4 47F23053 		movw	r3, #30000
+ 951 09e8 0393     		str	r3, [sp, #12]
+ 952 09ea 9DF80730 		ldrb	r3, [sp, #7]
+ 953 09ee 4FEA4303 		lsl	r3, r3, #1
+ 954 09f2 DAB2     		uxtb	r2, r3
+ 955 09f4 40F20003 		movw	r3, #:lower16:addr
+ 956 09f8 C0F20003 		movt	r3, #:upper16:addr
+ 957 09fc 1A70     		strb	r2, [r3, #0]
+ 958 09fe 40F20003 		movw	r3, #:lower16:reg
+ 959 0a02 C0F20003 		movt	r3, #:upper16:reg
+ 960 0a06 9DF80620 		ldrb	r2, [sp, #6]
+ 961 0a0a 1A70     		strb	r2, [r3, #0]
+ 962 0a0c 40F20003 		movw	r3, #:lower16:writing
+ 963 0a10 C0F20003 		movt	r3, #:upper16:writing
+ 964 0a14 4FF00002 		mov	r2, #0
+ 965 0a18 1A70     		strb	r2, [r3, #0]
+ 966 0a1a 40F20003 		movw	r3, #:lower16:reading
+ 967 0a1e C0F20003 		movt	r3, #:upper16:reading
+ 968 0a22 4FF00102 		mov	r2, #1
+ 969 0a26 1A70     		strb	r2, [r3, #0]
+ 970 0a28 40F20003 		movw	r3, #:lower16:read_p
+ 971 0a2c C0F20003 		movt	r3, #:upper16:read_p
+ 972 0a30 009A     		ldr	r2, [sp, #0]
+ 973 0a32 1A60     		str	r2, [r3, #0]
+ 974 0a34 40F20003 		movw	r3, #:lower16:write_p
+ 975 0a38 C0F20003 		movt	r3, #:upper16:write_p
+ 976 0a3c 009A     		ldr	r2, [sp, #0]
+ 977 0a3e 1A60     		str	r2, [r3, #0]
+ 978 0a40 40F20003 		movw	r3, #:lower16:bytes
+ 979 0a44 C0F20003 		movt	r3, #:upper16:bytes
+ 980 0a48 9DF80520 		ldrb	r2, [sp, #5]
+ 981 0a4c 1A70     		strb	r2, [r3, #0]
+ 982 0a4e 40F20003 		movw	r3, #:lower16:busy
+ 983 0a52 C0F20003 		movt	r3, #:upper16:busy
+ 984 0a56 4FF00102 		mov	r2, #1
+ 985 0a5a 1A70     		strb	r2, [r3, #0]
+ 986 0a5c 4FF4A843 		mov	r3, #21504
+ 987 0a60 C4F20003 		movt	r3, 16384
+ 988 0a64 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 989 0a66 9BB2     		uxth	r3, r3
+ 990 0a68 03F40073 		and	r3, r3, #512
+ 991 0a6c 002B     		cmp	r3, #0
+ 992 0a6e 26D1     		bne	.L59
+ 993 0a70 4FF4A843 		mov	r3, #21504
+ 994 0a74 C4F20003 		movt	r3, 16384
+ 995 0a78 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 996 0a7a 9BB2     		uxth	r3, r3
+ 997 0a7c 03F48073 		and	r3, r3, #256
+ 998 0a80 002B     		cmp	r3, #0
+ 999 0a82 12D1     		bne	.L53
+ 1000 0a84 00BF     		nop
+ 1001              	.L54:
+ 1002 0a86 4FF4A843 		mov	r3, #21504
+ 1003 0a8a C4F20003 		movt	r3, 16384
+ 1004 0a8e 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 1005 0a90 9BB2     		uxth	r3, r3
+ 1006 0a92 03F40073 		and	r3, r3, #512
+ 1007 0a96 002B     		cmp	r3, #0
+ 1008 0a98 F5D1     		bne	.L54
+ 1009 0a9a 4FF4A840 		mov	r0, #21504
+ 1010 0a9e C4F20000 		movt	r0, 16384
+ 1011 0aa2 4FF00101 		mov	r1, #1
+ 1012 0aa6 FFF7FEFF 		bl	I2C_GenerateSTART
+ 1013              	.L53:
+ 1014 0aaa 4FF4A840 		mov	r0, #21504
+ 1015 0aae C4F20000 		movt	r0, 16384
+ 1016 0ab2 4FF44071 		mov	r1, #768
+ 1017 0ab6 4FF00102 		mov	r2, #1
+ 1018 0aba FFF7FEFF 		bl	I2C_ITConfig
+ 1019              	.L59:
+ 1020 0abe 00BF     		nop
+ 1021              	.L56:
+ 1022 0ac0 40F20003 		movw	r3, #:lower16:busy
+ 1023 0ac4 C0F20003 		movt	r3, #:upper16:busy
+ 1024 0ac8 1B78     		ldrb	r3, [r3, #0]
+ 1025 0aca DBB2     		uxtb	r3, r3
+ 1026 0acc 002B     		cmp	r3, #0
+ 1027 0ace 06D0     		beq	.L55
+ 1028 0ad0 039B     		ldr	r3, [sp, #12]
+ 1029 0ad2 03F1FF33 		add	r3, r3, #-1
+ 1030 0ad6 0393     		str	r3, [sp, #12]
+ 1031 0ad8 039B     		ldr	r3, [sp, #12]
+ 1032 0ada 002B     		cmp	r3, #0
+ 1033 0adc F0D1     		bne	.L56
+ 1034              	.L55:
+ 1035 0ade 039B     		ldr	r3, [sp, #12]
+ 1036 0ae0 002B     		cmp	r3, #0
+ 1037 0ae2 12D1     		bne	.L57
+ 1038 0ae4 40F20003 		movw	r3, #:lower16:i2c1ErrorCount
+ 1039 0ae8 C0F20003 		movt	r3, #:upper16:i2c1ErrorCount
+ 1040 0aec 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 1041 0aee 9BB2     		uxth	r3, r3
+ 1042 0af0 03F10103 		add	r3, r3, #1
+ 1043 0af4 9AB2     		uxth	r2, r3
+ 1044 0af6 40F20003 		movw	r3, #:lower16:i2c1ErrorCount
+ 1045 0afa C0F20003 		movt	r3, #:upper16:i2c1ErrorCount
+ 1046 0afe 1A80     		strh	r2, [r3, #0]	@ movhi
+ 1047 0b00 FFF7FEFF 		bl	i2c1Init
+ 1048 0b04 4FF00003 		mov	r3, #0
+ 1049 0b08 01E0     		b	.L58
+ 1050              	.L57:
+ 1051 0b0a 4FF00103 		mov	r3, #1
+ 1052              	.L58:
+ 1053 0b0e 1846     		mov	r0, r3
+ 1054 0b10 05B0     		add	sp, sp, #20
+ 1055 0b12 00BD     		pop	{pc}
+ 1057              		.align	2
+ 1058              		.thumb
+ 1059              		.thumb_func
+ 1061              	i2c1Unstick:
+ 1062              		@ args = 0, pretend = 0, frame = 16
+ 1063              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1064 0b14 00B5     		push	{lr}
+ 1065 0b16 85B0     		sub	sp, sp, #20
+ 1066 0b18 4FF0C003 		mov	r3, #192
+ 1067 0b1c 0193     		str	r3, [sp, #4]
+ 1068 0b1e 4FF00103 		mov	r3, #1
+ 1069 0b22 8DF80830 		strb	r3, [sp, #8]
+ 1070 0b26 4FF00203 		mov	r3, #2
+ 1071 0b2a 8DF80930 		strb	r3, [sp, #9]
+ 1072 0b2e 4FF00103 		mov	r3, #1
+ 1073 0b32 8DF80A30 		strb	r3, [sp, #10]
+ 1074 0b36 4FF00003 		mov	r3, #0
+ 1075 0b3a 8DF80B30 		strb	r3, [sp, #11]
+ 1076 0b3e 4FF48060 		mov	r0, #1024
+ 1077 0b42 C4F20200 		movt	r0, 16386
+ 1078 0b46 01AB     		add	r3, sp, #4
+ 1079 0b48 1946     		mov	r1, r3
+ 1080 0b4a FFF7FEFF 		bl	GPIO_Init
+ 1081 0b4e 4FF48060 		mov	r0, #1024
+ 1082 0b52 C4F20200 		movt	r0, 16386
+ 1083 0b56 4FF0C001 		mov	r1, #192
+ 1084 0b5a FFF7FEFF 		bl	GPIO_SetBits
+ 1085 0b5e 4FF00003 		mov	r3, #0
+ 1086 0b62 8DF80F30 		strb	r3, [sp, #15]
+ 1087 0b66 2EE0     		b	.L61
+ 1088              	.L63:
+ 1089 0b68 4FF00300 		mov	r0, #3
+ 1090 0b6c FFF7FEFF 		bl	delayMicroseconds
+ 1091 0b70 00E0     		b	.L62
+ 1092              	.L65:
+ 1093 0b72 00BF     		nop
+ 1094              	.L62:
+ 1095 0b74 4FF48060 		mov	r0, #1024
+ 1096 0b78 C4F20200 		movt	r0, 16386
+ 1097 0b7c 4FF04001 		mov	r1, #64
+ 1098 0b80 FFF7FEFF 		bl	GPIO_ReadInputDataBit
+ 1099 0b84 0346     		mov	r3, r0
+ 1100 0b86 002B     		cmp	r3, #0
+ 1101 0b88 EED0     		beq	.L63
+ 1102 0b8a 4FF48060 		mov	r0, #1024
+ 1103 0b8e C4F20200 		movt	r0, 16386
+ 1104 0b92 4FF04001 		mov	r1, #64
+ 1105 0b96 FFF7FEFF 		bl	GPIO_ResetBits
+ 1106 0b9a 4FF00300 		mov	r0, #3
+ 1107 0b9e FFF7FEFF 		bl	delayMicroseconds
+ 1108 0ba2 4FF48060 		mov	r0, #1024
+ 1109 0ba6 C4F20200 		movt	r0, 16386
+ 1110 0baa 4FF04001 		mov	r1, #64
+ 1111 0bae FFF7FEFF 		bl	GPIO_SetBits
+ 1112 0bb2 4FF00300 		mov	r0, #3
+ 1113 0bb6 FFF7FEFF 		bl	delayMicroseconds
+ 1114 0bba 9DF80F30 		ldrb	r3, [sp, #15]
+ 1115 0bbe 03F10103 		add	r3, r3, #1
+ 1116 0bc2 8DF80F30 		strb	r3, [sp, #15]
+ 1117              	.L61:
+ 1118 0bc6 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1119 0bca 072B     		cmp	r3, #7
+ 1120 0bcc D1D9     		bls	.L65
+ 1121 0bce 4FF48060 		mov	r0, #1024
+ 1122 0bd2 C4F20200 		movt	r0, 16386
+ 1123 0bd6 4FF08001 		mov	r1, #128
+ 1124 0bda FFF7FEFF 		bl	GPIO_ResetBits
+ 1125 0bde 4FF00300 		mov	r0, #3
+ 1126 0be2 FFF7FEFF 		bl	delayMicroseconds
+ 1127 0be6 4FF48060 		mov	r0, #1024
+ 1128 0bea C4F20200 		movt	r0, 16386
+ 1129 0bee 4FF04001 		mov	r1, #64
+ 1130 0bf2 FFF7FEFF 		bl	GPIO_ResetBits
+ 1131 0bf6 4FF00300 		mov	r0, #3
+ 1132 0bfa FFF7FEFF 		bl	delayMicroseconds
+ 1133 0bfe 4FF48060 		mov	r0, #1024
+ 1134 0c02 C4F20200 		movt	r0, 16386
+ 1135 0c06 4FF04001 		mov	r1, #64
+ 1136 0c0a FFF7FEFF 		bl	GPIO_SetBits
+ 1137 0c0e 4FF00300 		mov	r0, #3
+ 1138 0c12 FFF7FEFF 		bl	delayMicroseconds
+ 1139 0c16 4FF48060 		mov	r0, #1024
+ 1140 0c1a C4F20200 		movt	r0, 16386
+ 1141 0c1e 4FF08001 		mov	r1, #128
+ 1142 0c22 FFF7FEFF 		bl	GPIO_SetBits
+ 1143 0c26 4FF00300 		mov	r0, #3
+ 1144 0c2a FFF7FEFF 		bl	delayMicroseconds
+ 1145 0c2e 05B0     		add	sp, sp, #20
+ 1146 0c30 00BD     		pop	{pc}
+ 1148 0c32 00BF     		.align	2
+ 1149              		.global	i2c1Init
+ 1150              		.thumb
+ 1151              		.thumb_func
+ 1153              	i2c1Init:
+ 1154              		@ args = 0, pretend = 0, frame = 32
+ 1155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1156 0c34 00B5     		push	{lr}
+ 1157 0c36 89B0     		sub	sp, sp, #36
+ 1158 0c38 4FF0C003 		mov	r3, #192
+ 1159 0c3c 0593     		str	r3, [sp, #20]
+ 1160 0c3e 4FF00203 		mov	r3, #2
+ 1161 0c42 8DF81830 		strb	r3, [sp, #24]
+ 1162 0c46 4FF00203 		mov	r3, #2
+ 1163 0c4a 8DF81930 		strb	r3, [sp, #25]
+ 1164 0c4e 4FF00103 		mov	r3, #1
+ 1165 0c52 8DF81A30 		strb	r3, [sp, #26]
+ 1166 0c56 4FF00003 		mov	r3, #0
+ 1167 0c5a 8DF81B30 		strb	r3, [sp, #27]
+ 1168 0c5e 4FF48060 		mov	r0, #1024
+ 1169 0c62 C4F20200 		movt	r0, 16386
+ 1170 0c66 05AB     		add	r3, sp, #20
+ 1171 0c68 1946     		mov	r1, r3
+ 1172 0c6a FFF7FEFF 		bl	GPIO_Init
+ 1173 0c6e 4FF48060 		mov	r0, #1024
+ 1174 0c72 C4F20200 		movt	r0, 16386
+ 1175 0c76 4FF00601 		mov	r1, #6
+ 1176 0c7a 4FF00402 		mov	r2, #4
+ 1177 0c7e FFF7FEFF 		bl	GPIO_PinAFConfig
+ 1178 0c82 4FF48060 		mov	r0, #1024
+ 1179 0c86 C4F20200 		movt	r0, 16386
+ 1180 0c8a 4FF00701 		mov	r1, #7
+ 1181 0c8e 4FF00402 		mov	r2, #4
+ 1182 0c92 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 1183 0c96 4FF4A840 		mov	r0, #21504
+ 1184 0c9a C4F20000 		movt	r0, 16384
+ 1185 0c9e FFF7FEFF 		bl	I2C_DeInit
+ 1186 0ca2 01AB     		add	r3, sp, #4
+ 1187 0ca4 1846     		mov	r0, r3
+ 1188 0ca6 FFF7FEFF 		bl	I2C_StructInit
+ 1189 0caa 4FF4A840 		mov	r0, #21504
+ 1190 0cae C4F20000 		movt	r0, 16384
+ 1191 0cb2 4FF44071 		mov	r1, #768
+ 1192 0cb6 4FF00002 		mov	r2, #0
+ 1193 0cba FFF7FEFF 		bl	I2C_ITConfig
+ 1194 0cbe 4FF00003 		mov	r3, #0
+ 1195 0cc2 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 1196 0cc6 4BF6FF73 		movw	r3, #49151
+ 1197 0cca ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 1198 0cce 4FF48043 		mov	r3, #16384
+ 1199 0cd2 ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 1200 0cd6 4FF4D453 		mov	r3, #6784
+ 1201 0cda C0F20603 		movt	r3, 6
+ 1202 0cde 0193     		str	r3, [sp, #4]
+ 1203 0ce0 4FF4A840 		mov	r0, #21504
+ 1204 0ce4 C4F20000 		movt	r0, 16384
+ 1205 0ce8 01AB     		add	r3, sp, #4
+ 1206 0cea 1946     		mov	r1, r3
+ 1207 0cec FFF7FEFF 		bl	I2C_Init
+ 1208 0cf0 4FF4A840 		mov	r0, #21504
+ 1209 0cf4 C4F20000 		movt	r0, 16384
+ 1210 0cf8 4FF00101 		mov	r1, #1
+ 1211 0cfc FFF7FEFF 		bl	I2C_Cmd
+ 1212 0d00 4FF02003 		mov	r3, #32
+ 1213 0d04 8DF81C30 		strb	r3, [sp, #28]
+ 1214 0d08 4FF00003 		mov	r3, #0
+ 1215 0d0c 8DF81D30 		strb	r3, [sp, #29]
+ 1216 0d10 4FF00003 		mov	r3, #0
+ 1217 0d14 8DF81E30 		strb	r3, [sp, #30]
+ 1218 0d18 4FF00103 		mov	r3, #1
+ 1219 0d1c 8DF81F30 		strb	r3, [sp, #31]
+ 1220 0d20 07AB     		add	r3, sp, #28
+ 1221 0d22 1846     		mov	r0, r3
+ 1222 0d24 FFF7FEFF 		bl	NVIC_Init
+ 1223 0d28 4FF01F03 		mov	r3, #31
+ 1224 0d2c 8DF81C30 		strb	r3, [sp, #28]
+ 1225 0d30 4FF00003 		mov	r3, #0
+ 1226 0d34 8DF81D30 		strb	r3, [sp, #29]
+ 1227 0d38 07AB     		add	r3, sp, #28
+ 1228 0d3a 1846     		mov	r0, r3
+ 1229 0d3c FFF7FEFF 		bl	NVIC_Init
+ 1230 0d40 09B0     		add	sp, sp, #36
+ 1231 0d42 00BD     		pop	{pc}
+ 1233              		.align	2
+ 1234              		.global	i2c1GetErrorCounter
+ 1235              		.thumb
+ 1236              		.thumb_func
+ 1238              	i2c1GetErrorCounter:
+ 1239              		@ args = 0, pretend = 0, frame = 0
+ 1240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1241              		@ link register save eliminated.
+ 1242 0d44 40F20003 		movw	r3, #:lower16:i2c1ErrorCount
+ 1243 0d48 C0F20003 		movt	r3, #:upper16:i2c1ErrorCount
+ 1244 0d4c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 1245 0d4e 9BB2     		uxth	r3, r3
+ 1246 0d50 1846     		mov	r0, r3
+ 1247 0d52 7047     		bx	lr
+ 1249              		.bss
+ 1250              	index.9880:
+ 1251 0010 00       		.space	1
+ 1252              	subaddress_sent.9878:
+ 1253 0011 00       		.space	1
+ 1254              	final_stop.9879:
+ 1255 0012 00       		.space	1
+ 1256 0013 00       		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 drv_i2c1.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:17     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:18     .bss:00000000 i2c1ErrorCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:20     .bss:00000002 busy
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:22     .bss:00000003 addr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:24     .bss:00000004 reg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:26     .bss:00000005 bytes
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:28     .bss:00000006 writing
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:30     .bss:00000007 reading
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:33     .bss:00000008 write_p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:36     .bss:0000000c read_p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:39     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:44     .text:00000000 I2C1_EV_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:1250   .bss:00000010 index.9880
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:1252   .bss:00000011 subaddress_sent.9878
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:1254   .bss:00000012 final_stop.9879
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:661    .text:000006fc I2C1_ER_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:1153   .text:00000c34 i2c1Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:760    .text:00000804 i2c1WriteBuffer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:910    .text:00000994 i2c1Write
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:938    .text:000009cc i2c1Read
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:1061   .text:00000b14 i2c1Unstick
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvma5Qc.s:1238   .text:00000d44 i2c1GetErrorCounter
+
+UNDEFINED SYMBOLS
+I2C_AcknowledgeConfig
+I2C_Send7bitAddress
+I2C_GenerateSTOP
+I2C_ITConfig
+I2C_ReceiveData
+I2C_GenerateSTART
+I2C_SendData
+GPIO_Init
+GPIO_SetBits
+delayMicroseconds
+GPIO_ReadInputDataBit
+GPIO_ResetBits
+GPIO_PinAFConfig
+I2C_DeInit
+I2C_StructInit
+I2C_Init
+I2C_Cmd
+NVIC_Init

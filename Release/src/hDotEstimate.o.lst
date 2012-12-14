@@ -1,0 +1,110 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"hDotEstimate.c"
+  16              		.comm	accelZ,4,4
+  17              		.global	estimationError
+  18              		.bss
+  19              		.align	2
+  22              	estimationError:
+  23 0000 00000000 		.space	4
+  24              		.global	hDotEstimate
+  25              		.align	2
+  28              	hDotEstimate:
+  29 0004 00000000 		.space	4
+  30              		.comm	hEstimate,4,4
+  31              		.text
+  32              		.align	2
+  33              		.global	hDotEst
+  34              		.thumb
+  35              		.thumb_func
+  37              	hDotEst:
+  38              		@ args = 0, pretend = 0, frame = 8
+  39              		@ frame_needed = 0, uses_anonymous_args = 0
+  40              		@ link register save eliminated.
+  41 0000 82B0     		sub	sp, sp, #8
+  42 0002 0190     		str	r0, [sp, #4]	@ float
+  43 0004 40F20003 		movw	r3, #:lower16:eepromConfig
+  44 0008 C0F20003 		movt	r3, #:upper16:eepromConfig
+  45 000c 93ED907A 		flds	s14, [r3, #576]
+  46 0010 40F20003 		movw	r3, #:lower16:estimationError
+  47 0014 C0F20003 		movt	r3, #:upper16:estimationError
+  48 0018 D3ED007A 		flds	s15, [r3, #0]
+  49 001c 67EE277A 		fmuls	s15, s14, s15
+  50 0020 40F20003 		movw	r3, #:lower16:earthAxisAccels
+  51 0024 C0F20003 		movt	r3, #:upper16:earthAxisAccels
+  52 0028 93ED027A 		flds	s14, [r3, #8]
+  53 002c 77EEC77A 		fsubs	s15, s15, s14
+  54 0030 40F20003 		movw	r3, #:lower16:accelZ
+  55 0034 C0F20003 		movt	r3, #:upper16:accelZ
+  56 0038 C3ED007A 		fsts	s15, [r3, #0]
+  57 003c 40F20003 		movw	r3, #:lower16:accelZ
+  58 0040 C0F20003 		movt	r3, #:upper16:accelZ
+  59 0044 93ED007A 		flds	s14, [r3, #0]
+  60 0048 DDED017A 		flds	s15, [sp, #4]
+  61 004c 67EE277A 		fmuls	s15, s14, s15
+  62 0050 40F20003 		movw	r3, #:lower16:hDotEstimate
+  63 0054 C0F20003 		movt	r3, #:upper16:hDotEstimate
+  64 0058 93ED007A 		flds	s14, [r3, #0]
+  65 005c 77EE877A 		fadds	s15, s15, s14
+  66 0060 40F20003 		movw	r3, #:lower16:hDotEstimate
+  67 0064 C0F20003 		movt	r3, #:upper16:hDotEstimate
+  68 0068 C3ED007A 		fsts	s15, [r3, #0]
+  69 006c 40F20003 		movw	r3, #:lower16:eepromConfig
+  70 0070 C0F20003 		movt	r3, #:upper16:eepromConfig
+  71 0074 93ED8F7A 		flds	s14, [r3, #572]
+  72 0078 40F20003 		movw	r3, #:lower16:estimationError
+  73 007c C0F20003 		movt	r3, #:upper16:estimationError
+  74 0080 D3ED007A 		flds	s15, [r3, #0]
+  75 0084 67EE277A 		fmuls	s15, s14, s15
+  76 0088 40F20003 		movw	r3, #:lower16:hDotEstimate
+  77 008c C0F20003 		movt	r3, #:upper16:hDotEstimate
+  78 0090 93ED007A 		flds	s14, [r3, #0]
+  79 0094 37EE877A 		fadds	s14, s15, s14
+  80 0098 DDED017A 		flds	s15, [sp, #4]
+  81 009c 67EE277A 		fmuls	s15, s14, s15
+  82 00a0 40F20003 		movw	r3, #:lower16:hEstimate
+  83 00a4 C0F20003 		movt	r3, #:upper16:hEstimate
+  84 00a8 93ED007A 		flds	s14, [r3, #0]
+  85 00ac 77EE877A 		fadds	s15, s15, s14
+  86 00b0 40F20003 		movw	r3, #:lower16:hEstimate
+  87 00b4 C0F20003 		movt	r3, #:upper16:hEstimate
+  88 00b8 C3ED007A 		fsts	s15, [r3, #0]
+  89 00bc 40F20003 		movw	r3, #:lower16:sensors
+  90 00c0 C0F20003 		movt	r3, #:upper16:sensors
+  91 00c4 93ED0F7A 		flds	s14, [r3, #60]
+  92 00c8 40F20003 		movw	r3, #:lower16:hEstimate
+  93 00cc C0F20003 		movt	r3, #:upper16:hEstimate
+  94 00d0 D3ED007A 		flds	s15, [r3, #0]
+  95 00d4 77EE677A 		fsubs	s15, s14, s15
+  96 00d8 40F20003 		movw	r3, #:lower16:estimationError
+  97 00dc C0F20003 		movt	r3, #:upper16:estimationError
+  98 00e0 C3ED007A 		fsts	s15, [r3, #0]
+  99 00e4 02B0     		add	sp, sp, #8
+ 100 00e6 7047     		bx	lr
+ 102              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 hDotEstimate.c
+                            *COM*:00000004 accelZ
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2aSApW.s:22     .bss:00000000 estimationError
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2aSApW.s:19     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2aSApW.s:28     .bss:00000004 hDotEstimate
+                            *COM*:00000004 hEstimate
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2aSApW.s:32     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2aSApW.s:37     .text:00000000 hDotEst
+
+UNDEFINED SYMBOLS
+eepromConfig
+earthAxisAccels
+sensors

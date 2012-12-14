@@ -1,0 +1,340 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_pwr.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	PWR_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	PWR_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 4FF08050 		mov	r0, #268435456
+  27 0006 4FF00101 		mov	r1, #1
+  28 000a FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  29 000e 4FF08050 		mov	r0, #268435456
+  30 0012 4FF00001 		mov	r1, #0
+  31 0016 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  32 001a 08BD     		pop	{r3, pc}
+  34              		.align	2
+  35              		.global	PWR_BackupAccessCmd
+  36              		.thumb
+  37              		.thumb_func
+  39              	PWR_BackupAccessCmd:
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 001c 82B0     		sub	sp, sp, #8
+  44 001e 0346     		mov	r3, r0
+  45 0020 8DF80730 		strb	r3, [sp, #7]
+  46 0024 4FF02003 		mov	r3, #32
+  47 0028 C4F20E23 		movt	r3, 16910
+  48 002c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+  49 0030 1A60     		str	r2, [r3, #0]
+  50 0032 02B0     		add	sp, sp, #8
+  51 0034 7047     		bx	lr
+  53 0036 00BF     		.align	2
+  54              		.global	PWR_PVDLevelConfig
+  55              		.thumb
+  56              		.thumb_func
+  58              	PWR_PVDLevelConfig:
+  59              		@ args = 0, pretend = 0, frame = 16
+  60              		@ frame_needed = 0, uses_anonymous_args = 0
+  61              		@ link register save eliminated.
+  62 0038 84B0     		sub	sp, sp, #16
+  63 003a 0190     		str	r0, [sp, #4]
+  64 003c 4FF00003 		mov	r3, #0
+  65 0040 0393     		str	r3, [sp, #12]
+  66 0042 4FF4E043 		mov	r3, #28672
+  67 0046 C4F20003 		movt	r3, 16384
+  68 004a 1B68     		ldr	r3, [r3, #0]
+  69 004c 0393     		str	r3, [sp, #12]
+  70 004e 039B     		ldr	r3, [sp, #12]
+  71 0050 23F0E003 		bic	r3, r3, #224
+  72 0054 0393     		str	r3, [sp, #12]
+  73 0056 039A     		ldr	r2, [sp, #12]
+  74 0058 019B     		ldr	r3, [sp, #4]
+  75 005a 1343     		orrs	r3, r3, r2
+  76 005c 0393     		str	r3, [sp, #12]
+  77 005e 4FF4E043 		mov	r3, #28672
+  78 0062 C4F20003 		movt	r3, 16384
+  79 0066 039A     		ldr	r2, [sp, #12]
+  80 0068 1A60     		str	r2, [r3, #0]
+  81 006a 04B0     		add	sp, sp, #16
+  82 006c 7047     		bx	lr
+  84 006e 00BF     		.align	2
+  85              		.global	PWR_PVDCmd
+  86              		.thumb
+  87              		.thumb_func
+  89              	PWR_PVDCmd:
+  90              		@ args = 0, pretend = 0, frame = 8
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              		@ link register save eliminated.
+  93 0070 82B0     		sub	sp, sp, #8
+  94 0072 0346     		mov	r3, r0
+  95 0074 8DF80730 		strb	r3, [sp, #7]
+  96 0078 4FF01003 		mov	r3, #16
+  97 007c C4F20E23 		movt	r3, 16910
+  98 0080 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+  99 0084 1A60     		str	r2, [r3, #0]
+ 100 0086 02B0     		add	sp, sp, #8
+ 101 0088 7047     		bx	lr
+ 103 008a 00BF     		.align	2
+ 104              		.global	PWR_WakeUpPinCmd
+ 105              		.thumb
+ 106              		.thumb_func
+ 108              	PWR_WakeUpPinCmd:
+ 109              		@ args = 0, pretend = 0, frame = 8
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111              		@ link register save eliminated.
+ 112 008c 82B0     		sub	sp, sp, #8
+ 113 008e 0346     		mov	r3, r0
+ 114 0090 8DF80730 		strb	r3, [sp, #7]
+ 115 0094 4FF0A003 		mov	r3, #160
+ 116 0098 C4F20E23 		movt	r3, 16910
+ 117 009c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 118 00a0 1A60     		str	r2, [r3, #0]
+ 119 00a2 02B0     		add	sp, sp, #8
+ 120 00a4 7047     		bx	lr
+ 122 00a6 00BF     		.align	2
+ 123              		.global	PWR_BackupRegulatorCmd
+ 124              		.thumb
+ 125              		.thumb_func
+ 127              	PWR_BackupRegulatorCmd:
+ 128              		@ args = 0, pretend = 0, frame = 8
+ 129              		@ frame_needed = 0, uses_anonymous_args = 0
+ 130              		@ link register save eliminated.
+ 131 00a8 82B0     		sub	sp, sp, #8
+ 132 00aa 0346     		mov	r3, r0
+ 133 00ac 8DF80730 		strb	r3, [sp, #7]
+ 134 00b0 4FF0A403 		mov	r3, #164
+ 135 00b4 C4F20E23 		movt	r3, 16910
+ 136 00b8 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 137 00bc 1A60     		str	r2, [r3, #0]
+ 138 00be 02B0     		add	sp, sp, #8
+ 139 00c0 7047     		bx	lr
+ 141 00c2 00BF     		.align	2
+ 142              		.global	PWR_MainRegulatorModeConfig
+ 143              		.thumb
+ 144              		.thumb_func
+ 146              	PWR_MainRegulatorModeConfig:
+ 147              		@ args = 0, pretend = 0, frame = 8
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149              		@ link register save eliminated.
+ 150 00c4 82B0     		sub	sp, sp, #8
+ 151 00c6 0190     		str	r0, [sp, #4]
+ 152 00c8 019B     		ldr	r3, [sp, #4]
+ 153 00ca 002B     		cmp	r3, #0
+ 154 00cc 0CD1     		bne	.L8
+ 155 00ce 4FF4E043 		mov	r3, #28672
+ 156 00d2 C4F20003 		movt	r3, 16384
+ 157 00d6 4FF4E042 		mov	r2, #28672
+ 158 00da C4F20002 		movt	r2, 16384
+ 159 00de 1268     		ldr	r2, [r2, #0]
+ 160 00e0 22F48042 		bic	r2, r2, #16384
+ 161 00e4 1A60     		str	r2, [r3, #0]
+ 162 00e6 0BE0     		b	.L7
+ 163              	.L8:
+ 164 00e8 4FF4E043 		mov	r3, #28672
+ 165 00ec C4F20003 		movt	r3, 16384
+ 166 00f0 4FF4E042 		mov	r2, #28672
+ 167 00f4 C4F20002 		movt	r2, 16384
+ 168 00f8 1268     		ldr	r2, [r2, #0]
+ 169 00fa 42F48042 		orr	r2, r2, #16384
+ 170 00fe 1A60     		str	r2, [r3, #0]
+ 171              	.L7:
+ 172 0100 02B0     		add	sp, sp, #8
+ 173 0102 7047     		bx	lr
+ 175              		.align	2
+ 176              		.global	PWR_FlashPowerDownCmd
+ 177              		.thumb
+ 178              		.thumb_func
+ 180              	PWR_FlashPowerDownCmd:
+ 181              		@ args = 0, pretend = 0, frame = 8
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183              		@ link register save eliminated.
+ 184 0104 82B0     		sub	sp, sp, #8
+ 185 0106 0346     		mov	r3, r0
+ 186 0108 8DF80730 		strb	r3, [sp, #7]
+ 187 010c 4FF02403 		mov	r3, #36
+ 188 0110 C4F20E23 		movt	r3, 16910
+ 189 0114 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 190 0118 1A60     		str	r2, [r3, #0]
+ 191 011a 02B0     		add	sp, sp, #8
+ 192 011c 7047     		bx	lr
+ 194 011e 00BF     		.align	2
+ 195              		.global	PWR_EnterSTOPMode
+ 196              		.thumb
+ 197              		.thumb_func
+ 199              	PWR_EnterSTOPMode:
+ 200              		@ args = 0, pretend = 0, frame = 16
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              		@ link register save eliminated.
+ 203 0120 84B0     		sub	sp, sp, #16
+ 204 0122 0190     		str	r0, [sp, #4]
+ 205 0124 0B46     		mov	r3, r1
+ 206 0126 8DF80330 		strb	r3, [sp, #3]
+ 207 012a 4FF00003 		mov	r3, #0
+ 208 012e 0393     		str	r3, [sp, #12]
+ 209 0130 4FF4E043 		mov	r3, #28672
+ 210 0134 C4F20003 		movt	r3, 16384
+ 211 0138 1B68     		ldr	r3, [r3, #0]
+ 212 013a 0393     		str	r3, [sp, #12]
+ 213 013c 039B     		ldr	r3, [sp, #12]
+ 214 013e 23F00303 		bic	r3, r3, #3
+ 215 0142 0393     		str	r3, [sp, #12]
+ 216 0144 039A     		ldr	r2, [sp, #12]
+ 217 0146 019B     		ldr	r3, [sp, #4]
+ 218 0148 1343     		orrs	r3, r3, r2
+ 219 014a 0393     		str	r3, [sp, #12]
+ 220 014c 4FF4E043 		mov	r3, #28672
+ 221 0150 C4F20003 		movt	r3, 16384
+ 222 0154 039A     		ldr	r2, [sp, #12]
+ 223 0156 1A60     		str	r2, [r3, #0]
+ 224 0158 4FF46D43 		mov	r3, #60672
+ 225 015c CEF20003 		movt	r3, 57344
+ 226 0160 4FF46D42 		mov	r2, #60672
+ 227 0164 CEF20002 		movt	r2, 57344
+ 228 0168 1269     		ldr	r2, [r2, #16]
+ 229 016a 42F00402 		orr	r2, r2, #4
+ 230 016e 1A61     		str	r2, [r3, #16]
+ 231 0170 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 232 0174 012B     		cmp	r3, #1
+ 233 0176 01D1     		bne	.L12
+ 234              	@ 282 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 235 0178 30BF     		wfi
+ 236              	@ 0 "" 2
+ 237              		.thumb
+ 238 017a 00E0     		b	.L13
+ 239              	.L12:
+ 240              	@ 293 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 241 017c 20BF     		wfe
+ 242              	@ 0 "" 2
+ 243              		.thumb
+ 244              	.L13:
+ 245 017e 4FF46D43 		mov	r3, #60672
+ 246 0182 CEF20003 		movt	r3, 57344
+ 247 0186 4FF46D42 		mov	r2, #60672
+ 248 018a CEF20002 		movt	r2, 57344
+ 249 018e 1269     		ldr	r2, [r2, #16]
+ 250 0190 22F00402 		bic	r2, r2, #4
+ 251 0194 1A61     		str	r2, [r3, #16]
+ 252 0196 04B0     		add	sp, sp, #16
+ 253 0198 7047     		bx	lr
+ 255 019a 00BF     		.align	2
+ 256              		.global	PWR_EnterSTANDBYMode
+ 257              		.thumb
+ 258              		.thumb_func
+ 260              	PWR_EnterSTANDBYMode:
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		@ link register save eliminated.
+ 264 019c 4FF4E043 		mov	r3, #28672
+ 265 01a0 C4F20003 		movt	r3, 16384
+ 266 01a4 4FF4E042 		mov	r2, #28672
+ 267 01a8 C4F20002 		movt	r2, 16384
+ 268 01ac 1268     		ldr	r2, [r2, #0]
+ 269 01ae 42F00402 		orr	r2, r2, #4
+ 270 01b2 1A60     		str	r2, [r3, #0]
+ 271 01b4 4FF4E043 		mov	r3, #28672
+ 272 01b8 C4F20003 		movt	r3, 16384
+ 273 01bc 4FF4E042 		mov	r2, #28672
+ 274 01c0 C4F20002 		movt	r2, 16384
+ 275 01c4 1268     		ldr	r2, [r2, #0]
+ 276 01c6 42F00202 		orr	r2, r2, #2
+ 277 01ca 1A60     		str	r2, [r3, #0]
+ 278 01cc 4FF46D43 		mov	r3, #60672
+ 279 01d0 CEF20003 		movt	r3, 57344
+ 280 01d4 4FF46D42 		mov	r2, #60672
+ 281 01d8 CEF20002 		movt	r2, 57344
+ 282 01dc 1269     		ldr	r2, [r2, #16]
+ 283 01de 42F00402 		orr	r2, r2, #4
+ 284 01e2 1A61     		str	r2, [r3, #16]
+ 285              	@ 282 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmInstr.h"
+ 286 01e4 30BF     		wfi
+ 287              	@ 0 "" 2
+ 288              		.thumb
+ 289 01e6 7047     		bx	lr
+ 291              		.align	2
+ 292              		.global	PWR_GetFlagStatus
+ 293              		.thumb
+ 294              		.thumb_func
+ 296              	PWR_GetFlagStatus:
+ 297              		@ args = 0, pretend = 0, frame = 16
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299              		@ link register save eliminated.
+ 300 01e8 84B0     		sub	sp, sp, #16
+ 301 01ea 0190     		str	r0, [sp, #4]
+ 302 01ec 4FF00003 		mov	r3, #0
+ 303 01f0 8DF80F30 		strb	r3, [sp, #15]
+ 304 01f4 4FF4E043 		mov	r3, #28672
+ 305 01f8 C4F20003 		movt	r3, 16384
+ 306 01fc 5A68     		ldr	r2, [r3, #4]
+ 307 01fe 019B     		ldr	r3, [sp, #4]
+ 308 0200 1340     		ands	r3, r3, r2
+ 309 0202 002B     		cmp	r3, #0
+ 310 0204 04D0     		beq	.L16
+ 311 0206 4FF00103 		mov	r3, #1
+ 312 020a 8DF80F30 		strb	r3, [sp, #15]
+ 313 020e 03E0     		b	.L17
+ 314              	.L16:
+ 315 0210 4FF00003 		mov	r3, #0
+ 316 0214 8DF80F30 		strb	r3, [sp, #15]
+ 317              	.L17:
+ 318 0218 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 319 021c 1846     		mov	r0, r3
+ 320 021e 04B0     		add	sp, sp, #16
+ 321 0220 7047     		bx	lr
+ 323 0222 00BF     		.align	2
+ 324              		.global	PWR_ClearFlag
+ 325              		.thumb
+ 326              		.thumb_func
+ 328              	PWR_ClearFlag:
+ 329              		@ args = 0, pretend = 0, frame = 8
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
+ 332 0224 82B0     		sub	sp, sp, #8
+ 333 0226 0190     		str	r0, [sp, #4]
+ 334 0228 4FF4E043 		mov	r3, #28672
+ 335 022c C4F20003 		movt	r3, 16384
+ 336 0230 4FF4E042 		mov	r2, #28672
+ 337 0234 C4F20002 		movt	r2, 16384
+ 338 0238 1168     		ldr	r1, [r2, #0]
+ 339 023a 019A     		ldr	r2, [sp, #4]
+ 340 023c 4FEA8202 		lsl	r2, r2, #2
+ 341 0240 0A43     		orrs	r2, r2, r1
+ 342 0242 1A60     		str	r2, [r3, #0]
+ 343 0244 02B0     		add	sp, sp, #8
+ 344 0246 7047     		bx	lr
+ 346              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_pwr.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:22     .text:00000000 PWR_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:39     .text:0000001c PWR_BackupAccessCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:58     .text:00000038 PWR_PVDLevelConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:89     .text:00000070 PWR_PVDCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:108    .text:0000008c PWR_WakeUpPinCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:127    .text:000000a8 PWR_BackupRegulatorCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:146    .text:000000c4 PWR_MainRegulatorModeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:180    .text:00000104 PWR_FlashPowerDownCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:199    .text:00000120 PWR_EnterSTOPMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:260    .text:0000019c PWR_EnterSTANDBYMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:296    .text:000001e8 PWR_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc3UmnPX.s:328    .text:00000224 PWR_ClearFlag
+
+UNDEFINED SYMBOLS
+RCC_APB1PeriphResetCmd

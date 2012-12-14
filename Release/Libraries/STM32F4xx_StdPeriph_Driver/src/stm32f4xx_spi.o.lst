@@ -1,0 +1,1120 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_spi.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	SPI_I2S_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	SPI_I2S_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 8
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 00B5     		push	{lr}
+  26 0002 83B0     		sub	sp, sp, #12
+  27 0004 0190     		str	r0, [sp, #4]
+  28 0006 019A     		ldr	r2, [sp, #4]
+  29 0008 4FF44053 		mov	r3, #12288
+  30 000c C4F20103 		movt	r3, 16385
+  31 0010 9A42     		cmp	r2, r3
+  32 0012 0CD1     		bne	.L2
+  33 0014 4FF48050 		mov	r0, #4096
+  34 0018 4FF00101 		mov	r1, #1
+  35 001c FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  36 0020 4FF48050 		mov	r0, #4096
+  37 0024 4FF00001 		mov	r1, #0
+  38 0028 FFF7FEFF 		bl	RCC_APB2PeriphResetCmd
+  39 002c 26E0     		b	.L1
+  40              	.L2:
+  41 002e 019A     		ldr	r2, [sp, #4]
+  42 0030 4FF46053 		mov	r3, #14336
+  43 0034 C4F20003 		movt	r3, 16384
+  44 0038 9A42     		cmp	r2, r3
+  45 003a 0CD1     		bne	.L4
+  46 003c 4FF48040 		mov	r0, #16384
+  47 0040 4FF00101 		mov	r1, #1
+  48 0044 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  49 0048 4FF48040 		mov	r0, #16384
+  50 004c 4FF00001 		mov	r1, #0
+  51 0050 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  52 0054 12E0     		b	.L1
+  53              	.L4:
+  54 0056 019A     		ldr	r2, [sp, #4]
+  55 0058 4FF47053 		mov	r3, #15360
+  56 005c C4F20003 		movt	r3, 16384
+  57 0060 9A42     		cmp	r2, r3
+  58 0062 0BD1     		bne	.L1
+  59 0064 4FF40040 		mov	r0, #32768
+  60 0068 4FF00101 		mov	r1, #1
+  61 006c FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  62 0070 4FF40040 		mov	r0, #32768
+  63 0074 4FF00001 		mov	r1, #0
+  64 0078 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  65              	.L1:
+  66 007c 03B0     		add	sp, sp, #12
+  67 007e 00BD     		pop	{pc}
+  69              		.align	2
+  70              		.global	SPI_Init
+  71              		.thumb
+  72              		.thumb_func
+  74              	SPI_Init:
+  75              		@ args = 0, pretend = 0, frame = 16
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		@ link register save eliminated.
+  78 0080 84B0     		sub	sp, sp, #16
+  79 0082 0190     		str	r0, [sp, #4]
+  80 0084 0091     		str	r1, [sp, #0]
+  81 0086 4FF00003 		mov	r3, #0
+  82 008a ADF80E30 		strh	r3, [sp, #14]	@ movhi
+  83 008e 019B     		ldr	r3, [sp, #4]
+  84 0090 1B88     		ldrh	r3, [r3, #0]	@ movhi
+  85 0092 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+  86 0096 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+  87 009a 03F44153 		and	r3, r3, #12352
+  88 009e ADF80E30 		strh	r3, [sp, #14]	@ movhi
+  89 00a2 009B     		ldr	r3, [sp, #0]
+  90 00a4 1A88     		ldrh	r2, [r3, #0]
+  91 00a6 009B     		ldr	r3, [sp, #0]
+  92 00a8 5B88     		ldrh	r3, [r3, #2]
+  93 00aa 1343     		orrs	r3, r3, r2
+  94 00ac 9AB2     		uxth	r2, r3
+  95 00ae 009B     		ldr	r3, [sp, #0]
+  96 00b0 9B88     		ldrh	r3, [r3, #4]
+  97 00b2 1343     		orrs	r3, r3, r2
+  98 00b4 9AB2     		uxth	r2, r3
+  99 00b6 009B     		ldr	r3, [sp, #0]
+ 100 00b8 DB88     		ldrh	r3, [r3, #6]
+ 101 00ba 1343     		orrs	r3, r3, r2
+ 102 00bc 9AB2     		uxth	r2, r3
+ 103 00be 009B     		ldr	r3, [sp, #0]
+ 104 00c0 1B89     		ldrh	r3, [r3, #8]
+ 105 00c2 1343     		orrs	r3, r3, r2
+ 106 00c4 9AB2     		uxth	r2, r3
+ 107 00c6 009B     		ldr	r3, [sp, #0]
+ 108 00c8 5B89     		ldrh	r3, [r3, #10]
+ 109 00ca 1343     		orrs	r3, r3, r2
+ 110 00cc 9AB2     		uxth	r2, r3
+ 111 00ce 009B     		ldr	r3, [sp, #0]
+ 112 00d0 9B89     		ldrh	r3, [r3, #12]
+ 113 00d2 1343     		orrs	r3, r3, r2
+ 114 00d4 9AB2     		uxth	r2, r3
+ 115 00d6 009B     		ldr	r3, [sp, #0]
+ 116 00d8 DB89     		ldrh	r3, [r3, #14]
+ 117 00da 1343     		orrs	r3, r3, r2
+ 118 00dc 9AB2     		uxth	r2, r3
+ 119 00de BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 120 00e2 1343     		orrs	r3, r3, r2
+ 121 00e4 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 122 00e8 019B     		ldr	r3, [sp, #4]
+ 123 00ea BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
+ 124 00ee 1A80     		strh	r2, [r3, #0]	@ movhi
+ 125 00f0 019B     		ldr	r3, [sp, #4]
+ 126 00f2 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 127 00f4 9BB2     		uxth	r3, r3
+ 128 00f6 23F40063 		bic	r3, r3, #2048
+ 129 00fa 9AB2     		uxth	r2, r3
+ 130 00fc 019B     		ldr	r3, [sp, #4]
+ 131 00fe 9A83     		strh	r2, [r3, #28]	@ movhi
+ 132 0100 009B     		ldr	r3, [sp, #0]
+ 133 0102 1A8A     		ldrh	r2, [r3, #16]
+ 134 0104 019B     		ldr	r3, [sp, #4]
+ 135 0106 1A82     		strh	r2, [r3, #16]	@ movhi
+ 136 0108 04B0     		add	sp, sp, #16
+ 137 010a 7047     		bx	lr
+ 139              		.align	2
+ 140              		.global	I2S_Init
+ 141              		.thumb
+ 142              		.thumb_func
+ 144              	I2S_Init:
+ 145              		@ args = 0, pretend = 0, frame = 40
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              		@ link register save eliminated.
+ 148 010c 8AB0     		sub	sp, sp, #40
+ 149 010e 0190     		str	r0, [sp, #4]
+ 150 0110 0091     		str	r1, [sp, #0]
+ 151 0112 4FF00003 		mov	r3, #0
+ 152 0116 ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 153 011a 4FF00203 		mov	r3, #2
+ 154 011e ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 155 0122 4FF00003 		mov	r3, #0
+ 156 0126 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 157 012a 4FF00103 		mov	r3, #1
+ 158 012e ADF82230 		strh	r3, [sp, #34]	@ movhi
+ 159 0132 4FF00003 		mov	r3, #0
+ 160 0136 0793     		str	r3, [sp, #28]
+ 161 0138 4FF00003 		mov	r3, #0
+ 162 013c 0593     		str	r3, [sp, #20]
+ 163 013e 4FF00003 		mov	r3, #0
+ 164 0142 0493     		str	r3, [sp, #16]
+ 165 0144 4FF00003 		mov	r3, #0
+ 166 0148 0393     		str	r3, [sp, #12]
+ 167 014a 4FF00003 		mov	r3, #0
+ 168 014e 0293     		str	r3, [sp, #8]
+ 169 0150 019B     		ldr	r3, [sp, #4]
+ 170 0152 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 171 0154 9BB2     		uxth	r3, r3
+ 172 0156 23F47A63 		bic	r3, r3, #4000
+ 173 015a 23F01F03 		bic	r3, r3, #31
+ 174 015e 9AB2     		uxth	r2, r3
+ 175 0160 019B     		ldr	r3, [sp, #4]
+ 176 0162 9A83     		strh	r2, [r3, #28]	@ movhi
+ 177 0164 019B     		ldr	r3, [sp, #4]
+ 178 0166 4FF00202 		mov	r2, #2
+ 179 016a 1A84     		strh	r2, [r3, #32]	@ movhi
+ 180 016c 019B     		ldr	r3, [sp, #4]
+ 181 016e 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 182 0170 ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 183 0174 009B     		ldr	r3, [sp, #0]
+ 184 0176 9B68     		ldr	r3, [r3, #8]
+ 185 0178 022B     		cmp	r3, #2
+ 186 017a 08D1     		bne	.L7
+ 187 017c 4FF00003 		mov	r3, #0
+ 188 0180 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 189 0184 4FF00203 		mov	r3, #2
+ 190 0188 ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 191 018c A2E0     		b	.L8
+ 192              	.L7:
+ 193 018e 009B     		ldr	r3, [sp, #0]
+ 194 0190 9B88     		ldrh	r3, [r3, #4]
+ 195 0192 002B     		cmp	r3, #0
+ 196 0194 04D1     		bne	.L9
+ 197 0196 4FF00103 		mov	r3, #1
+ 198 019a ADF82230 		strh	r3, [sp, #34]	@ movhi
+ 199 019e 03E0     		b	.L10
+ 200              	.L9:
+ 201 01a0 4FF00203 		mov	r3, #2
+ 202 01a4 ADF82230 		strh	r3, [sp, #34]	@ movhi
+ 203              	.L10:
+ 204 01a8 4FF46053 		mov	r3, #14336
+ 205 01ac C4F20203 		movt	r3, 16386
+ 206 01b0 9B68     		ldr	r3, [r3, #8]
+ 207 01b2 03F40003 		and	r3, r3, #8388608
+ 208 01b6 002B     		cmp	r3, #0
+ 209 01b8 0BD0     		beq	.L11
+ 210 01ba 4FF46053 		mov	r3, #14336
+ 211 01be C4F20203 		movt	r3, 16386
+ 212 01c2 4FF46052 		mov	r2, #14336
+ 213 01c6 C4F20202 		movt	r2, 16386
+ 214 01ca 9268     		ldr	r2, [r2, #8]
+ 215 01cc 22F40002 		bic	r2, r2, #8388608
+ 216 01d0 9A60     		str	r2, [r3, #8]
+ 217              	.L11:
+ 218 01d2 4FF46053 		mov	r3, #14336
+ 219 01d6 C4F20203 		movt	r3, 16386
+ 220 01da D3F88420 		ldr	r2, [r3, #132]
+ 221 01de 47F6C073 		movw	r3, #32704
+ 222 01e2 1340     		ands	r3, r3, r2
+ 223 01e4 4FEA9313 		lsr	r3, r3, #6
+ 224 01e8 4FEAC353 		lsl	r3, r3, #23
+ 225 01ec 4FEAD353 		lsr	r3, r3, #23
+ 226 01f0 0393     		str	r3, [sp, #12]
+ 227 01f2 4FF46053 		mov	r3, #14336
+ 228 01f6 C4F20203 		movt	r3, 16386
+ 229 01fa D3F88430 		ldr	r3, [r3, #132]
+ 230 01fe 03F0E043 		and	r3, r3, #1879048192
+ 231 0202 4FEA1373 		lsr	r3, r3, #28
+ 232 0206 03F00703 		and	r3, r3, #7
+ 233 020a 0293     		str	r3, [sp, #8]
+ 234 020c 4FF46053 		mov	r3, #14336
+ 235 0210 C4F20203 		movt	r3, 16386
+ 236 0214 5B68     		ldr	r3, [r3, #4]
+ 237 0216 03F03F03 		and	r3, r3, #63
+ 238 021a 0493     		str	r3, [sp, #16]
+ 239 021c 4FF49053 		mov	r3, #4608
+ 240 0220 C0F27A03 		movt	r3, 122
+ 241 0224 049A     		ldr	r2, [sp, #16]
+ 242 0226 B3FBF2F3 		udiv	r3, r3, r2
+ 243 022a 039A     		ldr	r2, [sp, #12]
+ 244 022c 02FB03F2 		mul	r2, r2, r3
+ 245 0230 029B     		ldr	r3, [sp, #8]
+ 246 0232 B2FBF3F3 		udiv	r3, r2, r3
+ 247 0236 0593     		str	r3, [sp, #20]
+ 248 0238 009B     		ldr	r3, [sp, #0]
+ 249 023a DB88     		ldrh	r3, [r3, #6]
+ 250 023c B3F5007F 		cmp	r3, #512
+ 251 0240 13D1     		bne	.L12
+ 252 0242 059B     		ldr	r3, [sp, #20]
+ 253 0244 4FEA1322 		lsr	r2, r3, #8
+ 254 0248 1346     		mov	r3, r2
+ 255 024a 4FEA8303 		lsl	r3, r3, #2
+ 256 024e 9B18     		adds	r3, r3, r2
+ 257 0250 4FEA4303 		lsl	r3, r3, #1
+ 258 0254 1A46     		mov	r2, r3
+ 259 0256 009B     		ldr	r3, [sp, #0]
+ 260 0258 9B68     		ldr	r3, [r3, #8]
+ 261 025a B2FBF3F3 		udiv	r3, r2, r3
+ 262 025e 9BB2     		uxth	r3, r3
+ 263 0260 03F10503 		add	r3, r3, #5
+ 264 0264 9BB2     		uxth	r3, r3
+ 265 0266 0793     		str	r3, [sp, #28]
+ 266 0268 16E0     		b	.L13
+ 267              	.L12:
+ 268 026a BDF82230 		ldrh	r3, [sp, #34]
+ 269 026e 4FEA4313 		lsl	r3, r3, #5
+ 270 0272 059A     		ldr	r2, [sp, #20]
+ 271 0274 B2FBF3F2 		udiv	r2, r2, r3
+ 272 0278 1346     		mov	r3, r2
+ 273 027a 4FEA8303 		lsl	r3, r3, #2
+ 274 027e 9B18     		adds	r3, r3, r2
+ 275 0280 4FEA4303 		lsl	r3, r3, #1
+ 276 0284 1A46     		mov	r2, r3
+ 277 0286 009B     		ldr	r3, [sp, #0]
+ 278 0288 9B68     		ldr	r3, [r3, #8]
+ 279 028a B2FBF3F3 		udiv	r3, r2, r3
+ 280 028e 9BB2     		uxth	r3, r3
+ 281 0290 03F10503 		add	r3, r3, #5
+ 282 0294 9BB2     		uxth	r3, r3
+ 283 0296 0793     		str	r3, [sp, #28]
+ 284              	.L13:
+ 285 0298 079A     		ldr	r2, [sp, #28]
+ 286 029a 4CF6CD43 		movw	r3, #52429
+ 287 029e CCF6CC43 		movt	r3, 52428
+ 288 02a2 A3FB0213 		umull	r1, r3, r3, r2
+ 289 02a6 4FEAD303 		lsr	r3, r3, #3
+ 290 02aa 0793     		str	r3, [sp, #28]
+ 291 02ac 079B     		ldr	r3, [sp, #28]
+ 292 02ae 9BB2     		uxth	r3, r3
+ 293 02b0 03F00103 		and	r3, r3, #1
+ 294 02b4 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 295 02b8 BDF82430 		ldrh	r3, [sp, #36]
+ 296 02bc 079A     		ldr	r2, [sp, #28]
+ 297 02be D31A     		subs	r3, r2, r3
+ 298 02c0 4FEA5303 		lsr	r3, r3, #1
+ 299 02c4 ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 300 02c8 BDF82430 		ldrh	r3, [sp, #36]	@ movhi
+ 301 02cc 4FEA0323 		lsl	r3, r3, #8
+ 302 02d0 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 303              	.L8:
+ 304 02d4 BDF82630 		ldrh	r3, [sp, #38]
+ 305 02d8 012B     		cmp	r3, #1
+ 306 02da 03D9     		bls	.L14
+ 307 02dc BDF82630 		ldrh	r3, [sp, #38]
+ 308 02e0 FF2B     		cmp	r3, #255
+ 309 02e2 07D9     		bls	.L15
+ 310              	.L14:
+ 311 02e4 4FF00203 		mov	r3, #2
+ 312 02e8 ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 313 02ec 4FF00003 		mov	r3, #0
+ 314 02f0 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 315              	.L15:
+ 316 02f4 009B     		ldr	r3, [sp, #0]
+ 317 02f6 DA88     		ldrh	r2, [r3, #6]
+ 318 02f8 BDF82430 		ldrh	r3, [sp, #36]	@ movhi
+ 319 02fc 1343     		orrs	r3, r3, r2
+ 320 02fe 9AB2     		uxth	r2, r3
+ 321 0300 BDF82630 		ldrh	r3, [sp, #38]	@ movhi
+ 322 0304 1343     		orrs	r3, r3, r2
+ 323 0306 9AB2     		uxth	r2, r3
+ 324 0308 019B     		ldr	r3, [sp, #4]
+ 325 030a 1A84     		strh	r2, [r3, #32]	@ movhi
+ 326 030c 009B     		ldr	r3, [sp, #0]
+ 327 030e 1A88     		ldrh	r2, [r3, #0]
+ 328 0310 009B     		ldr	r3, [sp, #0]
+ 329 0312 5988     		ldrh	r1, [r3, #2]
+ 330 0314 009B     		ldr	r3, [sp, #0]
+ 331 0316 9888     		ldrh	r0, [r3, #4]
+ 332 0318 009B     		ldr	r3, [sp, #0]
+ 333 031a 9B89     		ldrh	r3, [r3, #12]
+ 334 031c 0343     		orrs	r3, r3, r0
+ 335 031e 9BB2     		uxth	r3, r3
+ 336 0320 0B43     		orrs	r3, r3, r1
+ 337 0322 9BB2     		uxth	r3, r3
+ 338 0324 1343     		orrs	r3, r3, r2
+ 339 0326 9AB2     		uxth	r2, r3
+ 340 0328 BDF81A30 		ldrh	r3, [sp, #26]	@ movhi
+ 341 032c 1343     		orrs	r3, r3, r2
+ 342 032e 9BB2     		uxth	r3, r3
+ 343 0330 43F40063 		orr	r3, r3, #2048
+ 344 0334 ADF81A30 		strh	r3, [sp, #26]	@ movhi
+ 345 0338 019B     		ldr	r3, [sp, #4]
+ 346 033a BDF81A20 		ldrh	r2, [sp, #26]	@ movhi
+ 347 033e 9A83     		strh	r2, [r3, #28]	@ movhi
+ 348 0340 0AB0     		add	sp, sp, #40
+ 349 0342 7047     		bx	lr
+ 351              		.align	2
+ 352              		.global	SPI_StructInit
+ 353              		.thumb
+ 354              		.thumb_func
+ 356              	SPI_StructInit:
+ 357              		@ args = 0, pretend = 0, frame = 8
+ 358              		@ frame_needed = 0, uses_anonymous_args = 0
+ 359              		@ link register save eliminated.
+ 360 0344 82B0     		sub	sp, sp, #8
+ 361 0346 0190     		str	r0, [sp, #4]
+ 362 0348 019B     		ldr	r3, [sp, #4]
+ 363 034a 4FF00002 		mov	r2, #0
+ 364 034e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 365 0350 019B     		ldr	r3, [sp, #4]
+ 366 0352 4FF00002 		mov	r2, #0
+ 367 0356 5A80     		strh	r2, [r3, #2]	@ movhi
+ 368 0358 019B     		ldr	r3, [sp, #4]
+ 369 035a 4FF00002 		mov	r2, #0
+ 370 035e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 371 0360 019B     		ldr	r3, [sp, #4]
+ 372 0362 4FF00002 		mov	r2, #0
+ 373 0366 DA80     		strh	r2, [r3, #6]	@ movhi
+ 374 0368 019B     		ldr	r3, [sp, #4]
+ 375 036a 4FF00002 		mov	r2, #0
+ 376 036e 1A81     		strh	r2, [r3, #8]	@ movhi
+ 377 0370 019B     		ldr	r3, [sp, #4]
+ 378 0372 4FF00002 		mov	r2, #0
+ 379 0376 5A81     		strh	r2, [r3, #10]	@ movhi
+ 380 0378 019B     		ldr	r3, [sp, #4]
+ 381 037a 4FF00002 		mov	r2, #0
+ 382 037e 9A81     		strh	r2, [r3, #12]	@ movhi
+ 383 0380 019B     		ldr	r3, [sp, #4]
+ 384 0382 4FF00002 		mov	r2, #0
+ 385 0386 DA81     		strh	r2, [r3, #14]	@ movhi
+ 386 0388 019B     		ldr	r3, [sp, #4]
+ 387 038a 4FF00702 		mov	r2, #7
+ 388 038e 1A82     		strh	r2, [r3, #16]	@ movhi
+ 389 0390 02B0     		add	sp, sp, #8
+ 390 0392 7047     		bx	lr
+ 392              		.align	2
+ 393              		.global	I2S_StructInit
+ 394              		.thumb
+ 395              		.thumb_func
+ 397              	I2S_StructInit:
+ 398              		@ args = 0, pretend = 0, frame = 8
+ 399              		@ frame_needed = 0, uses_anonymous_args = 0
+ 400              		@ link register save eliminated.
+ 401 0394 82B0     		sub	sp, sp, #8
+ 402 0396 0190     		str	r0, [sp, #4]
+ 403 0398 019B     		ldr	r3, [sp, #4]
+ 404 039a 4FF00002 		mov	r2, #0
+ 405 039e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 406 03a0 019B     		ldr	r3, [sp, #4]
+ 407 03a2 4FF00002 		mov	r2, #0
+ 408 03a6 5A80     		strh	r2, [r3, #2]	@ movhi
+ 409 03a8 019B     		ldr	r3, [sp, #4]
+ 410 03aa 4FF00002 		mov	r2, #0
+ 411 03ae 9A80     		strh	r2, [r3, #4]	@ movhi
+ 412 03b0 019B     		ldr	r3, [sp, #4]
+ 413 03b2 4FF00002 		mov	r2, #0
+ 414 03b6 DA80     		strh	r2, [r3, #6]	@ movhi
+ 415 03b8 019B     		ldr	r3, [sp, #4]
+ 416 03ba 4FF00202 		mov	r2, #2
+ 417 03be 9A60     		str	r2, [r3, #8]
+ 418 03c0 019B     		ldr	r3, [sp, #4]
+ 419 03c2 4FF00002 		mov	r2, #0
+ 420 03c6 9A81     		strh	r2, [r3, #12]	@ movhi
+ 421 03c8 02B0     		add	sp, sp, #8
+ 422 03ca 7047     		bx	lr
+ 424              		.align	2
+ 425              		.global	SPI_Cmd
+ 426              		.thumb
+ 427              		.thumb_func
+ 429              	SPI_Cmd:
+ 430              		@ args = 0, pretend = 0, frame = 8
+ 431              		@ frame_needed = 0, uses_anonymous_args = 0
+ 432              		@ link register save eliminated.
+ 433 03cc 82B0     		sub	sp, sp, #8
+ 434 03ce 0190     		str	r0, [sp, #4]
+ 435 03d0 0B46     		mov	r3, r1
+ 436 03d2 8DF80330 		strb	r3, [sp, #3]
+ 437 03d6 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 438 03da 002B     		cmp	r3, #0
+ 439 03dc 08D0     		beq	.L19
+ 440 03de 019B     		ldr	r3, [sp, #4]
+ 441 03e0 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 442 03e2 9BB2     		uxth	r3, r3
+ 443 03e4 43F04003 		orr	r3, r3, #64
+ 444 03e8 9AB2     		uxth	r2, r3
+ 445 03ea 019B     		ldr	r3, [sp, #4]
+ 446 03ec 1A80     		strh	r2, [r3, #0]	@ movhi
+ 447 03ee 07E0     		b	.L18
+ 448              	.L19:
+ 449 03f0 019B     		ldr	r3, [sp, #4]
+ 450 03f2 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 451 03f4 9BB2     		uxth	r3, r3
+ 452 03f6 23F04003 		bic	r3, r3, #64
+ 453 03fa 9AB2     		uxth	r2, r3
+ 454 03fc 019B     		ldr	r3, [sp, #4]
+ 455 03fe 1A80     		strh	r2, [r3, #0]	@ movhi
+ 456              	.L18:
+ 457 0400 02B0     		add	sp, sp, #8
+ 458 0402 7047     		bx	lr
+ 460              		.align	2
+ 461              		.global	I2S_Cmd
+ 462              		.thumb
+ 463              		.thumb_func
+ 465              	I2S_Cmd:
+ 466              		@ args = 0, pretend = 0, frame = 8
+ 467              		@ frame_needed = 0, uses_anonymous_args = 0
+ 468              		@ link register save eliminated.
+ 469 0404 82B0     		sub	sp, sp, #8
+ 470 0406 0190     		str	r0, [sp, #4]
+ 471 0408 0B46     		mov	r3, r1
+ 472 040a 8DF80330 		strb	r3, [sp, #3]
+ 473 040e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 474 0412 002B     		cmp	r3, #0
+ 475 0414 08D0     		beq	.L22
+ 476 0416 019B     		ldr	r3, [sp, #4]
+ 477 0418 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 478 041a 9BB2     		uxth	r3, r3
+ 479 041c 43F48063 		orr	r3, r3, #1024
+ 480 0420 9AB2     		uxth	r2, r3
+ 481 0422 019B     		ldr	r3, [sp, #4]
+ 482 0424 9A83     		strh	r2, [r3, #28]	@ movhi
+ 483 0426 07E0     		b	.L21
+ 484              	.L22:
+ 485 0428 019B     		ldr	r3, [sp, #4]
+ 486 042a 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 487 042c 9BB2     		uxth	r3, r3
+ 488 042e 23F48063 		bic	r3, r3, #1024
+ 489 0432 9AB2     		uxth	r2, r3
+ 490 0434 019B     		ldr	r3, [sp, #4]
+ 491 0436 9A83     		strh	r2, [r3, #28]	@ movhi
+ 492              	.L21:
+ 493 0438 02B0     		add	sp, sp, #8
+ 494 043a 7047     		bx	lr
+ 496              		.align	2
+ 497              		.global	SPI_DataSizeConfig
+ 498              		.thumb
+ 499              		.thumb_func
+ 501              	SPI_DataSizeConfig:
+ 502              		@ args = 0, pretend = 0, frame = 8
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+ 504              		@ link register save eliminated.
+ 505 043c 82B0     		sub	sp, sp, #8
+ 506 043e 0190     		str	r0, [sp, #4]
+ 507 0440 0B46     		mov	r3, r1
+ 508 0442 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 509 0446 019B     		ldr	r3, [sp, #4]
+ 510 0448 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 511 044a 9BB2     		uxth	r3, r3
+ 512 044c 23F40063 		bic	r3, r3, #2048
+ 513 0450 9AB2     		uxth	r2, r3
+ 514 0452 019B     		ldr	r3, [sp, #4]
+ 515 0454 1A80     		strh	r2, [r3, #0]	@ movhi
+ 516 0456 019B     		ldr	r3, [sp, #4]
+ 517 0458 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 518 045a 9AB2     		uxth	r2, r3
+ 519 045c BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 520 0460 1343     		orrs	r3, r3, r2
+ 521 0462 9AB2     		uxth	r2, r3
+ 522 0464 019B     		ldr	r3, [sp, #4]
+ 523 0466 1A80     		strh	r2, [r3, #0]	@ movhi
+ 524 0468 02B0     		add	sp, sp, #8
+ 525 046a 7047     		bx	lr
+ 527              		.align	2
+ 528              		.global	SPI_BiDirectionalLineConfig
+ 529              		.thumb
+ 530              		.thumb_func
+ 532              	SPI_BiDirectionalLineConfig:
+ 533              		@ args = 0, pretend = 0, frame = 8
+ 534              		@ frame_needed = 0, uses_anonymous_args = 0
+ 535              		@ link register save eliminated.
+ 536 046c 82B0     		sub	sp, sp, #8
+ 537 046e 0190     		str	r0, [sp, #4]
+ 538 0470 0B46     		mov	r3, r1
+ 539 0472 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 540 0476 BDF80230 		ldrh	r3, [sp, #2]
+ 541 047a B3F5804F 		cmp	r3, #16384
+ 542 047e 08D1     		bne	.L26
+ 543 0480 019B     		ldr	r3, [sp, #4]
+ 544 0482 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 545 0484 9BB2     		uxth	r3, r3
+ 546 0486 43F48043 		orr	r3, r3, #16384
+ 547 048a 9AB2     		uxth	r2, r3
+ 548 048c 019B     		ldr	r3, [sp, #4]
+ 549 048e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 550 0490 07E0     		b	.L25
+ 551              	.L26:
+ 552 0492 019B     		ldr	r3, [sp, #4]
+ 553 0494 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 554 0496 9BB2     		uxth	r3, r3
+ 555 0498 23F48043 		bic	r3, r3, #16384
+ 556 049c 9AB2     		uxth	r2, r3
+ 557 049e 019B     		ldr	r3, [sp, #4]
+ 558 04a0 1A80     		strh	r2, [r3, #0]	@ movhi
+ 559              	.L25:
+ 560 04a2 02B0     		add	sp, sp, #8
+ 561 04a4 7047     		bx	lr
+ 563 04a6 00BF     		.align	2
+ 564              		.global	SPI_NSSInternalSoftwareConfig
+ 565              		.thumb
+ 566              		.thumb_func
+ 568              	SPI_NSSInternalSoftwareConfig:
+ 569              		@ args = 0, pretend = 0, frame = 8
+ 570              		@ frame_needed = 0, uses_anonymous_args = 0
+ 571              		@ link register save eliminated.
+ 572 04a8 82B0     		sub	sp, sp, #8
+ 573 04aa 0190     		str	r0, [sp, #4]
+ 574 04ac 0B46     		mov	r3, r1
+ 575 04ae ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 576 04b2 BDF80220 		ldrh	r2, [sp, #2]
+ 577 04b6 4FF6FF63 		movw	r3, #65279
+ 578 04ba 9A42     		cmp	r2, r3
+ 579 04bc 08D0     		beq	.L29
+ 580 04be 019B     		ldr	r3, [sp, #4]
+ 581 04c0 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 582 04c2 9BB2     		uxth	r3, r3
+ 583 04c4 43F48073 		orr	r3, r3, #256
+ 584 04c8 9AB2     		uxth	r2, r3
+ 585 04ca 019B     		ldr	r3, [sp, #4]
+ 586 04cc 1A80     		strh	r2, [r3, #0]	@ movhi
+ 587 04ce 07E0     		b	.L28
+ 588              	.L29:
+ 589 04d0 019B     		ldr	r3, [sp, #4]
+ 590 04d2 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 591 04d4 9BB2     		uxth	r3, r3
+ 592 04d6 23F48073 		bic	r3, r3, #256
+ 593 04da 9AB2     		uxth	r2, r3
+ 594 04dc 019B     		ldr	r3, [sp, #4]
+ 595 04de 1A80     		strh	r2, [r3, #0]	@ movhi
+ 596              	.L28:
+ 597 04e0 02B0     		add	sp, sp, #8
+ 598 04e2 7047     		bx	lr
+ 600              		.align	2
+ 601              		.global	SPI_SSOutputCmd
+ 602              		.thumb
+ 603              		.thumb_func
+ 605              	SPI_SSOutputCmd:
+ 606              		@ args = 0, pretend = 0, frame = 8
+ 607              		@ frame_needed = 0, uses_anonymous_args = 0
+ 608              		@ link register save eliminated.
+ 609 04e4 82B0     		sub	sp, sp, #8
+ 610 04e6 0190     		str	r0, [sp, #4]
+ 611 04e8 0B46     		mov	r3, r1
+ 612 04ea 8DF80330 		strb	r3, [sp, #3]
+ 613 04ee 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 614 04f2 002B     		cmp	r3, #0
+ 615 04f4 08D0     		beq	.L32
+ 616 04f6 019B     		ldr	r3, [sp, #4]
+ 617 04f8 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 618 04fa 9BB2     		uxth	r3, r3
+ 619 04fc 43F00403 		orr	r3, r3, #4
+ 620 0500 9AB2     		uxth	r2, r3
+ 621 0502 019B     		ldr	r3, [sp, #4]
+ 622 0504 9A80     		strh	r2, [r3, #4]	@ movhi
+ 623 0506 07E0     		b	.L31
+ 624              	.L32:
+ 625 0508 019B     		ldr	r3, [sp, #4]
+ 626 050a 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 627 050c 9BB2     		uxth	r3, r3
+ 628 050e 23F00403 		bic	r3, r3, #4
+ 629 0512 9AB2     		uxth	r2, r3
+ 630 0514 019B     		ldr	r3, [sp, #4]
+ 631 0516 9A80     		strh	r2, [r3, #4]	@ movhi
+ 632              	.L31:
+ 633 0518 02B0     		add	sp, sp, #8
+ 634 051a 7047     		bx	lr
+ 636              		.align	2
+ 637              		.global	SPI_TIModeCmd
+ 638              		.thumb
+ 639              		.thumb_func
+ 641              	SPI_TIModeCmd:
+ 642              		@ args = 0, pretend = 0, frame = 8
+ 643              		@ frame_needed = 0, uses_anonymous_args = 0
+ 644              		@ link register save eliminated.
+ 645 051c 82B0     		sub	sp, sp, #8
+ 646 051e 0190     		str	r0, [sp, #4]
+ 647 0520 0B46     		mov	r3, r1
+ 648 0522 8DF80330 		strb	r3, [sp, #3]
+ 649 0526 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 650 052a 002B     		cmp	r3, #0
+ 651 052c 08D0     		beq	.L35
+ 652 052e 019B     		ldr	r3, [sp, #4]
+ 653 0530 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 654 0532 9BB2     		uxth	r3, r3
+ 655 0534 43F01003 		orr	r3, r3, #16
+ 656 0538 9AB2     		uxth	r2, r3
+ 657 053a 019B     		ldr	r3, [sp, #4]
+ 658 053c 9A80     		strh	r2, [r3, #4]	@ movhi
+ 659 053e 07E0     		b	.L34
+ 660              	.L35:
+ 661 0540 019B     		ldr	r3, [sp, #4]
+ 662 0542 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 663 0544 9BB2     		uxth	r3, r3
+ 664 0546 23F01003 		bic	r3, r3, #16
+ 665 054a 9AB2     		uxth	r2, r3
+ 666 054c 019B     		ldr	r3, [sp, #4]
+ 667 054e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 668              	.L34:
+ 669 0550 02B0     		add	sp, sp, #8
+ 670 0552 7047     		bx	lr
+ 672              		.align	2
+ 673              		.global	I2S_FullDuplexConfig
+ 674              		.thumb
+ 675              		.thumb_func
+ 677              	I2S_FullDuplexConfig:
+ 678              		@ args = 0, pretend = 0, frame = 16
+ 679              		@ frame_needed = 0, uses_anonymous_args = 0
+ 680              		@ link register save eliminated.
+ 681 0554 84B0     		sub	sp, sp, #16
+ 682 0556 0190     		str	r0, [sp, #4]
+ 683 0558 0091     		str	r1, [sp, #0]
+ 684 055a 4FF00003 		mov	r3, #0
+ 685 055e ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 686 0562 4FF00003 		mov	r3, #0
+ 687 0566 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 688 056a 019B     		ldr	r3, [sp, #4]
+ 689 056c 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 690 056e 9BB2     		uxth	r3, r3
+ 691 0570 23F47A63 		bic	r3, r3, #4000
+ 692 0574 23F01F03 		bic	r3, r3, #31
+ 693 0578 9AB2     		uxth	r2, r3
+ 694 057a 019B     		ldr	r3, [sp, #4]
+ 695 057c 9A83     		strh	r2, [r3, #28]	@ movhi
+ 696 057e 019B     		ldr	r3, [sp, #4]
+ 697 0580 4FF00202 		mov	r2, #2
+ 698 0584 1A84     		strh	r2, [r3, #32]	@ movhi
+ 699 0586 019B     		ldr	r3, [sp, #4]
+ 700 0588 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 701 058a ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 702 058e 009B     		ldr	r3, [sp, #0]
+ 703 0590 1B88     		ldrh	r3, [r3, #0]
+ 704 0592 B3F5007F 		cmp	r3, #512
+ 705 0596 03D0     		beq	.L38
+ 706 0598 009B     		ldr	r3, [sp, #0]
+ 707 059a 1B88     		ldrh	r3, [r3, #0]
+ 708 059c 002B     		cmp	r3, #0
+ 709 059e 04D1     		bne	.L39
+ 710              	.L38:
+ 711 05a0 4FF48073 		mov	r3, #256
+ 712 05a4 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 713 05a8 0DE0     		b	.L40
+ 714              	.L39:
+ 715 05aa 009B     		ldr	r3, [sp, #0]
+ 716 05ac 1B88     		ldrh	r3, [r3, #0]
+ 717 05ae B3F5407F 		cmp	r3, #768
+ 718 05b2 04D0     		beq	.L41
+ 719 05b4 009B     		ldr	r3, [sp, #0]
+ 720 05b6 1B88     		ldrh	r3, [r3, #0]
+ 721 05b8 B3F5807F 		cmp	r3, #256
+ 722 05bc 03D1     		bne	.L40
+ 723              	.L41:
+ 724 05be 4FF00003 		mov	r3, #0
+ 725 05c2 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 726              	.L40:
+ 727 05c6 009B     		ldr	r3, [sp, #0]
+ 728 05c8 5A88     		ldrh	r2, [r3, #2]
+ 729 05ca 009B     		ldr	r3, [sp, #0]
+ 730 05cc 9988     		ldrh	r1, [r3, #4]
+ 731 05ce 009B     		ldr	r3, [sp, #0]
+ 732 05d0 9B89     		ldrh	r3, [r3, #12]
+ 733 05d2 0B43     		orrs	r3, r3, r1
+ 734 05d4 9BB2     		uxth	r3, r3
+ 735 05d6 1343     		orrs	r3, r3, r2
+ 736 05d8 9AB2     		uxth	r2, r3
+ 737 05da BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 738 05de 1343     		orrs	r3, r3, r2
+ 739 05e0 9AB2     		uxth	r2, r3
+ 740 05e2 BDF80C30 		ldrh	r3, [sp, #12]	@ movhi
+ 741 05e6 1343     		orrs	r3, r3, r2
+ 742 05e8 9BB2     		uxth	r3, r3
+ 743 05ea 43F40063 		orr	r3, r3, #2048
+ 744 05ee ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 745 05f2 019B     		ldr	r3, [sp, #4]
+ 746 05f4 BDF80C20 		ldrh	r2, [sp, #12]	@ movhi
+ 747 05f8 9A83     		strh	r2, [r3, #28]	@ movhi
+ 748 05fa 04B0     		add	sp, sp, #16
+ 749 05fc 7047     		bx	lr
+ 751 05fe 00BF     		.align	2
+ 752              		.global	SPI_I2S_ReceiveData
+ 753              		.thumb
+ 754              		.thumb_func
+ 756              	SPI_I2S_ReceiveData:
+ 757              		@ args = 0, pretend = 0, frame = 8
+ 758              		@ frame_needed = 0, uses_anonymous_args = 0
+ 759              		@ link register save eliminated.
+ 760 0600 82B0     		sub	sp, sp, #8
+ 761 0602 0190     		str	r0, [sp, #4]
+ 762 0604 019B     		ldr	r3, [sp, #4]
+ 763 0606 9B89     		ldrh	r3, [r3, #12]	@ movhi
+ 764 0608 9BB2     		uxth	r3, r3
+ 765 060a 1846     		mov	r0, r3
+ 766 060c 02B0     		add	sp, sp, #8
+ 767 060e 7047     		bx	lr
+ 769              		.align	2
+ 770              		.global	SPI_I2S_SendData
+ 771              		.thumb
+ 772              		.thumb_func
+ 774              	SPI_I2S_SendData:
+ 775              		@ args = 0, pretend = 0, frame = 8
+ 776              		@ frame_needed = 0, uses_anonymous_args = 0
+ 777              		@ link register save eliminated.
+ 778 0610 82B0     		sub	sp, sp, #8
+ 779 0612 0190     		str	r0, [sp, #4]
+ 780 0614 0B46     		mov	r3, r1
+ 781 0616 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 782 061a 019B     		ldr	r3, [sp, #4]
+ 783 061c BDF80220 		ldrh	r2, [sp, #2]	@ movhi
+ 784 0620 9A81     		strh	r2, [r3, #12]	@ movhi
+ 785 0622 02B0     		add	sp, sp, #8
+ 786 0624 7047     		bx	lr
+ 788 0626 00BF     		.align	2
+ 789              		.global	SPI_CalculateCRC
+ 790              		.thumb
+ 791              		.thumb_func
+ 793              	SPI_CalculateCRC:
+ 794              		@ args = 0, pretend = 0, frame = 8
+ 795              		@ frame_needed = 0, uses_anonymous_args = 0
+ 796              		@ link register save eliminated.
+ 797 0628 82B0     		sub	sp, sp, #8
+ 798 062a 0190     		str	r0, [sp, #4]
+ 799 062c 0B46     		mov	r3, r1
+ 800 062e 8DF80330 		strb	r3, [sp, #3]
+ 801 0632 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 802 0636 002B     		cmp	r3, #0
+ 803 0638 08D0     		beq	.L45
+ 804 063a 019B     		ldr	r3, [sp, #4]
+ 805 063c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 806 063e 9BB2     		uxth	r3, r3
+ 807 0640 43F40053 		orr	r3, r3, #8192
+ 808 0644 9AB2     		uxth	r2, r3
+ 809 0646 019B     		ldr	r3, [sp, #4]
+ 810 0648 1A80     		strh	r2, [r3, #0]	@ movhi
+ 811 064a 07E0     		b	.L44
+ 812              	.L45:
+ 813 064c 019B     		ldr	r3, [sp, #4]
+ 814 064e 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 815 0650 9BB2     		uxth	r3, r3
+ 816 0652 23F40053 		bic	r3, r3, #8192
+ 817 0656 9AB2     		uxth	r2, r3
+ 818 0658 019B     		ldr	r3, [sp, #4]
+ 819 065a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 820              	.L44:
+ 821 065c 02B0     		add	sp, sp, #8
+ 822 065e 7047     		bx	lr
+ 824              		.align	2
+ 825              		.global	SPI_TransmitCRC
+ 826              		.thumb
+ 827              		.thumb_func
+ 829              	SPI_TransmitCRC:
+ 830              		@ args = 0, pretend = 0, frame = 8
+ 831              		@ frame_needed = 0, uses_anonymous_args = 0
+ 832              		@ link register save eliminated.
+ 833 0660 82B0     		sub	sp, sp, #8
+ 834 0662 0190     		str	r0, [sp, #4]
+ 835 0664 019B     		ldr	r3, [sp, #4]
+ 836 0666 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 837 0668 9BB2     		uxth	r3, r3
+ 838 066a 43F48053 		orr	r3, r3, #4096
+ 839 066e 9AB2     		uxth	r2, r3
+ 840 0670 019B     		ldr	r3, [sp, #4]
+ 841 0672 1A80     		strh	r2, [r3, #0]	@ movhi
+ 842 0674 02B0     		add	sp, sp, #8
+ 843 0676 7047     		bx	lr
+ 845              		.align	2
+ 846              		.global	SPI_GetCRC
+ 847              		.thumb
+ 848              		.thumb_func
+ 850              	SPI_GetCRC:
+ 851              		@ args = 0, pretend = 0, frame = 16
+ 852              		@ frame_needed = 0, uses_anonymous_args = 0
+ 853              		@ link register save eliminated.
+ 854 0678 84B0     		sub	sp, sp, #16
+ 855 067a 0190     		str	r0, [sp, #4]
+ 856 067c 0B46     		mov	r3, r1
+ 857 067e 8DF80330 		strb	r3, [sp, #3]
+ 858 0682 4FF00003 		mov	r3, #0
+ 859 0686 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 860 068a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 861 068e 012B     		cmp	r3, #1
+ 862 0690 04D0     		beq	.L49
+ 863 0692 019B     		ldr	r3, [sp, #4]
+ 864 0694 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 865 0696 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 866 069a 03E0     		b	.L50
+ 867              	.L49:
+ 868 069c 019B     		ldr	r3, [sp, #4]
+ 869 069e 9B8A     		ldrh	r3, [r3, #20]	@ movhi
+ 870 06a0 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 871              	.L50:
+ 872 06a4 BDF80E30 		ldrh	r3, [sp, #14]
+ 873 06a8 1846     		mov	r0, r3
+ 874 06aa 04B0     		add	sp, sp, #16
+ 875 06ac 7047     		bx	lr
+ 877 06ae 00BF     		.align	2
+ 878              		.global	SPI_GetCRCPolynomial
+ 879              		.thumb
+ 880              		.thumb_func
+ 882              	SPI_GetCRCPolynomial:
+ 883              		@ args = 0, pretend = 0, frame = 8
+ 884              		@ frame_needed = 0, uses_anonymous_args = 0
+ 885              		@ link register save eliminated.
+ 886 06b0 82B0     		sub	sp, sp, #8
+ 887 06b2 0190     		str	r0, [sp, #4]
+ 888 06b4 019B     		ldr	r3, [sp, #4]
+ 889 06b6 1B8A     		ldrh	r3, [r3, #16]	@ movhi
+ 890 06b8 9BB2     		uxth	r3, r3
+ 891 06ba 1846     		mov	r0, r3
+ 892 06bc 02B0     		add	sp, sp, #8
+ 893 06be 7047     		bx	lr
+ 895              		.align	2
+ 896              		.global	SPI_I2S_DMACmd
+ 897              		.thumb
+ 898              		.thumb_func
+ 900              	SPI_I2S_DMACmd:
+ 901              		@ args = 0, pretend = 0, frame = 8
+ 902              		@ frame_needed = 0, uses_anonymous_args = 0
+ 903              		@ link register save eliminated.
+ 904 06c0 82B0     		sub	sp, sp, #8
+ 905 06c2 0190     		str	r0, [sp, #4]
+ 906 06c4 1346     		mov	r3, r2
+ 907 06c6 0A46     		mov	r2, r1	@ movhi
+ 908 06c8 ADF80220 		strh	r2, [sp, #2]	@ movhi
+ 909 06cc 8DF80130 		strb	r3, [sp, #1]
+ 910 06d0 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
+ 911 06d4 002B     		cmp	r3, #0
+ 912 06d6 09D0     		beq	.L53
+ 913 06d8 019B     		ldr	r3, [sp, #4]
+ 914 06da 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 915 06dc 9AB2     		uxth	r2, r3
+ 916 06de BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 917 06e2 1343     		orrs	r3, r3, r2
+ 918 06e4 9AB2     		uxth	r2, r3
+ 919 06e6 019B     		ldr	r3, [sp, #4]
+ 920 06e8 9A80     		strh	r2, [r3, #4]	@ movhi
+ 921 06ea 0BE0     		b	.L52
+ 922              	.L53:
+ 923 06ec 019B     		ldr	r3, [sp, #4]
+ 924 06ee 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 925 06f0 9AB2     		uxth	r2, r3
+ 926 06f2 BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 927 06f6 6FEA0303 		mvn	r3, r3
+ 928 06fa 9BB2     		uxth	r3, r3
+ 929 06fc 1340     		ands	r3, r3, r2
+ 930 06fe 9AB2     		uxth	r2, r3
+ 931 0700 019B     		ldr	r3, [sp, #4]
+ 932 0702 9A80     		strh	r2, [r3, #4]	@ movhi
+ 933              	.L52:
+ 934 0704 02B0     		add	sp, sp, #8
+ 935 0706 7047     		bx	lr
+ 937              		.align	2
+ 938              		.global	SPI_I2S_ITConfig
+ 939              		.thumb
+ 940              		.thumb_func
+ 942              	SPI_I2S_ITConfig:
+ 943              		@ args = 0, pretend = 0, frame = 16
+ 944              		@ frame_needed = 0, uses_anonymous_args = 0
+ 945              		@ link register save eliminated.
+ 946 0708 84B0     		sub	sp, sp, #16
+ 947 070a 0190     		str	r0, [sp, #4]
+ 948 070c 1346     		mov	r3, r2
+ 949 070e 0A46     		mov	r2, r1
+ 950 0710 8DF80320 		strb	r2, [sp, #3]
+ 951 0714 8DF80230 		strb	r3, [sp, #2]
+ 952 0718 4FF00003 		mov	r3, #0
+ 953 071c ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 954 0720 4FF00003 		mov	r3, #0
+ 955 0724 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 956 0728 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 957 072c 4FEA1313 		lsr	r3, r3, #4
+ 958 0730 DBB2     		uxtb	r3, r3
+ 959 0732 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 960 0736 BDF80E30 		ldrh	r3, [sp, #14]
+ 961 073a 4FF00102 		mov	r2, #1
+ 962 073e 02FA03F3 		lsl	r3, r2, r3
+ 963 0742 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 964 0746 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 965 074a 002B     		cmp	r3, #0
+ 966 074c 09D0     		beq	.L56
+ 967 074e 019B     		ldr	r3, [sp, #4]
+ 968 0750 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 969 0752 9AB2     		uxth	r2, r3
+ 970 0754 BDF80C30 		ldrh	r3, [sp, #12]	@ movhi
+ 971 0758 1343     		orrs	r3, r3, r2
+ 972 075a 9AB2     		uxth	r2, r3
+ 973 075c 019B     		ldr	r3, [sp, #4]
+ 974 075e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 975 0760 0BE0     		b	.L55
+ 976              	.L56:
+ 977 0762 019B     		ldr	r3, [sp, #4]
+ 978 0764 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 979 0766 9AB2     		uxth	r2, r3
+ 980 0768 BDF80C30 		ldrh	r3, [sp, #12]	@ movhi
+ 981 076c 6FEA0303 		mvn	r3, r3
+ 982 0770 9BB2     		uxth	r3, r3
+ 983 0772 1340     		ands	r3, r3, r2
+ 984 0774 9AB2     		uxth	r2, r3
+ 985 0776 019B     		ldr	r3, [sp, #4]
+ 986 0778 9A80     		strh	r2, [r3, #4]	@ movhi
+ 987              	.L55:
+ 988 077a 04B0     		add	sp, sp, #16
+ 989 077c 7047     		bx	lr
+ 991 077e 00BF     		.align	2
+ 992              		.global	SPI_I2S_GetFlagStatus
+ 993              		.thumb
+ 994              		.thumb_func
+ 996              	SPI_I2S_GetFlagStatus:
+ 997              		@ args = 0, pretend = 0, frame = 16
+ 998              		@ frame_needed = 0, uses_anonymous_args = 0
+ 999              		@ link register save eliminated.
+ 1000 0780 84B0     		sub	sp, sp, #16
+ 1001 0782 0190     		str	r0, [sp, #4]
+ 1002 0784 0B46     		mov	r3, r1
+ 1003 0786 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 1004 078a 4FF00003 		mov	r3, #0
+ 1005 078e 8DF80F30 		strb	r3, [sp, #15]
+ 1006 0792 019B     		ldr	r3, [sp, #4]
+ 1007 0794 1B89     		ldrh	r3, [r3, #8]	@ movhi
+ 1008 0796 9AB2     		uxth	r2, r3
+ 1009 0798 BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 1010 079c 1340     		ands	r3, r3, r2
+ 1011 079e 9BB2     		uxth	r3, r3
+ 1012 07a0 002B     		cmp	r3, #0
+ 1013 07a2 04D0     		beq	.L59
+ 1014 07a4 4FF00103 		mov	r3, #1
+ 1015 07a8 8DF80F30 		strb	r3, [sp, #15]
+ 1016 07ac 03E0     		b	.L60
+ 1017              	.L59:
+ 1018 07ae 4FF00003 		mov	r3, #0
+ 1019 07b2 8DF80F30 		strb	r3, [sp, #15]
+ 1020              	.L60:
+ 1021 07b6 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1022 07ba 1846     		mov	r0, r3
+ 1023 07bc 04B0     		add	sp, sp, #16
+ 1024 07be 7047     		bx	lr
+ 1026              		.align	2
+ 1027              		.global	SPI_I2S_ClearFlag
+ 1028              		.thumb
+ 1029              		.thumb_func
+ 1031              	SPI_I2S_ClearFlag:
+ 1032              		@ args = 0, pretend = 0, frame = 8
+ 1033              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1034              		@ link register save eliminated.
+ 1035 07c0 82B0     		sub	sp, sp, #8
+ 1036 07c2 0190     		str	r0, [sp, #4]
+ 1037 07c4 0B46     		mov	r3, r1
+ 1038 07c6 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 1039 07ca BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 1040 07ce 6FEA0303 		mvn	r3, r3
+ 1041 07d2 9AB2     		uxth	r2, r3
+ 1042 07d4 019B     		ldr	r3, [sp, #4]
+ 1043 07d6 1A81     		strh	r2, [r3, #8]	@ movhi
+ 1044 07d8 02B0     		add	sp, sp, #8
+ 1045 07da 7047     		bx	lr
+ 1047              		.align	2
+ 1048              		.global	SPI_I2S_GetITStatus
+ 1049              		.thumb
+ 1050              		.thumb_func
+ 1052              	SPI_I2S_GetITStatus:
+ 1053              		@ args = 0, pretend = 0, frame = 16
+ 1054              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1055              		@ link register save eliminated.
+ 1056 07dc 84B0     		sub	sp, sp, #16
+ 1057 07de 0190     		str	r0, [sp, #4]
+ 1058 07e0 0B46     		mov	r3, r1
+ 1059 07e2 8DF80330 		strb	r3, [sp, #3]
+ 1060 07e6 4FF00003 		mov	r3, #0
+ 1061 07ea 8DF80F30 		strb	r3, [sp, #15]
+ 1062 07ee 4FF00003 		mov	r3, #0
+ 1063 07f2 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 1064 07f6 4FF00003 		mov	r3, #0
+ 1065 07fa ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 1066 07fe 4FF00003 		mov	r3, #0
+ 1067 0802 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 1068 0806 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1069 080a 03F00F03 		and	r3, r3, #15
+ 1070 080e 4FF00102 		mov	r2, #1
+ 1071 0812 02FA03F3 		lsl	r3, r2, r3
+ 1072 0816 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 1073 081a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1074 081e 4FEA1313 		lsr	r3, r3, #4
+ 1075 0822 DBB2     		uxtb	r3, r3
+ 1076 0824 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 1077 0828 BDF80A30 		ldrh	r3, [sp, #10]
+ 1078 082c 4FF00102 		mov	r2, #1
+ 1079 0830 02FA03F3 		lsl	r3, r2, r3
+ 1080 0834 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 1081 0838 019B     		ldr	r3, [sp, #4]
+ 1082 083a 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 1083 083c 9AB2     		uxth	r2, r3
+ 1084 083e BDF80A30 		ldrh	r3, [sp, #10]	@ movhi
+ 1085 0842 1340     		ands	r3, r3, r2
+ 1086 0844 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 1087 0848 019B     		ldr	r3, [sp, #4]
+ 1088 084a 1B89     		ldrh	r3, [r3, #8]	@ movhi
+ 1089 084c 9AB2     		uxth	r2, r3
+ 1090 084e BDF80C30 		ldrh	r3, [sp, #12]	@ movhi
+ 1091 0852 1340     		ands	r3, r3, r2
+ 1092 0854 9BB2     		uxth	r3, r3
+ 1093 0856 002B     		cmp	r3, #0
+ 1094 0858 08D0     		beq	.L63
+ 1095 085a BDF80830 		ldrh	r3, [sp, #8]
+ 1096 085e 002B     		cmp	r3, #0
+ 1097 0860 04D0     		beq	.L63
+ 1098 0862 4FF00103 		mov	r3, #1
+ 1099 0866 8DF80F30 		strb	r3, [sp, #15]
+ 1100 086a 03E0     		b	.L64
+ 1101              	.L63:
+ 1102 086c 4FF00003 		mov	r3, #0
+ 1103 0870 8DF80F30 		strb	r3, [sp, #15]
+ 1104              	.L64:
+ 1105 0874 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1106 0878 1846     		mov	r0, r3
+ 1107 087a 04B0     		add	sp, sp, #16
+ 1108 087c 7047     		bx	lr
+ 1110 087e 00BF     		.align	2
+ 1111              		.global	SPI_I2S_ClearITPendingBit
+ 1112              		.thumb
+ 1113              		.thumb_func
+ 1115              	SPI_I2S_ClearITPendingBit:
+ 1116              		@ args = 0, pretend = 0, frame = 16
+ 1117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1118              		@ link register save eliminated.
+ 1119 0880 84B0     		sub	sp, sp, #16
+ 1120 0882 0190     		str	r0, [sp, #4]
+ 1121 0884 0B46     		mov	r3, r1
+ 1122 0886 8DF80330 		strb	r3, [sp, #3]
+ 1123 088a 4FF00003 		mov	r3, #0
+ 1124 088e ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 1125 0892 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1126 0896 03F00F03 		and	r3, r3, #15
+ 1127 089a 4FF00102 		mov	r2, #1
+ 1128 089e 02FA03F3 		lsl	r3, r2, r3
+ 1129 08a2 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 1130 08a6 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 1131 08aa 6FEA0303 		mvn	r3, r3
+ 1132 08ae 9AB2     		uxth	r2, r3
+ 1133 08b0 019B     		ldr	r3, [sp, #4]
+ 1134 08b2 1A81     		strh	r2, [r3, #8]	@ movhi
+ 1135 08b4 04B0     		add	sp, sp, #16
+ 1136 08b6 7047     		bx	lr
+ 1138              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_spi.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:22     .text:00000000 SPI_I2S_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:74     .text:00000080 SPI_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:144    .text:0000010c I2S_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:356    .text:00000344 SPI_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:397    .text:00000394 I2S_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:429    .text:000003cc SPI_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:465    .text:00000404 I2S_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:501    .text:0000043c SPI_DataSizeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:532    .text:0000046c SPI_BiDirectionalLineConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:568    .text:000004a8 SPI_NSSInternalSoftwareConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:605    .text:000004e4 SPI_SSOutputCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:641    .text:0000051c SPI_TIModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:677    .text:00000554 I2S_FullDuplexConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:756    .text:00000600 SPI_I2S_ReceiveData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:774    .text:00000610 SPI_I2S_SendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:793    .text:00000628 SPI_CalculateCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:829    .text:00000660 SPI_TransmitCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:850    .text:00000678 SPI_GetCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:882    .text:000006b0 SPI_GetCRCPolynomial
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:900    .text:000006c0 SPI_I2S_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:942    .text:00000708 SPI_I2S_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:996    .text:00000780 SPI_I2S_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:1031   .text:000007c0 SPI_I2S_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:1052   .text:000007dc SPI_I2S_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccHoID1w.s:1115   .text:00000880 SPI_I2S_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphResetCmd
+RCC_APB1PeriphResetCmd

@@ -1,0 +1,174 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"resourceMap.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	gpioInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	gpioInit:
+  23              		@ args = 0, pretend = 0, frame = 24
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 86B0     		sub	sp, sp, #24
+  27 0004 6C46     		mov	r4, sp
+  28 0006 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+  29 000a 019B     		ldr	r3, [sp, #4]
+  30 000c 0493     		str	r3, [sp, #16]
+  31 000e 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+  32 0012 8DF81430 		strb	r3, [sp, #20]
+  33 0016 9DF80930 		ldrb	r3, [sp, #9]	@ zero_extendqisi2
+  34 001a 8DF81530 		strb	r3, [sp, #21]
+  35 001e 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+  36 0022 8DF81630 		strb	r3, [sp, #22]
+  37 0026 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+  38 002a 8DF81730 		strb	r3, [sp, #23]
+  39 002e 009B     		ldr	r3, [sp, #0]
+  40 0030 1846     		mov	r0, r3
+  41 0032 04AB     		add	r3, sp, #16
+  42 0034 1946     		mov	r1, r3
+  43 0036 FFF7FEFF 		bl	GPIO_Init
+  44 003a 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+  45 003e 022B     		cmp	r3, #2
+  46 0040 09D1     		bne	.L1
+  47 0042 0099     		ldr	r1, [sp, #0]
+  48 0044 BDF80C20 		ldrh	r2, [sp, #12]
+  49 0048 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+  50 004c 0846     		mov	r0, r1
+  51 004e 1146     		mov	r1, r2
+  52 0050 1A46     		mov	r2, r3
+  53 0052 FFF7FEFF 		bl	GPIO_PinAFConfig
+  54              	.L1:
+  55 0056 06B0     		add	sp, sp, #24
+  56 0058 10BD     		pop	{r4, pc}
+  58              		.global	resourceMap
+  59 005a 00BF     		.section	.rodata
+  60              		.align	2
+  63              	resourceMap:
+  64 0000 2900     		.short	41
+  65 0002 0000     		.space	2
+  66 0004 00080040 		.word	1073743872
+  67 0008 1E       		.byte	30
+  68 0009 000000   		.space	3
+  69 000c 00000140 		.word	1073807360
+  70 0010 1B       		.byte	27
+  71 0011 000000   		.space	3
+  72 0014 000C0240 		.word	1073875968
+  73 0018 00100000 		.word	4096
+  74 001c 02       		.byte	2
+  75 001d 02       		.byte	2
+  76 001e 00       		.byte	0
+  77 001f 02       		.byte	2
+  78 0020 0C00     		.short	12
+  79 0022 02       		.byte	2
+  80 0023 00       		.space	1
+  81 0024 000C0240 		.word	1073875968
+  82 0028 00200000 		.word	8192
+  83 002c 02       		.byte	2
+  84 002d 02       		.byte	2
+  85 002e 00       		.byte	0
+  86 002f 02       		.byte	2
+  87 0030 0D00     		.short	13
+  88 0032 02       		.byte	2
+  89 0033 00       		.space	1
+  90 0034 000C0240 		.word	1073875968
+  91 0038 00400000 		.word	16384
+  92 003c 02       		.byte	2
+  93 003d 02       		.byte	2
+  94 003e 00       		.byte	0
+  95 003f 02       		.byte	2
+  96 0040 0E00     		.short	14
+  97 0042 02       		.byte	2
+  98 0043 00       		.space	1
+  99 0044 000C0240 		.word	1073875968
+ 100 0048 00800000 		.word	32768
+ 101 004c 02       		.byte	2
+ 102 004d 02       		.byte	2
+ 103 004e 00       		.byte	0
+ 104 004f 02       		.byte	2
+ 105 0050 0F00     		.short	15
+ 106 0052 02       		.byte	2
+ 107 0053 00       		.space	1
+ 108 0054 00100240 		.word	1073876992
+ 109 0058 00020000 		.word	512
+ 110 005c 02       		.byte	2
+ 111 005d 02       		.byte	2
+ 112 005e 00       		.byte	0
+ 113 005f 02       		.byte	2
+ 114 0060 0900     		.short	9
+ 115 0062 01       		.byte	1
+ 116 0063 00       		.space	1
+ 117 0064 00100240 		.word	1073876992
+ 118 0068 00080000 		.word	2048
+ 119 006c 02       		.byte	2
+ 120 006d 02       		.byte	2
+ 121 006e 00       		.byte	0
+ 122 006f 02       		.byte	2
+ 123 0070 0B00     		.short	11
+ 124 0072 01       		.byte	1
+ 125 0073 00       		.space	1
+ 126 0074 00100240 		.word	1073876992
+ 127 0078 00200000 		.word	8192
+ 128 007c 02       		.byte	2
+ 129 007d 02       		.byte	2
+ 130 007e 00       		.byte	0
+ 131 007f 02       		.byte	2
+ 132 0080 0D00     		.short	13
+ 133 0082 01       		.byte	1
+ 134 0083 00       		.space	1
+ 135 0084 00100240 		.word	1073876992
+ 136 0088 00400000 		.word	16384
+ 137 008c 02       		.byte	2
+ 138 008d 02       		.byte	2
+ 139 008e 00       		.byte	0
+ 140 008f 02       		.byte	2
+ 141 0090 0E00     		.short	14
+ 142 0092 01       		.byte	1
+ 143 0093 00       		.space	1
+ 144 0094 00080040 		.word	1073743872
+ 145 0098 1E       		.byte	30
+ 146 0099 000000   		.space	3
+ 147 009c 000C0240 		.word	1073875968
+ 148 00a0 00800000 		.word	32768
+ 149 00a4 02       		.byte	2
+ 150 00a5 02       		.byte	2
+ 151 00a6 00       		.byte	0
+ 152 00a7 02       		.byte	2
+ 153 00a8 0F00     		.short	15
+ 154 00aa 02       		.byte	2
+ 155 00ab 00       		.space	1
+ 156 00ac 00100140 		.word	1073811456
+ 157 00b0 25       		.byte	37
+ 158 00b1 000000   		.space	3
+ 159 00b4 00000240 		.word	1073872896
+ 160 00b8 00040000 		.word	1024
+ 161 00bc 02       		.byte	2
+ 162 00bd 02       		.byte	2
+ 163 00be 00       		.byte	0
+ 164 00bf 00       		.byte	0
+ 165 00c0 0A00     		.short	10
+ 166 00c2 07       		.byte	7
+ 167 00c3 00       		.space	1
+ 168              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 resourceMap.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccsY3WyX.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccsY3WyX.s:22     .text:00000000 gpioInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccsY3WyX.s:63     .rodata:00000000 resourceMap
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccsY3WyX.s:60     .rodata:00000000 $d
+
+UNDEFINED SYMBOLS
+GPIO_Init
+GPIO_PinAFConfig

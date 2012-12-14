@@ -1,0 +1,157 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"drv_timingFunctions.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	timingFunctionsInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	timingFunctionsInit:
+  23              		@ args = 0, pretend = 0, frame = 16
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 00B5     		push	{lr}
+  26 0002 85B0     		sub	sp, sp, #20
+  27 0004 01AB     		add	r3, sp, #4
+  28 0006 1846     		mov	r0, r3
+  29 0008 FFF7FEFF 		bl	TIM_TimeBaseStructInit
+  30 000c 4FF01000 		mov	r0, #16
+  31 0010 4FF00101 		mov	r1, #1
+  32 0014 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  33 0018 4FF6FF73 		movw	r3, #65535
+  34 001c 0293     		str	r3, [sp, #8]
+  35 001e 4FF05303 		mov	r3, #83
+  36 0022 ADF80430 		strh	r3, [sp, #4]	@ movhi
+  37 0026 4FF48050 		mov	r0, #4096
+  38 002a C4F20000 		movt	r0, 16384
+  39 002e 01AB     		add	r3, sp, #4
+  40 0030 1946     		mov	r1, r3
+  41 0032 FFF7FEFF 		bl	TIM_TimeBaseInit
+  42 0036 4FF48050 		mov	r0, #4096
+  43 003a C4F20000 		movt	r0, 16384
+  44 003e 4FF00101 		mov	r1, #1
+  45 0042 FFF7FEFF 		bl	TIM_Cmd
+  46 0046 01AB     		add	r3, sp, #4
+  47 0048 1846     		mov	r0, r3
+  48 004a FFF7FEFF 		bl	TIM_TimeBaseStructInit
+  49 004e 4FF02000 		mov	r0, #32
+  50 0052 4FF00101 		mov	r1, #1
+  51 0056 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  52 005a 4FF40030 		mov	r0, #131072
+  53 005e 4FF00101 		mov	r1, #1
+  54 0062 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  55 0066 4FF48020 		mov	r0, #262144
+  56 006a 4FF00101 		mov	r1, #1
+  57 006e FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  58 0072 4FF6FF73 		movw	r3, #65535
+  59 0076 0293     		str	r3, [sp, #8]
+  60 0078 4FF02903 		mov	r3, #41
+  61 007c ADF80430 		strh	r3, [sp, #4]	@ movhi
+  62 0080 4FF4A050 		mov	r0, #5120
+  63 0084 C4F20000 		movt	r0, 16384
+  64 0088 01AB     		add	r3, sp, #4
+  65 008a 1946     		mov	r1, r3
+  66 008c FFF7FEFF 		bl	TIM_TimeBaseInit
+  67 0090 4FF48840 		mov	r0, #17408
+  68 0094 C4F20100 		movt	r0, 16385
+  69 0098 01AB     		add	r3, sp, #4
+  70 009a 1946     		mov	r1, r3
+  71 009c FFF7FEFF 		bl	TIM_TimeBaseInit
+  72 00a0 4FF49040 		mov	r0, #18432
+  73 00a4 C4F20100 		movt	r0, 16385
+  74 00a8 01AB     		add	r3, sp, #4
+  75 00aa 1946     		mov	r1, r3
+  76 00ac FFF7FEFF 		bl	TIM_TimeBaseInit
+  77 00b0 4FF4A050 		mov	r0, #5120
+  78 00b4 C4F20000 		movt	r0, 16384
+  79 00b8 4FF00001 		mov	r1, #0
+  80 00bc FFF7FEFF 		bl	TIM_SetCounter
+  81 00c0 4FF48840 		mov	r0, #17408
+  82 00c4 C4F20100 		movt	r0, 16385
+  83 00c8 4FF00001 		mov	r1, #0
+  84 00cc FFF7FEFF 		bl	TIM_SetCounter
+  85 00d0 4FF49040 		mov	r0, #18432
+  86 00d4 C4F20100 		movt	r0, 16385
+  87 00d8 4FF00001 		mov	r1, #0
+  88 00dc FFF7FEFF 		bl	TIM_SetCounter
+  89 00e0 05B0     		add	sp, sp, #20
+  90 00e2 00BD     		pop	{pc}
+  92              		.align	2
+  93              		.global	delayTimerMicroseconds
+  94              		.thumb
+  95              		.thumb_func
+  97              	delayTimerMicroseconds:
+  98              		@ args = 0, pretend = 0, frame = 8
+  99              		@ frame_needed = 0, uses_anonymous_args = 0
+ 100              		@ link register save eliminated.
+ 101 00e4 82B0     		sub	sp, sp, #8
+ 102 00e6 0346     		mov	r3, r0
+ 103 00e8 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 104 00ec 4FF48053 		mov	r3, #4096
+ 105 00f0 C4F20003 		movt	r3, 16384
+ 106 00f4 4FF00002 		mov	r2, #0
+ 107 00f8 5A62     		str	r2, [r3, #36]
+ 108 00fa 00BF     		nop
+ 109              	.L3:
+ 110 00fc 4FF48053 		mov	r3, #4096
+ 111 0100 C4F20003 		movt	r3, 16384
+ 112 0104 5A6A     		ldr	r2, [r3, #36]
+ 113 0106 BDF80630 		ldrh	r3, [sp, #6]
+ 114 010a 9A42     		cmp	r2, r3
+ 115 010c F6D9     		bls	.L3
+ 116 010e 02B0     		add	sp, sp, #8
+ 117 0110 7047     		bx	lr
+ 119 0112 00BF     		.align	2
+ 120              		.global	delayTimerMilliseconds
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	delayTimerMilliseconds:
+ 125              		@ args = 0, pretend = 0, frame = 8
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127 0114 00B5     		push	{lr}
+ 128 0116 83B0     		sub	sp, sp, #12
+ 129 0118 0190     		str	r0, [sp, #4]
+ 130 011a 03E0     		b	.L5
+ 131              	.L6:
+ 132 011c 4FF47A70 		mov	r0, #1000
+ 133 0120 FFF7FEFF 		bl	delayTimerMicroseconds
+ 134              	.L5:
+ 135 0124 019B     		ldr	r3, [sp, #4]
+ 136 0126 002B     		cmp	r3, #0
+ 137 0128 0CBF     		ite	eq
+ 138 012a 0023     		moveq	r3, #0
+ 139 012c 0123     		movne	r3, #1
+ 140 012e DBB2     		uxtb	r3, r3
+ 141 0130 019A     		ldr	r2, [sp, #4]
+ 142 0132 02F1FF32 		add	r2, r2, #-1
+ 143 0136 0192     		str	r2, [sp, #4]
+ 144 0138 002B     		cmp	r3, #0
+ 145 013a EFD1     		bne	.L6
+ 146 013c 03B0     		add	sp, sp, #12
+ 147 013e 00BD     		pop	{pc}
+ 149              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 drv_timingFunctions.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoqw7Mk.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoqw7Mk.s:22     .text:00000000 timingFunctionsInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoqw7Mk.s:97     .text:000000e4 delayTimerMicroseconds
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoqw7Mk.s:124    .text:00000114 delayTimerMilliseconds
+
+UNDEFINED SYMBOLS
+TIM_TimeBaseStructInit
+RCC_APB1PeriphClockCmd
+TIM_TimeBaseInit
+TIM_Cmd
+RCC_APB2PeriphClockCmd
+TIM_SetCounter

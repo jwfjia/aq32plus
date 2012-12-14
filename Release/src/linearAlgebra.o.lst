@@ -1,0 +1,812 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"linearAlgebra.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	vectorDotProduct
+  19              		.thumb
+  20              		.thumb_func
+  22              	vectorDotProduct:
+  23              		@ args = 0, pretend = 0, frame = 24
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25              		@ link register save eliminated.
+  26 0000 86B0     		sub	sp, sp, #24
+  27 0002 0390     		str	r0, [sp, #12]
+  28 0004 0291     		str	r1, [sp, #8]
+  29 0006 0192     		str	r2, [sp, #4]
+  30 0008 134B     		ldr	r3, .L4	@ float
+  31 000a 0593     		str	r3, [sp, #20]	@ float
+  32 000c 4FF00003 		mov	r3, #0
+  33 0010 0493     		str	r3, [sp, #16]
+  34 0012 19E0     		b	.L2
+  35              	.L3:
+  36 0014 049B     		ldr	r3, [sp, #16]
+  37 0016 4FEA8303 		lsl	r3, r3, #2
+  38 001a 029A     		ldr	r2, [sp, #8]
+  39 001c D318     		adds	r3, r2, r3
+  40 001e 93ED007A 		flds	s14, [r3, #0]
+  41 0022 049B     		ldr	r3, [sp, #16]
+  42 0024 4FEA8303 		lsl	r3, r3, #2
+  43 0028 019A     		ldr	r2, [sp, #4]
+  44 002a D318     		adds	r3, r2, r3
+  45 002c D3ED007A 		flds	s15, [r3, #0]
+  46 0030 67EE277A 		fmuls	s15, s14, s15
+  47 0034 9DED057A 		flds	s14, [sp, #20]
+  48 0038 77EE277A 		fadds	s15, s14, s15
+  49 003c CDED057A 		fsts	s15, [sp, #20]
+  50 0040 049B     		ldr	r3, [sp, #16]
+  51 0042 03F10103 		add	r3, r3, #1
+  52 0046 0493     		str	r3, [sp, #16]
+  53              	.L2:
+  54 0048 049A     		ldr	r2, [sp, #16]
+  55 004a 039B     		ldr	r3, [sp, #12]
+  56 004c 9A42     		cmp	r2, r3
+  57 004e E1DB     		blt	.L3
+  58 0050 059B     		ldr	r3, [sp, #20]	@ float
+  59 0052 1846     		mov	r0, r3	@ float
+  60 0054 06B0     		add	sp, sp, #24
+  61 0056 7047     		bx	lr
+  62              	.L5:
+  63              		.align	2
+  64              	.L4:
+  65 0058 00000000 		.word	0
+  67              		.align	2
+  68              		.global	vectorCrossProduct
+  69              		.thumb
+  70              		.thumb_func
+  72              	vectorCrossProduct:
+  73              		@ args = 0, pretend = 0, frame = 16
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  76 005c 84B0     		sub	sp, sp, #16
+  77 005e 0390     		str	r0, [sp, #12]
+  78 0060 0291     		str	r1, [sp, #8]
+  79 0062 0192     		str	r2, [sp, #4]
+  80 0064 029B     		ldr	r3, [sp, #8]
+  81 0066 03F10403 		add	r3, r3, #4
+  82 006a 93ED007A 		flds	s14, [r3, #0]
+  83 006e 019B     		ldr	r3, [sp, #4]
+  84 0070 03F10803 		add	r3, r3, #8
+  85 0074 D3ED007A 		flds	s15, [r3, #0]
+  86 0078 27EE277A 		fmuls	s14, s14, s15
+  87 007c 029B     		ldr	r3, [sp, #8]
+  88 007e 03F10803 		add	r3, r3, #8
+  89 0082 D3ED006A 		flds	s13, [r3, #0]
+  90 0086 019B     		ldr	r3, [sp, #4]
+  91 0088 03F10403 		add	r3, r3, #4
+  92 008c D3ED007A 		flds	s15, [r3, #0]
+  93 0090 66EEA77A 		fmuls	s15, s13, s15
+  94 0094 77EE677A 		fsubs	s15, s14, s15
+  95 0098 039B     		ldr	r3, [sp, #12]
+  96 009a C3ED007A 		fsts	s15, [r3, #0]
+  97 009e 039B     		ldr	r3, [sp, #12]
+  98 00a0 03F10403 		add	r3, r3, #4
+  99 00a4 029A     		ldr	r2, [sp, #8]
+ 100 00a6 02F10802 		add	r2, r2, #8
+ 101 00aa 92ED007A 		flds	s14, [r2, #0]
+ 102 00ae 019A     		ldr	r2, [sp, #4]
+ 103 00b0 D2ED007A 		flds	s15, [r2, #0]
+ 104 00b4 27EE277A 		fmuls	s14, s14, s15
+ 105 00b8 029A     		ldr	r2, [sp, #8]
+ 106 00ba D2ED006A 		flds	s13, [r2, #0]
+ 107 00be 019A     		ldr	r2, [sp, #4]
+ 108 00c0 02F10802 		add	r2, r2, #8
+ 109 00c4 D2ED007A 		flds	s15, [r2, #0]
+ 110 00c8 66EEA77A 		fmuls	s15, s13, s15
+ 111 00cc 77EE677A 		fsubs	s15, s14, s15
+ 112 00d0 C3ED007A 		fsts	s15, [r3, #0]
+ 113 00d4 039B     		ldr	r3, [sp, #12]
+ 114 00d6 03F10803 		add	r3, r3, #8
+ 115 00da 029A     		ldr	r2, [sp, #8]
+ 116 00dc 92ED007A 		flds	s14, [r2, #0]
+ 117 00e0 019A     		ldr	r2, [sp, #4]
+ 118 00e2 02F10402 		add	r2, r2, #4
+ 119 00e6 D2ED007A 		flds	s15, [r2, #0]
+ 120 00ea 27EE277A 		fmuls	s14, s14, s15
+ 121 00ee 029A     		ldr	r2, [sp, #8]
+ 122 00f0 02F10402 		add	r2, r2, #4
+ 123 00f4 D2ED006A 		flds	s13, [r2, #0]
+ 124 00f8 019A     		ldr	r2, [sp, #4]
+ 125 00fa D2ED007A 		flds	s15, [r2, #0]
+ 126 00fe 66EEA77A 		fmuls	s15, s13, s15
+ 127 0102 77EE677A 		fsubs	s15, s14, s15
+ 128 0106 C3ED007A 		fsts	s15, [r3, #0]
+ 129 010a 04B0     		add	sp, sp, #16
+ 130 010c 7047     		bx	lr
+ 132 010e 00BF     		.align	2
+ 133              		.global	vectorScale
+ 134              		.thumb
+ 135              		.thumb_func
+ 137              	vectorScale:
+ 138              		@ args = 0, pretend = 0, frame = 24
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140              		@ link register save eliminated.
+ 141 0110 86B0     		sub	sp, sp, #24
+ 142 0112 0390     		str	r0, [sp, #12]
+ 143 0114 0291     		str	r1, [sp, #8]
+ 144 0116 0192     		str	r2, [sp, #4]
+ 145 0118 0093     		str	r3, [sp, #0]	@ float
+ 146 011a 4FF00003 		mov	r3, #0
+ 147 011e 8DF81730 		strb	r3, [sp, #23]
+ 148 0122 19E0     		b	.L8
+ 149              	.L9:
+ 150 0124 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 151 0128 4FEA8303 		lsl	r3, r3, #2
+ 152 012c 029A     		ldr	r2, [sp, #8]
+ 153 012e D318     		adds	r3, r2, r3
+ 154 0130 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 155 0134 4FEA8202 		lsl	r2, r2, #2
+ 156 0138 0199     		ldr	r1, [sp, #4]
+ 157 013a 8A18     		adds	r2, r1, r2
+ 158 013c 92ED007A 		flds	s14, [r2, #0]
+ 159 0140 DDED007A 		flds	s15, [sp, #0]
+ 160 0144 67EE277A 		fmuls	s15, s14, s15
+ 161 0148 C3ED007A 		fsts	s15, [r3, #0]
+ 162 014c 9DF81730 		ldrb	r3, [sp, #23]
+ 163 0150 03F10103 		add	r3, r3, #1
+ 164 0154 8DF81730 		strb	r3, [sp, #23]
+ 165              	.L8:
+ 166 0158 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 167 015c 039B     		ldr	r3, [sp, #12]
+ 168 015e 9A42     		cmp	r2, r3
+ 169 0160 E0DB     		blt	.L9
+ 170 0162 06B0     		add	sp, sp, #24
+ 171 0164 7047     		bx	lr
+ 173 0166 00BF     		.align	2
+ 174              		.global	vectorAdd
+ 175              		.thumb
+ 176              		.thumb_func
+ 178              	vectorAdd:
+ 179              		@ args = 0, pretend = 0, frame = 24
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181              		@ link register save eliminated.
+ 182 0168 86B0     		sub	sp, sp, #24
+ 183 016a 0390     		str	r0, [sp, #12]
+ 184 016c 0291     		str	r1, [sp, #8]
+ 185 016e 0192     		str	r2, [sp, #4]
+ 186 0170 0093     		str	r3, [sp, #0]
+ 187 0172 4FF00003 		mov	r3, #0
+ 188 0176 8DF81730 		strb	r3, [sp, #23]
+ 189 017a 1FE0     		b	.L11
+ 190              	.L12:
+ 191 017c 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 192 0180 4FEA8303 		lsl	r3, r3, #2
+ 193 0184 029A     		ldr	r2, [sp, #8]
+ 194 0186 D318     		adds	r3, r2, r3
+ 195 0188 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 196 018c 4FEA8202 		lsl	r2, r2, #2
+ 197 0190 0199     		ldr	r1, [sp, #4]
+ 198 0192 8A18     		adds	r2, r1, r2
+ 199 0194 92ED007A 		flds	s14, [r2, #0]
+ 200 0198 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 201 019c 4FEA8202 		lsl	r2, r2, #2
+ 202 01a0 0099     		ldr	r1, [sp, #0]
+ 203 01a2 8A18     		adds	r2, r1, r2
+ 204 01a4 D2ED007A 		flds	s15, [r2, #0]
+ 205 01a8 77EE277A 		fadds	s15, s14, s15
+ 206 01ac C3ED007A 		fsts	s15, [r3, #0]
+ 207 01b0 9DF81730 		ldrb	r3, [sp, #23]
+ 208 01b4 03F10103 		add	r3, r3, #1
+ 209 01b8 8DF81730 		strb	r3, [sp, #23]
+ 210              	.L11:
+ 211 01bc 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 212 01c0 039B     		ldr	r3, [sp, #12]
+ 213 01c2 9A42     		cmp	r2, r3
+ 214 01c4 DADB     		blt	.L12
+ 215 01c6 06B0     		add	sp, sp, #24
+ 216 01c8 7047     		bx	lr
+ 218 01ca 00BF     		.align	2
+ 219              		.global	vectorSubtract
+ 220              		.thumb
+ 221              		.thumb_func
+ 223              	vectorSubtract:
+ 224              		@ args = 0, pretend = 0, frame = 24
+ 225              		@ frame_needed = 0, uses_anonymous_args = 0
+ 226              		@ link register save eliminated.
+ 227 01cc 86B0     		sub	sp, sp, #24
+ 228 01ce 0390     		str	r0, [sp, #12]
+ 229 01d0 0291     		str	r1, [sp, #8]
+ 230 01d2 0192     		str	r2, [sp, #4]
+ 231 01d4 0093     		str	r3, [sp, #0]
+ 232 01d6 4FF00003 		mov	r3, #0
+ 233 01da 8DF81730 		strb	r3, [sp, #23]
+ 234 01de 1FE0     		b	.L14
+ 235              	.L15:
+ 236 01e0 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 237 01e4 4FEA8303 		lsl	r3, r3, #2
+ 238 01e8 029A     		ldr	r2, [sp, #8]
+ 239 01ea D318     		adds	r3, r2, r3
+ 240 01ec 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 241 01f0 4FEA8202 		lsl	r2, r2, #2
+ 242 01f4 0199     		ldr	r1, [sp, #4]
+ 243 01f6 8A18     		adds	r2, r1, r2
+ 244 01f8 92ED007A 		flds	s14, [r2, #0]
+ 245 01fc 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 246 0200 4FEA8202 		lsl	r2, r2, #2
+ 247 0204 0099     		ldr	r1, [sp, #0]
+ 248 0206 8A18     		adds	r2, r1, r2
+ 249 0208 D2ED007A 		flds	s15, [r2, #0]
+ 250 020c 77EE677A 		fsubs	s15, s14, s15
+ 251 0210 C3ED007A 		fsts	s15, [r3, #0]
+ 252 0214 9DF81730 		ldrb	r3, [sp, #23]
+ 253 0218 03F10103 		add	r3, r3, #1
+ 254 021c 8DF81730 		strb	r3, [sp, #23]
+ 255              	.L14:
+ 256 0220 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 257 0224 039B     		ldr	r3, [sp, #12]
+ 258 0226 9A42     		cmp	r2, r3
+ 259 0228 DADB     		blt	.L15
+ 260 022a 06B0     		add	sp, sp, #24
+ 261 022c 7047     		bx	lr
+ 263 022e 00BF     		.align	2
+ 264              		.global	matrixMultiply
+ 265              		.thumb
+ 266              		.thumb_func
+ 268              	matrixMultiply:
+ 269              		@ args = 8, pretend = 0, frame = 24
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271              		@ link register save eliminated.
+ 272 0230 86B0     		sub	sp, sp, #24
+ 273 0232 0390     		str	r0, [sp, #12]
+ 274 0234 0291     		str	r1, [sp, #8]
+ 275 0236 0192     		str	r2, [sp, #4]
+ 276 0238 0093     		str	r3, [sp, #0]
+ 277 023a 4FF00003 		mov	r3, #0
+ 278 023e 8DF81730 		strb	r3, [sp, #23]
+ 279 0242 0DE0     		b	.L17
+ 280              	.L18:
+ 281 0244 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 282 0248 4FEA8303 		lsl	r3, r3, #2
+ 283 024c 009A     		ldr	r2, [sp, #0]
+ 284 024e D318     		adds	r3, r2, r3
+ 285 0250 3E4A     		ldr	r2, .L25	@ float
+ 286 0252 1A60     		str	r2, [r3, #0]	@ float
+ 287 0254 9DF81730 		ldrb	r3, [sp, #23]
+ 288 0258 03F10103 		add	r3, r3, #1
+ 289 025c 8DF81730 		strb	r3, [sp, #23]
+ 290              	.L17:
+ 291 0260 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 292 0264 039B     		ldr	r3, [sp, #12]
+ 293 0266 0199     		ldr	r1, [sp, #4]
+ 294 0268 01FB03F3 		mul	r3, r1, r3
+ 295 026c 9A42     		cmp	r2, r3
+ 296 026e E9DB     		blt	.L18
+ 297 0270 4FF00003 		mov	r3, #0
+ 298 0274 8DF81730 		strb	r3, [sp, #23]
+ 299 0278 61E0     		b	.L19
+ 300              	.L24:
+ 301 027a 4FF00003 		mov	r3, #0
+ 302 027e 8DF81630 		strb	r3, [sp, #22]
+ 303 0282 51E0     		b	.L20
+ 304              	.L23:
+ 305 0284 4FF00003 		mov	r3, #0
+ 306 0288 8DF81530 		strb	r3, [sp, #21]
+ 307 028c 41E0     		b	.L21
+ 308              	.L22:
+ 309 028e 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 310 0292 019A     		ldr	r2, [sp, #4]
+ 311 0294 02FB03F2 		mul	r2, r2, r3
+ 312 0298 9DF81530 		ldrb	r3, [sp, #21]	@ zero_extendqisi2
+ 313 029c D318     		adds	r3, r2, r3
+ 314 029e 4FEA8303 		lsl	r3, r3, #2
+ 315 02a2 009A     		ldr	r2, [sp, #0]
+ 316 02a4 D318     		adds	r3, r2, r3
+ 317 02a6 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 318 02aa 0199     		ldr	r1, [sp, #4]
+ 319 02ac 01FB02F1 		mul	r1, r1, r2
+ 320 02b0 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 321 02b4 8A18     		adds	r2, r1, r2
+ 322 02b6 4FEA8202 		lsl	r2, r2, #2
+ 323 02ba 0099     		ldr	r1, [sp, #0]
+ 324 02bc 8A18     		adds	r2, r1, r2
+ 325 02be 92ED007A 		flds	s14, [r2, #0]
+ 326 02c2 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 327 02c6 0299     		ldr	r1, [sp, #8]
+ 328 02c8 01FB02F1 		mul	r1, r1, r2
+ 329 02cc 9DF81620 		ldrb	r2, [sp, #22]	@ zero_extendqisi2
+ 330 02d0 8A18     		adds	r2, r1, r2
+ 331 02d2 4FEA8202 		lsl	r2, r2, #2
+ 332 02d6 0699     		ldr	r1, [sp, #24]
+ 333 02d8 8A18     		adds	r2, r1, r2
+ 334 02da D2ED006A 		flds	s13, [r2, #0]
+ 335 02de 9DF81620 		ldrb	r2, [sp, #22]	@ zero_extendqisi2
+ 336 02e2 0199     		ldr	r1, [sp, #4]
+ 337 02e4 01FB02F1 		mul	r1, r1, r2
+ 338 02e8 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 339 02ec 8A18     		adds	r2, r1, r2
+ 340 02ee 4FEA8202 		lsl	r2, r2, #2
+ 341 02f2 0799     		ldr	r1, [sp, #28]
+ 342 02f4 8A18     		adds	r2, r1, r2
+ 343 02f6 D2ED007A 		flds	s15, [r2, #0]
+ 344 02fa 66EEA77A 		fmuls	s15, s13, s15
+ 345 02fe 77EE277A 		fadds	s15, s14, s15
+ 346 0302 C3ED007A 		fsts	s15, [r3, #0]
+ 347 0306 9DF81530 		ldrb	r3, [sp, #21]
+ 348 030a 03F10103 		add	r3, r3, #1
+ 349 030e 8DF81530 		strb	r3, [sp, #21]
+ 350              	.L21:
+ 351 0312 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 352 0316 019B     		ldr	r3, [sp, #4]
+ 353 0318 9A42     		cmp	r2, r3
+ 354 031a B8DB     		blt	.L22
+ 355 031c 9DF81630 		ldrb	r3, [sp, #22]
+ 356 0320 03F10103 		add	r3, r3, #1
+ 357 0324 8DF81630 		strb	r3, [sp, #22]
+ 358              	.L20:
+ 359 0328 9DF81620 		ldrb	r2, [sp, #22]	@ zero_extendqisi2
+ 360 032c 029B     		ldr	r3, [sp, #8]
+ 361 032e 9A42     		cmp	r2, r3
+ 362 0330 A8DB     		blt	.L23
+ 363 0332 9DF81730 		ldrb	r3, [sp, #23]
+ 364 0336 03F10103 		add	r3, r3, #1
+ 365 033a 8DF81730 		strb	r3, [sp, #23]
+ 366              	.L19:
+ 367 033e 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 368 0342 039B     		ldr	r3, [sp, #12]
+ 369 0344 9A42     		cmp	r2, r3
+ 370 0346 98DB     		blt	.L24
+ 371 0348 06B0     		add	sp, sp, #24
+ 372 034a 7047     		bx	lr
+ 373              	.L26:
+ 374              		.align	2
+ 375              	.L25:
+ 376 034c 00000000 		.word	0
+ 378              		.align	2
+ 379              		.global	matrixAdd
+ 380              		.thumb
+ 381              		.thumb_func
+ 383              	matrixAdd:
+ 384              		@ args = 4, pretend = 0, frame = 24
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 0350 86B0     		sub	sp, sp, #24
+ 388 0352 0390     		str	r0, [sp, #12]
+ 389 0354 0291     		str	r1, [sp, #8]
+ 390 0356 0192     		str	r2, [sp, #4]
+ 391 0358 0093     		str	r3, [sp, #0]
+ 392 035a 4FF00003 		mov	r3, #0
+ 393 035e 8DF81730 		strb	r3, [sp, #23]
+ 394 0362 1FE0     		b	.L28
+ 395              	.L29:
+ 396 0364 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 397 0368 4FEA8303 		lsl	r3, r3, #2
+ 398 036c 019A     		ldr	r2, [sp, #4]
+ 399 036e D318     		adds	r3, r2, r3
+ 400 0370 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 401 0374 4FEA8202 		lsl	r2, r2, #2
+ 402 0378 0099     		ldr	r1, [sp, #0]
+ 403 037a 8A18     		adds	r2, r1, r2
+ 404 037c 92ED007A 		flds	s14, [r2, #0]
+ 405 0380 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 406 0384 4FEA8202 		lsl	r2, r2, #2
+ 407 0388 0699     		ldr	r1, [sp, #24]
+ 408 038a 8A18     		adds	r2, r1, r2
+ 409 038c D2ED007A 		flds	s15, [r2, #0]
+ 410 0390 77EE277A 		fadds	s15, s14, s15
+ 411 0394 C3ED007A 		fsts	s15, [r3, #0]
+ 412 0398 9DF81730 		ldrb	r3, [sp, #23]
+ 413 039c 03F10103 		add	r3, r3, #1
+ 414 03a0 8DF81730 		strb	r3, [sp, #23]
+ 415              	.L28:
+ 416 03a4 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 417 03a8 039B     		ldr	r3, [sp, #12]
+ 418 03aa 0299     		ldr	r1, [sp, #8]
+ 419 03ac 01FB03F3 		mul	r3, r1, r3
+ 420 03b0 9A42     		cmp	r2, r3
+ 421 03b2 D7DB     		blt	.L29
+ 422 03b4 06B0     		add	sp, sp, #24
+ 423 03b6 7047     		bx	lr
+ 425              		.align	2
+ 426              		.global	matrixSubtract
+ 427              		.thumb
+ 428              		.thumb_func
+ 430              	matrixSubtract:
+ 431              		@ args = 4, pretend = 0, frame = 24
+ 432              		@ frame_needed = 0, uses_anonymous_args = 0
+ 433              		@ link register save eliminated.
+ 434 03b8 86B0     		sub	sp, sp, #24
+ 435 03ba 0390     		str	r0, [sp, #12]
+ 436 03bc 0291     		str	r1, [sp, #8]
+ 437 03be 0192     		str	r2, [sp, #4]
+ 438 03c0 0093     		str	r3, [sp, #0]
+ 439 03c2 4FF00003 		mov	r3, #0
+ 440 03c6 8DF81730 		strb	r3, [sp, #23]
+ 441 03ca 1FE0     		b	.L31
+ 442              	.L32:
+ 443 03cc 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 444 03d0 4FEA8303 		lsl	r3, r3, #2
+ 445 03d4 019A     		ldr	r2, [sp, #4]
+ 446 03d6 D318     		adds	r3, r2, r3
+ 447 03d8 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 448 03dc 4FEA8202 		lsl	r2, r2, #2
+ 449 03e0 0099     		ldr	r1, [sp, #0]
+ 450 03e2 8A18     		adds	r2, r1, r2
+ 451 03e4 92ED007A 		flds	s14, [r2, #0]
+ 452 03e8 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 453 03ec 4FEA8202 		lsl	r2, r2, #2
+ 454 03f0 0699     		ldr	r1, [sp, #24]
+ 455 03f2 8A18     		adds	r2, r1, r2
+ 456 03f4 D2ED007A 		flds	s15, [r2, #0]
+ 457 03f8 77EE677A 		fsubs	s15, s14, s15
+ 458 03fc C3ED007A 		fsts	s15, [r3, #0]
+ 459 0400 9DF81730 		ldrb	r3, [sp, #23]
+ 460 0404 03F10103 		add	r3, r3, #1
+ 461 0408 8DF81730 		strb	r3, [sp, #23]
+ 462              	.L31:
+ 463 040c 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 464 0410 039B     		ldr	r3, [sp, #12]
+ 465 0412 0299     		ldr	r1, [sp, #8]
+ 466 0414 01FB03F3 		mul	r3, r1, r3
+ 467 0418 9A42     		cmp	r2, r3
+ 468 041a D7DB     		blt	.L32
+ 469 041c 06B0     		add	sp, sp, #24
+ 470 041e 7047     		bx	lr
+ 472              		.align	2
+ 473              		.global	matrixScale
+ 474              		.thumb
+ 475              		.thumb_func
+ 477              	matrixScale:
+ 478              		@ args = 4, pretend = 0, frame = 24
+ 479              		@ frame_needed = 0, uses_anonymous_args = 0
+ 480              		@ link register save eliminated.
+ 481 0420 86B0     		sub	sp, sp, #24
+ 482 0422 0390     		str	r0, [sp, #12]
+ 483 0424 0291     		str	r1, [sp, #8]
+ 484 0426 0192     		str	r2, [sp, #4]
+ 485 0428 0093     		str	r3, [sp, #0]	@ float
+ 486 042a 4FF00003 		mov	r3, #0
+ 487 042e 8DF81730 		strb	r3, [sp, #23]
+ 488 0432 19E0     		b	.L34
+ 489              	.L35:
+ 490 0434 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 491 0438 4FEA8303 		lsl	r3, r3, #2
+ 492 043c 019A     		ldr	r2, [sp, #4]
+ 493 043e D318     		adds	r3, r2, r3
+ 494 0440 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 495 0444 4FEA8202 		lsl	r2, r2, #2
+ 496 0448 0699     		ldr	r1, [sp, #24]
+ 497 044a 8A18     		adds	r2, r1, r2
+ 498 044c 92ED007A 		flds	s14, [r2, #0]
+ 499 0450 DDED007A 		flds	s15, [sp, #0]
+ 500 0454 67EE277A 		fmuls	s15, s14, s15
+ 501 0458 C3ED007A 		fsts	s15, [r3, #0]
+ 502 045c 9DF81730 		ldrb	r3, [sp, #23]
+ 503 0460 03F10103 		add	r3, r3, #1
+ 504 0464 8DF81730 		strb	r3, [sp, #23]
+ 505              	.L34:
+ 506 0468 9DF81720 		ldrb	r2, [sp, #23]	@ zero_extendqisi2
+ 507 046c 039B     		ldr	r3, [sp, #12]
+ 508 046e 0299     		ldr	r1, [sp, #8]
+ 509 0470 01FB03F3 		mul	r3, r1, r3
+ 510 0474 9A42     		cmp	r2, r3
+ 511 0476 DDDB     		blt	.L35
+ 512 0478 06B0     		add	sp, sp, #24
+ 513 047a 7047     		bx	lr
+ 515              		.align	2
+ 516              		.global	matrixTranspose3x3
+ 517              		.thumb
+ 518              		.thumb_func
+ 520              	matrixTranspose3x3:
+ 521              		@ args = 0, pretend = 0, frame = 8
+ 522              		@ frame_needed = 0, uses_anonymous_args = 0
+ 523              		@ link register save eliminated.
+ 524 047c 82B0     		sub	sp, sp, #8
+ 525 047e 0190     		str	r0, [sp, #4]
+ 526 0480 0091     		str	r1, [sp, #0]
+ 527 0482 009B     		ldr	r3, [sp, #0]
+ 528 0484 1A68     		ldr	r2, [r3, #0]	@ float
+ 529 0486 019B     		ldr	r3, [sp, #4]
+ 530 0488 1A60     		str	r2, [r3, #0]	@ float
+ 531 048a 019B     		ldr	r3, [sp, #4]
+ 532 048c 03F10403 		add	r3, r3, #4
+ 533 0490 009A     		ldr	r2, [sp, #0]
+ 534 0492 D268     		ldr	r2, [r2, #12]	@ float
+ 535 0494 1A60     		str	r2, [r3, #0]	@ float
+ 536 0496 019B     		ldr	r3, [sp, #4]
+ 537 0498 03F10803 		add	r3, r3, #8
+ 538 049c 009A     		ldr	r2, [sp, #0]
+ 539 049e 9269     		ldr	r2, [r2, #24]	@ float
+ 540 04a0 1A60     		str	r2, [r3, #0]	@ float
+ 541 04a2 019B     		ldr	r3, [sp, #4]
+ 542 04a4 03F10C03 		add	r3, r3, #12
+ 543 04a8 009A     		ldr	r2, [sp, #0]
+ 544 04aa 5268     		ldr	r2, [r2, #4]	@ float
+ 545 04ac 1A60     		str	r2, [r3, #0]	@ float
+ 546 04ae 019B     		ldr	r3, [sp, #4]
+ 547 04b0 03F11003 		add	r3, r3, #16
+ 548 04b4 009A     		ldr	r2, [sp, #0]
+ 549 04b6 1269     		ldr	r2, [r2, #16]	@ float
+ 550 04b8 1A60     		str	r2, [r3, #0]	@ float
+ 551 04ba 019B     		ldr	r3, [sp, #4]
+ 552 04bc 03F11403 		add	r3, r3, #20
+ 553 04c0 009A     		ldr	r2, [sp, #0]
+ 554 04c2 D269     		ldr	r2, [r2, #28]	@ float
+ 555 04c4 1A60     		str	r2, [r3, #0]	@ float
+ 556 04c6 019B     		ldr	r3, [sp, #4]
+ 557 04c8 03F11803 		add	r3, r3, #24
+ 558 04cc 009A     		ldr	r2, [sp, #0]
+ 559 04ce 9268     		ldr	r2, [r2, #8]	@ float
+ 560 04d0 1A60     		str	r2, [r3, #0]	@ float
+ 561 04d2 019B     		ldr	r3, [sp, #4]
+ 562 04d4 03F11C03 		add	r3, r3, #28
+ 563 04d8 009A     		ldr	r2, [sp, #0]
+ 564 04da 5269     		ldr	r2, [r2, #20]	@ float
+ 565 04dc 1A60     		str	r2, [r3, #0]	@ float
+ 566 04de 019B     		ldr	r3, [sp, #4]
+ 567 04e0 03F12003 		add	r3, r3, #32
+ 568 04e4 009A     		ldr	r2, [sp, #0]
+ 569 04e6 126A     		ldr	r2, [r2, #32]	@ float
+ 570 04e8 1A60     		str	r2, [r3, #0]	@ float
+ 571 04ea 02B0     		add	sp, sp, #8
+ 572 04ec 7047     		bx	lr
+ 574 04ee 00BF     		.align	2
+ 575              		.global	matrixInverse3x3
+ 576              		.thumb
+ 577              		.thumb_func
+ 579              	matrixInverse3x3:
+ 580              		@ args = 0, pretend = 0, frame = 120
+ 581              		@ frame_needed = 0, uses_anonymous_args = 0
+ 582 04f0 00B5     		push	{lr}
+ 583 04f2 A1B0     		sub	sp, sp, #132
+ 584 04f4 0390     		str	r0, [sp, #12]
+ 585 04f6 0291     		str	r1, [sp, #8]
+ 586 04f8 029B     		ldr	r3, [sp, #8]
+ 587 04fa D3ED006A 		flds	s13, [r3, #0]
+ 588 04fe 029B     		ldr	r3, [sp, #8]
+ 589 0500 03F11003 		add	r3, r3, #16
+ 590 0504 93ED007A 		flds	s14, [r3, #0]
+ 591 0508 029B     		ldr	r3, [sp, #8]
+ 592 050a 03F12003 		add	r3, r3, #32
+ 593 050e D3ED007A 		flds	s15, [r3, #0]
+ 594 0512 27EE277A 		fmuls	s14, s14, s15
+ 595 0516 029B     		ldr	r3, [sp, #8]
+ 596 0518 03F11403 		add	r3, r3, #20
+ 597 051c 93ED006A 		flds	s12, [r3, #0]
+ 598 0520 029B     		ldr	r3, [sp, #8]
+ 599 0522 03F11C03 		add	r3, r3, #28
+ 600 0526 D3ED007A 		flds	s15, [r3, #0]
+ 601 052a 66EE277A 		fmuls	s15, s12, s15
+ 602 052e 77EE677A 		fsubs	s15, s14, s15
+ 603 0532 26EEA77A 		fmuls	s14, s13, s15
+ 604 0536 029B     		ldr	r3, [sp, #8]
+ 605 0538 03F10403 		add	r3, r3, #4
+ 606 053c 93ED006A 		flds	s12, [r3, #0]
+ 607 0540 029B     		ldr	r3, [sp, #8]
+ 608 0542 03F10C03 		add	r3, r3, #12
+ 609 0546 D3ED006A 		flds	s13, [r3, #0]
+ 610 054a 029B     		ldr	r3, [sp, #8]
+ 611 054c 03F12003 		add	r3, r3, #32
+ 612 0550 D3ED007A 		flds	s15, [r3, #0]
+ 613 0554 66EEA76A 		fmuls	s13, s13, s15
+ 614 0558 029B     		ldr	r3, [sp, #8]
+ 615 055a 03F11403 		add	r3, r3, #20
+ 616 055e D3ED005A 		flds	s11, [r3, #0]
+ 617 0562 029B     		ldr	r3, [sp, #8]
+ 618 0564 03F11803 		add	r3, r3, #24
+ 619 0568 D3ED007A 		flds	s15, [r3, #0]
+ 620 056c 65EEA77A 		fmuls	s15, s11, s15
+ 621 0570 76EEE77A 		fsubs	s15, s13, s15
+ 622 0574 66EE277A 		fmuls	s15, s12, s15
+ 623 0578 77EE676A 		fsubs	s13, s14, s15
+ 624 057c 029B     		ldr	r3, [sp, #8]
+ 625 057e 03F10803 		add	r3, r3, #8
+ 626 0582 93ED006A 		flds	s12, [r3, #0]
+ 627 0586 029B     		ldr	r3, [sp, #8]
+ 628 0588 03F10C03 		add	r3, r3, #12
+ 629 058c 93ED007A 		flds	s14, [r3, #0]
+ 630 0590 029B     		ldr	r3, [sp, #8]
+ 631 0592 03F11C03 		add	r3, r3, #28
+ 632 0596 D3ED007A 		flds	s15, [r3, #0]
+ 633 059a 27EE277A 		fmuls	s14, s14, s15
+ 634 059e 029B     		ldr	r3, [sp, #8]
+ 635 05a0 03F11003 		add	r3, r3, #16
+ 636 05a4 D3ED005A 		flds	s11, [r3, #0]
+ 637 05a8 029B     		ldr	r3, [sp, #8]
+ 638 05aa 03F11803 		add	r3, r3, #24
+ 639 05ae D3ED007A 		flds	s15, [r3, #0]
+ 640 05b2 65EEA77A 		fmuls	s15, s11, s15
+ 641 05b6 77EE677A 		fsubs	s15, s14, s15
+ 642 05ba 66EE277A 		fmuls	s15, s12, s15
+ 643 05be 76EEA77A 		fadds	s15, s13, s15
+ 644 05c2 CDED1F7A 		fsts	s15, [sp, #124]
+ 645 05c6 16AB     		add	r3, sp, #88
+ 646 05c8 1846     		mov	r0, r3
+ 647 05ca 0299     		ldr	r1, [sp, #8]
+ 648 05cc FFF7FEFF 		bl	matrixTranspose3x3
+ 649 05d0 029B     		ldr	r3, [sp, #8]
+ 650 05d2 03F11003 		add	r3, r3, #16
+ 651 05d6 93ED007A 		flds	s14, [r3, #0]
+ 652 05da 029B     		ldr	r3, [sp, #8]
+ 653 05dc 03F12003 		add	r3, r3, #32
+ 654 05e0 D3ED007A 		flds	s15, [r3, #0]
+ 655 05e4 27EE277A 		fmuls	s14, s14, s15
+ 656 05e8 029B     		ldr	r3, [sp, #8]
+ 657 05ea 03F11403 		add	r3, r3, #20
+ 658 05ee D3ED006A 		flds	s13, [r3, #0]
+ 659 05f2 029B     		ldr	r3, [sp, #8]
+ 660 05f4 03F11C03 		add	r3, r3, #28
+ 661 05f8 D3ED007A 		flds	s15, [r3, #0]
+ 662 05fc 66EEA77A 		fmuls	s15, s13, s15
+ 663 0600 77EE677A 		fsubs	s15, s14, s15
+ 664 0604 CDED0D7A 		fsts	s15, [sp, #52]
+ 665 0608 029B     		ldr	r3, [sp, #8]
+ 666 060a 03F11403 		add	r3, r3, #20
+ 667 060e 93ED007A 		flds	s14, [r3, #0]
+ 668 0612 029B     		ldr	r3, [sp, #8]
+ 669 0614 03F11803 		add	r3, r3, #24
+ 670 0618 D3ED007A 		flds	s15, [r3, #0]
+ 671 061c 27EE277A 		fmuls	s14, s14, s15
+ 672 0620 029B     		ldr	r3, [sp, #8]
+ 673 0622 03F10C03 		add	r3, r3, #12
+ 674 0626 D3ED006A 		flds	s13, [r3, #0]
+ 675 062a 029B     		ldr	r3, [sp, #8]
+ 676 062c 03F12003 		add	r3, r3, #32
+ 677 0630 D3ED007A 		flds	s15, [r3, #0]
+ 678 0634 66EEA77A 		fmuls	s15, s13, s15
+ 679 0638 77EE677A 		fsubs	s15, s14, s15
+ 680 063c CDED0E7A 		fsts	s15, [sp, #56]
+ 681 0640 029B     		ldr	r3, [sp, #8]
+ 682 0642 03F10C03 		add	r3, r3, #12
+ 683 0646 93ED007A 		flds	s14, [r3, #0]
+ 684 064a 029B     		ldr	r3, [sp, #8]
+ 685 064c 03F11C03 		add	r3, r3, #28
+ 686 0650 D3ED007A 		flds	s15, [r3, #0]
+ 687 0654 27EE277A 		fmuls	s14, s14, s15
+ 688 0658 029B     		ldr	r3, [sp, #8]
+ 689 065a 03F11003 		add	r3, r3, #16
+ 690 065e D3ED006A 		flds	s13, [r3, #0]
+ 691 0662 029B     		ldr	r3, [sp, #8]
+ 692 0664 03F11803 		add	r3, r3, #24
+ 693 0668 D3ED007A 		flds	s15, [r3, #0]
+ 694 066c 66EEA77A 		fmuls	s15, s13, s15
+ 695 0670 77EE677A 		fsubs	s15, s14, s15
+ 696 0674 CDED0F7A 		fsts	s15, [sp, #60]
+ 697 0678 029B     		ldr	r3, [sp, #8]
+ 698 067a 03F10803 		add	r3, r3, #8
+ 699 067e 93ED007A 		flds	s14, [r3, #0]
+ 700 0682 029B     		ldr	r3, [sp, #8]
+ 701 0684 03F11C03 		add	r3, r3, #28
+ 702 0688 D3ED007A 		flds	s15, [r3, #0]
+ 703 068c 27EE277A 		fmuls	s14, s14, s15
+ 704 0690 029B     		ldr	r3, [sp, #8]
+ 705 0692 03F10403 		add	r3, r3, #4
+ 706 0696 D3ED006A 		flds	s13, [r3, #0]
+ 707 069a 029B     		ldr	r3, [sp, #8]
+ 708 069c 03F12003 		add	r3, r3, #32
+ 709 06a0 D3ED007A 		flds	s15, [r3, #0]
+ 710 06a4 66EEA77A 		fmuls	s15, s13, s15
+ 711 06a8 77EE677A 		fsubs	s15, s14, s15
+ 712 06ac CDED107A 		fsts	s15, [sp, #64]
+ 713 06b0 029B     		ldr	r3, [sp, #8]
+ 714 06b2 93ED007A 		flds	s14, [r3, #0]
+ 715 06b6 029B     		ldr	r3, [sp, #8]
+ 716 06b8 03F12003 		add	r3, r3, #32
+ 717 06bc D3ED007A 		flds	s15, [r3, #0]
+ 718 06c0 27EE277A 		fmuls	s14, s14, s15
+ 719 06c4 029B     		ldr	r3, [sp, #8]
+ 720 06c6 03F10803 		add	r3, r3, #8
+ 721 06ca D3ED006A 		flds	s13, [r3, #0]
+ 722 06ce 029B     		ldr	r3, [sp, #8]
+ 723 06d0 03F11803 		add	r3, r3, #24
+ 724 06d4 D3ED007A 		flds	s15, [r3, #0]
+ 725 06d8 66EEA77A 		fmuls	s15, s13, s15
+ 726 06dc 77EE677A 		fsubs	s15, s14, s15
+ 727 06e0 CDED117A 		fsts	s15, [sp, #68]
+ 728 06e4 029B     		ldr	r3, [sp, #8]
+ 729 06e6 03F10403 		add	r3, r3, #4
+ 730 06ea 93ED007A 		flds	s14, [r3, #0]
+ 731 06ee 029B     		ldr	r3, [sp, #8]
+ 732 06f0 03F11803 		add	r3, r3, #24
+ 733 06f4 D3ED007A 		flds	s15, [r3, #0]
+ 734 06f8 27EE277A 		fmuls	s14, s14, s15
+ 735 06fc 029B     		ldr	r3, [sp, #8]
+ 736 06fe D3ED006A 		flds	s13, [r3, #0]
+ 737 0702 029B     		ldr	r3, [sp, #8]
+ 738 0704 03F11C03 		add	r3, r3, #28
+ 739 0708 D3ED007A 		flds	s15, [r3, #0]
+ 740 070c 66EEA77A 		fmuls	s15, s13, s15
+ 741 0710 77EE677A 		fsubs	s15, s14, s15
+ 742 0714 CDED127A 		fsts	s15, [sp, #72]
+ 743 0718 029B     		ldr	r3, [sp, #8]
+ 744 071a 03F10403 		add	r3, r3, #4
+ 745 071e 93ED007A 		flds	s14, [r3, #0]
+ 746 0722 029B     		ldr	r3, [sp, #8]
+ 747 0724 03F11403 		add	r3, r3, #20
+ 748 0728 D3ED007A 		flds	s15, [r3, #0]
+ 749 072c 27EE277A 		fmuls	s14, s14, s15
+ 750 0730 029B     		ldr	r3, [sp, #8]
+ 751 0732 03F10803 		add	r3, r3, #8
+ 752 0736 D3ED006A 		flds	s13, [r3, #0]
+ 753 073a 029B     		ldr	r3, [sp, #8]
+ 754 073c 03F11003 		add	r3, r3, #16
+ 755 0740 D3ED007A 		flds	s15, [r3, #0]
+ 756 0744 66EEA77A 		fmuls	s15, s13, s15
+ 757 0748 77EE677A 		fsubs	s15, s14, s15
+ 758 074c CDED137A 		fsts	s15, [sp, #76]
+ 759 0750 029B     		ldr	r3, [sp, #8]
+ 760 0752 03F10803 		add	r3, r3, #8
+ 761 0756 93ED007A 		flds	s14, [r3, #0]
+ 762 075a 029B     		ldr	r3, [sp, #8]
+ 763 075c 03F10C03 		add	r3, r3, #12
+ 764 0760 D3ED007A 		flds	s15, [r3, #0]
+ 765 0764 27EE277A 		fmuls	s14, s14, s15
+ 766 0768 029B     		ldr	r3, [sp, #8]
+ 767 076a D3ED006A 		flds	s13, [r3, #0]
+ 768 076e 029B     		ldr	r3, [sp, #8]
+ 769 0770 03F11403 		add	r3, r3, #20
+ 770 0774 D3ED007A 		flds	s15, [r3, #0]
+ 771 0778 66EEA77A 		fmuls	s15, s13, s15
+ 772 077c 77EE677A 		fsubs	s15, s14, s15
+ 773 0780 CDED147A 		fsts	s15, [sp, #80]
+ 774 0784 029B     		ldr	r3, [sp, #8]
+ 775 0786 93ED007A 		flds	s14, [r3, #0]
+ 776 078a 029B     		ldr	r3, [sp, #8]
+ 777 078c 03F11003 		add	r3, r3, #16
+ 778 0790 D3ED007A 		flds	s15, [r3, #0]
+ 779 0794 27EE277A 		fmuls	s14, s14, s15
+ 780 0798 029B     		ldr	r3, [sp, #8]
+ 781 079a 03F10403 		add	r3, r3, #4
+ 782 079e D3ED006A 		flds	s13, [r3, #0]
+ 783 07a2 029B     		ldr	r3, [sp, #8]
+ 784 07a4 03F10C03 		add	r3, r3, #12
+ 785 07a8 D3ED007A 		flds	s15, [r3, #0]
+ 786 07ac 66EEA77A 		fmuls	s15, s13, s15
+ 787 07b0 77EE677A 		fsubs	s15, s14, s15
+ 788 07b4 CDED157A 		fsts	s15, [sp, #84]
+ 789 07b8 04AB     		add	r3, sp, #16
+ 790 07ba 1846     		mov	r0, r3
+ 791 07bc 0DAB     		add	r3, sp, #52
+ 792 07be 1946     		mov	r1, r3
+ 793 07c0 FFF7FEFF 		bl	matrixTranspose3x3
+ 794 07c4 0A4B     		ldr	r3, .L38	@ float
+ 795 07c6 DDED1F7A 		flds	s15, [sp, #124]
+ 796 07ca 07EE103A 		fmsr	s14, r3
+ 797 07ce C7EE277A 		fdivs	s15, s14, s15
+ 798 07d2 CDED1F7A 		fsts	s15, [sp, #124]
+ 799 07d6 04AB     		add	r3, sp, #16
+ 800 07d8 0093     		str	r3, [sp, #0]
+ 801 07da 4FF00300 		mov	r0, #3
+ 802 07de 4FF00301 		mov	r1, #3
+ 803 07e2 039A     		ldr	r2, [sp, #12]
+ 804 07e4 1F9B     		ldr	r3, [sp, #124]	@ float
+ 805 07e6 FFF7FEFF 		bl	matrixScale
+ 806 07ea 21B0     		add	sp, sp, #132
+ 807 07ec 00BD     		pop	{pc}
+ 808              	.L39:
+ 809 07ee 00BF     		.align	2
+ 810              	.L38:
+ 811 07f0 0000803F 		.word	1065353216
+ 813              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 linearAlgebra.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:22     .text:00000000 vectorDotProduct
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:65     .text:00000058 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:67     .text:0000005c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:72     .text:0000005c vectorCrossProduct
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:137    .text:00000110 vectorScale
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:178    .text:00000168 vectorAdd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:223    .text:000001cc vectorSubtract
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:268    .text:00000230 matrixMultiply
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:376    .text:0000034c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:378    .text:00000350 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:383    .text:00000350 matrixAdd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:430    .text:000003b8 matrixSubtract
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:477    .text:00000420 matrixScale
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:520    .text:0000047c matrixTranspose3x3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:579    .text:000004f0 matrixInverse3x3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCecX5c.s:811    .text:000007f0 $d
+
+NO UNDEFINED SYMBOLS

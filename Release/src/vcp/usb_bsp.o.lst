@@ -1,0 +1,193 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"usb_bsp.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	USB_OTG_BSP_Init
+  19              		.thumb
+  20              		.thumb_func
+  22              	USB_OTG_BSP_Init:
+  23              		@ args = 0, pretend = 0, frame = 16
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 00B5     		push	{lr}
+  26 0002 85B0     		sub	sp, sp, #20
+  27 0004 0190     		str	r0, [sp, #4]
+  28 0006 4FF00100 		mov	r0, #1
+  29 000a 4FF00101 		mov	r1, #1
+  30 000e FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+  31 0012 4FF4D853 		mov	r3, #6912
+  32 0016 0293     		str	r3, [sp, #8]
+  33 0018 4FF00303 		mov	r3, #3
+  34 001c 8DF80D30 		strb	r3, [sp, #13]
+  35 0020 4FF00203 		mov	r3, #2
+  36 0024 8DF80C30 		strb	r3, [sp, #12]
+  37 0028 4FF00003 		mov	r3, #0
+  38 002c 8DF80E30 		strb	r3, [sp, #14]
+  39 0030 4FF00003 		mov	r3, #0
+  40 0034 8DF80F30 		strb	r3, [sp, #15]
+  41 0038 4FF00000 		mov	r0, #0
+  42 003c C4F20200 		movt	r0, 16386
+  43 0040 02AB     		add	r3, sp, #8
+  44 0042 1946     		mov	r1, r3
+  45 0044 FFF7FEFF 		bl	GPIO_Init
+  46 0048 4FF00000 		mov	r0, #0
+  47 004c C4F20200 		movt	r0, 16386
+  48 0050 4FF00801 		mov	r1, #8
+  49 0054 4FF00A02 		mov	r2, #10
+  50 0058 FFF7FEFF 		bl	GPIO_PinAFConfig
+  51 005c 4FF00000 		mov	r0, #0
+  52 0060 C4F20200 		movt	r0, 16386
+  53 0064 4FF00901 		mov	r1, #9
+  54 0068 4FF00A02 		mov	r2, #10
+  55 006c FFF7FEFF 		bl	GPIO_PinAFConfig
+  56 0070 4FF00000 		mov	r0, #0
+  57 0074 C4F20200 		movt	r0, 16386
+  58 0078 4FF00B01 		mov	r1, #11
+  59 007c 4FF00A02 		mov	r2, #10
+  60 0080 FFF7FEFF 		bl	GPIO_PinAFConfig
+  61 0084 4FF00000 		mov	r0, #0
+  62 0088 C4F20200 		movt	r0, 16386
+  63 008c 4FF00C01 		mov	r1, #12
+  64 0090 4FF00A02 		mov	r2, #10
+  65 0094 FFF7FEFF 		bl	GPIO_PinAFConfig
+  66 0098 4FF48063 		mov	r3, #1024
+  67 009c 0293     		str	r3, [sp, #8]
+  68 009e 4FF00103 		mov	r3, #1
+  69 00a2 8DF80E30 		strb	r3, [sp, #14]
+  70 00a6 4FF00103 		mov	r3, #1
+  71 00aa 8DF80F30 		strb	r3, [sp, #15]
+  72 00ae 4FF00303 		mov	r3, #3
+  73 00b2 8DF80D30 		strb	r3, [sp, #13]
+  74 00b6 4FF00000 		mov	r0, #0
+  75 00ba C4F20200 		movt	r0, 16386
+  76 00be 02AB     		add	r3, sp, #8
+  77 00c0 1946     		mov	r1, r3
+  78 00c2 FFF7FEFF 		bl	GPIO_Init
+  79 00c6 4FF00000 		mov	r0, #0
+  80 00ca C4F20200 		movt	r0, 16386
+  81 00ce 4FF00A01 		mov	r1, #10
+  82 00d2 4FF00A02 		mov	r2, #10
+  83 00d6 FFF7FEFF 		bl	GPIO_PinAFConfig
+  84 00da 4FF48040 		mov	r0, #16384
+  85 00de 4FF00101 		mov	r1, #1
+  86 00e2 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  87 00e6 4FF08000 		mov	r0, #128
+  88 00ea 4FF00101 		mov	r1, #1
+  89 00ee FFF7FEFF 		bl	RCC_AHB2PeriphClockCmd
+  90 00f2 4FF08050 		mov	r0, #268435456
+  91 00f6 4FF00101 		mov	r1, #1
+  92 00fa FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  93 00fe 05B0     		add	sp, sp, #20
+  94 0100 00BD     		pop	{pc}
+  96 0102 00BF     		.align	2
+  97              		.global	USB_OTG_BSP_EnableInterrupt
+  98              		.thumb
+  99              		.thumb_func
+ 101              	USB_OTG_BSP_EnableInterrupt:
+ 102              		@ args = 0, pretend = 0, frame = 16
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104 0104 00B5     		push	{lr}
+ 105 0106 85B0     		sub	sp, sp, #20
+ 106 0108 0190     		str	r0, [sp, #4]
+ 107 010a 4FF4C060 		mov	r0, #1536
+ 108 010e FFF7FEFF 		bl	NVIC_PriorityGroupConfig
+ 109 0112 4FF04303 		mov	r3, #67
+ 110 0116 8DF80C30 		strb	r3, [sp, #12]
+ 111 011a 4FF00103 		mov	r3, #1
+ 112 011e 8DF80D30 		strb	r3, [sp, #13]
+ 113 0122 4FF00303 		mov	r3, #3
+ 114 0126 8DF80E30 		strb	r3, [sp, #14]
+ 115 012a 4FF00103 		mov	r3, #1
+ 116 012e 8DF80F30 		strb	r3, [sp, #15]
+ 117 0132 03AB     		add	r3, sp, #12
+ 118 0134 1846     		mov	r0, r3
+ 119 0136 FFF7FEFF 		bl	NVIC_Init
+ 120 013a 05B0     		add	sp, sp, #20
+ 121 013c 00BD     		pop	{pc}
+ 123 013e 00BF     		.align	2
+ 124              		.global	USB_OTG_BSP_uDelay
+ 125              		.thumb
+ 126              		.thumb_func
+ 128              	USB_OTG_BSP_uDelay:
+ 129              		@ args = 0, pretend = 0, frame = 16
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 132 0140 84B0     		sub	sp, sp, #16
+ 133 0142 0190     		str	r0, [sp, #4]
+ 134 0144 4FF00003 		mov	r3, #0
+ 135 0148 0393     		str	r3, [sp, #12]
+ 136 014a 019A     		ldr	r2, [sp, #4]
+ 137 014c 1346     		mov	r3, r2
+ 138 014e 4FEA0313 		lsl	r3, r3, #4
+ 139 0152 9B1A     		subs	r3, r3, r2
+ 140 0154 4FEAC303 		lsl	r3, r3, #3
+ 141 0158 1A46     		mov	r2, r3
+ 142 015a 44F62513 		movw	r3, #18725
+ 143 015e C2F29243 		movt	r3, 9362
+ 144 0162 A3FB0213 		umull	r1, r3, r3, r2
+ 145 0166 D21A     		subs	r2, r2, r3
+ 146 0168 4FEA5202 		lsr	r2, r2, #1
+ 147 016c 9B18     		adds	r3, r3, r2
+ 148 016e 4FEA9303 		lsr	r3, r3, #2
+ 149 0172 0293     		str	r3, [sp, #8]
+ 150 0174 00E0     		b	.L5
+ 151              	.L6:
+ 152 0176 00BF     		nop
+ 153              	.L5:
+ 154 0178 039B     		ldr	r3, [sp, #12]
+ 155 017a 03F10103 		add	r3, r3, #1
+ 156 017e 0393     		str	r3, [sp, #12]
+ 157 0180 039A     		ldr	r2, [sp, #12]
+ 158 0182 029B     		ldr	r3, [sp, #8]
+ 159 0184 9A42     		cmp	r2, r3
+ 160 0186 F6D9     		bls	.L6
+ 161 0188 00BF     		nop
+ 162 018a 04B0     		add	sp, sp, #16
+ 163 018c 7047     		bx	lr
+ 165 018e 00BF     		.align	2
+ 166              		.global	USB_OTG_BSP_mDelay
+ 167              		.thumb
+ 168              		.thumb_func
+ 170              	USB_OTG_BSP_mDelay:
+ 171              		@ args = 0, pretend = 0, frame = 8
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173 0190 00B5     		push	{lr}
+ 174 0192 83B0     		sub	sp, sp, #12
+ 175 0194 0190     		str	r0, [sp, #4]
+ 176 0196 019B     		ldr	r3, [sp, #4]
+ 177 0198 4FF47A72 		mov	r2, #1000
+ 178 019c 02FB03F3 		mul	r3, r2, r3
+ 179 01a0 1846     		mov	r0, r3
+ 180 01a2 FFF7FEFF 		bl	USB_OTG_BSP_uDelay
+ 181 01a6 03B0     		add	sp, sp, #12
+ 182 01a8 00BD     		pop	{pc}
+ 184 01aa 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 usb_bsp.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNhJRA7.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNhJRA7.s:22     .text:00000000 USB_OTG_BSP_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNhJRA7.s:101    .text:00000104 USB_OTG_BSP_EnableInterrupt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNhJRA7.s:128    .text:00000140 USB_OTG_BSP_uDelay
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNhJRA7.s:170    .text:00000190 USB_OTG_BSP_mDelay
+
+UNDEFINED SYMBOLS
+RCC_AHB1PeriphClockCmd
+GPIO_Init
+GPIO_PinAFConfig
+RCC_APB2PeriphClockCmd
+RCC_AHB2PeriphClockCmd
+RCC_APB1PeriphResetCmd
+NVIC_PriorityGroupConfig
+NVIC_Init

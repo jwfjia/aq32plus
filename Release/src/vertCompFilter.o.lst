@@ -1,0 +1,144 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"vertCompFilter.c"
+  16              		.comm	accelZ,4,4
+  17              		.global	estimationError
+  18              		.bss
+  19              		.align	2
+  22              	estimationError:
+  23 0000 00000000 		.space	4
+  24              		.global	hDotEstimate
+  25              		.align	2
+  28              	hDotEstimate:
+  29 0004 00000000 		.space	4
+  30              		.comm	hEstimate,4,4
+  31              		.global	previousExecUp
+  34              	previousExecUp:
+  35 0008 00       		.space	1
+  36 0009 000000   		.text
+  37              		.align	2
+  38              		.global	vertCompFilter
+  39              		.thumb
+  40              		.thumb_func
+  42              	vertCompFilter:
+  43              		@ args = 0, pretend = 0, frame = 8
+  44              		@ frame_needed = 0, uses_anonymous_args = 0
+  45              		@ link register save eliminated.
+  46 0000 82B0     		sub	sp, sp, #8
+  47 0002 0190     		str	r0, [sp, #4]	@ float
+  48 0004 40F20003 		movw	r3, #:lower16:execUp
+  49 0008 C0F20003 		movt	r3, #:upper16:execUp
+  50 000c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  51 000e 012B     		cmp	r3, #1
+  52 0010 10D1     		bne	.L2
+  53 0012 40F20003 		movw	r3, #:lower16:previousExecUp
+  54 0016 C0F20003 		movt	r3, #:upper16:previousExecUp
+  55 001a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  56 001c 002B     		cmp	r3, #0
+  57 001e 09D1     		bne	.L2
+  58 0020 40F20003 		movw	r3, #:lower16:sensors
+  59 0024 C0F20003 		movt	r3, #:upper16:sensors
+  60 0028 DA6B     		ldr	r2, [r3, #60]	@ float
+  61 002a 40F20003 		movw	r3, #:lower16:hEstimate
+  62 002e C0F20003 		movt	r3, #:upper16:hEstimate
+  63 0032 1A60     		str	r2, [r3, #0]	@ float
+  64              	.L2:
+  65 0034 40F20003 		movw	r3, #:lower16:execUp
+  66 0038 C0F20003 		movt	r3, #:upper16:execUp
+  67 003c 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+  68 003e 40F20003 		movw	r3, #:lower16:previousExecUp
+  69 0042 C0F20003 		movt	r3, #:upper16:previousExecUp
+  70 0046 1A70     		strb	r2, [r3, #0]
+  71 0048 40F20003 		movw	r3, #:lower16:execUp
+  72 004c C0F20003 		movt	r3, #:upper16:execUp
+  73 0050 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  74 0052 012B     		cmp	r3, #1
+  75 0054 6FD1     		bne	.L1
+  76 0056 40F20003 		movw	r3, #:lower16:eepromConfig
+  77 005a C0F20003 		movt	r3, #:upper16:eepromConfig
+  78 005e 93ED907A 		flds	s14, [r3, #576]
+  79 0062 40F20003 		movw	r3, #:lower16:estimationError
+  80 0066 C0F20003 		movt	r3, #:upper16:estimationError
+  81 006a D3ED007A 		flds	s15, [r3, #0]
+  82 006e 67EE277A 		fmuls	s15, s14, s15
+  83 0072 40F20003 		movw	r3, #:lower16:earthAxisAccels
+  84 0076 C0F20003 		movt	r3, #:upper16:earthAxisAccels
+  85 007a 93ED027A 		flds	s14, [r3, #8]
+  86 007e 77EEC77A 		fsubs	s15, s15, s14
+  87 0082 40F20003 		movw	r3, #:lower16:accelZ
+  88 0086 C0F20003 		movt	r3, #:upper16:accelZ
+  89 008a C3ED007A 		fsts	s15, [r3, #0]
+  90 008e 40F20003 		movw	r3, #:lower16:accelZ
+  91 0092 C0F20003 		movt	r3, #:upper16:accelZ
+  92 0096 93ED007A 		flds	s14, [r3, #0]
+  93 009a DDED017A 		flds	s15, [sp, #4]
+  94 009e 67EE277A 		fmuls	s15, s14, s15
+  95 00a2 40F20003 		movw	r3, #:lower16:hDotEstimate
+  96 00a6 C0F20003 		movt	r3, #:upper16:hDotEstimate
+  97 00aa 93ED007A 		flds	s14, [r3, #0]
+  98 00ae 77EE877A 		fadds	s15, s15, s14
+  99 00b2 40F20003 		movw	r3, #:lower16:hDotEstimate
+ 100 00b6 C0F20003 		movt	r3, #:upper16:hDotEstimate
+ 101 00ba C3ED007A 		fsts	s15, [r3, #0]
+ 102 00be 40F20003 		movw	r3, #:lower16:eepromConfig
+ 103 00c2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 104 00c6 93ED8F7A 		flds	s14, [r3, #572]
+ 105 00ca 40F20003 		movw	r3, #:lower16:estimationError
+ 106 00ce C0F20003 		movt	r3, #:upper16:estimationError
+ 107 00d2 D3ED007A 		flds	s15, [r3, #0]
+ 108 00d6 67EE277A 		fmuls	s15, s14, s15
+ 109 00da 40F20003 		movw	r3, #:lower16:hDotEstimate
+ 110 00de C0F20003 		movt	r3, #:upper16:hDotEstimate
+ 111 00e2 93ED007A 		flds	s14, [r3, #0]
+ 112 00e6 37EE877A 		fadds	s14, s15, s14
+ 113 00ea DDED017A 		flds	s15, [sp, #4]
+ 114 00ee 67EE277A 		fmuls	s15, s14, s15
+ 115 00f2 40F20003 		movw	r3, #:lower16:hEstimate
+ 116 00f6 C0F20003 		movt	r3, #:upper16:hEstimate
+ 117 00fa 93ED007A 		flds	s14, [r3, #0]
+ 118 00fe 77EE877A 		fadds	s15, s15, s14
+ 119 0102 40F20003 		movw	r3, #:lower16:hEstimate
+ 120 0106 C0F20003 		movt	r3, #:upper16:hEstimate
+ 121 010a C3ED007A 		fsts	s15, [r3, #0]
+ 122 010e 40F20003 		movw	r3, #:lower16:sensors
+ 123 0112 C0F20003 		movt	r3, #:upper16:sensors
+ 124 0116 93ED0F7A 		flds	s14, [r3, #60]
+ 125 011a 40F20003 		movw	r3, #:lower16:hEstimate
+ 126 011e C0F20003 		movt	r3, #:upper16:hEstimate
+ 127 0122 D3ED007A 		flds	s15, [r3, #0]
+ 128 0126 77EE677A 		fsubs	s15, s14, s15
+ 129 012a 40F20003 		movw	r3, #:lower16:estimationError
+ 130 012e C0F20003 		movt	r3, #:upper16:estimationError
+ 131 0132 C3ED007A 		fsts	s15, [r3, #0]
+ 132              	.L1:
+ 133 0136 02B0     		add	sp, sp, #8
+ 134 0138 7047     		bx	lr
+ 136 013a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 vertCompFilter.c
+                            *COM*:00000004 accelZ
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:22     .bss:00000000 estimationError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:19     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:28     .bss:00000004 hDotEstimate
+                            *COM*:00000004 hEstimate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:34     .bss:00000008 previousExecUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:37     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:42     .text:00000000 vertCompFilter
+
+UNDEFINED SYMBOLS
+execUp
+sensors
+eepromConfig
+earthAxisAccels

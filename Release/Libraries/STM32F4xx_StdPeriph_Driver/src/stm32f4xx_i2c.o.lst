@@ -1,0 +1,1324 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_i2c.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	I2C_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	I2C_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 8
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 00B5     		push	{lr}
+  26 0002 83B0     		sub	sp, sp, #12
+  27 0004 0190     		str	r0, [sp, #4]
+  28 0006 019A     		ldr	r2, [sp, #4]
+  29 0008 4FF4A843 		mov	r3, #21504
+  30 000c C4F20003 		movt	r3, 16384
+  31 0010 9A42     		cmp	r2, r3
+  32 0012 0CD1     		bne	.L2
+  33 0014 4FF40010 		mov	r0, #2097152
+  34 0018 4FF00101 		mov	r1, #1
+  35 001c FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  36 0020 4FF40010 		mov	r0, #2097152
+  37 0024 4FF00001 		mov	r1, #0
+  38 0028 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  39 002c 26E0     		b	.L1
+  40              	.L2:
+  41 002e 019A     		ldr	r2, [sp, #4]
+  42 0030 4FF4B043 		mov	r3, #22528
+  43 0034 C4F20003 		movt	r3, 16384
+  44 0038 9A42     		cmp	r2, r3
+  45 003a 0CD1     		bne	.L4
+  46 003c 4FF48000 		mov	r0, #4194304
+  47 0040 4FF00101 		mov	r1, #1
+  48 0044 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  49 0048 4FF48000 		mov	r0, #4194304
+  50 004c 4FF00001 		mov	r1, #0
+  51 0050 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  52 0054 12E0     		b	.L1
+  53              	.L4:
+  54 0056 019A     		ldr	r2, [sp, #4]
+  55 0058 4FF4B843 		mov	r3, #23552
+  56 005c C4F20003 		movt	r3, 16384
+  57 0060 9A42     		cmp	r2, r3
+  58 0062 0BD1     		bne	.L1
+  59 0064 4FF40000 		mov	r0, #8388608
+  60 0068 4FF00101 		mov	r1, #1
+  61 006c FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  62 0070 4FF40000 		mov	r0, #8388608
+  63 0074 4FF00001 		mov	r1, #0
+  64 0078 FFF7FEFF 		bl	RCC_APB1PeriphResetCmd
+  65              	.L1:
+  66 007c 03B0     		add	sp, sp, #12
+  67 007e 00BD     		pop	{pc}
+  69              		.align	2
+  70              		.global	I2C_Init
+  71              		.thumb
+  72              		.thumb_func
+  74              	I2C_Init:
+  75              		@ args = 0, pretend = 0, frame = 40
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77 0080 00B5     		push	{lr}
+  78 0082 8BB0     		sub	sp, sp, #44
+  79 0084 0190     		str	r0, [sp, #4]
+  80 0086 0091     		str	r1, [sp, #0]
+  81 0088 4FF00003 		mov	r3, #0
+  82 008c ADF82630 		strh	r3, [sp, #38]	@ movhi
+  83 0090 4FF00003 		mov	r3, #0
+  84 0094 ADF82230 		strh	r3, [sp, #34]	@ movhi
+  85 0098 4FF00403 		mov	r3, #4
+  86 009c ADF82430 		strh	r3, [sp, #36]	@ movhi
+  87 00a0 4FF49053 		mov	r3, #4608
+  88 00a4 C0F27A03 		movt	r3, 122
+  89 00a8 0793     		str	r3, [sp, #28]
+  90 00aa 019B     		ldr	r3, [sp, #4]
+  91 00ac 9B88     		ldrh	r3, [r3, #4]	@ movhi
+  92 00ae ADF82630 		strh	r3, [sp, #38]	@ movhi
+  93 00b2 BDF82630 		ldrh	r3, [sp, #38]	@ movhi
+  94 00b6 23F03F03 		bic	r3, r3, #63
+  95 00ba ADF82630 		strh	r3, [sp, #38]	@ movhi
+  96 00be 03AB     		add	r3, sp, #12
+  97 00c0 1846     		mov	r0, r3
+  98 00c2 FFF7FEFF 		bl	RCC_GetClocksFreq
+  99 00c6 059B     		ldr	r3, [sp, #20]
+ 100 00c8 0793     		str	r3, [sp, #28]
+ 101 00ca 079A     		ldr	r2, [sp, #28]
+ 102 00cc 4DF68363 		movw	r3, #56963
+ 103 00d0 C4F21B33 		movt	r3, 17179
+ 104 00d4 A3FB0213 		umull	r1, r3, r3, r2
+ 105 00d8 4FEA9343 		lsr	r3, r3, #18
+ 106 00dc ADF82230 		strh	r3, [sp, #34]	@ movhi
+ 107 00e0 BDF82620 		ldrh	r2, [sp, #38]	@ movhi
+ 108 00e4 BDF82230 		ldrh	r3, [sp, #34]	@ movhi
+ 109 00e8 1343     		orrs	r3, r3, r2
+ 110 00ea ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 111 00ee 019B     		ldr	r3, [sp, #4]
+ 112 00f0 BDF82620 		ldrh	r2, [sp, #38]	@ movhi
+ 113 00f4 9A80     		strh	r2, [r3, #4]	@ movhi
+ 114 00f6 019B     		ldr	r3, [sp, #4]
+ 115 00f8 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 116 00fa 9BB2     		uxth	r3, r3
+ 117 00fc 23F00103 		bic	r3, r3, #1
+ 118 0100 9AB2     		uxth	r2, r3
+ 119 0102 019B     		ldr	r3, [sp, #4]
+ 120 0104 1A80     		strh	r2, [r3, #0]	@ movhi
+ 121 0106 4FF00003 		mov	r3, #0
+ 122 010a ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 123 010e 009B     		ldr	r3, [sp, #0]
+ 124 0110 1A68     		ldr	r2, [r3, #0]
+ 125 0112 48F2A063 		movw	r3, #34464
+ 126 0116 C0F20103 		movt	r3, 1
+ 127 011a 9A42     		cmp	r2, r3
+ 128 011c 1FD8     		bhi	.L6
+ 129 011e 009B     		ldr	r3, [sp, #0]
+ 130 0120 1B68     		ldr	r3, [r3, #0]
+ 131 0122 4FEA4303 		lsl	r3, r3, #1
+ 132 0126 079A     		ldr	r2, [sp, #28]
+ 133 0128 B2FBF3F3 		udiv	r3, r2, r3
+ 134 012c ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 135 0130 BDF82430 		ldrh	r3, [sp, #36]
+ 136 0134 032B     		cmp	r3, #3
+ 137 0136 03D8     		bhi	.L7
+ 138 0138 4FF00403 		mov	r3, #4
+ 139 013c ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 140              	.L7:
+ 141 0140 BDF82620 		ldrh	r2, [sp, #38]	@ movhi
+ 142 0144 BDF82430 		ldrh	r3, [sp, #36]	@ movhi
+ 143 0148 1343     		orrs	r3, r3, r2
+ 144 014a ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 145 014e BDF82230 		ldrh	r3, [sp, #34]	@ movhi
+ 146 0152 03F10103 		add	r3, r3, #1
+ 147 0156 9AB2     		uxth	r2, r3
+ 148 0158 019B     		ldr	r3, [sp, #4]
+ 149 015a 1A84     		strh	r2, [r3, #32]	@ movhi
+ 150 015c 56E0     		b	.L8
+ 151              	.L6:
+ 152 015e 009B     		ldr	r3, [sp, #0]
+ 153 0160 DA88     		ldrh	r2, [r3, #6]
+ 154 0162 4BF6FF73 		movw	r3, #49151
+ 155 0166 9A42     		cmp	r2, r3
+ 156 0168 0BD1     		bne	.L9
+ 157 016a 009B     		ldr	r3, [sp, #0]
+ 158 016c 1A68     		ldr	r2, [r3, #0]
+ 159 016e 1346     		mov	r3, r2
+ 160 0170 4FEA4303 		lsl	r3, r3, #1
+ 161 0174 9B18     		adds	r3, r3, r2
+ 162 0176 079A     		ldr	r2, [sp, #28]
+ 163 0178 B2FBF3F3 		udiv	r3, r2, r3
+ 164 017c ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 165 0180 13E0     		b	.L10
+ 166              	.L9:
+ 167 0182 009B     		ldr	r3, [sp, #0]
+ 168 0184 1A68     		ldr	r2, [r3, #0]
+ 169 0186 1346     		mov	r3, r2
+ 170 0188 4FEA8303 		lsl	r3, r3, #2
+ 171 018c 9B18     		adds	r3, r3, r2
+ 172 018e 4FEA8302 		lsl	r2, r3, #2
+ 173 0192 9B18     		adds	r3, r3, r2
+ 174 0194 079A     		ldr	r2, [sp, #28]
+ 175 0196 B2FBF3F3 		udiv	r3, r2, r3
+ 176 019a ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 177 019e BDF82430 		ldrh	r3, [sp, #36]	@ movhi
+ 178 01a2 43F48043 		orr	r3, r3, #16384
+ 179 01a6 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 180              	.L10:
+ 181 01aa BDF82430 		ldrh	r3, [sp, #36]
+ 182 01ae 4FEA0353 		lsl	r3, r3, #20
+ 183 01b2 4FEA1353 		lsr	r3, r3, #20
+ 184 01b6 002B     		cmp	r3, #0
+ 185 01b8 05D1     		bne	.L11
+ 186 01ba BDF82430 		ldrh	r3, [sp, #36]	@ movhi
+ 187 01be 43F00103 		orr	r3, r3, #1
+ 188 01c2 ADF82430 		strh	r3, [sp, #36]	@ movhi
+ 189              	.L11:
+ 190 01c6 BDF82420 		ldrh	r2, [sp, #36]	@ movhi
+ 191 01ca BDF82630 		ldrh	r3, [sp, #38]	@ movhi
+ 192 01ce 1343     		orrs	r3, r3, r2
+ 193 01d0 9BB2     		uxth	r3, r3
+ 194 01d2 6FEA4343 		mvn	r3, r3, lsl #17
+ 195 01d6 6FEA5343 		mvn	r3, r3, lsr #17
+ 196 01da ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 197 01de BDF82230 		ldrh	r3, [sp, #34]
+ 198 01e2 4FF49672 		mov	r2, #300
+ 199 01e6 02FB03F2 		mul	r2, r2, r3
+ 200 01ea 44F6D353 		movw	r3, #19923
+ 201 01ee C1F26203 		movt	r3, 4194
+ 202 01f2 83FB0213 		smull	r1, r3, r3, r2
+ 203 01f6 4FEAA311 		asr	r1, r3, #6
+ 204 01fa 4FEAE273 		asr	r3, r2, #31
+ 205 01fe CB1A     		subs	r3, r1, r3
+ 206 0200 9BB2     		uxth	r3, r3
+ 207 0202 03F10103 		add	r3, r3, #1
+ 208 0206 9AB2     		uxth	r2, r3
+ 209 0208 019B     		ldr	r3, [sp, #4]
+ 210 020a 1A84     		strh	r2, [r3, #32]	@ movhi
+ 211              	.L8:
+ 212 020c 019B     		ldr	r3, [sp, #4]
+ 213 020e BDF82620 		ldrh	r2, [sp, #38]	@ movhi
+ 214 0212 9A83     		strh	r2, [r3, #28]	@ movhi
+ 215 0214 019B     		ldr	r3, [sp, #4]
+ 216 0216 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 217 0218 9BB2     		uxth	r3, r3
+ 218 021a 43F00103 		orr	r3, r3, #1
+ 219 021e 9AB2     		uxth	r2, r3
+ 220 0220 019B     		ldr	r3, [sp, #4]
+ 221 0222 1A80     		strh	r2, [r3, #0]	@ movhi
+ 222 0224 019B     		ldr	r3, [sp, #4]
+ 223 0226 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 224 0228 ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 225 022c BDF82630 		ldrh	r3, [sp, #38]	@ movhi
+ 226 0230 23F48063 		bic	r3, r3, #1024
+ 227 0234 23F00A03 		bic	r3, r3, #10
+ 228 0238 ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 229 023c 009B     		ldr	r3, [sp, #0]
+ 230 023e 9A88     		ldrh	r2, [r3, #4]
+ 231 0240 009B     		ldr	r3, [sp, #0]
+ 232 0242 5B89     		ldrh	r3, [r3, #10]
+ 233 0244 1343     		orrs	r3, r3, r2
+ 234 0246 9AB2     		uxth	r2, r3
+ 235 0248 BDF82630 		ldrh	r3, [sp, #38]	@ movhi
+ 236 024c 1343     		orrs	r3, r3, r2
+ 237 024e ADF82630 		strh	r3, [sp, #38]	@ movhi
+ 238 0252 019B     		ldr	r3, [sp, #4]
+ 239 0254 BDF82620 		ldrh	r2, [sp, #38]	@ movhi
+ 240 0258 1A80     		strh	r2, [r3, #0]	@ movhi
+ 241 025a 009B     		ldr	r3, [sp, #0]
+ 242 025c 9A89     		ldrh	r2, [r3, #12]
+ 243 025e 009B     		ldr	r3, [sp, #0]
+ 244 0260 1B89     		ldrh	r3, [r3, #8]
+ 245 0262 1343     		orrs	r3, r3, r2
+ 246 0264 9AB2     		uxth	r2, r3
+ 247 0266 019B     		ldr	r3, [sp, #4]
+ 248 0268 1A81     		strh	r2, [r3, #8]	@ movhi
+ 249 026a 0BB0     		add	sp, sp, #44
+ 250 026c 00BD     		pop	{pc}
+ 252 026e 00BF     		.align	2
+ 253              		.global	I2C_StructInit
+ 254              		.thumb
+ 255              		.thumb_func
+ 257              	I2C_StructInit:
+ 258              		@ args = 0, pretend = 0, frame = 8
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260              		@ link register save eliminated.
+ 261 0270 82B0     		sub	sp, sp, #8
+ 262 0272 0190     		str	r0, [sp, #4]
+ 263 0274 019B     		ldr	r3, [sp, #4]
+ 264 0276 41F28832 		movw	r2, #5000
+ 265 027a 1A60     		str	r2, [r3, #0]
+ 266 027c 019B     		ldr	r3, [sp, #4]
+ 267 027e 4FF00002 		mov	r2, #0
+ 268 0282 9A80     		strh	r2, [r3, #4]	@ movhi
+ 269 0284 019B     		ldr	r3, [sp, #4]
+ 270 0286 4BF6FF72 		movw	r2, #49151
+ 271 028a DA80     		strh	r2, [r3, #6]	@ movhi
+ 272 028c 019B     		ldr	r3, [sp, #4]
+ 273 028e 4FF00002 		mov	r2, #0
+ 274 0292 1A81     		strh	r2, [r3, #8]	@ movhi
+ 275 0294 019B     		ldr	r3, [sp, #4]
+ 276 0296 4FF00002 		mov	r2, #0
+ 277 029a 5A81     		strh	r2, [r3, #10]	@ movhi
+ 278 029c 019B     		ldr	r3, [sp, #4]
+ 279 029e 4FF48042 		mov	r2, #16384
+ 280 02a2 9A81     		strh	r2, [r3, #12]	@ movhi
+ 281 02a4 02B0     		add	sp, sp, #8
+ 282 02a6 7047     		bx	lr
+ 284              		.align	2
+ 285              		.global	I2C_Cmd
+ 286              		.thumb
+ 287              		.thumb_func
+ 289              	I2C_Cmd:
+ 290              		@ args = 0, pretend = 0, frame = 8
+ 291              		@ frame_needed = 0, uses_anonymous_args = 0
+ 292              		@ link register save eliminated.
+ 293 02a8 82B0     		sub	sp, sp, #8
+ 294 02aa 0190     		str	r0, [sp, #4]
+ 295 02ac 0B46     		mov	r3, r1
+ 296 02ae 8DF80330 		strb	r3, [sp, #3]
+ 297 02b2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 298 02b6 002B     		cmp	r3, #0
+ 299 02b8 08D0     		beq	.L14
+ 300 02ba 019B     		ldr	r3, [sp, #4]
+ 301 02bc 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 302 02be 9BB2     		uxth	r3, r3
+ 303 02c0 43F00103 		orr	r3, r3, #1
+ 304 02c4 9AB2     		uxth	r2, r3
+ 305 02c6 019B     		ldr	r3, [sp, #4]
+ 306 02c8 1A80     		strh	r2, [r3, #0]	@ movhi
+ 307 02ca 07E0     		b	.L13
+ 308              	.L14:
+ 309 02cc 019B     		ldr	r3, [sp, #4]
+ 310 02ce 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 311 02d0 9BB2     		uxth	r3, r3
+ 312 02d2 23F00103 		bic	r3, r3, #1
+ 313 02d6 9AB2     		uxth	r2, r3
+ 314 02d8 019B     		ldr	r3, [sp, #4]
+ 315 02da 1A80     		strh	r2, [r3, #0]	@ movhi
+ 316              	.L13:
+ 317 02dc 02B0     		add	sp, sp, #8
+ 318 02de 7047     		bx	lr
+ 320              		.align	2
+ 321              		.global	I2C_GenerateSTART
+ 322              		.thumb
+ 323              		.thumb_func
+ 325              	I2C_GenerateSTART:
+ 326              		@ args = 0, pretend = 0, frame = 8
+ 327              		@ frame_needed = 0, uses_anonymous_args = 0
+ 328              		@ link register save eliminated.
+ 329 02e0 82B0     		sub	sp, sp, #8
+ 330 02e2 0190     		str	r0, [sp, #4]
+ 331 02e4 0B46     		mov	r3, r1
+ 332 02e6 8DF80330 		strb	r3, [sp, #3]
+ 333 02ea 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 334 02ee 002B     		cmp	r3, #0
+ 335 02f0 08D0     		beq	.L17
+ 336 02f2 019B     		ldr	r3, [sp, #4]
+ 337 02f4 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 338 02f6 9BB2     		uxth	r3, r3
+ 339 02f8 43F48073 		orr	r3, r3, #256
+ 340 02fc 9AB2     		uxth	r2, r3
+ 341 02fe 019B     		ldr	r3, [sp, #4]
+ 342 0300 1A80     		strh	r2, [r3, #0]	@ movhi
+ 343 0302 07E0     		b	.L16
+ 344              	.L17:
+ 345 0304 019B     		ldr	r3, [sp, #4]
+ 346 0306 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 347 0308 9BB2     		uxth	r3, r3
+ 348 030a 23F48073 		bic	r3, r3, #256
+ 349 030e 9AB2     		uxth	r2, r3
+ 350 0310 019B     		ldr	r3, [sp, #4]
+ 351 0312 1A80     		strh	r2, [r3, #0]	@ movhi
+ 352              	.L16:
+ 353 0314 02B0     		add	sp, sp, #8
+ 354 0316 7047     		bx	lr
+ 356              		.align	2
+ 357              		.global	I2C_GenerateSTOP
+ 358              		.thumb
+ 359              		.thumb_func
+ 361              	I2C_GenerateSTOP:
+ 362              		@ args = 0, pretend = 0, frame = 8
+ 363              		@ frame_needed = 0, uses_anonymous_args = 0
+ 364              		@ link register save eliminated.
+ 365 0318 82B0     		sub	sp, sp, #8
+ 366 031a 0190     		str	r0, [sp, #4]
+ 367 031c 0B46     		mov	r3, r1
+ 368 031e 8DF80330 		strb	r3, [sp, #3]
+ 369 0322 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 370 0326 002B     		cmp	r3, #0
+ 371 0328 08D0     		beq	.L20
+ 372 032a 019B     		ldr	r3, [sp, #4]
+ 373 032c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 374 032e 9BB2     		uxth	r3, r3
+ 375 0330 43F40073 		orr	r3, r3, #512
+ 376 0334 9AB2     		uxth	r2, r3
+ 377 0336 019B     		ldr	r3, [sp, #4]
+ 378 0338 1A80     		strh	r2, [r3, #0]	@ movhi
+ 379 033a 07E0     		b	.L19
+ 380              	.L20:
+ 381 033c 019B     		ldr	r3, [sp, #4]
+ 382 033e 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 383 0340 9BB2     		uxth	r3, r3
+ 384 0342 23F40073 		bic	r3, r3, #512
+ 385 0346 9AB2     		uxth	r2, r3
+ 386 0348 019B     		ldr	r3, [sp, #4]
+ 387 034a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 388              	.L19:
+ 389 034c 02B0     		add	sp, sp, #8
+ 390 034e 7047     		bx	lr
+ 392              		.align	2
+ 393              		.global	I2C_Send7bitAddress
+ 394              		.thumb
+ 395              		.thumb_func
+ 397              	I2C_Send7bitAddress:
+ 398              		@ args = 0, pretend = 0, frame = 8
+ 399              		@ frame_needed = 0, uses_anonymous_args = 0
+ 400              		@ link register save eliminated.
+ 401 0350 82B0     		sub	sp, sp, #8
+ 402 0352 0190     		str	r0, [sp, #4]
+ 403 0354 1346     		mov	r3, r2
+ 404 0356 0A46     		mov	r2, r1
+ 405 0358 8DF80320 		strb	r2, [sp, #3]
+ 406 035c 8DF80230 		strb	r3, [sp, #2]
+ 407 0360 9DF80230 		ldrb	r3, [sp, #2]	@ zero_extendqisi2
+ 408 0364 002B     		cmp	r3, #0
+ 409 0366 06D0     		beq	.L23
+ 410 0368 9DF80330 		ldrb	r3, [sp, #3]
+ 411 036c 43F00103 		orr	r3, r3, #1
+ 412 0370 8DF80330 		strb	r3, [sp, #3]
+ 413 0374 05E0     		b	.L24
+ 414              	.L23:
+ 415 0376 9DF80330 		ldrb	r3, [sp, #3]
+ 416 037a 23F00103 		bic	r3, r3, #1
+ 417 037e 8DF80330 		strb	r3, [sp, #3]
+ 418              	.L24:
+ 419 0382 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 420 0386 9AB2     		uxth	r2, r3
+ 421 0388 019B     		ldr	r3, [sp, #4]
+ 422 038a 1A82     		strh	r2, [r3, #16]	@ movhi
+ 423 038c 02B0     		add	sp, sp, #8
+ 424 038e 7047     		bx	lr
+ 426              		.align	2
+ 427              		.global	I2C_AcknowledgeConfig
+ 428              		.thumb
+ 429              		.thumb_func
+ 431              	I2C_AcknowledgeConfig:
+ 432              		@ args = 0, pretend = 0, frame = 8
+ 433              		@ frame_needed = 0, uses_anonymous_args = 0
+ 434              		@ link register save eliminated.
+ 435 0390 82B0     		sub	sp, sp, #8
+ 436 0392 0190     		str	r0, [sp, #4]
+ 437 0394 0B46     		mov	r3, r1
+ 438 0396 8DF80330 		strb	r3, [sp, #3]
+ 439 039a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 440 039e 002B     		cmp	r3, #0
+ 441 03a0 08D0     		beq	.L26
+ 442 03a2 019B     		ldr	r3, [sp, #4]
+ 443 03a4 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 444 03a6 9BB2     		uxth	r3, r3
+ 445 03a8 43F48063 		orr	r3, r3, #1024
+ 446 03ac 9AB2     		uxth	r2, r3
+ 447 03ae 019B     		ldr	r3, [sp, #4]
+ 448 03b0 1A80     		strh	r2, [r3, #0]	@ movhi
+ 449 03b2 07E0     		b	.L25
+ 450              	.L26:
+ 451 03b4 019B     		ldr	r3, [sp, #4]
+ 452 03b6 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 453 03b8 9BB2     		uxth	r3, r3
+ 454 03ba 23F48063 		bic	r3, r3, #1024
+ 455 03be 9AB2     		uxth	r2, r3
+ 456 03c0 019B     		ldr	r3, [sp, #4]
+ 457 03c2 1A80     		strh	r2, [r3, #0]	@ movhi
+ 458              	.L25:
+ 459 03c4 02B0     		add	sp, sp, #8
+ 460 03c6 7047     		bx	lr
+ 462              		.align	2
+ 463              		.global	I2C_OwnAddress2Config
+ 464              		.thumb
+ 465              		.thumb_func
+ 467              	I2C_OwnAddress2Config:
+ 468              		@ args = 0, pretend = 0, frame = 16
+ 469              		@ frame_needed = 0, uses_anonymous_args = 0
+ 470              		@ link register save eliminated.
+ 471 03c8 84B0     		sub	sp, sp, #16
+ 472 03ca 0190     		str	r0, [sp, #4]
+ 473 03cc 0B46     		mov	r3, r1
+ 474 03ce 8DF80330 		strb	r3, [sp, #3]
+ 475 03d2 4FF00003 		mov	r3, #0
+ 476 03d6 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 477 03da 019B     		ldr	r3, [sp, #4]
+ 478 03dc 9B89     		ldrh	r3, [r3, #12]	@ movhi
+ 479 03de ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 480 03e2 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 481 03e6 23F0FE03 		bic	r3, r3, #254
+ 482 03ea ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 483 03ee 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 484 03f2 9BB2     		uxth	r3, r3
+ 485 03f4 03F0FE03 		and	r3, r3, #254
+ 486 03f8 9AB2     		uxth	r2, r3
+ 487 03fa BDF80E30 		ldrh	r3, [sp, #14]
+ 488 03fe 1343     		orrs	r3, r3, r2
+ 489 0400 9BB2     		uxth	r3, r3
+ 490 0402 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 491 0406 019B     		ldr	r3, [sp, #4]
+ 492 0408 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
+ 493 040c 9A81     		strh	r2, [r3, #12]	@ movhi
+ 494 040e 04B0     		add	sp, sp, #16
+ 495 0410 7047     		bx	lr
+ 497 0412 00BF     		.align	2
+ 498              		.global	I2C_DualAddressCmd
+ 499              		.thumb
+ 500              		.thumb_func
+ 502              	I2C_DualAddressCmd:
+ 503              		@ args = 0, pretend = 0, frame = 8
+ 504              		@ frame_needed = 0, uses_anonymous_args = 0
+ 505              		@ link register save eliminated.
+ 506 0414 82B0     		sub	sp, sp, #8
+ 507 0416 0190     		str	r0, [sp, #4]
+ 508 0418 0B46     		mov	r3, r1
+ 509 041a 8DF80330 		strb	r3, [sp, #3]
+ 510 041e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 511 0422 002B     		cmp	r3, #0
+ 512 0424 08D0     		beq	.L30
+ 513 0426 019B     		ldr	r3, [sp, #4]
+ 514 0428 9B89     		ldrh	r3, [r3, #12]	@ movhi
+ 515 042a 9BB2     		uxth	r3, r3
+ 516 042c 43F00103 		orr	r3, r3, #1
+ 517 0430 9AB2     		uxth	r2, r3
+ 518 0432 019B     		ldr	r3, [sp, #4]
+ 519 0434 9A81     		strh	r2, [r3, #12]	@ movhi
+ 520 0436 07E0     		b	.L29
+ 521              	.L30:
+ 522 0438 019B     		ldr	r3, [sp, #4]
+ 523 043a 9B89     		ldrh	r3, [r3, #12]	@ movhi
+ 524 043c 9BB2     		uxth	r3, r3
+ 525 043e 23F00103 		bic	r3, r3, #1
+ 526 0442 9AB2     		uxth	r2, r3
+ 527 0444 019B     		ldr	r3, [sp, #4]
+ 528 0446 9A81     		strh	r2, [r3, #12]	@ movhi
+ 529              	.L29:
+ 530 0448 02B0     		add	sp, sp, #8
+ 531 044a 7047     		bx	lr
+ 533              		.align	2
+ 534              		.global	I2C_GeneralCallCmd
+ 535              		.thumb
+ 536              		.thumb_func
+ 538              	I2C_GeneralCallCmd:
+ 539              		@ args = 0, pretend = 0, frame = 8
+ 540              		@ frame_needed = 0, uses_anonymous_args = 0
+ 541              		@ link register save eliminated.
+ 542 044c 82B0     		sub	sp, sp, #8
+ 543 044e 0190     		str	r0, [sp, #4]
+ 544 0450 0B46     		mov	r3, r1
+ 545 0452 8DF80330 		strb	r3, [sp, #3]
+ 546 0456 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 547 045a 002B     		cmp	r3, #0
+ 548 045c 08D0     		beq	.L33
+ 549 045e 019B     		ldr	r3, [sp, #4]
+ 550 0460 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 551 0462 9BB2     		uxth	r3, r3
+ 552 0464 43F04003 		orr	r3, r3, #64
+ 553 0468 9AB2     		uxth	r2, r3
+ 554 046a 019B     		ldr	r3, [sp, #4]
+ 555 046c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 556 046e 07E0     		b	.L32
+ 557              	.L33:
+ 558 0470 019B     		ldr	r3, [sp, #4]
+ 559 0472 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 560 0474 9BB2     		uxth	r3, r3
+ 561 0476 23F04003 		bic	r3, r3, #64
+ 562 047a 9AB2     		uxth	r2, r3
+ 563 047c 019B     		ldr	r3, [sp, #4]
+ 564 047e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 565              	.L32:
+ 566 0480 02B0     		add	sp, sp, #8
+ 567 0482 7047     		bx	lr
+ 569              		.align	2
+ 570              		.global	I2C_SoftwareResetCmd
+ 571              		.thumb
+ 572              		.thumb_func
+ 574              	I2C_SoftwareResetCmd:
+ 575              		@ args = 0, pretend = 0, frame = 8
+ 576              		@ frame_needed = 0, uses_anonymous_args = 0
+ 577              		@ link register save eliminated.
+ 578 0484 82B0     		sub	sp, sp, #8
+ 579 0486 0190     		str	r0, [sp, #4]
+ 580 0488 0B46     		mov	r3, r1
+ 581 048a 8DF80330 		strb	r3, [sp, #3]
+ 582 048e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 583 0492 002B     		cmp	r3, #0
+ 584 0494 0AD0     		beq	.L36
+ 585 0496 019B     		ldr	r3, [sp, #4]
+ 586 0498 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 587 049a 9BB2     		uxth	r3, r3
+ 588 049c 6FEA4343 		mvn	r3, r3, lsl #17
+ 589 04a0 6FEA5343 		mvn	r3, r3, lsr #17
+ 590 04a4 9AB2     		uxth	r2, r3
+ 591 04a6 019B     		ldr	r3, [sp, #4]
+ 592 04a8 1A80     		strh	r2, [r3, #0]	@ movhi
+ 593 04aa 09E0     		b	.L35
+ 594              	.L36:
+ 595 04ac 019B     		ldr	r3, [sp, #4]
+ 596 04ae 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 597 04b0 9BB2     		uxth	r3, r3
+ 598 04b2 4FEA4343 		lsl	r3, r3, #17
+ 599 04b6 4FEA5343 		lsr	r3, r3, #17
+ 600 04ba 9AB2     		uxth	r2, r3
+ 601 04bc 019B     		ldr	r3, [sp, #4]
+ 602 04be 1A80     		strh	r2, [r3, #0]	@ movhi
+ 603              	.L35:
+ 604 04c0 02B0     		add	sp, sp, #8
+ 605 04c2 7047     		bx	lr
+ 607              		.align	2
+ 608              		.global	I2C_StretchClockCmd
+ 609              		.thumb
+ 610              		.thumb_func
+ 612              	I2C_StretchClockCmd:
+ 613              		@ args = 0, pretend = 0, frame = 8
+ 614              		@ frame_needed = 0, uses_anonymous_args = 0
+ 615              		@ link register save eliminated.
+ 616 04c4 82B0     		sub	sp, sp, #8
+ 617 04c6 0190     		str	r0, [sp, #4]
+ 618 04c8 0B46     		mov	r3, r1
+ 619 04ca 8DF80330 		strb	r3, [sp, #3]
+ 620 04ce 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 621 04d2 002B     		cmp	r3, #0
+ 622 04d4 08D1     		bne	.L39
+ 623 04d6 019B     		ldr	r3, [sp, #4]
+ 624 04d8 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 625 04da 9BB2     		uxth	r3, r3
+ 626 04dc 43F08003 		orr	r3, r3, #128
+ 627 04e0 9AB2     		uxth	r2, r3
+ 628 04e2 019B     		ldr	r3, [sp, #4]
+ 629 04e4 1A80     		strh	r2, [r3, #0]	@ movhi
+ 630 04e6 07E0     		b	.L38
+ 631              	.L39:
+ 632 04e8 019B     		ldr	r3, [sp, #4]
+ 633 04ea 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 634 04ec 9BB2     		uxth	r3, r3
+ 635 04ee 23F08003 		bic	r3, r3, #128
+ 636 04f2 9AB2     		uxth	r2, r3
+ 637 04f4 019B     		ldr	r3, [sp, #4]
+ 638 04f6 1A80     		strh	r2, [r3, #0]	@ movhi
+ 639              	.L38:
+ 640 04f8 02B0     		add	sp, sp, #8
+ 641 04fa 7047     		bx	lr
+ 643              		.align	2
+ 644              		.global	I2C_FastModeDutyCycleConfig
+ 645              		.thumb
+ 646              		.thumb_func
+ 648              	I2C_FastModeDutyCycleConfig:
+ 649              		@ args = 0, pretend = 0, frame = 8
+ 650              		@ frame_needed = 0, uses_anonymous_args = 0
+ 651              		@ link register save eliminated.
+ 652 04fc 82B0     		sub	sp, sp, #8
+ 653 04fe 0190     		str	r0, [sp, #4]
+ 654 0500 0B46     		mov	r3, r1
+ 655 0502 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 656 0506 BDF80230 		ldrh	r3, [sp, #2]
+ 657 050a B3F5804F 		cmp	r3, #16384
+ 658 050e 08D0     		beq	.L42
+ 659 0510 019B     		ldr	r3, [sp, #4]
+ 660 0512 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 661 0514 9BB2     		uxth	r3, r3
+ 662 0516 23F48043 		bic	r3, r3, #16384
+ 663 051a 9AB2     		uxth	r2, r3
+ 664 051c 019B     		ldr	r3, [sp, #4]
+ 665 051e 9A83     		strh	r2, [r3, #28]	@ movhi
+ 666 0520 07E0     		b	.L41
+ 667              	.L42:
+ 668 0522 019B     		ldr	r3, [sp, #4]
+ 669 0524 9B8B     		ldrh	r3, [r3, #28]	@ movhi
+ 670 0526 9BB2     		uxth	r3, r3
+ 671 0528 43F48043 		orr	r3, r3, #16384
+ 672 052c 9AB2     		uxth	r2, r3
+ 673 052e 019B     		ldr	r3, [sp, #4]
+ 674 0530 9A83     		strh	r2, [r3, #28]	@ movhi
+ 675              	.L41:
+ 676 0532 02B0     		add	sp, sp, #8
+ 677 0534 7047     		bx	lr
+ 679 0536 00BF     		.align	2
+ 680              		.global	I2C_NACKPositionConfig
+ 681              		.thumb
+ 682              		.thumb_func
+ 684              	I2C_NACKPositionConfig:
+ 685              		@ args = 0, pretend = 0, frame = 8
+ 686              		@ frame_needed = 0, uses_anonymous_args = 0
+ 687              		@ link register save eliminated.
+ 688 0538 82B0     		sub	sp, sp, #8
+ 689 053a 0190     		str	r0, [sp, #4]
+ 690 053c 0B46     		mov	r3, r1
+ 691 053e ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 692 0542 BDF80230 		ldrh	r3, [sp, #2]
+ 693 0546 B3F5006F 		cmp	r3, #2048
+ 694 054a 08D1     		bne	.L45
+ 695 054c 019B     		ldr	r3, [sp, #4]
+ 696 054e 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 697 0550 9BB2     		uxth	r3, r3
+ 698 0552 43F40063 		orr	r3, r3, #2048
+ 699 0556 9AB2     		uxth	r2, r3
+ 700 0558 019B     		ldr	r3, [sp, #4]
+ 701 055a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 702 055c 07E0     		b	.L44
+ 703              	.L45:
+ 704 055e 019B     		ldr	r3, [sp, #4]
+ 705 0560 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 706 0562 9BB2     		uxth	r3, r3
+ 707 0564 23F40063 		bic	r3, r3, #2048
+ 708 0568 9AB2     		uxth	r2, r3
+ 709 056a 019B     		ldr	r3, [sp, #4]
+ 710 056c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 711              	.L44:
+ 712 056e 02B0     		add	sp, sp, #8
+ 713 0570 7047     		bx	lr
+ 715 0572 00BF     		.align	2
+ 716              		.global	I2C_SMBusAlertConfig
+ 717              		.thumb
+ 718              		.thumb_func
+ 720              	I2C_SMBusAlertConfig:
+ 721              		@ args = 0, pretend = 0, frame = 8
+ 722              		@ frame_needed = 0, uses_anonymous_args = 0
+ 723              		@ link register save eliminated.
+ 724 0574 82B0     		sub	sp, sp, #8
+ 725 0576 0190     		str	r0, [sp, #4]
+ 726 0578 0B46     		mov	r3, r1
+ 727 057a ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 728 057e BDF80230 		ldrh	r3, [sp, #2]
+ 729 0582 B3F5005F 		cmp	r3, #8192
+ 730 0586 08D1     		bne	.L48
+ 731 0588 019B     		ldr	r3, [sp, #4]
+ 732 058a 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 733 058c 9BB2     		uxth	r3, r3
+ 734 058e 43F40053 		orr	r3, r3, #8192
+ 735 0592 9AB2     		uxth	r2, r3
+ 736 0594 019B     		ldr	r3, [sp, #4]
+ 737 0596 1A80     		strh	r2, [r3, #0]	@ movhi
+ 738 0598 07E0     		b	.L47
+ 739              	.L48:
+ 740 059a 019B     		ldr	r3, [sp, #4]
+ 741 059c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 742 059e 9BB2     		uxth	r3, r3
+ 743 05a0 23F40053 		bic	r3, r3, #8192
+ 744 05a4 9AB2     		uxth	r2, r3
+ 745 05a6 019B     		ldr	r3, [sp, #4]
+ 746 05a8 1A80     		strh	r2, [r3, #0]	@ movhi
+ 747              	.L47:
+ 748 05aa 02B0     		add	sp, sp, #8
+ 749 05ac 7047     		bx	lr
+ 751 05ae 00BF     		.align	2
+ 752              		.global	I2C_ARPCmd
+ 753              		.thumb
+ 754              		.thumb_func
+ 756              	I2C_ARPCmd:
+ 757              		@ args = 0, pretend = 0, frame = 8
+ 758              		@ frame_needed = 0, uses_anonymous_args = 0
+ 759              		@ link register save eliminated.
+ 760 05b0 82B0     		sub	sp, sp, #8
+ 761 05b2 0190     		str	r0, [sp, #4]
+ 762 05b4 0B46     		mov	r3, r1
+ 763 05b6 8DF80330 		strb	r3, [sp, #3]
+ 764 05ba 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 765 05be 002B     		cmp	r3, #0
+ 766 05c0 08D0     		beq	.L51
+ 767 05c2 019B     		ldr	r3, [sp, #4]
+ 768 05c4 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 769 05c6 9BB2     		uxth	r3, r3
+ 770 05c8 43F01003 		orr	r3, r3, #16
+ 771 05cc 9AB2     		uxth	r2, r3
+ 772 05ce 019B     		ldr	r3, [sp, #4]
+ 773 05d0 1A80     		strh	r2, [r3, #0]	@ movhi
+ 774 05d2 07E0     		b	.L50
+ 775              	.L51:
+ 776 05d4 019B     		ldr	r3, [sp, #4]
+ 777 05d6 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 778 05d8 9BB2     		uxth	r3, r3
+ 779 05da 23F01003 		bic	r3, r3, #16
+ 780 05de 9AB2     		uxth	r2, r3
+ 781 05e0 019B     		ldr	r3, [sp, #4]
+ 782 05e2 1A80     		strh	r2, [r3, #0]	@ movhi
+ 783              	.L50:
+ 784 05e4 02B0     		add	sp, sp, #8
+ 785 05e6 7047     		bx	lr
+ 787              		.align	2
+ 788              		.global	I2C_SendData
+ 789              		.thumb
+ 790              		.thumb_func
+ 792              	I2C_SendData:
+ 793              		@ args = 0, pretend = 0, frame = 8
+ 794              		@ frame_needed = 0, uses_anonymous_args = 0
+ 795              		@ link register save eliminated.
+ 796 05e8 82B0     		sub	sp, sp, #8
+ 797 05ea 0190     		str	r0, [sp, #4]
+ 798 05ec 0B46     		mov	r3, r1
+ 799 05ee 8DF80330 		strb	r3, [sp, #3]
+ 800 05f2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 801 05f6 9AB2     		uxth	r2, r3
+ 802 05f8 019B     		ldr	r3, [sp, #4]
+ 803 05fa 1A82     		strh	r2, [r3, #16]	@ movhi
+ 804 05fc 02B0     		add	sp, sp, #8
+ 805 05fe 7047     		bx	lr
+ 807              		.align	2
+ 808              		.global	I2C_ReceiveData
+ 809              		.thumb
+ 810              		.thumb_func
+ 812              	I2C_ReceiveData:
+ 813              		@ args = 0, pretend = 0, frame = 8
+ 814              		@ frame_needed = 0, uses_anonymous_args = 0
+ 815              		@ link register save eliminated.
+ 816 0600 82B0     		sub	sp, sp, #8
+ 817 0602 0190     		str	r0, [sp, #4]
+ 818 0604 019B     		ldr	r3, [sp, #4]
+ 819 0606 1B8A     		ldrh	r3, [r3, #16]	@ movhi
+ 820 0608 9BB2     		uxth	r3, r3
+ 821 060a DBB2     		uxtb	r3, r3
+ 822 060c 1846     		mov	r0, r3
+ 823 060e 02B0     		add	sp, sp, #8
+ 824 0610 7047     		bx	lr
+ 826 0612 00BF     		.align	2
+ 827              		.global	I2C_TransmitPEC
+ 828              		.thumb
+ 829              		.thumb_func
+ 831              	I2C_TransmitPEC:
+ 832              		@ args = 0, pretend = 0, frame = 8
+ 833              		@ frame_needed = 0, uses_anonymous_args = 0
+ 834              		@ link register save eliminated.
+ 835 0614 82B0     		sub	sp, sp, #8
+ 836 0616 0190     		str	r0, [sp, #4]
+ 837 0618 0B46     		mov	r3, r1
+ 838 061a 8DF80330 		strb	r3, [sp, #3]
+ 839 061e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 840 0622 002B     		cmp	r3, #0
+ 841 0624 08D0     		beq	.L56
+ 842 0626 019B     		ldr	r3, [sp, #4]
+ 843 0628 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 844 062a 9BB2     		uxth	r3, r3
+ 845 062c 43F48053 		orr	r3, r3, #4096
+ 846 0630 9AB2     		uxth	r2, r3
+ 847 0632 019B     		ldr	r3, [sp, #4]
+ 848 0634 1A80     		strh	r2, [r3, #0]	@ movhi
+ 849 0636 07E0     		b	.L55
+ 850              	.L56:
+ 851 0638 019B     		ldr	r3, [sp, #4]
+ 852 063a 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 853 063c 9BB2     		uxth	r3, r3
+ 854 063e 23F48053 		bic	r3, r3, #4096
+ 855 0642 9AB2     		uxth	r2, r3
+ 856 0644 019B     		ldr	r3, [sp, #4]
+ 857 0646 1A80     		strh	r2, [r3, #0]	@ movhi
+ 858              	.L55:
+ 859 0648 02B0     		add	sp, sp, #8
+ 860 064a 7047     		bx	lr
+ 862              		.align	2
+ 863              		.global	I2C_PECPositionConfig
+ 864              		.thumb
+ 865              		.thumb_func
+ 867              	I2C_PECPositionConfig:
+ 868              		@ args = 0, pretend = 0, frame = 8
+ 869              		@ frame_needed = 0, uses_anonymous_args = 0
+ 870              		@ link register save eliminated.
+ 871 064c 82B0     		sub	sp, sp, #8
+ 872 064e 0190     		str	r0, [sp, #4]
+ 873 0650 0B46     		mov	r3, r1
+ 874 0652 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 875 0656 BDF80230 		ldrh	r3, [sp, #2]
+ 876 065a B3F5006F 		cmp	r3, #2048
+ 877 065e 08D1     		bne	.L59
+ 878 0660 019B     		ldr	r3, [sp, #4]
+ 879 0662 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 880 0664 9BB2     		uxth	r3, r3
+ 881 0666 43F40063 		orr	r3, r3, #2048
+ 882 066a 9AB2     		uxth	r2, r3
+ 883 066c 019B     		ldr	r3, [sp, #4]
+ 884 066e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 885 0670 07E0     		b	.L58
+ 886              	.L59:
+ 887 0672 019B     		ldr	r3, [sp, #4]
+ 888 0674 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 889 0676 9BB2     		uxth	r3, r3
+ 890 0678 23F40063 		bic	r3, r3, #2048
+ 891 067c 9AB2     		uxth	r2, r3
+ 892 067e 019B     		ldr	r3, [sp, #4]
+ 893 0680 1A80     		strh	r2, [r3, #0]	@ movhi
+ 894              	.L58:
+ 895 0682 02B0     		add	sp, sp, #8
+ 896 0684 7047     		bx	lr
+ 898 0686 00BF     		.align	2
+ 899              		.global	I2C_CalculatePEC
+ 900              		.thumb
+ 901              		.thumb_func
+ 903              	I2C_CalculatePEC:
+ 904              		@ args = 0, pretend = 0, frame = 8
+ 905              		@ frame_needed = 0, uses_anonymous_args = 0
+ 906              		@ link register save eliminated.
+ 907 0688 82B0     		sub	sp, sp, #8
+ 908 068a 0190     		str	r0, [sp, #4]
+ 909 068c 0B46     		mov	r3, r1
+ 910 068e 8DF80330 		strb	r3, [sp, #3]
+ 911 0692 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 912 0696 002B     		cmp	r3, #0
+ 913 0698 08D0     		beq	.L62
+ 914 069a 019B     		ldr	r3, [sp, #4]
+ 915 069c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 916 069e 9BB2     		uxth	r3, r3
+ 917 06a0 43F02003 		orr	r3, r3, #32
+ 918 06a4 9AB2     		uxth	r2, r3
+ 919 06a6 019B     		ldr	r3, [sp, #4]
+ 920 06a8 1A80     		strh	r2, [r3, #0]	@ movhi
+ 921 06aa 07E0     		b	.L61
+ 922              	.L62:
+ 923 06ac 019B     		ldr	r3, [sp, #4]
+ 924 06ae 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 925 06b0 9BB2     		uxth	r3, r3
+ 926 06b2 23F02003 		bic	r3, r3, #32
+ 927 06b6 9AB2     		uxth	r2, r3
+ 928 06b8 019B     		ldr	r3, [sp, #4]
+ 929 06ba 1A80     		strh	r2, [r3, #0]	@ movhi
+ 930              	.L61:
+ 931 06bc 02B0     		add	sp, sp, #8
+ 932 06be 7047     		bx	lr
+ 934              		.align	2
+ 935              		.global	I2C_GetPEC
+ 936              		.thumb
+ 937              		.thumb_func
+ 939              	I2C_GetPEC:
+ 940              		@ args = 0, pretend = 0, frame = 8
+ 941              		@ frame_needed = 0, uses_anonymous_args = 0
+ 942              		@ link register save eliminated.
+ 943 06c0 82B0     		sub	sp, sp, #8
+ 944 06c2 0190     		str	r0, [sp, #4]
+ 945 06c4 019B     		ldr	r3, [sp, #4]
+ 946 06c6 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 947 06c8 9BB2     		uxth	r3, r3
+ 948 06ca 4FEA1323 		lsr	r3, r3, #8
+ 949 06ce 9BB2     		uxth	r3, r3
+ 950 06d0 DBB2     		uxtb	r3, r3
+ 951 06d2 1846     		mov	r0, r3
+ 952 06d4 02B0     		add	sp, sp, #8
+ 953 06d6 7047     		bx	lr
+ 955              		.align	2
+ 956              		.global	I2C_DMACmd
+ 957              		.thumb
+ 958              		.thumb_func
+ 960              	I2C_DMACmd:
+ 961              		@ args = 0, pretend = 0, frame = 8
+ 962              		@ frame_needed = 0, uses_anonymous_args = 0
+ 963              		@ link register save eliminated.
+ 964 06d8 82B0     		sub	sp, sp, #8
+ 965 06da 0190     		str	r0, [sp, #4]
+ 966 06dc 0B46     		mov	r3, r1
+ 967 06de 8DF80330 		strb	r3, [sp, #3]
+ 968 06e2 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 969 06e6 002B     		cmp	r3, #0
+ 970 06e8 08D0     		beq	.L66
+ 971 06ea 019B     		ldr	r3, [sp, #4]
+ 972 06ec 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 973 06ee 9BB2     		uxth	r3, r3
+ 974 06f0 43F40063 		orr	r3, r3, #2048
+ 975 06f4 9AB2     		uxth	r2, r3
+ 976 06f6 019B     		ldr	r3, [sp, #4]
+ 977 06f8 9A80     		strh	r2, [r3, #4]	@ movhi
+ 978 06fa 07E0     		b	.L65
+ 979              	.L66:
+ 980 06fc 019B     		ldr	r3, [sp, #4]
+ 981 06fe 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 982 0700 9BB2     		uxth	r3, r3
+ 983 0702 23F40063 		bic	r3, r3, #2048
+ 984 0706 9AB2     		uxth	r2, r3
+ 985 0708 019B     		ldr	r3, [sp, #4]
+ 986 070a 9A80     		strh	r2, [r3, #4]	@ movhi
+ 987              	.L65:
+ 988 070c 02B0     		add	sp, sp, #8
+ 989 070e 7047     		bx	lr
+ 991              		.align	2
+ 992              		.global	I2C_DMALastTransferCmd
+ 993              		.thumb
+ 994              		.thumb_func
+ 996              	I2C_DMALastTransferCmd:
+ 997              		@ args = 0, pretend = 0, frame = 8
+ 998              		@ frame_needed = 0, uses_anonymous_args = 0
+ 999              		@ link register save eliminated.
+ 1000 0710 82B0     		sub	sp, sp, #8
+ 1001 0712 0190     		str	r0, [sp, #4]
+ 1002 0714 0B46     		mov	r3, r1
+ 1003 0716 8DF80330 		strb	r3, [sp, #3]
+ 1004 071a 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1005 071e 002B     		cmp	r3, #0
+ 1006 0720 08D0     		beq	.L69
+ 1007 0722 019B     		ldr	r3, [sp, #4]
+ 1008 0724 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 1009 0726 9BB2     		uxth	r3, r3
+ 1010 0728 43F48053 		orr	r3, r3, #4096
+ 1011 072c 9AB2     		uxth	r2, r3
+ 1012 072e 019B     		ldr	r3, [sp, #4]
+ 1013 0730 9A80     		strh	r2, [r3, #4]	@ movhi
+ 1014 0732 07E0     		b	.L68
+ 1015              	.L69:
+ 1016 0734 019B     		ldr	r3, [sp, #4]
+ 1017 0736 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 1018 0738 9BB2     		uxth	r3, r3
+ 1019 073a 23F48053 		bic	r3, r3, #4096
+ 1020 073e 9AB2     		uxth	r2, r3
+ 1021 0740 019B     		ldr	r3, [sp, #4]
+ 1022 0742 9A80     		strh	r2, [r3, #4]	@ movhi
+ 1023              	.L68:
+ 1024 0744 02B0     		add	sp, sp, #8
+ 1025 0746 7047     		bx	lr
+ 1027              		.align	2
+ 1028              		.global	I2C_ReadRegister
+ 1029              		.thumb
+ 1030              		.thumb_func
+ 1032              	I2C_ReadRegister:
+ 1033              		@ args = 0, pretend = 0, frame = 16
+ 1034              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1035              		@ link register save eliminated.
+ 1036 0748 84B0     		sub	sp, sp, #16
+ 1037 074a 0190     		str	r0, [sp, #4]
+ 1038 074c 0B46     		mov	r3, r1
+ 1039 074e 8DF80330 		strb	r3, [sp, #3]
+ 1040 0752 4FF00003 		mov	r3, #0
+ 1041 0756 0393     		str	r3, [sp, #12]
+ 1042 0758 019B     		ldr	r3, [sp, #4]
+ 1043 075a 0393     		str	r3, [sp, #12]
+ 1044 075c 9DF80320 		ldrb	r2, [sp, #3]	@ zero_extendqisi2
+ 1045 0760 039B     		ldr	r3, [sp, #12]
+ 1046 0762 D318     		adds	r3, r2, r3
+ 1047 0764 0393     		str	r3, [sp, #12]
+ 1048 0766 039B     		ldr	r3, [sp, #12]
+ 1049 0768 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 1050 076a 9BB2     		uxth	r3, r3
+ 1051 076c 1846     		mov	r0, r3
+ 1052 076e 04B0     		add	sp, sp, #16
+ 1053 0770 7047     		bx	lr
+ 1055 0772 00BF     		.align	2
+ 1056              		.global	I2C_ITConfig
+ 1057              		.thumb
+ 1058              		.thumb_func
+ 1060              	I2C_ITConfig:
+ 1061              		@ args = 0, pretend = 0, frame = 8
+ 1062              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1063              		@ link register save eliminated.
+ 1064 0774 82B0     		sub	sp, sp, #8
+ 1065 0776 0190     		str	r0, [sp, #4]
+ 1066 0778 1346     		mov	r3, r2
+ 1067 077a 0A46     		mov	r2, r1	@ movhi
+ 1068 077c ADF80220 		strh	r2, [sp, #2]	@ movhi
+ 1069 0780 8DF80130 		strb	r3, [sp, #1]
+ 1070 0784 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
+ 1071 0788 002B     		cmp	r3, #0
+ 1072 078a 09D0     		beq	.L73
+ 1073 078c 019B     		ldr	r3, [sp, #4]
+ 1074 078e 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 1075 0790 9AB2     		uxth	r2, r3
+ 1076 0792 BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 1077 0796 1343     		orrs	r3, r3, r2
+ 1078 0798 9AB2     		uxth	r2, r3
+ 1079 079a 019B     		ldr	r3, [sp, #4]
+ 1080 079c 9A80     		strh	r2, [r3, #4]	@ movhi
+ 1081 079e 0BE0     		b	.L72
+ 1082              	.L73:
+ 1083 07a0 019B     		ldr	r3, [sp, #4]
+ 1084 07a2 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 1085 07a4 9AB2     		uxth	r2, r3
+ 1086 07a6 BDF80230 		ldrh	r3, [sp, #2]	@ movhi
+ 1087 07aa 6FEA0303 		mvn	r3, r3
+ 1088 07ae 9BB2     		uxth	r3, r3
+ 1089 07b0 1340     		ands	r3, r3, r2
+ 1090 07b2 9AB2     		uxth	r2, r3
+ 1091 07b4 019B     		ldr	r3, [sp, #4]
+ 1092 07b6 9A80     		strh	r2, [r3, #4]	@ movhi
+ 1093              	.L72:
+ 1094 07b8 02B0     		add	sp, sp, #8
+ 1095 07ba 7047     		bx	lr
+ 1097              		.align	2
+ 1098              		.global	I2C_CheckEvent
+ 1099              		.thumb
+ 1100              		.thumb_func
+ 1102              	I2C_CheckEvent:
+ 1103              		@ args = 0, pretend = 0, frame = 24
+ 1104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1105              		@ link register save eliminated.
+ 1106 07bc 86B0     		sub	sp, sp, #24
+ 1107 07be 0190     		str	r0, [sp, #4]
+ 1108 07c0 0091     		str	r1, [sp, #0]
+ 1109 07c2 4FF00003 		mov	r3, #0
+ 1110 07c6 0493     		str	r3, [sp, #16]
+ 1111 07c8 4FF00003 		mov	r3, #0
+ 1112 07cc 0393     		str	r3, [sp, #12]
+ 1113 07ce 4FF00003 		mov	r3, #0
+ 1114 07d2 0293     		str	r3, [sp, #8]
+ 1115 07d4 4FF00003 		mov	r3, #0
+ 1116 07d8 8DF81730 		strb	r3, [sp, #23]
+ 1117 07dc 019B     		ldr	r3, [sp, #4]
+ 1118 07de 9B8A     		ldrh	r3, [r3, #20]	@ movhi
+ 1119 07e0 9BB2     		uxth	r3, r3
+ 1120 07e2 0393     		str	r3, [sp, #12]
+ 1121 07e4 019B     		ldr	r3, [sp, #4]
+ 1122 07e6 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 1123 07e8 9BB2     		uxth	r3, r3
+ 1124 07ea 0293     		str	r3, [sp, #8]
+ 1125 07ec 029B     		ldr	r3, [sp, #8]
+ 1126 07ee 4FEA0343 		lsl	r3, r3, #16
+ 1127 07f2 0293     		str	r3, [sp, #8]
+ 1128 07f4 039A     		ldr	r2, [sp, #12]
+ 1129 07f6 029B     		ldr	r3, [sp, #8]
+ 1130 07f8 1343     		orrs	r3, r3, r2
+ 1131 07fa 23F07F43 		bic	r3, r3, #-16777216
+ 1132 07fe 0493     		str	r3, [sp, #16]
+ 1133 0800 049A     		ldr	r2, [sp, #16]
+ 1134 0802 009B     		ldr	r3, [sp, #0]
+ 1135 0804 1A40     		ands	r2, r2, r3
+ 1136 0806 009B     		ldr	r3, [sp, #0]
+ 1137 0808 9A42     		cmp	r2, r3
+ 1138 080a 04D1     		bne	.L76
+ 1139 080c 4FF00103 		mov	r3, #1
+ 1140 0810 8DF81730 		strb	r3, [sp, #23]
+ 1141 0814 03E0     		b	.L77
+ 1142              	.L76:
+ 1143 0816 4FF00003 		mov	r3, #0
+ 1144 081a 8DF81730 		strb	r3, [sp, #23]
+ 1145              	.L77:
+ 1146 081e 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1147 0822 1846     		mov	r0, r3
+ 1148 0824 06B0     		add	sp, sp, #24
+ 1149 0826 7047     		bx	lr
+ 1151              		.align	2
+ 1152              		.global	I2C_GetLastEvent
+ 1153              		.thumb
+ 1154              		.thumb_func
+ 1156              	I2C_GetLastEvent:
+ 1157              		@ args = 0, pretend = 0, frame = 24
+ 1158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1159              		@ link register save eliminated.
+ 1160 0828 86B0     		sub	sp, sp, #24
+ 1161 082a 0190     		str	r0, [sp, #4]
+ 1162 082c 4FF00003 		mov	r3, #0
+ 1163 0830 0593     		str	r3, [sp, #20]
+ 1164 0832 4FF00003 		mov	r3, #0
+ 1165 0836 0493     		str	r3, [sp, #16]
+ 1166 0838 4FF00003 		mov	r3, #0
+ 1167 083c 0393     		str	r3, [sp, #12]
+ 1168 083e 019B     		ldr	r3, [sp, #4]
+ 1169 0840 9B8A     		ldrh	r3, [r3, #20]	@ movhi
+ 1170 0842 9BB2     		uxth	r3, r3
+ 1171 0844 0493     		str	r3, [sp, #16]
+ 1172 0846 019B     		ldr	r3, [sp, #4]
+ 1173 0848 1B8B     		ldrh	r3, [r3, #24]	@ movhi
+ 1174 084a 9BB2     		uxth	r3, r3
+ 1175 084c 0393     		str	r3, [sp, #12]
+ 1176 084e 039B     		ldr	r3, [sp, #12]
+ 1177 0850 4FEA0343 		lsl	r3, r3, #16
+ 1178 0854 0393     		str	r3, [sp, #12]
+ 1179 0856 049A     		ldr	r2, [sp, #16]
+ 1180 0858 039B     		ldr	r3, [sp, #12]
+ 1181 085a 1343     		orrs	r3, r3, r2
+ 1182 085c 23F07F43 		bic	r3, r3, #-16777216
+ 1183 0860 0593     		str	r3, [sp, #20]
+ 1184 0862 059B     		ldr	r3, [sp, #20]
+ 1185 0864 1846     		mov	r0, r3
+ 1186 0866 06B0     		add	sp, sp, #24
+ 1187 0868 7047     		bx	lr
+ 1189 086a 00BF     		.align	2
+ 1190              		.global	I2C_GetFlagStatus
+ 1191              		.thumb
+ 1192              		.thumb_func
+ 1194              	I2C_GetFlagStatus:
+ 1195              		@ args = 0, pretend = 0, frame = 24
+ 1196              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1197              		@ link register save eliminated.
+ 1198 086c 86B0     		sub	sp, sp, #24
+ 1199 086e 0190     		str	r0, [sp, #4]
+ 1200 0870 0091     		str	r1, [sp, #0]
+ 1201 0872 4FF00003 		mov	r3, #0
+ 1202 0876 8DF81730 		strb	r3, [sp, #23]
+ 1203 087a 4FF00003 		mov	r3, #0
+ 1204 087e 0493     		str	r3, [sp, #16]
+ 1205 0880 4FF00003 		mov	r3, #0
+ 1206 0884 0393     		str	r3, [sp, #12]
+ 1207 0886 019B     		ldr	r3, [sp, #4]
+ 1208 0888 0393     		str	r3, [sp, #12]
+ 1209 088a 009B     		ldr	r3, [sp, #0]
+ 1210 088c 4FEA1373 		lsr	r3, r3, #28
+ 1211 0890 0493     		str	r3, [sp, #16]
+ 1212 0892 009B     		ldr	r3, [sp, #0]
+ 1213 0894 23F07F43 		bic	r3, r3, #-16777216
+ 1214 0898 0093     		str	r3, [sp, #0]
+ 1215 089a 049B     		ldr	r3, [sp, #16]
+ 1216 089c 002B     		cmp	r3, #0
+ 1217 089e 04D0     		beq	.L80
+ 1218 08a0 039B     		ldr	r3, [sp, #12]
+ 1219 08a2 03F11403 		add	r3, r3, #20
+ 1220 08a6 0393     		str	r3, [sp, #12]
+ 1221 08a8 07E0     		b	.L81
+ 1222              	.L80:
+ 1223 08aa 009B     		ldr	r3, [sp, #0]
+ 1224 08ac 4FEA1343 		lsr	r3, r3, #16
+ 1225 08b0 0093     		str	r3, [sp, #0]
+ 1226 08b2 039B     		ldr	r3, [sp, #12]
+ 1227 08b4 03F11803 		add	r3, r3, #24
+ 1228 08b8 0393     		str	r3, [sp, #12]
+ 1229              	.L81:
+ 1230 08ba 039B     		ldr	r3, [sp, #12]
+ 1231 08bc 1A68     		ldr	r2, [r3, #0]
+ 1232 08be 009B     		ldr	r3, [sp, #0]
+ 1233 08c0 1340     		ands	r3, r3, r2
+ 1234 08c2 002B     		cmp	r3, #0
+ 1235 08c4 04D0     		beq	.L82
+ 1236 08c6 4FF00103 		mov	r3, #1
+ 1237 08ca 8DF81730 		strb	r3, [sp, #23]
+ 1238 08ce 03E0     		b	.L83
+ 1239              	.L82:
+ 1240 08d0 4FF00003 		mov	r3, #0
+ 1241 08d4 8DF81730 		strb	r3, [sp, #23]
+ 1242              	.L83:
+ 1243 08d8 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1244 08dc 1846     		mov	r0, r3
+ 1245 08de 06B0     		add	sp, sp, #24
+ 1246 08e0 7047     		bx	lr
+ 1248 08e2 00BF     		.align	2
+ 1249              		.global	I2C_ClearFlag
+ 1250              		.thumb
+ 1251              		.thumb_func
+ 1253              	I2C_ClearFlag:
+ 1254              		@ args = 0, pretend = 0, frame = 16
+ 1255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1256              		@ link register save eliminated.
+ 1257 08e4 84B0     		sub	sp, sp, #16
+ 1258 08e6 0190     		str	r0, [sp, #4]
+ 1259 08e8 0091     		str	r1, [sp, #0]
+ 1260 08ea 4FF00003 		mov	r3, #0
+ 1261 08ee 0393     		str	r3, [sp, #12]
+ 1262 08f0 009B     		ldr	r3, [sp, #0]
+ 1263 08f2 23F07F43 		bic	r3, r3, #-16777216
+ 1264 08f6 0393     		str	r3, [sp, #12]
+ 1265 08f8 039B     		ldr	r3, [sp, #12]
+ 1266 08fa 9BB2     		uxth	r3, r3
+ 1267 08fc 6FEA0303 		mvn	r3, r3
+ 1268 0900 9AB2     		uxth	r2, r3
+ 1269 0902 019B     		ldr	r3, [sp, #4]
+ 1270 0904 9A82     		strh	r2, [r3, #20]	@ movhi
+ 1271 0906 04B0     		add	sp, sp, #16
+ 1272 0908 7047     		bx	lr
+ 1274 090a 00BF     		.align	2
+ 1275              		.global	I2C_GetITStatus
+ 1276              		.thumb
+ 1277              		.thumb_func
+ 1279              	I2C_GetITStatus:
+ 1280              		@ args = 0, pretend = 0, frame = 16
+ 1281              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1282              		@ link register save eliminated.
+ 1283 090c 84B0     		sub	sp, sp, #16
+ 1284 090e 0190     		str	r0, [sp, #4]
+ 1285 0910 0091     		str	r1, [sp, #0]
+ 1286 0912 4FF00003 		mov	r3, #0
+ 1287 0916 8DF80F30 		strb	r3, [sp, #15]
+ 1288 091a 4FF00003 		mov	r3, #0
+ 1289 091e 0293     		str	r3, [sp, #8]
+ 1290 0920 009B     		ldr	r3, [sp, #0]
+ 1291 0922 03F0E063 		and	r3, r3, #117440512
+ 1292 0926 4FEA1342 		lsr	r2, r3, #16
+ 1293 092a 019B     		ldr	r3, [sp, #4]
+ 1294 092c 9B88     		ldrh	r3, [r3, #4]	@ movhi
+ 1295 092e 9BB2     		uxth	r3, r3
+ 1296 0930 1340     		ands	r3, r3, r2
+ 1297 0932 0293     		str	r3, [sp, #8]
+ 1298 0934 009B     		ldr	r3, [sp, #0]
+ 1299 0936 23F07F43 		bic	r3, r3, #-16777216
+ 1300 093a 0093     		str	r3, [sp, #0]
+ 1301 093c 019B     		ldr	r3, [sp, #4]
+ 1302 093e 9B8A     		ldrh	r3, [r3, #20]	@ movhi
+ 1303 0940 9BB2     		uxth	r3, r3
+ 1304 0942 1A46     		mov	r2, r3
+ 1305 0944 009B     		ldr	r3, [sp, #0]
+ 1306 0946 1340     		ands	r3, r3, r2
+ 1307 0948 002B     		cmp	r3, #0
+ 1308 094a 07D0     		beq	.L86
+ 1309 094c 029B     		ldr	r3, [sp, #8]
+ 1310 094e 002B     		cmp	r3, #0
+ 1311 0950 04D0     		beq	.L86
+ 1312 0952 4FF00103 		mov	r3, #1
+ 1313 0956 8DF80F30 		strb	r3, [sp, #15]
+ 1314 095a 03E0     		b	.L87
+ 1315              	.L86:
+ 1316 095c 4FF00003 		mov	r3, #0
+ 1317 0960 8DF80F30 		strb	r3, [sp, #15]
+ 1318              	.L87:
+ 1319 0964 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1320 0968 1846     		mov	r0, r3
+ 1321 096a 04B0     		add	sp, sp, #16
+ 1322 096c 7047     		bx	lr
+ 1324 096e 00BF     		.align	2
+ 1325              		.global	I2C_ClearITPendingBit
+ 1326              		.thumb
+ 1327              		.thumb_func
+ 1329              	I2C_ClearITPendingBit:
+ 1330              		@ args = 0, pretend = 0, frame = 16
+ 1331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1332              		@ link register save eliminated.
+ 1333 0970 84B0     		sub	sp, sp, #16
+ 1334 0972 0190     		str	r0, [sp, #4]
+ 1335 0974 0091     		str	r1, [sp, #0]
+ 1336 0976 4FF00003 		mov	r3, #0
+ 1337 097a 0393     		str	r3, [sp, #12]
+ 1338 097c 009B     		ldr	r3, [sp, #0]
+ 1339 097e 23F07F43 		bic	r3, r3, #-16777216
+ 1340 0982 0393     		str	r3, [sp, #12]
+ 1341 0984 039B     		ldr	r3, [sp, #12]
+ 1342 0986 9BB2     		uxth	r3, r3
+ 1343 0988 6FEA0303 		mvn	r3, r3
+ 1344 098c 9AB2     		uxth	r2, r3
+ 1345 098e 019B     		ldr	r3, [sp, #4]
+ 1346 0990 9A82     		strh	r2, [r3, #20]	@ movhi
+ 1347 0992 04B0     		add	sp, sp, #16
+ 1348 0994 7047     		bx	lr
+ 1350 0996 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_i2c.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:22     .text:00000000 I2C_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:74     .text:00000080 I2C_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:257    .text:00000270 I2C_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:289    .text:000002a8 I2C_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:325    .text:000002e0 I2C_GenerateSTART
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:361    .text:00000318 I2C_GenerateSTOP
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:397    .text:00000350 I2C_Send7bitAddress
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:431    .text:00000390 I2C_AcknowledgeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:467    .text:000003c8 I2C_OwnAddress2Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:502    .text:00000414 I2C_DualAddressCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:538    .text:0000044c I2C_GeneralCallCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:574    .text:00000484 I2C_SoftwareResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:612    .text:000004c4 I2C_StretchClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:648    .text:000004fc I2C_FastModeDutyCycleConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:684    .text:00000538 I2C_NACKPositionConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:720    .text:00000574 I2C_SMBusAlertConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:756    .text:000005b0 I2C_ARPCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:792    .text:000005e8 I2C_SendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:812    .text:00000600 I2C_ReceiveData
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:831    .text:00000614 I2C_TransmitPEC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:867    .text:0000064c I2C_PECPositionConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:903    .text:00000688 I2C_CalculatePEC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:939    .text:000006c0 I2C_GetPEC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:960    .text:000006d8 I2C_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:996    .text:00000710 I2C_DMALastTransferCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1032   .text:00000748 I2C_ReadRegister
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1060   .text:00000774 I2C_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1102   .text:000007bc I2C_CheckEvent
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1156   .text:00000828 I2C_GetLastEvent
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1194   .text:0000086c I2C_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1253   .text:000008e4 I2C_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1279   .text:0000090c I2C_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1329   .text:00000970 I2C_ClearITPendingBit
+
+UNDEFINED SYMBOLS
+RCC_APB1PeriphResetCmd
+RCC_GetClocksFreq

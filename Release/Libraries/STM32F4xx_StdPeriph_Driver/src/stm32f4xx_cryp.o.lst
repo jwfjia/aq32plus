@@ -1,0 +1,778 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_cryp.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	CRYP_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	CRYP_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 0
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 08B5     		push	{r3, lr}
+  26 0002 4FF01000 		mov	r0, #16
+  27 0006 4FF00101 		mov	r1, #1
+  28 000a FFF7FEFF 		bl	RCC_AHB2PeriphResetCmd
+  29 000e 4FF01000 		mov	r0, #16
+  30 0012 4FF00001 		mov	r1, #0
+  31 0016 FFF7FEFF 		bl	RCC_AHB2PeriphResetCmd
+  32 001a 08BD     		pop	{r3, pc}
+  34              		.align	2
+  35              		.global	CRYP_Init
+  36              		.thumb
+  37              		.thumb_func
+  39              	CRYP_Init:
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		@ link register save eliminated.
+  43 001c 82B0     		sub	sp, sp, #8
+  44 001e 0190     		str	r0, [sp, #4]
+  45 0020 4FF00003 		mov	r3, #0
+  46 0024 C5F20603 		movt	r3, 20486
+  47 0028 4FF00002 		mov	r2, #0
+  48 002c C5F20602 		movt	r2, 20486
+  49 0030 1268     		ldr	r2, [r2, #0]
+  50 0032 22F03802 		bic	r2, r2, #56
+  51 0036 1A60     		str	r2, [r3, #0]
+  52 0038 4FF00003 		mov	r3, #0
+  53 003c C5F20603 		movt	r3, 20486
+  54 0040 4FF00002 		mov	r2, #0
+  55 0044 C5F20602 		movt	r2, 20486
+  56 0048 1168     		ldr	r1, [r2, #0]
+  57 004a 019A     		ldr	r2, [sp, #4]
+  58 004c 5288     		ldrh	r2, [r2, #2]
+  59 004e 0A43     		orrs	r2, r2, r1
+  60 0050 1A60     		str	r2, [r3, #0]
+  61 0052 4FF00003 		mov	r3, #0
+  62 0056 C5F20603 		movt	r3, 20486
+  63 005a 4FF00002 		mov	r2, #0
+  64 005e C5F20602 		movt	r2, 20486
+  65 0062 1268     		ldr	r2, [r2, #0]
+  66 0064 22F0C002 		bic	r2, r2, #192
+  67 0068 1A60     		str	r2, [r3, #0]
+  68 006a 4FF00003 		mov	r3, #0
+  69 006e C5F20603 		movt	r3, 20486
+  70 0072 4FF00002 		mov	r2, #0
+  71 0076 C5F20602 		movt	r2, 20486
+  72 007a 1168     		ldr	r1, [r2, #0]
+  73 007c 019A     		ldr	r2, [sp, #4]
+  74 007e 9288     		ldrh	r2, [r2, #4]
+  75 0080 0A43     		orrs	r2, r2, r1
+  76 0082 1A60     		str	r2, [r3, #0]
+  77 0084 019B     		ldr	r3, [sp, #4]
+  78 0086 5B88     		ldrh	r3, [r3, #2]
+  79 0088 202B     		cmp	r3, #32
+  80 008a 0BD0     		beq	.L3
+  81 008c 019B     		ldr	r3, [sp, #4]
+  82 008e 5B88     		ldrh	r3, [r3, #2]
+  83 0090 282B     		cmp	r3, #40
+  84 0092 07D0     		beq	.L3
+  85 0094 019B     		ldr	r3, [sp, #4]
+  86 0096 5B88     		ldrh	r3, [r3, #2]
+  87 0098 302B     		cmp	r3, #48
+  88 009a 03D0     		beq	.L3
+  89 009c 019B     		ldr	r3, [sp, #4]
+  90 009e 5B88     		ldrh	r3, [r3, #2]
+  91 00a0 382B     		cmp	r3, #56
+  92 00a2 18D1     		bne	.L4
+  93              	.L3:
+  94 00a4 4FF00003 		mov	r3, #0
+  95 00a8 C5F20603 		movt	r3, 20486
+  96 00ac 4FF00002 		mov	r2, #0
+  97 00b0 C5F20602 		movt	r2, 20486
+  98 00b4 1268     		ldr	r2, [r2, #0]
+  99 00b6 22F44072 		bic	r2, r2, #768
+ 100 00ba 1A60     		str	r2, [r3, #0]
+ 101 00bc 4FF00003 		mov	r3, #0
+ 102 00c0 C5F20603 		movt	r3, 20486
+ 103 00c4 4FF00002 		mov	r2, #0
+ 104 00c8 C5F20602 		movt	r2, 20486
+ 105 00cc 1168     		ldr	r1, [r2, #0]
+ 106 00ce 019A     		ldr	r2, [sp, #4]
+ 107 00d0 D288     		ldrh	r2, [r2, #6]
+ 108 00d2 0A43     		orrs	r2, r2, r1
+ 109 00d4 1A60     		str	r2, [r3, #0]
+ 110              	.L4:
+ 111 00d6 4FF00003 		mov	r3, #0
+ 112 00da C5F20603 		movt	r3, 20486
+ 113 00de 4FF00002 		mov	r2, #0
+ 114 00e2 C5F20602 		movt	r2, 20486
+ 115 00e6 1268     		ldr	r2, [r2, #0]
+ 116 00e8 22F00402 		bic	r2, r2, #4
+ 117 00ec 1A60     		str	r2, [r3, #0]
+ 118 00ee 4FF00003 		mov	r3, #0
+ 119 00f2 C5F20603 		movt	r3, 20486
+ 120 00f6 4FF00002 		mov	r2, #0
+ 121 00fa C5F20602 		movt	r2, 20486
+ 122 00fe 1168     		ldr	r1, [r2, #0]
+ 123 0100 019A     		ldr	r2, [sp, #4]
+ 124 0102 1288     		ldrh	r2, [r2, #0]
+ 125 0104 0A43     		orrs	r2, r2, r1
+ 126 0106 1A60     		str	r2, [r3, #0]
+ 127 0108 02B0     		add	sp, sp, #8
+ 128 010a 7047     		bx	lr
+ 130              		.align	2
+ 131              		.global	CRYP_StructInit
+ 132              		.thumb
+ 133              		.thumb_func
+ 135              	CRYP_StructInit:
+ 136              		@ args = 0, pretend = 0, frame = 8
+ 137              		@ frame_needed = 0, uses_anonymous_args = 0
+ 138              		@ link register save eliminated.
+ 139 010c 82B0     		sub	sp, sp, #8
+ 140 010e 0190     		str	r0, [sp, #4]
+ 141 0110 019B     		ldr	r3, [sp, #4]
+ 142 0112 4FF00002 		mov	r2, #0
+ 143 0116 1A80     		strh	r2, [r3, #0]	@ movhi
+ 144 0118 019B     		ldr	r3, [sp, #4]
+ 145 011a 4FF00002 		mov	r2, #0
+ 146 011e 5A80     		strh	r2, [r3, #2]	@ movhi
+ 147 0120 019B     		ldr	r3, [sp, #4]
+ 148 0122 4FF00002 		mov	r2, #0
+ 149 0126 9A80     		strh	r2, [r3, #4]	@ movhi
+ 150 0128 019B     		ldr	r3, [sp, #4]
+ 151 012a 4FF00002 		mov	r2, #0
+ 152 012e DA80     		strh	r2, [r3, #6]	@ movhi
+ 153 0130 02B0     		add	sp, sp, #8
+ 154 0132 7047     		bx	lr
+ 156              		.align	2
+ 157              		.global	CRYP_KeyInit
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	CRYP_KeyInit:
+ 162              		@ args = 0, pretend = 0, frame = 8
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		@ link register save eliminated.
+ 165 0134 82B0     		sub	sp, sp, #8
+ 166 0136 0190     		str	r0, [sp, #4]
+ 167 0138 4FF00003 		mov	r3, #0
+ 168 013c C5F20603 		movt	r3, 20486
+ 169 0140 019A     		ldr	r2, [sp, #4]
+ 170 0142 1268     		ldr	r2, [r2, #0]
+ 171 0144 1A62     		str	r2, [r3, #32]
+ 172 0146 4FF00003 		mov	r3, #0
+ 173 014a C5F20603 		movt	r3, 20486
+ 174 014e 019A     		ldr	r2, [sp, #4]
+ 175 0150 5268     		ldr	r2, [r2, #4]
+ 176 0152 5A62     		str	r2, [r3, #36]
+ 177 0154 4FF00003 		mov	r3, #0
+ 178 0158 C5F20603 		movt	r3, 20486
+ 179 015c 019A     		ldr	r2, [sp, #4]
+ 180 015e 9268     		ldr	r2, [r2, #8]
+ 181 0160 9A62     		str	r2, [r3, #40]
+ 182 0162 4FF00003 		mov	r3, #0
+ 183 0166 C5F20603 		movt	r3, 20486
+ 184 016a 019A     		ldr	r2, [sp, #4]
+ 185 016c D268     		ldr	r2, [r2, #12]
+ 186 016e DA62     		str	r2, [r3, #44]
+ 187 0170 4FF00003 		mov	r3, #0
+ 188 0174 C5F20603 		movt	r3, 20486
+ 189 0178 019A     		ldr	r2, [sp, #4]
+ 190 017a 1269     		ldr	r2, [r2, #16]
+ 191 017c 1A63     		str	r2, [r3, #48]
+ 192 017e 4FF00003 		mov	r3, #0
+ 193 0182 C5F20603 		movt	r3, 20486
+ 194 0186 019A     		ldr	r2, [sp, #4]
+ 195 0188 5269     		ldr	r2, [r2, #20]
+ 196 018a 5A63     		str	r2, [r3, #52]
+ 197 018c 4FF00003 		mov	r3, #0
+ 198 0190 C5F20603 		movt	r3, 20486
+ 199 0194 019A     		ldr	r2, [sp, #4]
+ 200 0196 9269     		ldr	r2, [r2, #24]
+ 201 0198 9A63     		str	r2, [r3, #56]
+ 202 019a 4FF00003 		mov	r3, #0
+ 203 019e C5F20603 		movt	r3, 20486
+ 204 01a2 019A     		ldr	r2, [sp, #4]
+ 205 01a4 D269     		ldr	r2, [r2, #28]
+ 206 01a6 DA63     		str	r2, [r3, #60]
+ 207 01a8 02B0     		add	sp, sp, #8
+ 208 01aa 7047     		bx	lr
+ 210              		.align	2
+ 211              		.global	CRYP_KeyStructInit
+ 212              		.thumb
+ 213              		.thumb_func
+ 215              	CRYP_KeyStructInit:
+ 216              		@ args = 0, pretend = 0, frame = 8
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              		@ link register save eliminated.
+ 219 01ac 82B0     		sub	sp, sp, #8
+ 220 01ae 0190     		str	r0, [sp, #4]
+ 221 01b0 019B     		ldr	r3, [sp, #4]
+ 222 01b2 4FF00002 		mov	r2, #0
+ 223 01b6 1A60     		str	r2, [r3, #0]
+ 224 01b8 019B     		ldr	r3, [sp, #4]
+ 225 01ba 4FF00002 		mov	r2, #0
+ 226 01be 5A60     		str	r2, [r3, #4]
+ 227 01c0 019B     		ldr	r3, [sp, #4]
+ 228 01c2 4FF00002 		mov	r2, #0
+ 229 01c6 9A60     		str	r2, [r3, #8]
+ 230 01c8 019B     		ldr	r3, [sp, #4]
+ 231 01ca 4FF00002 		mov	r2, #0
+ 232 01ce DA60     		str	r2, [r3, #12]
+ 233 01d0 019B     		ldr	r3, [sp, #4]
+ 234 01d2 4FF00002 		mov	r2, #0
+ 235 01d6 1A61     		str	r2, [r3, #16]
+ 236 01d8 019B     		ldr	r3, [sp, #4]
+ 237 01da 4FF00002 		mov	r2, #0
+ 238 01de 5A61     		str	r2, [r3, #20]
+ 239 01e0 019B     		ldr	r3, [sp, #4]
+ 240 01e2 4FF00002 		mov	r2, #0
+ 241 01e6 9A61     		str	r2, [r3, #24]
+ 242 01e8 019B     		ldr	r3, [sp, #4]
+ 243 01ea 4FF00002 		mov	r2, #0
+ 244 01ee DA61     		str	r2, [r3, #28]
+ 245 01f0 02B0     		add	sp, sp, #8
+ 246 01f2 7047     		bx	lr
+ 248              		.align	2
+ 249              		.global	CRYP_IVInit
+ 250              		.thumb
+ 251              		.thumb_func
+ 253              	CRYP_IVInit:
+ 254              		@ args = 0, pretend = 0, frame = 8
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              		@ link register save eliminated.
+ 257 01f4 82B0     		sub	sp, sp, #8
+ 258 01f6 0190     		str	r0, [sp, #4]
+ 259 01f8 4FF00003 		mov	r3, #0
+ 260 01fc C5F20603 		movt	r3, 20486
+ 261 0200 019A     		ldr	r2, [sp, #4]
+ 262 0202 1268     		ldr	r2, [r2, #0]
+ 263 0204 1A64     		str	r2, [r3, #64]
+ 264 0206 4FF00003 		mov	r3, #0
+ 265 020a C5F20603 		movt	r3, 20486
+ 266 020e 019A     		ldr	r2, [sp, #4]
+ 267 0210 5268     		ldr	r2, [r2, #4]
+ 268 0212 5A64     		str	r2, [r3, #68]
+ 269 0214 4FF00003 		mov	r3, #0
+ 270 0218 C5F20603 		movt	r3, 20486
+ 271 021c 019A     		ldr	r2, [sp, #4]
+ 272 021e 9268     		ldr	r2, [r2, #8]
+ 273 0220 9A64     		str	r2, [r3, #72]
+ 274 0222 4FF00003 		mov	r3, #0
+ 275 0226 C5F20603 		movt	r3, 20486
+ 276 022a 019A     		ldr	r2, [sp, #4]
+ 277 022c D268     		ldr	r2, [r2, #12]
+ 278 022e DA64     		str	r2, [r3, #76]
+ 279 0230 02B0     		add	sp, sp, #8
+ 280 0232 7047     		bx	lr
+ 282              		.align	2
+ 283              		.global	CRYP_IVStructInit
+ 284              		.thumb
+ 285              		.thumb_func
+ 287              	CRYP_IVStructInit:
+ 288              		@ args = 0, pretend = 0, frame = 8
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290              		@ link register save eliminated.
+ 291 0234 82B0     		sub	sp, sp, #8
+ 292 0236 0190     		str	r0, [sp, #4]
+ 293 0238 019B     		ldr	r3, [sp, #4]
+ 294 023a 4FF00002 		mov	r2, #0
+ 295 023e 1A60     		str	r2, [r3, #0]
+ 296 0240 019B     		ldr	r3, [sp, #4]
+ 297 0242 4FF00002 		mov	r2, #0
+ 298 0246 5A60     		str	r2, [r3, #4]
+ 299 0248 019B     		ldr	r3, [sp, #4]
+ 300 024a 4FF00002 		mov	r2, #0
+ 301 024e 9A60     		str	r2, [r3, #8]
+ 302 0250 019B     		ldr	r3, [sp, #4]
+ 303 0252 4FF00002 		mov	r2, #0
+ 304 0256 DA60     		str	r2, [r3, #12]
+ 305 0258 02B0     		add	sp, sp, #8
+ 306 025a 7047     		bx	lr
+ 308              		.align	2
+ 309              		.global	CRYP_FIFOFlush
+ 310              		.thumb
+ 311              		.thumb_func
+ 313              	CRYP_FIFOFlush:
+ 314              		@ args = 0, pretend = 0, frame = 0
+ 315              		@ frame_needed = 0, uses_anonymous_args = 0
+ 316              		@ link register save eliminated.
+ 317 025c 4FF00003 		mov	r3, #0
+ 318 0260 C5F20603 		movt	r3, 20486
+ 319 0264 4FF00002 		mov	r2, #0
+ 320 0268 C5F20602 		movt	r2, 20486
+ 321 026c 1268     		ldr	r2, [r2, #0]
+ 322 026e 42F48042 		orr	r2, r2, #16384
+ 323 0272 1A60     		str	r2, [r3, #0]
+ 324 0274 7047     		bx	lr
+ 326 0276 00BF     		.align	2
+ 327              		.global	CRYP_Cmd
+ 328              		.thumb
+ 329              		.thumb_func
+ 331              	CRYP_Cmd:
+ 332              		@ args = 0, pretend = 0, frame = 8
+ 333              		@ frame_needed = 0, uses_anonymous_args = 0
+ 334              		@ link register save eliminated.
+ 335 0278 82B0     		sub	sp, sp, #8
+ 336 027a 0346     		mov	r3, r0
+ 337 027c 8DF80730 		strb	r3, [sp, #7]
+ 338 0280 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 339 0284 002B     		cmp	r3, #0
+ 340 0286 0CD0     		beq	.L12
+ 341 0288 4FF00003 		mov	r3, #0
+ 342 028c C5F20603 		movt	r3, 20486
+ 343 0290 4FF00002 		mov	r2, #0
+ 344 0294 C5F20602 		movt	r2, 20486
+ 345 0298 1268     		ldr	r2, [r2, #0]
+ 346 029a 42F40042 		orr	r2, r2, #32768
+ 347 029e 1A60     		str	r2, [r3, #0]
+ 348 02a0 0BE0     		b	.L11
+ 349              	.L12:
+ 350 02a2 4FF00003 		mov	r3, #0
+ 351 02a6 C5F20603 		movt	r3, 20486
+ 352 02aa 4FF00002 		mov	r2, #0
+ 353 02ae C5F20602 		movt	r2, 20486
+ 354 02b2 1268     		ldr	r2, [r2, #0]
+ 355 02b4 22F40042 		bic	r2, r2, #32768
+ 356 02b8 1A60     		str	r2, [r3, #0]
+ 357              	.L11:
+ 358 02ba 02B0     		add	sp, sp, #8
+ 359 02bc 7047     		bx	lr
+ 361 02be 00BF     		.align	2
+ 362              		.global	CRYP_DataIn
+ 363              		.thumb
+ 364              		.thumb_func
+ 366              	CRYP_DataIn:
+ 367              		@ args = 0, pretend = 0, frame = 8
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369              		@ link register save eliminated.
+ 370 02c0 82B0     		sub	sp, sp, #8
+ 371 02c2 0190     		str	r0, [sp, #4]
+ 372 02c4 4FF00003 		mov	r3, #0
+ 373 02c8 C5F20603 		movt	r3, 20486
+ 374 02cc 019A     		ldr	r2, [sp, #4]
+ 375 02ce 9A60     		str	r2, [r3, #8]
+ 376 02d0 02B0     		add	sp, sp, #8
+ 377 02d2 7047     		bx	lr
+ 379              		.align	2
+ 380              		.global	CRYP_DataOut
+ 381              		.thumb
+ 382              		.thumb_func
+ 384              	CRYP_DataOut:
+ 385              		@ args = 0, pretend = 0, frame = 0
+ 386              		@ frame_needed = 0, uses_anonymous_args = 0
+ 387              		@ link register save eliminated.
+ 388 02d4 4FF00003 		mov	r3, #0
+ 389 02d8 C5F20603 		movt	r3, 20486
+ 390 02dc DB68     		ldr	r3, [r3, #12]
+ 391 02de 1846     		mov	r0, r3
+ 392 02e0 7047     		bx	lr
+ 394 02e2 00BF     		.align	2
+ 395              		.global	CRYP_SaveContext
+ 396              		.thumb
+ 397              		.thumb_func
+ 399              	CRYP_SaveContext:
+ 400              		@ args = 0, pretend = 0, frame = 24
+ 401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 402              		@ link register save eliminated.
+ 403 02e4 86B0     		sub	sp, sp, #24
+ 404 02e6 0190     		str	r0, [sp, #4]
+ 405 02e8 0091     		str	r1, [sp, #0]
+ 406 02ea 4FF00003 		mov	r3, #0
+ 407 02ee 0293     		str	r3, [sp, #8]
+ 408 02f0 4FF00003 		mov	r3, #0
+ 409 02f4 0593     		str	r3, [sp, #20]
+ 410 02f6 4FF00003 		mov	r3, #0
+ 411 02fa 8DF81330 		strb	r3, [sp, #19]
+ 412 02fe 4FF00003 		mov	r3, #0
+ 413 0302 C5F20603 		movt	r3, 20486
+ 414 0306 4FF00002 		mov	r2, #0
+ 415 030a C5F20602 		movt	r2, 20486
+ 416 030e 1269     		ldr	r2, [r2, #16]
+ 417 0310 22F00102 		bic	r2, r2, #1
+ 418 0314 1A61     		str	r2, [r3, #16]
+ 419 0316 4FF00003 		mov	r3, #0
+ 420 031a C5F20603 		movt	r3, 20486
+ 421 031e 1B68     		ldr	r3, [r3, #0]
+ 422 0320 03F00803 		and	r3, r3, #8
+ 423 0324 002B     		cmp	r3, #0
+ 424 0326 03D0     		beq	.L17
+ 425 0328 4FF01103 		mov	r3, #17
+ 426 032c 0593     		str	r3, [sp, #20]
+ 427 032e 02E0     		b	.L18
+ 428              	.L17:
+ 429 0330 4FF01503 		mov	r3, #21
+ 430 0334 0593     		str	r3, [sp, #20]
+ 431              	.L18:
+ 432 0336 4FF00003 		mov	r3, #0
+ 433 033a C5F20603 		movt	r3, 20486
+ 434 033e 5A68     		ldr	r2, [r3, #4]
+ 435 0340 059B     		ldr	r3, [sp, #20]
+ 436 0342 1340     		ands	r3, r3, r2
+ 437 0344 0393     		str	r3, [sp, #12]
+ 438 0346 029B     		ldr	r3, [sp, #8]
+ 439 0348 03F10103 		add	r3, r3, #1
+ 440 034c 0293     		str	r3, [sp, #8]
+ 441 034e 029A     		ldr	r2, [sp, #8]
+ 442 0350 4FF6FF73 		movw	r3, #65535
+ 443 0354 9A42     		cmp	r2, r3
+ 444 0356 02D0     		beq	.L19
+ 445 0358 039B     		ldr	r3, [sp, #12]
+ 446 035a 012B     		cmp	r3, #1
+ 447 035c EBD1     		bne	.L18
+ 448              	.L19:
+ 449 035e 4FF00003 		mov	r3, #0
+ 450 0362 C5F20603 		movt	r3, 20486
+ 451 0366 5A68     		ldr	r2, [r3, #4]
+ 452 0368 059B     		ldr	r3, [sp, #20]
+ 453 036a 1340     		ands	r3, r3, r2
+ 454 036c 012B     		cmp	r3, #1
+ 455 036e 04D0     		beq	.L20
+ 456 0370 4FF00003 		mov	r3, #0
+ 457 0374 8DF81330 		strb	r3, [sp, #19]
+ 458 0378 60E0     		b	.L21
+ 459              	.L20:
+ 460 037a 4FF00003 		mov	r3, #0
+ 461 037e C5F20603 		movt	r3, 20486
+ 462 0382 4FF00002 		mov	r2, #0
+ 463 0386 C5F20602 		movt	r2, 20486
+ 464 038a 1269     		ldr	r2, [r2, #16]
+ 465 038c 22F00202 		bic	r2, r2, #2
+ 466 0390 1A61     		str	r2, [r3, #16]
+ 467 0392 4FF00003 		mov	r3, #0
+ 468 0396 C5F20603 		movt	r3, 20486
+ 469 039a 4FF00002 		mov	r2, #0
+ 470 039e C5F20602 		movt	r2, 20486
+ 471 03a2 1268     		ldr	r2, [r2, #0]
+ 472 03a4 22F40042 		bic	r2, r2, #32768
+ 473 03a8 1A60     		str	r2, [r3, #0]
+ 474 03aa 4FF00003 		mov	r3, #0
+ 475 03ae C5F20603 		movt	r3, 20486
+ 476 03b2 1B68     		ldr	r3, [r3, #0]
+ 477 03b4 03F47F72 		and	r2, r3, #1020
+ 478 03b8 019B     		ldr	r3, [sp, #4]
+ 479 03ba 1A60     		str	r2, [r3, #0]
+ 480 03bc 4FF00003 		mov	r3, #0
+ 481 03c0 C5F20603 		movt	r3, 20486
+ 482 03c4 1A6C     		ldr	r2, [r3, #64]
+ 483 03c6 019B     		ldr	r3, [sp, #4]
+ 484 03c8 5A60     		str	r2, [r3, #4]
+ 485 03ca 4FF00003 		mov	r3, #0
+ 486 03ce C5F20603 		movt	r3, 20486
+ 487 03d2 5A6C     		ldr	r2, [r3, #68]
+ 488 03d4 019B     		ldr	r3, [sp, #4]
+ 489 03d6 9A60     		str	r2, [r3, #8]
+ 490 03d8 4FF00003 		mov	r3, #0
+ 491 03dc C5F20603 		movt	r3, 20486
+ 492 03e0 9A6C     		ldr	r2, [r3, #72]
+ 493 03e2 019B     		ldr	r3, [sp, #4]
+ 494 03e4 DA60     		str	r2, [r3, #12]
+ 495 03e6 4FF00003 		mov	r3, #0
+ 496 03ea C5F20603 		movt	r3, 20486
+ 497 03ee DA6C     		ldr	r2, [r3, #76]
+ 498 03f0 019B     		ldr	r3, [sp, #4]
+ 499 03f2 1A61     		str	r2, [r3, #16]
+ 500 03f4 009B     		ldr	r3, [sp, #0]
+ 501 03f6 1A68     		ldr	r2, [r3, #0]
+ 502 03f8 019B     		ldr	r3, [sp, #4]
+ 503 03fa 5A61     		str	r2, [r3, #20]
+ 504 03fc 009B     		ldr	r3, [sp, #0]
+ 505 03fe 5A68     		ldr	r2, [r3, #4]
+ 506 0400 019B     		ldr	r3, [sp, #4]
+ 507 0402 9A61     		str	r2, [r3, #24]
+ 508 0404 009B     		ldr	r3, [sp, #0]
+ 509 0406 9A68     		ldr	r2, [r3, #8]
+ 510 0408 019B     		ldr	r3, [sp, #4]
+ 511 040a DA61     		str	r2, [r3, #28]
+ 512 040c 009B     		ldr	r3, [sp, #0]
+ 513 040e DA68     		ldr	r2, [r3, #12]
+ 514 0410 019B     		ldr	r3, [sp, #4]
+ 515 0412 1A62     		str	r2, [r3, #32]
+ 516 0414 009B     		ldr	r3, [sp, #0]
+ 517 0416 1A69     		ldr	r2, [r3, #16]
+ 518 0418 019B     		ldr	r3, [sp, #4]
+ 519 041a 5A62     		str	r2, [r3, #36]
+ 520 041c 009B     		ldr	r3, [sp, #0]
+ 521 041e 5A69     		ldr	r2, [r3, #20]
+ 522 0420 019B     		ldr	r3, [sp, #4]
+ 523 0422 9A62     		str	r2, [r3, #40]
+ 524 0424 009B     		ldr	r3, [sp, #0]
+ 525 0426 9A69     		ldr	r2, [r3, #24]
+ 526 0428 019B     		ldr	r3, [sp, #4]
+ 527 042a DA62     		str	r2, [r3, #44]
+ 528 042c 009B     		ldr	r3, [sp, #0]
+ 529 042e DA69     		ldr	r2, [r3, #28]
+ 530 0430 019B     		ldr	r3, [sp, #4]
+ 531 0432 1A63     		str	r2, [r3, #48]
+ 532 0434 4FF00103 		mov	r3, #1
+ 533 0438 8DF81330 		strb	r3, [sp, #19]
+ 534              	.L21:
+ 535 043c 9DF81330 		ldrb	r3, [sp, #19]	@ zero_extendqisi2
+ 536 0440 1846     		mov	r0, r3
+ 537 0442 06B0     		add	sp, sp, #24
+ 538 0444 7047     		bx	lr
+ 540 0446 00BF     		.align	2
+ 541              		.global	CRYP_RestoreContext
+ 542              		.thumb
+ 543              		.thumb_func
+ 545              	CRYP_RestoreContext:
+ 546              		@ args = 0, pretend = 0, frame = 8
+ 547              		@ frame_needed = 0, uses_anonymous_args = 0
+ 548              		@ link register save eliminated.
+ 549 0448 82B0     		sub	sp, sp, #8
+ 550 044a 0190     		str	r0, [sp, #4]
+ 551 044c 4FF00003 		mov	r3, #0
+ 552 0450 C5F20603 		movt	r3, 20486
+ 553 0454 019A     		ldr	r2, [sp, #4]
+ 554 0456 1268     		ldr	r2, [r2, #0]
+ 555 0458 1A60     		str	r2, [r3, #0]
+ 556 045a 4FF00003 		mov	r3, #0
+ 557 045e C5F20603 		movt	r3, 20486
+ 558 0462 019A     		ldr	r2, [sp, #4]
+ 559 0464 5269     		ldr	r2, [r2, #20]
+ 560 0466 1A62     		str	r2, [r3, #32]
+ 561 0468 4FF00003 		mov	r3, #0
+ 562 046c C5F20603 		movt	r3, 20486
+ 563 0470 019A     		ldr	r2, [sp, #4]
+ 564 0472 9269     		ldr	r2, [r2, #24]
+ 565 0474 5A62     		str	r2, [r3, #36]
+ 566 0476 4FF00003 		mov	r3, #0
+ 567 047a C5F20603 		movt	r3, 20486
+ 568 047e 019A     		ldr	r2, [sp, #4]
+ 569 0480 D269     		ldr	r2, [r2, #28]
+ 570 0482 9A62     		str	r2, [r3, #40]
+ 571 0484 4FF00003 		mov	r3, #0
+ 572 0488 C5F20603 		movt	r3, 20486
+ 573 048c 019A     		ldr	r2, [sp, #4]
+ 574 048e 126A     		ldr	r2, [r2, #32]
+ 575 0490 DA62     		str	r2, [r3, #44]
+ 576 0492 4FF00003 		mov	r3, #0
+ 577 0496 C5F20603 		movt	r3, 20486
+ 578 049a 019A     		ldr	r2, [sp, #4]
+ 579 049c 526A     		ldr	r2, [r2, #36]
+ 580 049e 1A63     		str	r2, [r3, #48]
+ 581 04a0 4FF00003 		mov	r3, #0
+ 582 04a4 C5F20603 		movt	r3, 20486
+ 583 04a8 019A     		ldr	r2, [sp, #4]
+ 584 04aa 926A     		ldr	r2, [r2, #40]
+ 585 04ac 5A63     		str	r2, [r3, #52]
+ 586 04ae 4FF00003 		mov	r3, #0
+ 587 04b2 C5F20603 		movt	r3, 20486
+ 588 04b6 019A     		ldr	r2, [sp, #4]
+ 589 04b8 D26A     		ldr	r2, [r2, #44]
+ 590 04ba 9A63     		str	r2, [r3, #56]
+ 591 04bc 4FF00003 		mov	r3, #0
+ 592 04c0 C5F20603 		movt	r3, 20486
+ 593 04c4 019A     		ldr	r2, [sp, #4]
+ 594 04c6 126B     		ldr	r2, [r2, #48]
+ 595 04c8 DA63     		str	r2, [r3, #60]
+ 596 04ca 4FF00003 		mov	r3, #0
+ 597 04ce C5F20603 		movt	r3, 20486
+ 598 04d2 019A     		ldr	r2, [sp, #4]
+ 599 04d4 5268     		ldr	r2, [r2, #4]
+ 600 04d6 1A64     		str	r2, [r3, #64]
+ 601 04d8 4FF00003 		mov	r3, #0
+ 602 04dc C5F20603 		movt	r3, 20486
+ 603 04e0 019A     		ldr	r2, [sp, #4]
+ 604 04e2 9268     		ldr	r2, [r2, #8]
+ 605 04e4 5A64     		str	r2, [r3, #68]
+ 606 04e6 4FF00003 		mov	r3, #0
+ 607 04ea C5F20603 		movt	r3, 20486
+ 608 04ee 019A     		ldr	r2, [sp, #4]
+ 609 04f0 D268     		ldr	r2, [r2, #12]
+ 610 04f2 9A64     		str	r2, [r3, #72]
+ 611 04f4 4FF00003 		mov	r3, #0
+ 612 04f8 C5F20603 		movt	r3, 20486
+ 613 04fc 019A     		ldr	r2, [sp, #4]
+ 614 04fe 1269     		ldr	r2, [r2, #16]
+ 615 0500 DA64     		str	r2, [r3, #76]
+ 616 0502 4FF00003 		mov	r3, #0
+ 617 0506 C5F20603 		movt	r3, 20486
+ 618 050a 4FF00002 		mov	r2, #0
+ 619 050e C5F20602 		movt	r2, 20486
+ 620 0512 1268     		ldr	r2, [r2, #0]
+ 621 0514 42F40042 		orr	r2, r2, #32768
+ 622 0518 1A60     		str	r2, [r3, #0]
+ 623 051a 02B0     		add	sp, sp, #8
+ 624 051c 7047     		bx	lr
+ 626 051e 00BF     		.align	2
+ 627              		.global	CRYP_DMACmd
+ 628              		.thumb
+ 629              		.thumb_func
+ 631              	CRYP_DMACmd:
+ 632              		@ args = 0, pretend = 0, frame = 8
+ 633              		@ frame_needed = 0, uses_anonymous_args = 0
+ 634              		@ link register save eliminated.
+ 635 0520 82B0     		sub	sp, sp, #8
+ 636 0522 0246     		mov	r2, r0
+ 637 0524 0B46     		mov	r3, r1
+ 638 0526 8DF80720 		strb	r2, [sp, #7]
+ 639 052a 8DF80630 		strb	r3, [sp, #6]
+ 640 052e 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 641 0532 002B     		cmp	r3, #0
+ 642 0534 0DD0     		beq	.L24
+ 643 0536 4FF00003 		mov	r3, #0
+ 644 053a C5F20603 		movt	r3, 20486
+ 645 053e 4FF00002 		mov	r2, #0
+ 646 0542 C5F20602 		movt	r2, 20486
+ 647 0546 1169     		ldr	r1, [r2, #16]
+ 648 0548 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 649 054c 0A43     		orrs	r2, r2, r1
+ 650 054e 1A61     		str	r2, [r3, #16]
+ 651 0550 0FE0     		b	.L23
+ 652              	.L24:
+ 653 0552 4FF00003 		mov	r3, #0
+ 654 0556 C5F20603 		movt	r3, 20486
+ 655 055a 4FF00002 		mov	r2, #0
+ 656 055e C5F20602 		movt	r2, 20486
+ 657 0562 1169     		ldr	r1, [r2, #16]
+ 658 0564 9DF80720 		ldrb	r2, [sp, #7]
+ 659 0568 6FEA0202 		mvn	r2, r2
+ 660 056c D2B2     		uxtb	r2, r2
+ 661 056e 0A40     		ands	r2, r2, r1
+ 662 0570 1A61     		str	r2, [r3, #16]
+ 663              	.L23:
+ 664 0572 02B0     		add	sp, sp, #8
+ 665 0574 7047     		bx	lr
+ 667 0576 00BF     		.align	2
+ 668              		.global	CRYP_ITConfig
+ 669              		.thumb
+ 670              		.thumb_func
+ 672              	CRYP_ITConfig:
+ 673              		@ args = 0, pretend = 0, frame = 8
+ 674              		@ frame_needed = 0, uses_anonymous_args = 0
+ 675              		@ link register save eliminated.
+ 676 0578 82B0     		sub	sp, sp, #8
+ 677 057a 0246     		mov	r2, r0
+ 678 057c 0B46     		mov	r3, r1
+ 679 057e 8DF80720 		strb	r2, [sp, #7]
+ 680 0582 8DF80630 		strb	r3, [sp, #6]
+ 681 0586 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 682 058a 002B     		cmp	r3, #0
+ 683 058c 0DD0     		beq	.L27
+ 684 058e 4FF00003 		mov	r3, #0
+ 685 0592 C5F20603 		movt	r3, 20486
+ 686 0596 4FF00002 		mov	r2, #0
+ 687 059a C5F20602 		movt	r2, 20486
+ 688 059e 5169     		ldr	r1, [r2, #20]
+ 689 05a0 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 690 05a4 0A43     		orrs	r2, r2, r1
+ 691 05a6 5A61     		str	r2, [r3, #20]
+ 692 05a8 0FE0     		b	.L26
+ 693              	.L27:
+ 694 05aa 4FF00003 		mov	r3, #0
+ 695 05ae C5F20603 		movt	r3, 20486
+ 696 05b2 4FF00002 		mov	r2, #0
+ 697 05b6 C5F20602 		movt	r2, 20486
+ 698 05ba 5169     		ldr	r1, [r2, #20]
+ 699 05bc 9DF80720 		ldrb	r2, [sp, #7]
+ 700 05c0 6FEA0202 		mvn	r2, r2
+ 701 05c4 D2B2     		uxtb	r2, r2
+ 702 05c6 0A40     		ands	r2, r2, r1
+ 703 05c8 5A61     		str	r2, [r3, #20]
+ 704              	.L26:
+ 705 05ca 02B0     		add	sp, sp, #8
+ 706 05cc 7047     		bx	lr
+ 708 05ce 00BF     		.align	2
+ 709              		.global	CRYP_GetITStatus
+ 710              		.thumb
+ 711              		.thumb_func
+ 713              	CRYP_GetITStatus:
+ 714              		@ args = 0, pretend = 0, frame = 16
+ 715              		@ frame_needed = 0, uses_anonymous_args = 0
+ 716              		@ link register save eliminated.
+ 717 05d0 84B0     		sub	sp, sp, #16
+ 718 05d2 0346     		mov	r3, r0
+ 719 05d4 8DF80730 		strb	r3, [sp, #7]
+ 720 05d8 4FF00003 		mov	r3, #0
+ 721 05dc 8DF80F30 		strb	r3, [sp, #15]
+ 722 05e0 4FF00003 		mov	r3, #0
+ 723 05e4 C5F20603 		movt	r3, 20486
+ 724 05e8 DA69     		ldr	r2, [r3, #28]
+ 725 05ea 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 726 05ee 1340     		ands	r3, r3, r2
+ 727 05f0 002B     		cmp	r3, #0
+ 728 05f2 04D0     		beq	.L30
+ 729 05f4 4FF00103 		mov	r3, #1
+ 730 05f8 8DF80F30 		strb	r3, [sp, #15]
+ 731 05fc 03E0     		b	.L31
+ 732              	.L30:
+ 733 05fe 4FF00003 		mov	r3, #0
+ 734 0602 8DF80F30 		strb	r3, [sp, #15]
+ 735              	.L31:
+ 736 0606 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 737 060a 1846     		mov	r0, r3
+ 738 060c 04B0     		add	sp, sp, #16
+ 739 060e 7047     		bx	lr
+ 741              		.align	2
+ 742              		.global	CRYP_GetFlagStatus
+ 743              		.thumb
+ 744              		.thumb_func
+ 746              	CRYP_GetFlagStatus:
+ 747              		@ args = 0, pretend = 0, frame = 16
+ 748              		@ frame_needed = 0, uses_anonymous_args = 0
+ 749              		@ link register save eliminated.
+ 750 0610 84B0     		sub	sp, sp, #16
+ 751 0612 0346     		mov	r3, r0
+ 752 0614 8DF80730 		strb	r3, [sp, #7]
+ 753 0618 4FF00003 		mov	r3, #0
+ 754 061c 8DF80F30 		strb	r3, [sp, #15]
+ 755 0620 4FF00003 		mov	r3, #0
+ 756 0624 0293     		str	r3, [sp, #8]
+ 757 0626 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 758 062a 03F02003 		and	r3, r3, #32
+ 759 062e 002B     		cmp	r3, #0
+ 760 0630 06D0     		beq	.L33
+ 761 0632 4FF00003 		mov	r3, #0
+ 762 0636 C5F20603 		movt	r3, 20486
+ 763 063a 9B69     		ldr	r3, [r3, #24]
+ 764 063c 0293     		str	r3, [sp, #8]
+ 765 063e 05E0     		b	.L34
+ 766              	.L33:
+ 767 0640 4FF00003 		mov	r3, #0
+ 768 0644 C5F20603 		movt	r3, 20486
+ 769 0648 5B68     		ldr	r3, [r3, #4]
+ 770 064a 0293     		str	r3, [sp, #8]
+ 771              	.L34:
+ 772 064c 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 773 0650 029B     		ldr	r3, [sp, #8]
+ 774 0652 1340     		ands	r3, r3, r2
+ 775 0654 002B     		cmp	r3, #0
+ 776 0656 04D0     		beq	.L35
+ 777 0658 4FF00103 		mov	r3, #1
+ 778 065c 8DF80F30 		strb	r3, [sp, #15]
+ 779 0660 03E0     		b	.L36
+ 780              	.L35:
+ 781 0662 4FF00003 		mov	r3, #0
+ 782 0666 8DF80F30 		strb	r3, [sp, #15]
+ 783              	.L36:
+ 784 066a 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 785 066e 1846     		mov	r0, r3
+ 786 0670 04B0     		add	sp, sp, #16
+ 787 0672 7047     		bx	lr
+ 789              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_cryp.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:22     .text:00000000 CRYP_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:39     .text:0000001c CRYP_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:135    .text:0000010c CRYP_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:161    .text:00000134 CRYP_KeyInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:215    .text:000001ac CRYP_KeyStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:253    .text:000001f4 CRYP_IVInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:287    .text:00000234 CRYP_IVStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:313    .text:0000025c CRYP_FIFOFlush
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:331    .text:00000278 CRYP_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:366    .text:000002c0 CRYP_DataIn
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:384    .text:000002d4 CRYP_DataOut
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:399    .text:000002e4 CRYP_SaveContext
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:545    .text:00000448 CRYP_RestoreContext
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:631    .text:00000520 CRYP_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:672    .text:00000578 CRYP_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:713    .text:000005d0 CRYP_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccYYCT91.s:746    .text:00000610 CRYP_GetFlagStatus
+
+UNDEFINED SYMBOLS
+RCC_AHB2PeriphResetCmd

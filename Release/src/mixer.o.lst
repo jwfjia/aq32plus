@@ -1,0 +1,3409 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"mixer.c"
+  16              		.comm	numberMotor,1,1
+  17              		.global	motor
+  18              		.data
+  19              		.align	2
+  22              	motor:
+  23 0000 0000FA44 		.word	1157234688
+  24 0004 0000FA44 		.word	1157234688
+  25 0008 0000FA44 		.word	1157234688
+  26 000c 0000FA44 		.word	1157234688
+  27 0010 0000FA44 		.word	1157234688
+  28 0014 0000FA44 		.word	1157234688
+  29 0018 0000FA44 		.word	1157234688
+  30 001c 0000FA44 		.word	1157234688
+  31              		.global	servo
+  32              		.align	2
+  35              	servo:
+  36 0020 00803B45 		.word	1161527296
+  37 0024 00803B45 		.word	1161527296
+  38 0028 00803B45 		.word	1161527296
+  39              		.text
+  40              		.align	2
+  41              		.global	initMixer
+  42              		.thumb
+  43              		.thumb_func
+  45              	initMixer:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 40F20003 		movw	r3, #:lower16:eepromConfig
+  50 0004 C0F20003 		movt	r3, #:upper16:eepromConfig
+  51 0008 93F86430 		ldrb	r3, [r3, #100]	@ zero_extendqisi2
+  52 000c 03F1FF33 		add	r3, r3, #-1
+  53 0010 142B     		cmp	r3, #20
+  54 0012 71D8     		bhi	.L1
+  55 0014 01A2     		adr	r2, .L11
+  56 0016 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+  57 001a 00BF     		.align	2
+  58              	.L11:
+  59 001c 71000000 		.word	.L3+1
+  60 0020 81000000 		.word	.L4+1
+  61 0024 91000000 		.word	.L5+1
+  62 0028 A1000000 		.word	.L6+1
+  63 002c B1000000 		.word	.L7+1
+  64 0030 B1000000 		.word	.L7+1
+  65 0034 B1000000 		.word	.L7+1
+  66 0038 B1000000 		.word	.L7+1
+  67 003c B1000000 		.word	.L7+1
+  68 0040 B1000000 		.word	.L7+1
+  69 0044 B1000000 		.word	.L7+1
+  70 0048 B1000000 		.word	.L7+1
+  71 004c B1000000 		.word	.L7+1
+  72 0050 C1000000 		.word	.L8+1
+  73 0054 C1000000 		.word	.L8+1
+  74 0058 C1000000 		.word	.L8+1
+  75 005c D1000000 		.word	.L9+1
+  76 0060 D1000000 		.word	.L9+1
+  77 0064 D1000000 		.word	.L9+1
+  78 0068 D1000000 		.word	.L9+1
+  79 006c E1000000 		.word	.L10+1
+  80              	.L3:
+  81 0070 40F20003 		movw	r3, #:lower16:numberMotor
+  82 0074 C0F20003 		movt	r3, #:upper16:numberMotor
+  83 0078 4FF00002 		mov	r2, #0
+  84 007c 1A70     		strb	r2, [r3, #0]
+  85 007e 3BE0     		b	.L1
+  86              	.L4:
+  87 0080 40F20003 		movw	r3, #:lower16:numberMotor
+  88 0084 C0F20003 		movt	r3, #:upper16:numberMotor
+  89 0088 4FF00102 		mov	r2, #1
+  90 008c 1A70     		strb	r2, [r3, #0]
+  91 008e 33E0     		b	.L1
+  92              	.L5:
+  93 0090 40F20003 		movw	r3, #:lower16:numberMotor
+  94 0094 C0F20003 		movt	r3, #:upper16:numberMotor
+  95 0098 4FF00202 		mov	r2, #2
+  96 009c 1A70     		strb	r2, [r3, #0]
+  97 009e 2BE0     		b	.L1
+  98              	.L6:
+  99 00a0 40F20003 		movw	r3, #:lower16:numberMotor
+ 100 00a4 C0F20003 		movt	r3, #:upper16:numberMotor
+ 101 00a8 4FF00302 		mov	r2, #3
+ 102 00ac 1A70     		strb	r2, [r3, #0]
+ 103 00ae 23E0     		b	.L1
+ 104              	.L7:
+ 105 00b0 40F20003 		movw	r3, #:lower16:numberMotor
+ 106 00b4 C0F20003 		movt	r3, #:upper16:numberMotor
+ 107 00b8 4FF00402 		mov	r2, #4
+ 108 00bc 1A70     		strb	r2, [r3, #0]
+ 109 00be 1BE0     		b	.L1
+ 110              	.L8:
+ 111 00c0 40F20003 		movw	r3, #:lower16:numberMotor
+ 112 00c4 C0F20003 		movt	r3, #:upper16:numberMotor
+ 113 00c8 4FF00602 		mov	r2, #6
+ 114 00cc 1A70     		strb	r2, [r3, #0]
+ 115 00ce 13E0     		b	.L1
+ 116              	.L9:
+ 117 00d0 40F20003 		movw	r3, #:lower16:numberMotor
+ 118 00d4 C0F20003 		movt	r3, #:upper16:numberMotor
+ 119 00d8 4FF00802 		mov	r2, #8
+ 120 00dc 1A70     		strb	r2, [r3, #0]
+ 121 00de 0BE0     		b	.L1
+ 122              	.L10:
+ 123 00e0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 124 00e4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 125 00e8 93F8D821 		ldrb	r2, [r3, #472]	@ zero_extendqisi2
+ 126 00ec 40F20003 		movw	r3, #:lower16:numberMotor
+ 127 00f0 C0F20003 		movt	r3, #:upper16:numberMotor
+ 128 00f4 1A70     		strb	r2, [r3, #0]
+ 129 00f6 00BF     		nop
+ 130              	.L1:
+ 131 00f8 7047     		bx	lr
+ 133 00fa 00BF     		.align	2
+ 134              		.global	writeServos
+ 135              		.thumb
+ 136              		.thumb_func
+ 138              	writeServos:
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+ 141 00fc 08B5     		push	{r3, lr}
+ 142 00fe 40F20003 		movw	r3, #:lower16:servo
+ 143 0102 C0F20003 		movt	r3, #:upper16:servo
+ 144 0106 D3ED007A 		flds	s15, [r3, #0]
+ 145 010a FCEEE77A 		ftouizs	s15, s15
+ 146 010e 17EE903A 		fmrs	r3, s15	@ int
+ 147 0112 9BB2     		uxth	r3, r3
+ 148 0114 4FF00000 		mov	r0, #0
+ 149 0118 1946     		mov	r1, r3
+ 150 011a FFF7FEFF 		bl	pwmServoWrite
+ 151 011e 40F20003 		movw	r3, #:lower16:servo
+ 152 0122 C0F20003 		movt	r3, #:upper16:servo
+ 153 0126 D3ED017A 		flds	s15, [r3, #4]
+ 154 012a FCEEE77A 		ftouizs	s15, s15
+ 155 012e 17EE903A 		fmrs	r3, s15	@ int
+ 156 0132 9BB2     		uxth	r3, r3
+ 157 0134 4FF00100 		mov	r0, #1
+ 158 0138 1946     		mov	r1, r3
+ 159 013a FFF7FEFF 		bl	pwmServoWrite
+ 160 013e 40F20003 		movw	r3, #:lower16:servo
+ 161 0142 C0F20003 		movt	r3, #:upper16:servo
+ 162 0146 D3ED027A 		flds	s15, [r3, #8]
+ 163 014a FCEEE77A 		ftouizs	s15, s15
+ 164 014e 17EE903A 		fmrs	r3, s15	@ int
+ 165 0152 9BB2     		uxth	r3, r3
+ 166 0154 4FF00200 		mov	r0, #2
+ 167 0158 1946     		mov	r1, r3
+ 168 015a FFF7FEFF 		bl	pwmServoWrite
+ 169 015e 08BD     		pop	{r3, pc}
+ 171              		.align	2
+ 172              		.global	writeMotors
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	writeMotors:
+ 177              		@ args = 0, pretend = 0, frame = 8
+ 178              		@ frame_needed = 0, uses_anonymous_args = 0
+ 179 0160 00B5     		push	{lr}
+ 180 0162 83B0     		sub	sp, sp, #12
+ 181 0164 4FF00003 		mov	r3, #0
+ 182 0168 8DF80730 		strb	r3, [sp, #7]
+ 183 016c 1BE0     		b	.L14
+ 184              	.L15:
+ 185 016e 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 186 0172 40F20003 		movw	r3, #:lower16:motor
+ 187 0176 C0F20003 		movt	r3, #:upper16:motor
+ 188 017a 4FEA8202 		lsl	r2, r2, #2
+ 189 017e 9B18     		adds	r3, r3, r2
+ 190 0180 D3ED007A 		flds	s15, [r3, #0]
+ 191 0184 FCEEE77A 		ftouizs	s15, s15
+ 192 0188 17EE903A 		fmrs	r3, s15	@ int
+ 193 018c 9BB2     		uxth	r3, r3
+ 194 018e 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 195 0192 1046     		mov	r0, r2
+ 196 0194 1946     		mov	r1, r3
+ 197 0196 FFF7FEFF 		bl	pwmEscWrite
+ 198 019a 9DF80730 		ldrb	r3, [sp, #7]
+ 199 019e 03F10103 		add	r3, r3, #1
+ 200 01a2 8DF80730 		strb	r3, [sp, #7]
+ 201              	.L14:
+ 202 01a6 40F20003 		movw	r3, #:lower16:numberMotor
+ 203 01aa C0F20003 		movt	r3, #:upper16:numberMotor
+ 204 01ae 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 205 01b0 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 206 01b4 9A42     		cmp	r2, r3
+ 207 01b6 DAD3     		bcc	.L15
+ 208 01b8 03B0     		add	sp, sp, #12
+ 209 01ba 00BD     		pop	{pc}
+ 211              		.align	2
+ 212              		.global	writeAllMotors
+ 213              		.thumb
+ 214              		.thumb_func
+ 216              	writeAllMotors:
+ 217              		@ args = 0, pretend = 0, frame = 16
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219 01bc 00B5     		push	{lr}
+ 220 01be 85B0     		sub	sp, sp, #20
+ 221 01c0 0190     		str	r0, [sp, #4]	@ float
+ 222 01c2 4FF00003 		mov	r3, #0
+ 223 01c6 8DF80F30 		strb	r3, [sp, #15]
+ 224 01ca 10E0     		b	.L17
+ 225              	.L18:
+ 226 01cc 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 227 01d0 40F20003 		movw	r3, #:lower16:motor
+ 228 01d4 C0F20003 		movt	r3, #:upper16:motor
+ 229 01d8 4FEA8202 		lsl	r2, r2, #2
+ 230 01dc 9B18     		adds	r3, r3, r2
+ 231 01de 019A     		ldr	r2, [sp, #4]	@ float
+ 232 01e0 1A60     		str	r2, [r3, #0]	@ float
+ 233 01e2 9DF80F30 		ldrb	r3, [sp, #15]
+ 234 01e6 03F10103 		add	r3, r3, #1
+ 235 01ea 8DF80F30 		strb	r3, [sp, #15]
+ 236              	.L17:
+ 237 01ee 40F20003 		movw	r3, #:lower16:numberMotor
+ 238 01f2 C0F20003 		movt	r3, #:upper16:numberMotor
+ 239 01f6 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 240 01f8 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 241 01fc 9A42     		cmp	r2, r3
+ 242 01fe E5D3     		bcc	.L18
+ 243 0200 FFF7FEFF 		bl	writeMotors
+ 244 0204 05B0     		add	sp, sp, #20
+ 245 0206 00BD     		pop	{pc}
+ 247              		.align	2
+ 248              		.global	pulseMotors
+ 249              		.thumb
+ 250              		.thumb_func
+ 252              	pulseMotors:
+ 253              		@ args = 0, pretend = 0, frame = 16
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 255 0208 00B5     		push	{lr}
+ 256 020a 85B0     		sub	sp, sp, #20
+ 257 020c 0346     		mov	r3, r0
+ 258 020e 8DF80730 		strb	r3, [sp, #7]
+ 259 0212 4FF00003 		mov	r3, #0
+ 260 0216 8DF80F30 		strb	r3, [sp, #15]
+ 261 021a 18E0     		b	.L20
+ 262              	.L21:
+ 263 021c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 264 0220 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 265 0224 9B6F     		ldr	r3, [r3, #120]	@ float
+ 266 0226 1846     		mov	r0, r3	@ float
+ 267 0228 FFF7FEFF 		bl	writeAllMotors
+ 268 022c 4FF0FA00 		mov	r0, #250
+ 269 0230 FFF7FEFF 		bl	delay
+ 270 0234 0A48     		ldr	r0, .L22	@ float
+ 271 0236 FFF7FEFF 		bl	writeAllMotors
+ 272 023a 4FF0FA00 		mov	r0, #250
+ 273 023e FFF7FEFF 		bl	delay
+ 274 0242 9DF80F30 		ldrb	r3, [sp, #15]
+ 275 0246 03F10103 		add	r3, r3, #1
+ 276 024a 8DF80F30 		strb	r3, [sp, #15]
+ 277              	.L20:
+ 278 024e 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 279 0252 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 280 0256 9A42     		cmp	r2, r3
+ 281 0258 E0D3     		bcc	.L21
+ 282 025a 05B0     		add	sp, sp, #20
+ 283 025c 00BD     		pop	{pc}
+ 284              	.L23:
+ 285 025e 00BF     		.align	2
+ 286              	.L22:
+ 287 0260 0000FA44 		.word	1157234688
+ 289              		.global	__aeabi_f2d
+ 290              		.global	__aeabi_dmul
+ 291              		.global	__aeabi_dadd
+ 292              		.global	__aeabi_d2f
+ 293              		.align	2
+ 294              		.global	mixTable
+ 295              		.thumb
+ 296              		.thumb_func
+ 298              	mixTable:
+ 299              		@ args = 0, pretend = 0, frame = 8
+ 300              		@ frame_needed = 0, uses_anonymous_args = 0
+ 301 0264 30B5     		push	{r4, r5, lr}
+ 302 0266 83B0     		sub	sp, sp, #12
+ 303 0268 40F20003 		movw	r3, #:lower16:eepromConfig
+ 304 026c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 305 0270 93F86430 		ldrb	r3, [r3, #100]	@ zero_extendqisi2
+ 306 0274 03F1FF33 		add	r3, r3, #-1
+ 307 0278 142B     		cmp	r3, #20
+ 308 027a 02F28585 		bhi	.L25
+ 309 027e 01A2     		adr	r2, .L47
+ 310 0280 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 311              		.align	2
+ 312              	.L47:
+ 313 0284 D9020000 		.word	.L26+1
+ 314 0288 B5030000 		.word	.L27+1
+ 315 028c D5050000 		.word	.L28+1
+ 316 0290 81070000 		.word	.L29+1
+ 317 0294 2D090000 		.word	.L30+1
+ 318 0298 B10A0000 		.word	.L31+1
+ 319 029c 150C0000 		.word	.L32+1
+ 320 02a0 990D0000 		.word	.L33+1
+ 321 02a4 310F0000 		.word	.L34+1
+ 322 02a8 F9100000 		.word	.L35+1
+ 323 02ac A5120000 		.word	.L36+1
+ 324 02b0 65140000 		.word	.L37+1
+ 325 02b4 39160000 		.word	.L38+1
+ 326 02b8 BD170000 		.word	.L39+1
+ 327 02bc 1D1A0000 		.word	.L40+1
+ 328 02c0 711C0000 		.word	.L41+1
+ 329 02c4 9D200000 		.word	.L42+1
+ 330 02c8 C1230000 		.word	.L43+1
+ 331 02cc C3260000 		.word	.L44+1
+ 332 02d0 C9290000 		.word	.L45+1
+ 333 02d4 8B2C0000 		.word	.L46+1
+ 334              	.L26:
+ 335 02d8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 336 02dc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 337 02e0 93ED5D7A 		flds	s14, [r3, #372]
+ 338 02e4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 339 02e8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 340 02ec D3ED5F6A 		flds	s13, [r3, #380]
+ 341 02f0 40F20003 		movw	r3, #:lower16:sensors
+ 342 02f4 C0F20003 		movt	r3, #:upper16:sensors
+ 343 02f8 D3ED067A 		flds	s15, [r3, #24]
+ 344 02fc 66EEA77A 		fmuls	s15, s13, s15
+ 345 0300 37EE277A 		fadds	s14, s14, s15
+ 346 0304 40F20003 		movw	r3, #:lower16:rxCommand
+ 347 0308 C0F20003 		movt	r3, #:upper16:rxCommand
+ 348 030c D3ED007A 		flds	s15, [r3, #0]
+ 349 0310 77EE277A 		fadds	s15, s14, s15
+ 350 0314 40F20003 		movw	r3, #:lower16:eepromConfig
+ 351 0318 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 352 031c D3F87021 		ldr	r2, [r3, #368]	@ float
+ 353 0320 40F20003 		movw	r3, #:lower16:eepromConfig
+ 354 0324 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 355 0328 D3F87831 		ldr	r3, [r3, #376]	@ float
+ 356 032c 17EE900A 		fmrs	r0, s15
+ 357 0330 1146     		mov	r1, r2	@ float
+ 358 0332 1A46     		mov	r2, r3	@ float
+ 359 0334 FFF7FEFF 		bl	constrain
+ 360 0338 0246     		mov	r2, r0	@ float
+ 361 033a 40F20003 		movw	r3, #:lower16:servo
+ 362 033e C0F20003 		movt	r3, #:upper16:servo
+ 363 0342 1A60     		str	r2, [r3, #0]	@ float
+ 364 0344 40F20003 		movw	r3, #:lower16:eepromConfig
+ 365 0348 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 366 034c 93ED617A 		flds	s14, [r3, #388]
+ 367 0350 40F20003 		movw	r3, #:lower16:eepromConfig
+ 368 0354 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 369 0358 D3ED636A 		flds	s13, [r3, #396]
+ 370 035c 40F20003 		movw	r3, #:lower16:sensors
+ 371 0360 C0F20003 		movt	r3, #:upper16:sensors
+ 372 0364 D3ED077A 		flds	s15, [r3, #28]
+ 373 0368 66EEA77A 		fmuls	s15, s13, s15
+ 374 036c 37EE277A 		fadds	s14, s14, s15
+ 375 0370 40F20003 		movw	r3, #:lower16:rxCommand
+ 376 0374 C0F20003 		movt	r3, #:upper16:rxCommand
+ 377 0378 D3ED017A 		flds	s15, [r3, #4]
+ 378 037c 77EE277A 		fadds	s15, s14, s15
+ 379 0380 40F20003 		movw	r3, #:lower16:eepromConfig
+ 380 0384 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 381 0388 D3F88021 		ldr	r2, [r3, #384]	@ float
+ 382 038c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 383 0390 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 384 0394 D3F88831 		ldr	r3, [r3, #392]	@ float
+ 385 0398 17EE900A 		fmrs	r0, s15
+ 386 039c 1146     		mov	r1, r2	@ float
+ 387 039e 1A46     		mov	r2, r3	@ float
+ 388 03a0 FFF7FEFF 		bl	constrain
+ 389 03a4 0246     		mov	r2, r0	@ float
+ 390 03a6 40F20003 		movw	r3, #:lower16:servo
+ 391 03aa C0F20003 		movt	r3, #:upper16:servo
+ 392 03ae 5A60     		str	r2, [r3, #4]	@ float
+ 393 03b0 02F0EABC 		b	.L25
+ 394              	.L27:
+ 395 03b4 40F20003 		movw	r3, #:lower16:rxCommand
+ 396 03b8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 397 03bc DA68     		ldr	r2, [r3, #12]	@ float
+ 398 03be 40F20003 		movw	r3, #:lower16:motor
+ 399 03c2 C0F20003 		movt	r3, #:upper16:motor
+ 400 03c6 1A60     		str	r2, [r3, #0]	@ float
+ 401 03c8 40F20003 		movw	r3, #:lower16:flightMode
+ 402 03cc C0F20003 		movt	r3, #:upper16:flightMode
+ 403 03d0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 404 03d2 012B     		cmp	r3, #1
+ 405 03d4 68D0     		beq	.L48
+ 406 03d6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 407 03da C0F20003 		movt	r3, #:upper16:eepromConfig
+ 408 03de 93ED667A 		flds	s14, [r3, #408]
+ 409 03e2 40F20003 		movw	r3, #:lower16:rxCommand
+ 410 03e6 C0F20003 		movt	r3, #:upper16:rxCommand
+ 411 03ea D3ED016A 		flds	s13, [r3, #4]
+ 412 03ee 40F20003 		movw	r3, #:lower16:eepromConfig
+ 413 03f2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 414 03f6 D3ED1B7A 		flds	s15, [r3, #108]
+ 415 03fa 76EEE77A 		fsubs	s15, s13, s15
+ 416 03fe 27EE277A 		fmuls	s14, s14, s15
+ 417 0402 40F20003 		movw	r3, #:lower16:eepromConfig
+ 418 0406 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 419 040a D3ED646A 		flds	s13, [r3, #400]
+ 420 040e 40F20003 		movw	r3, #:lower16:rxCommand
+ 421 0412 C0F20003 		movt	r3, #:upper16:rxCommand
+ 422 0416 93ED006A 		flds	s12, [r3, #0]
+ 423 041a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 424 041e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 425 0422 D3ED1B7A 		flds	s15, [r3, #108]
+ 426 0426 76EE677A 		fsubs	s15, s12, s15
+ 427 042a 66EEA77A 		fmuls	s15, s13, s15
+ 428 042e 77EE277A 		fadds	s15, s14, s15
+ 429 0432 40F20003 		movw	r3, #:lower16:servo
+ 430 0436 C0F20003 		movt	r3, #:upper16:servo
+ 431 043a C3ED007A 		fsts	s15, [r3, #0]
+ 432 043e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 433 0442 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 434 0446 93ED677A 		flds	s14, [r3, #412]
+ 435 044a 40F20003 		movw	r3, #:lower16:rxCommand
+ 436 044e C0F20003 		movt	r3, #:upper16:rxCommand
+ 437 0452 D3ED016A 		flds	s13, [r3, #4]
+ 438 0456 40F20003 		movw	r3, #:lower16:eepromConfig
+ 439 045a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 440 045e D3ED1B7A 		flds	s15, [r3, #108]
+ 441 0462 76EEE77A 		fsubs	s15, s13, s15
+ 442 0466 27EE277A 		fmuls	s14, s14, s15
+ 443 046a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 444 046e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 445 0472 D3ED656A 		flds	s13, [r3, #404]
+ 446 0476 40F20003 		movw	r3, #:lower16:rxCommand
+ 447 047a C0F20003 		movt	r3, #:upper16:rxCommand
+ 448 047e 93ED006A 		flds	s12, [r3, #0]
+ 449 0482 40F20003 		movw	r3, #:lower16:eepromConfig
+ 450 0486 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 451 048a D3ED1B7A 		flds	s15, [r3, #108]
+ 452 048e 76EE677A 		fsubs	s15, s12, s15
+ 453 0492 66EEA77A 		fmuls	s15, s13, s15
+ 454 0496 77EE277A 		fadds	s15, s14, s15
+ 455 049a 40F20003 		movw	r3, #:lower16:servo
+ 456 049e C0F20003 		movt	r3, #:upper16:servo
+ 457 04a2 C3ED017A 		fsts	s15, [r3, #4]
+ 458 04a6 47E0     		b	.L49
+ 459              	.L48:
+ 460 04a8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 461 04ac C0F20003 		movt	r3, #:upper16:eepromConfig
+ 462 04b0 93ED667A 		flds	s14, [r3, #408]
+ 463 04b4 40F20003 		movw	r3, #:lower16:axisPID
+ 464 04b8 C0F20003 		movt	r3, #:upper16:axisPID
+ 465 04bc D3ED017A 		flds	s15, [r3, #4]
+ 466 04c0 27EE277A 		fmuls	s14, s14, s15
+ 467 04c4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 468 04c8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 469 04cc D3ED646A 		flds	s13, [r3, #400]
+ 470 04d0 40F20003 		movw	r3, #:lower16:axisPID
+ 471 04d4 C0F20003 		movt	r3, #:upper16:axisPID
+ 472 04d8 D3ED007A 		flds	s15, [r3, #0]
+ 473 04dc 66EEA77A 		fmuls	s15, s13, s15
+ 474 04e0 77EE277A 		fadds	s15, s14, s15
+ 475 04e4 40F20003 		movw	r3, #:lower16:servo
+ 476 04e8 C0F20003 		movt	r3, #:upper16:servo
+ 477 04ec C3ED007A 		fsts	s15, [r3, #0]
+ 478 04f0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 479 04f4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 480 04f8 93ED677A 		flds	s14, [r3, #412]
+ 481 04fc 40F20003 		movw	r3, #:lower16:axisPID
+ 482 0500 C0F20003 		movt	r3, #:upper16:axisPID
+ 483 0504 D3ED017A 		flds	s15, [r3, #4]
+ 484 0508 27EE277A 		fmuls	s14, s14, s15
+ 485 050c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 486 0510 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 487 0514 D3ED656A 		flds	s13, [r3, #404]
+ 488 0518 40F20003 		movw	r3, #:lower16:axisPID
+ 489 051c C0F20003 		movt	r3, #:upper16:axisPID
+ 490 0520 D3ED007A 		flds	s15, [r3, #0]
+ 491 0524 66EEA77A 		fmuls	s15, s13, s15
+ 492 0528 77EE277A 		fadds	s15, s14, s15
+ 493 052c 40F20003 		movw	r3, #:lower16:servo
+ 494 0530 C0F20003 		movt	r3, #:upper16:servo
+ 495 0534 C3ED017A 		fsts	s15, [r3, #4]
+ 496              	.L49:
+ 497 0538 40F20003 		movw	r3, #:lower16:servo
+ 498 053c C0F20003 		movt	r3, #:upper16:servo
+ 499 0540 93ED007A 		flds	s14, [r3, #0]
+ 500 0544 40F20003 		movw	r3, #:lower16:eepromConfig
+ 501 0548 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 502 054c D3ED1B7A 		flds	s15, [r3, #108]
+ 503 0550 77EE277A 		fadds	s15, s14, s15
+ 504 0554 40F20003 		movw	r3, #:lower16:eepromConfig
+ 505 0558 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 506 055c D3F8A021 		ldr	r2, [r3, #416]	@ float
+ 507 0560 40F20003 		movw	r3, #:lower16:eepromConfig
+ 508 0564 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 509 0568 D3F8A431 		ldr	r3, [r3, #420]	@ float
+ 510 056c 17EE900A 		fmrs	r0, s15
+ 511 0570 1146     		mov	r1, r2	@ float
+ 512 0572 1A46     		mov	r2, r3	@ float
+ 513 0574 FFF7FEFF 		bl	constrain
+ 514 0578 0246     		mov	r2, r0	@ float
+ 515 057a 40F20003 		movw	r3, #:lower16:servo
+ 516 057e C0F20003 		movt	r3, #:upper16:servo
+ 517 0582 1A60     		str	r2, [r3, #0]	@ float
+ 518 0584 40F20003 		movw	r3, #:lower16:servo
+ 519 0588 C0F20003 		movt	r3, #:upper16:servo
+ 520 058c 93ED017A 		flds	s14, [r3, #4]
+ 521 0590 40F20003 		movw	r3, #:lower16:eepromConfig
+ 522 0594 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 523 0598 D3ED1B7A 		flds	s15, [r3, #108]
+ 524 059c 77EE277A 		fadds	s15, s14, s15
+ 525 05a0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 526 05a4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 527 05a8 D3F8A821 		ldr	r2, [r3, #424]	@ float
+ 528 05ac 40F20003 		movw	r3, #:lower16:eepromConfig
+ 529 05b0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 530 05b4 D3F8AC31 		ldr	r3, [r3, #428]	@ float
+ 531 05b8 17EE900A 		fmrs	r0, s15
+ 532 05bc 1146     		mov	r1, r2	@ float
+ 533 05be 1A46     		mov	r2, r3	@ float
+ 534 05c0 FFF7FEFF 		bl	constrain
+ 535 05c4 0246     		mov	r2, r0	@ float
+ 536 05c6 40F20003 		movw	r3, #:lower16:servo
+ 537 05ca C0F20003 		movt	r3, #:upper16:servo
+ 538 05ce 5A60     		str	r2, [r3, #4]	@ float
+ 539 05d0 02F0DABB 		b	.L25
+ 540              	.L28:
+ 541 05d4 40F20003 		movw	r3, #:lower16:rxCommand
+ 542 05d8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 543 05dc 93ED037A 		flds	s14, [r3, #12]
+ 544 05e0 40F20003 		movw	r3, #:lower16:axisPID
+ 545 05e4 C0F20003 		movt	r3, #:upper16:axisPID
+ 546 05e8 D3ED007A 		flds	s15, [r3, #0]
+ 547 05ec 37EE277A 		fadds	s14, s14, s15
+ 548 05f0 40F20003 		movw	r3, #:lower16:axisPID
+ 549 05f4 C0F20003 		movt	r3, #:upper16:axisPID
+ 550 05f8 D3ED016A 		flds	s13, [r3, #4]
+ 551 05fc DFEDCA7A 		flds	s15, .L60+8
+ 552 0600 66EEA77A 		fmuls	s15, s13, s15
+ 553 0604 37EE277A 		fadds	s14, s14, s15
+ 554 0608 40F20003 		movw	r3, #:lower16:eepromConfig
+ 555 060c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 556 0610 D3ED1A6A 		flds	s13, [r3, #104]
+ 557 0614 40F20003 		movw	r3, #:lower16:axisPID
+ 558 0618 C0F20003 		movt	r3, #:upper16:axisPID
+ 559 061c D3ED027A 		flds	s15, [r3, #8]
+ 560 0620 66EEA77A 		fmuls	s15, s13, s15
+ 561 0624 DFEDC06A 		flds	s13, .L60+8
+ 562 0628 67EEA67A 		fmuls	s15, s15, s13
+ 563 062c 77EE277A 		fadds	s15, s14, s15
+ 564 0630 40F20003 		movw	r3, #:lower16:motor
+ 565 0634 C0F20003 		movt	r3, #:upper16:motor
+ 566 0638 C3ED007A 		fsts	s15, [r3, #0]
+ 567 063c 40F20003 		movw	r3, #:lower16:rxCommand
+ 568 0640 C0F20003 		movt	r3, #:upper16:rxCommand
+ 569 0644 93ED037A 		flds	s14, [r3, #12]
+ 570 0648 40F20003 		movw	r3, #:lower16:axisPID
+ 571 064c C0F20003 		movt	r3, #:upper16:axisPID
+ 572 0650 D3ED007A 		flds	s15, [r3, #0]
+ 573 0654 37EE677A 		fsubs	s14, s14, s15
+ 574 0658 40F20003 		movw	r3, #:lower16:axisPID
+ 575 065c C0F20003 		movt	r3, #:upper16:axisPID
+ 576 0660 D3ED016A 		flds	s13, [r3, #4]
+ 577 0664 DFEDB07A 		flds	s15, .L60+8
+ 578 0668 66EEA77A 		fmuls	s15, s13, s15
+ 579 066c 37EE277A 		fadds	s14, s14, s15
+ 580 0670 40F20003 		movw	r3, #:lower16:eepromConfig
+ 581 0674 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 582 0678 D3ED1A6A 		flds	s13, [r3, #104]
+ 583 067c 40F20003 		movw	r3, #:lower16:axisPID
+ 584 0680 C0F20003 		movt	r3, #:upper16:axisPID
+ 585 0684 D3ED027A 		flds	s15, [r3, #8]
+ 586 0688 66EEA77A 		fmuls	s15, s13, s15
+ 587 068c DFEDA66A 		flds	s13, .L60+8
+ 588 0690 67EEA67A 		fmuls	s15, s15, s13
+ 589 0694 77EE277A 		fadds	s15, s14, s15
+ 590 0698 40F20003 		movw	r3, #:lower16:motor
+ 591 069c C0F20003 		movt	r3, #:upper16:motor
+ 592 06a0 C3ED017A 		fsts	s15, [r3, #4]
+ 593 06a4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 594 06a8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 595 06ac 93ED6D7A 		flds	s14, [r3, #436]
+ 596 06b0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 597 06b4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 598 06b8 D3ED1A6A 		flds	s13, [r3, #104]
+ 599 06bc 40F20003 		movw	r3, #:lower16:axisPID
+ 600 06c0 C0F20003 		movt	r3, #:upper16:axisPID
+ 601 06c4 D3ED027A 		flds	s15, [r3, #8]
+ 602 06c8 66EEA77A 		fmuls	s15, s13, s15
+ 603 06cc 37EE277A 		fadds	s14, s14, s15
+ 604 06d0 40F20003 		movw	r3, #:lower16:axisPID
+ 605 06d4 C0F20003 		movt	r3, #:upper16:axisPID
+ 606 06d8 D3ED017A 		flds	s15, [r3, #4]
+ 607 06dc 77EE277A 		fadds	s15, s14, s15
+ 608 06e0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 609 06e4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 610 06e8 D3F8B021 		ldr	r2, [r3, #432]	@ float
+ 611 06ec 40F20003 		movw	r3, #:lower16:eepromConfig
+ 612 06f0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 613 06f4 D3F8B831 		ldr	r3, [r3, #440]	@ float
+ 614 06f8 17EE900A 		fmrs	r0, s15
+ 615 06fc 1146     		mov	r1, r2	@ float
+ 616 06fe 1A46     		mov	r2, r3	@ float
+ 617 0700 FFF7FEFF 		bl	constrain
+ 618 0704 0246     		mov	r2, r0	@ float
+ 619 0706 40F20003 		movw	r3, #:lower16:servo
+ 620 070a C0F20003 		movt	r3, #:upper16:servo
+ 621 070e 1A60     		str	r2, [r3, #0]	@ float
+ 622 0710 40F20003 		movw	r3, #:lower16:eepromConfig
+ 623 0714 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 624 0718 93ED707A 		flds	s14, [r3, #448]
+ 625 071c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 626 0720 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 627 0724 D3ED1A6A 		flds	s13, [r3, #104]
+ 628 0728 40F20003 		movw	r3, #:lower16:axisPID
+ 629 072c C0F20003 		movt	r3, #:upper16:axisPID
+ 630 0730 D3ED027A 		flds	s15, [r3, #8]
+ 631 0734 66EEA77A 		fmuls	s15, s13, s15
+ 632 0738 37EE277A 		fadds	s14, s14, s15
+ 633 073c 40F20003 		movw	r3, #:lower16:axisPID
+ 634 0740 C0F20003 		movt	r3, #:upper16:axisPID
+ 635 0744 D3ED017A 		flds	s15, [r3, #4]
+ 636 0748 77EE677A 		fsubs	s15, s14, s15
+ 637 074c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 638 0750 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 639 0754 D3F8BC21 		ldr	r2, [r3, #444]	@ float
+ 640 0758 40F20003 		movw	r3, #:lower16:eepromConfig
+ 641 075c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 642 0760 D3F8C431 		ldr	r3, [r3, #452]	@ float
+ 643 0764 17EE900A 		fmrs	r0, s15
+ 644 0768 1146     		mov	r1, r2	@ float
+ 645 076a 1A46     		mov	r2, r3	@ float
+ 646 076c FFF7FEFF 		bl	constrain
+ 647 0770 0246     		mov	r2, r0	@ float
+ 648 0772 40F20003 		movw	r3, #:lower16:servo
+ 649 0776 C0F20003 		movt	r3, #:upper16:servo
+ 650 077a 5A60     		str	r2, [r3, #4]	@ float
+ 651 077c 02F004BB 		b	.L25
+ 652              	.L29:
+ 653 0780 40F20003 		movw	r3, #:lower16:rxCommand
+ 654 0784 C0F20003 		movt	r3, #:upper16:rxCommand
+ 655 0788 93ED037A 		flds	s14, [r3, #12]
+ 656 078c 40F20003 		movw	r3, #:lower16:axisPID
+ 657 0790 C0F20003 		movt	r3, #:upper16:axisPID
+ 658 0794 D3ED007A 		flds	s15, [r3, #0]
+ 659 0798 37EE277A 		fadds	s14, s14, s15
+ 660 079c 40F20003 		movw	r3, #:lower16:axisPID
+ 661 07a0 C0F20003 		movt	r3, #:upper16:axisPID
+ 662 07a4 D3ED016A 		flds	s13, [r3, #4]
+ 663 07a8 DFED5D7A 		flds	s15, .L60
+ 664 07ac 66EEA77A 		fmuls	s15, s13, s15
+ 665 07b0 37EE277A 		fadds	s14, s14, s15
+ 666 07b4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 667 07b8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 668 07bc D3ED1A6A 		flds	s13, [r3, #104]
+ 669 07c0 40F20003 		movw	r3, #:lower16:axisPID
+ 670 07c4 C0F20003 		movt	r3, #:upper16:axisPID
+ 671 07c8 D3ED027A 		flds	s15, [r3, #8]
+ 672 07cc 66EEA77A 		fmuls	s15, s13, s15
+ 673 07d0 DFED556A 		flds	s13, .L60+8
+ 674 07d4 67EEA67A 		fmuls	s15, s15, s13
+ 675 07d8 77EE277A 		fadds	s15, s14, s15
+ 676 07dc 40F20003 		movw	r3, #:lower16:motor
+ 677 07e0 C0F20003 		movt	r3, #:upper16:motor
+ 678 07e4 C3ED007A 		fsts	s15, [r3, #0]
+ 679 07e8 40F20003 		movw	r3, #:lower16:rxCommand
+ 680 07ec C0F20003 		movt	r3, #:upper16:rxCommand
+ 681 07f0 93ED037A 		flds	s14, [r3, #12]
+ 682 07f4 40F20003 		movw	r3, #:lower16:axisPID
+ 683 07f8 C0F20003 		movt	r3, #:upper16:axisPID
+ 684 07fc D3ED007A 		flds	s15, [r3, #0]
+ 685 0800 37EE677A 		fsubs	s14, s14, s15
+ 686 0804 40F20003 		movw	r3, #:lower16:axisPID
+ 687 0808 C0F20003 		movt	r3, #:upper16:axisPID
+ 688 080c D3ED016A 		flds	s13, [r3, #4]
+ 689 0810 DFED437A 		flds	s15, .L60
+ 690 0814 66EEA77A 		fmuls	s15, s13, s15
+ 691 0818 37EE277A 		fadds	s14, s14, s15
+ 692 081c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 693 0820 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 694 0824 D3ED1A6A 		flds	s13, [r3, #104]
+ 695 0828 40F20003 		movw	r3, #:lower16:axisPID
+ 696 082c C0F20003 		movt	r3, #:upper16:axisPID
+ 697 0830 D3ED027A 		flds	s15, [r3, #8]
+ 698 0834 66EEA77A 		fmuls	s15, s13, s15
+ 699 0838 DFED3B6A 		flds	s13, .L60+8
+ 700 083c 67EEA67A 		fmuls	s15, s15, s13
+ 701 0840 77EE277A 		fadds	s15, s14, s15
+ 702 0844 40F20003 		movw	r3, #:lower16:motor
+ 703 0848 C0F20003 		movt	r3, #:upper16:motor
+ 704 084c C3ED017A 		fsts	s15, [r3, #4]
+ 705 0850 40F20003 		movw	r3, #:lower16:rxCommand
+ 706 0854 C0F20003 		movt	r3, #:upper16:rxCommand
+ 707 0858 93ED037A 		flds	s14, [r3, #12]
+ 708 085c 40F20003 		movw	r3, #:lower16:axisPID
+ 709 0860 C0F20003 		movt	r3, #:upper16:axisPID
+ 710 0864 D3ED006A 		flds	s13, [r3, #0]
+ 711 0868 DFED2F7A 		flds	s15, .L60+8
+ 712 086c 66EEA77A 		fmuls	s15, s13, s15
+ 713 0870 37EE277A 		fadds	s14, s14, s15
+ 714 0874 40F20003 		movw	r3, #:lower16:axisPID
+ 715 0878 C0F20003 		movt	r3, #:upper16:axisPID
+ 716 087c D3ED016A 		flds	s13, [r3, #4]
+ 717 0880 DFED287A 		flds	s15, .L60+4
+ 718 0884 66EEA77A 		fmuls	s15, s13, s15
+ 719 0888 37EE277A 		fadds	s14, s14, s15
+ 720 088c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 721 0890 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 722 0894 D3ED1A6A 		flds	s13, [r3, #104]
+ 723 0898 40F20003 		movw	r3, #:lower16:axisPID
+ 724 089c C0F20003 		movt	r3, #:upper16:axisPID
+ 725 08a0 D3ED027A 		flds	s15, [r3, #8]
+ 726 08a4 66EEA77A 		fmuls	s15, s13, s15
+ 727 08a8 DFED1F6A 		flds	s13, .L60+8
+ 728 08ac 67EEA67A 		fmuls	s15, s15, s13
+ 729 08b0 77EE277A 		fadds	s15, s14, s15
+ 730 08b4 40F20003 		movw	r3, #:lower16:motor
+ 731 08b8 C0F20003 		movt	r3, #:upper16:motor
+ 732 08bc C3ED027A 		fsts	s15, [r3, #8]
+ 733 08c0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 734 08c4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 735 08c8 93ED737A 		flds	s14, [r3, #460]
+ 736 08cc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 737 08d0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 738 08d4 D3ED1A6A 		flds	s13, [r3, #104]
+ 739 08d8 40F20003 		movw	r3, #:lower16:axisPID
+ 740 08dc C0F20003 		movt	r3, #:upper16:axisPID
+ 741 08e0 D3ED027A 		flds	s15, [r3, #8]
+ 742 08e4 66EEA77A 		fmuls	s15, s13, s15
+ 743 08e8 77EE277A 		fadds	s15, s14, s15
+ 744 08ec 40F20003 		movw	r3, #:lower16:eepromConfig
+ 745 08f0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 746 08f4 D3F8C821 		ldr	r2, [r3, #456]	@ float
+ 747 08f8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 748 08fc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 749 0900 D3F8D031 		ldr	r3, [r3, #464]	@ float
+ 750 0904 17EE900A 		fmrs	r0, s15
+ 751 0908 1146     		mov	r1, r2	@ float
+ 752 090a 1A46     		mov	r2, r3	@ float
+ 753 090c FFF7FEFF 		bl	constrain
+ 754 0910 0246     		mov	r2, r0	@ float
+ 755 0912 40F20003 		movw	r3, #:lower16:servo
+ 756 0916 C0F20003 		movt	r3, #:upper16:servo
+ 757 091a 1A60     		str	r2, [r3, #0]	@ float
+ 758 091c 02F034BA 		b	.L25
+ 759              	.L61:
+ 760              		.align	2
+ 761              	.L60:
+ 762 0920 B0AA2ABF 		.word	-1087722832
+ 763 0924 A8AAAA3F 		.word	1068149416
+ 764 0928 00000000 		.word	0
+ 765              	.L30:
+ 766 092c 40F20003 		movw	r3, #:lower16:rxCommand
+ 767 0930 C0F20003 		movt	r3, #:upper16:rxCommand
+ 768 0934 93ED037A 		flds	s14, [r3, #12]
+ 769 0938 40F20003 		movw	r3, #:lower16:axisPID
+ 770 093c C0F20003 		movt	r3, #:upper16:axisPID
+ 771 0940 D3ED006A 		flds	s13, [r3, #0]
+ 772 0944 5FED087A 		flds	s15, .L60+8
+ 773 0948 66EEA77A 		fmuls	s15, s13, s15
+ 774 094c 37EE277A 		fadds	s14, s14, s15
+ 775 0950 40F20003 		movw	r3, #:lower16:axisPID
+ 776 0954 C0F20003 		movt	r3, #:upper16:axisPID
+ 777 0958 D3ED017A 		flds	s15, [r3, #4]
+ 778 095c 37EE677A 		fsubs	s14, s14, s15
+ 779 0960 40F20003 		movw	r3, #:lower16:eepromConfig
+ 780 0964 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 781 0968 D3ED1A6A 		flds	s13, [r3, #104]
+ 782 096c 40F20003 		movw	r3, #:lower16:axisPID
+ 783 0970 C0F20003 		movt	r3, #:upper16:axisPID
+ 784 0974 D3ED027A 		flds	s15, [r3, #8]
+ 785 0978 66EEA77A 		fmuls	s15, s13, s15
+ 786 097c 77EE677A 		fsubs	s15, s14, s15
+ 787 0980 40F20003 		movw	r3, #:lower16:motor
+ 788 0984 C0F20003 		movt	r3, #:upper16:motor
+ 789 0988 C3ED007A 		fsts	s15, [r3, #0]
+ 790 098c 40F20003 		movw	r3, #:lower16:rxCommand
+ 791 0990 C0F20003 		movt	r3, #:upper16:rxCommand
+ 792 0994 93ED037A 		flds	s14, [r3, #12]
+ 793 0998 40F20003 		movw	r3, #:lower16:axisPID
+ 794 099c C0F20003 		movt	r3, #:upper16:axisPID
+ 795 09a0 D3ED007A 		flds	s15, [r3, #0]
+ 796 09a4 37EE677A 		fsubs	s14, s14, s15
+ 797 09a8 40F20003 		movw	r3, #:lower16:axisPID
+ 798 09ac C0F20003 		movt	r3, #:upper16:axisPID
+ 799 09b0 D3ED016A 		flds	s13, [r3, #4]
+ 800 09b4 5FED247A 		flds	s15, .L60+8
+ 801 09b8 66EEA77A 		fmuls	s15, s13, s15
+ 802 09bc 37EE277A 		fadds	s14, s14, s15
+ 803 09c0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 804 09c4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 805 09c8 D3ED1A6A 		flds	s13, [r3, #104]
+ 806 09cc 40F20003 		movw	r3, #:lower16:axisPID
+ 807 09d0 C0F20003 		movt	r3, #:upper16:axisPID
+ 808 09d4 D3ED027A 		flds	s15, [r3, #8]
+ 809 09d8 66EEA77A 		fmuls	s15, s13, s15
+ 810 09dc 77EE277A 		fadds	s15, s14, s15
+ 811 09e0 40F20003 		movw	r3, #:lower16:motor
+ 812 09e4 C0F20003 		movt	r3, #:upper16:motor
+ 813 09e8 C3ED017A 		fsts	s15, [r3, #4]
+ 814 09ec 40F20003 		movw	r3, #:lower16:rxCommand
+ 815 09f0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 816 09f4 93ED037A 		flds	s14, [r3, #12]
+ 817 09f8 40F20003 		movw	r3, #:lower16:axisPID
+ 818 09fc C0F20003 		movt	r3, #:upper16:axisPID
+ 819 0a00 D3ED006A 		flds	s13, [r3, #0]
+ 820 0a04 5FED387A 		flds	s15, .L60+8
+ 821 0a08 66EEA77A 		fmuls	s15, s13, s15
+ 822 0a0c 37EE277A 		fadds	s14, s14, s15
+ 823 0a10 40F20003 		movw	r3, #:lower16:axisPID
+ 824 0a14 C0F20003 		movt	r3, #:upper16:axisPID
+ 825 0a18 D3ED017A 		flds	s15, [r3, #4]
+ 826 0a1c 37EE277A 		fadds	s14, s14, s15
+ 827 0a20 40F20003 		movw	r3, #:lower16:eepromConfig
+ 828 0a24 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 829 0a28 D3ED1A6A 		flds	s13, [r3, #104]
+ 830 0a2c 40F20003 		movw	r3, #:lower16:axisPID
+ 831 0a30 C0F20003 		movt	r3, #:upper16:axisPID
+ 832 0a34 D3ED027A 		flds	s15, [r3, #8]
+ 833 0a38 66EEA77A 		fmuls	s15, s13, s15
+ 834 0a3c 77EE677A 		fsubs	s15, s14, s15
+ 835 0a40 40F20003 		movw	r3, #:lower16:motor
+ 836 0a44 C0F20003 		movt	r3, #:upper16:motor
+ 837 0a48 C3ED027A 		fsts	s15, [r3, #8]
+ 838 0a4c 40F20003 		movw	r3, #:lower16:rxCommand
+ 839 0a50 C0F20003 		movt	r3, #:upper16:rxCommand
+ 840 0a54 93ED037A 		flds	s14, [r3, #12]
+ 841 0a58 40F20003 		movw	r3, #:lower16:axisPID
+ 842 0a5c C0F20003 		movt	r3, #:upper16:axisPID
+ 843 0a60 D3ED007A 		flds	s15, [r3, #0]
+ 844 0a64 37EE277A 		fadds	s14, s14, s15
+ 845 0a68 40F20003 		movw	r3, #:lower16:axisPID
+ 846 0a6c C0F20003 		movt	r3, #:upper16:axisPID
+ 847 0a70 D3ED016A 		flds	s13, [r3, #4]
+ 848 0a74 5FED547A 		flds	s15, .L60+8
+ 849 0a78 66EEA77A 		fmuls	s15, s13, s15
+ 850 0a7c 37EE277A 		fadds	s14, s14, s15
+ 851 0a80 40F20003 		movw	r3, #:lower16:eepromConfig
+ 852 0a84 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 853 0a88 D3ED1A6A 		flds	s13, [r3, #104]
+ 854 0a8c 40F20003 		movw	r3, #:lower16:axisPID
+ 855 0a90 C0F20003 		movt	r3, #:upper16:axisPID
+ 856 0a94 D3ED027A 		flds	s15, [r3, #8]
+ 857 0a98 66EEA77A 		fmuls	s15, s13, s15
+ 858 0a9c 77EE277A 		fadds	s15, s14, s15
+ 859 0aa0 40F20003 		movw	r3, #:lower16:motor
+ 860 0aa4 C0F20003 		movt	r3, #:upper16:motor
+ 861 0aa8 C3ED037A 		fsts	s15, [r3, #12]
+ 862 0aac 02F06CB9 		b	.L25
+ 863              	.L31:
+ 864 0ab0 40F20003 		movw	r3, #:lower16:rxCommand
+ 865 0ab4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 866 0ab8 93ED037A 		flds	s14, [r3, #12]
+ 867 0abc 40F20003 		movw	r3, #:lower16:axisPID
+ 868 0ac0 C0F20003 		movt	r3, #:upper16:axisPID
+ 869 0ac4 D3ED007A 		flds	s15, [r3, #0]
+ 870 0ac8 37EE277A 		fadds	s14, s14, s15
+ 871 0acc 40F20003 		movw	r3, #:lower16:axisPID
+ 872 0ad0 C0F20003 		movt	r3, #:upper16:axisPID
+ 873 0ad4 D3ED017A 		flds	s15, [r3, #4]
+ 874 0ad8 37EE677A 		fsubs	s14, s14, s15
+ 875 0adc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 876 0ae0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 877 0ae4 D3ED1A6A 		flds	s13, [r3, #104]
+ 878 0ae8 40F20003 		movw	r3, #:lower16:axisPID
+ 879 0aec C0F20003 		movt	r3, #:upper16:axisPID
+ 880 0af0 D3ED027A 		flds	s15, [r3, #8]
+ 881 0af4 66EEA77A 		fmuls	s15, s13, s15
+ 882 0af8 77EE677A 		fsubs	s15, s14, s15
+ 883 0afc 40F20003 		movw	r3, #:lower16:motor
+ 884 0b00 C0F20003 		movt	r3, #:upper16:motor
+ 885 0b04 C3ED007A 		fsts	s15, [r3, #0]
+ 886 0b08 40F20003 		movw	r3, #:lower16:rxCommand
+ 887 0b0c C0F20003 		movt	r3, #:upper16:rxCommand
+ 888 0b10 93ED037A 		flds	s14, [r3, #12]
+ 889 0b14 40F20003 		movw	r3, #:lower16:axisPID
+ 890 0b18 C0F20003 		movt	r3, #:upper16:axisPID
+ 891 0b1c D3ED007A 		flds	s15, [r3, #0]
+ 892 0b20 37EE677A 		fsubs	s14, s14, s15
+ 893 0b24 40F20003 		movw	r3, #:lower16:axisPID
+ 894 0b28 C0F20003 		movt	r3, #:upper16:axisPID
+ 895 0b2c D3ED017A 		flds	s15, [r3, #4]
+ 896 0b30 37EE677A 		fsubs	s14, s14, s15
+ 897 0b34 40F20003 		movw	r3, #:lower16:eepromConfig
+ 898 0b38 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 899 0b3c D3ED1A6A 		flds	s13, [r3, #104]
+ 900 0b40 40F20003 		movw	r3, #:lower16:axisPID
+ 901 0b44 C0F20003 		movt	r3, #:upper16:axisPID
+ 902 0b48 D3ED027A 		flds	s15, [r3, #8]
+ 903 0b4c 66EEA77A 		fmuls	s15, s13, s15
+ 904 0b50 77EE277A 		fadds	s15, s14, s15
+ 905 0b54 40F20003 		movw	r3, #:lower16:motor
+ 906 0b58 C0F20003 		movt	r3, #:upper16:motor
+ 907 0b5c C3ED017A 		fsts	s15, [r3, #4]
+ 908 0b60 40F20003 		movw	r3, #:lower16:rxCommand
+ 909 0b64 C0F20003 		movt	r3, #:upper16:rxCommand
+ 910 0b68 93ED037A 		flds	s14, [r3, #12]
+ 911 0b6c 40F20003 		movw	r3, #:lower16:axisPID
+ 912 0b70 C0F20003 		movt	r3, #:upper16:axisPID
+ 913 0b74 D3ED007A 		flds	s15, [r3, #0]
+ 914 0b78 37EE677A 		fsubs	s14, s14, s15
+ 915 0b7c 40F20003 		movw	r3, #:lower16:axisPID
+ 916 0b80 C0F20003 		movt	r3, #:upper16:axisPID
+ 917 0b84 D3ED017A 		flds	s15, [r3, #4]
+ 918 0b88 37EE277A 		fadds	s14, s14, s15
+ 919 0b8c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 920 0b90 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 921 0b94 D3ED1A6A 		flds	s13, [r3, #104]
+ 922 0b98 40F20003 		movw	r3, #:lower16:axisPID
+ 923 0b9c C0F20003 		movt	r3, #:upper16:axisPID
+ 924 0ba0 D3ED027A 		flds	s15, [r3, #8]
+ 925 0ba4 66EEA77A 		fmuls	s15, s13, s15
+ 926 0ba8 77EE677A 		fsubs	s15, s14, s15
+ 927 0bac 40F20003 		movw	r3, #:lower16:motor
+ 928 0bb0 C0F20003 		movt	r3, #:upper16:motor
+ 929 0bb4 C3ED027A 		fsts	s15, [r3, #8]
+ 930 0bb8 40F20003 		movw	r3, #:lower16:rxCommand
+ 931 0bbc C0F20003 		movt	r3, #:upper16:rxCommand
+ 932 0bc0 93ED037A 		flds	s14, [r3, #12]
+ 933 0bc4 40F20003 		movw	r3, #:lower16:axisPID
+ 934 0bc8 C0F20003 		movt	r3, #:upper16:axisPID
+ 935 0bcc D3ED007A 		flds	s15, [r3, #0]
+ 936 0bd0 37EE277A 		fadds	s14, s14, s15
+ 937 0bd4 40F20003 		movw	r3, #:lower16:axisPID
+ 938 0bd8 C0F20003 		movt	r3, #:upper16:axisPID
+ 939 0bdc D3ED017A 		flds	s15, [r3, #4]
+ 940 0be0 37EE277A 		fadds	s14, s14, s15
+ 941 0be4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 942 0be8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 943 0bec D3ED1A6A 		flds	s13, [r3, #104]
+ 944 0bf0 40F20003 		movw	r3, #:lower16:axisPID
+ 945 0bf4 C0F20003 		movt	r3, #:upper16:axisPID
+ 946 0bf8 D3ED027A 		flds	s15, [r3, #8]
+ 947 0bfc 66EEA77A 		fmuls	s15, s13, s15
+ 948 0c00 77EE277A 		fadds	s15, s14, s15
+ 949 0c04 40F20003 		movw	r3, #:lower16:motor
+ 950 0c08 C0F20003 		movt	r3, #:upper16:motor
+ 951 0c0c C3ED037A 		fsts	s15, [r3, #12]
+ 952 0c10 02F0BAB8 		b	.L25
+ 953              	.L32:
+ 954 0c14 40F20003 		movw	r3, #:lower16:rxCommand
+ 955 0c18 C0F20003 		movt	r3, #:upper16:rxCommand
+ 956 0c1c 93ED037A 		flds	s14, [r3, #12]
+ 957 0c20 40F20003 		movw	r3, #:lower16:axisPID
+ 958 0c24 C0F20003 		movt	r3, #:upper16:axisPID
+ 959 0c28 D3ED007A 		flds	s15, [r3, #0]
+ 960 0c2c 37EE277A 		fadds	s14, s14, s15
+ 961 0c30 40F20003 		movw	r3, #:lower16:axisPID
+ 962 0c34 C0F20003 		movt	r3, #:upper16:axisPID
+ 963 0c38 D3ED017A 		flds	s15, [r3, #4]
+ 964 0c3c 37EE677A 		fsubs	s14, s14, s15
+ 965 0c40 40F20003 		movw	r3, #:lower16:eepromConfig
+ 966 0c44 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 967 0c48 D3ED1A6A 		flds	s13, [r3, #104]
+ 968 0c4c 40F20003 		movw	r3, #:lower16:axisPID
+ 969 0c50 C0F20003 		movt	r3, #:upper16:axisPID
+ 970 0c54 D3ED027A 		flds	s15, [r3, #8]
+ 971 0c58 66EEA77A 		fmuls	s15, s13, s15
+ 972 0c5c 5FEDCE6A 		flds	s13, .L60+8
+ 973 0c60 67EEA67A 		fmuls	s15, s15, s13
+ 974 0c64 77EE277A 		fadds	s15, s14, s15
+ 975 0c68 40F20003 		movw	r3, #:lower16:motor
+ 976 0c6c C0F20003 		movt	r3, #:upper16:motor
+ 977 0c70 C3ED007A 		fsts	s15, [r3, #0]
+ 978 0c74 40F20003 		movw	r3, #:lower16:rxCommand
+ 979 0c78 C0F20003 		movt	r3, #:upper16:rxCommand
+ 980 0c7c 93ED037A 		flds	s14, [r3, #12]
+ 981 0c80 40F20003 		movw	r3, #:lower16:axisPID
+ 982 0c84 C0F20003 		movt	r3, #:upper16:axisPID
+ 983 0c88 D3ED007A 		flds	s15, [r3, #0]
+ 984 0c8c 37EE677A 		fsubs	s14, s14, s15
+ 985 0c90 40F20003 		movw	r3, #:lower16:axisPID
+ 986 0c94 C0F20003 		movt	r3, #:upper16:axisPID
+ 987 0c98 D3ED017A 		flds	s15, [r3, #4]
+ 988 0c9c 37EE677A 		fsubs	s14, s14, s15
+ 989 0ca0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 990 0ca4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 991 0ca8 D3ED1A6A 		flds	s13, [r3, #104]
+ 992 0cac 40F20003 		movw	r3, #:lower16:axisPID
+ 993 0cb0 C0F20003 		movt	r3, #:upper16:axisPID
+ 994 0cb4 D3ED027A 		flds	s15, [r3, #8]
+ 995 0cb8 66EEA77A 		fmuls	s15, s13, s15
+ 996 0cbc 5FEDE66A 		flds	s13, .L60+8
+ 997 0cc0 67EEA67A 		fmuls	s15, s15, s13
+ 998 0cc4 77EE277A 		fadds	s15, s14, s15
+ 999 0cc8 40F20003 		movw	r3, #:lower16:motor
+ 1000 0ccc C0F20003 		movt	r3, #:upper16:motor
+ 1001 0cd0 C3ED017A 		fsts	s15, [r3, #4]
+ 1002 0cd4 40F20003 		movw	r3, #:lower16:rxCommand
+ 1003 0cd8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1004 0cdc 93ED037A 		flds	s14, [r3, #12]
+ 1005 0ce0 40F20003 		movw	r3, #:lower16:axisPID
+ 1006 0ce4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1007 0ce8 D3ED006A 		flds	s13, [r3, #0]
+ 1008 0cec 5FEDF27A 		flds	s15, .L60+8
+ 1009 0cf0 66EEA77A 		fmuls	s15, s13, s15
+ 1010 0cf4 37EE277A 		fadds	s14, s14, s15
+ 1011 0cf8 40F20003 		movw	r3, #:lower16:axisPID
+ 1012 0cfc C0F20003 		movt	r3, #:upper16:axisPID
+ 1013 0d00 D3ED017A 		flds	s15, [r3, #4]
+ 1014 0d04 37EE277A 		fadds	s14, s14, s15
+ 1015 0d08 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1016 0d0c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1017 0d10 D3ED1A6A 		flds	s13, [r3, #104]
+ 1018 0d14 40F20003 		movw	r3, #:lower16:axisPID
+ 1019 0d18 C0F20003 		movt	r3, #:upper16:axisPID
+ 1020 0d1c D3ED027A 		flds	s15, [r3, #8]
+ 1021 0d20 66EEA77A 		fmuls	s15, s13, s15
+ 1022 0d24 77EE277A 		fadds	s15, s14, s15
+ 1023 0d28 40F20003 		movw	r3, #:lower16:motor
+ 1024 0d2c C0F20003 		movt	r3, #:upper16:motor
+ 1025 0d30 C3ED027A 		fsts	s15, [r3, #8]
+ 1026 0d34 40F20003 		movw	r3, #:lower16:rxCommand
+ 1027 0d38 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1028 0d3c 93ED037A 		flds	s14, [r3, #12]
+ 1029 0d40 40F20003 		movw	r3, #:lower16:axisPID
+ 1030 0d44 C0F20003 		movt	r3, #:upper16:axisPID
+ 1031 0d48 D3ED006A 		flds	s13, [r3, #0]
+ 1032 0d4c DFEDE87A 		flds	s15, .L62
+ 1033 0d50 66EEA77A 		fmuls	s15, s13, s15
+ 1034 0d54 37EE277A 		fadds	s14, s14, s15
+ 1035 0d58 40F20003 		movw	r3, #:lower16:axisPID
+ 1036 0d5c C0F20003 		movt	r3, #:upper16:axisPID
+ 1037 0d60 D3ED017A 		flds	s15, [r3, #4]
+ 1038 0d64 37EE277A 		fadds	s14, s14, s15
+ 1039 0d68 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1040 0d6c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1041 0d70 D3ED1A6A 		flds	s13, [r3, #104]
+ 1042 0d74 40F20003 		movw	r3, #:lower16:axisPID
+ 1043 0d78 C0F20003 		movt	r3, #:upper16:axisPID
+ 1044 0d7c D3ED027A 		flds	s15, [r3, #8]
+ 1045 0d80 66EEA77A 		fmuls	s15, s13, s15
+ 1046 0d84 77EE677A 		fsubs	s15, s14, s15
+ 1047 0d88 40F20003 		movw	r3, #:lower16:motor
+ 1048 0d8c C0F20003 		movt	r3, #:upper16:motor
+ 1049 0d90 C3ED037A 		fsts	s15, [r3, #12]
+ 1050 0d94 01F0F8BF 		b	.L25
+ 1051              	.L33:
+ 1052 0d98 40F20003 		movw	r3, #:lower16:rxCommand
+ 1053 0d9c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1054 0da0 93ED037A 		flds	s14, [r3, #12]
+ 1055 0da4 40F20003 		movw	r3, #:lower16:axisPID
+ 1056 0da8 C0F20003 		movt	r3, #:upper16:axisPID
+ 1057 0dac D3ED007A 		flds	s15, [r3, #0]
+ 1058 0db0 37EE277A 		fadds	s14, s14, s15
+ 1059 0db4 40F20003 		movw	r3, #:lower16:axisPID
+ 1060 0db8 C0F20003 		movt	r3, #:upper16:axisPID
+ 1061 0dbc D3ED017A 		flds	s15, [r3, #4]
+ 1062 0dc0 37EE677A 		fsubs	s14, s14, s15
+ 1063 0dc4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1064 0dc8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1065 0dcc D3ED1A6A 		flds	s13, [r3, #104]
+ 1066 0dd0 40F20003 		movw	r3, #:lower16:axisPID
+ 1067 0dd4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1068 0dd8 D3ED027A 		flds	s15, [r3, #8]
+ 1069 0ddc 66EEA77A 		fmuls	s15, s13, s15
+ 1070 0de0 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1071 0de4 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1072 0de8 D3ED006A 		flds	s13, [r3, #0]
+ 1073 0dec 67EEA67A 		fmuls	s15, s15, s13
+ 1074 0df0 77EE277A 		fadds	s15, s14, s15
+ 1075 0df4 40F20003 		movw	r3, #:lower16:motor
+ 1076 0df8 C0F20003 		movt	r3, #:upper16:motor
+ 1077 0dfc C3ED007A 		fsts	s15, [r3, #0]
+ 1078 0e00 40F20003 		movw	r3, #:lower16:rxCommand
+ 1079 0e04 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1080 0e08 93ED037A 		flds	s14, [r3, #12]
+ 1081 0e0c 40F20003 		movw	r3, #:lower16:axisPID
+ 1082 0e10 C0F20003 		movt	r3, #:upper16:axisPID
+ 1083 0e14 D3ED007A 		flds	s15, [r3, #0]
+ 1084 0e18 37EE677A 		fsubs	s14, s14, s15
+ 1085 0e1c 40F20003 		movw	r3, #:lower16:axisPID
+ 1086 0e20 C0F20003 		movt	r3, #:upper16:axisPID
+ 1087 0e24 D3ED017A 		flds	s15, [r3, #4]
+ 1088 0e28 37EE677A 		fsubs	s14, s14, s15
+ 1089 0e2c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1090 0e30 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1091 0e34 D3ED1A6A 		flds	s13, [r3, #104]
+ 1092 0e38 40F20003 		movw	r3, #:lower16:axisPID
+ 1093 0e3c C0F20003 		movt	r3, #:upper16:axisPID
+ 1094 0e40 D3ED027A 		flds	s15, [r3, #8]
+ 1095 0e44 66EEA77A 		fmuls	s15, s13, s15
+ 1096 0e48 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1097 0e4c C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1098 0e50 D3ED006A 		flds	s13, [r3, #0]
+ 1099 0e54 F1EE666A 		fnegs	s13, s13
+ 1100 0e58 67EEA67A 		fmuls	s15, s15, s13
+ 1101 0e5c 77EE277A 		fadds	s15, s14, s15
+ 1102 0e60 40F20003 		movw	r3, #:lower16:motor
+ 1103 0e64 C0F20003 		movt	r3, #:upper16:motor
+ 1104 0e68 C3ED017A 		fsts	s15, [r3, #4]
+ 1105 0e6c 40F20003 		movw	r3, #:lower16:rxCommand
+ 1106 0e70 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1107 0e74 93ED037A 		flds	s14, [r3, #12]
+ 1108 0e78 40F20003 		movw	r3, #:lower16:axisPID
+ 1109 0e7c C0F20003 		movt	r3, #:upper16:axisPID
+ 1110 0e80 D3ED006A 		flds	s13, [r3, #0]
+ 1111 0e84 DFED9A7A 		flds	s15, .L62
+ 1112 0e88 66EEA77A 		fmuls	s15, s13, s15
+ 1113 0e8c 37EE277A 		fadds	s14, s14, s15
+ 1114 0e90 40F20003 		movw	r3, #:lower16:axisPID
+ 1115 0e94 C0F20003 		movt	r3, #:upper16:axisPID
+ 1116 0e98 D3ED017A 		flds	s15, [r3, #4]
+ 1117 0e9c 37EE277A 		fadds	s14, s14, s15
+ 1118 0ea0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1119 0ea4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1120 0ea8 D3ED1A6A 		flds	s13, [r3, #104]
+ 1121 0eac 40F20003 		movw	r3, #:lower16:axisPID
+ 1122 0eb0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1123 0eb4 D3ED027A 		flds	s15, [r3, #8]
+ 1124 0eb8 66EEA77A 		fmuls	s15, s13, s15
+ 1125 0ebc 77EE277A 		fadds	s15, s14, s15
+ 1126 0ec0 40F20003 		movw	r3, #:lower16:motor
+ 1127 0ec4 C0F20003 		movt	r3, #:upper16:motor
+ 1128 0ec8 C3ED027A 		fsts	s15, [r3, #8]
+ 1129 0ecc 40F20003 		movw	r3, #:lower16:rxCommand
+ 1130 0ed0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1131 0ed4 93ED037A 		flds	s14, [r3, #12]
+ 1132 0ed8 40F20003 		movw	r3, #:lower16:axisPID
+ 1133 0edc C0F20003 		movt	r3, #:upper16:axisPID
+ 1134 0ee0 D3ED006A 		flds	s13, [r3, #0]
+ 1135 0ee4 DFED827A 		flds	s15, .L62
+ 1136 0ee8 66EEA77A 		fmuls	s15, s13, s15
+ 1137 0eec 37EE277A 		fadds	s14, s14, s15
+ 1138 0ef0 40F20003 		movw	r3, #:lower16:axisPID
+ 1139 0ef4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1140 0ef8 D3ED017A 		flds	s15, [r3, #4]
+ 1141 0efc 37EE277A 		fadds	s14, s14, s15
+ 1142 0f00 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1143 0f04 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1144 0f08 D3ED1A6A 		flds	s13, [r3, #104]
+ 1145 0f0c 40F20003 		movw	r3, #:lower16:axisPID
+ 1146 0f10 C0F20003 		movt	r3, #:upper16:axisPID
+ 1147 0f14 D3ED027A 		flds	s15, [r3, #8]
+ 1148 0f18 66EEA77A 		fmuls	s15, s13, s15
+ 1149 0f1c 77EE677A 		fsubs	s15, s14, s15
+ 1150 0f20 40F20003 		movw	r3, #:lower16:motor
+ 1151 0f24 C0F20003 		movt	r3, #:upper16:motor
+ 1152 0f28 C3ED037A 		fsts	s15, [r3, #12]
+ 1153 0f2c 01F02CBF 		b	.L25
+ 1154              	.L34:
+ 1155 0f30 40F20003 		movw	r3, #:lower16:rxCommand
+ 1156 0f34 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1157 0f38 93ED037A 		flds	s14, [r3, #12]
+ 1158 0f3c 40F20003 		movw	r3, #:lower16:axisPID
+ 1159 0f40 C0F20003 		movt	r3, #:upper16:axisPID
+ 1160 0f44 D3ED007A 		flds	s15, [r3, #0]
+ 1161 0f48 37EE277A 		fadds	s14, s14, s15
+ 1162 0f4c 40F20003 		movw	r3, #:lower16:axisPID
+ 1163 0f50 C0F20003 		movt	r3, #:upper16:axisPID
+ 1164 0f54 D3ED016A 		flds	s13, [r3, #4]
+ 1165 0f58 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1166 0f5c C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1167 0f60 D3ED007A 		flds	s15, [r3, #0]
+ 1168 0f64 F1EE677A 		fnegs	s15, s15
+ 1169 0f68 66EEA77A 		fmuls	s15, s13, s15
+ 1170 0f6c 37EE277A 		fadds	s14, s14, s15
+ 1171 0f70 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1172 0f74 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1173 0f78 D3ED1A6A 		flds	s13, [r3, #104]
+ 1174 0f7c 40F20003 		movw	r3, #:lower16:axisPID
+ 1175 0f80 C0F20003 		movt	r3, #:upper16:axisPID
+ 1176 0f84 D3ED027A 		flds	s15, [r3, #8]
+ 1177 0f88 66EEA77A 		fmuls	s15, s13, s15
+ 1178 0f8c 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1179 0f90 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1180 0f94 D3ED006A 		flds	s13, [r3, #0]
+ 1181 0f98 67EEA67A 		fmuls	s15, s15, s13
+ 1182 0f9c 77EE277A 		fadds	s15, s14, s15
+ 1183 0fa0 40F20003 		movw	r3, #:lower16:motor
+ 1184 0fa4 C0F20003 		movt	r3, #:upper16:motor
+ 1185 0fa8 C3ED007A 		fsts	s15, [r3, #0]
+ 1186 0fac 40F20003 		movw	r3, #:lower16:rxCommand
+ 1187 0fb0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1188 0fb4 93ED037A 		flds	s14, [r3, #12]
+ 1189 0fb8 40F20003 		movw	r3, #:lower16:axisPID
+ 1190 0fbc C0F20003 		movt	r3, #:upper16:axisPID
+ 1191 0fc0 D3ED007A 		flds	s15, [r3, #0]
+ 1192 0fc4 37EE677A 		fsubs	s14, s14, s15
+ 1193 0fc8 40F20003 		movw	r3, #:lower16:axisPID
+ 1194 0fcc C0F20003 		movt	r3, #:upper16:axisPID
+ 1195 0fd0 D3ED016A 		flds	s13, [r3, #4]
+ 1196 0fd4 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1197 0fd8 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1198 0fdc D3ED007A 		flds	s15, [r3, #0]
+ 1199 0fe0 F1EE677A 		fnegs	s15, s15
+ 1200 0fe4 66EEA77A 		fmuls	s15, s13, s15
+ 1201 0fe8 37EE277A 		fadds	s14, s14, s15
+ 1202 0fec 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1203 0ff0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1204 0ff4 D3ED1A6A 		flds	s13, [r3, #104]
+ 1205 0ff8 40F20003 		movw	r3, #:lower16:axisPID
+ 1206 0ffc C0F20003 		movt	r3, #:upper16:axisPID
+ 1207 1000 D3ED027A 		flds	s15, [r3, #8]
+ 1208 1004 66EEA77A 		fmuls	s15, s13, s15
+ 1209 1008 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1210 100c C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1211 1010 D3ED006A 		flds	s13, [r3, #0]
+ 1212 1014 F1EE666A 		fnegs	s13, s13
+ 1213 1018 67EEA67A 		fmuls	s15, s15, s13
+ 1214 101c 77EE277A 		fadds	s15, s14, s15
+ 1215 1020 40F20003 		movw	r3, #:lower16:motor
+ 1216 1024 C0F20003 		movt	r3, #:upper16:motor
+ 1217 1028 C3ED017A 		fsts	s15, [r3, #4]
+ 1218 102c 40F20003 		movw	r3, #:lower16:rxCommand
+ 1219 1030 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1220 1034 93ED037A 		flds	s14, [r3, #12]
+ 1221 1038 40F20003 		movw	r3, #:lower16:axisPID
+ 1222 103c C0F20003 		movt	r3, #:upper16:axisPID
+ 1223 1040 D3ED006A 		flds	s13, [r3, #0]
+ 1224 1044 DFED2A7A 		flds	s15, .L62
+ 1225 1048 66EEA77A 		fmuls	s15, s13, s15
+ 1226 104c 37EE277A 		fadds	s14, s14, s15
+ 1227 1050 40F20003 		movw	r3, #:lower16:axisPID
+ 1228 1054 C0F20003 		movt	r3, #:upper16:axisPID
+ 1229 1058 D3ED017A 		flds	s15, [r3, #4]
+ 1230 105c 37EE277A 		fadds	s14, s14, s15
+ 1231 1060 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1232 1064 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1233 1068 D3ED1A6A 		flds	s13, [r3, #104]
+ 1234 106c 40F20003 		movw	r3, #:lower16:axisPID
+ 1235 1070 C0F20003 		movt	r3, #:upper16:axisPID
+ 1236 1074 D3ED027A 		flds	s15, [r3, #8]
+ 1237 1078 66EEA77A 		fmuls	s15, s13, s15
+ 1238 107c 77EE277A 		fadds	s15, s14, s15
+ 1239 1080 40F20003 		movw	r3, #:lower16:motor
+ 1240 1084 C0F20003 		movt	r3, #:upper16:motor
+ 1241 1088 C3ED027A 		fsts	s15, [r3, #8]
+ 1242 108c 40F20003 		movw	r3, #:lower16:rxCommand
+ 1243 1090 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1244 1094 93ED037A 		flds	s14, [r3, #12]
+ 1245 1098 40F20003 		movw	r3, #:lower16:axisPID
+ 1246 109c C0F20003 		movt	r3, #:upper16:axisPID
+ 1247 10a0 D3ED006A 		flds	s13, [r3, #0]
+ 1248 10a4 DFED127A 		flds	s15, .L62
+ 1249 10a8 66EEA77A 		fmuls	s15, s13, s15
+ 1250 10ac 37EE277A 		fadds	s14, s14, s15
+ 1251 10b0 40F20003 		movw	r3, #:lower16:axisPID
+ 1252 10b4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1253 10b8 D3ED017A 		flds	s15, [r3, #4]
+ 1254 10bc 37EE277A 		fadds	s14, s14, s15
+ 1255 10c0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1256 10c4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1257 10c8 D3ED1A6A 		flds	s13, [r3, #104]
+ 1258 10cc 40F20003 		movw	r3, #:lower16:axisPID
+ 1259 10d0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1260 10d4 D3ED027A 		flds	s15, [r3, #8]
+ 1261 10d8 66EEA77A 		fmuls	s15, s13, s15
+ 1262 10dc 77EE677A 		fsubs	s15, s14, s15
+ 1263 10e0 40F20003 		movw	r3, #:lower16:motor
+ 1264 10e4 C0F20003 		movt	r3, #:upper16:motor
+ 1265 10e8 C3ED037A 		fsts	s15, [r3, #12]
+ 1266 10ec 01F04CBE 		b	.L25
+ 1267              	.L63:
+ 1268              		.align	2
+ 1269              	.L62:
+ 1270 10f0 00000000 		.word	0
+ 1271 10f4 00000080 		.word	-2147483648
+ 1272              	.L35:
+ 1273 10f8 40F20003 		movw	r3, #:lower16:rxCommand
+ 1274 10fc C0F20003 		movt	r3, #:upper16:rxCommand
+ 1275 1100 93ED037A 		flds	s14, [r3, #12]
+ 1276 1104 40F20003 		movw	r3, #:lower16:axisPID
+ 1277 1108 C0F20003 		movt	r3, #:upper16:axisPID
+ 1278 110c D3ED006A 		flds	s13, [r3, #0]
+ 1279 1110 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1280 1114 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1281 1118 D3ED007A 		flds	s15, [r3, #0]
+ 1282 111c 66EEA77A 		fmuls	s15, s13, s15
+ 1283 1120 37EE277A 		fadds	s14, s14, s15
+ 1284 1124 40F20003 		movw	r3, #:lower16:axisPID
+ 1285 1128 C0F20003 		movt	r3, #:upper16:axisPID
+ 1286 112c D3ED017A 		flds	s15, [r3, #4]
+ 1287 1130 37EE677A 		fsubs	s14, s14, s15
+ 1288 1134 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1289 1138 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1290 113c D3ED1A6A 		flds	s13, [r3, #104]
+ 1291 1140 40F20003 		movw	r3, #:lower16:axisPID
+ 1292 1144 C0F20003 		movt	r3, #:upper16:axisPID
+ 1293 1148 D3ED027A 		flds	s15, [r3, #8]
+ 1294 114c 66EEA77A 		fmuls	s15, s13, s15
+ 1295 1150 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1296 1154 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1297 1158 D3ED006A 		flds	s13, [r3, #0]
+ 1298 115c 67EEA67A 		fmuls	s15, s15, s13
+ 1299 1160 77EE277A 		fadds	s15, s14, s15
+ 1300 1164 40F20003 		movw	r3, #:lower16:motor
+ 1301 1168 C0F20003 		movt	r3, #:upper16:motor
+ 1302 116c C3ED007A 		fsts	s15, [r3, #0]
+ 1303 1170 40F20003 		movw	r3, #:lower16:rxCommand
+ 1304 1174 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1305 1178 93ED037A 		flds	s14, [r3, #12]
+ 1306 117c 40F20003 		movw	r3, #:lower16:axisPID
+ 1307 1180 C0F20003 		movt	r3, #:upper16:axisPID
+ 1308 1184 D3ED006A 		flds	s13, [r3, #0]
+ 1309 1188 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1310 118c C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1311 1190 D3ED007A 		flds	s15, [r3, #0]
+ 1312 1194 F1EE677A 		fnegs	s15, s15
+ 1313 1198 66EEA77A 		fmuls	s15, s13, s15
+ 1314 119c 37EE277A 		fadds	s14, s14, s15
+ 1315 11a0 40F20003 		movw	r3, #:lower16:axisPID
+ 1316 11a4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1317 11a8 D3ED017A 		flds	s15, [r3, #4]
+ 1318 11ac 37EE677A 		fsubs	s14, s14, s15
+ 1319 11b0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1320 11b4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1321 11b8 D3ED1A6A 		flds	s13, [r3, #104]
+ 1322 11bc 40F20003 		movw	r3, #:lower16:axisPID
+ 1323 11c0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1324 11c4 D3ED027A 		flds	s15, [r3, #8]
+ 1325 11c8 66EEA77A 		fmuls	s15, s13, s15
+ 1326 11cc 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1327 11d0 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1328 11d4 D3ED006A 		flds	s13, [r3, #0]
+ 1329 11d8 F1EE666A 		fnegs	s13, s13
+ 1330 11dc 67EEA67A 		fmuls	s15, s15, s13
+ 1331 11e0 77EE277A 		fadds	s15, s14, s15
+ 1332 11e4 40F20003 		movw	r3, #:lower16:motor
+ 1333 11e8 C0F20003 		movt	r3, #:upper16:motor
+ 1334 11ec C3ED017A 		fsts	s15, [r3, #4]
+ 1335 11f0 40F20003 		movw	r3, #:lower16:rxCommand
+ 1336 11f4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1337 11f8 93ED037A 		flds	s14, [r3, #12]
+ 1338 11fc 40F20003 		movw	r3, #:lower16:axisPID
+ 1339 1200 C0F20003 		movt	r3, #:upper16:axisPID
+ 1340 1204 D3ED007A 		flds	s15, [r3, #0]
+ 1341 1208 37EE677A 		fsubs	s14, s14, s15
+ 1342 120c 40F20003 		movw	r3, #:lower16:axisPID
+ 1343 1210 C0F20003 		movt	r3, #:upper16:axisPID
+ 1344 1214 D3ED017A 		flds	s15, [r3, #4]
+ 1345 1218 37EE277A 		fadds	s14, s14, s15
+ 1346 121c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1347 1220 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1348 1224 D3ED1A6A 		flds	s13, [r3, #104]
+ 1349 1228 40F20003 		movw	r3, #:lower16:axisPID
+ 1350 122c C0F20003 		movt	r3, #:upper16:axisPID
+ 1351 1230 D3ED027A 		flds	s15, [r3, #8]
+ 1352 1234 66EEA77A 		fmuls	s15, s13, s15
+ 1353 1238 77EE277A 		fadds	s15, s14, s15
+ 1354 123c 40F20003 		movw	r3, #:lower16:motor
+ 1355 1240 C0F20003 		movt	r3, #:upper16:motor
+ 1356 1244 C3ED027A 		fsts	s15, [r3, #8]
+ 1357 1248 40F20003 		movw	r3, #:lower16:rxCommand
+ 1358 124c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1359 1250 93ED037A 		flds	s14, [r3, #12]
+ 1360 1254 40F20003 		movw	r3, #:lower16:axisPID
+ 1361 1258 C0F20003 		movt	r3, #:upper16:axisPID
+ 1362 125c D3ED007A 		flds	s15, [r3, #0]
+ 1363 1260 37EE277A 		fadds	s14, s14, s15
+ 1364 1264 40F20003 		movw	r3, #:lower16:axisPID
+ 1365 1268 C0F20003 		movt	r3, #:upper16:axisPID
+ 1366 126c D3ED017A 		flds	s15, [r3, #4]
+ 1367 1270 37EE277A 		fadds	s14, s14, s15
+ 1368 1274 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1369 1278 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1370 127c D3ED1A6A 		flds	s13, [r3, #104]
+ 1371 1280 40F20003 		movw	r3, #:lower16:axisPID
+ 1372 1284 C0F20003 		movt	r3, #:upper16:axisPID
+ 1373 1288 D3ED027A 		flds	s15, [r3, #8]
+ 1374 128c 66EEA77A 		fmuls	s15, s13, s15
+ 1375 1290 77EE677A 		fsubs	s15, s14, s15
+ 1376 1294 40F20003 		movw	r3, #:lower16:motor
+ 1377 1298 C0F20003 		movt	r3, #:upper16:motor
+ 1378 129c C3ED037A 		fsts	s15, [r3, #12]
+ 1379 12a0 01F072BD 		b	.L25
+ 1380              	.L36:
+ 1381 12a4 40F20003 		movw	r3, #:lower16:rxCommand
+ 1382 12a8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1383 12ac 93ED037A 		flds	s14, [r3, #12]
+ 1384 12b0 40F20003 		movw	r3, #:lower16:axisPID
+ 1385 12b4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1386 12b8 D3ED006A 		flds	s13, [r3, #0]
+ 1387 12bc 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1388 12c0 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1389 12c4 D3ED007A 		flds	s15, [r3, #0]
+ 1390 12c8 66EEA77A 		fmuls	s15, s13, s15
+ 1391 12cc 37EE277A 		fadds	s14, s14, s15
+ 1392 12d0 40F20003 		movw	r3, #:lower16:axisPID
+ 1393 12d4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1394 12d8 D3ED016A 		flds	s13, [r3, #4]
+ 1395 12dc 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1396 12e0 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1397 12e4 D3ED007A 		flds	s15, [r3, #0]
+ 1398 12e8 F1EE677A 		fnegs	s15, s15
+ 1399 12ec 66EEA77A 		fmuls	s15, s13, s15
+ 1400 12f0 37EE277A 		fadds	s14, s14, s15
+ 1401 12f4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1402 12f8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1403 12fc D3ED1A6A 		flds	s13, [r3, #104]
+ 1404 1300 40F20003 		movw	r3, #:lower16:axisPID
+ 1405 1304 C0F20003 		movt	r3, #:upper16:axisPID
+ 1406 1308 D3ED027A 		flds	s15, [r3, #8]
+ 1407 130c 66EEA77A 		fmuls	s15, s13, s15
+ 1408 1310 5FED896A 		flds	s13, .L62
+ 1409 1314 67EEA67A 		fmuls	s15, s15, s13
+ 1410 1318 77EE277A 		fadds	s15, s14, s15
+ 1411 131c 40F20003 		movw	r3, #:lower16:motor
+ 1412 1320 C0F20003 		movt	r3, #:upper16:motor
+ 1413 1324 C3ED007A 		fsts	s15, [r3, #0]
+ 1414 1328 40F20003 		movw	r3, #:lower16:rxCommand
+ 1415 132c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1416 1330 93ED037A 		flds	s14, [r3, #12]
+ 1417 1334 40F20003 		movw	r3, #:lower16:axisPID
+ 1418 1338 C0F20003 		movt	r3, #:upper16:axisPID
+ 1419 133c D3ED006A 		flds	s13, [r3, #0]
+ 1420 1340 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1421 1344 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1422 1348 D3ED007A 		flds	s15, [r3, #0]
+ 1423 134c F1EE677A 		fnegs	s15, s15
+ 1424 1350 66EEA77A 		fmuls	s15, s13, s15
+ 1425 1354 37EE277A 		fadds	s14, s14, s15
+ 1426 1358 40F20003 		movw	r3, #:lower16:axisPID
+ 1427 135c C0F20003 		movt	r3, #:upper16:axisPID
+ 1428 1360 D3ED016A 		flds	s13, [r3, #4]
+ 1429 1364 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1430 1368 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1431 136c D3ED007A 		flds	s15, [r3, #0]
+ 1432 1370 F1EE677A 		fnegs	s15, s15
+ 1433 1374 66EEA77A 		fmuls	s15, s13, s15
+ 1434 1378 37EE277A 		fadds	s14, s14, s15
+ 1435 137c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1436 1380 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1437 1384 D3ED1A6A 		flds	s13, [r3, #104]
+ 1438 1388 40F20003 		movw	r3, #:lower16:axisPID
+ 1439 138c C0F20003 		movt	r3, #:upper16:axisPID
+ 1440 1390 D3ED027A 		flds	s15, [r3, #8]
+ 1441 1394 66EEA77A 		fmuls	s15, s13, s15
+ 1442 1398 5FEDAA6A 		flds	s13, .L62+4
+ 1443 139c 67EEA67A 		fmuls	s15, s15, s13
+ 1444 13a0 77EE277A 		fadds	s15, s14, s15
+ 1445 13a4 40F20003 		movw	r3, #:lower16:motor
+ 1446 13a8 C0F20003 		movt	r3, #:upper16:motor
+ 1447 13ac C3ED017A 		fsts	s15, [r3, #4]
+ 1448 13b0 40F20003 		movw	r3, #:lower16:rxCommand
+ 1449 13b4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1450 13b8 93ED037A 		flds	s14, [r3, #12]
+ 1451 13bc 40F20003 		movw	r3, #:lower16:axisPID
+ 1452 13c0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1453 13c4 D3ED007A 		flds	s15, [r3, #0]
+ 1454 13c8 37EE677A 		fsubs	s14, s14, s15
+ 1455 13cc 40F20003 		movw	r3, #:lower16:axisPID
+ 1456 13d0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1457 13d4 D3ED017A 		flds	s15, [r3, #4]
+ 1458 13d8 37EE277A 		fadds	s14, s14, s15
+ 1459 13dc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1460 13e0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1461 13e4 D3ED1A6A 		flds	s13, [r3, #104]
+ 1462 13e8 40F20003 		movw	r3, #:lower16:axisPID
+ 1463 13ec C0F20003 		movt	r3, #:upper16:axisPID
+ 1464 13f0 D3ED027A 		flds	s15, [r3, #8]
+ 1465 13f4 66EEA77A 		fmuls	s15, s13, s15
+ 1466 13f8 77EE277A 		fadds	s15, s14, s15
+ 1467 13fc 40F20003 		movw	r3, #:lower16:motor
+ 1468 1400 C0F20003 		movt	r3, #:upper16:motor
+ 1469 1404 C3ED027A 		fsts	s15, [r3, #8]
+ 1470 1408 40F20003 		movw	r3, #:lower16:rxCommand
+ 1471 140c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1472 1410 93ED037A 		flds	s14, [r3, #12]
+ 1473 1414 40F20003 		movw	r3, #:lower16:axisPID
+ 1474 1418 C0F20003 		movt	r3, #:upper16:axisPID
+ 1475 141c D3ED007A 		flds	s15, [r3, #0]
+ 1476 1420 37EE277A 		fadds	s14, s14, s15
+ 1477 1424 40F20003 		movw	r3, #:lower16:axisPID
+ 1478 1428 C0F20003 		movt	r3, #:upper16:axisPID
+ 1479 142c D3ED017A 		flds	s15, [r3, #4]
+ 1480 1430 37EE277A 		fadds	s14, s14, s15
+ 1481 1434 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1482 1438 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1483 143c D3ED1A6A 		flds	s13, [r3, #104]
+ 1484 1440 40F20003 		movw	r3, #:lower16:axisPID
+ 1485 1444 C0F20003 		movt	r3, #:upper16:axisPID
+ 1486 1448 D3ED027A 		flds	s15, [r3, #8]
+ 1487 144c 66EEA77A 		fmuls	s15, s13, s15
+ 1488 1450 77EE677A 		fsubs	s15, s14, s15
+ 1489 1454 40F20003 		movw	r3, #:lower16:motor
+ 1490 1458 C0F20003 		movt	r3, #:upper16:motor
+ 1491 145c C3ED037A 		fsts	s15, [r3, #12]
+ 1492 1460 01F092BC 		b	.L25
+ 1493              	.L37:
+ 1494 1464 40F20003 		movw	r3, #:lower16:rxCommand
+ 1495 1468 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1496 146c 93ED037A 		flds	s14, [r3, #12]
+ 1497 1470 40F20003 		movw	r3, #:lower16:axisPID
+ 1498 1474 C0F20003 		movt	r3, #:upper16:axisPID
+ 1499 1478 D3ED006A 		flds	s13, [r3, #0]
+ 1500 147c 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1501 1480 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1502 1484 D3ED007A 		flds	s15, [r3, #0]
+ 1503 1488 66EEA77A 		fmuls	s15, s13, s15
+ 1504 148c 37EE277A 		fadds	s14, s14, s15
+ 1505 1490 40F20003 		movw	r3, #:lower16:axisPID
+ 1506 1494 C0F20003 		movt	r3, #:upper16:axisPID
+ 1507 1498 D3ED016A 		flds	s13, [r3, #4]
+ 1508 149c 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1509 14a0 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1510 14a4 D3ED007A 		flds	s15, [r3, #0]
+ 1511 14a8 F1EE677A 		fnegs	s15, s15
+ 1512 14ac 66EEA77A 		fmuls	s15, s13, s15
+ 1513 14b0 37EE277A 		fadds	s14, s14, s15
+ 1514 14b4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1515 14b8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1516 14bc D3ED1A6A 		flds	s13, [r3, #104]
+ 1517 14c0 40F20003 		movw	r3, #:lower16:axisPID
+ 1518 14c4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1519 14c8 D3ED027A 		flds	s15, [r3, #8]
+ 1520 14cc 66EEA77A 		fmuls	s15, s13, s15
+ 1521 14d0 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1522 14d4 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1523 14d8 D3ED006A 		flds	s13, [r3, #0]
+ 1524 14dc 67EEA67A 		fmuls	s15, s15, s13
+ 1525 14e0 77EE277A 		fadds	s15, s14, s15
+ 1526 14e4 40F20003 		movw	r3, #:lower16:motor
+ 1527 14e8 C0F20003 		movt	r3, #:upper16:motor
+ 1528 14ec C3ED007A 		fsts	s15, [r3, #0]
+ 1529 14f0 40F20003 		movw	r3, #:lower16:rxCommand
+ 1530 14f4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1531 14f8 93ED037A 		flds	s14, [r3, #12]
+ 1532 14fc 40F20003 		movw	r3, #:lower16:axisPID
+ 1533 1500 C0F20003 		movt	r3, #:upper16:axisPID
+ 1534 1504 D3ED006A 		flds	s13, [r3, #0]
+ 1535 1508 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1536 150c C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1537 1510 D3ED007A 		flds	s15, [r3, #0]
+ 1538 1514 F1EE677A 		fnegs	s15, s15
+ 1539 1518 66EEA77A 		fmuls	s15, s13, s15
+ 1540 151c 37EE277A 		fadds	s14, s14, s15
+ 1541 1520 40F20003 		movw	r3, #:lower16:axisPID
+ 1542 1524 C0F20003 		movt	r3, #:upper16:axisPID
+ 1543 1528 D3ED016A 		flds	s13, [r3, #4]
+ 1544 152c 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1545 1530 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1546 1534 D3ED007A 		flds	s15, [r3, #0]
+ 1547 1538 F1EE677A 		fnegs	s15, s15
+ 1548 153c 66EEA77A 		fmuls	s15, s13, s15
+ 1549 1540 37EE277A 		fadds	s14, s14, s15
+ 1550 1544 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1551 1548 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1552 154c D3ED1A6A 		flds	s13, [r3, #104]
+ 1553 1550 40F20003 		movw	r3, #:lower16:axisPID
+ 1554 1554 C0F20003 		movt	r3, #:upper16:axisPID
+ 1555 1558 D3ED027A 		flds	s15, [r3, #8]
+ 1556 155c 66EEA77A 		fmuls	s15, s13, s15
+ 1557 1560 40F20003 		movw	r3, #:lower16:vTailThrust
+ 1558 1564 C0F20003 		movt	r3, #:upper16:vTailThrust
+ 1559 1568 D3ED006A 		flds	s13, [r3, #0]
+ 1560 156c F1EE666A 		fnegs	s13, s13
+ 1561 1570 67EEA67A 		fmuls	s15, s15, s13
+ 1562 1574 77EE277A 		fadds	s15, s14, s15
+ 1563 1578 40F20003 		movw	r3, #:lower16:motor
+ 1564 157c C0F20003 		movt	r3, #:upper16:motor
+ 1565 1580 C3ED017A 		fsts	s15, [r3, #4]
+ 1566 1584 40F20003 		movw	r3, #:lower16:rxCommand
+ 1567 1588 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1568 158c 93ED037A 		flds	s14, [r3, #12]
+ 1569 1590 40F20003 		movw	r3, #:lower16:axisPID
+ 1570 1594 C0F20003 		movt	r3, #:upper16:axisPID
+ 1571 1598 D3ED007A 		flds	s15, [r3, #0]
+ 1572 159c 37EE677A 		fsubs	s14, s14, s15
+ 1573 15a0 40F20003 		movw	r3, #:lower16:axisPID
+ 1574 15a4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1575 15a8 D3ED017A 		flds	s15, [r3, #4]
+ 1576 15ac 37EE277A 		fadds	s14, s14, s15
+ 1577 15b0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1578 15b4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1579 15b8 D3ED1A6A 		flds	s13, [r3, #104]
+ 1580 15bc 40F20003 		movw	r3, #:lower16:axisPID
+ 1581 15c0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1582 15c4 D3ED027A 		flds	s15, [r3, #8]
+ 1583 15c8 66EEA77A 		fmuls	s15, s13, s15
+ 1584 15cc 77EE277A 		fadds	s15, s14, s15
+ 1585 15d0 40F20003 		movw	r3, #:lower16:motor
+ 1586 15d4 C0F20003 		movt	r3, #:upper16:motor
+ 1587 15d8 C3ED027A 		fsts	s15, [r3, #8]
+ 1588 15dc 40F20003 		movw	r3, #:lower16:rxCommand
+ 1589 15e0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1590 15e4 93ED037A 		flds	s14, [r3, #12]
+ 1591 15e8 40F20003 		movw	r3, #:lower16:axisPID
+ 1592 15ec C0F20003 		movt	r3, #:upper16:axisPID
+ 1593 15f0 D3ED007A 		flds	s15, [r3, #0]
+ 1594 15f4 37EE277A 		fadds	s14, s14, s15
+ 1595 15f8 40F20003 		movw	r3, #:lower16:axisPID
+ 1596 15fc C0F20003 		movt	r3, #:upper16:axisPID
+ 1597 1600 D3ED017A 		flds	s15, [r3, #4]
+ 1598 1604 37EE277A 		fadds	s14, s14, s15
+ 1599 1608 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1600 160c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1601 1610 D3ED1A6A 		flds	s13, [r3, #104]
+ 1602 1614 40F20003 		movw	r3, #:lower16:axisPID
+ 1603 1618 C0F20003 		movt	r3, #:upper16:axisPID
+ 1604 161c D3ED027A 		flds	s15, [r3, #8]
+ 1605 1620 66EEA77A 		fmuls	s15, s13, s15
+ 1606 1624 77EE677A 		fsubs	s15, s14, s15
+ 1607 1628 40F20003 		movw	r3, #:lower16:motor
+ 1608 162c C0F20003 		movt	r3, #:upper16:motor
+ 1609 1630 C3ED037A 		fsts	s15, [r3, #12]
+ 1610 1634 01F0A8BB 		b	.L25
+ 1611              	.L38:
+ 1612 1638 40F20003 		movw	r3, #:lower16:rxCommand
+ 1613 163c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1614 1640 93ED037A 		flds	s14, [r3, #12]
+ 1615 1644 40F20003 		movw	r3, #:lower16:axisPID
+ 1616 1648 C0F20003 		movt	r3, #:upper16:axisPID
+ 1617 164c D3ED007A 		flds	s15, [r3, #0]
+ 1618 1650 37EE277A 		fadds	s14, s14, s15
+ 1619 1654 40F20003 		movw	r3, #:lower16:axisPID
+ 1620 1658 C0F20003 		movt	r3, #:upper16:axisPID
+ 1621 165c D3ED017A 		flds	s15, [r3, #4]
+ 1622 1660 37EE677A 		fsubs	s14, s14, s15
+ 1623 1664 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1624 1668 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1625 166c D3ED1A6A 		flds	s13, [r3, #104]
+ 1626 1670 40F20003 		movw	r3, #:lower16:axisPID
+ 1627 1674 C0F20003 		movt	r3, #:upper16:axisPID
+ 1628 1678 D3ED027A 		flds	s15, [r3, #8]
+ 1629 167c 66EEA77A 		fmuls	s15, s13, s15
+ 1630 1680 DFEDE56A 		flds	s13, .L64+8
+ 1631 1684 67EEA67A 		fmuls	s15, s15, s13
+ 1632 1688 77EE277A 		fadds	s15, s14, s15
+ 1633 168c 40F20003 		movw	r3, #:lower16:motor
+ 1634 1690 C0F20003 		movt	r3, #:upper16:motor
+ 1635 1694 C3ED007A 		fsts	s15, [r3, #0]
+ 1636 1698 40F20003 		movw	r3, #:lower16:rxCommand
+ 1637 169c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1638 16a0 93ED037A 		flds	s14, [r3, #12]
+ 1639 16a4 40F20003 		movw	r3, #:lower16:axisPID
+ 1640 16a8 C0F20003 		movt	r3, #:upper16:axisPID
+ 1641 16ac D3ED007A 		flds	s15, [r3, #0]
+ 1642 16b0 37EE677A 		fsubs	s14, s14, s15
+ 1643 16b4 40F20003 		movw	r3, #:lower16:axisPID
+ 1644 16b8 C0F20003 		movt	r3, #:upper16:axisPID
+ 1645 16bc D3ED017A 		flds	s15, [r3, #4]
+ 1646 16c0 37EE677A 		fsubs	s14, s14, s15
+ 1647 16c4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1648 16c8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1649 16cc D3ED1A6A 		flds	s13, [r3, #104]
+ 1650 16d0 40F20003 		movw	r3, #:lower16:axisPID
+ 1651 16d4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1652 16d8 D3ED027A 		flds	s15, [r3, #8]
+ 1653 16dc 66EEA77A 		fmuls	s15, s13, s15
+ 1654 16e0 DFEDCD6A 		flds	s13, .L64+8
+ 1655 16e4 67EEA67A 		fmuls	s15, s15, s13
+ 1656 16e8 77EE277A 		fadds	s15, s14, s15
+ 1657 16ec 40F20003 		movw	r3, #:lower16:motor
+ 1658 16f0 C0F20003 		movt	r3, #:upper16:motor
+ 1659 16f4 C3ED017A 		fsts	s15, [r3, #4]
+ 1660 16f8 40F20003 		movw	r3, #:lower16:rxCommand
+ 1661 16fc C0F20003 		movt	r3, #:upper16:rxCommand
+ 1662 1700 93ED037A 		flds	s14, [r3, #12]
+ 1663 1704 40F20003 		movw	r3, #:lower16:axisPID
+ 1664 1708 C0F20003 		movt	r3, #:upper16:axisPID
+ 1665 170c D3ED006A 		flds	s13, [r3, #0]
+ 1666 1710 DFEDC17A 		flds	s15, .L64+8
+ 1667 1714 66EEA77A 		fmuls	s15, s13, s15
+ 1668 1718 37EE277A 		fadds	s14, s14, s15
+ 1669 171c 40F20003 		movw	r3, #:lower16:axisPID
+ 1670 1720 C0F20003 		movt	r3, #:upper16:axisPID
+ 1671 1724 D3ED017A 		flds	s15, [r3, #4]
+ 1672 1728 37EE277A 		fadds	s14, s14, s15
+ 1673 172c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1674 1730 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1675 1734 D3ED1A6A 		flds	s13, [r3, #104]
+ 1676 1738 40F20003 		movw	r3, #:lower16:axisPID
+ 1677 173c C0F20003 		movt	r3, #:upper16:axisPID
+ 1678 1740 D3ED027A 		flds	s15, [r3, #8]
+ 1679 1744 66EEA77A 		fmuls	s15, s13, s15
+ 1680 1748 77EE677A 		fsubs	s15, s14, s15
+ 1681 174c 40F20003 		movw	r3, #:lower16:motor
+ 1682 1750 C0F20003 		movt	r3, #:upper16:motor
+ 1683 1754 C3ED027A 		fsts	s15, [r3, #8]
+ 1684 1758 40F20003 		movw	r3, #:lower16:rxCommand
+ 1685 175c C0F20003 		movt	r3, #:upper16:rxCommand
+ 1686 1760 93ED037A 		flds	s14, [r3, #12]
+ 1687 1764 40F20003 		movw	r3, #:lower16:axisPID
+ 1688 1768 C0F20003 		movt	r3, #:upper16:axisPID
+ 1689 176c D3ED006A 		flds	s13, [r3, #0]
+ 1690 1770 DFEDA97A 		flds	s15, .L64+8
+ 1691 1774 66EEA77A 		fmuls	s15, s13, s15
+ 1692 1778 37EE277A 		fadds	s14, s14, s15
+ 1693 177c 40F20003 		movw	r3, #:lower16:axisPID
+ 1694 1780 C0F20003 		movt	r3, #:upper16:axisPID
+ 1695 1784 D3ED017A 		flds	s15, [r3, #4]
+ 1696 1788 37EE277A 		fadds	s14, s14, s15
+ 1697 178c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1698 1790 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1699 1794 D3ED1A6A 		flds	s13, [r3, #104]
+ 1700 1798 40F20003 		movw	r3, #:lower16:axisPID
+ 1701 179c C0F20003 		movt	r3, #:upper16:axisPID
+ 1702 17a0 D3ED027A 		flds	s15, [r3, #8]
+ 1703 17a4 66EEA77A 		fmuls	s15, s13, s15
+ 1704 17a8 77EE277A 		fadds	s15, s14, s15
+ 1705 17ac 40F20003 		movw	r3, #:lower16:motor
+ 1706 17b0 C0F20003 		movt	r3, #:upper16:motor
+ 1707 17b4 C3ED037A 		fsts	s15, [r3, #12]
+ 1708 17b8 01F0E6BA 		b	.L25
+ 1709              	.L39:
+ 1710 17bc 40F20003 		movw	r3, #:lower16:rxCommand
+ 1711 17c0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1712 17c4 93ED037A 		flds	s14, [r3, #12]
+ 1713 17c8 40F20003 		movw	r3, #:lower16:axisPID
+ 1714 17cc C0F20003 		movt	r3, #:upper16:axisPID
+ 1715 17d0 D3ED006A 		flds	s13, [r3, #0]
+ 1716 17d4 DFED907A 		flds	s15, .L64+8
+ 1717 17d8 66EEA77A 		fmuls	s15, s13, s15
+ 1718 17dc 37EE277A 		fadds	s14, s14, s15
+ 1719 17e0 40F20003 		movw	r3, #:lower16:axisPID
+ 1720 17e4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1721 17e8 D3ED016A 		flds	s13, [r3, #4]
+ 1722 17ec DFED887A 		flds	s15, .L64
+ 1723 17f0 66EEA77A 		fmuls	s15, s13, s15
+ 1724 17f4 37EE277A 		fadds	s14, s14, s15
+ 1725 17f8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1726 17fc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1727 1800 D3ED1A6A 		flds	s13, [r3, #104]
+ 1728 1804 40F20003 		movw	r3, #:lower16:axisPID
+ 1729 1808 C0F20003 		movt	r3, #:upper16:axisPID
+ 1730 180c D3ED027A 		flds	s15, [r3, #8]
+ 1731 1810 66EEA77A 		fmuls	s15, s13, s15
+ 1732 1814 77EE677A 		fsubs	s15, s14, s15
+ 1733 1818 40F20003 		movw	r3, #:lower16:motor
+ 1734 181c C0F20003 		movt	r3, #:upper16:motor
+ 1735 1820 C3ED007A 		fsts	s15, [r3, #0]
+ 1736 1824 40F20003 		movw	r3, #:lower16:rxCommand
+ 1737 1828 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1738 182c 93ED037A 		flds	s14, [r3, #12]
+ 1739 1830 40F20003 		movw	r3, #:lower16:axisPID
+ 1740 1834 C0F20003 		movt	r3, #:upper16:axisPID
+ 1741 1838 D3ED007A 		flds	s15, [r3, #0]
+ 1742 183c 37EE677A 		fsubs	s14, s14, s15
+ 1743 1840 40F20003 		movw	r3, #:lower16:axisPID
+ 1744 1844 C0F20003 		movt	r3, #:upper16:axisPID
+ 1745 1848 D3ED016A 		flds	s13, [r3, #4]
+ 1746 184c DFED707A 		flds	s15, .L64
+ 1747 1850 66EEA77A 		fmuls	s15, s13, s15
+ 1748 1854 37EE277A 		fadds	s14, s14, s15
+ 1749 1858 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1750 185c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1751 1860 D3ED1A6A 		flds	s13, [r3, #104]
+ 1752 1864 40F20003 		movw	r3, #:lower16:axisPID
+ 1753 1868 C0F20003 		movt	r3, #:upper16:axisPID
+ 1754 186c D3ED027A 		flds	s15, [r3, #8]
+ 1755 1870 66EEA77A 		fmuls	s15, s13, s15
+ 1756 1874 77EE277A 		fadds	s15, s14, s15
+ 1757 1878 40F20003 		movw	r3, #:lower16:motor
+ 1758 187c C0F20003 		movt	r3, #:upper16:motor
+ 1759 1880 C3ED017A 		fsts	s15, [r3, #4]
+ 1760 1884 40F20003 		movw	r3, #:lower16:rxCommand
+ 1761 1888 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1762 188c 93ED037A 		flds	s14, [r3, #12]
+ 1763 1890 40F20003 		movw	r3, #:lower16:axisPID
+ 1764 1894 C0F20003 		movt	r3, #:upper16:axisPID
+ 1765 1898 D3ED007A 		flds	s15, [r3, #0]
+ 1766 189c 37EE677A 		fsubs	s14, s14, s15
+ 1767 18a0 40F20003 		movw	r3, #:lower16:axisPID
+ 1768 18a4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1769 18a8 D3ED016A 		flds	s13, [r3, #4]
+ 1770 18ac DFED597A 		flds	s15, .L64+4
+ 1771 18b0 66EEA77A 		fmuls	s15, s13, s15
+ 1772 18b4 37EE277A 		fadds	s14, s14, s15
+ 1773 18b8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1774 18bc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1775 18c0 D3ED1A6A 		flds	s13, [r3, #104]
+ 1776 18c4 40F20003 		movw	r3, #:lower16:axisPID
+ 1777 18c8 C0F20003 		movt	r3, #:upper16:axisPID
+ 1778 18cc D3ED027A 		flds	s15, [r3, #8]
+ 1779 18d0 66EEA77A 		fmuls	s15, s13, s15
+ 1780 18d4 77EE677A 		fsubs	s15, s14, s15
+ 1781 18d8 40F20003 		movw	r3, #:lower16:motor
+ 1782 18dc C0F20003 		movt	r3, #:upper16:motor
+ 1783 18e0 C3ED027A 		fsts	s15, [r3, #8]
+ 1784 18e4 40F20003 		movw	r3, #:lower16:rxCommand
+ 1785 18e8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1786 18ec 93ED037A 		flds	s14, [r3, #12]
+ 1787 18f0 40F20003 		movw	r3, #:lower16:axisPID
+ 1788 18f4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1789 18f8 D3ED006A 		flds	s13, [r3, #0]
+ 1790 18fc DFED467A 		flds	s15, .L64+8
+ 1791 1900 66EEA77A 		fmuls	s15, s13, s15
+ 1792 1904 37EE277A 		fadds	s14, s14, s15
+ 1793 1908 40F20003 		movw	r3, #:lower16:axisPID
+ 1794 190c C0F20003 		movt	r3, #:upper16:axisPID
+ 1795 1910 D3ED016A 		flds	s13, [r3, #4]
+ 1796 1914 DFED3F7A 		flds	s15, .L64+4
+ 1797 1918 66EEA77A 		fmuls	s15, s13, s15
+ 1798 191c 37EE277A 		fadds	s14, s14, s15
+ 1799 1920 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1800 1924 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1801 1928 D3ED1A6A 		flds	s13, [r3, #104]
+ 1802 192c 40F20003 		movw	r3, #:lower16:axisPID
+ 1803 1930 C0F20003 		movt	r3, #:upper16:axisPID
+ 1804 1934 D3ED027A 		flds	s15, [r3, #8]
+ 1805 1938 66EEA77A 		fmuls	s15, s13, s15
+ 1806 193c 77EE277A 		fadds	s15, s14, s15
+ 1807 1940 40F20003 		movw	r3, #:lower16:motor
+ 1808 1944 C0F20003 		movt	r3, #:upper16:motor
+ 1809 1948 C3ED037A 		fsts	s15, [r3, #12]
+ 1810 194c 40F20003 		movw	r3, #:lower16:rxCommand
+ 1811 1950 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1812 1954 93ED037A 		flds	s14, [r3, #12]
+ 1813 1958 40F20003 		movw	r3, #:lower16:axisPID
+ 1814 195c C0F20003 		movt	r3, #:upper16:axisPID
+ 1815 1960 D3ED007A 		flds	s15, [r3, #0]
+ 1816 1964 37EE277A 		fadds	s14, s14, s15
+ 1817 1968 40F20003 		movw	r3, #:lower16:axisPID
+ 1818 196c C0F20003 		movt	r3, #:upper16:axisPID
+ 1819 1970 D3ED016A 		flds	s13, [r3, #4]
+ 1820 1974 DFED277A 		flds	s15, .L64+4
+ 1821 1978 66EEA77A 		fmuls	s15, s13, s15
+ 1822 197c 37EE277A 		fadds	s14, s14, s15
+ 1823 1980 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1824 1984 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1825 1988 D3ED1A6A 		flds	s13, [r3, #104]
+ 1826 198c 40F20003 		movw	r3, #:lower16:axisPID
+ 1827 1990 C0F20003 		movt	r3, #:upper16:axisPID
+ 1828 1994 D3ED027A 		flds	s15, [r3, #8]
+ 1829 1998 66EEA77A 		fmuls	s15, s13, s15
+ 1830 199c 77EE677A 		fsubs	s15, s14, s15
+ 1831 19a0 40F20003 		movw	r3, #:lower16:motor
+ 1832 19a4 C0F20003 		movt	r3, #:upper16:motor
+ 1833 19a8 C3ED047A 		fsts	s15, [r3, #16]
+ 1834 19ac 40F20003 		movw	r3, #:lower16:rxCommand
+ 1835 19b0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1836 19b4 93ED037A 		flds	s14, [r3, #12]
+ 1837 19b8 40F20003 		movw	r3, #:lower16:axisPID
+ 1838 19bc C0F20003 		movt	r3, #:upper16:axisPID
+ 1839 19c0 D3ED007A 		flds	s15, [r3, #0]
+ 1840 19c4 37EE277A 		fadds	s14, s14, s15
+ 1841 19c8 40F20003 		movw	r3, #:lower16:axisPID
+ 1842 19cc C0F20003 		movt	r3, #:upper16:axisPID
+ 1843 19d0 D3ED016A 		flds	s13, [r3, #4]
+ 1844 19d4 DFED0E7A 		flds	s15, .L64
+ 1845 19d8 66EEA77A 		fmuls	s15, s13, s15
+ 1846 19dc 37EE277A 		fadds	s14, s14, s15
+ 1847 19e0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1848 19e4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1849 19e8 D3ED1A6A 		flds	s13, [r3, #104]
+ 1850 19ec 40F20003 		movw	r3, #:lower16:axisPID
+ 1851 19f0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1852 19f4 D3ED027A 		flds	s15, [r3, #8]
+ 1853 19f8 66EEA77A 		fmuls	s15, s13, s15
+ 1854 19fc 77EE277A 		fadds	s15, s14, s15
+ 1855 1a00 40F20003 		movw	r3, #:lower16:motor
+ 1856 1a04 C0F20003 		movt	r3, #:upper16:motor
+ 1857 1a08 C3ED057A 		fsts	s15, [r3, #20]
+ 1858 1a0c 01F0BCB9 		b	.L25
+ 1859              	.L65:
+ 1860              		.align	2
+ 1861              	.L64:
+ 1862 1a10 D0B35DBF 		.word	-1084378160
+ 1863 1a14 D0B35D3F 		.word	1063105488
+ 1864 1a18 00000000 		.word	0
+ 1865              	.L40:
+ 1866 1a1c 40F20003 		movw	r3, #:lower16:rxCommand
+ 1867 1a20 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1868 1a24 93ED037A 		flds	s14, [r3, #12]
+ 1869 1a28 40F20003 		movw	r3, #:lower16:axisPID
+ 1870 1a2c C0F20003 		movt	r3, #:upper16:axisPID
+ 1871 1a30 D3ED006A 		flds	s13, [r3, #0]
+ 1872 1a34 5FED097A 		flds	s15, .L64+4
+ 1873 1a38 66EEA77A 		fmuls	s15, s13, s15
+ 1874 1a3c 37EE277A 		fadds	s14, s14, s15
+ 1875 1a40 40F20003 		movw	r3, #:lower16:axisPID
+ 1876 1a44 C0F20003 		movt	r3, #:upper16:axisPID
+ 1877 1a48 D3ED017A 		flds	s15, [r3, #4]
+ 1878 1a4c 37EE677A 		fsubs	s14, s14, s15
+ 1879 1a50 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1880 1a54 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1881 1a58 D3ED1A6A 		flds	s13, [r3, #104]
+ 1882 1a5c 40F20003 		movw	r3, #:lower16:axisPID
+ 1883 1a60 C0F20003 		movt	r3, #:upper16:axisPID
+ 1884 1a64 D3ED027A 		flds	s15, [r3, #8]
+ 1885 1a68 66EEA77A 		fmuls	s15, s13, s15
+ 1886 1a6c 77EE677A 		fsubs	s15, s14, s15
+ 1887 1a70 40F20003 		movw	r3, #:lower16:motor
+ 1888 1a74 C0F20003 		movt	r3, #:upper16:motor
+ 1889 1a78 C3ED007A 		fsts	s15, [r3, #0]
+ 1890 1a7c 40F20003 		movw	r3, #:lower16:rxCommand
+ 1891 1a80 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1892 1a84 93ED037A 		flds	s14, [r3, #12]
+ 1893 1a88 40F20003 		movw	r3, #:lower16:axisPID
+ 1894 1a8c C0F20003 		movt	r3, #:upper16:axisPID
+ 1895 1a90 D3ED006A 		flds	s13, [r3, #0]
+ 1896 1a94 5FED227A 		flds	s15, .L64
+ 1897 1a98 66EEA77A 		fmuls	s15, s13, s15
+ 1898 1a9c 37EE277A 		fadds	s14, s14, s15
+ 1899 1aa0 40F20003 		movw	r3, #:lower16:axisPID
+ 1900 1aa4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1901 1aa8 D3ED017A 		flds	s15, [r3, #4]
+ 1902 1aac 37EE677A 		fsubs	s14, s14, s15
+ 1903 1ab0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1904 1ab4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1905 1ab8 D3ED1A6A 		flds	s13, [r3, #104]
+ 1906 1abc 40F20003 		movw	r3, #:lower16:axisPID
+ 1907 1ac0 C0F20003 		movt	r3, #:upper16:axisPID
+ 1908 1ac4 D3ED027A 		flds	s15, [r3, #8]
+ 1909 1ac8 66EEA77A 		fmuls	s15, s13, s15
+ 1910 1acc 77EE277A 		fadds	s15, s14, s15
+ 1911 1ad0 40F20003 		movw	r3, #:lower16:motor
+ 1912 1ad4 C0F20003 		movt	r3, #:upper16:motor
+ 1913 1ad8 C3ED017A 		fsts	s15, [r3, #4]
+ 1914 1adc 40F20003 		movw	r3, #:lower16:rxCommand
+ 1915 1ae0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1916 1ae4 93ED037A 		flds	s14, [r3, #12]
+ 1917 1ae8 40F20003 		movw	r3, #:lower16:axisPID
+ 1918 1aec C0F20003 		movt	r3, #:upper16:axisPID
+ 1919 1af0 D3ED006A 		flds	s13, [r3, #0]
+ 1920 1af4 5FED3A7A 		flds	s15, .L64
+ 1921 1af8 66EEA77A 		fmuls	s15, s13, s15
+ 1922 1afc 37EE277A 		fadds	s14, s14, s15
+ 1923 1b00 40F20003 		movw	r3, #:lower16:axisPID
+ 1924 1b04 C0F20003 		movt	r3, #:upper16:axisPID
+ 1925 1b08 D3ED016A 		flds	s13, [r3, #4]
+ 1926 1b0c 5FED3E7A 		flds	s15, .L64+8
+ 1927 1b10 66EEA77A 		fmuls	s15, s13, s15
+ 1928 1b14 37EE277A 		fadds	s14, s14, s15
+ 1929 1b18 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1930 1b1c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1931 1b20 D3ED1A6A 		flds	s13, [r3, #104]
+ 1932 1b24 40F20003 		movw	r3, #:lower16:axisPID
+ 1933 1b28 C0F20003 		movt	r3, #:upper16:axisPID
+ 1934 1b2c D3ED027A 		flds	s15, [r3, #8]
+ 1935 1b30 66EEA77A 		fmuls	s15, s13, s15
+ 1936 1b34 77EE677A 		fsubs	s15, s14, s15
+ 1937 1b38 40F20003 		movw	r3, #:lower16:motor
+ 1938 1b3c C0F20003 		movt	r3, #:upper16:motor
+ 1939 1b40 C3ED027A 		fsts	s15, [r3, #8]
+ 1940 1b44 40F20003 		movw	r3, #:lower16:rxCommand
+ 1941 1b48 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1942 1b4c 93ED037A 		flds	s14, [r3, #12]
+ 1943 1b50 40F20003 		movw	r3, #:lower16:axisPID
+ 1944 1b54 C0F20003 		movt	r3, #:upper16:axisPID
+ 1945 1b58 D3ED006A 		flds	s13, [r3, #0]
+ 1946 1b5c 5FED547A 		flds	s15, .L64
+ 1947 1b60 66EEA77A 		fmuls	s15, s13, s15
+ 1948 1b64 37EE277A 		fadds	s14, s14, s15
+ 1949 1b68 40F20003 		movw	r3, #:lower16:axisPID
+ 1950 1b6c C0F20003 		movt	r3, #:upper16:axisPID
+ 1951 1b70 D3ED017A 		flds	s15, [r3, #4]
+ 1952 1b74 37EE277A 		fadds	s14, s14, s15
+ 1953 1b78 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1954 1b7c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1955 1b80 D3ED1A6A 		flds	s13, [r3, #104]
+ 1956 1b84 40F20003 		movw	r3, #:lower16:axisPID
+ 1957 1b88 C0F20003 		movt	r3, #:upper16:axisPID
+ 1958 1b8c D3ED027A 		flds	s15, [r3, #8]
+ 1959 1b90 66EEA77A 		fmuls	s15, s13, s15
+ 1960 1b94 77EE277A 		fadds	s15, s14, s15
+ 1961 1b98 40F20003 		movw	r3, #:lower16:motor
+ 1962 1b9c C0F20003 		movt	r3, #:upper16:motor
+ 1963 1ba0 C3ED037A 		fsts	s15, [r3, #12]
+ 1964 1ba4 40F20003 		movw	r3, #:lower16:rxCommand
+ 1965 1ba8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1966 1bac 93ED037A 		flds	s14, [r3, #12]
+ 1967 1bb0 40F20003 		movw	r3, #:lower16:axisPID
+ 1968 1bb4 C0F20003 		movt	r3, #:upper16:axisPID
+ 1969 1bb8 D3ED006A 		flds	s13, [r3, #0]
+ 1970 1bbc 5FED6B7A 		flds	s15, .L64+4
+ 1971 1bc0 66EEA77A 		fmuls	s15, s13, s15
+ 1972 1bc4 37EE277A 		fadds	s14, s14, s15
+ 1973 1bc8 40F20003 		movw	r3, #:lower16:axisPID
+ 1974 1bcc C0F20003 		movt	r3, #:upper16:axisPID
+ 1975 1bd0 D3ED017A 		flds	s15, [r3, #4]
+ 1976 1bd4 37EE277A 		fadds	s14, s14, s15
+ 1977 1bd8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1978 1bdc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1979 1be0 D3ED1A6A 		flds	s13, [r3, #104]
+ 1980 1be4 40F20003 		movw	r3, #:lower16:axisPID
+ 1981 1be8 C0F20003 		movt	r3, #:upper16:axisPID
+ 1982 1bec D3ED027A 		flds	s15, [r3, #8]
+ 1983 1bf0 66EEA77A 		fmuls	s15, s13, s15
+ 1984 1bf4 77EE677A 		fsubs	s15, s14, s15
+ 1985 1bf8 40F20003 		movw	r3, #:lower16:motor
+ 1986 1bfc C0F20003 		movt	r3, #:upper16:motor
+ 1987 1c00 C3ED047A 		fsts	s15, [r3, #16]
+ 1988 1c04 40F20003 		movw	r3, #:lower16:rxCommand
+ 1989 1c08 C0F20003 		movt	r3, #:upper16:rxCommand
+ 1990 1c0c 93ED037A 		flds	s14, [r3, #12]
+ 1991 1c10 40F20003 		movw	r3, #:lower16:axisPID
+ 1992 1c14 C0F20003 		movt	r3, #:upper16:axisPID
+ 1993 1c18 D3ED006A 		flds	s13, [r3, #0]
+ 1994 1c1c 5FED837A 		flds	s15, .L64+4
+ 1995 1c20 66EEA77A 		fmuls	s15, s13, s15
+ 1996 1c24 37EE277A 		fadds	s14, s14, s15
+ 1997 1c28 40F20003 		movw	r3, #:lower16:axisPID
+ 1998 1c2c C0F20003 		movt	r3, #:upper16:axisPID
+ 1999 1c30 D3ED016A 		flds	s13, [r3, #4]
+ 2000 1c34 5FED887A 		flds	s15, .L64+8
+ 2001 1c38 66EEA77A 		fmuls	s15, s13, s15
+ 2002 1c3c 37EE277A 		fadds	s14, s14, s15
+ 2003 1c40 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2004 1c44 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2005 1c48 D3ED1A6A 		flds	s13, [r3, #104]
+ 2006 1c4c 40F20003 		movw	r3, #:lower16:axisPID
+ 2007 1c50 C0F20003 		movt	r3, #:upper16:axisPID
+ 2008 1c54 D3ED027A 		flds	s15, [r3, #8]
+ 2009 1c58 66EEA77A 		fmuls	s15, s13, s15
+ 2010 1c5c 77EE277A 		fadds	s15, s14, s15
+ 2011 1c60 40F20003 		movw	r3, #:lower16:motor
+ 2012 1c64 C0F20003 		movt	r3, #:upper16:motor
+ 2013 1c68 C3ED057A 		fsts	s15, [r3, #20]
+ 2014 1c6c 01F08CB8 		b	.L25
+ 2015              	.L41:
+ 2016 1c70 40F20003 		movw	r3, #:lower16:rxCommand
+ 2017 1c74 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2018 1c78 93ED037A 		flds	s14, [r3, #12]
+ 2019 1c7c 40F20003 		movw	r3, #:lower16:axisPID
+ 2020 1c80 C0F20003 		movt	r3, #:upper16:axisPID
+ 2021 1c84 D3ED007A 		flds	s15, [r3, #0]
+ 2022 1c88 77EE277A 		fadds	s15, s14, s15
+ 2023 1c8c 17EE900A 		fmrs	r0, s15
+ 2024 1c90 FFF7FEFF 		bl	__aeabi_f2d
+ 2025 1c94 0446     		mov	r4, r0
+ 2026 1c96 0D46     		mov	r5, r1
+ 2027 1c98 40F20003 		movw	r3, #:lower16:axisPID
+ 2028 1c9c C0F20003 		movt	r3, #:upper16:axisPID
+ 2029 1ca0 5B68     		ldr	r3, [r3, #4]	@ float
+ 2030 1ca2 1846     		mov	r0, r3	@ float
+ 2031 1ca4 FFF7FEFF 		bl	__aeabi_f2d
+ 2032 1ca8 0246     		mov	r2, r0
+ 2033 1caa 0B46     		mov	r3, r1
+ 2034 1cac 1046     		mov	r0, r2
+ 2035 1cae 1946     		mov	r1, r3
+ 2036 1cb0 F5A3     		adr	r3, .L66+8
+ 2037 1cb2 D3E90023 		ldrd	r2, [r3]
+ 2038 1cb6 FFF7FEFF 		bl	__aeabi_dmul
+ 2039 1cba 0246     		mov	r2, r0
+ 2040 1cbc 0B46     		mov	r3, r1
+ 2041 1cbe 2046     		mov	r0, r4
+ 2042 1cc0 2946     		mov	r1, r5
+ 2043 1cc2 FFF7FEFF 		bl	__aeabi_dadd
+ 2044 1cc6 0246     		mov	r2, r0
+ 2045 1cc8 0B46     		mov	r3, r1
+ 2046 1cca 1446     		mov	r4, r2
+ 2047 1ccc 1D46     		mov	r5, r3
+ 2048 1cce 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2049 1cd2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2050 1cd6 93ED1A7A 		flds	s14, [r3, #104]
+ 2051 1cda 40F20003 		movw	r3, #:lower16:axisPID
+ 2052 1cde C0F20003 		movt	r3, #:upper16:axisPID
+ 2053 1ce2 D3ED027A 		flds	s15, [r3, #8]
+ 2054 1ce6 67EE277A 		fmuls	s15, s14, s15
+ 2055 1cea F1EE677A 		fnegs	s15, s15
+ 2056 1cee 17EE903A 		fmrs	r3, s15
+ 2057 1cf2 1846     		mov	r0, r3	@ float
+ 2058 1cf4 FFF7FEFF 		bl	__aeabi_f2d
+ 2059 1cf8 0246     		mov	r2, r0
+ 2060 1cfa 0B46     		mov	r3, r1
+ 2061 1cfc 2046     		mov	r0, r4
+ 2062 1cfe 2946     		mov	r1, r5
+ 2063 1d00 FFF7FEFF 		bl	__aeabi_dadd
+ 2064 1d04 0246     		mov	r2, r0
+ 2065 1d06 0B46     		mov	r3, r1
+ 2066 1d08 1046     		mov	r0, r2
+ 2067 1d0a 1946     		mov	r1, r3
+ 2068 1d0c FFF7FEFF 		bl	__aeabi_d2f
+ 2069 1d10 0246     		mov	r2, r0	@ float
+ 2070 1d12 40F20003 		movw	r3, #:lower16:motor
+ 2071 1d16 C0F20003 		movt	r3, #:upper16:motor
+ 2072 1d1a 1A60     		str	r2, [r3, #0]	@ float
+ 2073 1d1c 40F20003 		movw	r3, #:lower16:rxCommand
+ 2074 1d20 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2075 1d24 93ED037A 		flds	s14, [r3, #12]
+ 2076 1d28 40F20003 		movw	r3, #:lower16:axisPID
+ 2077 1d2c C0F20003 		movt	r3, #:upper16:axisPID
+ 2078 1d30 D3ED007A 		flds	s15, [r3, #0]
+ 2079 1d34 77EE677A 		fsubs	s15, s14, s15
+ 2080 1d38 17EE900A 		fmrs	r0, s15
+ 2081 1d3c FFF7FEFF 		bl	__aeabi_f2d
+ 2082 1d40 0446     		mov	r4, r0
+ 2083 1d42 0D46     		mov	r5, r1
+ 2084 1d44 40F20003 		movw	r3, #:lower16:axisPID
+ 2085 1d48 C0F20003 		movt	r3, #:upper16:axisPID
+ 2086 1d4c 5B68     		ldr	r3, [r3, #4]	@ float
+ 2087 1d4e 1846     		mov	r0, r3	@ float
+ 2088 1d50 FFF7FEFF 		bl	__aeabi_f2d
+ 2089 1d54 0246     		mov	r2, r0
+ 2090 1d56 0B46     		mov	r3, r1
+ 2091 1d58 1046     		mov	r0, r2
+ 2092 1d5a 1946     		mov	r1, r3
+ 2093 1d5c CAA3     		adr	r3, .L66+8
+ 2094 1d5e D3E90023 		ldrd	r2, [r3]
+ 2095 1d62 FFF7FEFF 		bl	__aeabi_dmul
+ 2096 1d66 0246     		mov	r2, r0
+ 2097 1d68 0B46     		mov	r3, r1
+ 2098 1d6a 2046     		mov	r0, r4
+ 2099 1d6c 2946     		mov	r1, r5
+ 2100 1d6e FFF7FEFF 		bl	__aeabi_dadd
+ 2101 1d72 0246     		mov	r2, r0
+ 2102 1d74 0B46     		mov	r3, r1
+ 2103 1d76 1446     		mov	r4, r2
+ 2104 1d78 1D46     		mov	r5, r3
+ 2105 1d7a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2106 1d7e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2107 1d82 93ED1A7A 		flds	s14, [r3, #104]
+ 2108 1d86 40F20003 		movw	r3, #:lower16:axisPID
+ 2109 1d8a C0F20003 		movt	r3, #:upper16:axisPID
+ 2110 1d8e D3ED027A 		flds	s15, [r3, #8]
+ 2111 1d92 67EE277A 		fmuls	s15, s14, s15
+ 2112 1d96 F1EE677A 		fnegs	s15, s15
+ 2113 1d9a 17EE903A 		fmrs	r3, s15
+ 2114 1d9e 1846     		mov	r0, r3	@ float
+ 2115 1da0 FFF7FEFF 		bl	__aeabi_f2d
+ 2116 1da4 0246     		mov	r2, r0
+ 2117 1da6 0B46     		mov	r3, r1
+ 2118 1da8 2046     		mov	r0, r4
+ 2119 1daa 2946     		mov	r1, r5
+ 2120 1dac FFF7FEFF 		bl	__aeabi_dadd
+ 2121 1db0 0246     		mov	r2, r0
+ 2122 1db2 0B46     		mov	r3, r1
+ 2123 1db4 1046     		mov	r0, r2
+ 2124 1db6 1946     		mov	r1, r3
+ 2125 1db8 FFF7FEFF 		bl	__aeabi_d2f
+ 2126 1dbc 0246     		mov	r2, r0	@ float
+ 2127 1dbe 40F20003 		movw	r3, #:lower16:motor
+ 2128 1dc2 C0F20003 		movt	r3, #:upper16:motor
+ 2129 1dc6 5A60     		str	r2, [r3, #4]	@ float
+ 2130 1dc8 40F20003 		movw	r3, #:lower16:rxCommand
+ 2131 1dcc C0F20003 		movt	r3, #:upper16:rxCommand
+ 2132 1dd0 93ED037A 		flds	s14, [r3, #12]
+ 2133 1dd4 40F20003 		movw	r3, #:lower16:axisPID
+ 2134 1dd8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2135 1ddc D3ED006A 		flds	s13, [r3, #0]
+ 2136 1de0 DFEDAB7A 		flds	s15, .L66+16
+ 2137 1de4 66EEA77A 		fmuls	s15, s13, s15
+ 2138 1de8 77EE277A 		fadds	s15, s14, s15
+ 2139 1dec 17EE900A 		fmrs	r0, s15
+ 2140 1df0 FFF7FEFF 		bl	__aeabi_f2d
+ 2141 1df4 0446     		mov	r4, r0
+ 2142 1df6 0D46     		mov	r5, r1
+ 2143 1df8 40F20003 		movw	r3, #:lower16:axisPID
+ 2144 1dfc C0F20003 		movt	r3, #:upper16:axisPID
+ 2145 1e00 5B68     		ldr	r3, [r3, #4]	@ float
+ 2146 1e02 1846     		mov	r0, r3	@ float
+ 2147 1e04 FFF7FEFF 		bl	__aeabi_f2d
+ 2148 1e08 0246     		mov	r2, r0
+ 2149 1e0a 0B46     		mov	r3, r1
+ 2150 1e0c 1046     		mov	r0, r2
+ 2151 1e0e 1946     		mov	r1, r3
+ 2152 1e10 9BA3     		adr	r3, .L66
+ 2153 1e12 D3E90023 		ldrd	r2, [r3]
+ 2154 1e16 FFF7FEFF 		bl	__aeabi_dmul
+ 2155 1e1a 0246     		mov	r2, r0
+ 2156 1e1c 0B46     		mov	r3, r1
+ 2157 1e1e 2046     		mov	r0, r4
+ 2158 1e20 2946     		mov	r1, r5
+ 2159 1e22 FFF7FEFF 		bl	__aeabi_dadd
+ 2160 1e26 0246     		mov	r2, r0
+ 2161 1e28 0B46     		mov	r3, r1
+ 2162 1e2a 1446     		mov	r4, r2
+ 2163 1e2c 1D46     		mov	r5, r3
+ 2164 1e2e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2165 1e32 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2166 1e36 93ED1A7A 		flds	s14, [r3, #104]
+ 2167 1e3a 40F20003 		movw	r3, #:lower16:axisPID
+ 2168 1e3e C0F20003 		movt	r3, #:upper16:axisPID
+ 2169 1e42 D3ED027A 		flds	s15, [r3, #8]
+ 2170 1e46 67EE277A 		fmuls	s15, s14, s15
+ 2171 1e4a 17EE900A 		fmrs	r0, s15
+ 2172 1e4e FFF7FEFF 		bl	__aeabi_f2d
+ 2173 1e52 0246     		mov	r2, r0
+ 2174 1e54 0B46     		mov	r3, r1
+ 2175 1e56 2046     		mov	r0, r4
+ 2176 1e58 2946     		mov	r1, r5
+ 2177 1e5a FFF7FEFF 		bl	__aeabi_dadd
+ 2178 1e5e 0246     		mov	r2, r0
+ 2179 1e60 0B46     		mov	r3, r1
+ 2180 1e62 1046     		mov	r0, r2
+ 2181 1e64 1946     		mov	r1, r3
+ 2182 1e66 FFF7FEFF 		bl	__aeabi_d2f
+ 2183 1e6a 0246     		mov	r2, r0	@ float
+ 2184 1e6c 40F20003 		movw	r3, #:lower16:motor
+ 2185 1e70 C0F20003 		movt	r3, #:upper16:motor
+ 2186 1e74 9A60     		str	r2, [r3, #8]	@ float
+ 2187 1e76 40F20003 		movw	r3, #:lower16:rxCommand
+ 2188 1e7a C0F20003 		movt	r3, #:upper16:rxCommand
+ 2189 1e7e 93ED037A 		flds	s14, [r3, #12]
+ 2190 1e82 40F20003 		movw	r3, #:lower16:axisPID
+ 2191 1e86 C0F20003 		movt	r3, #:upper16:axisPID
+ 2192 1e8a D3ED007A 		flds	s15, [r3, #0]
+ 2193 1e8e 77EE277A 		fadds	s15, s14, s15
+ 2194 1e92 17EE900A 		fmrs	r0, s15
+ 2195 1e96 FFF7FEFF 		bl	__aeabi_f2d
+ 2196 1e9a 0446     		mov	r4, r0
+ 2197 1e9c 0D46     		mov	r5, r1
+ 2198 1e9e 40F20003 		movw	r3, #:lower16:axisPID
+ 2199 1ea2 C0F20003 		movt	r3, #:upper16:axisPID
+ 2200 1ea6 5B68     		ldr	r3, [r3, #4]	@ float
+ 2201 1ea8 1846     		mov	r0, r3	@ float
+ 2202 1eaa FFF7FEFF 		bl	__aeabi_f2d
+ 2203 1eae 0246     		mov	r2, r0
+ 2204 1eb0 0B46     		mov	r3, r1
+ 2205 1eb2 1046     		mov	r0, r2
+ 2206 1eb4 1946     		mov	r1, r3
+ 2207 1eb6 74A3     		adr	r3, .L66+8
+ 2208 1eb8 D3E90023 		ldrd	r2, [r3]
+ 2209 1ebc FFF7FEFF 		bl	__aeabi_dmul
+ 2210 1ec0 0246     		mov	r2, r0
+ 2211 1ec2 0B46     		mov	r3, r1
+ 2212 1ec4 2046     		mov	r0, r4
+ 2213 1ec6 2946     		mov	r1, r5
+ 2214 1ec8 FFF7FEFF 		bl	__aeabi_dadd
+ 2215 1ecc 0246     		mov	r2, r0
+ 2216 1ece 0B46     		mov	r3, r1
+ 2217 1ed0 1446     		mov	r4, r2
+ 2218 1ed2 1D46     		mov	r5, r3
+ 2219 1ed4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2220 1ed8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2221 1edc 93ED1A7A 		flds	s14, [r3, #104]
+ 2222 1ee0 40F20003 		movw	r3, #:lower16:axisPID
+ 2223 1ee4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2224 1ee8 D3ED027A 		flds	s15, [r3, #8]
+ 2225 1eec 67EE277A 		fmuls	s15, s14, s15
+ 2226 1ef0 17EE900A 		fmrs	r0, s15
+ 2227 1ef4 FFF7FEFF 		bl	__aeabi_f2d
+ 2228 1ef8 0246     		mov	r2, r0
+ 2229 1efa 0B46     		mov	r3, r1
+ 2230 1efc 2046     		mov	r0, r4
+ 2231 1efe 2946     		mov	r1, r5
+ 2232 1f00 FFF7FEFF 		bl	__aeabi_dadd
+ 2233 1f04 0246     		mov	r2, r0
+ 2234 1f06 0B46     		mov	r3, r1
+ 2235 1f08 1046     		mov	r0, r2
+ 2236 1f0a 1946     		mov	r1, r3
+ 2237 1f0c FFF7FEFF 		bl	__aeabi_d2f
+ 2238 1f10 0246     		mov	r2, r0	@ float
+ 2239 1f12 40F20003 		movw	r3, #:lower16:motor
+ 2240 1f16 C0F20003 		movt	r3, #:upper16:motor
+ 2241 1f1a DA60     		str	r2, [r3, #12]	@ float
+ 2242 1f1c 40F20003 		movw	r3, #:lower16:rxCommand
+ 2243 1f20 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2244 1f24 93ED037A 		flds	s14, [r3, #12]
+ 2245 1f28 40F20003 		movw	r3, #:lower16:axisPID
+ 2246 1f2c C0F20003 		movt	r3, #:upper16:axisPID
+ 2247 1f30 D3ED007A 		flds	s15, [r3, #0]
+ 2248 1f34 77EE677A 		fsubs	s15, s14, s15
+ 2249 1f38 17EE900A 		fmrs	r0, s15
+ 2250 1f3c FFF7FEFF 		bl	__aeabi_f2d
+ 2251 1f40 0446     		mov	r4, r0
+ 2252 1f42 0D46     		mov	r5, r1
+ 2253 1f44 40F20003 		movw	r3, #:lower16:axisPID
+ 2254 1f48 C0F20003 		movt	r3, #:upper16:axisPID
+ 2255 1f4c 5B68     		ldr	r3, [r3, #4]	@ float
+ 2256 1f4e 1846     		mov	r0, r3	@ float
+ 2257 1f50 FFF7FEFF 		bl	__aeabi_f2d
+ 2258 1f54 0246     		mov	r2, r0
+ 2259 1f56 0B46     		mov	r3, r1
+ 2260 1f58 1046     		mov	r0, r2
+ 2261 1f5a 1946     		mov	r1, r3
+ 2262 1f5c 4AA3     		adr	r3, .L66+8
+ 2263 1f5e D3E90023 		ldrd	r2, [r3]
+ 2264 1f62 FFF7FEFF 		bl	__aeabi_dmul
+ 2265 1f66 0246     		mov	r2, r0
+ 2266 1f68 0B46     		mov	r3, r1
+ 2267 1f6a 2046     		mov	r0, r4
+ 2268 1f6c 2946     		mov	r1, r5
+ 2269 1f6e FFF7FEFF 		bl	__aeabi_dadd
+ 2270 1f72 0246     		mov	r2, r0
+ 2271 1f74 0B46     		mov	r3, r1
+ 2272 1f76 1446     		mov	r4, r2
+ 2273 1f78 1D46     		mov	r5, r3
+ 2274 1f7a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2275 1f7e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2276 1f82 93ED1A7A 		flds	s14, [r3, #104]
+ 2277 1f86 40F20003 		movw	r3, #:lower16:axisPID
+ 2278 1f8a C0F20003 		movt	r3, #:upper16:axisPID
+ 2279 1f8e D3ED027A 		flds	s15, [r3, #8]
+ 2280 1f92 67EE277A 		fmuls	s15, s14, s15
+ 2281 1f96 17EE900A 		fmrs	r0, s15
+ 2282 1f9a FFF7FEFF 		bl	__aeabi_f2d
+ 2283 1f9e 0246     		mov	r2, r0
+ 2284 1fa0 0B46     		mov	r3, r1
+ 2285 1fa2 2046     		mov	r0, r4
+ 2286 1fa4 2946     		mov	r1, r5
+ 2287 1fa6 FFF7FEFF 		bl	__aeabi_dadd
+ 2288 1faa 0246     		mov	r2, r0
+ 2289 1fac 0B46     		mov	r3, r1
+ 2290 1fae 1046     		mov	r0, r2
+ 2291 1fb0 1946     		mov	r1, r3
+ 2292 1fb2 FFF7FEFF 		bl	__aeabi_d2f
+ 2293 1fb6 0246     		mov	r2, r0	@ float
+ 2294 1fb8 40F20003 		movw	r3, #:lower16:motor
+ 2295 1fbc C0F20003 		movt	r3, #:upper16:motor
+ 2296 1fc0 1A61     		str	r2, [r3, #16]	@ float
+ 2297 1fc2 40F20003 		movw	r3, #:lower16:rxCommand
+ 2298 1fc6 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2299 1fca 93ED037A 		flds	s14, [r3, #12]
+ 2300 1fce 40F20003 		movw	r3, #:lower16:axisPID
+ 2301 1fd2 C0F20003 		movt	r3, #:upper16:axisPID
+ 2302 1fd6 D3ED006A 		flds	s13, [r3, #0]
+ 2303 1fda DFED2D7A 		flds	s15, .L66+16
+ 2304 1fde 66EEA77A 		fmuls	s15, s13, s15
+ 2305 1fe2 77EE277A 		fadds	s15, s14, s15
+ 2306 1fe6 17EE900A 		fmrs	r0, s15
+ 2307 1fea FFF7FEFF 		bl	__aeabi_f2d
+ 2308 1fee 0446     		mov	r4, r0
+ 2309 1ff0 0D46     		mov	r5, r1
+ 2310 1ff2 40F20003 		movw	r3, #:lower16:axisPID
+ 2311 1ff6 C0F20003 		movt	r3, #:upper16:axisPID
+ 2312 1ffa 5B68     		ldr	r3, [r3, #4]	@ float
+ 2313 1ffc 1846     		mov	r0, r3	@ float
+ 2314 1ffe FFF7FEFF 		bl	__aeabi_f2d
+ 2315 2002 0246     		mov	r2, r0
+ 2316 2004 0B46     		mov	r3, r1
+ 2317 2006 1046     		mov	r0, r2
+ 2318 2008 1946     		mov	r1, r3
+ 2319 200a 1DA3     		adr	r3, .L66
+ 2320 200c D3E90023 		ldrd	r2, [r3]
+ 2321 2010 FFF7FEFF 		bl	__aeabi_dmul
+ 2322 2014 0246     		mov	r2, r0
+ 2323 2016 0B46     		mov	r3, r1
+ 2324 2018 2046     		mov	r0, r4
+ 2325 201a 2946     		mov	r1, r5
+ 2326 201c FFF7FEFF 		bl	__aeabi_dadd
+ 2327 2020 0246     		mov	r2, r0
+ 2328 2022 0B46     		mov	r3, r1
+ 2329 2024 1446     		mov	r4, r2
+ 2330 2026 1D46     		mov	r5, r3
+ 2331 2028 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2332 202c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2333 2030 93ED1A7A 		flds	s14, [r3, #104]
+ 2334 2034 40F20003 		movw	r3, #:lower16:axisPID
+ 2335 2038 C0F20003 		movt	r3, #:upper16:axisPID
+ 2336 203c D3ED027A 		flds	s15, [r3, #8]
+ 2337 2040 67EE277A 		fmuls	s15, s14, s15
+ 2338 2044 F1EE677A 		fnegs	s15, s15
+ 2339 2048 17EE903A 		fmrs	r3, s15
+ 2340 204c 1846     		mov	r0, r3	@ float
+ 2341 204e FFF7FEFF 		bl	__aeabi_f2d
+ 2342 2052 0246     		mov	r2, r0
+ 2343 2054 0B46     		mov	r3, r1
+ 2344 2056 2046     		mov	r0, r4
+ 2345 2058 2946     		mov	r1, r5
+ 2346 205a FFF7FEFF 		bl	__aeabi_dadd
+ 2347 205e 0246     		mov	r2, r0
+ 2348 2060 0B46     		mov	r3, r1
+ 2349 2062 1046     		mov	r0, r2
+ 2350 2064 1946     		mov	r1, r3
+ 2351 2066 FFF7FEFF 		bl	__aeabi_d2f
+ 2352 206a 0246     		mov	r2, r0	@ float
+ 2353 206c 40F20003 		movw	r3, #:lower16:motor
+ 2354 2070 C0F20003 		movt	r3, #:upper16:motor
+ 2355 2074 5A61     		str	r2, [r3, #20]	@ float
+ 2356 2076 00F087BE 		b	.L25
+ 2357              	.L67:
+ 2358 207a 00BFAFF3 		.align	3
+ 2358      0080
+ 2359              	.L66:
+ 2360 2080 52D7DAFB 		.word	-69544110
+ 2361 2084 5455F53F 		.word	1073042772
+ 2362 2088 5D514A08 		.word	139088221
+ 2363 208c 5655E5BF 		.word	-1075489450
+ 2364 2090 00000000 		.word	0
+ 2365 2094 3333333F 		.word	1060320051
+ 2366 2098 333333BF 		.word	-1087163597
+ 2367              	.L42:
+ 2368 209c 40F20003 		movw	r3, #:lower16:rxCommand
+ 2369 20a0 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2370 20a4 93ED037A 		flds	s14, [r3, #12]
+ 2371 20a8 40F20003 		movw	r3, #:lower16:axisPID
+ 2372 20ac C0F20003 		movt	r3, #:upper16:axisPID
+ 2373 20b0 D3ED006A 		flds	s13, [r3, #0]
+ 2374 20b4 5FED0A7A 		flds	s15, .L66+16
+ 2375 20b8 66EEA77A 		fmuls	s15, s13, s15
+ 2376 20bc 37EE277A 		fadds	s14, s14, s15
+ 2377 20c0 40F20003 		movw	r3, #:lower16:axisPID
+ 2378 20c4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2379 20c8 D3ED017A 		flds	s15, [r3, #4]
+ 2380 20cc 37EE677A 		fsubs	s14, s14, s15
+ 2381 20d0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2382 20d4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2383 20d8 D3ED1A6A 		flds	s13, [r3, #104]
+ 2384 20dc 40F20003 		movw	r3, #:lower16:axisPID
+ 2385 20e0 C0F20003 		movt	r3, #:upper16:axisPID
+ 2386 20e4 D3ED027A 		flds	s15, [r3, #8]
+ 2387 20e8 66EEA77A 		fmuls	s15, s13, s15
+ 2388 20ec 77EE677A 		fsubs	s15, s14, s15
+ 2389 20f0 40F20003 		movw	r3, #:lower16:motor
+ 2390 20f4 C0F20003 		movt	r3, #:upper16:motor
+ 2391 20f8 C3ED007A 		fsts	s15, [r3, #0]
+ 2392 20fc 40F20003 		movw	r3, #:lower16:rxCommand
+ 2393 2100 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2394 2104 93ED037A 		flds	s14, [r3, #12]
+ 2395 2108 40F20003 		movw	r3, #:lower16:axisPID
+ 2396 210c C0F20003 		movt	r3, #:upper16:axisPID
+ 2397 2110 D3ED006A 		flds	s13, [r3, #0]
+ 2398 2114 5FED207A 		flds	s15, .L66+24
+ 2399 2118 66EEA77A 		fmuls	s15, s13, s15
+ 2400 211c 37EE277A 		fadds	s14, s14, s15
+ 2401 2120 40F20003 		movw	r3, #:lower16:axisPID
+ 2402 2124 C0F20003 		movt	r3, #:upper16:axisPID
+ 2403 2128 D3ED016A 		flds	s13, [r3, #4]
+ 2404 212c 5FED267A 		flds	s15, .L66+24
+ 2405 2130 66EEA77A 		fmuls	s15, s13, s15
+ 2406 2134 37EE277A 		fadds	s14, s14, s15
+ 2407 2138 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2408 213c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2409 2140 D3ED1A6A 		flds	s13, [r3, #104]
+ 2410 2144 40F20003 		movw	r3, #:lower16:axisPID
+ 2411 2148 C0F20003 		movt	r3, #:upper16:axisPID
+ 2412 214c D3ED027A 		flds	s15, [r3, #8]
+ 2413 2150 66EEA77A 		fmuls	s15, s13, s15
+ 2414 2154 77EE277A 		fadds	s15, s14, s15
+ 2415 2158 40F20003 		movw	r3, #:lower16:motor
+ 2416 215c C0F20003 		movt	r3, #:upper16:motor
+ 2417 2160 C3ED017A 		fsts	s15, [r3, #4]
+ 2418 2164 40F20003 		movw	r3, #:lower16:rxCommand
+ 2419 2168 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2420 216c 93ED037A 		flds	s14, [r3, #12]
+ 2421 2170 40F20003 		movw	r3, #:lower16:axisPID
+ 2422 2174 C0F20003 		movt	r3, #:upper16:axisPID
+ 2423 2178 D3ED007A 		flds	s15, [r3, #0]
+ 2424 217c 37EE677A 		fsubs	s14, s14, s15
+ 2425 2180 40F20003 		movw	r3, #:lower16:axisPID
+ 2426 2184 C0F20003 		movt	r3, #:upper16:axisPID
+ 2427 2188 D3ED016A 		flds	s13, [r3, #4]
+ 2428 218c 5FED407A 		flds	s15, .L66+16
+ 2429 2190 66EEA77A 		fmuls	s15, s13, s15
+ 2430 2194 37EE277A 		fadds	s14, s14, s15
+ 2431 2198 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2432 219c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2433 21a0 D3ED1A6A 		flds	s13, [r3, #104]
+ 2434 21a4 40F20003 		movw	r3, #:lower16:axisPID
+ 2435 21a8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2436 21ac D3ED027A 		flds	s15, [r3, #8]
+ 2437 21b0 66EEA77A 		fmuls	s15, s13, s15
+ 2438 21b4 77EE677A 		fsubs	s15, s14, s15
+ 2439 21b8 40F20003 		movw	r3, #:lower16:motor
+ 2440 21bc C0F20003 		movt	r3, #:upper16:motor
+ 2441 21c0 C3ED027A 		fsts	s15, [r3, #8]
+ 2442 21c4 40F20003 		movw	r3, #:lower16:rxCommand
+ 2443 21c8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2444 21cc 93ED037A 		flds	s14, [r3, #12]
+ 2445 21d0 40F20003 		movw	r3, #:lower16:axisPID
+ 2446 21d4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2447 21d8 D3ED006A 		flds	s13, [r3, #0]
+ 2448 21dc 5FED527A 		flds	s15, .L66+24
+ 2449 21e0 66EEA77A 		fmuls	s15, s13, s15
+ 2450 21e4 37EE277A 		fadds	s14, s14, s15
+ 2451 21e8 40F20003 		movw	r3, #:lower16:axisPID
+ 2452 21ec C0F20003 		movt	r3, #:upper16:axisPID
+ 2453 21f0 D3ED016A 		flds	s13, [r3, #4]
+ 2454 21f4 5FED597A 		flds	s15, .L66+20
+ 2455 21f8 66EEA77A 		fmuls	s15, s13, s15
+ 2456 21fc 37EE277A 		fadds	s14, s14, s15
+ 2457 2200 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2458 2204 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2459 2208 D3ED1A6A 		flds	s13, [r3, #104]
+ 2460 220c 40F20003 		movw	r3, #:lower16:axisPID
+ 2461 2210 C0F20003 		movt	r3, #:upper16:axisPID
+ 2462 2214 D3ED027A 		flds	s15, [r3, #8]
+ 2463 2218 66EEA77A 		fmuls	s15, s13, s15
+ 2464 221c 77EE277A 		fadds	s15, s14, s15
+ 2465 2220 40F20003 		movw	r3, #:lower16:motor
+ 2466 2224 C0F20003 		movt	r3, #:upper16:motor
+ 2467 2228 C3ED037A 		fsts	s15, [r3, #12]
+ 2468 222c 40F20003 		movw	r3, #:lower16:rxCommand
+ 2469 2230 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2470 2234 93ED037A 		flds	s14, [r3, #12]
+ 2471 2238 40F20003 		movw	r3, #:lower16:axisPID
+ 2472 223c C0F20003 		movt	r3, #:upper16:axisPID
+ 2473 2240 D3ED006A 		flds	s13, [r3, #0]
+ 2474 2244 5FED6E7A 		flds	s15, .L66+16
+ 2475 2248 66EEA77A 		fmuls	s15, s13, s15
+ 2476 224c 37EE277A 		fadds	s14, s14, s15
+ 2477 2250 40F20003 		movw	r3, #:lower16:axisPID
+ 2478 2254 C0F20003 		movt	r3, #:upper16:axisPID
+ 2479 2258 D3ED017A 		flds	s15, [r3, #4]
+ 2480 225c 37EE277A 		fadds	s14, s14, s15
+ 2481 2260 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2482 2264 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2483 2268 D3ED1A6A 		flds	s13, [r3, #104]
+ 2484 226c 40F20003 		movw	r3, #:lower16:axisPID
+ 2485 2270 C0F20003 		movt	r3, #:upper16:axisPID
+ 2486 2274 D3ED027A 		flds	s15, [r3, #8]
+ 2487 2278 66EEA77A 		fmuls	s15, s13, s15
+ 2488 227c 77EE677A 		fsubs	s15, s14, s15
+ 2489 2280 40F20003 		movw	r3, #:lower16:motor
+ 2490 2284 C0F20003 		movt	r3, #:upper16:motor
+ 2491 2288 C3ED047A 		fsts	s15, [r3, #16]
+ 2492 228c 40F20003 		movw	r3, #:lower16:rxCommand
+ 2493 2290 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2494 2294 93ED037A 		flds	s14, [r3, #12]
+ 2495 2298 40F20003 		movw	r3, #:lower16:axisPID
+ 2496 229c C0F20003 		movt	r3, #:upper16:axisPID
+ 2497 22a0 D3ED006A 		flds	s13, [r3, #0]
+ 2498 22a4 5FED857A 		flds	s15, .L66+20
+ 2499 22a8 66EEA77A 		fmuls	s15, s13, s15
+ 2500 22ac 37EE277A 		fadds	s14, s14, s15
+ 2501 22b0 40F20003 		movw	r3, #:lower16:axisPID
+ 2502 22b4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2503 22b8 D3ED016A 		flds	s13, [r3, #4]
+ 2504 22bc 5FED8B7A 		flds	s15, .L66+20
+ 2505 22c0 66EEA77A 		fmuls	s15, s13, s15
+ 2506 22c4 37EE277A 		fadds	s14, s14, s15
+ 2507 22c8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2508 22cc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2509 22d0 D3ED1A6A 		flds	s13, [r3, #104]
+ 2510 22d4 40F20003 		movw	r3, #:lower16:axisPID
+ 2511 22d8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2512 22dc D3ED027A 		flds	s15, [r3, #8]
+ 2513 22e0 66EEA77A 		fmuls	s15, s13, s15
+ 2514 22e4 77EE277A 		fadds	s15, s14, s15
+ 2515 22e8 40F20003 		movw	r3, #:lower16:motor
+ 2516 22ec C0F20003 		movt	r3, #:upper16:motor
+ 2517 22f0 C3ED057A 		fsts	s15, [r3, #20]
+ 2518 22f4 40F20003 		movw	r3, #:lower16:rxCommand
+ 2519 22f8 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2520 22fc 93ED037A 		flds	s14, [r3, #12]
+ 2521 2300 40F20003 		movw	r3, #:lower16:axisPID
+ 2522 2304 C0F20003 		movt	r3, #:upper16:axisPID
+ 2523 2308 D3ED007A 		flds	s15, [r3, #0]
+ 2524 230c 37EE277A 		fadds	s14, s14, s15
+ 2525 2310 40F20003 		movw	r3, #:lower16:axisPID
+ 2526 2314 C0F20003 		movt	r3, #:upper16:axisPID
+ 2527 2318 D3ED016A 		flds	s13, [r3, #4]
+ 2528 231c 5FEDA47A 		flds	s15, .L66+16
+ 2529 2320 66EEA77A 		fmuls	s15, s13, s15
+ 2530 2324 37EE277A 		fadds	s14, s14, s15
+ 2531 2328 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2532 232c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2533 2330 D3ED1A6A 		flds	s13, [r3, #104]
+ 2534 2334 40F20003 		movw	r3, #:lower16:axisPID
+ 2535 2338 C0F20003 		movt	r3, #:upper16:axisPID
+ 2536 233c D3ED027A 		flds	s15, [r3, #8]
+ 2537 2340 66EEA77A 		fmuls	s15, s13, s15
+ 2538 2344 77EE677A 		fsubs	s15, s14, s15
+ 2539 2348 40F20003 		movw	r3, #:lower16:motor
+ 2540 234c C0F20003 		movt	r3, #:upper16:motor
+ 2541 2350 C3ED067A 		fsts	s15, [r3, #24]
+ 2542 2354 40F20003 		movw	r3, #:lower16:rxCommand
+ 2543 2358 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2544 235c 93ED037A 		flds	s14, [r3, #12]
+ 2545 2360 40F20003 		movw	r3, #:lower16:axisPID
+ 2546 2364 C0F20003 		movt	r3, #:upper16:axisPID
+ 2547 2368 D3ED006A 		flds	s13, [r3, #0]
+ 2548 236c 5FEDB77A 		flds	s15, .L66+20
+ 2549 2370 66EEA77A 		fmuls	s15, s13, s15
+ 2550 2374 37EE277A 		fadds	s14, s14, s15
+ 2551 2378 40F20003 		movw	r3, #:lower16:axisPID
+ 2552 237c C0F20003 		movt	r3, #:upper16:axisPID
+ 2553 2380 D3ED016A 		flds	s13, [r3, #4]
+ 2554 2384 5FEDBC7A 		flds	s15, .L66+24
+ 2555 2388 66EEA77A 		fmuls	s15, s13, s15
+ 2556 238c 37EE277A 		fadds	s14, s14, s15
+ 2557 2390 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2558 2394 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2559 2398 D3ED1A6A 		flds	s13, [r3, #104]
+ 2560 239c 40F20003 		movw	r3, #:lower16:axisPID
+ 2561 23a0 C0F20003 		movt	r3, #:upper16:axisPID
+ 2562 23a4 D3ED027A 		flds	s15, [r3, #8]
+ 2563 23a8 66EEA77A 		fmuls	s15, s13, s15
+ 2564 23ac 77EE277A 		fadds	s15, s14, s15
+ 2565 23b0 40F20003 		movw	r3, #:lower16:motor
+ 2566 23b4 C0F20003 		movt	r3, #:upper16:motor
+ 2567 23b8 C3ED077A 		fsts	s15, [r3, #28]
+ 2568 23bc 00F0E4BC 		b	.L25
+ 2569              	.L43:
+ 2570 23c0 40F20003 		movw	r3, #:lower16:rxCommand
+ 2571 23c4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2572 23c8 93ED037A 		flds	s14, [r3, #12]
+ 2573 23cc 40F20003 		movw	r3, #:lower16:axisPID
+ 2574 23d0 C0F20003 		movt	r3, #:upper16:axisPID
+ 2575 23d4 D3ED006A 		flds	s13, [r3, #0]
+ 2576 23d8 F6EE007A 		fconsts	s15, #96
+ 2577 23dc 66EEA77A 		fmuls	s15, s13, s15
+ 2578 23e0 37EE277A 		fadds	s14, s14, s15
+ 2579 23e4 40F20003 		movw	r3, #:lower16:axisPID
+ 2580 23e8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2581 23ec D3ED017A 		flds	s15, [r3, #4]
+ 2582 23f0 37EE677A 		fsubs	s14, s14, s15
+ 2583 23f4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2584 23f8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2585 23fc D3ED1A6A 		flds	s13, [r3, #104]
+ 2586 2400 40F20003 		movw	r3, #:lower16:axisPID
+ 2587 2404 C0F20003 		movt	r3, #:upper16:axisPID
+ 2588 2408 D3ED027A 		flds	s15, [r3, #8]
+ 2589 240c 66EEA77A 		fmuls	s15, s13, s15
+ 2590 2410 77EE677A 		fsubs	s15, s14, s15
+ 2591 2414 40F20003 		movw	r3, #:lower16:motor
+ 2592 2418 C0F20003 		movt	r3, #:upper16:motor
+ 2593 241c C3ED007A 		fsts	s15, [r3, #0]
+ 2594 2420 40F20003 		movw	r3, #:lower16:rxCommand
+ 2595 2424 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2596 2428 93ED037A 		flds	s14, [r3, #12]
+ 2597 242c 40F20003 		movw	r3, #:lower16:axisPID
+ 2598 2430 C0F20003 		movt	r3, #:upper16:axisPID
+ 2599 2434 D3ED006A 		flds	s13, [r3, #0]
+ 2600 2438 FEEE007A 		fconsts	s15, #224
+ 2601 243c 66EEA77A 		fmuls	s15, s13, s15
+ 2602 2440 37EE277A 		fadds	s14, s14, s15
+ 2603 2444 40F20003 		movw	r3, #:lower16:axisPID
+ 2604 2448 C0F20003 		movt	r3, #:upper16:axisPID
+ 2605 244c D3ED017A 		flds	s15, [r3, #4]
+ 2606 2450 37EE677A 		fsubs	s14, s14, s15
+ 2607 2454 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2608 2458 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2609 245c D3ED1A6A 		flds	s13, [r3, #104]
+ 2610 2460 40F20003 		movw	r3, #:lower16:axisPID
+ 2611 2464 C0F20003 		movt	r3, #:upper16:axisPID
+ 2612 2468 D3ED027A 		flds	s15, [r3, #8]
+ 2613 246c 66EEA77A 		fmuls	s15, s13, s15
+ 2614 2470 77EE277A 		fadds	s15, s14, s15
+ 2615 2474 40F20003 		movw	r3, #:lower16:motor
+ 2616 2478 C0F20003 		movt	r3, #:upper16:motor
+ 2617 247c C3ED017A 		fsts	s15, [r3, #4]
+ 2618 2480 40F20003 		movw	r3, #:lower16:rxCommand
+ 2619 2484 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2620 2488 93ED037A 		flds	s14, [r3, #12]
+ 2621 248c 40F20003 		movw	r3, #:lower16:axisPID
+ 2622 2490 C0F20003 		movt	r3, #:upper16:axisPID
+ 2623 2494 D3ED007A 		flds	s15, [r3, #0]
+ 2624 2498 37EE677A 		fsubs	s14, s14, s15
+ 2625 249c 40F20003 		movw	r3, #:lower16:axisPID
+ 2626 24a0 C0F20003 		movt	r3, #:upper16:axisPID
+ 2627 24a4 D3ED016A 		flds	s13, [r3, #4]
+ 2628 24a8 FEEE007A 		fconsts	s15, #224
+ 2629 24ac 66EEA77A 		fmuls	s15, s13, s15
+ 2630 24b0 37EE277A 		fadds	s14, s14, s15
+ 2631 24b4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2632 24b8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2633 24bc D3ED1A6A 		flds	s13, [r3, #104]
+ 2634 24c0 40F20003 		movw	r3, #:lower16:axisPID
+ 2635 24c4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2636 24c8 D3ED027A 		flds	s15, [r3, #8]
+ 2637 24cc 66EEA77A 		fmuls	s15, s13, s15
+ 2638 24d0 77EE677A 		fsubs	s15, s14, s15
+ 2639 24d4 40F20003 		movw	r3, #:lower16:motor
+ 2640 24d8 C0F20003 		movt	r3, #:upper16:motor
+ 2641 24dc C3ED027A 		fsts	s15, [r3, #8]
+ 2642 24e0 40F20003 		movw	r3, #:lower16:rxCommand
+ 2643 24e4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2644 24e8 93ED037A 		flds	s14, [r3, #12]
+ 2645 24ec 40F20003 		movw	r3, #:lower16:axisPID
+ 2646 24f0 C0F20003 		movt	r3, #:upper16:axisPID
+ 2647 24f4 D3ED007A 		flds	s15, [r3, #0]
+ 2648 24f8 37EE677A 		fsubs	s14, s14, s15
+ 2649 24fc 40F20003 		movw	r3, #:lower16:axisPID
+ 2650 2500 C0F20003 		movt	r3, #:upper16:axisPID
+ 2651 2504 D3ED016A 		flds	s13, [r3, #4]
+ 2652 2508 F6EE007A 		fconsts	s15, #96
+ 2653 250c 66EEA77A 		fmuls	s15, s13, s15
+ 2654 2510 37EE277A 		fadds	s14, s14, s15
+ 2655 2514 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2656 2518 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2657 251c D3ED1A6A 		flds	s13, [r3, #104]
+ 2658 2520 40F20003 		movw	r3, #:lower16:axisPID
+ 2659 2524 C0F20003 		movt	r3, #:upper16:axisPID
+ 2660 2528 D3ED027A 		flds	s15, [r3, #8]
+ 2661 252c 66EEA77A 		fmuls	s15, s13, s15
+ 2662 2530 77EE277A 		fadds	s15, s14, s15
+ 2663 2534 40F20003 		movw	r3, #:lower16:motor
+ 2664 2538 C0F20003 		movt	r3, #:upper16:motor
+ 2665 253c C3ED037A 		fsts	s15, [r3, #12]
+ 2666 2540 40F20003 		movw	r3, #:lower16:rxCommand
+ 2667 2544 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2668 2548 93ED037A 		flds	s14, [r3, #12]
+ 2669 254c 40F20003 		movw	r3, #:lower16:axisPID
+ 2670 2550 C0F20003 		movt	r3, #:upper16:axisPID
+ 2671 2554 D3ED006A 		flds	s13, [r3, #0]
+ 2672 2558 FEEE007A 		fconsts	s15, #224
+ 2673 255c 66EEA77A 		fmuls	s15, s13, s15
+ 2674 2560 37EE277A 		fadds	s14, s14, s15
+ 2675 2564 40F20003 		movw	r3, #:lower16:axisPID
+ 2676 2568 C0F20003 		movt	r3, #:upper16:axisPID
+ 2677 256c D3ED017A 		flds	s15, [r3, #4]
+ 2678 2570 37EE277A 		fadds	s14, s14, s15
+ 2679 2574 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2680 2578 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2681 257c D3ED1A6A 		flds	s13, [r3, #104]
+ 2682 2580 40F20003 		movw	r3, #:lower16:axisPID
+ 2683 2584 C0F20003 		movt	r3, #:upper16:axisPID
+ 2684 2588 D3ED027A 		flds	s15, [r3, #8]
+ 2685 258c 66EEA77A 		fmuls	s15, s13, s15
+ 2686 2590 77EE677A 		fsubs	s15, s14, s15
+ 2687 2594 40F20003 		movw	r3, #:lower16:motor
+ 2688 2598 C0F20003 		movt	r3, #:upper16:motor
+ 2689 259c C3ED047A 		fsts	s15, [r3, #16]
+ 2690 25a0 40F20003 		movw	r3, #:lower16:rxCommand
+ 2691 25a4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2692 25a8 93ED037A 		flds	s14, [r3, #12]
+ 2693 25ac 40F20003 		movw	r3, #:lower16:axisPID
+ 2694 25b0 C0F20003 		movt	r3, #:upper16:axisPID
+ 2695 25b4 D3ED006A 		flds	s13, [r3, #0]
+ 2696 25b8 F6EE007A 		fconsts	s15, #96
+ 2697 25bc 66EEA77A 		fmuls	s15, s13, s15
+ 2698 25c0 37EE277A 		fadds	s14, s14, s15
+ 2699 25c4 40F20003 		movw	r3, #:lower16:axisPID
+ 2700 25c8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2701 25cc D3ED017A 		flds	s15, [r3, #4]
+ 2702 25d0 37EE277A 		fadds	s14, s14, s15
+ 2703 25d4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2704 25d8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2705 25dc D3ED1A6A 		flds	s13, [r3, #104]
+ 2706 25e0 40F20003 		movw	r3, #:lower16:axisPID
+ 2707 25e4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2708 25e8 D3ED027A 		flds	s15, [r3, #8]
+ 2709 25ec 66EEA77A 		fmuls	s15, s13, s15
+ 2710 25f0 77EE277A 		fadds	s15, s14, s15
+ 2711 25f4 40F20003 		movw	r3, #:lower16:motor
+ 2712 25f8 C0F20003 		movt	r3, #:upper16:motor
+ 2713 25fc C3ED057A 		fsts	s15, [r3, #20]
+ 2714 2600 40F20003 		movw	r3, #:lower16:rxCommand
+ 2715 2604 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2716 2608 93ED037A 		flds	s14, [r3, #12]
+ 2717 260c 40F20003 		movw	r3, #:lower16:axisPID
+ 2718 2610 C0F20003 		movt	r3, #:upper16:axisPID
+ 2719 2614 D3ED007A 		flds	s15, [r3, #0]
+ 2720 2618 37EE277A 		fadds	s14, s14, s15
+ 2721 261c 40F20003 		movw	r3, #:lower16:axisPID
+ 2722 2620 C0F20003 		movt	r3, #:upper16:axisPID
+ 2723 2624 D3ED016A 		flds	s13, [r3, #4]
+ 2724 2628 F6EE007A 		fconsts	s15, #96
+ 2725 262c 66EEA77A 		fmuls	s15, s13, s15
+ 2726 2630 37EE277A 		fadds	s14, s14, s15
+ 2727 2634 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2728 2638 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2729 263c D3ED1A6A 		flds	s13, [r3, #104]
+ 2730 2640 40F20003 		movw	r3, #:lower16:axisPID
+ 2731 2644 C0F20003 		movt	r3, #:upper16:axisPID
+ 2732 2648 D3ED027A 		flds	s15, [r3, #8]
+ 2733 264c 66EEA77A 		fmuls	s15, s13, s15
+ 2734 2650 77EE677A 		fsubs	s15, s14, s15
+ 2735 2654 40F20003 		movw	r3, #:lower16:motor
+ 2736 2658 C0F20003 		movt	r3, #:upper16:motor
+ 2737 265c C3ED067A 		fsts	s15, [r3, #24]
+ 2738 2660 40F20003 		movw	r3, #:lower16:rxCommand
+ 2739 2664 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2740 2668 93ED037A 		flds	s14, [r3, #12]
+ 2741 266c 40F20003 		movw	r3, #:lower16:axisPID
+ 2742 2670 C0F20003 		movt	r3, #:upper16:axisPID
+ 2743 2674 D3ED007A 		flds	s15, [r3, #0]
+ 2744 2678 37EE277A 		fadds	s14, s14, s15
+ 2745 267c 40F20003 		movw	r3, #:lower16:axisPID
+ 2746 2680 C0F20003 		movt	r3, #:upper16:axisPID
+ 2747 2684 D3ED016A 		flds	s13, [r3, #4]
+ 2748 2688 FEEE007A 		fconsts	s15, #224
+ 2749 268c 66EEA77A 		fmuls	s15, s13, s15
+ 2750 2690 37EE277A 		fadds	s14, s14, s15
+ 2751 2694 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2752 2698 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2753 269c D3ED1A6A 		flds	s13, [r3, #104]
+ 2754 26a0 40F20003 		movw	r3, #:lower16:axisPID
+ 2755 26a4 C0F20003 		movt	r3, #:upper16:axisPID
+ 2756 26a8 D3ED027A 		flds	s15, [r3, #8]
+ 2757 26ac 66EEA77A 		fmuls	s15, s13, s15
+ 2758 26b0 77EE277A 		fadds	s15, s14, s15
+ 2759 26b4 40F20003 		movw	r3, #:lower16:motor
+ 2760 26b8 C0F20003 		movt	r3, #:upper16:motor
+ 2761 26bc C3ED077A 		fsts	s15, [r3, #28]
+ 2762 26c0 62E3     		b	.L25
+ 2763              	.L44:
+ 2764 26c2 40F20003 		movw	r3, #:lower16:rxCommand
+ 2765 26c6 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2766 26ca 93ED037A 		flds	s14, [r3, #12]
+ 2767 26ce 40F20003 		movw	r3, #:lower16:axisPID
+ 2768 26d2 C0F20003 		movt	r3, #:upper16:axisPID
+ 2769 26d6 D3ED006A 		flds	s13, [r3, #0]
+ 2770 26da DFEDBA7A 		flds	s15, .L68
+ 2771 26de 66EEA77A 		fmuls	s15, s13, s15
+ 2772 26e2 37EE277A 		fadds	s14, s14, s15
+ 2773 26e6 40F20003 		movw	r3, #:lower16:axisPID
+ 2774 26ea C0F20003 		movt	r3, #:upper16:axisPID
+ 2775 26ee D3ED017A 		flds	s15, [r3, #4]
+ 2776 26f2 37EE677A 		fsubs	s14, s14, s15
+ 2777 26f6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2778 26fa C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2779 26fe D3ED1A6A 		flds	s13, [r3, #104]
+ 2780 2702 40F20003 		movw	r3, #:lower16:axisPID
+ 2781 2706 C0F20003 		movt	r3, #:upper16:axisPID
+ 2782 270a D3ED027A 		flds	s15, [r3, #8]
+ 2783 270e 66EEA77A 		fmuls	s15, s13, s15
+ 2784 2712 77EE677A 		fsubs	s15, s14, s15
+ 2785 2716 40F20003 		movw	r3, #:lower16:motor
+ 2786 271a C0F20003 		movt	r3, #:upper16:motor
+ 2787 271e C3ED007A 		fsts	s15, [r3, #0]
+ 2788 2722 40F20003 		movw	r3, #:lower16:rxCommand
+ 2789 2726 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2790 272a 93ED037A 		flds	s14, [r3, #12]
+ 2791 272e 40F20003 		movw	r3, #:lower16:axisPID
+ 2792 2732 C0F20003 		movt	r3, #:upper16:axisPID
+ 2793 2736 D3ED007A 		flds	s15, [r3, #0]
+ 2794 273a 37EE677A 		fsubs	s14, s14, s15
+ 2795 273e 40F20003 		movw	r3, #:lower16:axisPID
+ 2796 2742 C0F20003 		movt	r3, #:upper16:axisPID
+ 2797 2746 D3ED016A 		flds	s13, [r3, #4]
+ 2798 274a DFED9E7A 		flds	s15, .L68
+ 2799 274e 66EEA77A 		fmuls	s15, s13, s15
+ 2800 2752 37EE277A 		fadds	s14, s14, s15
+ 2801 2756 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2802 275a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2803 275e D3ED1A6A 		flds	s13, [r3, #104]
+ 2804 2762 40F20003 		movw	r3, #:lower16:axisPID
+ 2805 2766 C0F20003 		movt	r3, #:upper16:axisPID
+ 2806 276a D3ED027A 		flds	s15, [r3, #8]
+ 2807 276e 66EEA77A 		fmuls	s15, s13, s15
+ 2808 2772 77EE277A 		fadds	s15, s14, s15
+ 2809 2776 40F20003 		movw	r3, #:lower16:motor
+ 2810 277a C0F20003 		movt	r3, #:upper16:motor
+ 2811 277e C3ED017A 		fsts	s15, [r3, #4]
+ 2812 2782 40F20003 		movw	r3, #:lower16:rxCommand
+ 2813 2786 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2814 278a 93ED037A 		flds	s14, [r3, #12]
+ 2815 278e 40F20003 		movw	r3, #:lower16:axisPID
+ 2816 2792 C0F20003 		movt	r3, #:upper16:axisPID
+ 2817 2796 D3ED006A 		flds	s13, [r3, #0]
+ 2818 279a DFED8A7A 		flds	s15, .L68
+ 2819 279e 66EEA77A 		fmuls	s15, s13, s15
+ 2820 27a2 37EE277A 		fadds	s14, s14, s15
+ 2821 27a6 40F20003 		movw	r3, #:lower16:axisPID
+ 2822 27aa C0F20003 		movt	r3, #:upper16:axisPID
+ 2823 27ae D3ED017A 		flds	s15, [r3, #4]
+ 2824 27b2 37EE277A 		fadds	s14, s14, s15
+ 2825 27b6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2826 27ba C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2827 27be D3ED1A6A 		flds	s13, [r3, #104]
+ 2828 27c2 40F20003 		movw	r3, #:lower16:axisPID
+ 2829 27c6 C0F20003 		movt	r3, #:upper16:axisPID
+ 2830 27ca D3ED027A 		flds	s15, [r3, #8]
+ 2831 27ce 66EEA77A 		fmuls	s15, s13, s15
+ 2832 27d2 77EE677A 		fsubs	s15, s14, s15
+ 2833 27d6 40F20003 		movw	r3, #:lower16:motor
+ 2834 27da C0F20003 		movt	r3, #:upper16:motor
+ 2835 27de C3ED027A 		fsts	s15, [r3, #8]
+ 2836 27e2 40F20003 		movw	r3, #:lower16:rxCommand
+ 2837 27e6 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2838 27ea 93ED037A 		flds	s14, [r3, #12]
+ 2839 27ee 40F20003 		movw	r3, #:lower16:axisPID
+ 2840 27f2 C0F20003 		movt	r3, #:upper16:axisPID
+ 2841 27f6 D3ED007A 		flds	s15, [r3, #0]
+ 2842 27fa 37EE277A 		fadds	s14, s14, s15
+ 2843 27fe 40F20003 		movw	r3, #:lower16:axisPID
+ 2844 2802 C0F20003 		movt	r3, #:upper16:axisPID
+ 2845 2806 D3ED016A 		flds	s13, [r3, #4]
+ 2846 280a DFED6E7A 		flds	s15, .L68
+ 2847 280e 66EEA77A 		fmuls	s15, s13, s15
+ 2848 2812 37EE277A 		fadds	s14, s14, s15
+ 2849 2816 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2850 281a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2851 281e D3ED1A6A 		flds	s13, [r3, #104]
+ 2852 2822 40F20003 		movw	r3, #:lower16:axisPID
+ 2853 2826 C0F20003 		movt	r3, #:upper16:axisPID
+ 2854 282a D3ED027A 		flds	s15, [r3, #8]
+ 2855 282e 66EEA77A 		fmuls	s15, s13, s15
+ 2856 2832 77EE277A 		fadds	s15, s14, s15
+ 2857 2836 40F20003 		movw	r3, #:lower16:motor
+ 2858 283a C0F20003 		movt	r3, #:upper16:motor
+ 2859 283e C3ED037A 		fsts	s15, [r3, #12]
+ 2860 2842 40F20003 		movw	r3, #:lower16:rxCommand
+ 2861 2846 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2862 284a 93ED037A 		flds	s14, [r3, #12]
+ 2863 284e 40F20003 		movw	r3, #:lower16:axisPID
+ 2864 2852 C0F20003 		movt	r3, #:upper16:axisPID
+ 2865 2856 D3ED006A 		flds	s13, [r3, #0]
+ 2866 285a DFED5A7A 		flds	s15, .L68
+ 2867 285e 66EEA77A 		fmuls	s15, s13, s15
+ 2868 2862 37EE277A 		fadds	s14, s14, s15
+ 2869 2866 40F20003 		movw	r3, #:lower16:axisPID
+ 2870 286a C0F20003 		movt	r3, #:upper16:axisPID
+ 2871 286e D3ED017A 		flds	s15, [r3, #4]
+ 2872 2872 37EE677A 		fsubs	s14, s14, s15
+ 2873 2876 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2874 287a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2875 287e D3ED1A6A 		flds	s13, [r3, #104]
+ 2876 2882 40F20003 		movw	r3, #:lower16:axisPID
+ 2877 2886 C0F20003 		movt	r3, #:upper16:axisPID
+ 2878 288a D3ED027A 		flds	s15, [r3, #8]
+ 2879 288e 66EEA77A 		fmuls	s15, s13, s15
+ 2880 2892 77EE677A 		fsubs	s15, s14, s15
+ 2881 2896 40F20003 		movw	r3, #:lower16:motor
+ 2882 289a C0F20003 		movt	r3, #:upper16:motor
+ 2883 289e C3ED047A 		fsts	s15, [r3, #16]
+ 2884 28a2 40F20003 		movw	r3, #:lower16:rxCommand
+ 2885 28a6 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2886 28aa 93ED037A 		flds	s14, [r3, #12]
+ 2887 28ae 40F20003 		movw	r3, #:lower16:axisPID
+ 2888 28b2 C0F20003 		movt	r3, #:upper16:axisPID
+ 2889 28b6 D3ED007A 		flds	s15, [r3, #0]
+ 2890 28ba 37EE677A 		fsubs	s14, s14, s15
+ 2891 28be 40F20003 		movw	r3, #:lower16:axisPID
+ 2892 28c2 C0F20003 		movt	r3, #:upper16:axisPID
+ 2893 28c6 D3ED016A 		flds	s13, [r3, #4]
+ 2894 28ca DFED3E7A 		flds	s15, .L68
+ 2895 28ce 66EEA77A 		fmuls	s15, s13, s15
+ 2896 28d2 37EE277A 		fadds	s14, s14, s15
+ 2897 28d6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2898 28da C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2899 28de D3ED1A6A 		flds	s13, [r3, #104]
+ 2900 28e2 40F20003 		movw	r3, #:lower16:axisPID
+ 2901 28e6 C0F20003 		movt	r3, #:upper16:axisPID
+ 2902 28ea D3ED027A 		flds	s15, [r3, #8]
+ 2903 28ee 66EEA77A 		fmuls	s15, s13, s15
+ 2904 28f2 77EE277A 		fadds	s15, s14, s15
+ 2905 28f6 40F20003 		movw	r3, #:lower16:motor
+ 2906 28fa C0F20003 		movt	r3, #:upper16:motor
+ 2907 28fe C3ED057A 		fsts	s15, [r3, #20]
+ 2908 2902 40F20003 		movw	r3, #:lower16:rxCommand
+ 2909 2906 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2910 290a 93ED037A 		flds	s14, [r3, #12]
+ 2911 290e 40F20003 		movw	r3, #:lower16:axisPID
+ 2912 2912 C0F20003 		movt	r3, #:upper16:axisPID
+ 2913 2916 D3ED006A 		flds	s13, [r3, #0]
+ 2914 291a DFED2A7A 		flds	s15, .L68
+ 2915 291e 66EEA77A 		fmuls	s15, s13, s15
+ 2916 2922 37EE277A 		fadds	s14, s14, s15
+ 2917 2926 40F20003 		movw	r3, #:lower16:axisPID
+ 2918 292a C0F20003 		movt	r3, #:upper16:axisPID
+ 2919 292e D3ED017A 		flds	s15, [r3, #4]
+ 2920 2932 37EE277A 		fadds	s14, s14, s15
+ 2921 2936 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2922 293a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2923 293e D3ED1A6A 		flds	s13, [r3, #104]
+ 2924 2942 40F20003 		movw	r3, #:lower16:axisPID
+ 2925 2946 C0F20003 		movt	r3, #:upper16:axisPID
+ 2926 294a D3ED027A 		flds	s15, [r3, #8]
+ 2927 294e 66EEA77A 		fmuls	s15, s13, s15
+ 2928 2952 77EE677A 		fsubs	s15, s14, s15
+ 2929 2956 40F20003 		movw	r3, #:lower16:motor
+ 2930 295a C0F20003 		movt	r3, #:upper16:motor
+ 2931 295e C3ED067A 		fsts	s15, [r3, #24]
+ 2932 2962 40F20003 		movw	r3, #:lower16:rxCommand
+ 2933 2966 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2934 296a 93ED037A 		flds	s14, [r3, #12]
+ 2935 296e 40F20003 		movw	r3, #:lower16:axisPID
+ 2936 2972 C0F20003 		movt	r3, #:upper16:axisPID
+ 2937 2976 D3ED007A 		flds	s15, [r3, #0]
+ 2938 297a 37EE277A 		fadds	s14, s14, s15
+ 2939 297e 40F20003 		movw	r3, #:lower16:axisPID
+ 2940 2982 C0F20003 		movt	r3, #:upper16:axisPID
+ 2941 2986 D3ED016A 		flds	s13, [r3, #4]
+ 2942 298a DFED0E7A 		flds	s15, .L68
+ 2943 298e 66EEA77A 		fmuls	s15, s13, s15
+ 2944 2992 37EE277A 		fadds	s14, s14, s15
+ 2945 2996 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2946 299a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2947 299e D3ED1A6A 		flds	s13, [r3, #104]
+ 2948 29a2 40F20003 		movw	r3, #:lower16:axisPID
+ 2949 29a6 C0F20003 		movt	r3, #:upper16:axisPID
+ 2950 29aa D3ED027A 		flds	s15, [r3, #8]
+ 2951 29ae 66EEA77A 		fmuls	s15, s13, s15
+ 2952 29b2 77EE277A 		fadds	s15, s14, s15
+ 2953 29b6 40F20003 		movw	r3, #:lower16:motor
+ 2954 29ba C0F20003 		movt	r3, #:upper16:motor
+ 2955 29be C3ED077A 		fsts	s15, [r3, #28]
+ 2956 29c2 E1E1     		b	.L25
+ 2957              	.L69:
+ 2958              		.align	2
+ 2959              	.L68:
+ 2960 29c4 00000000 		.word	0
+ 2961              	.L45:
+ 2962 29c8 40F20003 		movw	r3, #:lower16:rxCommand
+ 2963 29cc C0F20003 		movt	r3, #:upper16:rxCommand
+ 2964 29d0 93ED037A 		flds	s14, [r3, #12]
+ 2965 29d4 40F20003 		movw	r3, #:lower16:axisPID
+ 2966 29d8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2967 29dc D3ED007A 		flds	s15, [r3, #0]
+ 2968 29e0 37EE277A 		fadds	s14, s14, s15
+ 2969 29e4 40F20003 		movw	r3, #:lower16:axisPID
+ 2970 29e8 C0F20003 		movt	r3, #:upper16:axisPID
+ 2971 29ec D3ED017A 		flds	s15, [r3, #4]
+ 2972 29f0 37EE677A 		fsubs	s14, s14, s15
+ 2973 29f4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2974 29f8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2975 29fc D3ED1A6A 		flds	s13, [r3, #104]
+ 2976 2a00 40F20003 		movw	r3, #:lower16:axisPID
+ 2977 2a04 C0F20003 		movt	r3, #:upper16:axisPID
+ 2978 2a08 D3ED027A 		flds	s15, [r3, #8]
+ 2979 2a0c 66EEA77A 		fmuls	s15, s13, s15
+ 2980 2a10 77EE677A 		fsubs	s15, s14, s15
+ 2981 2a14 40F20003 		movw	r3, #:lower16:motor
+ 2982 2a18 C0F20003 		movt	r3, #:upper16:motor
+ 2983 2a1c C3ED007A 		fsts	s15, [r3, #0]
+ 2984 2a20 40F20003 		movw	r3, #:lower16:rxCommand
+ 2985 2a24 C0F20003 		movt	r3, #:upper16:rxCommand
+ 2986 2a28 93ED037A 		flds	s14, [r3, #12]
+ 2987 2a2c 40F20003 		movw	r3, #:lower16:axisPID
+ 2988 2a30 C0F20003 		movt	r3, #:upper16:axisPID
+ 2989 2a34 D3ED007A 		flds	s15, [r3, #0]
+ 2990 2a38 37EE677A 		fsubs	s14, s14, s15
+ 2991 2a3c 40F20003 		movw	r3, #:lower16:axisPID
+ 2992 2a40 C0F20003 		movt	r3, #:upper16:axisPID
+ 2993 2a44 D3ED017A 		flds	s15, [r3, #4]
+ 2994 2a48 37EE677A 		fsubs	s14, s14, s15
+ 2995 2a4c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 2996 2a50 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 2997 2a54 D3ED1A6A 		flds	s13, [r3, #104]
+ 2998 2a58 40F20003 		movw	r3, #:lower16:axisPID
+ 2999 2a5c C0F20003 		movt	r3, #:upper16:axisPID
+ 3000 2a60 D3ED027A 		flds	s15, [r3, #8]
+ 3001 2a64 66EEA77A 		fmuls	s15, s13, s15
+ 3002 2a68 77EE277A 		fadds	s15, s14, s15
+ 3003 2a6c 40F20003 		movw	r3, #:lower16:motor
+ 3004 2a70 C0F20003 		movt	r3, #:upper16:motor
+ 3005 2a74 C3ED017A 		fsts	s15, [r3, #4]
+ 3006 2a78 40F20003 		movw	r3, #:lower16:rxCommand
+ 3007 2a7c C0F20003 		movt	r3, #:upper16:rxCommand
+ 3008 2a80 93ED037A 		flds	s14, [r3, #12]
+ 3009 2a84 40F20003 		movw	r3, #:lower16:axisPID
+ 3010 2a88 C0F20003 		movt	r3, #:upper16:axisPID
+ 3011 2a8c D3ED007A 		flds	s15, [r3, #0]
+ 3012 2a90 37EE677A 		fsubs	s14, s14, s15
+ 3013 2a94 40F20003 		movw	r3, #:lower16:axisPID
+ 3014 2a98 C0F20003 		movt	r3, #:upper16:axisPID
+ 3015 2a9c D3ED017A 		flds	s15, [r3, #4]
+ 3016 2aa0 37EE277A 		fadds	s14, s14, s15
+ 3017 2aa4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3018 2aa8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3019 2aac D3ED1A6A 		flds	s13, [r3, #104]
+ 3020 2ab0 40F20003 		movw	r3, #:lower16:axisPID
+ 3021 2ab4 C0F20003 		movt	r3, #:upper16:axisPID
+ 3022 2ab8 D3ED027A 		flds	s15, [r3, #8]
+ 3023 2abc 66EEA77A 		fmuls	s15, s13, s15
+ 3024 2ac0 77EE677A 		fsubs	s15, s14, s15
+ 3025 2ac4 40F20003 		movw	r3, #:lower16:motor
+ 3026 2ac8 C0F20003 		movt	r3, #:upper16:motor
+ 3027 2acc C3ED027A 		fsts	s15, [r3, #8]
+ 3028 2ad0 40F20003 		movw	r3, #:lower16:rxCommand
+ 3029 2ad4 C0F20003 		movt	r3, #:upper16:rxCommand
+ 3030 2ad8 93ED037A 		flds	s14, [r3, #12]
+ 3031 2adc 40F20003 		movw	r3, #:lower16:axisPID
+ 3032 2ae0 C0F20003 		movt	r3, #:upper16:axisPID
+ 3033 2ae4 D3ED007A 		flds	s15, [r3, #0]
+ 3034 2ae8 37EE277A 		fadds	s14, s14, s15
+ 3035 2aec 40F20003 		movw	r3, #:lower16:axisPID
+ 3036 2af0 C0F20003 		movt	r3, #:upper16:axisPID
+ 3037 2af4 D3ED017A 		flds	s15, [r3, #4]
+ 3038 2af8 37EE277A 		fadds	s14, s14, s15
+ 3039 2afc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3040 2b00 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3041 2b04 D3ED1A6A 		flds	s13, [r3, #104]
+ 3042 2b08 40F20003 		movw	r3, #:lower16:axisPID
+ 3043 2b0c C0F20003 		movt	r3, #:upper16:axisPID
+ 3044 2b10 D3ED027A 		flds	s15, [r3, #8]
+ 3045 2b14 66EEA77A 		fmuls	s15, s13, s15
+ 3046 2b18 77EE277A 		fadds	s15, s14, s15
+ 3047 2b1c 40F20003 		movw	r3, #:lower16:motor
+ 3048 2b20 C0F20003 		movt	r3, #:upper16:motor
+ 3049 2b24 C3ED037A 		fsts	s15, [r3, #12]
+ 3050 2b28 40F20003 		movw	r3, #:lower16:rxCommand
+ 3051 2b2c C0F20003 		movt	r3, #:upper16:rxCommand
+ 3052 2b30 93ED037A 		flds	s14, [r3, #12]
+ 3053 2b34 40F20003 		movw	r3, #:lower16:axisPID
+ 3054 2b38 C0F20003 		movt	r3, #:upper16:axisPID
+ 3055 2b3c D3ED007A 		flds	s15, [r3, #0]
+ 3056 2b40 37EE277A 		fadds	s14, s14, s15
+ 3057 2b44 40F20003 		movw	r3, #:lower16:axisPID
+ 3058 2b48 C0F20003 		movt	r3, #:upper16:axisPID
+ 3059 2b4c D3ED017A 		flds	s15, [r3, #4]
+ 3060 2b50 37EE677A 		fsubs	s14, s14, s15
+ 3061 2b54 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3062 2b58 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3063 2b5c D3ED1A6A 		flds	s13, [r3, #104]
+ 3064 2b60 40F20003 		movw	r3, #:lower16:axisPID
+ 3065 2b64 C0F20003 		movt	r3, #:upper16:axisPID
+ 3066 2b68 D3ED027A 		flds	s15, [r3, #8]
+ 3067 2b6c 66EEA77A 		fmuls	s15, s13, s15
+ 3068 2b70 77EE677A 		fsubs	s15, s14, s15
+ 3069 2b74 40F20003 		movw	r3, #:lower16:motor
+ 3070 2b78 C0F20003 		movt	r3, #:upper16:motor
+ 3071 2b7c C3ED047A 		fsts	s15, [r3, #16]
+ 3072 2b80 40F20003 		movw	r3, #:lower16:rxCommand
+ 3073 2b84 C0F20003 		movt	r3, #:upper16:rxCommand
+ 3074 2b88 93ED037A 		flds	s14, [r3, #12]
+ 3075 2b8c 40F20003 		movw	r3, #:lower16:axisPID
+ 3076 2b90 C0F20003 		movt	r3, #:upper16:axisPID
+ 3077 2b94 D3ED007A 		flds	s15, [r3, #0]
+ 3078 2b98 37EE677A 		fsubs	s14, s14, s15
+ 3079 2b9c 40F20003 		movw	r3, #:lower16:axisPID
+ 3080 2ba0 C0F20003 		movt	r3, #:upper16:axisPID
+ 3081 2ba4 D3ED017A 		flds	s15, [r3, #4]
+ 3082 2ba8 37EE677A 		fsubs	s14, s14, s15
+ 3083 2bac 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3084 2bb0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3085 2bb4 D3ED1A6A 		flds	s13, [r3, #104]
+ 3086 2bb8 40F20003 		movw	r3, #:lower16:axisPID
+ 3087 2bbc C0F20003 		movt	r3, #:upper16:axisPID
+ 3088 2bc0 D3ED027A 		flds	s15, [r3, #8]
+ 3089 2bc4 66EEA77A 		fmuls	s15, s13, s15
+ 3090 2bc8 77EE277A 		fadds	s15, s14, s15
+ 3091 2bcc 40F20003 		movw	r3, #:lower16:motor
+ 3092 2bd0 C0F20003 		movt	r3, #:upper16:motor
+ 3093 2bd4 C3ED057A 		fsts	s15, [r3, #20]
+ 3094 2bd8 40F20003 		movw	r3, #:lower16:rxCommand
+ 3095 2bdc C0F20003 		movt	r3, #:upper16:rxCommand
+ 3096 2be0 93ED037A 		flds	s14, [r3, #12]
+ 3097 2be4 40F20003 		movw	r3, #:lower16:axisPID
+ 3098 2be8 C0F20003 		movt	r3, #:upper16:axisPID
+ 3099 2bec D3ED007A 		flds	s15, [r3, #0]
+ 3100 2bf0 37EE677A 		fsubs	s14, s14, s15
+ 3101 2bf4 40F20003 		movw	r3, #:lower16:axisPID
+ 3102 2bf8 C0F20003 		movt	r3, #:upper16:axisPID
+ 3103 2bfc D3ED017A 		flds	s15, [r3, #4]
+ 3104 2c00 37EE277A 		fadds	s14, s14, s15
+ 3105 2c04 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3106 2c08 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3107 2c0c D3ED1A6A 		flds	s13, [r3, #104]
+ 3108 2c10 40F20003 		movw	r3, #:lower16:axisPID
+ 3109 2c14 C0F20003 		movt	r3, #:upper16:axisPID
+ 3110 2c18 D3ED027A 		flds	s15, [r3, #8]
+ 3111 2c1c 66EEA77A 		fmuls	s15, s13, s15
+ 3112 2c20 77EE677A 		fsubs	s15, s14, s15
+ 3113 2c24 40F20003 		movw	r3, #:lower16:motor
+ 3114 2c28 C0F20003 		movt	r3, #:upper16:motor
+ 3115 2c2c C3ED067A 		fsts	s15, [r3, #24]
+ 3116 2c30 40F20003 		movw	r3, #:lower16:rxCommand
+ 3117 2c34 C0F20003 		movt	r3, #:upper16:rxCommand
+ 3118 2c38 93ED037A 		flds	s14, [r3, #12]
+ 3119 2c3c 40F20003 		movw	r3, #:lower16:axisPID
+ 3120 2c40 C0F20003 		movt	r3, #:upper16:axisPID
+ 3121 2c44 D3ED007A 		flds	s15, [r3, #0]
+ 3122 2c48 37EE277A 		fadds	s14, s14, s15
+ 3123 2c4c 40F20003 		movw	r3, #:lower16:axisPID
+ 3124 2c50 C0F20003 		movt	r3, #:upper16:axisPID
+ 3125 2c54 D3ED017A 		flds	s15, [r3, #4]
+ 3126 2c58 37EE277A 		fadds	s14, s14, s15
+ 3127 2c5c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3128 2c60 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3129 2c64 D3ED1A6A 		flds	s13, [r3, #104]
+ 3130 2c68 40F20003 		movw	r3, #:lower16:axisPID
+ 3131 2c6c C0F20003 		movt	r3, #:upper16:axisPID
+ 3132 2c70 D3ED027A 		flds	s15, [r3, #8]
+ 3133 2c74 66EEA77A 		fmuls	s15, s13, s15
+ 3134 2c78 77EE277A 		fadds	s15, s14, s15
+ 3135 2c7c 40F20003 		movw	r3, #:lower16:motor
+ 3136 2c80 C0F20003 		movt	r3, #:upper16:motor
+ 3137 2c84 C3ED077A 		fsts	s15, [r3, #28]
+ 3138 2c88 7EE0     		b	.L25
+ 3139              	.L46:
+ 3140 2c8a 4FF00003 		mov	r3, #0
+ 3141 2c8e 8DF80530 		strb	r3, [sp, #5]
+ 3142 2c92 6FE0     		b	.L50
+ 3143              	.L51:
+ 3144 2c94 9DF80500 		ldrb	r0, [sp, #5]	@ zero_extendqisi2
+ 3145 2c98 40F20003 		movw	r3, #:lower16:rxCommand
+ 3146 2c9c C0F20003 		movt	r3, #:upper16:rxCommand
+ 3147 2ca0 93ED037A 		flds	s14, [r3, #12]
+ 3148 2ca4 40F20003 		movw	r3, #:lower16:axisPID
+ 3149 2ca8 C0F20003 		movt	r3, #:upper16:axisPID
+ 3150 2cac D3ED006A 		flds	s13, [r3, #0]
+ 3151 2cb0 9DF80510 		ldrb	r1, [sp, #5]	@ zero_extendqisi2
+ 3152 2cb4 40F20002 		movw	r2, #:lower16:eepromConfig
+ 3153 2cb8 C0F20002 		movt	r2, #:upper16:eepromConfig
+ 3154 2cbc 0B46     		mov	r3, r1
+ 3155 2cbe 4FEA4303 		lsl	r3, r3, #1
+ 3156 2cc2 5B18     		adds	r3, r3, r1
+ 3157 2cc4 4FEA8303 		lsl	r3, r3, #2
+ 3158 2cc8 D318     		adds	r3, r2, r3
+ 3159 2cca 03F5EE73 		add	r3, r3, #476
+ 3160 2cce D3ED007A 		flds	s15, [r3, #0]
+ 3161 2cd2 66EEA77A 		fmuls	s15, s13, s15
+ 3162 2cd6 37EE277A 		fadds	s14, s14, s15
+ 3163 2cda 40F20003 		movw	r3, #:lower16:axisPID
+ 3164 2cde C0F20003 		movt	r3, #:upper16:axisPID
+ 3165 2ce2 D3ED016A 		flds	s13, [r3, #4]
+ 3166 2ce6 9DF80510 		ldrb	r1, [sp, #5]	@ zero_extendqisi2
+ 3167 2cea 40F20002 		movw	r2, #:lower16:eepromConfig
+ 3168 2cee C0F20002 		movt	r2, #:upper16:eepromConfig
+ 3169 2cf2 0B46     		mov	r3, r1
+ 3170 2cf4 4FEA4303 		lsl	r3, r3, #1
+ 3171 2cf8 5B18     		adds	r3, r3, r1
+ 3172 2cfa 4FEA8303 		lsl	r3, r3, #2
+ 3173 2cfe D318     		adds	r3, r2, r3
+ 3174 2d00 03F5F073 		add	r3, r3, #480
+ 3175 2d04 D3ED007A 		flds	s15, [r3, #0]
+ 3176 2d08 66EEA77A 		fmuls	s15, s13, s15
+ 3177 2d0c 37EE277A 		fadds	s14, s14, s15
+ 3178 2d10 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3179 2d14 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3180 2d18 D3ED1A6A 		flds	s13, [r3, #104]
+ 3181 2d1c 40F20003 		movw	r3, #:lower16:axisPID
+ 3182 2d20 C0F20003 		movt	r3, #:upper16:axisPID
+ 3183 2d24 D3ED027A 		flds	s15, [r3, #8]
+ 3184 2d28 66EEA77A 		fmuls	s15, s13, s15
+ 3185 2d2c 9DF80510 		ldrb	r1, [sp, #5]	@ zero_extendqisi2
+ 3186 2d30 40F20002 		movw	r2, #:lower16:eepromConfig
+ 3187 2d34 C0F20002 		movt	r2, #:upper16:eepromConfig
+ 3188 2d38 0B46     		mov	r3, r1
+ 3189 2d3a 4FEA4303 		lsl	r3, r3, #1
+ 3190 2d3e 5B18     		adds	r3, r3, r1
+ 3191 2d40 4FEA8303 		lsl	r3, r3, #2
+ 3192 2d44 D318     		adds	r3, r2, r3
+ 3193 2d46 03F5F273 		add	r3, r3, #484
+ 3194 2d4a D3ED006A 		flds	s13, [r3, #0]
+ 3195 2d4e 67EEA67A 		fmuls	s15, s15, s13
+ 3196 2d52 77EE277A 		fadds	s15, s14, s15
+ 3197 2d56 40F20003 		movw	r3, #:lower16:motor
+ 3198 2d5a C0F20003 		movt	r3, #:upper16:motor
+ 3199 2d5e 4FEA8002 		lsl	r2, r0, #2
+ 3200 2d62 9B18     		adds	r3, r3, r2
+ 3201 2d64 C3ED007A 		fsts	s15, [r3, #0]
+ 3202 2d68 9DF80530 		ldrb	r3, [sp, #5]
+ 3203 2d6c 03F10103 		add	r3, r3, #1
+ 3204 2d70 8DF80530 		strb	r3, [sp, #5]
+ 3205              	.L50:
+ 3206 2d74 40F20003 		movw	r3, #:lower16:numberMotor
+ 3207 2d78 C0F20003 		movt	r3, #:upper16:numberMotor
+ 3208 2d7c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 3209 2d7e 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3210 2d82 9A42     		cmp	r2, r3
+ 3211 2d84 86D3     		bcc	.L51
+ 3212 2d86 00BF     		nop
+ 3213              	.L25:
+ 3214 2d88 40F20003 		movw	r3, #:lower16:motor
+ 3215 2d8c C0F20003 		movt	r3, #:upper16:motor
+ 3216 2d90 D3ED007A 		flds	s15, [r3, #0]
+ 3217 2d94 FDEEE77A 		ftosizs	s15, s15
+ 3218 2d98 17EE903A 		fmrs	r3, s15	@ int
+ 3219 2d9c ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 3220 2da0 4FF00103 		mov	r3, #1
+ 3221 2da4 8DF80530 		strb	r3, [sp, #5]
+ 3222 2da8 31E0     		b	.L52
+ 3223              	.L54:
+ 3224 2daa 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3225 2dae 40F20003 		movw	r3, #:lower16:motor
+ 3226 2db2 C0F20003 		movt	r3, #:upper16:motor
+ 3227 2db6 4FEA8202 		lsl	r2, r2, #2
+ 3228 2dba 9B18     		adds	r3, r3, r2
+ 3229 2dbc 93ED007A 		flds	s14, [r3, #0]
+ 3230 2dc0 BDF90630 		ldrsh	r3, [sp, #6]
+ 3231 2dc4 06EE903A 		fmsr	s13, r3	@ int
+ 3232 2dc8 F8EEE67A 		fsitos	s15, s13
+ 3233 2dcc B4EEE77A 		fcmpes	s14, s15
+ 3234 2dd0 F1EE10FA 		fmstat
+ 3235 2dd4 D4BF     		ite	le
+ 3236 2dd6 0023     		movle	r3, #0
+ 3237 2dd8 0123     		movgt	r3, #1
+ 3238 2dda DBB2     		uxtb	r3, r3
+ 3239 2ddc 002B     		cmp	r3, #0
+ 3240 2dde 10D0     		beq	.L53
+ 3241 2de0 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3242 2de4 40F20003 		movw	r3, #:lower16:motor
+ 3243 2de8 C0F20003 		movt	r3, #:upper16:motor
+ 3244 2dec 4FEA8202 		lsl	r2, r2, #2
+ 3245 2df0 9B18     		adds	r3, r3, r2
+ 3246 2df2 D3ED007A 		flds	s15, [r3, #0]
+ 3247 2df6 FDEEE77A 		ftosizs	s15, s15
+ 3248 2dfa 17EE903A 		fmrs	r3, s15	@ int
+ 3249 2dfe ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 3250              	.L53:
+ 3251 2e02 9DF80530 		ldrb	r3, [sp, #5]
+ 3252 2e06 03F10103 		add	r3, r3, #1
+ 3253 2e0a 8DF80530 		strb	r3, [sp, #5]
+ 3254              	.L52:
+ 3255 2e0e 40F20003 		movw	r3, #:lower16:numberMotor
+ 3256 2e12 C0F20003 		movt	r3, #:upper16:numberMotor
+ 3257 2e16 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 3258 2e18 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3259 2e1c 9A42     		cmp	r2, r3
+ 3260 2e1e C4D3     		bcc	.L54
+ 3261 2e20 4FF00003 		mov	r3, #0
+ 3262 2e24 8DF80530 		strb	r3, [sp, #5]
+ 3263 2e28 9CE0     		b	.L55
+ 3264              	.L59:
+ 3265 2e2a BDF90630 		ldrsh	r3, [sp, #6]
+ 3266 2e2e 07EE903A 		fmsr	s15, r3	@ int
+ 3267 2e32 B8EEE77A 		fsitos	s14, s15
+ 3268 2e36 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3269 2e3a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3270 2e3e D3ED1F7A 		flds	s15, [r3, #124]
+ 3271 2e42 B4EEE77A 		fcmpes	s14, s15
+ 3272 2e46 F1EE10FA 		fmstat
+ 3273 2e4a D4BF     		ite	le
+ 3274 2e4c 0023     		movle	r3, #0
+ 3275 2e4e 0123     		movgt	r3, #1
+ 3276 2e50 DBB2     		uxtb	r3, r3
+ 3277 2e52 002B     		cmp	r3, #0
+ 3278 2e54 25D0     		beq	.L56
+ 3279 2e56 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3280 2e5a 9DF80510 		ldrb	r1, [sp, #5]	@ zero_extendqisi2
+ 3281 2e5e 40F20003 		movw	r3, #:lower16:motor
+ 3282 2e62 C0F20003 		movt	r3, #:upper16:motor
+ 3283 2e66 4FEA8101 		lsl	r1, r1, #2
+ 3284 2e6a 5B18     		adds	r3, r3, r1
+ 3285 2e6c 93ED007A 		flds	s14, [r3, #0]
+ 3286 2e70 BDF90630 		ldrsh	r3, [sp, #6]
+ 3287 2e74 07EE903A 		fmsr	s15, r3	@ int
+ 3288 2e78 F8EEE76A 		fsitos	s13, s15
+ 3289 2e7c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3290 2e80 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3291 2e84 D3ED1F7A 		flds	s15, [r3, #124]
+ 3292 2e88 76EEE77A 		fsubs	s15, s13, s15
+ 3293 2e8c 77EE677A 		fsubs	s15, s14, s15
+ 3294 2e90 40F20003 		movw	r3, #:lower16:motor
+ 3295 2e94 C0F20003 		movt	r3, #:upper16:motor
+ 3296 2e98 4FEA8202 		lsl	r2, r2, #2
+ 3297 2e9c 9B18     		adds	r3, r3, r2
+ 3298 2e9e C3ED007A 		fsts	s15, [r3, #0]
+ 3299              	.L56:
+ 3300 2ea2 9DF80540 		ldrb	r4, [sp, #5]	@ zero_extendqisi2
+ 3301 2ea6 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3302 2eaa 40F20003 		movw	r3, #:lower16:motor
+ 3303 2eae C0F20003 		movt	r3, #:upper16:motor
+ 3304 2eb2 4FEA8202 		lsl	r2, r2, #2
+ 3305 2eb6 9B18     		adds	r3, r3, r2
+ 3306 2eb8 1968     		ldr	r1, [r3, #0]	@ float
+ 3307 2eba 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3308 2ebe C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3309 2ec2 9A6F     		ldr	r2, [r3, #120]	@ float
+ 3310 2ec4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3311 2ec8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3312 2ecc DB6F     		ldr	r3, [r3, #124]	@ float
+ 3313 2ece 0846     		mov	r0, r1	@ float
+ 3314 2ed0 1146     		mov	r1, r2	@ float
+ 3315 2ed2 1A46     		mov	r2, r3	@ float
+ 3316 2ed4 FFF7FEFF 		bl	constrain
+ 3317 2ed8 0246     		mov	r2, r0	@ float
+ 3318 2eda 40F20003 		movw	r3, #:lower16:motor
+ 3319 2ede C0F20003 		movt	r3, #:upper16:motor
+ 3320 2ee2 4FEA8401 		lsl	r1, r4, #2
+ 3321 2ee6 5B18     		adds	r3, r3, r1
+ 3322 2ee8 1A60     		str	r2, [r3, #0]	@ float
+ 3323 2eea 40F20003 		movw	r3, #:lower16:rxCommand
+ 3324 2eee C0F20003 		movt	r3, #:upper16:rxCommand
+ 3325 2ef2 93ED037A 		flds	s14, [r3, #12]
+ 3326 2ef6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3327 2efa C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3328 2efe D3ED1C7A 		flds	s15, [r3, #112]
+ 3329 2f02 B4EEE77A 		fcmpes	s14, s15
+ 3330 2f06 F1EE10FA 		fmstat
+ 3331 2f0a 54BF     		ite	pl
+ 3332 2f0c 0023     		movpl	r3, #0
+ 3333 2f0e 0123     		movmi	r3, #1
+ 3334 2f10 DBB2     		uxtb	r3, r3
+ 3335 2f12 002B     		cmp	r3, #0
+ 3336 2f14 0ED0     		beq	.L57
+ 3337 2f16 9DF80510 		ldrb	r1, [sp, #5]	@ zero_extendqisi2
+ 3338 2f1a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 3339 2f1e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 3340 2f22 9A6F     		ldr	r2, [r3, #120]	@ float
+ 3341 2f24 40F20003 		movw	r3, #:lower16:motor
+ 3342 2f28 C0F20003 		movt	r3, #:upper16:motor
+ 3343 2f2c 4FEA8101 		lsl	r1, r1, #2
+ 3344 2f30 5B18     		adds	r3, r3, r1
+ 3345 2f32 1A60     		str	r2, [r3, #0]	@ float
+ 3346              	.L57:
+ 3347 2f34 40F20003 		movw	r3, #:lower16:armed
+ 3348 2f38 C0F20003 		movt	r3, #:upper16:armed
+ 3349 2f3c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 3350 2f3e 002B     		cmp	r3, #0
+ 3351 2f40 0AD1     		bne	.L58
+ 3352 2f42 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3353 2f46 40F20003 		movw	r3, #:lower16:motor
+ 3354 2f4a C0F20003 		movt	r3, #:upper16:motor
+ 3355 2f4e 4FEA8202 		lsl	r2, r2, #2
+ 3356 2f52 9B18     		adds	r3, r3, r2
+ 3357 2f54 094A     		ldr	r2, .L70	@ float
+ 3358 2f56 1A60     		str	r2, [r3, #0]	@ float
+ 3359              	.L58:
+ 3360 2f58 9DF80530 		ldrb	r3, [sp, #5]
+ 3361 2f5c 03F10103 		add	r3, r3, #1
+ 3362 2f60 8DF80530 		strb	r3, [sp, #5]
+ 3363              	.L55:
+ 3364 2f64 40F20003 		movw	r3, #:lower16:numberMotor
+ 3365 2f68 C0F20003 		movt	r3, #:upper16:numberMotor
+ 3366 2f6c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 3367 2f6e 9DF80520 		ldrb	r2, [sp, #5]	@ zero_extendqisi2
+ 3368 2f72 9A42     		cmp	r2, r3
+ 3369 2f74 FFF459AF 		bcc	.L59
+ 3370 2f78 03B0     		add	sp, sp, #12
+ 3371 2f7a 30BD     		pop	{r4, r5, pc}
+ 3372              	.L71:
+ 3373              		.align	2
+ 3374              	.L70:
+ 3375 2f7c 0000FA44 		.word	1157234688
+ 3377              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 mixer.c
+                            *COM*:00000001 numberMotor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:22     .data:00000000 motor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:19     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:35     .data:00000020 servo
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:40     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:45     .text:00000000 initMixer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:59     .text:0000001c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:81     .text:00000070 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:138    .text:000000fc writeServos
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:176    .text:00000160 writeMotors
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:216    .text:000001bc writeAllMotors
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:252    .text:00000208 pulseMotors
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:287    .text:00000260 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:293    .text:00000264 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:298    .text:00000264 mixTable
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:313    .text:00000284 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:335    .text:000002d8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:762    .text:00000920 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:766    .text:0000092c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:1270   .text:000010f0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:1273   .text:000010f8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:1862   .text:00001a10 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:1866   .text:00001a1c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:2360   .text:00002080 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:2368   .text:0000209c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:2960   .text:000029c4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:2962   .text:000029c8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxXOHqr.s:3375   .text:00002f7c $d
+
+UNDEFINED SYMBOLS
+eepromConfig
+pwmServoWrite
+pwmEscWrite
+delay
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_d2f
+sensors
+rxCommand
+constrain
+flightMode
+axisPID
+vTailThrust
+armed

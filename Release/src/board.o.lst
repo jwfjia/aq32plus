@@ -1,0 +1,64 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"board.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	gpioInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	gpioInit:
+  23              		@ args = 0, pretend = 0, frame = 24
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 10B5     		push	{r4, lr}
+  26 0002 86B0     		sub	sp, sp, #24
+  27 0004 6C46     		mov	r4, sp
+  28 0006 84E80F00 		stmia	r4, {r0, r1, r2, r3}
+  29 000a 019B     		ldr	r3, [sp, #4]
+  30 000c 0493     		str	r3, [sp, #16]
+  31 000e 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+  32 0012 8DF81430 		strb	r3, [sp, #20]
+  33 0016 9DF80930 		ldrb	r3, [sp, #9]	@ zero_extendqisi2
+  34 001a 8DF81530 		strb	r3, [sp, #21]
+  35 001e 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+  36 0022 8DF81630 		strb	r3, [sp, #22]
+  37 0026 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+  38 002a 8DF81730 		strb	r3, [sp, #23]
+  39 002e 009B     		ldr	r3, [sp, #0]
+  40 0030 1846     		mov	r0, r3
+  41 0032 04AB     		add	r3, sp, #16
+  42 0034 1946     		mov	r1, r3
+  43 0036 FFF7FEFF 		bl	GPIO_Init
+  44 003a 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+  45 003e 022B     		cmp	r3, #2
+  46 0040 09D1     		bne	.L1
+  47 0042 0099     		ldr	r1, [sp, #0]
+  48 0044 BDF80C20 		ldrh	r2, [sp, #12]
+  49 0048 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+  50 004c 0846     		mov	r0, r1
+  51 004e 1146     		mov	r1, r2
+  52 0050 1A46     		mov	r2, r3
+  53 0052 FFF7FEFF 		bl	GPIO_PinAFConfig
+  54              	.L1:
+  55 0056 06B0     		add	sp, sp, #24
+  56 0058 10BD     		pop	{r4, pc}
+  58 005a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 board.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1GOMb.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1GOMb.s:22     .text:00000000 gpioInit
+
+UNDEFINED SYMBOLS
+GPIO_Init
+GPIO_PinAFConfig

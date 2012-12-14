@@ -1,0 +1,2985 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 3
+   4              		.fpu fpv4-sp-d16
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.thumb
+  15              		.file	"stm32f4xx_rtc.c"
+  16              		.text
+  17              		.align	2
+  18              		.global	RTC_DeInit
+  19              		.thumb
+  20              		.thumb_func
+  22              	RTC_DeInit:
+  23              		@ args = 0, pretend = 0, frame = 16
+  24              		@ frame_needed = 0, uses_anonymous_args = 0
+  25 0000 00B5     		push	{lr}
+  26 0002 85B0     		sub	sp, sp, #20
+  27 0004 4FF00003 		mov	r3, #0
+  28 0008 0193     		str	r3, [sp, #4]
+  29 000a 4FF00003 		mov	r3, #0
+  30 000e 0293     		str	r3, [sp, #8]
+  31 0010 4FF00003 		mov	r3, #0
+  32 0014 8DF80F30 		strb	r3, [sp, #15]
+  33 0018 4FF42053 		mov	r3, #10240
+  34 001c C4F20003 		movt	r3, 16384
+  35 0020 4FF0CA02 		mov	r2, #202
+  36 0024 5A62     		str	r2, [r3, #36]
+  37 0026 4FF42053 		mov	r3, #10240
+  38 002a C4F20003 		movt	r3, 16384
+  39 002e 4FF05302 		mov	r2, #83
+  40 0032 5A62     		str	r2, [r3, #36]
+  41 0034 FFF7FEFF 		bl	RTC_EnterInitMode
+  42 0038 0346     		mov	r3, r0
+  43 003a 002B     		cmp	r3, #0
+  44 003c 04D1     		bne	.L2
+  45 003e 4FF00003 		mov	r3, #0
+  46 0042 8DF80F30 		strb	r3, [sp, #15]
+  47 0046 87E0     		b	.L3
+  48              	.L2:
+  49 0048 4FF42053 		mov	r3, #10240
+  50 004c C4F20003 		movt	r3, 16384
+  51 0050 4FF00002 		mov	r2, #0
+  52 0054 1A60     		str	r2, [r3, #0]
+  53 0056 4FF42053 		mov	r3, #10240
+  54 005a C4F20003 		movt	r3, 16384
+  55 005e 42F20112 		movw	r2, #8449
+  56 0062 5A60     		str	r2, [r3, #4]
+  57 0064 4FF42053 		mov	r3, #10240
+  58 0068 C4F20003 		movt	r3, 16384
+  59 006c 4FF42052 		mov	r2, #10240
+  60 0070 C4F20002 		movt	r2, 16384
+  61 0074 9268     		ldr	r2, [r2, #8]
+  62 0076 02F00702 		and	r2, r2, #7
+  63 007a 9A60     		str	r2, [r3, #8]
+  64              	.L5:
+  65 007c 4FF42053 		mov	r3, #10240
+  66 0080 C4F20003 		movt	r3, 16384
+  67 0084 DB68     		ldr	r3, [r3, #12]
+  68 0086 03F00403 		and	r3, r3, #4
+  69 008a 0293     		str	r3, [sp, #8]
+  70 008c 019B     		ldr	r3, [sp, #4]
+  71 008e 03F10103 		add	r3, r3, #1
+  72 0092 0193     		str	r3, [sp, #4]
+  73 0094 019B     		ldr	r3, [sp, #4]
+  74 0096 B3F5803F 		cmp	r3, #65536
+  75 009a 02D0     		beq	.L4
+  76 009c 029B     		ldr	r3, [sp, #8]
+  77 009e 002B     		cmp	r3, #0
+  78 00a0 ECD0     		beq	.L5
+  79              	.L4:
+  80 00a2 4FF42053 		mov	r3, #10240
+  81 00a6 C4F20003 		movt	r3, 16384
+  82 00aa DB68     		ldr	r3, [r3, #12]
+  83 00ac 03F00403 		and	r3, r3, #4
+  84 00b0 002B     		cmp	r3, #0
+  85 00b2 04D1     		bne	.L6
+  86 00b4 4FF00003 		mov	r3, #0
+  87 00b8 8DF80F30 		strb	r3, [sp, #15]
+  88 00bc 4CE0     		b	.L3
+  89              	.L6:
+  90 00be 4FF42053 		mov	r3, #10240
+  91 00c2 C4F20003 		movt	r3, 16384
+  92 00c6 9B68     		ldr	r3, [r3, #8]
+  93 00c8 4FF42053 		mov	r3, #10240
+  94 00cc C4F20003 		movt	r3, 16384
+  95 00d0 4FF00002 		mov	r2, #0
+  96 00d4 9A60     		str	r2, [r3, #8]
+  97 00d6 4FF42053 		mov	r3, #10240
+  98 00da C4F20003 		movt	r3, 16384
+  99 00de 4FF6FF72 		movw	r2, #65535
+ 100 00e2 5A61     		str	r2, [r3, #20]
+ 101 00e4 4FF42053 		mov	r3, #10240
+ 102 00e8 C4F20003 		movt	r3, 16384
+ 103 00ec 4FF0FF02 		mov	r2, #255
+ 104 00f0 C0F27F02 		movt	r2, 127
+ 105 00f4 1A61     		str	r2, [r3, #16]
+ 106 00f6 4FF42053 		mov	r3, #10240
+ 107 00fa C4F20003 		movt	r3, 16384
+ 108 00fe 4FF00002 		mov	r2, #0
+ 109 0102 9A61     		str	r2, [r3, #24]
+ 110 0104 4FF42053 		mov	r3, #10240
+ 111 0108 C4F20003 		movt	r3, 16384
+ 112 010c 4FF00002 		mov	r2, #0
+ 113 0110 DA61     		str	r2, [r3, #28]
+ 114 0112 4FF42053 		mov	r3, #10240
+ 115 0116 C4F20003 		movt	r3, 16384
+ 116 011a 4FF00002 		mov	r2, #0
+ 117 011e 1A62     		str	r2, [r3, #32]
+ 118 0120 4FF42053 		mov	r3, #10240
+ 119 0124 C4F20003 		movt	r3, 16384
+ 120 0128 4FF00002 		mov	r2, #0
+ 121 012c DA60     		str	r2, [r3, #12]
+ 122 012e 4FF42053 		mov	r3, #10240
+ 123 0132 C4F20003 		movt	r3, 16384
+ 124 0136 4FF00002 		mov	r2, #0
+ 125 013a 1A64     		str	r2, [r3, #64]
+ 126 013c FFF7FEFF 		bl	RTC_WaitForSynchro
+ 127 0140 0346     		mov	r3, r0
+ 128 0142 002B     		cmp	r3, #0
+ 129 0144 04D1     		bne	.L7
+ 130 0146 4FF00003 		mov	r3, #0
+ 131 014a 8DF80F30 		strb	r3, [sp, #15]
+ 132 014e 03E0     		b	.L3
+ 133              	.L7:
+ 134 0150 4FF00103 		mov	r3, #1
+ 135 0154 8DF80F30 		strb	r3, [sp, #15]
+ 136              	.L3:
+ 137 0158 4FF42053 		mov	r3, #10240
+ 138 015c C4F20003 		movt	r3, 16384
+ 139 0160 4FF0FF02 		mov	r2, #255
+ 140 0164 5A62     		str	r2, [r3, #36]
+ 141 0166 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 142 016a 1846     		mov	r0, r3
+ 143 016c 05B0     		add	sp, sp, #20
+ 144 016e 00BD     		pop	{pc}
+ 146              		.align	2
+ 147              		.global	RTC_Init
+ 148              		.thumb
+ 149              		.thumb_func
+ 151              	RTC_Init:
+ 152              		@ args = 0, pretend = 0, frame = 16
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154 0170 00B5     		push	{lr}
+ 155 0172 85B0     		sub	sp, sp, #20
+ 156 0174 0190     		str	r0, [sp, #4]
+ 157 0176 4FF00003 		mov	r3, #0
+ 158 017a 8DF80F30 		strb	r3, [sp, #15]
+ 159 017e 4FF42053 		mov	r3, #10240
+ 160 0182 C4F20003 		movt	r3, 16384
+ 161 0186 4FF0CA02 		mov	r2, #202
+ 162 018a 5A62     		str	r2, [r3, #36]
+ 163 018c 4FF42053 		mov	r3, #10240
+ 164 0190 C4F20003 		movt	r3, 16384
+ 165 0194 4FF05302 		mov	r2, #83
+ 166 0198 5A62     		str	r2, [r3, #36]
+ 167 019a FFF7FEFF 		bl	RTC_EnterInitMode
+ 168 019e 0346     		mov	r3, r0
+ 169 01a0 002B     		cmp	r3, #0
+ 170 01a2 04D1     		bne	.L9
+ 171 01a4 4FF00003 		mov	r3, #0
+ 172 01a8 8DF80F30 		strb	r3, [sp, #15]
+ 173 01ac 34E0     		b	.L10
+ 174              	.L9:
+ 175 01ae 4FF42053 		mov	r3, #10240
+ 176 01b2 C4F20003 		movt	r3, 16384
+ 177 01b6 4FF42052 		mov	r2, #10240
+ 178 01ba C4F20002 		movt	r2, 16384
+ 179 01be 9268     		ldr	r2, [r2, #8]
+ 180 01c0 22F04002 		bic	r2, r2, #64
+ 181 01c4 9A60     		str	r2, [r3, #8]
+ 182 01c6 4FF42053 		mov	r3, #10240
+ 183 01ca C4F20003 		movt	r3, 16384
+ 184 01ce 4FF42052 		mov	r2, #10240
+ 185 01d2 C4F20002 		movt	r2, 16384
+ 186 01d6 9168     		ldr	r1, [r2, #8]
+ 187 01d8 019A     		ldr	r2, [sp, #4]
+ 188 01da 1268     		ldr	r2, [r2, #0]
+ 189 01dc 0A43     		orrs	r2, r2, r1
+ 190 01de 9A60     		str	r2, [r3, #8]
+ 191 01e0 4FF42053 		mov	r3, #10240
+ 192 01e4 C4F20003 		movt	r3, 16384
+ 193 01e8 019A     		ldr	r2, [sp, #4]
+ 194 01ea 9268     		ldr	r2, [r2, #8]
+ 195 01ec 1A61     		str	r2, [r3, #16]
+ 196 01ee 4FF42053 		mov	r3, #10240
+ 197 01f2 C4F20003 		movt	r3, 16384
+ 198 01f6 4FF42052 		mov	r2, #10240
+ 199 01fa C4F20002 		movt	r2, 16384
+ 200 01fe 1169     		ldr	r1, [r2, #16]
+ 201 0200 019A     		ldr	r2, [sp, #4]
+ 202 0202 5268     		ldr	r2, [r2, #4]
+ 203 0204 4FEA0242 		lsl	r2, r2, #16
+ 204 0208 0A43     		orrs	r2, r2, r1
+ 205 020a 1A61     		str	r2, [r3, #16]
+ 206 020c FFF7FEFF 		bl	RTC_ExitInitMode
+ 207 0210 4FF00103 		mov	r3, #1
+ 208 0214 8DF80F30 		strb	r3, [sp, #15]
+ 209              	.L10:
+ 210 0218 4FF42053 		mov	r3, #10240
+ 211 021c C4F20003 		movt	r3, 16384
+ 212 0220 4FF0FF02 		mov	r2, #255
+ 213 0224 5A62     		str	r2, [r3, #36]
+ 214 0226 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 215 022a 1846     		mov	r0, r3
+ 216 022c 05B0     		add	sp, sp, #20
+ 217 022e 00BD     		pop	{pc}
+ 219              		.align	2
+ 220              		.global	RTC_StructInit
+ 221              		.thumb
+ 222              		.thumb_func
+ 224              	RTC_StructInit:
+ 225              		@ args = 0, pretend = 0, frame = 8
+ 226              		@ frame_needed = 0, uses_anonymous_args = 0
+ 227              		@ link register save eliminated.
+ 228 0230 82B0     		sub	sp, sp, #8
+ 229 0232 0190     		str	r0, [sp, #4]
+ 230 0234 019B     		ldr	r3, [sp, #4]
+ 231 0236 4FF00002 		mov	r2, #0
+ 232 023a 1A60     		str	r2, [r3, #0]
+ 233 023c 019B     		ldr	r3, [sp, #4]
+ 234 023e 4FF07F02 		mov	r2, #127
+ 235 0242 5A60     		str	r2, [r3, #4]
+ 236 0244 019B     		ldr	r3, [sp, #4]
+ 237 0246 4FF0FF02 		mov	r2, #255
+ 238 024a 9A60     		str	r2, [r3, #8]
+ 239 024c 02B0     		add	sp, sp, #8
+ 240 024e 7047     		bx	lr
+ 242              		.align	2
+ 243              		.global	RTC_WriteProtectionCmd
+ 244              		.thumb
+ 245              		.thumb_func
+ 247              	RTC_WriteProtectionCmd:
+ 248              		@ args = 0, pretend = 0, frame = 8
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250              		@ link register save eliminated.
+ 251 0250 82B0     		sub	sp, sp, #8
+ 252 0252 0346     		mov	r3, r0
+ 253 0254 8DF80730 		strb	r3, [sp, #7]
+ 254 0258 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 255 025c 002B     		cmp	r3, #0
+ 256 025e 07D0     		beq	.L13
+ 257 0260 4FF42053 		mov	r3, #10240
+ 258 0264 C4F20003 		movt	r3, 16384
+ 259 0268 4FF0FF02 		mov	r2, #255
+ 260 026c 5A62     		str	r2, [r3, #36]
+ 261 026e 0DE0     		b	.L12
+ 262              	.L13:
+ 263 0270 4FF42053 		mov	r3, #10240
+ 264 0274 C4F20003 		movt	r3, 16384
+ 265 0278 4FF0CA02 		mov	r2, #202
+ 266 027c 5A62     		str	r2, [r3, #36]
+ 267 027e 4FF42053 		mov	r3, #10240
+ 268 0282 C4F20003 		movt	r3, 16384
+ 269 0286 4FF05302 		mov	r2, #83
+ 270 028a 5A62     		str	r2, [r3, #36]
+ 271              	.L12:
+ 272 028c 02B0     		add	sp, sp, #8
+ 273 028e 7047     		bx	lr
+ 275              		.align	2
+ 276              		.global	RTC_EnterInitMode
+ 277              		.thumb
+ 278              		.thumb_func
+ 280              	RTC_EnterInitMode:
+ 281              		@ args = 0, pretend = 0, frame = 16
+ 282              		@ frame_needed = 0, uses_anonymous_args = 0
+ 283              		@ link register save eliminated.
+ 284 0290 84B0     		sub	sp, sp, #16
+ 285 0292 4FF00003 		mov	r3, #0
+ 286 0296 0193     		str	r3, [sp, #4]
+ 287 0298 4FF00003 		mov	r3, #0
+ 288 029c 8DF80F30 		strb	r3, [sp, #15]
+ 289 02a0 4FF00003 		mov	r3, #0
+ 290 02a4 0293     		str	r3, [sp, #8]
+ 291 02a6 4FF42053 		mov	r3, #10240
+ 292 02aa C4F20003 		movt	r3, 16384
+ 293 02ae DB68     		ldr	r3, [r3, #12]
+ 294 02b0 03F04003 		and	r3, r3, #64
+ 295 02b4 002B     		cmp	r3, #0
+ 296 02b6 2CD1     		bne	.L16
+ 297 02b8 4FF42053 		mov	r3, #10240
+ 298 02bc C4F20003 		movt	r3, 16384
+ 299 02c0 4FF0FF32 		mov	r2, #-1
+ 300 02c4 DA60     		str	r2, [r3, #12]
+ 301              	.L18:
+ 302 02c6 4FF42053 		mov	r3, #10240
+ 303 02ca C4F20003 		movt	r3, 16384
+ 304 02ce DB68     		ldr	r3, [r3, #12]
+ 305 02d0 03F04003 		and	r3, r3, #64
+ 306 02d4 0293     		str	r3, [sp, #8]
+ 307 02d6 019B     		ldr	r3, [sp, #4]
+ 308 02d8 03F10103 		add	r3, r3, #1
+ 309 02dc 0193     		str	r3, [sp, #4]
+ 310 02de 019B     		ldr	r3, [sp, #4]
+ 311 02e0 B3F5803F 		cmp	r3, #65536
+ 312 02e4 02D0     		beq	.L17
+ 313 02e6 029B     		ldr	r3, [sp, #8]
+ 314 02e8 002B     		cmp	r3, #0
+ 315 02ea ECD0     		beq	.L18
+ 316              	.L17:
+ 317 02ec 4FF42053 		mov	r3, #10240
+ 318 02f0 C4F20003 		movt	r3, 16384
+ 319 02f4 DB68     		ldr	r3, [r3, #12]
+ 320 02f6 03F04003 		and	r3, r3, #64
+ 321 02fa 002B     		cmp	r3, #0
+ 322 02fc 04D0     		beq	.L19
+ 323 02fe 4FF00103 		mov	r3, #1
+ 324 0302 8DF80F30 		strb	r3, [sp, #15]
+ 325 0306 08E0     		b	.L20
+ 326              	.L19:
+ 327 0308 4FF00003 		mov	r3, #0
+ 328 030c 8DF80F30 		strb	r3, [sp, #15]
+ 329 0310 03E0     		b	.L20
+ 330              	.L16:
+ 331 0312 4FF00103 		mov	r3, #1
+ 332 0316 8DF80F30 		strb	r3, [sp, #15]
+ 333              	.L20:
+ 334 031a 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 335 031e 1846     		mov	r0, r3
+ 336 0320 04B0     		add	sp, sp, #16
+ 337 0322 7047     		bx	lr
+ 339              		.align	2
+ 340              		.global	RTC_ExitInitMode
+ 341              		.thumb
+ 342              		.thumb_func
+ 344              	RTC_ExitInitMode:
+ 345              		@ args = 0, pretend = 0, frame = 0
+ 346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 347              		@ link register save eliminated.
+ 348 0324 4FF42053 		mov	r3, #10240
+ 349 0328 C4F20003 		movt	r3, 16384
+ 350 032c 4FF42052 		mov	r2, #10240
+ 351 0330 C4F20002 		movt	r2, 16384
+ 352 0334 D268     		ldr	r2, [r2, #12]
+ 353 0336 22F08002 		bic	r2, r2, #128
+ 354 033a DA60     		str	r2, [r3, #12]
+ 355 033c 7047     		bx	lr
+ 357 033e 00BF     		.align	2
+ 358              		.global	RTC_WaitForSynchro
+ 359              		.thumb
+ 360              		.thumb_func
+ 362              	RTC_WaitForSynchro:
+ 363              		@ args = 0, pretend = 0, frame = 16
+ 364              		@ frame_needed = 0, uses_anonymous_args = 0
+ 365              		@ link register save eliminated.
+ 366 0340 84B0     		sub	sp, sp, #16
+ 367 0342 4FF00003 		mov	r3, #0
+ 368 0346 0193     		str	r3, [sp, #4]
+ 369 0348 4FF00003 		mov	r3, #0
+ 370 034c 8DF80F30 		strb	r3, [sp, #15]
+ 371 0350 4FF00003 		mov	r3, #0
+ 372 0354 0293     		str	r3, [sp, #8]
+ 373 0356 4FF42053 		mov	r3, #10240
+ 374 035a C4F20003 		movt	r3, 16384
+ 375 035e 4FF0CA02 		mov	r2, #202
+ 376 0362 5A62     		str	r2, [r3, #36]
+ 377 0364 4FF42053 		mov	r3, #10240
+ 378 0368 C4F20003 		movt	r3, 16384
+ 379 036c 4FF05302 		mov	r2, #83
+ 380 0370 5A62     		str	r2, [r3, #36]
+ 381 0372 4FF42053 		mov	r3, #10240
+ 382 0376 C4F20003 		movt	r3, 16384
+ 383 037a 4FF42052 		mov	r2, #10240
+ 384 037e C4F20002 		movt	r2, 16384
+ 385 0382 D268     		ldr	r2, [r2, #12]
+ 386 0384 22F0A002 		bic	r2, r2, #160
+ 387 0388 DA60     		str	r2, [r3, #12]
+ 388              	.L24:
+ 389 038a 4FF42053 		mov	r3, #10240
+ 390 038e C4F20003 		movt	r3, 16384
+ 391 0392 DB68     		ldr	r3, [r3, #12]
+ 392 0394 03F02003 		and	r3, r3, #32
+ 393 0398 0293     		str	r3, [sp, #8]
+ 394 039a 019B     		ldr	r3, [sp, #4]
+ 395 039c 03F10103 		add	r3, r3, #1
+ 396 03a0 0193     		str	r3, [sp, #4]
+ 397 03a2 019B     		ldr	r3, [sp, #4]
+ 398 03a4 B3F5003F 		cmp	r3, #131072
+ 399 03a8 02D0     		beq	.L23
+ 400 03aa 029B     		ldr	r3, [sp, #8]
+ 401 03ac 002B     		cmp	r3, #0
+ 402 03ae ECD0     		beq	.L24
+ 403              	.L23:
+ 404 03b0 4FF42053 		mov	r3, #10240
+ 405 03b4 C4F20003 		movt	r3, 16384
+ 406 03b8 DB68     		ldr	r3, [r3, #12]
+ 407 03ba 03F02003 		and	r3, r3, #32
+ 408 03be 002B     		cmp	r3, #0
+ 409 03c0 04D0     		beq	.L25
+ 410 03c2 4FF00103 		mov	r3, #1
+ 411 03c6 8DF80F30 		strb	r3, [sp, #15]
+ 412 03ca 03E0     		b	.L26
+ 413              	.L25:
+ 414 03cc 4FF00003 		mov	r3, #0
+ 415 03d0 8DF80F30 		strb	r3, [sp, #15]
+ 416              	.L26:
+ 417 03d4 4FF42053 		mov	r3, #10240
+ 418 03d8 C4F20003 		movt	r3, 16384
+ 419 03dc 4FF0FF02 		mov	r2, #255
+ 420 03e0 5A62     		str	r2, [r3, #36]
+ 421 03e2 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 422 03e6 1846     		mov	r0, r3
+ 423 03e8 04B0     		add	sp, sp, #16
+ 424 03ea 7047     		bx	lr
+ 426              		.align	2
+ 427              		.global	RTC_RefClockCmd
+ 428              		.thumb
+ 429              		.thumb_func
+ 431              	RTC_RefClockCmd:
+ 432              		@ args = 0, pretend = 0, frame = 16
+ 433              		@ frame_needed = 0, uses_anonymous_args = 0
+ 434 03ec 00B5     		push	{lr}
+ 435 03ee 85B0     		sub	sp, sp, #20
+ 436 03f0 0346     		mov	r3, r0
+ 437 03f2 8DF80730 		strb	r3, [sp, #7]
+ 438 03f6 4FF00003 		mov	r3, #0
+ 439 03fa 8DF80F30 		strb	r3, [sp, #15]
+ 440 03fe 4FF42053 		mov	r3, #10240
+ 441 0402 C4F20003 		movt	r3, 16384
+ 442 0406 4FF0CA02 		mov	r2, #202
+ 443 040a 5A62     		str	r2, [r3, #36]
+ 444 040c 4FF42053 		mov	r3, #10240
+ 445 0410 C4F20003 		movt	r3, 16384
+ 446 0414 4FF05302 		mov	r2, #83
+ 447 0418 5A62     		str	r2, [r3, #36]
+ 448 041a FFF7FEFF 		bl	RTC_EnterInitMode
+ 449 041e 0346     		mov	r3, r0
+ 450 0420 002B     		cmp	r3, #0
+ 451 0422 04D1     		bne	.L28
+ 452 0424 4FF00003 		mov	r3, #0
+ 453 0428 8DF80F30 		strb	r3, [sp, #15]
+ 454 042c 22E0     		b	.L29
+ 455              	.L28:
+ 456 042e 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 457 0432 002B     		cmp	r3, #0
+ 458 0434 0CD0     		beq	.L30
+ 459 0436 4FF42053 		mov	r3, #10240
+ 460 043a C4F20003 		movt	r3, 16384
+ 461 043e 4FF42052 		mov	r2, #10240
+ 462 0442 C4F20002 		movt	r2, 16384
+ 463 0446 9268     		ldr	r2, [r2, #8]
+ 464 0448 42F01002 		orr	r2, r2, #16
+ 465 044c 9A60     		str	r2, [r3, #8]
+ 466 044e 0BE0     		b	.L31
+ 467              	.L30:
+ 468 0450 4FF42053 		mov	r3, #10240
+ 469 0454 C4F20003 		movt	r3, 16384
+ 470 0458 4FF42052 		mov	r2, #10240
+ 471 045c C4F20002 		movt	r2, 16384
+ 472 0460 9268     		ldr	r2, [r2, #8]
+ 473 0462 22F01002 		bic	r2, r2, #16
+ 474 0466 9A60     		str	r2, [r3, #8]
+ 475              	.L31:
+ 476 0468 FFF7FEFF 		bl	RTC_ExitInitMode
+ 477 046c 4FF00103 		mov	r3, #1
+ 478 0470 8DF80F30 		strb	r3, [sp, #15]
+ 479              	.L29:
+ 480 0474 4FF42053 		mov	r3, #10240
+ 481 0478 C4F20003 		movt	r3, 16384
+ 482 047c 4FF0FF02 		mov	r2, #255
+ 483 0480 5A62     		str	r2, [r3, #36]
+ 484 0482 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 485 0486 1846     		mov	r0, r3
+ 486 0488 05B0     		add	sp, sp, #20
+ 487 048a 00BD     		pop	{pc}
+ 489              		.align	2
+ 490              		.global	RTC_BypassShadowCmd
+ 491              		.thumb
+ 492              		.thumb_func
+ 494              	RTC_BypassShadowCmd:
+ 495              		@ args = 0, pretend = 0, frame = 8
+ 496              		@ frame_needed = 0, uses_anonymous_args = 0
+ 497              		@ link register save eliminated.
+ 498 048c 82B0     		sub	sp, sp, #8
+ 499 048e 0346     		mov	r3, r0
+ 500 0490 8DF80730 		strb	r3, [sp, #7]
+ 501 0494 4FF42053 		mov	r3, #10240
+ 502 0498 C4F20003 		movt	r3, 16384
+ 503 049c 4FF0CA02 		mov	r2, #202
+ 504 04a0 5A62     		str	r2, [r3, #36]
+ 505 04a2 4FF42053 		mov	r3, #10240
+ 506 04a6 C4F20003 		movt	r3, 16384
+ 507 04aa 4FF05302 		mov	r2, #83
+ 508 04ae 5A62     		str	r2, [r3, #36]
+ 509 04b0 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 510 04b4 002B     		cmp	r3, #0
+ 511 04b6 0CD0     		beq	.L33
+ 512 04b8 4FF42053 		mov	r3, #10240
+ 513 04bc C4F20003 		movt	r3, 16384
+ 514 04c0 4FF42052 		mov	r2, #10240
+ 515 04c4 C4F20002 		movt	r2, 16384
+ 516 04c8 9268     		ldr	r2, [r2, #8]
+ 517 04ca 42F02002 		orr	r2, r2, #32
+ 518 04ce 9A60     		str	r2, [r3, #8]
+ 519 04d0 0BE0     		b	.L34
+ 520              	.L33:
+ 521 04d2 4FF42053 		mov	r3, #10240
+ 522 04d6 C4F20003 		movt	r3, 16384
+ 523 04da 4FF42052 		mov	r2, #10240
+ 524 04de C4F20002 		movt	r2, 16384
+ 525 04e2 9268     		ldr	r2, [r2, #8]
+ 526 04e4 02F0DF02 		and	r2, r2, #223
+ 527 04e8 9A60     		str	r2, [r3, #8]
+ 528              	.L34:
+ 529 04ea 4FF42053 		mov	r3, #10240
+ 530 04ee C4F20003 		movt	r3, 16384
+ 531 04f2 4FF0FF02 		mov	r2, #255
+ 532 04f6 5A62     		str	r2, [r3, #36]
+ 533 04f8 02B0     		add	sp, sp, #8
+ 534 04fa 7047     		bx	lr
+ 536              		.align	2
+ 537              		.global	RTC_SetTime
+ 538              		.thumb
+ 539              		.thumb_func
+ 541              	RTC_SetTime:
+ 542              		@ args = 0, pretend = 0, frame = 16
+ 543              		@ frame_needed = 0, uses_anonymous_args = 0
+ 544 04fc 10B5     		push	{r4, lr}
+ 545 04fe 84B0     		sub	sp, sp, #16
+ 546 0500 0190     		str	r0, [sp, #4]
+ 547 0502 0091     		str	r1, [sp, #0]
+ 548 0504 4FF00003 		mov	r3, #0
+ 549 0508 0393     		str	r3, [sp, #12]
+ 550 050a 4FF00003 		mov	r3, #0
+ 551 050e 8DF80B30 		strb	r3, [sp, #11]
+ 552 0512 019B     		ldr	r3, [sp, #4]
+ 553 0514 002B     		cmp	r3, #0
+ 554 0516 0DD1     		bne	.L36
+ 555 0518 4FF42053 		mov	r3, #10240
+ 556 051c C4F20003 		movt	r3, 16384
+ 557 0520 9B68     		ldr	r3, [r3, #8]
+ 558 0522 03F04003 		and	r3, r3, #64
+ 559 0526 002B     		cmp	r3, #0
+ 560 0528 19D1     		bne	.L37
+ 561 052a 009B     		ldr	r3, [sp, #0]
+ 562 052c 4FF00002 		mov	r2, #0
+ 563 0530 DA70     		strb	r2, [r3, #3]
+ 564 0532 14E0     		b	.L37
+ 565              	.L36:
+ 566 0534 4FF42053 		mov	r3, #10240
+ 567 0538 C4F20003 		movt	r3, 16384
+ 568 053c 9B68     		ldr	r3, [r3, #8]
+ 569 053e 03F04003 		and	r3, r3, #64
+ 570 0542 002B     		cmp	r3, #0
+ 571 0544 07D0     		beq	.L38
+ 572 0546 009B     		ldr	r3, [sp, #0]
+ 573 0548 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 574 054a 1846     		mov	r0, r3
+ 575 054c 01F086FA 		bl	RTC_Bcd2ToByte
+ 576 0550 0346     		mov	r3, r0
+ 577 0552 0393     		str	r3, [sp, #12]
+ 578 0554 03E0     		b	.L37
+ 579              	.L38:
+ 580 0556 009B     		ldr	r3, [sp, #0]
+ 581 0558 4FF00002 		mov	r2, #0
+ 582 055c DA70     		strb	r2, [r3, #3]
+ 583              	.L37:
+ 584 055e 019B     		ldr	r3, [sp, #4]
+ 585 0560 002B     		cmp	r3, #0
+ 586 0562 12D0     		beq	.L39
+ 587 0564 009B     		ldr	r3, [sp, #0]
+ 588 0566 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 589 0568 4FEA0342 		lsl	r2, r3, #16
+ 590 056c 009B     		ldr	r3, [sp, #0]
+ 591 056e 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 592 0570 4FEA0323 		lsl	r3, r3, #8
+ 593 0574 1A43     		orrs	r2, r2, r3
+ 594 0576 009B     		ldr	r3, [sp, #0]
+ 595 0578 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 596 057a 1A43     		orrs	r2, r2, r3
+ 597 057c 009B     		ldr	r3, [sp, #0]
+ 598 057e DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 599 0580 4FEA0343 		lsl	r3, r3, #16
+ 600 0584 1343     		orrs	r3, r3, r2
+ 601 0586 0393     		str	r3, [sp, #12]
+ 602 0588 1EE0     		b	.L40
+ 603              	.L39:
+ 604 058a 009B     		ldr	r3, [sp, #0]
+ 605 058c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 606 058e 1846     		mov	r0, r3
+ 607 0590 01F03EFA 		bl	RTC_ByteToBcd2
+ 608 0594 0346     		mov	r3, r0
+ 609 0596 4FEA0344 		lsl	r4, r3, #16
+ 610 059a 009B     		ldr	r3, [sp, #0]
+ 611 059c 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 612 059e 1846     		mov	r0, r3
+ 613 05a0 01F036FA 		bl	RTC_ByteToBcd2
+ 614 05a4 0346     		mov	r3, r0
+ 615 05a6 4FEA0323 		lsl	r3, r3, #8
+ 616 05aa 1C43     		orrs	r4, r4, r3
+ 617 05ac 009B     		ldr	r3, [sp, #0]
+ 618 05ae 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 619 05b0 1846     		mov	r0, r3
+ 620 05b2 01F02DFA 		bl	RTC_ByteToBcd2
+ 621 05b6 0346     		mov	r3, r0
+ 622 05b8 44EA0302 		orr	r2, r4, r3
+ 623 05bc 009B     		ldr	r3, [sp, #0]
+ 624 05be DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 625 05c0 4FEA0343 		lsl	r3, r3, #16
+ 626 05c4 1343     		orrs	r3, r3, r2
+ 627 05c6 0393     		str	r3, [sp, #12]
+ 628              	.L40:
+ 629 05c8 4FF42053 		mov	r3, #10240
+ 630 05cc C4F20003 		movt	r3, 16384
+ 631 05d0 4FF0CA02 		mov	r2, #202
+ 632 05d4 5A62     		str	r2, [r3, #36]
+ 633 05d6 4FF42053 		mov	r3, #10240
+ 634 05da C4F20003 		movt	r3, 16384
+ 635 05de 4FF05302 		mov	r2, #83
+ 636 05e2 5A62     		str	r2, [r3, #36]
+ 637 05e4 FFF7FEFF 		bl	RTC_EnterInitMode
+ 638 05e8 0346     		mov	r3, r0
+ 639 05ea 002B     		cmp	r3, #0
+ 640 05ec 04D1     		bne	.L41
+ 641 05ee 4FF00003 		mov	r3, #0
+ 642 05f2 8DF80B30 		strb	r3, [sp, #11]
+ 643 05f6 1AE0     		b	.L42
+ 644              	.L41:
+ 645 05f8 4FF42052 		mov	r2, #10240
+ 646 05fc C4F20002 		movt	r2, 16384
+ 647 0600 0399     		ldr	r1, [sp, #12]
+ 648 0602 47F67F73 		movw	r3, #32639
+ 649 0606 C0F27F03 		movt	r3, 127
+ 650 060a 0B40     		ands	r3, r3, r1
+ 651 060c 1360     		str	r3, [r2, #0]
+ 652 060e FFF7FEFF 		bl	RTC_ExitInitMode
+ 653 0612 FFF7FEFF 		bl	RTC_WaitForSynchro
+ 654 0616 0346     		mov	r3, r0
+ 655 0618 002B     		cmp	r3, #0
+ 656 061a 04D1     		bne	.L43
+ 657 061c 4FF00003 		mov	r3, #0
+ 658 0620 8DF80B30 		strb	r3, [sp, #11]
+ 659 0624 03E0     		b	.L42
+ 660              	.L43:
+ 661 0626 4FF00103 		mov	r3, #1
+ 662 062a 8DF80B30 		strb	r3, [sp, #11]
+ 663              	.L42:
+ 664 062e 4FF42053 		mov	r3, #10240
+ 665 0632 C4F20003 		movt	r3, 16384
+ 666 0636 4FF0FF02 		mov	r2, #255
+ 667 063a 5A62     		str	r2, [r3, #36]
+ 668 063c 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+ 669 0640 1846     		mov	r0, r3
+ 670 0642 04B0     		add	sp, sp, #16
+ 671 0644 10BD     		pop	{r4, pc}
+ 673 0646 00BF     		.align	2
+ 674              		.global	RTC_TimeStructInit
+ 675              		.thumb
+ 676              		.thumb_func
+ 678              	RTC_TimeStructInit:
+ 679              		@ args = 0, pretend = 0, frame = 8
+ 680              		@ frame_needed = 0, uses_anonymous_args = 0
+ 681              		@ link register save eliminated.
+ 682 0648 82B0     		sub	sp, sp, #8
+ 683 064a 0190     		str	r0, [sp, #4]
+ 684 064c 019B     		ldr	r3, [sp, #4]
+ 685 064e 4FF00002 		mov	r2, #0
+ 686 0652 DA70     		strb	r2, [r3, #3]
+ 687 0654 019B     		ldr	r3, [sp, #4]
+ 688 0656 4FF00002 		mov	r2, #0
+ 689 065a 1A70     		strb	r2, [r3, #0]
+ 690 065c 019B     		ldr	r3, [sp, #4]
+ 691 065e 4FF00002 		mov	r2, #0
+ 692 0662 5A70     		strb	r2, [r3, #1]
+ 693 0664 019B     		ldr	r3, [sp, #4]
+ 694 0666 4FF00002 		mov	r2, #0
+ 695 066a 9A70     		strb	r2, [r3, #2]
+ 696 066c 02B0     		add	sp, sp, #8
+ 697 066e 7047     		bx	lr
+ 699              		.align	2
+ 700              		.global	RTC_GetTime
+ 701              		.thumb
+ 702              		.thumb_func
+ 704              	RTC_GetTime:
+ 705              		@ args = 0, pretend = 0, frame = 16
+ 706              		@ frame_needed = 0, uses_anonymous_args = 0
+ 707 0670 00B5     		push	{lr}
+ 708 0672 85B0     		sub	sp, sp, #20
+ 709 0674 0190     		str	r0, [sp, #4]
+ 710 0676 0091     		str	r1, [sp, #0]
+ 711 0678 4FF00003 		mov	r3, #0
+ 712 067c 0393     		str	r3, [sp, #12]
+ 713 067e 4FF42053 		mov	r3, #10240
+ 714 0682 C4F20003 		movt	r3, 16384
+ 715 0686 1A68     		ldr	r2, [r3, #0]
+ 716 0688 47F67F73 		movw	r3, #32639
+ 717 068c C0F27F03 		movt	r3, 127
+ 718 0690 1340     		ands	r3, r3, r2
+ 719 0692 0393     		str	r3, [sp, #12]
+ 720 0694 039B     		ldr	r3, [sp, #12]
+ 721 0696 03F47C13 		and	r3, r3, #4128768
+ 722 069a 4FEA1343 		lsr	r3, r3, #16
+ 723 069e DAB2     		uxtb	r2, r3
+ 724 06a0 009B     		ldr	r3, [sp, #0]
+ 725 06a2 1A70     		strb	r2, [r3, #0]
+ 726 06a4 039B     		ldr	r3, [sp, #12]
+ 727 06a6 03F4FE43 		and	r3, r3, #32512
+ 728 06aa 4FEA1323 		lsr	r3, r3, #8
+ 729 06ae DAB2     		uxtb	r2, r3
+ 730 06b0 009B     		ldr	r3, [sp, #0]
+ 731 06b2 5A70     		strb	r2, [r3, #1]
+ 732 06b4 039B     		ldr	r3, [sp, #12]
+ 733 06b6 DBB2     		uxtb	r3, r3
+ 734 06b8 03F07F03 		and	r3, r3, #127
+ 735 06bc DAB2     		uxtb	r2, r3
+ 736 06be 009B     		ldr	r3, [sp, #0]
+ 737 06c0 9A70     		strb	r2, [r3, #2]
+ 738 06c2 039B     		ldr	r3, [sp, #12]
+ 739 06c4 03F48003 		and	r3, r3, #4194304
+ 740 06c8 4FEA1343 		lsr	r3, r3, #16
+ 741 06cc DAB2     		uxtb	r2, r3
+ 742 06ce 009B     		ldr	r3, [sp, #0]
+ 743 06d0 DA70     		strb	r2, [r3, #3]
+ 744 06d2 019B     		ldr	r3, [sp, #4]
+ 745 06d4 002B     		cmp	r3, #0
+ 746 06d6 1AD1     		bne	.L45
+ 747 06d8 009B     		ldr	r3, [sp, #0]
+ 748 06da 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 749 06dc 1846     		mov	r0, r3
+ 750 06de 01F0BDF9 		bl	RTC_Bcd2ToByte
+ 751 06e2 0346     		mov	r3, r0
+ 752 06e4 1A46     		mov	r2, r3
+ 753 06e6 009B     		ldr	r3, [sp, #0]
+ 754 06e8 1A70     		strb	r2, [r3, #0]
+ 755 06ea 009B     		ldr	r3, [sp, #0]
+ 756 06ec 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 757 06ee 1846     		mov	r0, r3
+ 758 06f0 01F0B4F9 		bl	RTC_Bcd2ToByte
+ 759 06f4 0346     		mov	r3, r0
+ 760 06f6 1A46     		mov	r2, r3
+ 761 06f8 009B     		ldr	r3, [sp, #0]
+ 762 06fa 5A70     		strb	r2, [r3, #1]
+ 763 06fc 009B     		ldr	r3, [sp, #0]
+ 764 06fe 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 765 0700 1846     		mov	r0, r3
+ 766 0702 01F0ABF9 		bl	RTC_Bcd2ToByte
+ 767 0706 0346     		mov	r3, r0
+ 768 0708 1A46     		mov	r2, r3
+ 769 070a 009B     		ldr	r3, [sp, #0]
+ 770 070c 9A70     		strb	r2, [r3, #2]
+ 771              	.L45:
+ 772 070e 05B0     		add	sp, sp, #20
+ 773 0710 00BD     		pop	{pc}
+ 775 0712 00BF     		.align	2
+ 776              		.global	RTC_GetSubSecond
+ 777              		.thumb
+ 778              		.thumb_func
+ 780              	RTC_GetSubSecond:
+ 781              		@ args = 0, pretend = 0, frame = 8
+ 782              		@ frame_needed = 0, uses_anonymous_args = 0
+ 783              		@ link register save eliminated.
+ 784 0714 82B0     		sub	sp, sp, #8
+ 785 0716 4FF00003 		mov	r3, #0
+ 786 071a 0193     		str	r3, [sp, #4]
+ 787 071c 4FF42053 		mov	r3, #10240
+ 788 0720 C4F20003 		movt	r3, 16384
+ 789 0724 9B6A     		ldr	r3, [r3, #40]
+ 790 0726 0193     		str	r3, [sp, #4]
+ 791 0728 4FF42053 		mov	r3, #10240
+ 792 072c C4F20003 		movt	r3, 16384
+ 793 0730 5B68     		ldr	r3, [r3, #4]
+ 794 0732 019B     		ldr	r3, [sp, #4]
+ 795 0734 1846     		mov	r0, r3
+ 796 0736 02B0     		add	sp, sp, #8
+ 797 0738 7047     		bx	lr
+ 799 073a 00BF     		.align	2
+ 800              		.global	RTC_SetDate
+ 801              		.thumb
+ 802              		.thumb_func
+ 804              	RTC_SetDate:
+ 805              		@ args = 0, pretend = 0, frame = 16
+ 806              		@ frame_needed = 0, uses_anonymous_args = 0
+ 807 073c 10B5     		push	{r4, lr}
+ 808 073e 84B0     		sub	sp, sp, #16
+ 809 0740 0190     		str	r0, [sp, #4]
+ 810 0742 0091     		str	r1, [sp, #0]
+ 811 0744 4FF00003 		mov	r3, #0
+ 812 0748 0393     		str	r3, [sp, #12]
+ 813 074a 4FF00003 		mov	r3, #0
+ 814 074e 8DF80B30 		strb	r3, [sp, #11]
+ 815 0752 019B     		ldr	r3, [sp, #4]
+ 816 0754 002B     		cmp	r3, #0
+ 817 0756 0FD1     		bne	.L49
+ 818 0758 009B     		ldr	r3, [sp, #0]
+ 819 075a 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 820 075c 03F01003 		and	r3, r3, #16
+ 821 0760 002B     		cmp	r3, #0
+ 822 0762 09D0     		beq	.L49
+ 823 0764 009B     		ldr	r3, [sp, #0]
+ 824 0766 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 825 0768 23F01003 		bic	r3, r3, #16
+ 826 076c DBB2     		uxtb	r3, r3
+ 827 076e 03F10A03 		add	r3, r3, #10
+ 828 0772 DAB2     		uxtb	r2, r3
+ 829 0774 009B     		ldr	r3, [sp, #0]
+ 830 0776 5A70     		strb	r2, [r3, #1]
+ 831              	.L49:
+ 832 0778 019B     		ldr	r3, [sp, #4]
+ 833 077a 002B     		cmp	r3, #0
+ 834 077c 0DD0     		beq	.L50
+ 835 077e 009B     		ldr	r3, [sp, #0]
+ 836 0780 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 837 0782 1846     		mov	r0, r3
+ 838 0784 01F06AF9 		bl	RTC_Bcd2ToByte
+ 839 0788 0346     		mov	r3, r0
+ 840 078a 0393     		str	r3, [sp, #12]
+ 841 078c 009B     		ldr	r3, [sp, #0]
+ 842 078e 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 843 0790 1846     		mov	r0, r3
+ 844 0792 01F063F9 		bl	RTC_Bcd2ToByte
+ 845 0796 0346     		mov	r3, r0
+ 846 0798 0393     		str	r3, [sp, #12]
+ 847              	.L50:
+ 848 079a 019B     		ldr	r3, [sp, #4]
+ 849 079c 002B     		cmp	r3, #0
+ 850 079e 12D0     		beq	.L51
+ 851 07a0 009B     		ldr	r3, [sp, #0]
+ 852 07a2 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 853 07a4 4FEA0342 		lsl	r2, r3, #16
+ 854 07a8 009B     		ldr	r3, [sp, #0]
+ 855 07aa 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 856 07ac 4FEA0323 		lsl	r3, r3, #8
+ 857 07b0 1A43     		orrs	r2, r2, r3
+ 858 07b2 009B     		ldr	r3, [sp, #0]
+ 859 07b4 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 860 07b6 1A43     		orrs	r2, r2, r3
+ 861 07b8 009B     		ldr	r3, [sp, #0]
+ 862 07ba 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 863 07bc 4FEA4333 		lsl	r3, r3, #13
+ 864 07c0 1343     		orrs	r3, r3, r2
+ 865 07c2 0393     		str	r3, [sp, #12]
+ 866 07c4 1EE0     		b	.L52
+ 867              	.L51:
+ 868 07c6 009B     		ldr	r3, [sp, #0]
+ 869 07c8 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 870 07ca 1846     		mov	r0, r3
+ 871 07cc 01F020F9 		bl	RTC_ByteToBcd2
+ 872 07d0 0346     		mov	r3, r0
+ 873 07d2 4FEA0344 		lsl	r4, r3, #16
+ 874 07d6 009B     		ldr	r3, [sp, #0]
+ 875 07d8 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 876 07da 1846     		mov	r0, r3
+ 877 07dc 01F018F9 		bl	RTC_ByteToBcd2
+ 878 07e0 0346     		mov	r3, r0
+ 879 07e2 4FEA0323 		lsl	r3, r3, #8
+ 880 07e6 1C43     		orrs	r4, r4, r3
+ 881 07e8 009B     		ldr	r3, [sp, #0]
+ 882 07ea 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 883 07ec 1846     		mov	r0, r3
+ 884 07ee 01F00FF9 		bl	RTC_ByteToBcd2
+ 885 07f2 0346     		mov	r3, r0
+ 886 07f4 44EA0302 		orr	r2, r4, r3
+ 887 07f8 009B     		ldr	r3, [sp, #0]
+ 888 07fa 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 889 07fc 4FEA4333 		lsl	r3, r3, #13
+ 890 0800 1343     		orrs	r3, r3, r2
+ 891 0802 0393     		str	r3, [sp, #12]
+ 892              	.L52:
+ 893 0804 4FF42053 		mov	r3, #10240
+ 894 0808 C4F20003 		movt	r3, 16384
+ 895 080c 4FF0CA02 		mov	r2, #202
+ 896 0810 5A62     		str	r2, [r3, #36]
+ 897 0812 4FF42053 		mov	r3, #10240
+ 898 0816 C4F20003 		movt	r3, 16384
+ 899 081a 4FF05302 		mov	r2, #83
+ 900 081e 5A62     		str	r2, [r3, #36]
+ 901 0820 FFF7FEFF 		bl	RTC_EnterInitMode
+ 902 0824 0346     		mov	r3, r0
+ 903 0826 002B     		cmp	r3, #0
+ 904 0828 04D1     		bne	.L53
+ 905 082a 4FF00003 		mov	r3, #0
+ 906 082e 8DF80B30 		strb	r3, [sp, #11]
+ 907 0832 19E0     		b	.L54
+ 908              	.L53:
+ 909 0834 4FF42053 		mov	r3, #10240
+ 910 0838 C4F20003 		movt	r3, 16384
+ 911 083c 039A     		ldr	r2, [sp, #12]
+ 912 083e 22F07F42 		bic	r2, r2, #-16777216
+ 913 0842 22F0C002 		bic	r2, r2, #192
+ 914 0846 5A60     		str	r2, [r3, #4]
+ 915 0848 FFF7FEFF 		bl	RTC_ExitInitMode
+ 916 084c FFF7FEFF 		bl	RTC_WaitForSynchro
+ 917 0850 0346     		mov	r3, r0
+ 918 0852 002B     		cmp	r3, #0
+ 919 0854 04D1     		bne	.L55
+ 920 0856 4FF00003 		mov	r3, #0
+ 921 085a 8DF80B30 		strb	r3, [sp, #11]
+ 922 085e 03E0     		b	.L54
+ 923              	.L55:
+ 924 0860 4FF00103 		mov	r3, #1
+ 925 0864 8DF80B30 		strb	r3, [sp, #11]
+ 926              	.L54:
+ 927 0868 4FF42053 		mov	r3, #10240
+ 928 086c C4F20003 		movt	r3, 16384
+ 929 0870 4FF0FF02 		mov	r2, #255
+ 930 0874 5A62     		str	r2, [r3, #36]
+ 931 0876 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+ 932 087a 1846     		mov	r0, r3
+ 933 087c 04B0     		add	sp, sp, #16
+ 934 087e 10BD     		pop	{r4, pc}
+ 936              		.align	2
+ 937              		.global	RTC_DateStructInit
+ 938              		.thumb
+ 939              		.thumb_func
+ 941              	RTC_DateStructInit:
+ 942              		@ args = 0, pretend = 0, frame = 8
+ 943              		@ frame_needed = 0, uses_anonymous_args = 0
+ 944              		@ link register save eliminated.
+ 945 0880 82B0     		sub	sp, sp, #8
+ 946 0882 0190     		str	r0, [sp, #4]
+ 947 0884 019B     		ldr	r3, [sp, #4]
+ 948 0886 4FF00102 		mov	r2, #1
+ 949 088a 1A70     		strb	r2, [r3, #0]
+ 950 088c 019B     		ldr	r3, [sp, #4]
+ 951 088e 4FF00102 		mov	r2, #1
+ 952 0892 9A70     		strb	r2, [r3, #2]
+ 953 0894 019B     		ldr	r3, [sp, #4]
+ 954 0896 4FF00102 		mov	r2, #1
+ 955 089a 5A70     		strb	r2, [r3, #1]
+ 956 089c 019B     		ldr	r3, [sp, #4]
+ 957 089e 4FF00002 		mov	r2, #0
+ 958 08a2 DA70     		strb	r2, [r3, #3]
+ 959 08a4 02B0     		add	sp, sp, #8
+ 960 08a6 7047     		bx	lr
+ 962              		.align	2
+ 963              		.global	RTC_GetDate
+ 964              		.thumb
+ 965              		.thumb_func
+ 967              	RTC_GetDate:
+ 968              		@ args = 0, pretend = 0, frame = 16
+ 969              		@ frame_needed = 0, uses_anonymous_args = 0
+ 970 08a8 00B5     		push	{lr}
+ 971 08aa 85B0     		sub	sp, sp, #20
+ 972 08ac 0190     		str	r0, [sp, #4]
+ 973 08ae 0091     		str	r1, [sp, #0]
+ 974 08b0 4FF00003 		mov	r3, #0
+ 975 08b4 0393     		str	r3, [sp, #12]
+ 976 08b6 4FF42053 		mov	r3, #10240
+ 977 08ba C4F20003 		movt	r3, 16384
+ 978 08be 5B68     		ldr	r3, [r3, #4]
+ 979 08c0 23F07F43 		bic	r3, r3, #-16777216
+ 980 08c4 23F0C003 		bic	r3, r3, #192
+ 981 08c8 0393     		str	r3, [sp, #12]
+ 982 08ca 039B     		ldr	r3, [sp, #12]
+ 983 08cc 03F47F03 		and	r3, r3, #16711680
+ 984 08d0 4FEA1343 		lsr	r3, r3, #16
+ 985 08d4 DAB2     		uxtb	r2, r3
+ 986 08d6 009B     		ldr	r3, [sp, #0]
+ 987 08d8 DA70     		strb	r2, [r3, #3]
+ 988 08da 039B     		ldr	r3, [sp, #12]
+ 989 08dc 03F4F853 		and	r3, r3, #7936
+ 990 08e0 4FEA1323 		lsr	r3, r3, #8
+ 991 08e4 DAB2     		uxtb	r2, r3
+ 992 08e6 009B     		ldr	r3, [sp, #0]
+ 993 08e8 5A70     		strb	r2, [r3, #1]
+ 994 08ea 039B     		ldr	r3, [sp, #12]
+ 995 08ec DBB2     		uxtb	r3, r3
+ 996 08ee 03F03F03 		and	r3, r3, #63
+ 997 08f2 DAB2     		uxtb	r2, r3
+ 998 08f4 009B     		ldr	r3, [sp, #0]
+ 999 08f6 9A70     		strb	r2, [r3, #2]
+ 1000 08f8 039B     		ldr	r3, [sp, #12]
+ 1001 08fa 03F46043 		and	r3, r3, #57344
+ 1002 08fe 4FEA5333 		lsr	r3, r3, #13
+ 1003 0902 DAB2     		uxtb	r2, r3
+ 1004 0904 009B     		ldr	r3, [sp, #0]
+ 1005 0906 1A70     		strb	r2, [r3, #0]
+ 1006 0908 019B     		ldr	r3, [sp, #4]
+ 1007 090a 002B     		cmp	r3, #0
+ 1008 090c 1AD1     		bne	.L57
+ 1009 090e 009B     		ldr	r3, [sp, #0]
+ 1010 0910 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1011 0912 1846     		mov	r0, r3
+ 1012 0914 01F0A2F8 		bl	RTC_Bcd2ToByte
+ 1013 0918 0346     		mov	r3, r0
+ 1014 091a 1A46     		mov	r2, r3
+ 1015 091c 009B     		ldr	r3, [sp, #0]
+ 1016 091e DA70     		strb	r2, [r3, #3]
+ 1017 0920 009B     		ldr	r3, [sp, #0]
+ 1018 0922 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1019 0924 1846     		mov	r0, r3
+ 1020 0926 01F099F8 		bl	RTC_Bcd2ToByte
+ 1021 092a 0346     		mov	r3, r0
+ 1022 092c 1A46     		mov	r2, r3
+ 1023 092e 009B     		ldr	r3, [sp, #0]
+ 1024 0930 5A70     		strb	r2, [r3, #1]
+ 1025 0932 009B     		ldr	r3, [sp, #0]
+ 1026 0934 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1027 0936 1846     		mov	r0, r3
+ 1028 0938 01F090F8 		bl	RTC_Bcd2ToByte
+ 1029 093c 0346     		mov	r3, r0
+ 1030 093e 1A46     		mov	r2, r3
+ 1031 0940 009B     		ldr	r3, [sp, #0]
+ 1032 0942 9A70     		strb	r2, [r3, #2]
+ 1033              	.L57:
+ 1034 0944 05B0     		add	sp, sp, #20
+ 1035 0946 00BD     		pop	{pc}
+ 1037              		.align	2
+ 1038              		.global	RTC_SetAlarm
+ 1039              		.thumb
+ 1040              		.thumb_func
+ 1042              	RTC_SetAlarm:
+ 1043              		@ args = 0, pretend = 0, frame = 24
+ 1044              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1045 0948 10B5     		push	{r4, lr}
+ 1046 094a 86B0     		sub	sp, sp, #24
+ 1047 094c 0390     		str	r0, [sp, #12]
+ 1048 094e 0291     		str	r1, [sp, #8]
+ 1049 0950 0192     		str	r2, [sp, #4]
+ 1050 0952 4FF00003 		mov	r3, #0
+ 1051 0956 0593     		str	r3, [sp, #20]
+ 1052 0958 039B     		ldr	r3, [sp, #12]
+ 1053 095a 002B     		cmp	r3, #0
+ 1054 095c 0DD1     		bne	.L60
+ 1055 095e 4FF42053 		mov	r3, #10240
+ 1056 0962 C4F20003 		movt	r3, 16384
+ 1057 0966 9B68     		ldr	r3, [r3, #8]
+ 1058 0968 03F04003 		and	r3, r3, #64
+ 1059 096c 002B     		cmp	r3, #0
+ 1060 096e 2CD1     		bne	.L62
+ 1061 0970 019B     		ldr	r3, [sp, #4]
+ 1062 0972 4FF00002 		mov	r2, #0
+ 1063 0976 DA70     		strb	r2, [r3, #3]
+ 1064 0978 27E0     		b	.L62
+ 1065              	.L60:
+ 1066 097a 4FF42053 		mov	r3, #10240
+ 1067 097e C4F20003 		movt	r3, 16384
+ 1068 0982 9B68     		ldr	r3, [r3, #8]
+ 1069 0984 03F04003 		and	r3, r3, #64
+ 1070 0988 002B     		cmp	r3, #0
+ 1071 098a 07D0     		beq	.L63
+ 1072 098c 019B     		ldr	r3, [sp, #4]
+ 1073 098e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1074 0990 1846     		mov	r0, r3
+ 1075 0992 01F063F8 		bl	RTC_Bcd2ToByte
+ 1076 0996 0346     		mov	r3, r0
+ 1077 0998 0593     		str	r3, [sp, #20]
+ 1078 099a 03E0     		b	.L64
+ 1079              	.L63:
+ 1080 099c 019B     		ldr	r3, [sp, #4]
+ 1081 099e 4FF00002 		mov	r2, #0
+ 1082 09a2 DA70     		strb	r2, [r3, #3]
+ 1083              	.L64:
+ 1084 09a4 019B     		ldr	r3, [sp, #4]
+ 1085 09a6 9B68     		ldr	r3, [r3, #8]
+ 1086 09a8 002B     		cmp	r3, #0
+ 1087 09aa 07D1     		bne	.L65
+ 1088 09ac 019B     		ldr	r3, [sp, #4]
+ 1089 09ae 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2
+ 1090 09b0 1846     		mov	r0, r3
+ 1091 09b2 01F053F8 		bl	RTC_Bcd2ToByte
+ 1092 09b6 0346     		mov	r3, r0
+ 1093 09b8 0593     		str	r3, [sp, #20]
+ 1094 09ba 06E0     		b	.L62
+ 1095              	.L65:
+ 1096 09bc 019B     		ldr	r3, [sp, #4]
+ 1097 09be 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2
+ 1098 09c0 1846     		mov	r0, r3
+ 1099 09c2 01F04BF8 		bl	RTC_Bcd2ToByte
+ 1100 09c6 0346     		mov	r3, r0
+ 1101 09c8 0593     		str	r3, [sp, #20]
+ 1102              	.L62:
+ 1103 09ca 039B     		ldr	r3, [sp, #12]
+ 1104 09cc 002B     		cmp	r3, #0
+ 1105 09ce 1DD0     		beq	.L66
+ 1106 09d0 019B     		ldr	r3, [sp, #4]
+ 1107 09d2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1108 09d4 4FEA0342 		lsl	r2, r3, #16
+ 1109 09d8 019B     		ldr	r3, [sp, #4]
+ 1110 09da 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1111 09dc 4FEA0323 		lsl	r3, r3, #8
+ 1112 09e0 1A43     		orrs	r2, r2, r3
+ 1113 09e2 019B     		ldr	r3, [sp, #4]
+ 1114 09e4 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1115 09e6 1A43     		orrs	r2, r2, r3
+ 1116 09e8 019B     		ldr	r3, [sp, #4]
+ 1117 09ea DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1118 09ec 4FEA0343 		lsl	r3, r3, #16
+ 1119 09f0 1A43     		orrs	r2, r2, r3
+ 1120 09f2 019B     		ldr	r3, [sp, #4]
+ 1121 09f4 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2
+ 1122 09f6 4FEA0363 		lsl	r3, r3, #24
+ 1123 09fa 1A43     		orrs	r2, r2, r3
+ 1124 09fc 019B     		ldr	r3, [sp, #4]
+ 1125 09fe 9B68     		ldr	r3, [r3, #8]
+ 1126 0a00 1A43     		orrs	r2, r2, r3
+ 1127 0a02 019B     		ldr	r3, [sp, #4]
+ 1128 0a04 5B68     		ldr	r3, [r3, #4]
+ 1129 0a06 1343     		orrs	r3, r3, r2
+ 1130 0a08 0593     		str	r3, [sp, #20]
+ 1131 0a0a 2FE0     		b	.L67
+ 1132              	.L66:
+ 1133 0a0c 019B     		ldr	r3, [sp, #4]
+ 1134 0a0e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1135 0a10 1846     		mov	r0, r3
+ 1136 0a12 00F0FDFF 		bl	RTC_ByteToBcd2
+ 1137 0a16 0346     		mov	r3, r0
+ 1138 0a18 4FEA0344 		lsl	r4, r3, #16
+ 1139 0a1c 019B     		ldr	r3, [sp, #4]
+ 1140 0a1e 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1141 0a20 1846     		mov	r0, r3
+ 1142 0a22 00F0F5FF 		bl	RTC_ByteToBcd2
+ 1143 0a26 0346     		mov	r3, r0
+ 1144 0a28 4FEA0323 		lsl	r3, r3, #8
+ 1145 0a2c 1C43     		orrs	r4, r4, r3
+ 1146 0a2e 019B     		ldr	r3, [sp, #4]
+ 1147 0a30 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1148 0a32 1846     		mov	r0, r3
+ 1149 0a34 00F0ECFF 		bl	RTC_ByteToBcd2
+ 1150 0a38 0346     		mov	r3, r0
+ 1151 0a3a 44EA0302 		orr	r2, r4, r3
+ 1152 0a3e 019B     		ldr	r3, [sp, #4]
+ 1153 0a40 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1154 0a42 4FEA0343 		lsl	r3, r3, #16
+ 1155 0a46 42EA0304 		orr	r4, r2, r3
+ 1156 0a4a 019B     		ldr	r3, [sp, #4]
+ 1157 0a4c 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2
+ 1158 0a4e 1846     		mov	r0, r3
+ 1159 0a50 00F0DEFF 		bl	RTC_ByteToBcd2
+ 1160 0a54 0346     		mov	r3, r0
+ 1161 0a56 4FEA0363 		lsl	r3, r3, #24
+ 1162 0a5a 44EA0302 		orr	r2, r4, r3
+ 1163 0a5e 019B     		ldr	r3, [sp, #4]
+ 1164 0a60 9B68     		ldr	r3, [r3, #8]
+ 1165 0a62 1A43     		orrs	r2, r2, r3
+ 1166 0a64 019B     		ldr	r3, [sp, #4]
+ 1167 0a66 5B68     		ldr	r3, [r3, #4]
+ 1168 0a68 1343     		orrs	r3, r3, r2
+ 1169 0a6a 0593     		str	r3, [sp, #20]
+ 1170              	.L67:
+ 1171 0a6c 4FF42053 		mov	r3, #10240
+ 1172 0a70 C4F20003 		movt	r3, 16384
+ 1173 0a74 4FF0CA02 		mov	r2, #202
+ 1174 0a78 5A62     		str	r2, [r3, #36]
+ 1175 0a7a 4FF42053 		mov	r3, #10240
+ 1176 0a7e C4F20003 		movt	r3, 16384
+ 1177 0a82 4FF05302 		mov	r2, #83
+ 1178 0a86 5A62     		str	r2, [r3, #36]
+ 1179 0a88 029B     		ldr	r3, [sp, #8]
+ 1180 0a8a B3F5807F 		cmp	r3, #256
+ 1181 0a8e 06D1     		bne	.L68
+ 1182 0a90 4FF42053 		mov	r3, #10240
+ 1183 0a94 C4F20003 		movt	r3, 16384
+ 1184 0a98 059A     		ldr	r2, [sp, #20]
+ 1185 0a9a DA61     		str	r2, [r3, #28]
+ 1186 0a9c 05E0     		b	.L69
+ 1187              	.L68:
+ 1188 0a9e 4FF42053 		mov	r3, #10240
+ 1189 0aa2 C4F20003 		movt	r3, 16384
+ 1190 0aa6 059A     		ldr	r2, [sp, #20]
+ 1191 0aa8 1A62     		str	r2, [r3, #32]
+ 1192              	.L69:
+ 1193 0aaa 4FF42053 		mov	r3, #10240
+ 1194 0aae C4F20003 		movt	r3, 16384
+ 1195 0ab2 4FF0FF02 		mov	r2, #255
+ 1196 0ab6 5A62     		str	r2, [r3, #36]
+ 1197 0ab8 06B0     		add	sp, sp, #24
+ 1198 0aba 10BD     		pop	{r4, pc}
+ 1200              		.align	2
+ 1201              		.global	RTC_AlarmStructInit
+ 1202              		.thumb
+ 1203              		.thumb_func
+ 1205              	RTC_AlarmStructInit:
+ 1206              		@ args = 0, pretend = 0, frame = 8
+ 1207              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1208              		@ link register save eliminated.
+ 1209 0abc 82B0     		sub	sp, sp, #8
+ 1210 0abe 0190     		str	r0, [sp, #4]
+ 1211 0ac0 019B     		ldr	r3, [sp, #4]
+ 1212 0ac2 4FF00002 		mov	r2, #0
+ 1213 0ac6 DA70     		strb	r2, [r3, #3]
+ 1214 0ac8 019B     		ldr	r3, [sp, #4]
+ 1215 0aca 4FF00002 		mov	r2, #0
+ 1216 0ace 1A70     		strb	r2, [r3, #0]
+ 1217 0ad0 019B     		ldr	r3, [sp, #4]
+ 1218 0ad2 4FF00002 		mov	r2, #0
+ 1219 0ad6 5A70     		strb	r2, [r3, #1]
+ 1220 0ad8 019B     		ldr	r3, [sp, #4]
+ 1221 0ada 4FF00002 		mov	r2, #0
+ 1222 0ade 9A70     		strb	r2, [r3, #2]
+ 1223 0ae0 019B     		ldr	r3, [sp, #4]
+ 1224 0ae2 4FF00002 		mov	r2, #0
+ 1225 0ae6 9A60     		str	r2, [r3, #8]
+ 1226 0ae8 019B     		ldr	r3, [sp, #4]
+ 1227 0aea 4FF00102 		mov	r2, #1
+ 1228 0aee 1A73     		strb	r2, [r3, #12]
+ 1229 0af0 019B     		ldr	r3, [sp, #4]
+ 1230 0af2 4FF00002 		mov	r2, #0
+ 1231 0af6 5A60     		str	r2, [r3, #4]
+ 1232 0af8 02B0     		add	sp, sp, #8
+ 1233 0afa 7047     		bx	lr
+ 1235              		.align	2
+ 1236              		.global	RTC_GetAlarm
+ 1237              		.thumb
+ 1238              		.thumb_func
+ 1240              	RTC_GetAlarm:
+ 1241              		@ args = 0, pretend = 0, frame = 24
+ 1242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1243 0afc 00B5     		push	{lr}
+ 1244 0afe 87B0     		sub	sp, sp, #28
+ 1245 0b00 0390     		str	r0, [sp, #12]
+ 1246 0b02 0291     		str	r1, [sp, #8]
+ 1247 0b04 0192     		str	r2, [sp, #4]
+ 1248 0b06 4FF00003 		mov	r3, #0
+ 1249 0b0a 0593     		str	r3, [sp, #20]
+ 1250 0b0c 029B     		ldr	r3, [sp, #8]
+ 1251 0b0e B3F5807F 		cmp	r3, #256
+ 1252 0b12 06D1     		bne	.L72
+ 1253 0b14 4FF42053 		mov	r3, #10240
+ 1254 0b18 C4F20003 		movt	r3, 16384
+ 1255 0b1c DB69     		ldr	r3, [r3, #28]
+ 1256 0b1e 0593     		str	r3, [sp, #20]
+ 1257 0b20 05E0     		b	.L73
+ 1258              	.L72:
+ 1259 0b22 4FF42053 		mov	r3, #10240
+ 1260 0b26 C4F20003 		movt	r3, 16384
+ 1261 0b2a 1B6A     		ldr	r3, [r3, #32]
+ 1262 0b2c 0593     		str	r3, [sp, #20]
+ 1263              	.L73:
+ 1264 0b2e 059B     		ldr	r3, [sp, #20]
+ 1265 0b30 03F47C13 		and	r3, r3, #4128768
+ 1266 0b34 4FEA1343 		lsr	r3, r3, #16
+ 1267 0b38 DAB2     		uxtb	r2, r3
+ 1268 0b3a 019B     		ldr	r3, [sp, #4]
+ 1269 0b3c 1A70     		strb	r2, [r3, #0]
+ 1270 0b3e 059B     		ldr	r3, [sp, #20]
+ 1271 0b40 03F4FE43 		and	r3, r3, #32512
+ 1272 0b44 4FEA1323 		lsr	r3, r3, #8
+ 1273 0b48 DAB2     		uxtb	r2, r3
+ 1274 0b4a 019B     		ldr	r3, [sp, #4]
+ 1275 0b4c 5A70     		strb	r2, [r3, #1]
+ 1276 0b4e 059B     		ldr	r3, [sp, #20]
+ 1277 0b50 DBB2     		uxtb	r3, r3
+ 1278 0b52 03F07F03 		and	r3, r3, #127
+ 1279 0b56 DAB2     		uxtb	r2, r3
+ 1280 0b58 019B     		ldr	r3, [sp, #4]
+ 1281 0b5a 9A70     		strb	r2, [r3, #2]
+ 1282 0b5c 059B     		ldr	r3, [sp, #20]
+ 1283 0b5e 03F48003 		and	r3, r3, #4194304
+ 1284 0b62 4FEA1343 		lsr	r3, r3, #16
+ 1285 0b66 DAB2     		uxtb	r2, r3
+ 1286 0b68 019B     		ldr	r3, [sp, #4]
+ 1287 0b6a DA70     		strb	r2, [r3, #3]
+ 1288 0b6c 059B     		ldr	r3, [sp, #20]
+ 1289 0b6e 03F07C53 		and	r3, r3, #1056964608
+ 1290 0b72 4FEA1363 		lsr	r3, r3, #24
+ 1291 0b76 DAB2     		uxtb	r2, r3
+ 1292 0b78 019B     		ldr	r3, [sp, #4]
+ 1293 0b7a 1A73     		strb	r2, [r3, #12]
+ 1294 0b7c 059B     		ldr	r3, [sp, #20]
+ 1295 0b7e 03F08042 		and	r2, r3, #1073741824
+ 1296 0b82 019B     		ldr	r3, [sp, #4]
+ 1297 0b84 9A60     		str	r2, [r3, #8]
+ 1298 0b86 059B     		ldr	r3, [sp, #20]
+ 1299 0b88 03F08032 		and	r2, r3, #-2139062144
+ 1300 0b8c 019B     		ldr	r3, [sp, #4]
+ 1301 0b8e 5A60     		str	r2, [r3, #4]
+ 1302 0b90 039B     		ldr	r3, [sp, #12]
+ 1303 0b92 002B     		cmp	r3, #0
+ 1304 0b94 23D1     		bne	.L71
+ 1305 0b96 019B     		ldr	r3, [sp, #4]
+ 1306 0b98 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1307 0b9a 1846     		mov	r0, r3
+ 1308 0b9c 00F05EFF 		bl	RTC_Bcd2ToByte
+ 1309 0ba0 0346     		mov	r3, r0
+ 1310 0ba2 1A46     		mov	r2, r3
+ 1311 0ba4 019B     		ldr	r3, [sp, #4]
+ 1312 0ba6 1A70     		strb	r2, [r3, #0]
+ 1313 0ba8 019B     		ldr	r3, [sp, #4]
+ 1314 0baa 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 1315 0bac 1846     		mov	r0, r3
+ 1316 0bae 00F055FF 		bl	RTC_Bcd2ToByte
+ 1317 0bb2 0346     		mov	r3, r0
+ 1318 0bb4 1A46     		mov	r2, r3
+ 1319 0bb6 019B     		ldr	r3, [sp, #4]
+ 1320 0bb8 5A70     		strb	r2, [r3, #1]
+ 1321 0bba 019B     		ldr	r3, [sp, #4]
+ 1322 0bbc 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1323 0bbe 1846     		mov	r0, r3
+ 1324 0bc0 00F04CFF 		bl	RTC_Bcd2ToByte
+ 1325 0bc4 0346     		mov	r3, r0
+ 1326 0bc6 1A46     		mov	r2, r3
+ 1327 0bc8 019B     		ldr	r3, [sp, #4]
+ 1328 0bca 9A70     		strb	r2, [r3, #2]
+ 1329 0bcc 019B     		ldr	r3, [sp, #4]
+ 1330 0bce 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2
+ 1331 0bd0 1846     		mov	r0, r3
+ 1332 0bd2 00F043FF 		bl	RTC_Bcd2ToByte
+ 1333 0bd6 0346     		mov	r3, r0
+ 1334 0bd8 1A46     		mov	r2, r3
+ 1335 0bda 019B     		ldr	r3, [sp, #4]
+ 1336 0bdc 1A73     		strb	r2, [r3, #12]
+ 1337              	.L71:
+ 1338 0bde 07B0     		add	sp, sp, #28
+ 1339 0be0 00BD     		pop	{pc}
+ 1341 0be2 00BF     		.align	2
+ 1342              		.global	RTC_AlarmCmd
+ 1343              		.thumb
+ 1344              		.thumb_func
+ 1346              	RTC_AlarmCmd:
+ 1347              		@ args = 0, pretend = 0, frame = 24
+ 1348              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1349              		@ link register save eliminated.
+ 1350 0be4 86B0     		sub	sp, sp, #24
+ 1351 0be6 0190     		str	r0, [sp, #4]
+ 1352 0be8 0B46     		mov	r3, r1
+ 1353 0bea 8DF80330 		strb	r3, [sp, #3]
+ 1354 0bee 4FF00003 		mov	r3, #0
+ 1355 0bf2 0393     		str	r3, [sp, #12]
+ 1356 0bf4 4FF00003 		mov	r3, #0
+ 1357 0bf8 0493     		str	r3, [sp, #16]
+ 1358 0bfa 4FF00003 		mov	r3, #0
+ 1359 0bfe 8DF81730 		strb	r3, [sp, #23]
+ 1360 0c02 4FF42053 		mov	r3, #10240
+ 1361 0c06 C4F20003 		movt	r3, 16384
+ 1362 0c0a 4FF0CA02 		mov	r2, #202
+ 1363 0c0e 5A62     		str	r2, [r3, #36]
+ 1364 0c10 4FF42053 		mov	r3, #10240
+ 1365 0c14 C4F20003 		movt	r3, 16384
+ 1366 0c18 4FF05302 		mov	r2, #83
+ 1367 0c1c 5A62     		str	r2, [r3, #36]
+ 1368 0c1e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 1369 0c22 002B     		cmp	r3, #0
+ 1370 0c24 10D0     		beq	.L76
+ 1371 0c26 4FF42053 		mov	r3, #10240
+ 1372 0c2a C4F20003 		movt	r3, 16384
+ 1373 0c2e 4FF42052 		mov	r2, #10240
+ 1374 0c32 C4F20002 		movt	r2, 16384
+ 1375 0c36 9168     		ldr	r1, [r2, #8]
+ 1376 0c38 019A     		ldr	r2, [sp, #4]
+ 1377 0c3a 0A43     		orrs	r2, r2, r1
+ 1378 0c3c 9A60     		str	r2, [r3, #8]
+ 1379 0c3e 4FF00103 		mov	r3, #1
+ 1380 0c42 8DF81730 		strb	r3, [sp, #23]
+ 1381 0c46 36E0     		b	.L77
+ 1382              	.L76:
+ 1383 0c48 4FF42053 		mov	r3, #10240
+ 1384 0c4c C4F20003 		movt	r3, 16384
+ 1385 0c50 4FF42052 		mov	r2, #10240
+ 1386 0c54 C4F20002 		movt	r2, 16384
+ 1387 0c58 9168     		ldr	r1, [r2, #8]
+ 1388 0c5a 019A     		ldr	r2, [sp, #4]
+ 1389 0c5c 6FEA0202 		mvn	r2, r2
+ 1390 0c60 0A40     		ands	r2, r2, r1
+ 1391 0c62 9A60     		str	r2, [r3, #8]
+ 1392              	.L79:
+ 1393 0c64 4FF42053 		mov	r3, #10240
+ 1394 0c68 C4F20003 		movt	r3, 16384
+ 1395 0c6c DA68     		ldr	r2, [r3, #12]
+ 1396 0c6e 019B     		ldr	r3, [sp, #4]
+ 1397 0c70 4FEA1323 		lsr	r3, r3, #8
+ 1398 0c74 1340     		ands	r3, r3, r2
+ 1399 0c76 0493     		str	r3, [sp, #16]
+ 1400 0c78 039B     		ldr	r3, [sp, #12]
+ 1401 0c7a 03F10103 		add	r3, r3, #1
+ 1402 0c7e 0393     		str	r3, [sp, #12]
+ 1403 0c80 039B     		ldr	r3, [sp, #12]
+ 1404 0c82 B3F5803F 		cmp	r3, #65536
+ 1405 0c86 02D0     		beq	.L78
+ 1406 0c88 049B     		ldr	r3, [sp, #16]
+ 1407 0c8a 002B     		cmp	r3, #0
+ 1408 0c8c EAD0     		beq	.L79
+ 1409              	.L78:
+ 1410 0c8e 4FF42053 		mov	r3, #10240
+ 1411 0c92 C4F20003 		movt	r3, 16384
+ 1412 0c96 DA68     		ldr	r2, [r3, #12]
+ 1413 0c98 019B     		ldr	r3, [sp, #4]
+ 1414 0c9a 4FEA1323 		lsr	r3, r3, #8
+ 1415 0c9e 1340     		ands	r3, r3, r2
+ 1416 0ca0 002B     		cmp	r3, #0
+ 1417 0ca2 04D1     		bne	.L80
+ 1418 0ca4 4FF00003 		mov	r3, #0
+ 1419 0ca8 8DF81730 		strb	r3, [sp, #23]
+ 1420 0cac 03E0     		b	.L77
+ 1421              	.L80:
+ 1422 0cae 4FF00103 		mov	r3, #1
+ 1423 0cb2 8DF81730 		strb	r3, [sp, #23]
+ 1424              	.L77:
+ 1425 0cb6 4FF42053 		mov	r3, #10240
+ 1426 0cba C4F20003 		movt	r3, 16384
+ 1427 0cbe 4FF0FF02 		mov	r2, #255
+ 1428 0cc2 5A62     		str	r2, [r3, #36]
+ 1429 0cc4 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1430 0cc8 1846     		mov	r0, r3
+ 1431 0cca 06B0     		add	sp, sp, #24
+ 1432 0ccc 7047     		bx	lr
+ 1434 0cce 00BF     		.align	2
+ 1435              		.global	RTC_AlarmSubSecondConfig
+ 1436              		.thumb
+ 1437              		.thumb_func
+ 1439              	RTC_AlarmSubSecondConfig:
+ 1440              		@ args = 0, pretend = 0, frame = 24
+ 1441              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1442              		@ link register save eliminated.
+ 1443 0cd0 86B0     		sub	sp, sp, #24
+ 1444 0cd2 0390     		str	r0, [sp, #12]
+ 1445 0cd4 0291     		str	r1, [sp, #8]
+ 1446 0cd6 0192     		str	r2, [sp, #4]
+ 1447 0cd8 4FF00003 		mov	r3, #0
+ 1448 0cdc 0593     		str	r3, [sp, #20]
+ 1449 0cde 4FF42053 		mov	r3, #10240
+ 1450 0ce2 C4F20003 		movt	r3, 16384
+ 1451 0ce6 4FF0CA02 		mov	r2, #202
+ 1452 0cea 5A62     		str	r2, [r3, #36]
+ 1453 0cec 4FF42053 		mov	r3, #10240
+ 1454 0cf0 C4F20003 		movt	r3, 16384
+ 1455 0cf4 4FF05302 		mov	r2, #83
+ 1456 0cf8 5A62     		str	r2, [r3, #36]
+ 1457 0cfa 029A     		ldr	r2, [sp, #8]
+ 1458 0cfc 019B     		ldr	r3, [sp, #4]
+ 1459 0cfe 1343     		orrs	r3, r3, r2
+ 1460 0d00 0593     		str	r3, [sp, #20]
+ 1461 0d02 039B     		ldr	r3, [sp, #12]
+ 1462 0d04 B3F5807F 		cmp	r3, #256
+ 1463 0d08 06D1     		bne	.L82
+ 1464 0d0a 4FF42053 		mov	r3, #10240
+ 1465 0d0e C4F20003 		movt	r3, 16384
+ 1466 0d12 059A     		ldr	r2, [sp, #20]
+ 1467 0d14 5A64     		str	r2, [r3, #68]
+ 1468 0d16 05E0     		b	.L83
+ 1469              	.L82:
+ 1470 0d18 4FF42053 		mov	r3, #10240
+ 1471 0d1c C4F20003 		movt	r3, 16384
+ 1472 0d20 059A     		ldr	r2, [sp, #20]
+ 1473 0d22 9A64     		str	r2, [r3, #72]
+ 1474              	.L83:
+ 1475 0d24 4FF42053 		mov	r3, #10240
+ 1476 0d28 C4F20003 		movt	r3, 16384
+ 1477 0d2c 4FF0FF02 		mov	r2, #255
+ 1478 0d30 5A62     		str	r2, [r3, #36]
+ 1479 0d32 06B0     		add	sp, sp, #24
+ 1480 0d34 7047     		bx	lr
+ 1482 0d36 00BF     		.align	2
+ 1483              		.global	RTC_GetAlarmSubSecond
+ 1484              		.thumb
+ 1485              		.thumb_func
+ 1487              	RTC_GetAlarmSubSecond:
+ 1488              		@ args = 0, pretend = 0, frame = 16
+ 1489              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1490              		@ link register save eliminated.
+ 1491 0d38 84B0     		sub	sp, sp, #16
+ 1492 0d3a 0190     		str	r0, [sp, #4]
+ 1493 0d3c 4FF00003 		mov	r3, #0
+ 1494 0d40 0393     		str	r3, [sp, #12]
+ 1495 0d42 019B     		ldr	r3, [sp, #4]
+ 1496 0d44 B3F5807F 		cmp	r3, #256
+ 1497 0d48 0AD1     		bne	.L85
+ 1498 0d4a 4FF42053 		mov	r3, #10240
+ 1499 0d4e C4F20003 		movt	r3, 16384
+ 1500 0d52 5B6C     		ldr	r3, [r3, #68]
+ 1501 0d54 4FEA4343 		lsl	r3, r3, #17
+ 1502 0d58 4FEA5343 		lsr	r3, r3, #17
+ 1503 0d5c 0393     		str	r3, [sp, #12]
+ 1504 0d5e 09E0     		b	.L86
+ 1505              	.L85:
+ 1506 0d60 4FF42053 		mov	r3, #10240
+ 1507 0d64 C4F20003 		movt	r3, 16384
+ 1508 0d68 9B6C     		ldr	r3, [r3, #72]
+ 1509 0d6a 4FEA4343 		lsl	r3, r3, #17
+ 1510 0d6e 4FEA5343 		lsr	r3, r3, #17
+ 1511 0d72 0393     		str	r3, [sp, #12]
+ 1512              	.L86:
+ 1513 0d74 039B     		ldr	r3, [sp, #12]
+ 1514 0d76 1846     		mov	r0, r3
+ 1515 0d78 04B0     		add	sp, sp, #16
+ 1516 0d7a 7047     		bx	lr
+ 1518              		.align	2
+ 1519              		.global	RTC_WakeUpClockConfig
+ 1520              		.thumb
+ 1521              		.thumb_func
+ 1523              	RTC_WakeUpClockConfig:
+ 1524              		@ args = 0, pretend = 0, frame = 8
+ 1525              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1526              		@ link register save eliminated.
+ 1527 0d7c 82B0     		sub	sp, sp, #8
+ 1528 0d7e 0190     		str	r0, [sp, #4]
+ 1529 0d80 4FF42053 		mov	r3, #10240
+ 1530 0d84 C4F20003 		movt	r3, 16384
+ 1531 0d88 4FF0CA02 		mov	r2, #202
+ 1532 0d8c 5A62     		str	r2, [r3, #36]
+ 1533 0d8e 4FF42053 		mov	r3, #10240
+ 1534 0d92 C4F20003 		movt	r3, 16384
+ 1535 0d96 4FF05302 		mov	r2, #83
+ 1536 0d9a 5A62     		str	r2, [r3, #36]
+ 1537 0d9c 4FF42053 		mov	r3, #10240
+ 1538 0da0 C4F20003 		movt	r3, 16384
+ 1539 0da4 4FF42052 		mov	r2, #10240
+ 1540 0da8 C4F20002 		movt	r2, 16384
+ 1541 0dac 9268     		ldr	r2, [r2, #8]
+ 1542 0dae 22F00702 		bic	r2, r2, #7
+ 1543 0db2 9A60     		str	r2, [r3, #8]
+ 1544 0db4 4FF42053 		mov	r3, #10240
+ 1545 0db8 C4F20003 		movt	r3, 16384
+ 1546 0dbc 4FF42052 		mov	r2, #10240
+ 1547 0dc0 C4F20002 		movt	r2, 16384
+ 1548 0dc4 9168     		ldr	r1, [r2, #8]
+ 1549 0dc6 019A     		ldr	r2, [sp, #4]
+ 1550 0dc8 0A43     		orrs	r2, r2, r1
+ 1551 0dca 9A60     		str	r2, [r3, #8]
+ 1552 0dcc 4FF42053 		mov	r3, #10240
+ 1553 0dd0 C4F20003 		movt	r3, 16384
+ 1554 0dd4 4FF0FF02 		mov	r2, #255
+ 1555 0dd8 5A62     		str	r2, [r3, #36]
+ 1556 0dda 02B0     		add	sp, sp, #8
+ 1557 0ddc 7047     		bx	lr
+ 1559 0dde 00BF     		.align	2
+ 1560              		.global	RTC_SetWakeUpCounter
+ 1561              		.thumb
+ 1562              		.thumb_func
+ 1564              	RTC_SetWakeUpCounter:
+ 1565              		@ args = 0, pretend = 0, frame = 8
+ 1566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1567              		@ link register save eliminated.
+ 1568 0de0 82B0     		sub	sp, sp, #8
+ 1569 0de2 0190     		str	r0, [sp, #4]
+ 1570 0de4 4FF42053 		mov	r3, #10240
+ 1571 0de8 C4F20003 		movt	r3, 16384
+ 1572 0dec 4FF0CA02 		mov	r2, #202
+ 1573 0df0 5A62     		str	r2, [r3, #36]
+ 1574 0df2 4FF42053 		mov	r3, #10240
+ 1575 0df6 C4F20003 		movt	r3, 16384
+ 1576 0dfa 4FF05302 		mov	r2, #83
+ 1577 0dfe 5A62     		str	r2, [r3, #36]
+ 1578 0e00 4FF42053 		mov	r3, #10240
+ 1579 0e04 C4F20003 		movt	r3, 16384
+ 1580 0e08 019A     		ldr	r2, [sp, #4]
+ 1581 0e0a 5A61     		str	r2, [r3, #20]
+ 1582 0e0c 4FF42053 		mov	r3, #10240
+ 1583 0e10 C4F20003 		movt	r3, 16384
+ 1584 0e14 4FF0FF02 		mov	r2, #255
+ 1585 0e18 5A62     		str	r2, [r3, #36]
+ 1586 0e1a 02B0     		add	sp, sp, #8
+ 1587 0e1c 7047     		bx	lr
+ 1589 0e1e 00BF     		.align	2
+ 1590              		.global	RTC_GetWakeUpCounter
+ 1591              		.thumb
+ 1592              		.thumb_func
+ 1594              	RTC_GetWakeUpCounter:
+ 1595              		@ args = 0, pretend = 0, frame = 0
+ 1596              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1597              		@ link register save eliminated.
+ 1598 0e20 4FF42053 		mov	r3, #10240
+ 1599 0e24 C4F20003 		movt	r3, 16384
+ 1600 0e28 5B69     		ldr	r3, [r3, #20]
+ 1601 0e2a 4FEA0343 		lsl	r3, r3, #16
+ 1602 0e2e 4FEA1343 		lsr	r3, r3, #16
+ 1603 0e32 1846     		mov	r0, r3
+ 1604 0e34 7047     		bx	lr
+ 1606 0e36 00BF     		.align	2
+ 1607              		.global	RTC_WakeUpCmd
+ 1608              		.thumb
+ 1609              		.thumb_func
+ 1611              	RTC_WakeUpCmd:
+ 1612              		@ args = 0, pretend = 0, frame = 24
+ 1613              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1614              		@ link register save eliminated.
+ 1615 0e38 86B0     		sub	sp, sp, #24
+ 1616 0e3a 0346     		mov	r3, r0
+ 1617 0e3c 8DF80730 		strb	r3, [sp, #7]
+ 1618 0e40 4FF00003 		mov	r3, #0
+ 1619 0e44 0393     		str	r3, [sp, #12]
+ 1620 0e46 4FF00003 		mov	r3, #0
+ 1621 0e4a 0493     		str	r3, [sp, #16]
+ 1622 0e4c 4FF00003 		mov	r3, #0
+ 1623 0e50 8DF81730 		strb	r3, [sp, #23]
+ 1624 0e54 4FF42053 		mov	r3, #10240
+ 1625 0e58 C4F20003 		movt	r3, 16384
+ 1626 0e5c 4FF0CA02 		mov	r2, #202
+ 1627 0e60 5A62     		str	r2, [r3, #36]
+ 1628 0e62 4FF42053 		mov	r3, #10240
+ 1629 0e66 C4F20003 		movt	r3, 16384
+ 1630 0e6a 4FF05302 		mov	r2, #83
+ 1631 0e6e 5A62     		str	r2, [r3, #36]
+ 1632 0e70 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1633 0e74 002B     		cmp	r3, #0
+ 1634 0e76 10D0     		beq	.L91
+ 1635 0e78 4FF42053 		mov	r3, #10240
+ 1636 0e7c C4F20003 		movt	r3, 16384
+ 1637 0e80 4FF42052 		mov	r2, #10240
+ 1638 0e84 C4F20002 		movt	r2, 16384
+ 1639 0e88 9268     		ldr	r2, [r2, #8]
+ 1640 0e8a 42F48062 		orr	r2, r2, #1024
+ 1641 0e8e 9A60     		str	r2, [r3, #8]
+ 1642 0e90 4FF00103 		mov	r3, #1
+ 1643 0e94 8DF81730 		strb	r3, [sp, #23]
+ 1644 0e98 30E0     		b	.L92
+ 1645              	.L91:
+ 1646 0e9a 4FF42053 		mov	r3, #10240
+ 1647 0e9e C4F20003 		movt	r3, 16384
+ 1648 0ea2 4FF42052 		mov	r2, #10240
+ 1649 0ea6 C4F20002 		movt	r2, 16384
+ 1650 0eaa 9268     		ldr	r2, [r2, #8]
+ 1651 0eac 22F48062 		bic	r2, r2, #1024
+ 1652 0eb0 9A60     		str	r2, [r3, #8]
+ 1653              	.L94:
+ 1654 0eb2 4FF42053 		mov	r3, #10240
+ 1655 0eb6 C4F20003 		movt	r3, 16384
+ 1656 0eba DB68     		ldr	r3, [r3, #12]
+ 1657 0ebc 03F00403 		and	r3, r3, #4
+ 1658 0ec0 0493     		str	r3, [sp, #16]
+ 1659 0ec2 039B     		ldr	r3, [sp, #12]
+ 1660 0ec4 03F10103 		add	r3, r3, #1
+ 1661 0ec8 0393     		str	r3, [sp, #12]
+ 1662 0eca 039B     		ldr	r3, [sp, #12]
+ 1663 0ecc B3F5803F 		cmp	r3, #65536
+ 1664 0ed0 02D0     		beq	.L93
+ 1665 0ed2 049B     		ldr	r3, [sp, #16]
+ 1666 0ed4 002B     		cmp	r3, #0
+ 1667 0ed6 ECD0     		beq	.L94
+ 1668              	.L93:
+ 1669 0ed8 4FF42053 		mov	r3, #10240
+ 1670 0edc C4F20003 		movt	r3, 16384
+ 1671 0ee0 DB68     		ldr	r3, [r3, #12]
+ 1672 0ee2 03F00403 		and	r3, r3, #4
+ 1673 0ee6 002B     		cmp	r3, #0
+ 1674 0ee8 04D1     		bne	.L95
+ 1675 0eea 4FF00003 		mov	r3, #0
+ 1676 0eee 8DF81730 		strb	r3, [sp, #23]
+ 1677 0ef2 03E0     		b	.L92
+ 1678              	.L95:
+ 1679 0ef4 4FF00103 		mov	r3, #1
+ 1680 0ef8 8DF81730 		strb	r3, [sp, #23]
+ 1681              	.L92:
+ 1682 0efc 4FF42053 		mov	r3, #10240
+ 1683 0f00 C4F20003 		movt	r3, 16384
+ 1684 0f04 4FF0FF02 		mov	r2, #255
+ 1685 0f08 5A62     		str	r2, [r3, #36]
+ 1686 0f0a 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 1687 0f0e 1846     		mov	r0, r3
+ 1688 0f10 06B0     		add	sp, sp, #24
+ 1689 0f12 7047     		bx	lr
+ 1691              		.align	2
+ 1692              		.global	RTC_DayLightSavingConfig
+ 1693              		.thumb
+ 1694              		.thumb_func
+ 1696              	RTC_DayLightSavingConfig:
+ 1697              		@ args = 0, pretend = 0, frame = 8
+ 1698              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1699              		@ link register save eliminated.
+ 1700 0f14 82B0     		sub	sp, sp, #8
+ 1701 0f16 0190     		str	r0, [sp, #4]
+ 1702 0f18 0091     		str	r1, [sp, #0]
+ 1703 0f1a 4FF42053 		mov	r3, #10240
+ 1704 0f1e C4F20003 		movt	r3, 16384
+ 1705 0f22 4FF0CA02 		mov	r2, #202
+ 1706 0f26 5A62     		str	r2, [r3, #36]
+ 1707 0f28 4FF42053 		mov	r3, #10240
+ 1708 0f2c C4F20003 		movt	r3, 16384
+ 1709 0f30 4FF05302 		mov	r2, #83
+ 1710 0f34 5A62     		str	r2, [r3, #36]
+ 1711 0f36 4FF42053 		mov	r3, #10240
+ 1712 0f3a C4F20003 		movt	r3, 16384
+ 1713 0f3e 4FF42052 		mov	r2, #10240
+ 1714 0f42 C4F20002 		movt	r2, 16384
+ 1715 0f46 9268     		ldr	r2, [r2, #8]
+ 1716 0f48 22F48022 		bic	r2, r2, #262144
+ 1717 0f4c 9A60     		str	r2, [r3, #8]
+ 1718 0f4e 4FF42053 		mov	r3, #10240
+ 1719 0f52 C4F20003 		movt	r3, 16384
+ 1720 0f56 4FF42052 		mov	r2, #10240
+ 1721 0f5a C4F20002 		movt	r2, 16384
+ 1722 0f5e 9168     		ldr	r1, [r2, #8]
+ 1723 0f60 0198     		ldr	r0, [sp, #4]
+ 1724 0f62 009A     		ldr	r2, [sp, #0]
+ 1725 0f64 0243     		orrs	r2, r2, r0
+ 1726 0f66 0A43     		orrs	r2, r2, r1
+ 1727 0f68 9A60     		str	r2, [r3, #8]
+ 1728 0f6a 4FF42053 		mov	r3, #10240
+ 1729 0f6e C4F20003 		movt	r3, 16384
+ 1730 0f72 4FF0FF02 		mov	r2, #255
+ 1731 0f76 5A62     		str	r2, [r3, #36]
+ 1732 0f78 02B0     		add	sp, sp, #8
+ 1733 0f7a 7047     		bx	lr
+ 1735              		.align	2
+ 1736              		.global	RTC_GetStoreOperation
+ 1737              		.thumb
+ 1738              		.thumb_func
+ 1740              	RTC_GetStoreOperation:
+ 1741              		@ args = 0, pretend = 0, frame = 0
+ 1742              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1743              		@ link register save eliminated.
+ 1744 0f7c 4FF42053 		mov	r3, #10240
+ 1745 0f80 C4F20003 		movt	r3, 16384
+ 1746 0f84 9B68     		ldr	r3, [r3, #8]
+ 1747 0f86 03F48023 		and	r3, r3, #262144
+ 1748 0f8a 1846     		mov	r0, r3
+ 1749 0f8c 7047     		bx	lr
+ 1751 0f8e 00BF     		.align	2
+ 1752              		.global	RTC_OutputConfig
+ 1753              		.thumb
+ 1754              		.thumb_func
+ 1756              	RTC_OutputConfig:
+ 1757              		@ args = 0, pretend = 0, frame = 8
+ 1758              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1759              		@ link register save eliminated.
+ 1760 0f90 82B0     		sub	sp, sp, #8
+ 1761 0f92 0190     		str	r0, [sp, #4]
+ 1762 0f94 0091     		str	r1, [sp, #0]
+ 1763 0f96 4FF42053 		mov	r3, #10240
+ 1764 0f9a C4F20003 		movt	r3, 16384
+ 1765 0f9e 4FF0CA02 		mov	r2, #202
+ 1766 0fa2 5A62     		str	r2, [r3, #36]
+ 1767 0fa4 4FF42053 		mov	r3, #10240
+ 1768 0fa8 C4F20003 		movt	r3, 16384
+ 1769 0fac 4FF05302 		mov	r2, #83
+ 1770 0fb0 5A62     		str	r2, [r3, #36]
+ 1771 0fb2 4FF42053 		mov	r3, #10240
+ 1772 0fb6 C4F20003 		movt	r3, 16384
+ 1773 0fba 4FF42052 		mov	r2, #10240
+ 1774 0fbe C4F20002 		movt	r2, 16384
+ 1775 0fc2 9268     		ldr	r2, [r2, #8]
+ 1776 0fc4 22F4E002 		bic	r2, r2, #7340032
+ 1777 0fc8 9A60     		str	r2, [r3, #8]
+ 1778 0fca 4FF42053 		mov	r3, #10240
+ 1779 0fce C4F20003 		movt	r3, 16384
+ 1780 0fd2 4FF42052 		mov	r2, #10240
+ 1781 0fd6 C4F20002 		movt	r2, 16384
+ 1782 0fda 9168     		ldr	r1, [r2, #8]
+ 1783 0fdc 0198     		ldr	r0, [sp, #4]
+ 1784 0fde 009A     		ldr	r2, [sp, #0]
+ 1785 0fe0 0243     		orrs	r2, r2, r0
+ 1786 0fe2 0A43     		orrs	r2, r2, r1
+ 1787 0fe4 9A60     		str	r2, [r3, #8]
+ 1788 0fe6 4FF42053 		mov	r3, #10240
+ 1789 0fea C4F20003 		movt	r3, 16384
+ 1790 0fee 4FF0FF02 		mov	r2, #255
+ 1791 0ff2 5A62     		str	r2, [r3, #36]
+ 1792 0ff4 02B0     		add	sp, sp, #8
+ 1793 0ff6 7047     		bx	lr
+ 1795              		.align	2
+ 1796              		.global	RTC_CoarseCalibConfig
+ 1797              		.thumb
+ 1798              		.thumb_func
+ 1800              	RTC_CoarseCalibConfig:
+ 1801              		@ args = 0, pretend = 0, frame = 16
+ 1802              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1803 0ff8 00B5     		push	{lr}
+ 1804 0ffa 85B0     		sub	sp, sp, #20
+ 1805 0ffc 0190     		str	r0, [sp, #4]
+ 1806 0ffe 0091     		str	r1, [sp, #0]
+ 1807 1000 4FF00003 		mov	r3, #0
+ 1808 1004 8DF80F30 		strb	r3, [sp, #15]
+ 1809 1008 4FF42053 		mov	r3, #10240
+ 1810 100c C4F20003 		movt	r3, 16384
+ 1811 1010 4FF0CA02 		mov	r2, #202
+ 1812 1014 5A62     		str	r2, [r3, #36]
+ 1813 1016 4FF42053 		mov	r3, #10240
+ 1814 101a C4F20003 		movt	r3, 16384
+ 1815 101e 4FF05302 		mov	r2, #83
+ 1816 1022 5A62     		str	r2, [r3, #36]
+ 1817 1024 FFF7FEFF 		bl	RTC_EnterInitMode
+ 1818 1028 0346     		mov	r3, r0
+ 1819 102a 002B     		cmp	r3, #0
+ 1820 102c 04D1     		bne	.L100
+ 1821 102e 4FF00003 		mov	r3, #0
+ 1822 1032 8DF80F30 		strb	r3, [sp, #15]
+ 1823 1036 0DE0     		b	.L101
+ 1824              	.L100:
+ 1825 1038 4FF42053 		mov	r3, #10240
+ 1826 103c C4F20003 		movt	r3, 16384
+ 1827 1040 0199     		ldr	r1, [sp, #4]
+ 1828 1042 009A     		ldr	r2, [sp, #0]
+ 1829 1044 0A43     		orrs	r2, r2, r1
+ 1830 1046 9A61     		str	r2, [r3, #24]
+ 1831 1048 FFF7FEFF 		bl	RTC_ExitInitMode
+ 1832 104c 4FF00103 		mov	r3, #1
+ 1833 1050 8DF80F30 		strb	r3, [sp, #15]
+ 1834              	.L101:
+ 1835 1054 4FF42053 		mov	r3, #10240
+ 1836 1058 C4F20003 		movt	r3, 16384
+ 1837 105c 4FF0FF02 		mov	r2, #255
+ 1838 1060 5A62     		str	r2, [r3, #36]
+ 1839 1062 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1840 1066 1846     		mov	r0, r3
+ 1841 1068 05B0     		add	sp, sp, #20
+ 1842 106a 00BD     		pop	{pc}
+ 1844              		.align	2
+ 1845              		.global	RTC_CoarseCalibCmd
+ 1846              		.thumb
+ 1847              		.thumb_func
+ 1849              	RTC_CoarseCalibCmd:
+ 1850              		@ args = 0, pretend = 0, frame = 16
+ 1851              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1852 106c 00B5     		push	{lr}
+ 1853 106e 85B0     		sub	sp, sp, #20
+ 1854 1070 0346     		mov	r3, r0
+ 1855 1072 8DF80730 		strb	r3, [sp, #7]
+ 1856 1076 4FF00003 		mov	r3, #0
+ 1857 107a 8DF80F30 		strb	r3, [sp, #15]
+ 1858 107e 4FF42053 		mov	r3, #10240
+ 1859 1082 C4F20003 		movt	r3, 16384
+ 1860 1086 4FF0CA02 		mov	r2, #202
+ 1861 108a 5A62     		str	r2, [r3, #36]
+ 1862 108c 4FF42053 		mov	r3, #10240
+ 1863 1090 C4F20003 		movt	r3, 16384
+ 1864 1094 4FF05302 		mov	r2, #83
+ 1865 1098 5A62     		str	r2, [r3, #36]
+ 1866 109a FFF7FEFF 		bl	RTC_EnterInitMode
+ 1867 109e 0346     		mov	r3, r0
+ 1868 10a0 002B     		cmp	r3, #0
+ 1869 10a2 04D1     		bne	.L103
+ 1870 10a4 4FF00003 		mov	r3, #0
+ 1871 10a8 8DF80F30 		strb	r3, [sp, #15]
+ 1872 10ac 22E0     		b	.L104
+ 1873              	.L103:
+ 1874 10ae 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1875 10b2 002B     		cmp	r3, #0
+ 1876 10b4 0CD0     		beq	.L105
+ 1877 10b6 4FF42053 		mov	r3, #10240
+ 1878 10ba C4F20003 		movt	r3, 16384
+ 1879 10be 4FF42052 		mov	r2, #10240
+ 1880 10c2 C4F20002 		movt	r2, 16384
+ 1881 10c6 9268     		ldr	r2, [r2, #8]
+ 1882 10c8 42F08002 		orr	r2, r2, #128
+ 1883 10cc 9A60     		str	r2, [r3, #8]
+ 1884 10ce 0BE0     		b	.L106
+ 1885              	.L105:
+ 1886 10d0 4FF42053 		mov	r3, #10240
+ 1887 10d4 C4F20003 		movt	r3, 16384
+ 1888 10d8 4FF42052 		mov	r2, #10240
+ 1889 10dc C4F20002 		movt	r2, 16384
+ 1890 10e0 9268     		ldr	r2, [r2, #8]
+ 1891 10e2 22F08002 		bic	r2, r2, #128
+ 1892 10e6 9A60     		str	r2, [r3, #8]
+ 1893              	.L106:
+ 1894 10e8 FFF7FEFF 		bl	RTC_ExitInitMode
+ 1895 10ec 4FF00103 		mov	r3, #1
+ 1896 10f0 8DF80F30 		strb	r3, [sp, #15]
+ 1897              	.L104:
+ 1898 10f4 4FF42053 		mov	r3, #10240
+ 1899 10f8 C4F20003 		movt	r3, 16384
+ 1900 10fc 4FF0FF02 		mov	r2, #255
+ 1901 1100 5A62     		str	r2, [r3, #36]
+ 1902 1102 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1903 1106 1846     		mov	r0, r3
+ 1904 1108 05B0     		add	sp, sp, #20
+ 1905 110a 00BD     		pop	{pc}
+ 1907              		.align	2
+ 1908              		.global	RTC_CalibOutputCmd
+ 1909              		.thumb
+ 1910              		.thumb_func
+ 1912              	RTC_CalibOutputCmd:
+ 1913              		@ args = 0, pretend = 0, frame = 8
+ 1914              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1915              		@ link register save eliminated.
+ 1916 110c 82B0     		sub	sp, sp, #8
+ 1917 110e 0346     		mov	r3, r0
+ 1918 1110 8DF80730 		strb	r3, [sp, #7]
+ 1919 1114 4FF42053 		mov	r3, #10240
+ 1920 1118 C4F20003 		movt	r3, 16384
+ 1921 111c 4FF0CA02 		mov	r2, #202
+ 1922 1120 5A62     		str	r2, [r3, #36]
+ 1923 1122 4FF42053 		mov	r3, #10240
+ 1924 1126 C4F20003 		movt	r3, 16384
+ 1925 112a 4FF05302 		mov	r2, #83
+ 1926 112e 5A62     		str	r2, [r3, #36]
+ 1927 1130 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 1928 1134 002B     		cmp	r3, #0
+ 1929 1136 0CD0     		beq	.L108
+ 1930 1138 4FF42053 		mov	r3, #10240
+ 1931 113c C4F20003 		movt	r3, 16384
+ 1932 1140 4FF42052 		mov	r2, #10240
+ 1933 1144 C4F20002 		movt	r2, 16384
+ 1934 1148 9268     		ldr	r2, [r2, #8]
+ 1935 114a 42F40002 		orr	r2, r2, #8388608
+ 1936 114e 9A60     		str	r2, [r3, #8]
+ 1937 1150 0BE0     		b	.L109
+ 1938              	.L108:
+ 1939 1152 4FF42053 		mov	r3, #10240
+ 1940 1156 C4F20003 		movt	r3, 16384
+ 1941 115a 4FF42052 		mov	r2, #10240
+ 1942 115e C4F20002 		movt	r2, 16384
+ 1943 1162 9268     		ldr	r2, [r2, #8]
+ 1944 1164 22F40002 		bic	r2, r2, #8388608
+ 1945 1168 9A60     		str	r2, [r3, #8]
+ 1946              	.L109:
+ 1947 116a 4FF42053 		mov	r3, #10240
+ 1948 116e C4F20003 		movt	r3, 16384
+ 1949 1172 4FF0FF02 		mov	r2, #255
+ 1950 1176 5A62     		str	r2, [r3, #36]
+ 1951 1178 02B0     		add	sp, sp, #8
+ 1952 117a 7047     		bx	lr
+ 1954              		.align	2
+ 1955              		.global	RTC_CalibOutputConfig
+ 1956              		.thumb
+ 1957              		.thumb_func
+ 1959              	RTC_CalibOutputConfig:
+ 1960              		@ args = 0, pretend = 0, frame = 8
+ 1961              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1962              		@ link register save eliminated.
+ 1963 117c 82B0     		sub	sp, sp, #8
+ 1964 117e 0190     		str	r0, [sp, #4]
+ 1965 1180 4FF42053 		mov	r3, #10240
+ 1966 1184 C4F20003 		movt	r3, 16384
+ 1967 1188 4FF0CA02 		mov	r2, #202
+ 1968 118c 5A62     		str	r2, [r3, #36]
+ 1969 118e 4FF42053 		mov	r3, #10240
+ 1970 1192 C4F20003 		movt	r3, 16384
+ 1971 1196 4FF05302 		mov	r2, #83
+ 1972 119a 5A62     		str	r2, [r3, #36]
+ 1973 119c 4FF42053 		mov	r3, #10240
+ 1974 11a0 C4F20003 		movt	r3, 16384
+ 1975 11a4 4FF42052 		mov	r2, #10240
+ 1976 11a8 C4F20002 		movt	r2, 16384
+ 1977 11ac 9268     		ldr	r2, [r2, #8]
+ 1978 11ae 22F40022 		bic	r2, r2, #524288
+ 1979 11b2 9A60     		str	r2, [r3, #8]
+ 1980 11b4 4FF42053 		mov	r3, #10240
+ 1981 11b8 C4F20003 		movt	r3, 16384
+ 1982 11bc 4FF42052 		mov	r2, #10240
+ 1983 11c0 C4F20002 		movt	r2, 16384
+ 1984 11c4 9168     		ldr	r1, [r2, #8]
+ 1985 11c6 019A     		ldr	r2, [sp, #4]
+ 1986 11c8 0A43     		orrs	r2, r2, r1
+ 1987 11ca 9A60     		str	r2, [r3, #8]
+ 1988 11cc 4FF42053 		mov	r3, #10240
+ 1989 11d0 C4F20003 		movt	r3, 16384
+ 1990 11d4 4FF0FF02 		mov	r2, #255
+ 1991 11d8 5A62     		str	r2, [r3, #36]
+ 1992 11da 02B0     		add	sp, sp, #8
+ 1993 11dc 7047     		bx	lr
+ 1995 11de 00BF     		.align	2
+ 1996              		.global	RTC_SmoothCalibConfig
+ 1997              		.thumb
+ 1998              		.thumb_func
+ 2000              	RTC_SmoothCalibConfig:
+ 2001              		@ args = 0, pretend = 0, frame = 24
+ 2002              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2003              		@ link register save eliminated.
+ 2004 11e0 86B0     		sub	sp, sp, #24
+ 2005 11e2 0390     		str	r0, [sp, #12]
+ 2006 11e4 0291     		str	r1, [sp, #8]
+ 2007 11e6 0192     		str	r2, [sp, #4]
+ 2008 11e8 4FF00003 		mov	r3, #0
+ 2009 11ec 8DF81730 		strb	r3, [sp, #23]
+ 2010 11f0 4FF00003 		mov	r3, #0
+ 2011 11f4 0493     		str	r3, [sp, #16]
+ 2012 11f6 4FF42053 		mov	r3, #10240
+ 2013 11fa C4F20003 		movt	r3, 16384
+ 2014 11fe 4FF0CA02 		mov	r2, #202
+ 2015 1202 5A62     		str	r2, [r3, #36]
+ 2016 1204 4FF42053 		mov	r3, #10240
+ 2017 1208 C4F20003 		movt	r3, 16384
+ 2018 120c 4FF05302 		mov	r2, #83
+ 2019 1210 5A62     		str	r2, [r3, #36]
+ 2020 1212 4FF42053 		mov	r3, #10240
+ 2021 1216 C4F20003 		movt	r3, 16384
+ 2022 121a DB68     		ldr	r3, [r3, #12]
+ 2023 121c 03F48033 		and	r3, r3, #65536
+ 2024 1220 002B     		cmp	r3, #0
+ 2025 1222 11D0     		beq	.L112
+ 2026 1224 03E0     		b	.L113
+ 2027              	.L114:
+ 2028 1226 049B     		ldr	r3, [sp, #16]
+ 2029 1228 03F10103 		add	r3, r3, #1
+ 2030 122c 0493     		str	r3, [sp, #16]
+ 2031              	.L113:
+ 2032 122e 4FF42053 		mov	r3, #10240
+ 2033 1232 C4F20003 		movt	r3, 16384
+ 2034 1236 DB68     		ldr	r3, [r3, #12]
+ 2035 1238 03F48033 		and	r3, r3, #65536
+ 2036 123c 002B     		cmp	r3, #0
+ 2037 123e 03D0     		beq	.L112
+ 2038 1240 049B     		ldr	r3, [sp, #16]
+ 2039 1242 B3F5003F 		cmp	r3, #131072
+ 2040 1246 EED1     		bne	.L114
+ 2041              	.L112:
+ 2042 1248 4FF42053 		mov	r3, #10240
+ 2043 124c C4F20003 		movt	r3, 16384
+ 2044 1250 DB68     		ldr	r3, [r3, #12]
+ 2045 1252 03F48033 		and	r3, r3, #65536
+ 2046 1256 002B     		cmp	r3, #0
+ 2047 1258 0ED1     		bne	.L115
+ 2048 125a 4FF42053 		mov	r3, #10240
+ 2049 125e C4F20003 		movt	r3, 16384
+ 2050 1262 0399     		ldr	r1, [sp, #12]
+ 2051 1264 029A     		ldr	r2, [sp, #8]
+ 2052 1266 1143     		orrs	r1, r1, r2
+ 2053 1268 019A     		ldr	r2, [sp, #4]
+ 2054 126a 0A43     		orrs	r2, r2, r1
+ 2055 126c DA63     		str	r2, [r3, #60]
+ 2056 126e 4FF00103 		mov	r3, #1
+ 2057 1272 8DF81730 		strb	r3, [sp, #23]
+ 2058 1276 03E0     		b	.L116
+ 2059              	.L115:
+ 2060 1278 4FF00003 		mov	r3, #0
+ 2061 127c 8DF81730 		strb	r3, [sp, #23]
+ 2062              	.L116:
+ 2063 1280 4FF42053 		mov	r3, #10240
+ 2064 1284 C4F20003 		movt	r3, 16384
+ 2065 1288 4FF0FF02 		mov	r2, #255
+ 2066 128c 5A62     		str	r2, [r3, #36]
+ 2067 128e 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 2068 1292 1846     		mov	r0, r3
+ 2069 1294 06B0     		add	sp, sp, #24
+ 2070 1296 7047     		bx	lr
+ 2072              		.align	2
+ 2073              		.global	RTC_TimeStampCmd
+ 2074              		.thumb
+ 2075              		.thumb_func
+ 2077              	RTC_TimeStampCmd:
+ 2078              		@ args = 0, pretend = 0, frame = 16
+ 2079              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2080              		@ link register save eliminated.
+ 2081 1298 84B0     		sub	sp, sp, #16
+ 2082 129a 0190     		str	r0, [sp, #4]
+ 2083 129c 0B46     		mov	r3, r1
+ 2084 129e 8DF80330 		strb	r3, [sp, #3]
+ 2085 12a2 4FF00003 		mov	r3, #0
+ 2086 12a6 0393     		str	r3, [sp, #12]
+ 2087 12a8 4FF42053 		mov	r3, #10240
+ 2088 12ac C4F20003 		movt	r3, 16384
+ 2089 12b0 9B68     		ldr	r3, [r3, #8]
+ 2090 12b2 23F40063 		bic	r3, r3, #2048
+ 2091 12b6 23F00803 		bic	r3, r3, #8
+ 2092 12ba 0393     		str	r3, [sp, #12]
+ 2093 12bc 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 2094 12c0 002B     		cmp	r3, #0
+ 2095 12c2 06D0     		beq	.L118
+ 2096 12c4 019A     		ldr	r2, [sp, #4]
+ 2097 12c6 039B     		ldr	r3, [sp, #12]
+ 2098 12c8 1343     		orrs	r3, r3, r2
+ 2099 12ca 43F40063 		orr	r3, r3, #2048
+ 2100 12ce 0393     		str	r3, [sp, #12]
+ 2101 12d0 03E0     		b	.L119
+ 2102              	.L118:
+ 2103 12d2 039A     		ldr	r2, [sp, #12]
+ 2104 12d4 019B     		ldr	r3, [sp, #4]
+ 2105 12d6 1343     		orrs	r3, r3, r2
+ 2106 12d8 0393     		str	r3, [sp, #12]
+ 2107              	.L119:
+ 2108 12da 4FF42053 		mov	r3, #10240
+ 2109 12de C4F20003 		movt	r3, 16384
+ 2110 12e2 4FF0CA02 		mov	r2, #202
+ 2111 12e6 5A62     		str	r2, [r3, #36]
+ 2112 12e8 4FF42053 		mov	r3, #10240
+ 2113 12ec C4F20003 		movt	r3, 16384
+ 2114 12f0 4FF05302 		mov	r2, #83
+ 2115 12f4 5A62     		str	r2, [r3, #36]
+ 2116 12f6 4FF42053 		mov	r3, #10240
+ 2117 12fa C4F20003 		movt	r3, 16384
+ 2118 12fe 039A     		ldr	r2, [sp, #12]
+ 2119 1300 9A60     		str	r2, [r3, #8]
+ 2120 1302 4FF42053 		mov	r3, #10240
+ 2121 1306 C4F20003 		movt	r3, 16384
+ 2122 130a 4FF0FF02 		mov	r2, #255
+ 2123 130e 5A62     		str	r2, [r3, #36]
+ 2124 1310 04B0     		add	sp, sp, #16
+ 2125 1312 7047     		bx	lr
+ 2127              		.align	2
+ 2128              		.global	RTC_GetTimeStamp
+ 2129              		.thumb
+ 2130              		.thumb_func
+ 2132              	RTC_GetTimeStamp:
+ 2133              		@ args = 0, pretend = 0, frame = 24
+ 2134              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2135 1314 00B5     		push	{lr}
+ 2136 1316 87B0     		sub	sp, sp, #28
+ 2137 1318 0390     		str	r0, [sp, #12]
+ 2138 131a 0291     		str	r1, [sp, #8]
+ 2139 131c 0192     		str	r2, [sp, #4]
+ 2140 131e 4FF00003 		mov	r3, #0
+ 2141 1322 0593     		str	r3, [sp, #20]
+ 2142 1324 4FF00003 		mov	r3, #0
+ 2143 1328 0493     		str	r3, [sp, #16]
+ 2144 132a 4FF42053 		mov	r3, #10240
+ 2145 132e C4F20003 		movt	r3, 16384
+ 2146 1332 1A6B     		ldr	r2, [r3, #48]
+ 2147 1334 47F67F73 		movw	r3, #32639
+ 2148 1338 C0F27F03 		movt	r3, 127
+ 2149 133c 1340     		ands	r3, r3, r2
+ 2150 133e 0593     		str	r3, [sp, #20]
+ 2151 1340 4FF42053 		mov	r3, #10240
+ 2152 1344 C4F20003 		movt	r3, 16384
+ 2153 1348 5B6B     		ldr	r3, [r3, #52]
+ 2154 134a 23F07F43 		bic	r3, r3, #-16777216
+ 2155 134e 23F0C003 		bic	r3, r3, #192
+ 2156 1352 0493     		str	r3, [sp, #16]
+ 2157 1354 059B     		ldr	r3, [sp, #20]
+ 2158 1356 03F47C13 		and	r3, r3, #4128768
+ 2159 135a 4FEA1343 		lsr	r3, r3, #16
+ 2160 135e DAB2     		uxtb	r2, r3
+ 2161 1360 029B     		ldr	r3, [sp, #8]
+ 2162 1362 1A70     		strb	r2, [r3, #0]
+ 2163 1364 059B     		ldr	r3, [sp, #20]
+ 2164 1366 03F4FE43 		and	r3, r3, #32512
+ 2165 136a 4FEA1323 		lsr	r3, r3, #8
+ 2166 136e DAB2     		uxtb	r2, r3
+ 2167 1370 029B     		ldr	r3, [sp, #8]
+ 2168 1372 5A70     		strb	r2, [r3, #1]
+ 2169 1374 059B     		ldr	r3, [sp, #20]
+ 2170 1376 DBB2     		uxtb	r3, r3
+ 2171 1378 03F07F03 		and	r3, r3, #127
+ 2172 137c DAB2     		uxtb	r2, r3
+ 2173 137e 029B     		ldr	r3, [sp, #8]
+ 2174 1380 9A70     		strb	r2, [r3, #2]
+ 2175 1382 059B     		ldr	r3, [sp, #20]
+ 2176 1384 03F48003 		and	r3, r3, #4194304
+ 2177 1388 4FEA1343 		lsr	r3, r3, #16
+ 2178 138c DAB2     		uxtb	r2, r3
+ 2179 138e 029B     		ldr	r3, [sp, #8]
+ 2180 1390 DA70     		strb	r2, [r3, #3]
+ 2181 1392 019B     		ldr	r3, [sp, #4]
+ 2182 1394 4FF00002 		mov	r2, #0
+ 2183 1398 DA70     		strb	r2, [r3, #3]
+ 2184 139a 049B     		ldr	r3, [sp, #16]
+ 2185 139c 03F4F853 		and	r3, r3, #7936
+ 2186 13a0 4FEA1323 		lsr	r3, r3, #8
+ 2187 13a4 DAB2     		uxtb	r2, r3
+ 2188 13a6 019B     		ldr	r3, [sp, #4]
+ 2189 13a8 5A70     		strb	r2, [r3, #1]
+ 2190 13aa 049B     		ldr	r3, [sp, #16]
+ 2191 13ac DBB2     		uxtb	r3, r3
+ 2192 13ae 03F03F03 		and	r3, r3, #63
+ 2193 13b2 DAB2     		uxtb	r2, r3
+ 2194 13b4 019B     		ldr	r3, [sp, #4]
+ 2195 13b6 9A70     		strb	r2, [r3, #2]
+ 2196 13b8 049B     		ldr	r3, [sp, #16]
+ 2197 13ba 03F46043 		and	r3, r3, #57344
+ 2198 13be 4FEA5333 		lsr	r3, r3, #13
+ 2199 13c2 DAB2     		uxtb	r2, r3
+ 2200 13c4 019B     		ldr	r3, [sp, #4]
+ 2201 13c6 1A70     		strb	r2, [r3, #0]
+ 2202 13c8 039B     		ldr	r3, [sp, #12]
+ 2203 13ca 002B     		cmp	r3, #0
+ 2204 13cc 35D1     		bne	.L120
+ 2205 13ce 029B     		ldr	r3, [sp, #8]
+ 2206 13d0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2207 13d2 1846     		mov	r0, r3
+ 2208 13d4 00F042FB 		bl	RTC_Bcd2ToByte
+ 2209 13d8 0346     		mov	r3, r0
+ 2210 13da 1A46     		mov	r2, r3
+ 2211 13dc 029B     		ldr	r3, [sp, #8]
+ 2212 13de 1A70     		strb	r2, [r3, #0]
+ 2213 13e0 029B     		ldr	r3, [sp, #8]
+ 2214 13e2 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2215 13e4 1846     		mov	r0, r3
+ 2216 13e6 00F039FB 		bl	RTC_Bcd2ToByte
+ 2217 13ea 0346     		mov	r3, r0
+ 2218 13ec 1A46     		mov	r2, r3
+ 2219 13ee 029B     		ldr	r3, [sp, #8]
+ 2220 13f0 5A70     		strb	r2, [r3, #1]
+ 2221 13f2 029B     		ldr	r3, [sp, #8]
+ 2222 13f4 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 2223 13f6 1846     		mov	r0, r3
+ 2224 13f8 00F030FB 		bl	RTC_Bcd2ToByte
+ 2225 13fc 0346     		mov	r3, r0
+ 2226 13fe 1A46     		mov	r2, r3
+ 2227 1400 029B     		ldr	r3, [sp, #8]
+ 2228 1402 9A70     		strb	r2, [r3, #2]
+ 2229 1404 019B     		ldr	r3, [sp, #4]
+ 2230 1406 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 2231 1408 1846     		mov	r0, r3
+ 2232 140a 00F027FB 		bl	RTC_Bcd2ToByte
+ 2233 140e 0346     		mov	r3, r0
+ 2234 1410 1A46     		mov	r2, r3
+ 2235 1412 019B     		ldr	r3, [sp, #4]
+ 2236 1414 5A70     		strb	r2, [r3, #1]
+ 2237 1416 019B     		ldr	r3, [sp, #4]
+ 2238 1418 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 2239 141a 1846     		mov	r0, r3
+ 2240 141c 00F01EFB 		bl	RTC_Bcd2ToByte
+ 2241 1420 0346     		mov	r3, r0
+ 2242 1422 1A46     		mov	r2, r3
+ 2243 1424 019B     		ldr	r3, [sp, #4]
+ 2244 1426 9A70     		strb	r2, [r3, #2]
+ 2245 1428 019B     		ldr	r3, [sp, #4]
+ 2246 142a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 2247 142c 1846     		mov	r0, r3
+ 2248 142e 00F015FB 		bl	RTC_Bcd2ToByte
+ 2249 1432 0346     		mov	r3, r0
+ 2250 1434 1A46     		mov	r2, r3
+ 2251 1436 019B     		ldr	r3, [sp, #4]
+ 2252 1438 1A70     		strb	r2, [r3, #0]
+ 2253              	.L120:
+ 2254 143a 07B0     		add	sp, sp, #28
+ 2255 143c 00BD     		pop	{pc}
+ 2257 143e 00BF     		.align	2
+ 2258              		.global	RTC_GetTimeStampSubSecond
+ 2259              		.thumb
+ 2260              		.thumb_func
+ 2262              	RTC_GetTimeStampSubSecond:
+ 2263              		@ args = 0, pretend = 0, frame = 0
+ 2264              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2265              		@ link register save eliminated.
+ 2266 1440 4FF42053 		mov	r3, #10240
+ 2267 1444 C4F20003 		movt	r3, 16384
+ 2268 1448 9B6B     		ldr	r3, [r3, #56]
+ 2269 144a 1846     		mov	r0, r3
+ 2270 144c 7047     		bx	lr
+ 2272 144e 00BF     		.align	2
+ 2273              		.global	RTC_TamperTriggerConfig
+ 2274              		.thumb
+ 2275              		.thumb_func
+ 2277              	RTC_TamperTriggerConfig:
+ 2278              		@ args = 0, pretend = 0, frame = 8
+ 2279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2280              		@ link register save eliminated.
+ 2281 1450 82B0     		sub	sp, sp, #8
+ 2282 1452 0190     		str	r0, [sp, #4]
+ 2283 1454 0091     		str	r1, [sp, #0]
+ 2284 1456 009B     		ldr	r3, [sp, #0]
+ 2285 1458 002B     		cmp	r3, #0
+ 2286 145a 10D1     		bne	.L124
+ 2287 145c 4FF42053 		mov	r3, #10240
+ 2288 1460 C4F20003 		movt	r3, 16384
+ 2289 1464 4FF42052 		mov	r2, #10240
+ 2290 1468 C4F20002 		movt	r2, 16384
+ 2291 146c 116C     		ldr	r1, [r2, #64]
+ 2292 146e 019A     		ldr	r2, [sp, #4]
+ 2293 1470 4FEA4202 		lsl	r2, r2, #1
+ 2294 1474 6FEA0202 		mvn	r2, r2
+ 2295 1478 0A40     		ands	r2, r2, r1
+ 2296 147a 1A64     		str	r2, [r3, #64]
+ 2297 147c 0DE0     		b	.L123
+ 2298              	.L124:
+ 2299 147e 4FF42053 		mov	r3, #10240
+ 2300 1482 C4F20003 		movt	r3, 16384
+ 2301 1486 4FF42052 		mov	r2, #10240
+ 2302 148a C4F20002 		movt	r2, 16384
+ 2303 148e 116C     		ldr	r1, [r2, #64]
+ 2304 1490 019A     		ldr	r2, [sp, #4]
+ 2305 1492 4FEA4202 		lsl	r2, r2, #1
+ 2306 1496 0A43     		orrs	r2, r2, r1
+ 2307 1498 1A64     		str	r2, [r3, #64]
+ 2308              	.L123:
+ 2309 149a 02B0     		add	sp, sp, #8
+ 2310 149c 7047     		bx	lr
+ 2312 149e 00BF     		.align	2
+ 2313              		.global	RTC_TamperCmd
+ 2314              		.thumb
+ 2315              		.thumb_func
+ 2317              	RTC_TamperCmd:
+ 2318              		@ args = 0, pretend = 0, frame = 8
+ 2319              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2320              		@ link register save eliminated.
+ 2321 14a0 82B0     		sub	sp, sp, #8
+ 2322 14a2 0190     		str	r0, [sp, #4]
+ 2323 14a4 0B46     		mov	r3, r1
+ 2324 14a6 8DF80330 		strb	r3, [sp, #3]
+ 2325 14aa 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 2326 14ae 002B     		cmp	r3, #0
+ 2327 14b0 0CD0     		beq	.L127
+ 2328 14b2 4FF42053 		mov	r3, #10240
+ 2329 14b6 C4F20003 		movt	r3, 16384
+ 2330 14ba 4FF42052 		mov	r2, #10240
+ 2331 14be C4F20002 		movt	r2, 16384
+ 2332 14c2 116C     		ldr	r1, [r2, #64]
+ 2333 14c4 019A     		ldr	r2, [sp, #4]
+ 2334 14c6 0A43     		orrs	r2, r2, r1
+ 2335 14c8 1A64     		str	r2, [r3, #64]
+ 2336 14ca 0DE0     		b	.L126
+ 2337              	.L127:
+ 2338 14cc 4FF42053 		mov	r3, #10240
+ 2339 14d0 C4F20003 		movt	r3, 16384
+ 2340 14d4 4FF42052 		mov	r2, #10240
+ 2341 14d8 C4F20002 		movt	r2, 16384
+ 2342 14dc 116C     		ldr	r1, [r2, #64]
+ 2343 14de 019A     		ldr	r2, [sp, #4]
+ 2344 14e0 6FEA0202 		mvn	r2, r2
+ 2345 14e4 0A40     		ands	r2, r2, r1
+ 2346 14e6 1A64     		str	r2, [r3, #64]
+ 2347              	.L126:
+ 2348 14e8 02B0     		add	sp, sp, #8
+ 2349 14ea 7047     		bx	lr
+ 2351              		.align	2
+ 2352              		.global	RTC_TamperFilterConfig
+ 2353              		.thumb
+ 2354              		.thumb_func
+ 2356              	RTC_TamperFilterConfig:
+ 2357              		@ args = 0, pretend = 0, frame = 8
+ 2358              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2359              		@ link register save eliminated.
+ 2360 14ec 82B0     		sub	sp, sp, #8
+ 2361 14ee 0190     		str	r0, [sp, #4]
+ 2362 14f0 4FF42053 		mov	r3, #10240
+ 2363 14f4 C4F20003 		movt	r3, 16384
+ 2364 14f8 4FF42052 		mov	r2, #10240
+ 2365 14fc C4F20002 		movt	r2, 16384
+ 2366 1500 126C     		ldr	r2, [r2, #64]
+ 2367 1502 22F4C052 		bic	r2, r2, #6144
+ 2368 1506 1A64     		str	r2, [r3, #64]
+ 2369 1508 4FF42053 		mov	r3, #10240
+ 2370 150c C4F20003 		movt	r3, 16384
+ 2371 1510 4FF42052 		mov	r2, #10240
+ 2372 1514 C4F20002 		movt	r2, 16384
+ 2373 1518 116C     		ldr	r1, [r2, #64]
+ 2374 151a 019A     		ldr	r2, [sp, #4]
+ 2375 151c 0A43     		orrs	r2, r2, r1
+ 2376 151e 1A64     		str	r2, [r3, #64]
+ 2377 1520 02B0     		add	sp, sp, #8
+ 2378 1522 7047     		bx	lr
+ 2380              		.align	2
+ 2381              		.global	RTC_TamperSamplingFreqConfig
+ 2382              		.thumb
+ 2383              		.thumb_func
+ 2385              	RTC_TamperSamplingFreqConfig:
+ 2386              		@ args = 0, pretend = 0, frame = 8
+ 2387              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2388              		@ link register save eliminated.
+ 2389 1524 82B0     		sub	sp, sp, #8
+ 2390 1526 0190     		str	r0, [sp, #4]
+ 2391 1528 4FF42053 		mov	r3, #10240
+ 2392 152c C4F20003 		movt	r3, 16384
+ 2393 1530 4FF42052 		mov	r2, #10240
+ 2394 1534 C4F20002 		movt	r2, 16384
+ 2395 1538 126C     		ldr	r2, [r2, #64]
+ 2396 153a 22F4E062 		bic	r2, r2, #1792
+ 2397 153e 1A64     		str	r2, [r3, #64]
+ 2398 1540 4FF42053 		mov	r3, #10240
+ 2399 1544 C4F20003 		movt	r3, 16384
+ 2400 1548 4FF42052 		mov	r2, #10240
+ 2401 154c C4F20002 		movt	r2, 16384
+ 2402 1550 116C     		ldr	r1, [r2, #64]
+ 2403 1552 019A     		ldr	r2, [sp, #4]
+ 2404 1554 0A43     		orrs	r2, r2, r1
+ 2405 1556 1A64     		str	r2, [r3, #64]
+ 2406 1558 02B0     		add	sp, sp, #8
+ 2407 155a 7047     		bx	lr
+ 2409              		.align	2
+ 2410              		.global	RTC_TamperPinsPrechargeDuration
+ 2411              		.thumb
+ 2412              		.thumb_func
+ 2414              	RTC_TamperPinsPrechargeDuration:
+ 2415              		@ args = 0, pretend = 0, frame = 8
+ 2416              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2417              		@ link register save eliminated.
+ 2418 155c 82B0     		sub	sp, sp, #8
+ 2419 155e 0190     		str	r0, [sp, #4]
+ 2420 1560 4FF42053 		mov	r3, #10240
+ 2421 1564 C4F20003 		movt	r3, 16384
+ 2422 1568 4FF42052 		mov	r2, #10240
+ 2423 156c C4F20002 		movt	r2, 16384
+ 2424 1570 126C     		ldr	r2, [r2, #64]
+ 2425 1572 22F4C042 		bic	r2, r2, #24576
+ 2426 1576 1A64     		str	r2, [r3, #64]
+ 2427 1578 4FF42053 		mov	r3, #10240
+ 2428 157c C4F20003 		movt	r3, 16384
+ 2429 1580 4FF42052 		mov	r2, #10240
+ 2430 1584 C4F20002 		movt	r2, 16384
+ 2431 1588 116C     		ldr	r1, [r2, #64]
+ 2432 158a 019A     		ldr	r2, [sp, #4]
+ 2433 158c 0A43     		orrs	r2, r2, r1
+ 2434 158e 1A64     		str	r2, [r3, #64]
+ 2435 1590 02B0     		add	sp, sp, #8
+ 2436 1592 7047     		bx	lr
+ 2438              		.align	2
+ 2439              		.global	RTC_TimeStampOnTamperDetectionCmd
+ 2440              		.thumb
+ 2441              		.thumb_func
+ 2443              	RTC_TimeStampOnTamperDetectionCmd:
+ 2444              		@ args = 0, pretend = 0, frame = 8
+ 2445              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2446              		@ link register save eliminated.
+ 2447 1594 82B0     		sub	sp, sp, #8
+ 2448 1596 0346     		mov	r3, r0
+ 2449 1598 8DF80730 		strb	r3, [sp, #7]
+ 2450 159c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 2451 15a0 002B     		cmp	r3, #0
+ 2452 15a2 0CD0     		beq	.L133
+ 2453 15a4 4FF42053 		mov	r3, #10240
+ 2454 15a8 C4F20003 		movt	r3, 16384
+ 2455 15ac 4FF42052 		mov	r2, #10240
+ 2456 15b0 C4F20002 		movt	r2, 16384
+ 2457 15b4 126C     		ldr	r2, [r2, #64]
+ 2458 15b6 42F08002 		orr	r2, r2, #128
+ 2459 15ba 1A64     		str	r2, [r3, #64]
+ 2460 15bc 0BE0     		b	.L132
+ 2461              	.L133:
+ 2462 15be 4FF42053 		mov	r3, #10240
+ 2463 15c2 C4F20003 		movt	r3, 16384
+ 2464 15c6 4FF42052 		mov	r2, #10240
+ 2465 15ca C4F20002 		movt	r2, 16384
+ 2466 15ce 126C     		ldr	r2, [r2, #64]
+ 2467 15d0 22F08002 		bic	r2, r2, #128
+ 2468 15d4 1A64     		str	r2, [r3, #64]
+ 2469              	.L132:
+ 2470 15d6 02B0     		add	sp, sp, #8
+ 2471 15d8 7047     		bx	lr
+ 2473 15da 00BF     		.align	2
+ 2474              		.global	RTC_TamperPullUpCmd
+ 2475              		.thumb
+ 2476              		.thumb_func
+ 2478              	RTC_TamperPullUpCmd:
+ 2479              		@ args = 0, pretend = 0, frame = 8
+ 2480              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2481              		@ link register save eliminated.
+ 2482 15dc 82B0     		sub	sp, sp, #8
+ 2483 15de 0346     		mov	r3, r0
+ 2484 15e0 8DF80730 		strb	r3, [sp, #7]
+ 2485 15e4 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 2486 15e8 002B     		cmp	r3, #0
+ 2487 15ea 0CD0     		beq	.L136
+ 2488 15ec 4FF42053 		mov	r3, #10240
+ 2489 15f0 C4F20003 		movt	r3, 16384
+ 2490 15f4 4FF42052 		mov	r2, #10240
+ 2491 15f8 C4F20002 		movt	r2, 16384
+ 2492 15fc 126C     		ldr	r2, [r2, #64]
+ 2493 15fe 22F40042 		bic	r2, r2, #32768
+ 2494 1602 1A64     		str	r2, [r3, #64]
+ 2495 1604 0BE0     		b	.L135
+ 2496              	.L136:
+ 2497 1606 4FF42053 		mov	r3, #10240
+ 2498 160a C4F20003 		movt	r3, 16384
+ 2499 160e 4FF42052 		mov	r2, #10240
+ 2500 1612 C4F20002 		movt	r2, 16384
+ 2501 1616 126C     		ldr	r2, [r2, #64]
+ 2502 1618 42F40042 		orr	r2, r2, #32768
+ 2503 161c 1A64     		str	r2, [r3, #64]
+ 2504              	.L135:
+ 2505 161e 02B0     		add	sp, sp, #8
+ 2506 1620 7047     		bx	lr
+ 2508 1622 00BF     		.align	2
+ 2509              		.global	RTC_WriteBackupRegister
+ 2510              		.thumb
+ 2511              		.thumb_func
+ 2513              	RTC_WriteBackupRegister:
+ 2514              		@ args = 0, pretend = 0, frame = 16
+ 2515              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2516              		@ link register save eliminated.
+ 2517 1624 84B0     		sub	sp, sp, #16
+ 2518 1626 0190     		str	r0, [sp, #4]
+ 2519 1628 0091     		str	r1, [sp, #0]
+ 2520 162a 4FF00003 		mov	r3, #0
+ 2521 162e 0393     		str	r3, [sp, #12]
+ 2522 1630 42F65003 		movw	r3, #10320
+ 2523 1634 C4F20003 		movt	r3, 16384
+ 2524 1638 0393     		str	r3, [sp, #12]
+ 2525 163a 019B     		ldr	r3, [sp, #4]
+ 2526 163c 4FEA8302 		lsl	r2, r3, #2
+ 2527 1640 039B     		ldr	r3, [sp, #12]
+ 2528 1642 D318     		adds	r3, r2, r3
+ 2529 1644 0393     		str	r3, [sp, #12]
+ 2530 1646 039B     		ldr	r3, [sp, #12]
+ 2531 1648 009A     		ldr	r2, [sp, #0]
+ 2532 164a 1A60     		str	r2, [r3, #0]
+ 2533 164c 04B0     		add	sp, sp, #16
+ 2534 164e 7047     		bx	lr
+ 2536              		.align	2
+ 2537              		.global	RTC_ReadBackupRegister
+ 2538              		.thumb
+ 2539              		.thumb_func
+ 2541              	RTC_ReadBackupRegister:
+ 2542              		@ args = 0, pretend = 0, frame = 16
+ 2543              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2544              		@ link register save eliminated.
+ 2545 1650 84B0     		sub	sp, sp, #16
+ 2546 1652 0190     		str	r0, [sp, #4]
+ 2547 1654 4FF00003 		mov	r3, #0
+ 2548 1658 0393     		str	r3, [sp, #12]
+ 2549 165a 42F65003 		movw	r3, #10320
+ 2550 165e C4F20003 		movt	r3, 16384
+ 2551 1662 0393     		str	r3, [sp, #12]
+ 2552 1664 019B     		ldr	r3, [sp, #4]
+ 2553 1666 4FEA8302 		lsl	r2, r3, #2
+ 2554 166a 039B     		ldr	r3, [sp, #12]
+ 2555 166c D318     		adds	r3, r2, r3
+ 2556 166e 0393     		str	r3, [sp, #12]
+ 2557 1670 039B     		ldr	r3, [sp, #12]
+ 2558 1672 1B68     		ldr	r3, [r3, #0]
+ 2559 1674 1846     		mov	r0, r3
+ 2560 1676 04B0     		add	sp, sp, #16
+ 2561 1678 7047     		bx	lr
+ 2563 167a 00BF     		.align	2
+ 2564              		.global	RTC_TamperPinSelection
+ 2565              		.thumb
+ 2566              		.thumb_func
+ 2568              	RTC_TamperPinSelection:
+ 2569              		@ args = 0, pretend = 0, frame = 8
+ 2570              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2571              		@ link register save eliminated.
+ 2572 167c 82B0     		sub	sp, sp, #8
+ 2573 167e 0190     		str	r0, [sp, #4]
+ 2574 1680 4FF42053 		mov	r3, #10240
+ 2575 1684 C4F20003 		movt	r3, 16384
+ 2576 1688 4FF42052 		mov	r2, #10240
+ 2577 168c C4F20002 		movt	r2, 16384
+ 2578 1690 126C     		ldr	r2, [r2, #64]
+ 2579 1692 22F48032 		bic	r2, r2, #65536
+ 2580 1696 1A64     		str	r2, [r3, #64]
+ 2581 1698 4FF42053 		mov	r3, #10240
+ 2582 169c C4F20003 		movt	r3, 16384
+ 2583 16a0 4FF42052 		mov	r2, #10240
+ 2584 16a4 C4F20002 		movt	r2, 16384
+ 2585 16a8 116C     		ldr	r1, [r2, #64]
+ 2586 16aa 019A     		ldr	r2, [sp, #4]
+ 2587 16ac 0A43     		orrs	r2, r2, r1
+ 2588 16ae 1A64     		str	r2, [r3, #64]
+ 2589 16b0 02B0     		add	sp, sp, #8
+ 2590 16b2 7047     		bx	lr
+ 2592              		.align	2
+ 2593              		.global	RTC_TimeStampPinSelection
+ 2594              		.thumb
+ 2595              		.thumb_func
+ 2597              	RTC_TimeStampPinSelection:
+ 2598              		@ args = 0, pretend = 0, frame = 8
+ 2599              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2600              		@ link register save eliminated.
+ 2601 16b4 82B0     		sub	sp, sp, #8
+ 2602 16b6 0190     		str	r0, [sp, #4]
+ 2603 16b8 4FF42053 		mov	r3, #10240
+ 2604 16bc C4F20003 		movt	r3, 16384
+ 2605 16c0 4FF42052 		mov	r2, #10240
+ 2606 16c4 C4F20002 		movt	r2, 16384
+ 2607 16c8 126C     		ldr	r2, [r2, #64]
+ 2608 16ca 22F40032 		bic	r2, r2, #131072
+ 2609 16ce 1A64     		str	r2, [r3, #64]
+ 2610 16d0 4FF42053 		mov	r3, #10240
+ 2611 16d4 C4F20003 		movt	r3, 16384
+ 2612 16d8 4FF42052 		mov	r2, #10240
+ 2613 16dc C4F20002 		movt	r2, 16384
+ 2614 16e0 116C     		ldr	r1, [r2, #64]
+ 2615 16e2 019A     		ldr	r2, [sp, #4]
+ 2616 16e4 0A43     		orrs	r2, r2, r1
+ 2617 16e6 1A64     		str	r2, [r3, #64]
+ 2618 16e8 02B0     		add	sp, sp, #8
+ 2619 16ea 7047     		bx	lr
+ 2621              		.align	2
+ 2622              		.global	RTC_OutputTypeConfig
+ 2623              		.thumb
+ 2624              		.thumb_func
+ 2626              	RTC_OutputTypeConfig:
+ 2627              		@ args = 0, pretend = 0, frame = 8
+ 2628              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2629              		@ link register save eliminated.
+ 2630 16ec 82B0     		sub	sp, sp, #8
+ 2631 16ee 0190     		str	r0, [sp, #4]
+ 2632 16f0 4FF42053 		mov	r3, #10240
+ 2633 16f4 C4F20003 		movt	r3, 16384
+ 2634 16f8 4FF42052 		mov	r2, #10240
+ 2635 16fc C4F20002 		movt	r2, 16384
+ 2636 1700 126C     		ldr	r2, [r2, #64]
+ 2637 1702 22F48022 		bic	r2, r2, #262144
+ 2638 1706 1A64     		str	r2, [r3, #64]
+ 2639 1708 4FF42053 		mov	r3, #10240
+ 2640 170c C4F20003 		movt	r3, 16384
+ 2641 1710 4FF42052 		mov	r2, #10240
+ 2642 1714 C4F20002 		movt	r2, 16384
+ 2643 1718 116C     		ldr	r1, [r2, #64]
+ 2644 171a 019A     		ldr	r2, [sp, #4]
+ 2645 171c 0A43     		orrs	r2, r2, r1
+ 2646 171e 1A64     		str	r2, [r3, #64]
+ 2647 1720 02B0     		add	sp, sp, #8
+ 2648 1722 7047     		bx	lr
+ 2650              		.align	2
+ 2651              		.global	RTC_SynchroShiftConfig
+ 2652              		.thumb
+ 2653              		.thumb_func
+ 2655              	RTC_SynchroShiftConfig:
+ 2656              		@ args = 0, pretend = 0, frame = 16
+ 2657              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2658 1724 00B5     		push	{lr}
+ 2659 1726 85B0     		sub	sp, sp, #20
+ 2660 1728 0190     		str	r0, [sp, #4]
+ 2661 172a 0091     		str	r1, [sp, #0]
+ 2662 172c 4FF00003 		mov	r3, #0
+ 2663 1730 8DF80F30 		strb	r3, [sp, #15]
+ 2664 1734 4FF00003 		mov	r3, #0
+ 2665 1738 0293     		str	r3, [sp, #8]
+ 2666 173a 4FF42053 		mov	r3, #10240
+ 2667 173e C4F20003 		movt	r3, 16384
+ 2668 1742 4FF0CA02 		mov	r2, #202
+ 2669 1746 5A62     		str	r2, [r3, #36]
+ 2670 1748 4FF42053 		mov	r3, #10240
+ 2671 174c C4F20003 		movt	r3, 16384
+ 2672 1750 4FF05302 		mov	r2, #83
+ 2673 1754 5A62     		str	r2, [r3, #36]
+ 2674 1756 4FF42053 		mov	r3, #10240
+ 2675 175a C4F20003 		movt	r3, 16384
+ 2676 175e DB68     		ldr	r3, [r3, #12]
+ 2677 1760 03F00803 		and	r3, r3, #8
+ 2678 1764 002B     		cmp	r3, #0
+ 2679 1766 11D0     		beq	.L144
+ 2680 1768 03E0     		b	.L145
+ 2681              	.L146:
+ 2682 176a 029B     		ldr	r3, [sp, #8]
+ 2683 176c 03F10103 		add	r3, r3, #1
+ 2684 1770 0293     		str	r3, [sp, #8]
+ 2685              	.L145:
+ 2686 1772 4FF42053 		mov	r3, #10240
+ 2687 1776 C4F20003 		movt	r3, 16384
+ 2688 177a DB68     		ldr	r3, [r3, #12]
+ 2689 177c 03F00803 		and	r3, r3, #8
+ 2690 1780 002B     		cmp	r3, #0
+ 2691 1782 03D0     		beq	.L144
+ 2692 1784 029B     		ldr	r3, [sp, #8]
+ 2693 1786 B3F5805F 		cmp	r3, #4096
+ 2694 178a EED1     		bne	.L146
+ 2695              	.L144:
+ 2696 178c 4FF42053 		mov	r3, #10240
+ 2697 1790 C4F20003 		movt	r3, 16384
+ 2698 1794 DB68     		ldr	r3, [r3, #12]
+ 2699 1796 03F00803 		and	r3, r3, #8
+ 2700 179a 002B     		cmp	r3, #0
+ 2701 179c 24D1     		bne	.L147
+ 2702 179e 4FF42053 		mov	r3, #10240
+ 2703 17a2 C4F20003 		movt	r3, 16384
+ 2704 17a6 9B68     		ldr	r3, [r3, #8]
+ 2705 17a8 03F01003 		and	r3, r3, #16
+ 2706 17ac 002B     		cmp	r3, #0
+ 2707 17ae 16D1     		bne	.L148
+ 2708 17b0 4FF42053 		mov	r3, #10240
+ 2709 17b4 C4F20003 		movt	r3, 16384
+ 2710 17b8 0099     		ldr	r1, [sp, #0]
+ 2711 17ba 019A     		ldr	r2, [sp, #4]
+ 2712 17bc 0A43     		orrs	r2, r2, r1
+ 2713 17be DA62     		str	r2, [r3, #44]
+ 2714 17c0 FFF7FEFF 		bl	RTC_WaitForSynchro
+ 2715 17c4 0346     		mov	r3, r0
+ 2716 17c6 002B     		cmp	r3, #0
+ 2717 17c8 04D1     		bne	.L149
+ 2718 17ca 4FF00003 		mov	r3, #0
+ 2719 17ce 8DF80F30 		strb	r3, [sp, #15]
+ 2720 17d2 0DE0     		b	.L150
+ 2721              	.L149:
+ 2722 17d4 4FF00103 		mov	r3, #1
+ 2723 17d8 8DF80F30 		strb	r3, [sp, #15]
+ 2724 17dc 08E0     		b	.L150
+ 2725              	.L148:
+ 2726 17de 4FF00003 		mov	r3, #0
+ 2727 17e2 8DF80F30 		strb	r3, [sp, #15]
+ 2728 17e6 03E0     		b	.L150
+ 2729              	.L147:
+ 2730 17e8 4FF00003 		mov	r3, #0
+ 2731 17ec 8DF80F30 		strb	r3, [sp, #15]
+ 2732              	.L150:
+ 2733 17f0 4FF42053 		mov	r3, #10240
+ 2734 17f4 C4F20003 		movt	r3, 16384
+ 2735 17f8 4FF0FF02 		mov	r2, #255
+ 2736 17fc 5A62     		str	r2, [r3, #36]
+ 2737 17fe 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 2738 1802 1846     		mov	r0, r3
+ 2739 1804 05B0     		add	sp, sp, #20
+ 2740 1806 00BD     		pop	{pc}
+ 2742              		.align	2
+ 2743              		.global	RTC_ITConfig
+ 2744              		.thumb
+ 2745              		.thumb_func
+ 2747              	RTC_ITConfig:
+ 2748              		@ args = 0, pretend = 0, frame = 8
+ 2749              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2750              		@ link register save eliminated.
+ 2751 1808 82B0     		sub	sp, sp, #8
+ 2752 180a 0190     		str	r0, [sp, #4]
+ 2753 180c 0B46     		mov	r3, r1
+ 2754 180e 8DF80330 		strb	r3, [sp, #3]
+ 2755 1812 4FF42053 		mov	r3, #10240
+ 2756 1816 C4F20003 		movt	r3, 16384
+ 2757 181a 4FF0CA02 		mov	r2, #202
+ 2758 181e 5A62     		str	r2, [r3, #36]
+ 2759 1820 4FF42053 		mov	r3, #10240
+ 2760 1824 C4F20003 		movt	r3, 16384
+ 2761 1828 4FF05302 		mov	r2, #83
+ 2762 182c 5A62     		str	r2, [r3, #36]
+ 2763 182e 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 2764 1832 002B     		cmp	r3, #0
+ 2765 1834 1CD0     		beq	.L152
+ 2766 1836 4FF42053 		mov	r3, #10240
+ 2767 183a C4F20003 		movt	r3, 16384
+ 2768 183e 4FF42052 		mov	r2, #10240
+ 2769 1842 C4F20002 		movt	r2, 16384
+ 2770 1846 9168     		ldr	r1, [r2, #8]
+ 2771 1848 019A     		ldr	r2, [sp, #4]
+ 2772 184a 22F00402 		bic	r2, r2, #4
+ 2773 184e 0A43     		orrs	r2, r2, r1
+ 2774 1850 9A60     		str	r2, [r3, #8]
+ 2775 1852 4FF42053 		mov	r3, #10240
+ 2776 1856 C4F20003 		movt	r3, 16384
+ 2777 185a 4FF42052 		mov	r2, #10240
+ 2778 185e C4F20002 		movt	r2, 16384
+ 2779 1862 116C     		ldr	r1, [r2, #64]
+ 2780 1864 019A     		ldr	r2, [sp, #4]
+ 2781 1866 02F00402 		and	r2, r2, #4
+ 2782 186a 0A43     		orrs	r2, r2, r1
+ 2783 186c 1A64     		str	r2, [r3, #64]
+ 2784 186e 1FE0     		b	.L153
+ 2785              	.L152:
+ 2786 1870 4FF42053 		mov	r3, #10240
+ 2787 1874 C4F20003 		movt	r3, 16384
+ 2788 1878 4FF42052 		mov	r2, #10240
+ 2789 187c C4F20002 		movt	r2, 16384
+ 2790 1880 9168     		ldr	r1, [r2, #8]
+ 2791 1882 019A     		ldr	r2, [sp, #4]
+ 2792 1884 22F00402 		bic	r2, r2, #4
+ 2793 1888 6FEA0202 		mvn	r2, r2
+ 2794 188c 0A40     		ands	r2, r2, r1
+ 2795 188e 9A60     		str	r2, [r3, #8]
+ 2796 1890 4FF42053 		mov	r3, #10240
+ 2797 1894 C4F20003 		movt	r3, 16384
+ 2798 1898 4FF42052 		mov	r2, #10240
+ 2799 189c C4F20002 		movt	r2, 16384
+ 2800 18a0 116C     		ldr	r1, [r2, #64]
+ 2801 18a2 019A     		ldr	r2, [sp, #4]
+ 2802 18a4 02F00402 		and	r2, r2, #4
+ 2803 18a8 6FEA0202 		mvn	r2, r2
+ 2804 18ac 0A40     		ands	r2, r2, r1
+ 2805 18ae 1A64     		str	r2, [r3, #64]
+ 2806              	.L153:
+ 2807 18b0 4FF42053 		mov	r3, #10240
+ 2808 18b4 C4F20003 		movt	r3, 16384
+ 2809 18b8 4FF0FF02 		mov	r2, #255
+ 2810 18bc 5A62     		str	r2, [r3, #36]
+ 2811 18be 02B0     		add	sp, sp, #8
+ 2812 18c0 7047     		bx	lr
+ 2814 18c2 00BF     		.align	2
+ 2815              		.global	RTC_GetFlagStatus
+ 2816              		.thumb
+ 2817              		.thumb_func
+ 2819              	RTC_GetFlagStatus:
+ 2820              		@ args = 0, pretend = 0, frame = 16
+ 2821              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2822              		@ link register save eliminated.
+ 2823 18c4 84B0     		sub	sp, sp, #16
+ 2824 18c6 0190     		str	r0, [sp, #4]
+ 2825 18c8 4FF00003 		mov	r3, #0
+ 2826 18cc 8DF80F30 		strb	r3, [sp, #15]
+ 2827 18d0 4FF00003 		mov	r3, #0
+ 2828 18d4 0293     		str	r3, [sp, #8]
+ 2829 18d6 4FF42053 		mov	r3, #10240
+ 2830 18da C4F20003 		movt	r3, 16384
+ 2831 18de DA68     		ldr	r2, [r3, #12]
+ 2832 18e0 43F67773 		movw	r3, #16247
+ 2833 18e4 1340     		ands	r3, r3, r2
+ 2834 18e6 0293     		str	r3, [sp, #8]
+ 2835 18e8 029A     		ldr	r2, [sp, #8]
+ 2836 18ea 019B     		ldr	r3, [sp, #4]
+ 2837 18ec 1340     		ands	r3, r3, r2
+ 2838 18ee 002B     		cmp	r3, #0
+ 2839 18f0 04D0     		beq	.L155
+ 2840 18f2 4FF00103 		mov	r3, #1
+ 2841 18f6 8DF80F30 		strb	r3, [sp, #15]
+ 2842 18fa 03E0     		b	.L156
+ 2843              	.L155:
+ 2844 18fc 4FF00003 		mov	r3, #0
+ 2845 1900 8DF80F30 		strb	r3, [sp, #15]
+ 2846              	.L156:
+ 2847 1904 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 2848 1908 1846     		mov	r0, r3
+ 2849 190a 04B0     		add	sp, sp, #16
+ 2850 190c 7047     		bx	lr
+ 2852 190e 00BF     		.align	2
+ 2853              		.global	RTC_ClearFlag
+ 2854              		.thumb
+ 2855              		.thumb_func
+ 2857              	RTC_ClearFlag:
+ 2858              		@ args = 0, pretend = 0, frame = 8
+ 2859              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2860              		@ link register save eliminated.
+ 2861 1910 82B0     		sub	sp, sp, #8
+ 2862 1912 0190     		str	r0, [sp, #4]
+ 2863 1914 4FF42053 		mov	r3, #10240
+ 2864 1918 C4F20003 		movt	r3, 16384
+ 2865 191c 019A     		ldr	r2, [sp, #4]
+ 2866 191e 4FEA0242 		lsl	r2, r2, #16
+ 2867 1922 4FEA1242 		lsr	r2, r2, #16
+ 2868 1926 42F08002 		orr	r2, r2, #128
+ 2869 192a 6FEA0201 		mvn	r1, r2
+ 2870 192e 4FF42052 		mov	r2, #10240
+ 2871 1932 C4F20002 		movt	r2, 16384
+ 2872 1936 D268     		ldr	r2, [r2, #12]
+ 2873 1938 02F08002 		and	r2, r2, #128
+ 2874 193c 0A43     		orrs	r2, r2, r1
+ 2875 193e DA60     		str	r2, [r3, #12]
+ 2876 1940 02B0     		add	sp, sp, #8
+ 2877 1942 7047     		bx	lr
+ 2879              		.align	2
+ 2880              		.global	RTC_GetITStatus
+ 2881              		.thumb
+ 2882              		.thumb_func
+ 2884              	RTC_GetITStatus:
+ 2885              		@ args = 0, pretend = 0, frame = 24
+ 2886              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2887              		@ link register save eliminated.
+ 2888 1944 86B0     		sub	sp, sp, #24
+ 2889 1946 0190     		str	r0, [sp, #4]
+ 2890 1948 4FF00003 		mov	r3, #0
+ 2891 194c 8DF81730 		strb	r3, [sp, #23]
+ 2892 1950 4FF00003 		mov	r3, #0
+ 2893 1954 0493     		str	r3, [sp, #16]
+ 2894 1956 4FF00003 		mov	r3, #0
+ 2895 195a 0393     		str	r3, [sp, #12]
+ 2896 195c 4FF42053 		mov	r3, #10240
+ 2897 1960 C4F20003 		movt	r3, 16384
+ 2898 1964 1B6C     		ldr	r3, [r3, #64]
+ 2899 1966 03F00403 		and	r3, r3, #4
+ 2900 196a 0493     		str	r3, [sp, #16]
+ 2901 196c 4FF42053 		mov	r3, #10240
+ 2902 1970 C4F20003 		movt	r3, 16384
+ 2903 1974 9A68     		ldr	r2, [r3, #8]
+ 2904 1976 019B     		ldr	r3, [sp, #4]
+ 2905 1978 1A40     		ands	r2, r2, r3
+ 2906 197a 019B     		ldr	r3, [sp, #4]
+ 2907 197c 4FEAD331 		lsr	r1, r3, #15
+ 2908 1980 049B     		ldr	r3, [sp, #16]
+ 2909 1982 0B40     		ands	r3, r3, r1
+ 2910 1984 1343     		orrs	r3, r3, r2
+ 2911 1986 0393     		str	r3, [sp, #12]
+ 2912 1988 4FF42053 		mov	r3, #10240
+ 2913 198c C4F20003 		movt	r3, 16384
+ 2914 1990 DA68     		ldr	r2, [r3, #12]
+ 2915 1992 019B     		ldr	r3, [sp, #4]
+ 2916 1994 4FEA1313 		lsr	r3, r3, #4
+ 2917 1998 1340     		ands	r3, r3, r2
+ 2918 199a 0493     		str	r3, [sp, #16]
+ 2919 199c 039B     		ldr	r3, [sp, #12]
+ 2920 199e 002B     		cmp	r3, #0
+ 2921 19a0 0BD0     		beq	.L159
+ 2922 19a2 049B     		ldr	r3, [sp, #16]
+ 2923 19a4 4FEA0343 		lsl	r3, r3, #16
+ 2924 19a8 4FEA1343 		lsr	r3, r3, #16
+ 2925 19ac 002B     		cmp	r3, #0
+ 2926 19ae 04D0     		beq	.L159
+ 2927 19b0 4FF00103 		mov	r3, #1
+ 2928 19b4 8DF81730 		strb	r3, [sp, #23]
+ 2929 19b8 03E0     		b	.L160
+ 2930              	.L159:
+ 2931 19ba 4FF00003 		mov	r3, #0
+ 2932 19be 8DF81730 		strb	r3, [sp, #23]
+ 2933              	.L160:
+ 2934 19c2 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 2935 19c6 1846     		mov	r0, r3
+ 2936 19c8 06B0     		add	sp, sp, #24
+ 2937 19ca 7047     		bx	lr
+ 2939              		.align	2
+ 2940              		.global	RTC_ClearITPendingBit
+ 2941              		.thumb
+ 2942              		.thumb_func
+ 2944              	RTC_ClearITPendingBit:
+ 2945              		@ args = 0, pretend = 0, frame = 16
+ 2946              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2947              		@ link register save eliminated.
+ 2948 19cc 84B0     		sub	sp, sp, #16
+ 2949 19ce 0190     		str	r0, [sp, #4]
+ 2950 19d0 4FF00003 		mov	r3, #0
+ 2951 19d4 0393     		str	r3, [sp, #12]
+ 2952 19d6 019B     		ldr	r3, [sp, #4]
+ 2953 19d8 4FEA1313 		lsr	r3, r3, #4
+ 2954 19dc 0393     		str	r3, [sp, #12]
+ 2955 19de 4FF42053 		mov	r3, #10240
+ 2956 19e2 C4F20003 		movt	r3, 16384
+ 2957 19e6 039A     		ldr	r2, [sp, #12]
+ 2958 19e8 4FEA0242 		lsl	r2, r2, #16
+ 2959 19ec 4FEA1242 		lsr	r2, r2, #16
+ 2960 19f0 42F08002 		orr	r2, r2, #128
+ 2961 19f4 6FEA0201 		mvn	r1, r2
+ 2962 19f8 4FF42052 		mov	r2, #10240
+ 2963 19fc C4F20002 		movt	r2, 16384
+ 2964 1a00 D268     		ldr	r2, [r2, #12]
+ 2965 1a02 02F08002 		and	r2, r2, #128
+ 2966 1a06 0A43     		orrs	r2, r2, r1
+ 2967 1a08 DA60     		str	r2, [r3, #12]
+ 2968 1a0a 04B0     		add	sp, sp, #16
+ 2969 1a0c 7047     		bx	lr
+ 2971 1a0e 00BF     		.align	2
+ 2972              		.thumb
+ 2973              		.thumb_func
+ 2975              	RTC_ByteToBcd2:
+ 2976              		@ args = 0, pretend = 0, frame = 16
+ 2977              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2978              		@ link register save eliminated.
+ 2979 1a10 84B0     		sub	sp, sp, #16
+ 2980 1a12 0346     		mov	r3, r0
+ 2981 1a14 8DF80730 		strb	r3, [sp, #7]
+ 2982 1a18 4FF00003 		mov	r3, #0
+ 2983 1a1c 8DF80F30 		strb	r3, [sp, #15]
+ 2984 1a20 0BE0     		b	.L163
+ 2985              	.L164:
+ 2986 1a22 9DF80F30 		ldrb	r3, [sp, #15]
+ 2987 1a26 03F10103 		add	r3, r3, #1
+ 2988 1a2a 8DF80F30 		strb	r3, [sp, #15]
+ 2989 1a2e 9DF80730 		ldrb	r3, [sp, #7]
+ 2990 1a32 A3F10A03 		sub	r3, r3, #10
+ 2991 1a36 8DF80730 		strb	r3, [sp, #7]
+ 2992              	.L163:
+ 2993 1a3a 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 2994 1a3e 092B     		cmp	r3, #9
+ 2995 1a40 EFD8     		bhi	.L164
+ 2996 1a42 9DF80F30 		ldrb	r3, [sp, #15]
+ 2997 1a46 4FEA0313 		lsl	r3, r3, #4
+ 2998 1a4a DAB2     		uxtb	r2, r3
+ 2999 1a4c 9DF80730 		ldrb	r3, [sp, #7]
+ 3000 1a50 1343     		orrs	r3, r3, r2
+ 3001 1a52 DBB2     		uxtb	r3, r3
+ 3002 1a54 1846     		mov	r0, r3
+ 3003 1a56 04B0     		add	sp, sp, #16
+ 3004 1a58 7047     		bx	lr
+ 3006 1a5a 00BF     		.align	2
+ 3007              		.thumb
+ 3008              		.thumb_func
+ 3010              	RTC_Bcd2ToByte:
+ 3011              		@ args = 0, pretend = 0, frame = 16
+ 3012              		@ frame_needed = 0, uses_anonymous_args = 0
+ 3013              		@ link register save eliminated.
+ 3014 1a5c 84B0     		sub	sp, sp, #16
+ 3015 1a5e 0346     		mov	r3, r0
+ 3016 1a60 8DF80730 		strb	r3, [sp, #7]
+ 3017 1a64 4FF00003 		mov	r3, #0
+ 3018 1a68 8DF80F30 		strb	r3, [sp, #15]
+ 3019 1a6c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 3020 1a70 4FEA1313 		lsr	r3, r3, #4
+ 3021 1a74 DBB2     		uxtb	r3, r3
+ 3022 1a76 1A46     		mov	r2, r3
+ 3023 1a78 4FEA8202 		lsl	r2, r2, #2
+ 3024 1a7c D318     		adds	r3, r2, r3
+ 3025 1a7e 4FEA4303 		lsl	r3, r3, #1
+ 3026 1a82 8DF80F30 		strb	r3, [sp, #15]
+ 3027 1a86 9DF80730 		ldrb	r3, [sp, #7]
+ 3028 1a8a 03F00F03 		and	r3, r3, #15
+ 3029 1a8e DAB2     		uxtb	r2, r3
+ 3030 1a90 9DF80F30 		ldrb	r3, [sp, #15]
+ 3031 1a94 D318     		adds	r3, r2, r3
+ 3032 1a96 DBB2     		uxtb	r3, r3
+ 3033 1a98 1846     		mov	r0, r3
+ 3034 1a9a 04B0     		add	sp, sp, #16
+ 3035 1a9c 7047     		bx	lr
+ 3037 1a9e 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f4xx_rtc.c
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:22     .text:00000000 RTC_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:280    .text:00000290 RTC_EnterInitMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:362    .text:00000340 RTC_WaitForSynchro
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:151    .text:00000170 RTC_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:344    .text:00000324 RTC_ExitInitMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:224    .text:00000230 RTC_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:247    .text:00000250 RTC_WriteProtectionCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:431    .text:000003ec RTC_RefClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:494    .text:0000048c RTC_BypassShadowCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:541    .text:000004fc RTC_SetTime
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:3010   .text:00001a5c RTC_Bcd2ToByte
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2975   .text:00001a10 RTC_ByteToBcd2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:678    .text:00000648 RTC_TimeStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:704    .text:00000670 RTC_GetTime
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:780    .text:00000714 RTC_GetSubSecond
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:804    .text:0000073c RTC_SetDate
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:941    .text:00000880 RTC_DateStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:967    .text:000008a8 RTC_GetDate
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1042   .text:00000948 RTC_SetAlarm
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1205   .text:00000abc RTC_AlarmStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1240   .text:00000afc RTC_GetAlarm
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1346   .text:00000be4 RTC_AlarmCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1439   .text:00000cd0 RTC_AlarmSubSecondConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1487   .text:00000d38 RTC_GetAlarmSubSecond
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1523   .text:00000d7c RTC_WakeUpClockConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1564   .text:00000de0 RTC_SetWakeUpCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1594   .text:00000e20 RTC_GetWakeUpCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1611   .text:00000e38 RTC_WakeUpCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1696   .text:00000f14 RTC_DayLightSavingConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1740   .text:00000f7c RTC_GetStoreOperation
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1756   .text:00000f90 RTC_OutputConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1800   .text:00000ff8 RTC_CoarseCalibConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1849   .text:0000106c RTC_CoarseCalibCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1912   .text:0000110c RTC_CalibOutputCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:1959   .text:0000117c RTC_CalibOutputConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2000   .text:000011e0 RTC_SmoothCalibConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2077   .text:00001298 RTC_TimeStampCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2132   .text:00001314 RTC_GetTimeStamp
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2262   .text:00001440 RTC_GetTimeStampSubSecond
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2277   .text:00001450 RTC_TamperTriggerConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2317   .text:000014a0 RTC_TamperCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2356   .text:000014ec RTC_TamperFilterConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2385   .text:00001524 RTC_TamperSamplingFreqConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2414   .text:0000155c RTC_TamperPinsPrechargeDuration
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2443   .text:00001594 RTC_TimeStampOnTamperDetectionCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2478   .text:000015dc RTC_TamperPullUpCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2513   .text:00001624 RTC_WriteBackupRegister
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2541   .text:00001650 RTC_ReadBackupRegister
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2568   .text:0000167c RTC_TamperPinSelection
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2597   .text:000016b4 RTC_TimeStampPinSelection
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2626   .text:000016ec RTC_OutputTypeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2655   .text:00001724 RTC_SynchroShiftConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2747   .text:00001808 RTC_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2819   .text:000018c4 RTC_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2857   .text:00001910 RTC_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2884   .text:00001944 RTC_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2DUdVS.s:2944   .text:000019cc RTC_ClearITPendingBit
+
+NO UNDEFINED SYMBOLS
