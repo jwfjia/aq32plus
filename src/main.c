@@ -246,13 +246,13 @@ int main(void)
             	ftoa(sensors.attitude500Hz[YAW  ], numberString); uart3Print(numberString); uart3Print("\n");
             }
 
-            if ( highSpeedTelem6Enabled == true )
+            if ( highSpeedTelem7Enabled == true )
             {
                	// Vertical Variables
                	ftoa(earthAxisAccels[ZAXIS], numberString); uart3Print(numberString); uart3Print(",");
                	ftoa(sensors.pressureAlt,    numberString); uart3Print(numberString); uart3Print(",");
                 ftoa(hDotEstimate,           numberString); uart3Print(numberString); uart3Print(", ");
-                ftoa(hEstimate,              numberString); uart3Print(numberString); uart3Print(", ");
+                ftoa(hEstimate,              numberString); uart3Print(numberString); uart3Print("\n");
             }
 
             // High Speed Telemetry Test Code End
