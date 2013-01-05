@@ -199,9 +199,7 @@ int main(void)
         	bodyAccelToEarthAccel();
         	vertCompFilter(dt100Hz);
 
-        	// High Speed Telemetry Test Code Begin
-
-            if ( highSpeedTelem1Enabled == true )
+        	if ( highSpeedTelem1Enabled == true )
             {
             	// 500 Hz Accels
             	ftoa(sensors.accel500Hz[XAXIS], numberString); uart3Print(numberString); uart3Print(",");
@@ -254,8 +252,6 @@ int main(void)
                 ftoa(hDotEstimate,           numberString); uart3Print(numberString); uart3Print(", ");
                 ftoa(hEstimate,              numberString); uart3Print(numberString); uart3Print("\n");
             }
-
-            // High Speed Telemetry Test Code End
 
             executionTime100Hz = micros() - currentTime;
         }

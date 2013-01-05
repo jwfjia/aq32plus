@@ -179,15 +179,15 @@ void SysTick_Handler(void)
 
             if (frameCounter == COUNT_100HZ)
             {
-                readTemperatureRequestPressure();
+                readTemperatureRequestPressure(MS5611_I2C);
             }
             else if (frameCounter == FRAME_COUNT)
             {
-                readPressureRequestTemperature();
+                readPressureRequestTemperature(MS5611_I2C);
             }
             else
             {
-                readPressureRequestPressure();
+                readPressureRequestPressure(MS5611_I2C);
             }
 
             d1Sum += d1.value;
@@ -196,7 +196,7 @@ void SysTick_Handler(void)
         ///////////////////////////////
 
         if (((frameCounter + 1) % COUNT_50HZ) == 0)
-            newMagData = readMag();
+            newMagData = readMag(HMC5883L_I2C);
 
         if ((frameCounter % COUNT_50HZ) == 0)
             frame_50Hz = true;
@@ -285,13 +285,13 @@ void systemInit(void)
     uart2Init();
     uart3Init();
 
-    delay(10000);  // 10 sec delay for sensor stabilization - probably not long enough.....
+    delay(15000);  // 15 sec delay for sensor stabilization - probably not long enough.....
 
     GPIO_SetBits(GREEN_LED_GPIO, GREEN_LED_PIN);
 
     initMPU6000();
-    initMag();
-    initPressure();
+    initMag(HMC5883L_I2C);
+    initPressure(MS5611_I2C);
 
     initPID();
 

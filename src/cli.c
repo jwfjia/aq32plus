@@ -208,7 +208,7 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'd': // Mag Calibration
-            magCalibration();
+            magCalibration(HMC5883L_I2C);
 
             queryType = 'x';
             validCommand = false;

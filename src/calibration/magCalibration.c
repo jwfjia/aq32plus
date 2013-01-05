@@ -44,7 +44,7 @@ uint8_t magCalibrating = false;
 // Mag Calibration
 ///////////////////////////////////////////////////////////////////////////////
 
-void magCalibration()
+void magCalibration(I2C_TypeDef *I2Cx)
 {
 	char numberString[12];
 
@@ -71,7 +71,7 @@ void magCalibration()
 
     while ((usbAvailable() == false) && (calibrationCounter <= 3000))
 	{
-		if (readMag() == true)
+		if (readMag(I2Cx) == true)
 		{
 			d[calibrationCounter][XAXIS] = (float)rawMag[XAXIS].value * magScaleFactor[XAXIS];
 			d[calibrationCounter][YAXIS] = (float)rawMag[YAXIS].value * magScaleFactor[YAXIS];
@@ -88,23 +88,18 @@ void magCalibration()
 
 	sphereFit(d, calibrationCounter, 100, 0.0f, population, sphereOrigin, &sphereRadius);
 
-	if (isfinite(sphereOrigin[XAXIS]) && isfinite(sphereOrigin[YAXIS]) && isfinite(sphereOrigin[ZAXIS]))
-	{
-		eepromConfig.magBias[XAXIS] = sphereOrigin[XAXIS];
-		eepromConfig.magBias[YAXIS] = sphereOrigin[YAXIS];
-		eepromConfig.magBias[ZAXIS] = sphereOrigin[ZAXIS];
+	eepromConfig.magBias[XAXIS] = sphereOrigin[XAXIS];
+	eepromConfig.magBias[YAXIS] = sphereOrigin[YAXIS];
+	eepromConfig.magBias[ZAXIS] = sphereOrigin[ZAXIS];
 
-        usbPrint("Magnetometer Bias Values: ");
-        ftoa(eepromConfig.magBias[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
-        ftoa(eepromConfig.magBias[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
-        ftoa(eepromConfig.magBias[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
+    usbPrint("Magnetometer Bias Values: ");
+    ftoa(eepromConfig.magBias[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+    ftoa(eepromConfig.magBias[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+    ftoa(eepromConfig.magBias[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
 
-		usbPrint("\n\nMagnetometer Calibration Complete.\n\n");
-	}
-	else
-	{
-		usbPrint("\n\nMagnetometer Calibration FAILED (NaN)\n\n");
-	}
+	usbPrint("\n\nMagnetometer Calibration Complete.\n\n");
 
 	magCalibrating = false;
 }
+
+///////////////////////////////////////////////////////////////////////////////
