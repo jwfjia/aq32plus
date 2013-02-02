@@ -53,7 +53,7 @@
 #define UART3_TX_PINSOURCE  GPIO_PinSource8
 #define UART3_RX_PINSOURCE  GPIO_PinSource9
 
-#define UART3_BUFFER_SIZE    2048
+#define UART3_BUFFER_SIZE   2048
 
 // Receive buffer, circular DMA
 volatile uint8_t rx3Buffer[UART3_BUFFER_SIZE];

@@ -51,7 +51,12 @@
 //#define SENSOR_CONFIG 0x18  // 1 Sample average, 75 Hz
 //#define SENSOR_CONFIG 0x38  // 2 Sample average, 75 Hz
 //#define SENSOR_CONFIG 0x58  // 4 Sample average, 75 Hz
-#define SENSOR_CONFIG 0x78      // 8 Sample average, 75 Hz
+//#define SENSOR_CONFIG 0x78  // 8 Sample average, 75 Hz
+
+//#define SENSOR_CONFIG 0x10  // 1 Sample average, 15 Hz
+//#define SENSOR_CONFIG 0x30  // 2 Sample average, 15 Hz
+//#define SENSOR_CONFIG 0x50  // 4 Sample average, 15 Hz
+#define SENSOR_CONFIG 0x70      // 8 Sample average, 15 Hz
 
 #define NORMAL_MEASUREMENT_CONFIGURATION 0x00
 #define POSITIVE_BIAS_CONFIGURATION      0x01
@@ -77,6 +82,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 float magScaleFactor[3];
+
+uint8_t magDataUpdate = false;
 
 uint8_t newMagData = false;
 

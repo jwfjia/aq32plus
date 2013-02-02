@@ -137,15 +137,16 @@ void readUsbPID(unsigned char PIDid)
 {
   struct PIDdata* pid = &eepromConfig.PID[PIDid];
 
-  pid->B             = readFloatUsb();
-  pid->P             = readFloatUsb();
-  pid->I             = readFloatUsb();
-  pid->D             = readFloatUsb();
-  pid->windupGuard   = readFloatUsb();
-  pid->iTerm         = 0.0f;
-  pid->lastError     = 0.0f;
-  pid->lastDterm     = 0.0f;
-  pid->lastLastDterm = 0.0f;
+  pid->B              = readFloatUsb();
+  pid->P              = readFloatUsb();
+  pid->I              = readFloatUsb();
+  pid->D              = readFloatUsb();
+  pid->windupGuard    = readFloatUsb();
+  pid->iTerm          = 0.0f;
+  pid->lastDcalcValue = 0.0f;
+  pid->lastDterm      = 0.0f;
+  pid->lastLastDterm  = 0.0f;
+  pid->dErrorCalc     =(uint8_t)readFloatUsb();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -154,7 +155,6 @@ void readUsbPID(unsigned char PIDid)
 
 void cliCom(void)
 {
-    char    numberString[12];
     char    rcOrderString[9];
     float   tempFloat;
     uint8_t tempInt;
@@ -171,7 +171,6 @@ void cliCom(void)
         case 'a': // Loop Delta Times
         	itoa( deltaTime1000Hz, numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( deltaTime500Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime200Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( deltaTime100Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( deltaTime50Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( deltaTime10Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
@@ -186,7 +185,6 @@ void cliCom(void)
         case 'b': // Loop Execution Times
         	itoa( executionTime1000Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( executionTime500Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime200Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( executionTime100Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( executionTime50Hz,    numberString, 10 ); usbPrint(numberString); usbPrint(", ");
         	itoa( executionTime10Hz,    numberString, 10 ); usbPrint(numberString); usbPrint(", ");
@@ -256,10 +254,10 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'i': // 50 Hz Mag Data
-        	ftoa( sensors.mag50Hz[XAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.mag50Hz[YAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.mag50Hz[ZAXIS], numberString ); usbPrint(numberString); usbPrint("\n");
+        case 'i': // 10 Hz Mag Data
+        	ftoa( sensors.mag10Hz[XAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
+        	ftoa( sensors.mag10Hz[YAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
+        	ftoa( sensors.mag10Hz[ZAXIS], numberString ); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -267,10 +265,10 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'j': // Vertical Axis Variables
-        	ftoa( earthAxisAccels[ZAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.pressureAlt,    numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( hDotEstimate,           numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( hEstimate,              numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa( earthAxisAccels[ZAXIS],  numberString ); usbPrint(numberString); usbPrint(", ");
+        	ftoa( sensors.pressureAlt10Hz, numberString ); usbPrint(numberString); usbPrint(", ");
+        	ftoa( hDotEstimate,            numberString ); usbPrint(numberString); usbPrint(", ");
+        	ftoa( hEstimate,               numberString ); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -366,21 +364,33 @@ void cliCom(void)
             ftoa(eepromConfig.PID[ROLL_RATE_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[ROLL_RATE_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[ROLL_RATE_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint("\n");
+            ftoa(eepromConfig.PID[ROLL_RATE_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            if  (eepromConfig.PID[ROLL_RATE_PID].dErrorCalc)
+                usbPrint("Error\n");
+            else
+                usbPrint("State\n");
 
             usbPrint("Pitch Rate PID: ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].B,           numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].P,           numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].I,           numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].D,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].windupGuard, numberString); usbPrint(numberString); usbPrint("\n");
+            ftoa(eepromConfig.PID[PITCH_RATE_PID].windupGuard, numberString); usbPrint(numberString); usbPrint(", ");
+            if  (eepromConfig.PID[PITCH_RATE_PID].dErrorCalc)
+                usbPrint("Error\n");
+            else
+                usbPrint("State\n");
 
             usbPrint("Yaw Rate PID:   ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].B,             numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].P,             numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].I,             numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].D,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].windupGuard,   numberString); usbPrint(numberString); usbPrint("\n");
+            ftoa(eepromConfig.PID[YAW_RATE_PID].windupGuard,   numberString); usbPrint(numberString); usbPrint(", ");
+            if  (eepromConfig.PID[YAW_RATE_PID].dErrorCalc)
+                usbPrint("Error\n");
+            else
+                usbPrint("State\n");
 
             queryType = 'x';
             validCommand = false;
@@ -396,21 +406,33 @@ void cliCom(void)
             ftoa(eepromConfig.PID[ROLL_ATT_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[ROLL_ATT_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[ROLL_ATT_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint("\n");
+            ftoa(eepromConfig.PID[ROLL_ATT_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            if  (eepromConfig.PID[ROLL_ATT_PID].dErrorCalc)
+                usbPrint("Error\n");
+            else
+                usbPrint("State\n");
 
             usbPrint("Pitch Attitude PID: ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].B,           numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].P,           numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].I,           numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].D,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].windupGuard, numberString); usbPrint(numberString); usbPrint("\n");
+            ftoa(eepromConfig.PID[PITCH_ATT_PID].windupGuard, numberString); usbPrint(numberString); usbPrint(", ");
+            if  (eepromConfig.PID[PITCH_ATT_PID].dErrorCalc)
+                usbPrint("Error\n");
+            else
+                usbPrint("State\n");
 
             usbPrint("Heading PID:        ");
             ftoa(eepromConfig.PID[HEADING_PID].B,             numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[HEADING_PID].P,             numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[HEADING_PID].I,             numberString); usbPrint(numberString); usbPrint(", ");
             ftoa(eepromConfig.PID[HEADING_PID].D,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HEADING_PID].windupGuard,   numberString); usbPrint(numberString); usbPrint("\n");
+            ftoa(eepromConfig.PID[HEADING_PID].windupGuard,   numberString); usbPrint(numberString); usbPrint(", ");
+            if  (eepromConfig.PID[HEADING_PID].dErrorCalc)
+                usbPrint("Error\n");
+            else
+                usbPrint("State\n");
 
             queryType = 'x';
             validCommand = false;
@@ -734,6 +756,51 @@ void cliCom(void)
                 usbPrint("Wing Right Maximum:             ");
                 itoa((uint16_t)eepromConfig.wingRightMaximum,    numberString, 10); usbPrint(numberString); usbPrint("\n");
             }
+
+            usbPrint("OSD Installed:                  ");
+            if (eepromConfig.osdInstalled)
+            	usbPrint("True\n");
+            else
+            	usbPrint("False\n");
+
+            if (eepromConfig.osdInstalled)
+            {
+				usbPrint("   OSD Default Video Standard:  ");
+                if (eepromConfig.defaultVideoStandard)
+                	usbPrint("PAL\n");
+                else
+                	usbPrint("NTSC\n");
+
+                usbPrint("   OSD Display Units:           ");
+                if (eepromConfig.metricUnits)
+                	usbPrint("Metric\n");
+                else
+                	usbPrint("English\n");
+
+                usbPrint("   OSD Altitude:                ");
+                if (eepromConfig.osdDisplayAlt)
+                	usbPrint("On\n");
+                else
+                	usbPrint("Off\n");
+
+                usbPrint("   OSD Artifical Horizon:       ");
+                if (eepromConfig.osdDisplayAH)
+                	usbPrint("On\n");
+                else
+                	usbPrint("Off\n");
+
+                usbPrint("   OSD Attitude:                ");
+                if (eepromConfig.osdDisplayAtt)
+                	usbPrint("On\n");
+                else
+                	usbPrint("Off\n");
+
+                usbPrint("   OSD Heading:                 ");
+                if (eepromConfig.osdDisplayHdg)
+                	usbPrint("On\n");
+                else
+                	usbPrint("Off\n");
+			}
 
             queryType = 'x';
             validCommand = false;
@@ -1262,7 +1329,7 @@ void cliCom(void)
             	tempFloat = -1.0;
 
             eepromConfig.yawDirection = tempFloat;
-            usbPrint("\nYaw Direciton Received....\n");
+            usbPrint("\nYaw Direction Received....\n");
 
             queryType = 'u';
             break;
@@ -1311,19 +1378,27 @@ void cliCom(void)
 
         ///////////////////////////////
 
+        case ')': // MAX7456 CLI
+           	max7456cli();
+
+           	queryType = 'x';
+           	break;
+
+        ///////////////////////////////
+
         case '?': // Command Summary
         	cliBusy = true;
 
         	usbPrint("\n");
-   		    usbPrint("'a' Loop Delta Times                       'A' Set Roll Rate PID Data               AB;P;I;D;WindupGuard\n");
-   		    usbPrint("'b' Loop Execution Times                   'B' Set Pitch Rate PID Data              BB;P;I;D;WindupGuard\n");
-   		    usbPrint("'c' MPU6000 Calibration                    'C' Set Yaw Rate PID Data                CB;P;I;D;WindupGuard\n");
-   		    usbPrint("'d' Mag Calibration                        'D' Set Roll Att PID Data                DB;P;I;D;WindupGuard\n");
-   		    usbPrint("'e' ESC Calibration                        'E' Set Pitch Att PID Data               EB;P;I;D;WindupGuard\n");
-   		    usbPrint("'f' 500 Hz Gyro Data                       'F' Set Hdg Hold PID Data                FB;P;I;D;WindupGuard\n");
+   		    usbPrint("'a' Loop Delta Times                       'A' Set Roll Rate PID Data               AB;P;I;D;WindupGuard;dErrorCalc\n");
+   		    usbPrint("'b' Loop Execution Times                   'B' Set Pitch Rate PID Data              BB;P;I;D;WindupGuard;dErrorCalc\n");
+   		    usbPrint("'c' MPU6000 Calibration                    'C' Set Yaw Rate PID Data                CB;P;I;D;WindupGuard;dErrorCalc\n");
+   		    usbPrint("'d' Mag Calibration                        'D' Set Roll Att PID Data                DB;P;I;D;WindupGuard;dErrorCalc\n");
+   		    usbPrint("'e' ESC Calibration                        'E' Set Pitch Att PID Data               EB;P;I;D;WindupGuard;dErrorCalc\n");
+   		    usbPrint("'f' 500 Hz Gyro Data                       'F' Set Hdg Hold PID Data                FB;P;I;D;WindupGuard;dErrorCalc\n");
    		    usbPrint("'g' 500 Hz Accel Data                      'G' Set Alt Hold PID Data                TBD\n");
    		    usbPrint("'h' Earth Axis Accels                      'H' Set RX Input Type                    HX, 1=Parallel, 2=Serial, 3=Spektrum\n");
-   		    usbPrint("'i' 50 Hz Mag Data                         'I' Set RC Control Order                 ITAER1234\n");
+   		    usbPrint("'i' 10 Hz Mag Data                         'I' Set RC Control Order                 ITAER1234\n");
    		    usbPrint("'j' Vertical Axis Variables                'J' Set Spektrum Resolution              J0 or J1\n");
    		    usbPrint("'k' Euler Angles                           'K' Set Number of Spektrum Channels      K6 thru 12\n");
    		    usbPrint("'l' Not Used                               'L' Set Mixer Configuration              L1 thru 21, see aq32Plus.h\n");
@@ -1371,12 +1446,12 @@ void cliCom(void)
    		    usbPrint("'2' High Speed Telemetry 2 Enable          '@' Set kpMag/kiMag                      @KpMag;KiMag\n");
    		    usbPrint("'3' High Speed Telemetry 3 Enable          '#' Set Complementary Filter A/B         #A;B\n");
    		    usbPrint("'4' High Speed Telemetry 4 Enable          '$' Set Yaw Direction                    $1 or $-1\n");
-   		    usbPrint("'5' High Speed Telemetry 5 Enable           '%' Not Used\n");
+   		    usbPrint("'5' High Speed Telemetry 5 Enable          '%' Not Used\n");
    		    usbPrint("'6' High Speed Telemetry 6 Enable          '^' Reset EEPROM Parameters\n");
    		    usbPrint("'7' High Speed Telemetry 7 Enable          '&' Write EEPROM Parameters\n");
    		    usbPrint("'8' High Speed Telemetry 8 Enable          '*' Reset\n");
    		    usbPrint("'9' High Speed Telemetry 9 Enable          '(' Reset and Enter Bootloader\n");
-   		    usbPrint("'0' High Speed Telemetry Disable           ')' Not Used\n");
+   		    usbPrint("'0' High Speed Telemetry Disable           ')' MAX7456 CLI\n");
    		    usbPrint("                                           '?' Command Summary\n");
             usbPrint("\n");
 

@@ -53,10 +53,10 @@ void initPID(void)
 
     for (index = 0; index < NUMBER_OF_PIDS; index++)
     {
-    	eepromConfig.PID[index].iTerm         = 0.0f;
-    	eepromConfig.PID[index].lastError     = 0.0f;
-    	eepromConfig.PID[index].lastDterm     = 0.0f;
-    	eepromConfig.PID[index].lastLastDterm = 0.0f;
+    	eepromConfig.PID[index].iTerm          = 0.0f;
+    	eepromConfig.PID[index].lastDcalcValue = 0.0f;
+    	eepromConfig.PID[index].lastDterm      = 0.0f;
+    	eepromConfig.PID[index].lastLastDterm  = 0.0f;
 	}
 }
 
@@ -73,7 +73,7 @@ float updatePID(float command, float state, float deltaT, uint8_t iHold, struct 
 
     error = command - state;
 
-    if (PIDparameters->type == 1)
+    if (PIDparameters->type == ANGULAR)
         error = standardRadianFormat(error);
 
     ///////////////////////////////////
@@ -86,9 +86,16 @@ float updatePID(float command, float state, float deltaT, uint8_t iHold, struct 
 
     ///////////////////////////////////
 
-    dTerm = (error - PIDparameters->lastError) / deltaT;
-
-    PIDparameters->lastError = error;
+    if (PIDparameters->dErrorCalc == D_ERROR)  // Calculate D term from error change
+    {
+		dTerm = (error - PIDparameters->lastDcalcValue) / deltaT;
+        PIDparameters->lastDcalcValue = error;
+	}
+	else                                       // Calculate D term from state change
+	{
+		dTerm = (PIDparameters->lastDcalcValue - state) / deltaT;
+		PIDparameters->lastDcalcValue = state;
+	}
 
     ///////////////////////////////////
 
@@ -101,7 +108,7 @@ float updatePID(float command, float state, float deltaT, uint8_t iHold, struct 
 
     ///////////////////////////////////
 
-    if (PIDparameters->type == 1)
+    if (PIDparameters->type == ANGULAR)
         return(standardRadianFormat(PIDparameters->P * PIDparameters->B * command +
                                     PIDparameters->I * PIDparameters->iTerm       +
                                     PIDparameters->D * dAverage                   -
@@ -140,9 +147,9 @@ void zeroPIDstates(void)
 
     for (index = 0; index < NUMBER_OF_PIDS; index++)
     {
-    	eepromConfig.PID[index].lastError     = 0.0f;
-    	eepromConfig.PID[index].lastDterm     = 0.0f;
-    	eepromConfig.PID[index].lastLastDterm = 0.0f;
+    	eepromConfig.PID[index].lastDcalcValue = 0.0f;
+    	eepromConfig.PID[index].lastDterm      = 0.0f;
+    	eepromConfig.PID[index].lastLastDterm  = 0.0f;
     }
 }
 

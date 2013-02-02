@@ -40,6 +40,8 @@
 
 extern float magScaleFactor[3];
 
+extern uint8_t magDataUpdate;
+
 extern uint8_t newMagData;
 
 extern int16andUint8_t rawMag[3];

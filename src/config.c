@@ -44,7 +44,7 @@ const char rcChannelLetters[] = "AERT1234";
 
 float vTailThrust;
 
-static uint8_t checkNewEEPROMConf = 3;
+static uint8_t checkNewEEPROMConf = 5;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -183,71 +183,77 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.minThrottle  = (float)(MINCOMMAND + 200);
         eepromConfig.maxThrottle  = (float)(MAXCOMMAND);
 
-        eepromConfig.PID[ROLL_RATE_PID].B              =   1.0f;
-        eepromConfig.PID[ROLL_RATE_PID].P              = 120.0f;
-        eepromConfig.PID[ROLL_RATE_PID].I              =   0.0f;
-        eepromConfig.PID[ROLL_RATE_PID].D              =   0.0f;
-        eepromConfig.PID[ROLL_RATE_PID].iTerm          =   0.0f;
-        eepromConfig.PID[ROLL_RATE_PID].windupGuard    = 200.0f;  // PWMs
-        eepromConfig.PID[ROLL_RATE_PID].lastError      =   0.0f;
-        eepromConfig.PID[ROLL_RATE_PID].lastDterm      =   0.0f;
-        eepromConfig.PID[ROLL_RATE_PID].lastLastDterm  =   0.0f;
-        eepromConfig.PID[ROLL_RATE_PID].type           =   0;
+        eepromConfig.PID[ROLL_RATE_PID].B               =   1.0f;
+        eepromConfig.PID[ROLL_RATE_PID].P               = 120.0f;
+        eepromConfig.PID[ROLL_RATE_PID].I               =   0.0f;
+        eepromConfig.PID[ROLL_RATE_PID].D               =   0.0f;
+        eepromConfig.PID[ROLL_RATE_PID].iTerm           =   0.0f;
+        eepromConfig.PID[ROLL_RATE_PID].windupGuard     = 200.0f;  // PWMs
+        eepromConfig.PID[ROLL_RATE_PID].lastDcalcValue  =   0.0f;
+        eepromConfig.PID[ROLL_RATE_PID].lastDterm       =   0.0f;
+        eepromConfig.PID[ROLL_RATE_PID].lastLastDterm   =   0.0f;
+        eepromConfig.PID[ROLL_RATE_PID].dErrorCalc      =   D_ERROR;
+        eepromConfig.PID[ROLL_RATE_PID].type            =   OTHER;
 
-        eepromConfig.PID[PITCH_RATE_PID].B             =   1.0f;
-        eepromConfig.PID[PITCH_RATE_PID].P             = 120.0f;
-        eepromConfig.PID[PITCH_RATE_PID].I             =   0.0f;
-        eepromConfig.PID[PITCH_RATE_PID].D             =   0.0f;
-        eepromConfig.PID[PITCH_RATE_PID].iTerm         =   0.0f;
-        eepromConfig.PID[PITCH_RATE_PID].windupGuard   = 200.0f;  // PWMs
-        eepromConfig.PID[PITCH_RATE_PID].lastError     =   0.0f;
-        eepromConfig.PID[PITCH_RATE_PID].lastDterm     =   0.0f;
-        eepromConfig.PID[PITCH_RATE_PID].lastLastDterm =   0.0f;
-        eepromConfig.PID[PITCH_RATE_PID].type          =   0;
+        eepromConfig.PID[PITCH_RATE_PID].B              =   1.0f;
+        eepromConfig.PID[PITCH_RATE_PID].P              = 120.0f;
+        eepromConfig.PID[PITCH_RATE_PID].I              =   0.0f;
+        eepromConfig.PID[PITCH_RATE_PID].D              =   0.0f;
+        eepromConfig.PID[PITCH_RATE_PID].iTerm          =   0.0f;
+        eepromConfig.PID[PITCH_RATE_PID].windupGuard    = 200.0f;  // PWMs
+        eepromConfig.PID[PITCH_RATE_PID].lastDcalcValue =   0.0f;
+        eepromConfig.PID[PITCH_RATE_PID].lastDterm      =   0.0f;
+        eepromConfig.PID[PITCH_RATE_PID].lastLastDterm  =   0.0f;
+        eepromConfig.PID[PITCH_RATE_PID].dErrorCalc     =   D_ERROR;
+        eepromConfig.PID[PITCH_RATE_PID].type           =   OTHER;
 
-        eepromConfig.PID[YAW_RATE_PID].B               =   1.0f;
-        eepromConfig.PID[YAW_RATE_PID].P               = 120.0f;
-        eepromConfig.PID[YAW_RATE_PID].I               =   0.0f;
-        eepromConfig.PID[YAW_RATE_PID].D               =   0.0f;
-        eepromConfig.PID[YAW_RATE_PID].iTerm           =   0.0f;
-        eepromConfig.PID[YAW_RATE_PID].windupGuard     = 200.0f;  // PWMs
-        eepromConfig.PID[YAW_RATE_PID].lastError       =   0.0f;
-        eepromConfig.PID[YAW_RATE_PID].lastDterm       =   0.0f;
-        eepromConfig.PID[YAW_RATE_PID].lastLastDterm   =   0.0f;
-        eepromConfig.PID[YAW_RATE_PID].type            =   0;
+        eepromConfig.PID[YAW_RATE_PID].B                =   1.0f;
+        eepromConfig.PID[YAW_RATE_PID].P                = 120.0f;
+        eepromConfig.PID[YAW_RATE_PID].I                =   0.0f;
+        eepromConfig.PID[YAW_RATE_PID].D                =   0.0f;
+        eepromConfig.PID[YAW_RATE_PID].iTerm            =   0.0f;
+        eepromConfig.PID[YAW_RATE_PID].windupGuard      = 200.0f;  // PWMs
+        eepromConfig.PID[YAW_RATE_PID].lastDcalcValue   =   0.0f;
+        eepromConfig.PID[YAW_RATE_PID].lastDterm        =   0.0f;
+        eepromConfig.PID[YAW_RATE_PID].lastLastDterm    =   0.0f;
+        eepromConfig.PID[YAW_RATE_PID].dErrorCalc       =   D_ERROR;
+        eepromConfig.PID[YAW_RATE_PID].type             =   OTHER;
 
-        eepromConfig.PID[ROLL_ATT_PID].B               =   1.0f;
-        eepromConfig.PID[ROLL_ATT_PID].P               =   2.0f;
-        eepromConfig.PID[ROLL_ATT_PID].I               =   0.0f;
-        eepromConfig.PID[ROLL_ATT_PID].D               =   0.0f;
-        eepromConfig.PID[ROLL_ATT_PID].iTerm           =   0.0f;
-        eepromConfig.PID[ROLL_ATT_PID].windupGuard     =   0.5f;  // radians/sec
-        eepromConfig.PID[ROLL_ATT_PID].lastError       =   0.0f;
-        eepromConfig.PID[ROLL_ATT_PID].lastDterm       =   0.0f;
-        eepromConfig.PID[ROLL_ATT_PID].lastLastDterm   =   0.0f;
-        eepromConfig.PID[ROLL_ATT_PID].type            =   1;
+        eepromConfig.PID[ROLL_ATT_PID].B                =   1.0f;
+        eepromConfig.PID[ROLL_ATT_PID].P                =   2.0f;
+        eepromConfig.PID[ROLL_ATT_PID].I                =   0.0f;
+        eepromConfig.PID[ROLL_ATT_PID].D                =   0.0f;
+        eepromConfig.PID[ROLL_ATT_PID].iTerm            =   0.0f;
+        eepromConfig.PID[ROLL_ATT_PID].windupGuard      =   0.5f;  // radians/sec
+        eepromConfig.PID[ROLL_ATT_PID].lastDcalcValue   =   0.0f;
+        eepromConfig.PID[ROLL_ATT_PID].lastDterm        =   0.0f;
+        eepromConfig.PID[ROLL_ATT_PID].lastLastDterm    =   0.0f;
+        eepromConfig.PID[ROLL_ATT_PID].dErrorCalc       =   D_ERROR;
+        eepromConfig.PID[ROLL_ATT_PID].type             =   ANGULAR;
 
-        eepromConfig.PID[PITCH_ATT_PID].B              =   1.0f;
-        eepromConfig.PID[PITCH_ATT_PID].P              =   2.0f;
-        eepromConfig.PID[PITCH_ATT_PID].I              =   0.0f;
-        eepromConfig.PID[PITCH_ATT_PID].D              =   0.0f;
-        eepromConfig.PID[PITCH_ATT_PID].iTerm          =   0.0f;
-        eepromConfig.PID[PITCH_ATT_PID].windupGuard    =   0.5f;  // radians/sec
-        eepromConfig.PID[PITCH_ATT_PID].lastError      =   0.0f;
-        eepromConfig.PID[PITCH_ATT_PID].lastDterm      =   0.0f;
-        eepromConfig.PID[PITCH_ATT_PID].lastLastDterm  =   0.0f;
-        eepromConfig.PID[PITCH_ATT_PID].type           =   1;
+        eepromConfig.PID[PITCH_ATT_PID].B               =   1.0f;
+        eepromConfig.PID[PITCH_ATT_PID].P               =   2.0f;
+        eepromConfig.PID[PITCH_ATT_PID].I               =   0.0f;
+        eepromConfig.PID[PITCH_ATT_PID].D               =   0.0f;
+        eepromConfig.PID[PITCH_ATT_PID].iTerm           =   0.0f;
+        eepromConfig.PID[PITCH_ATT_PID].windupGuard     =   0.5f;  // radians/sec
+        eepromConfig.PID[PITCH_ATT_PID].lastDcalcValue  =   0.0f;
+        eepromConfig.PID[PITCH_ATT_PID].lastDterm       =   0.0f;
+        eepromConfig.PID[PITCH_ATT_PID].lastLastDterm   =   0.0f;
+        eepromConfig.PID[PITCH_ATT_PID].dErrorCalc      =   D_ERROR;
+        eepromConfig.PID[PITCH_ATT_PID].type            =   ANGULAR;
 
-        eepromConfig.PID[HEADING_PID].B                =   1.0f;
-        eepromConfig.PID[HEADING_PID].P                =   3.0f;
-        eepromConfig.PID[HEADING_PID].I                =   0.0f;
-        eepromConfig.PID[HEADING_PID].D                =   0.0f;
-        eepromConfig.PID[HEADING_PID].iTerm            =   0.0f;
-        eepromConfig.PID[HEADING_PID].windupGuard      =   0.5f;  // radians/sec
-        eepromConfig.PID[HEADING_PID].lastError        =   0.0f;
-        eepromConfig.PID[HEADING_PID].lastDterm        =   0.0f;
-        eepromConfig.PID[HEADING_PID].lastLastDterm    =   0.0f;
-        eepromConfig.PID[HEADING_PID].type             =   1;
+        eepromConfig.PID[HEADING_PID].B                 =   1.0f;
+        eepromConfig.PID[HEADING_PID].P                 =   3.0f;
+        eepromConfig.PID[HEADING_PID].I                 =   0.0f;
+        eepromConfig.PID[HEADING_PID].D                 =   0.0f;
+        eepromConfig.PID[HEADING_PID].iTerm             =   0.0f;
+        eepromConfig.PID[HEADING_PID].windupGuard       =   0.5f;  // radians/sec
+        eepromConfig.PID[HEADING_PID].lastDcalcValue    =   0.0f;
+        eepromConfig.PID[HEADING_PID].lastDterm         =   0.0f;
+        eepromConfig.PID[HEADING_PID].lastLastDterm     =   0.0f;
+        eepromConfig.PID[HEADING_PID].dErrorCalc        =   D_ERROR;
+        eepromConfig.PID[HEADING_PID].type              =   ANGULAR;
 
         eepromConfig.gimbalRollServoMin   = 2000.0f;
 		eepromConfig.gimbalRollServoMid   = 3000.0f;
@@ -309,6 +315,14 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.freeMix[5][ROLL ]    =  0.0f;
         eepromConfig.freeMix[5][PITCH]    =  0.0f;
         eepromConfig.freeMix[5][YAW  ]    =  0.0f;
+
+        eepromConfig.osdInstalled         =  false;
+        eepromConfig.defaultVideoStandard =  NTSC;
+        eepromConfig.metricUnits          =  false;
+        eepromConfig.osdDisplayAlt        =  true;
+        eepromConfig.osdDisplayAH         =  true;
+        eepromConfig.osdDisplayAtt        =  false;
+        eepromConfig.osdDisplayHdg        =  true;
 
         writeEEPROM();
 	}

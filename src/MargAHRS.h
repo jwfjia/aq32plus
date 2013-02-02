@@ -33,7 +33,7 @@ extern float q3q3;
 void MargAHRSupdate(float gx, float gy, float gz,
                     float ax, float ay, float az,
                     float mx, float my, float mz,
-                    float accelCutoff, uint8_t newMagData, float dt);
+                    float accelCutoff, uint8_t magDataUpdate, float dt);
 
 //=====================================================================================================
 // End of file

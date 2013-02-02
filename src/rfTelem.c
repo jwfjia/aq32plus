@@ -109,15 +109,16 @@ void readRFPID(unsigned char PIDid)
 {
   struct PIDdata* pid = &eepromConfig.PID[PIDid];
 
-  pid->B             = readFloatRF();
-  pid->P             = readFloatRF();
-  pid->I             = readFloatRF();
-  pid->D             = readFloatRF();
-  pid->windupGuard   = readFloatRF();
-  pid->iTerm         = 0.0f;
-  pid->lastError     = 0.0f;
-  pid->lastDterm     = 0.0f;
-  pid->lastLastDterm = 0.0f;
+  pid->B              = readFloatRF();
+  pid->P              = readFloatRF();
+  pid->I              = readFloatRF();
+  pid->D              = readFloatRF();
+  pid->windupGuard    = readFloatRF();
+  pid->iTerm          = 0.0f;
+  pid->lastDcalcValue = 0.0f;
+  pid->lastDterm      = 0.0f;
+  pid->lastLastDterm  = 0.0f;
+  pid->dErrorCalc     = (uint8_t)readFloatRF();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -126,7 +127,6 @@ void readRFPID(unsigned char PIDid)
 
 void rfCom(void)
 {
-    char  numberString[12];
     uint8_t index;
     uint8_t rows, columns;
 
@@ -157,16 +157,16 @@ void rfCom(void)
         ///////////////////////////////
 
         case 'j': // 50 Hz Mag Data
-        	ftoa( sensors.mag50Hz[XAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.mag50Hz[YAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.mag50Hz[ZAXIS], numberString ); uart3Print(numberString); uart3Print("\n");
+        	ftoa( sensors.mag10Hz[XAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
+        	ftoa( sensors.mag10Hz[YAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
+        	ftoa( sensors.mag10Hz[ZAXIS], numberString ); uart3Print(numberString); uart3Print("\n");
 
         	break;
 
         ///////////////////////////////
 
         case 'k': // 10Hz Pressure Altitude
-        	ftoa(sensors.pressureAlt,    numberString); uart3Print(numberString); uart3Print("\n");
+        	ftoa(sensors.pressureAlt10Hz, numberString); uart3Print(numberString); uart3Print("\n");
 
         	break;
 
@@ -189,21 +189,33 @@ void rfCom(void)
             ftoa(eepromConfig.PID[ROLL_RATE_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[ROLL_RATE_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[ROLL_RATE_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print("\n");
+            ftoa(eepromConfig.PID[ROLL_RATE_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[ROLL_RATE_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
             uart3Print("Pitch Rate PID: ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].B,           numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].P,           numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].I,           numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[PITCH_RATE_PID].D,           numberString); uart3Print(numberString); uart3Print(", ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].windupGuard, numberString); uart3Print(numberString); uart3Print("\n");
+            ftoa(eepromConfig.PID[PITCH_RATE_PID].windupGuard, numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[PITCH_RATE_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
             uart3Print("Yaw Rate PID:   ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].B,             numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].P,             numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].I,             numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[YAW_RATE_PID].D,             numberString); uart3Print(numberString); uart3Print(", ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].windupGuard,   numberString); uart3Print(numberString); uart3Print("\n");
+            ftoa(eepromConfig.PID[YAW_RATE_PID].windupGuard,   numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[YAW_RATE_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
             queryType = 'x';
             break;
@@ -218,21 +230,33 @@ void rfCom(void)
             ftoa(eepromConfig.PID[ROLL_ATT_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[ROLL_ATT_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[ROLL_ATT_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print("\n");
+            ftoa(eepromConfig.PID[ROLL_ATT_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[ROLL_ATT_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
             uart3Print("Pitch Attitude PID: ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].B,           numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].P,           numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].I,           numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[PITCH_ATT_PID].D,           numberString); uart3Print(numberString); uart3Print(", ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].windupGuard, numberString); uart3Print(numberString); uart3Print("\n");
+            ftoa(eepromConfig.PID[PITCH_ATT_PID].windupGuard, numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[PITCH_ATT_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
             uart3Print("Heading PID:        ");
             ftoa(eepromConfig.PID[HEADING_PID].B,             numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[HEADING_PID].P,             numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[HEADING_PID].I,             numberString); uart3Print(numberString); uart3Print(", ");
             ftoa(eepromConfig.PID[HEADING_PID].D,             numberString); uart3Print(numberString); uart3Print(", ");
-            ftoa(eepromConfig.PID[HEADING_PID].windupGuard,   numberString); uart3Print(numberString); uart3Print("\n");
+            ftoa(eepromConfig.PID[HEADING_PID].windupGuard,   numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[HEADING_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
             queryType = 'x';
             break;

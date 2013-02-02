@@ -55,8 +55,6 @@ void mpu6000Calibration(void)
 
     uint16_t index;
 
-    char numberString[12];
-
     mpu6000Calibrating = true;
 
     usbPrint("\nMPU6000 Calibration:\n");

@@ -78,7 +78,6 @@ static void cycleCounterInit(void)
 uint16_t frameCounter = 0;
 
 uint8_t frame_500Hz = false;
-uint8_t frame_200Hz = false;
 uint8_t frame_100Hz = false;
 uint8_t frame_50Hz  = false;
 uint8_t frame_10Hz  = false;
@@ -87,14 +86,13 @@ uint8_t frame_1Hz   = false;
 
 uint32_t deltaTime1000Hz, executionTime1000Hz, previous1000HzTime;
 uint32_t deltaTime500Hz,  executionTime500Hz,  previous500HzTime;
-uint32_t deltaTime200Hz,  executionTime200Hz,  previous200HzTime;
 uint32_t deltaTime100Hz,  executionTime100Hz,  previous100HzTime;
 uint32_t deltaTime50Hz,   executionTime50Hz,   previous50HzTime;
 uint32_t deltaTime10Hz,   executionTime10Hz,   previous10HzTime;
 uint32_t deltaTime5Hz,    executionTime5Hz,    previous5HzTime;
 uint32_t deltaTime1Hz,    executionTime1Hz,    previous1HzTime;
 
-float dt500Hz, dt200Hz, dt100Hz;
+float dt500Hz, dt100Hz;
 
 uint8_t systemReady = false;
 
@@ -158,12 +156,6 @@ void SysTick_Handler(void)
                 gyroSum500Hz[index] = 0.0f;
             }
         }
-        ///////////////////////////////
-
-        if ((frameCounter % COUNT_200HZ) == 0)
-        {
-            frame_200Hz = true;
-        }
 
         ///////////////////////////////
 
@@ -195,13 +187,13 @@ void SysTick_Handler(void)
 
         ///////////////////////////////
 
-        if (((frameCounter + 1) % COUNT_50HZ) == 0)
-            newMagData = readMag(HMC5883L_I2C);
-
         if ((frameCounter % COUNT_50HZ) == 0)
             frame_50Hz = true;
 
         ///////////////////////////////
+
+        if (((frameCounter + 1) % COUNT_10HZ) == 0)
+            newMagData = readMag(HMC5883L_I2C);
 
         if ((frameCounter % COUNT_10HZ) == 0)
             frame_10Hz = true;
@@ -280,6 +272,7 @@ void systemInit(void)
     pwmEscInit(eepromConfig.escPwmRate);
     pwmServoInit(eepromConfig.servoPwmRate);
     rxInit();
+    if (eepromConfig.osdInstalled) spiInit(SPI2);
     spiInit(SPI3);
     timingFunctionsInit();
     uart2Init();
@@ -292,6 +285,9 @@ void systemInit(void)
     initMPU6000();
     initMag(HMC5883L_I2C);
     initPressure(MS5611_I2C);
+
+    if (eepromConfig.osdInstalled)
+    	initMax7456();
 
     initPID();
 

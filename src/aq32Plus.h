@@ -43,6 +43,8 @@
 
 #define SQR(x)  x * x
 
+extern char numberString[12];
+
 ///////////////////////////////////////////////////////////////////////////////
 
 #define ROLL     0
@@ -96,8 +98,8 @@ typedef struct sensors_t
     float accel100Hz[3];
     float attitude500Hz[3];
     float gyro500Hz[3];
-    float mag50Hz[3];
-    float pressureAlt;
+    float mag10Hz[3];
+    float pressureAlt10Hz;
 } sensors_t;
 
 extern sensors_t sensors;
@@ -154,16 +156,16 @@ typedef enum mixerType_e
 } mixerType;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Receiver Configurations
+// Altitude Hold States
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef enum receiverType_e
+typedef enum altHoldStateType_e
 {
-    PARALLEL_PWM = 1,
-    SERIAL_PWM   = 2,
-    SPEKTRUM     = 3,
+    OFF       = 0,
+    ON        = 1,
+    ALTPANIC  = 2,
 
-} receiverType;
+} altHoldStateType;
 
 ///////////////////////////////////////////////////////////////////////////////
 // MPU6000 DLPF Configurations
@@ -177,6 +179,18 @@ typedef enum dlpfType_e
     DLPF_42HZ  = 3,
 
 } dlpfType;
+
+///////////////////////////////////////////////////////////////////////////////
+// Receiver Configurations
+///////////////////////////////////////////////////////////////////////////////
+
+typedef enum receiverType_e
+{
+    PARALLEL_PWM = 1,
+    SERIAL_PWM   = 2,
+    SPEKTRUM     = 3,
+
+} receiverType;
 
 ///////////////////////////////////////////////////////////////////////////////
 // EEPROM
@@ -203,6 +217,10 @@ typedef struct eepromConfig_t
     float KpMag;
 
     float KiMag;
+
+    float compFilterA;
+
+    float compFilterB;
 
     uint8_t dlpfSetting;
 
@@ -266,8 +284,17 @@ typedef struct eepromConfig_t
 
     float freeMix[8][3];
 
-    float compFilterA; // Move later
-    float compFilterB; // Move later
+    ///////////////////////////////////
+
+    uint8_t osdInstalled;          // 0 = Uninstalled, 1 = Installed
+    uint8_t defaultVideoStandard;  // 0 = NTSC, 1 = PAL
+    uint8_t metricUnits;           // 1 = metric
+    uint8_t osdDisplayAlt;         // 1 = Display OSD Altitude
+    uint8_t osdDisplayAH;          // 1 = Display OSD Artificial Horizon
+    uint8_t osdDisplayAtt;         // 1 = Display OSD Attitude
+    uint8_t osdDisplayHdg;         // 1 = Display ODS Heading
+
+    ///////////////////////////////////
 
 } eepromConfig_t;
 

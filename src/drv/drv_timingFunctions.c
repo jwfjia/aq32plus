@@ -64,7 +64,6 @@ void timingFunctionsInit(void)
 
     TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
 
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7,  ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM10, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM11, ENABLE);
 
@@ -74,11 +73,9 @@ void timingFunctionsInit(void)
     //TIM_TimeBaseStructure.TIM_CounterMode       = TIM_CounterMode_Up;
     //TIM_TimeBaseStructure.TIM_RepetitionCounter = 0x0000;
 
-    TIM_TimeBaseInit(TIM7,  &TIM_TimeBaseStructure);
     TIM_TimeBaseInit(TIM10, &TIM_TimeBaseStructure);
     TIM_TimeBaseInit(TIM11, &TIM_TimeBaseStructure);
 
-    TIM_SetCounter(TIM7,  0);
     TIM_SetCounter(TIM10, 0);
     TIM_SetCounter(TIM11, 0);
 }

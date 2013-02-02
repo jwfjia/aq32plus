@@ -46,9 +46,7 @@ uint8_t magCalibrating = false;
 
 void magCalibration(I2C_TypeDef *I2Cx)
 {
-	char numberString[12];
-
-    uint16_t calibrationCounter = 0;
+	uint16_t calibrationCounter = 0;
 	uint16_t population[2][3];
 
 	float    d[3000][3];       // 3000 Samples = 60 seconds of data at 50 Hz

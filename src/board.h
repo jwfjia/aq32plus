@@ -54,6 +54,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
+#include <errno.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -71,6 +72,7 @@
 
 #include "drv_i2c.h"
 #include "drv_led.h"
+#include "drv_max7456.h"
 #include "drv_pwmESC.h"
 #include "drv_pwmServo.h"
 #include "drv_rx.h"
@@ -97,6 +99,7 @@
 #include "magCalibration.h"
 #include "mixer.h"
 #include "mpu6000Calibration.h"
+#include "osdWidgets.h"
 #include "rfTelem.h"
 #include "utilities.h"
 #include "vertCompFilter.h"

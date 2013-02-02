@@ -138,7 +138,7 @@ void MargAHRSinit(float ax, float ay, float az, float mx, float my, float mz)
 void MargAHRSupdate(float gx, float gy, float gz,
                     float ax, float ay, float az,
                     float mx, float my, float mz,
-                    float accelCutoff, uint8_t newMagData, float dt)
+                    float accelCutoff, uint8_t magDataUpdate, float dt)
 {
     float norm, normR;
     float hx, hy, hz, bx, bz;
@@ -147,7 +147,7 @@ void MargAHRSupdate(float gx, float gy, float gz,
 
     //-------------------------------------------
 
-    if ((MargAHRSinitialized == false) && (newMagData == true))
+    if ((MargAHRSinitialized == false) && (magDataUpdate == true))
     {
         MargAHRSinit(ax, ay, az, mx, my, mz);
 
@@ -204,7 +204,7 @@ void MargAHRSupdate(float gx, float gy, float gz,
 
         norm = sqrt(SQR(mx) + SQR(my) + SQR(mz));
 
-        if ((newMagData == true) && (norm != 0.0f))
+        if (( magDataUpdate == true) && (norm != 0.0f))
         {
             normR = 1.0f / norm;
             mx *= normR;

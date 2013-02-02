@@ -115,19 +115,26 @@ char *ftoa(float x, char *floatString)
     else
         intString2[0] = '-';    // Negative number, add a negative sign
 
-    if (strlen(intString1) == 1) {
+    if (strlen(intString1) == 1)
+    {
         intString2[1] = '0';
         intString2[2] = '0';
         intString2[3] = '0';
         strcat(intString2, intString1);
-    } else if (strlen(intString1) == 2) {
+    }
+    else if (strlen(intString1) == 2)
+    {
         intString2[1] = '0';
         intString2[2] = '0';
         strcat(intString2, intString1);
-    } else if (strlen(intString1) == 3) {
+    }
+    else if (strlen(intString1) == 3)
+    {
         intString2[1] = '0';
         strcat(intString2, intString1);
-    } else {
+    }
+    else
+    {
         strcat(intString2, intString1);
     }
 
@@ -139,6 +146,47 @@ char *ftoa(float x, char *floatString)
     strcat(floatString, intString2 + dpLocation);
 
     return floatString;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// _sbrk
+///////////////////////////////////////////////////////////////////////////////
+
+/*
+ * newlib_stubs.c
+ *
+ *  Created on: 2 Nov 2010
+ *      Author: nanoage.co.uk
+ */
+
+/*
+ sbrk
+ Increase program data space.
+ Malloc and related functions depend on this
+ */
+
+caddr_t _sbrk(int incr)
+{
+    extern char _ebss; // Defined by the linker
+    static char *heap_end;
+    char *prev_heap_end;
+
+    char * stack;
+
+    if (heap_end == 0)
+        heap_end = &_ebss;
+
+    prev_heap_end = heap_end;
+
+    stack = (char*) __get_MSP();
+    if (heap_end + incr >  stack)
+    {
+        errno = ENOMEM;
+        return  (caddr_t) -1;
+    }
+
+    heap_end += incr;
+    return (caddr_t) prev_heap_end;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

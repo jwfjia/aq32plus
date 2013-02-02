@@ -134,6 +134,34 @@ void spiInit(SPI_TypeDef *SPI)
         GPIO_PinAFConfig(SPI2_GPIO, SPI2_SCK_PIN_SOURCE,  GPIO_AF_SPI2);
 	    GPIO_PinAFConfig(SPI2_GPIO, SPI2_MISO_PIN_SOURCE, GPIO_AF_SPI2);
 	    GPIO_PinAFConfig(SPI2_GPIO, SPI2_MOSI_PIN_SOURCE, GPIO_AF_SPI2);
+
+		  GPIO_InitStructure.GPIO_Pin   = MAX7456_CS_PIN;
+		  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;
+		  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+		//GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+		//GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+
+		GPIO_Init(MAX7456_CS_GPIO, &GPIO_InitStructure);
+
+		GPIO_SetBits(MAX7456_CS_GPIO, MAX7456_CS_PIN);
+
+		SPI_StructInit(&SPI_InitStructure);
+
+        SPI_I2S_DeInit(SPI2);
+
+        //SPI_InitStructure.SPI_Direction         = SPI_Direction_2Lines_FullDuplex;
+          SPI_InitStructure.SPI_Mode              = SPI_Mode_Master;
+        //SPI_InitStructure.SPI_DataSize          = SPI_DataSize_8b;
+          SPI_InitStructure.SPI_CPOL              = SPI_CPOL_High;
+          SPI_InitStructure.SPI_CPHA              = SPI_CPHA_2Edge;
+          SPI_InitStructure.SPI_NSS               = SPI_NSS_Soft;
+          SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_4;  // 42/4 = 10.5 MHz SPI Clock
+        //SPI_InitStructure.SPI_FirstBit          = SPI_FirstBit_MSB;
+        //SPI_InitStructure.SPI_CRCPolynomial     = 7;
+
+        SPI_Init(SPI2, &SPI_InitStructure);
+
+        SPI_Cmd(SPI2, ENABLE);
   }
 
     ///////////////////////////////////

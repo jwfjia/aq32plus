@@ -38,14 +38,21 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+#define OTHER   false
+#define ANGULAR true
+
+#define D_ERROR true
+#define D_STATE false
+
 // PID Variables
 typedef struct PIDdata {
   float   B, P, I, D;
   float   iTerm;
   float   windupGuard;
-  float   lastError;
+  float   lastDcalcValue;
   float   lastDterm;
   float   lastLastDterm;
+  uint8_t dErrorCalc;
   uint8_t type;
 } PIDdata_t;
 

@@ -187,7 +187,7 @@ void calculatePressureAltitude(void)
 
 	p = (((d1Average * sensitivity) >> 21) - offset) >> 15;
 
-    sensors.pressureAlt = (44330.0f * (1.0f - pow((float)p / 101325.0f, 0.190295f)));
+    sensors.pressureAlt10Hz = (44330.0f * (1.0f - pow((float)p / 101325.0f, 0.190295f)));
 }
 
 ///////////////////////////////////////////////////////////////////////////////

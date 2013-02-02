@@ -48,6 +48,8 @@ sensors_t      sensors;
 
 uint16_t       timerValue;
 
+char           numberString[12];
+
 ///////////////////////////////////////////////////////////////////////////////
 
 int main(void)
@@ -55,8 +57,6 @@ int main(void)
 	///////////////////////////////////////////////////////////////////////////
 
 	uint32_t currentTime;
-
-    char numberString[12];
 
     systemInit();
 
@@ -74,14 +74,22 @@ int main(void)
 			deltaTime50Hz    = currentTime - previous50HzTime;
 			previous50HzTime = currentTime;
 
-			if (newMagData == true)
-			{
-				sensors.mag50Hz[XAXIS] =   (float)rawMag[XAXIS].value * magScaleFactor[XAXIS] - eepromConfig.magBias[XAXIS];
-			    sensors.mag50Hz[YAXIS] =   (float)rawMag[YAXIS].value * magScaleFactor[YAXIS] - eepromConfig.magBias[YAXIS];
-			    sensors.mag50Hz[ZAXIS] = -((float)rawMag[ZAXIS].value * magScaleFactor[ZAXIS] - eepromConfig.magBias[ZAXIS]);
-			}
-
 			processFlightCommands();
+
+			if (eepromConfig.osdInstalled)
+			{
+				if (eepromConfig.osdDisplayAlt)
+				    displayAltitude(sensors.pressureAlt10Hz, 0.0f, OFF);
+
+				if (eepromConfig.osdDisplayAH)
+				    displayArtificialHorizon(sensors.attitude500Hz[ROLL], sensors.attitude500Hz[PITCH], flightMode);
+
+				if (eepromConfig.osdDisplayAtt)
+				    displayAttitude(sensors.attitude500Hz[ROLL], sensors.attitude500Hz[PITCH], flightMode);
+
+				if (eepromConfig.osdDisplayHdg)
+				    displayHeading(sensors.attitude500Hz[YAW]);
+			}
 
 			executionTime50Hz = micros() - currentTime;
         }
@@ -95,6 +103,16 @@ int main(void)
         	currentTime      = micros();
 			deltaTime10Hz    = currentTime - previous10HzTime;
 			previous10HzTime = currentTime;
+
+			if (newMagData == true)
+			{
+				sensors.mag10Hz[XAXIS] =   (float)rawMag[XAXIS].value * magScaleFactor[XAXIS] - eepromConfig.magBias[XAXIS];
+			    sensors.mag10Hz[YAXIS] =   (float)rawMag[YAXIS].value * magScaleFactor[YAXIS] - eepromConfig.magBias[YAXIS];
+			    sensors.mag10Hz[ZAXIS] = -((float)rawMag[ZAXIS].value * magScaleFactor[ZAXIS] - eepromConfig.magBias[ZAXIS]);
+
+			    newMagData = false;
+			    magDataUpdate = true;
+			}
 
         	d1Average = d1Sum / 10;
         	d1Sum = 0;
@@ -120,10 +138,10 @@ int main(void)
        	    deltaTime500Hz    = currentTime - previous500HzTime;
        	    previous500HzTime = currentTime;
 
-       	    TIM_Cmd(TIM7, DISABLE);
-       	 	timerValue = TIM_GetCounter(TIM7);
-       	 	TIM_SetCounter(TIM7, 0);
-       	 	TIM_Cmd(TIM7, ENABLE);
+       	    TIM_Cmd(TIM10, DISABLE);
+       	 	timerValue = TIM_GetCounter(TIM10);
+       	 	TIM_SetCounter(TIM10, 0);
+       	 	TIM_Cmd(TIM10, ENABLE);
 
        	 	dt500Hz = (float)timerValue * 0.0000005f;  // For integrations in 500 Hz loop
 
@@ -139,12 +157,12 @@ int main(void)
 
             MargAHRSupdate( sensors.gyro500Hz[ROLL],   sensors.gyro500Hz[PITCH],  sensors.gyro500Hz[YAW],
                             sensors.accel500Hz[XAXIS], sensors.accel500Hz[YAXIS], sensors.accel500Hz[ZAXIS],
-                            sensors.mag50Hz[XAXIS],    sensors.mag50Hz[YAXIS],    sensors.mag50Hz[ZAXIS],
+                            sensors.mag10Hz[XAXIS],    sensors.mag10Hz[YAXIS],    sensors.mag10Hz[ZAXIS],
                             eepromConfig.accelCutoff,
-                            newMagData,
+                            magDataUpdate,
                             dt500Hz );
 
-            newMagData = false;
+            magDataUpdate = false;
 
             computeAxisCommands(dt500Hz);
             mixTable();
@@ -153,26 +171,6 @@ int main(void)
 
        	    executionTime500Hz = micros() - currentTime;
 		}
-
-        ///////////////////////////////
-
-        if (frame_200Hz)
-        {
-        	frame_200Hz = false;
-
-       	    currentTime       = micros();
-       	    deltaTime200Hz    = currentTime - previous200HzTime;
-       	    previous200HzTime = currentTime;
-
-       	    TIM_Cmd(TIM10, DISABLE);
-       	    timerValue = TIM_GetCounter(TIM10);
-       	    TIM_SetCounter(TIM10, 0);
-       	    TIM_Cmd(TIM10, ENABLE);
-
-       	    dt200Hz = (float)timerValue * 0.0000005f;  // For integrations in 200 Hz loop
-
-            executionTime200Hz = micros() - currentTime;
-        }
 
         ///////////////////////////////
 
@@ -247,10 +245,10 @@ int main(void)
             if ( highSpeedTelem7Enabled == true )
             {
                	// Vertical Variables
-               	ftoa(earthAxisAccels[ZAXIS], numberString); uart3Print(numberString); uart3Print(",");
-               	ftoa(sensors.pressureAlt,    numberString); uart3Print(numberString); uart3Print(",");
-                ftoa(hDotEstimate,           numberString); uart3Print(numberString); uart3Print(", ");
-                ftoa(hEstimate,              numberString); uart3Print(numberString); uart3Print("\n");
+               	ftoa(earthAxisAccels[ZAXIS],  numberString); uart3Print(numberString); uart3Print(",");
+               	ftoa(sensors.pressureAlt10Hz, numberString); uart3Print(numberString); uart3Print(",");
+                ftoa(hDotEstimate,            numberString); uart3Print(numberString); uart3Print(", ");
+                ftoa(hEstimate,               numberString); uart3Print(numberString); uart3Print("\n");
             }
 
             executionTime100Hz = micros() - currentTime;
