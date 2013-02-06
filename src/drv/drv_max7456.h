@@ -1,0 +1,83 @@
+///////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+
+///////////////////////////////////////////////////////////////////////////////
+
+#define MAX7456_SPI         SPI2
+
+#define MAX7456_CS_GPIO     GPIOA
+#define MAX7456_CS_PIN      GPIO_Pin_3
+
+#define NTSC                0
+#define PAL                 1
+
+//MAX7456 Registers
+#define VM0_REG             0x00
+#define VM1_REG             0x01
+#define DMM_REG             0x04
+#define DMAH_REG            0x05
+#define DMAL_REG            0x06
+#define DMDI_REG            0x07
+#define CMM_REG             0x08
+#define CMAH_REG            0x09
+#define RB0_REG             0x10
+#define CMAL_REG            0x0A
+#define CMDI_REG            0x0B
+#define STAT_REG            0xA0
+
+#define READ_MAX7456_REG    0x80
+
+//MAX7456 Commands
+#define CLEAR_DISPLAY       0x04
+#define CLEAR_DISPLAY_VERT  0x06
+#define END_STRING          0xFF
+#define WRITE_NVR           0xA0
+
+#define WHITE_LEVEL_80      0x03
+#define WHITE_LEVEL_90      0x02
+#define WHITE_LEVEL_100     0x01
+#define WHITE_LEVEL_120     0x00
+
+#define MAX_FONR_ROM        0xFF
+#define STATUS_REG_NVR_BUSY 0x20
+#define NVM_RAM_SIZE        0x36
+
+///////////////////////////////////////////////////////////////////////////////
+// MAX7456 Variables
+///////////////////////////////////////////////////////////////////////////////
+
+extern uint8_t  osdDisabled;
+
+extern uint16_t maxScreenSize;
+extern uint16_t maxScreenRows;
+extern uint8_t  enableDisplay;
+extern uint8_t  enableDisplayVert;
+extern uint8_t  max7456Reset;
+extern uint8_t  disableDisplay;
+
+//////////////////////////////////////////////////////////////////////////////
+// Initialize MAX7456
+///////////////////////////////////////////////////////////////////////////////
+
+void initMax7456();
+
+//////////////////////////////////////////////////////////////////////////////
+// Reset MAX7456
+///////////////////////////////////////////////////////////////////////////////
+
+void resetMax7456(void);
+
+///////////////////////////////////////////////////////////////////////////////
+// MAX7456 CLI
+///////////////////////////////////////////////////////////////////////////////
+
+void max7456cli(void);
+
+///////////////////////////////////////////////////////////////////////////////
+// Write Characters
+///////////////////////////////////////////////////////////////////////////////
+
+void writeChars( const char* buf, uint8_t len, uint8_t flags, uint8_t y, uint8_t x);
+
+///////////////////////////////////////////////////////////////////////////////
