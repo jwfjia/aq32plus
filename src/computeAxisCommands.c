@@ -42,11 +42,13 @@ float   attCmd[3];
 
 float   attPID[3];
 
-float   axisPID[3];float rateCmd[3];
+float   axisPID[3];
+
+float   rateCmd[3];
 
 float   headingReference;
 
-
+uint8_t previousHeadingHoldEngaged = false;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Compute Axis Commands
@@ -77,9 +79,9 @@ void computeAxisCommands(float dt)
         rateCmd[PITCH] = attPID[PITCH];
     }
 
-    if ( (commandInDetent[YAW] == true) && (rxCommand[AUX2] > eepromConfig.midCommand) )  // Heading Hold is ON
+    if (headingHoldEngaged == true)  // Heading Hold is ON
     {
-        if (previousCommandInDetent[YAW] == false)
+        if (previousHeadingHoldEngaged == false)
         {
             setPIDintegralError(HEADING_PID, 0.0f);  // First pass in heading hold with new reference, zero integral PID error
         }
@@ -90,6 +92,8 @@ void computeAxisCommands(float dt)
         rateCmd[YAW] = rxCommand[YAW] * RATE_SCALING;
         headingReference = sensors.attitude500Hz[YAW];
     }
+
+    previousHeadingHoldEngaged = headingHoldEngaged;
 
     axisPID[ROLL ] = updatePID( rateCmd[ROLL ],  sensors.gyro500Hz[ROLL ], dt, holdIntegrators, &eepromConfig.PID[ROLL_RATE_PID ] );
     axisPID[PITCH] = updatePID( rateCmd[PITCH], -sensors.gyro500Hz[PITCH], dt, holdIntegrators, &eepromConfig.PID[PITCH_RATE_PID] );

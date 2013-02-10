@@ -1270,25 +1270,25 @@
  1308              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_fsmc.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:22     .text:00000000 FSMC_NORSRAMDeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:61     .text:00000054 FSMC_NORSRAMInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:216    .text:000001a8 FSMC_NORSRAMStructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:325    .text:000002a4 FSMC_NORSRAMCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:365    .text:000002f8 FSMC_NANDDeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:417    .text:00000378 FSMC_NANDInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:527    .text:0000046c FSMC_NANDStructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:594    .text:000004fc FSMC_NANDCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:658    .text:00000590 FSMC_NANDECCCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:722    .text:00000624 FSMC_GetECC
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:754    .text:00000658 FSMC_PCCARDDeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:785    .text:000006a0 FSMC_PCCARDInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:876    .text:0000076c FSMC_PCCARDStructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:947    .text:00000804 FSMC_PCCARDCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:984    .text:00000850 FSMC_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:1078   .text:0000092c FSMC_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:1134   .text:0000099c FSMC_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:1187   .text:00000a0c FSMC_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccHO91MY.s:1257   .text:00000aa0 FSMC_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:22     .text:00000000 FSMC_NORSRAMDeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:61     .text:00000054 FSMC_NORSRAMInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:216    .text:000001a8 FSMC_NORSRAMStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:325    .text:000002a4 FSMC_NORSRAMCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:365    .text:000002f8 FSMC_NANDDeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:417    .text:00000378 FSMC_NANDInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:527    .text:0000046c FSMC_NANDStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:594    .text:000004fc FSMC_NANDCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:658    .text:00000590 FSMC_NANDECCCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:722    .text:00000624 FSMC_GetECC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:754    .text:00000658 FSMC_PCCARDDeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:785    .text:000006a0 FSMC_PCCARDInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:876    .text:0000076c FSMC_PCCARDStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:947    .text:00000804 FSMC_PCCARDCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:984    .text:00000850 FSMC_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:1078   .text:0000092c FSMC_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:1134   .text:0000099c FSMC_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:1187   .text:00000a0c FSMC_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccjV590.s:1257   .text:00000aa0 FSMC_ClearITPendingBit
 
 NO UNDEFINED SYMBOLS

@@ -1,3 +1,37 @@
+/*
+  October 2012
+
+  aq32Plus Rev -
+
+  Copyright (c) 2012 John Ihlein.  All rights reserved.
+
+  Open Source STM32 Based Multicopter Controller Software
+
+  Includes code and/or ideas from:
+
+  1)AeroQuad
+  2)BaseFlight
+  3)CH Robotics
+  4)MultiWii
+  5)S.O.H. Madgwick
+  6)UAVX
+
+  Designed to run on the AQ32 Flight Control Board
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "board.h"
@@ -49,7 +83,7 @@ void displayAltitude(float pressureAltitude, float altitudeReference, uint8_t al
 		    snprintf(buf,7,"\011%4df",currentAltitude);
 	    }
 
-        writeChars( buf, 6, 0, ALTITUDE_ROW, ALTITUDE_COL );
+        writeMax7456Chars(buf, 6, 0, ALTITUDE_ROW, ALTITUDE_COL);
 
         lastAltitude = currentAltitude;
     }
@@ -60,19 +94,19 @@ void displayAltitude(float pressureAltitude, float altitudeReference, uint8_t al
 
     switch (altHoldState)
     {
-        case OFF:
-            if (lastHoldState != OFF)
+        case DISENGAGED:
+            if (lastHoldState != DISENGAGED)
             {
-                lastHoldState = OFF;
+                lastHoldState = DISENGAGED;
                 memset(buf,0,6);
                 isWriteNeeded = true;
             }
             break;
 
-        case ON:
-            if ((lastHoldState != ON) || (lastHoldAltitude != currentHoldAltitude))
+        case ENGAGED:
+            if ((lastHoldState != ENGAGED) || (lastHoldAltitude != currentHoldAltitude))
             {
-                lastHoldState = ON;
+                lastHoldState = ENGAGED;
                 lastHoldAltitude = currentHoldAltitude;
 
                 if (eepromConfig.metricUnits)
@@ -95,10 +129,10 @@ void displayAltitude(float pressureAltitude, float altitudeReference, uint8_t al
             }
             break;
 
-        case ALTPANIC:
-            if (lastHoldState != ALTPANIC)
+        case PANIC:
+            if (lastHoldState != PANIC)
             {
-                lastHoldState = ALTPANIC;
+                lastHoldState = PANIC;
                 snprintf(buf,7,"\12panic");
                 isWriteNeeded = true;
             }
@@ -106,7 +140,7 @@ void displayAltitude(float pressureAltitude, float altitudeReference, uint8_t al
     }
 
     if (isWriteNeeded)
-        writeChars( buf, 6, 0, ALTITUDE_ROW, ALTITUDE_COL+6 );
+        writeMax7456Chars(buf, 6, 0, ALTITUDE_ROW, ALTITUDE_COL+6);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,12 +183,12 @@ void displayArtificialHorizon(float roll, float pitch, uint8_t flightMode)
 
         if ((row/18) != ahOldLine[i])
         {
-            writeChars( NULL, 1, 0, ahOldLine[i], ahColumns[i] );
+            writeMax7456Chars(NULL, 1, 0, ahOldLine[i], ahColumns[i]);
             ahOldLine[i] = row/18;
         }
 
         rollLine = LINE_ROW_0 + (row % 18);
-        writeChars( &rollLine, 1, 0, ahOldLine[i], ahColumns[i] );
+        writeMax7456Chars(&rollLine, 1, 0, ahOldLine[i], ahColumns[i]);
     }
 
     // Reticle on the center of the screen
@@ -169,7 +203,7 @@ void displayArtificialHorizon(float roll, float pitch, uint8_t flightMode)
         reticle[1] = reticle[0] + 1;
 
         //write 2 chars to row (middle), column 14
-        writeChars( reticle, 2, 0, reticleRow, RETICLE_COL );
+        writeMax7456Chars(reticle, 2, 0, reticleRow, RETICLE_COL);
 
         lastAHflightMode = flightMode;
     }
@@ -215,14 +249,14 @@ void displayAttitude(float roll, float pitch, uint8_t flightMode)
     if (aiOldline[0] != aiRows[0] / 18)
     {
         //Remove old pitch lines if not overwritten by new ones
-        writeChars( NULL, 1, 0, aiOldline[0], PITCH_L_COL );
-        writeChars( NULL, 1, 0, aiOldline[0], PITCH_R_COL );
+        writeMax7456Chars(NULL, 1, 0, aiOldline[0], PITCH_L_COL);
+        writeMax7456Chars(NULL, 1, 0, aiOldline[0], PITCH_R_COL);
         aiOldline[0] = aiRows[0] / 18;
     }
 
     //Write new pitch lines
-    writeChars( &pitchLine, 1, 0, aiOldline[0], PITCH_L_COL );
-    writeChars( &pitchLine, 1, 0, aiOldline[0], PITCH_R_COL );
+    writeMax7456Chars(&pitchLine, 1, 0, aiOldline[0], PITCH_L_COL);
+    writeMax7456Chars(&pitchLine, 1, 0, aiOldline[0], PITCH_R_COL);
 
     //Calculate row (in pixels) of new roll lines
     distFar  = (ROLL_COLUMNS[3] - (RETICLE_COL + 1))*12 + 6; //horizontal pixels between centre of reticle and centre of far angle line
@@ -240,13 +274,13 @@ void displayAttitude(float roll, float pitch, uint8_t flightMode)
         // clear previous roll lines if not going to overwrite
         if (aiOldline[i] != aiRows[i] / 18)
         {
-            writeChars( NULL, 1, 0, aiOldline[i], ROLL_COLUMNS[i-1] );
+            writeMax7456Chars(NULL, 1, 0, aiOldline[i], ROLL_COLUMNS[i-1]);
             aiOldline[i] = aiRows[i]/18;
         }
 
         //converting rows (in pixels) to character addresses used for the 'lines'
         rollLine = LINE_ROW_0 + (aiRows[i] % 18);
-        writeChars( &rollLine, 1, 0, aiOldline[i], ROLL_COLUMNS[i-1] );
+        writeMax7456Chars(&rollLine, 1, 0, aiOldline[i], ROLL_COLUMNS[i-1]);
     }
 
     // Reticle on the center of the screen
@@ -259,7 +293,7 @@ void displayAttitude(float roll, float pitch, uint8_t flightMode)
     {
         reticle[0] = flightMode * 2 + 1;
         reticle[1] = reticle[0] + 1;
-        writeChars( reticle, 2, 0, reticleRow, RETICLE_COL ); //write 2 chars to row (middle), column 14
+        writeMax7456Chars(reticle, 2, 0, reticleRow, RETICLE_COL); //write 2 chars to row (middle), column 14
         lastATTflightMode = flightMode;
     }
 }
@@ -284,7 +318,7 @@ void displayHeading(float currentHeading)
     {
     	snprintf(buf ,6, "\026%3d\027", currentHeadingDeg); // \026 is compass \027 is degree symbol
 
-    	writeChars(buf, 5, 0, COMPASS_ROW, COMPASS_COL);
+    	writeMax7456Chars(buf, 5, 0, COMPASS_ROW, COMPASS_COL);
 
         lastOSDheading = currentHeadingDeg;
     }

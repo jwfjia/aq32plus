@@ -157,55 +157,7 @@ void mpu6000Calibration(void)
 
     ///////////////////////////////////
 
-    usbPrint("\nAccel TC Bias Slope[3]      = { ");
-    ftoa(eepromConfig.accelTCBiasSlope[XAXIS], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.accelTCBiasSlope[YAXIS], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.accelTCBiasSlope[ZAXIS], numberString);
-    usbPrint(numberString);
-    usbPrint(" }\n");
-
-    usbPrint("\nAccel TC Bias Intercept[3]  = { ");
-    ftoa(eepromConfig.accelTCBiasIntercept[XAXIS], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.accelTCBiasIntercept[YAXIS], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.accelTCBiasIntercept[ZAXIS], numberString);
-    usbPrint(numberString);
-    usbPrint(" }\n");
-
-    ///////////////////////////////////
-
-    usbPrint("\nGyro TC Bias Slope[3]      = { ");
-    ftoa(eepromConfig.gyroTCBiasSlope[ROLL], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.gyroTCBiasSlope[PITCH], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.gyroTCBiasSlope[YAW], numberString);
-    usbPrint(numberString);
-    usbPrint(" }\n");
-
-    usbPrint("\nGyro TC Bias Intercept[3]  = { ");
-    ftoa(eepromConfig.gyroTCBiasIntercept[ROLL], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.gyroTCBiasIntercept[PITCH], numberString);
-    usbPrint(numberString);
-    usbPrint(", ");
-    ftoa(eepromConfig.gyroTCBiasIntercept[YAW], numberString);
-    usbPrint(numberString);
-    usbPrint(" }\n");
-
-    ///////////////////////////////////
-
-    usbPrint("\nMPU6000 Calibration Complete.\n");
+    usbPrint("\nMPU6000 Calibration Complete.\n\n");
 
     mpu6000Calibrating = false;
 }

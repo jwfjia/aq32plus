@@ -2068,32 +2068,32 @@
  2118              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_can.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:22     .text:00000000 CAN_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:56     .text:0000004c CAN_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:272    .text:0000020c CAN_FilterInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:459    .text:00000414 CAN_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:506    .text:00000474 CAN_SlaveStartBank
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:552    .text:000004fc CAN_DBGFreeze
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:584    .text:0000052c CAN_TTComModeCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:646    .text:000005bc CAN_Transmit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:847    .text:000007b8 CAN_TransmitStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:971    .text:000008c0 CAN_CancelTransmit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1018   .text:0000090c CAN_Receive
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1197   .text:00000acc CAN_FIFORelease
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1229   .text:00000afc CAN_MessagePending
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1272   .text:00000b50 CAN_OperatingModeRequest
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1407   .text:00000c74 CAN_Sleep
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1439   .text:00000cb0 CAN_WakeUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1487   .text:00000d08 CAN_GetLastErrorCode
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1510   .text:00000d2c CAN_GetReceiveErrorCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1532   .text:00000d50 CAN_GetLSBTransmitErrorCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1555   .text:00000d78 CAN_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1591   .text:00000db0 CAN_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1705   .text:00000eb8 CAN_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1767   .text:00000f28 CAN_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:2092   .text:000011f4 CheckITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccQ04wwf.s:1970   .text:00001104 CAN_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:22     .text:00000000 CAN_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:56     .text:0000004c CAN_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:272    .text:0000020c CAN_FilterInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:459    .text:00000414 CAN_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:506    .text:00000474 CAN_SlaveStartBank
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:552    .text:000004fc CAN_DBGFreeze
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:584    .text:0000052c CAN_TTComModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:646    .text:000005bc CAN_Transmit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:847    .text:000007b8 CAN_TransmitStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:971    .text:000008c0 CAN_CancelTransmit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1018   .text:0000090c CAN_Receive
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1197   .text:00000acc CAN_FIFORelease
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1229   .text:00000afc CAN_MessagePending
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1272   .text:00000b50 CAN_OperatingModeRequest
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1407   .text:00000c74 CAN_Sleep
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1439   .text:00000cb0 CAN_WakeUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1487   .text:00000d08 CAN_GetLastErrorCode
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1510   .text:00000d2c CAN_GetReceiveErrorCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1532   .text:00000d50 CAN_GetLSBTransmitErrorCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1555   .text:00000d78 CAN_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1591   .text:00000db0 CAN_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1705   .text:00000eb8 CAN_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1767   .text:00000f28 CAN_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:2092   .text:000011f4 CheckITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc0iaIMQ.s:1970   .text:00001104 CAN_ClearITPendingBit
 
 UNDEFINED SYMBOLS
 RCC_APB1PeriphResetCmd

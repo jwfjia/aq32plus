@@ -30,7 +30,7 @@
   32              		.comm	dT,4,4
   33              		.comm	temp,4,4
   34              		.comm	offset,8,8
-  35              		.comm	sens,8,8
+  35              		.comm	sensitivity,8,8
   36              		.comm	p,4,4
   37              		.global	pressureAltValid
   40              	pressureAltValid:
@@ -41,456 +41,562 @@
   45              		.thumb
   46              		.thumb_func
   48              	readTemperatureRequestPressure:
-  49              		@ args = 0, pretend = 0, frame = 8
+  49              		@ args = 0, pretend = 0, frame = 16
   50              		@ frame_needed = 0, uses_anonymous_args = 0
   51 0000 00B5     		push	{lr}
-  52 0002 85B0     		sub	sp, sp, #20
-  53 0004 03AB     		add	r3, sp, #12
-  54 0006 0093     		str	r3, [sp, #0]
-  55 0008 4FF4A840 		mov	r0, #21504
-  56 000c C4F20000 		movt	r0, 16384
-  57 0010 4FF07601 		mov	r1, #118
-  58 0014 4FF00002 		mov	r2, #0
-  59 0018 4FF00303 		mov	r3, #3
-  60 001c FFF7FEFF 		bl	i2cRead
-  61 0020 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
-  62 0024 40F20003 		movw	r3, #:lower16:d2
-  63 0028 C0F20003 		movt	r3, #:upper16:d2
-  64 002c 9A70     		strb	r2, [r3, #2]
-  65 002e 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
-  66 0032 40F20003 		movw	r3, #:lower16:d2
-  67 0036 C0F20003 		movt	r3, #:upper16:d2
-  68 003a 5A70     		strb	r2, [r3, #1]
-  69 003c 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
-  70 0040 40F20003 		movw	r3, #:lower16:d2
-  71 0044 C0F20003 		movt	r3, #:upper16:d2
-  72 0048 1A70     		strb	r2, [r3, #0]
-  73 004a 4FF4A840 		mov	r0, #21504
-  74 004e C4F20000 		movt	r0, 16384
-  75 0052 4FF07601 		mov	r1, #118
-  76 0056 4FF0FF02 		mov	r2, #255
-  77 005a 4FF04803 		mov	r3, #72
-  78 005e FFF7FEFF 		bl	i2cWrite
-  79 0062 05B0     		add	sp, sp, #20
-  80 0064 00BD     		pop	{pc}
-  82 0066 00BF     		.align	2
-  83              		.global	readPressureRequestPressure
-  84              		.thumb
-  85              		.thumb_func
-  87              	readPressureRequestPressure:
-  88              		@ args = 0, pretend = 0, frame = 8
-  89              		@ frame_needed = 0, uses_anonymous_args = 0
-  90 0068 00B5     		push	{lr}
-  91 006a 85B0     		sub	sp, sp, #20
-  92 006c 03AB     		add	r3, sp, #12
-  93 006e 0093     		str	r3, [sp, #0]
-  94 0070 4FF4A840 		mov	r0, #21504
-  95 0074 C4F20000 		movt	r0, 16384
-  96 0078 4FF07601 		mov	r1, #118
-  97 007c 4FF00002 		mov	r2, #0
-  98 0080 4FF00303 		mov	r3, #3
-  99 0084 FFF7FEFF 		bl	i2cRead
- 100 0088 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 101 008c 40F20003 		movw	r3, #:lower16:d1
- 102 0090 C0F20003 		movt	r3, #:upper16:d1
- 103 0094 9A70     		strb	r2, [r3, #2]
- 104 0096 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 105 009a 40F20003 		movw	r3, #:lower16:d1
- 106 009e C0F20003 		movt	r3, #:upper16:d1
- 107 00a2 5A70     		strb	r2, [r3, #1]
- 108 00a4 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
- 109 00a8 40F20003 		movw	r3, #:lower16:d1
- 110 00ac C0F20003 		movt	r3, #:upper16:d1
- 111 00b0 1A70     		strb	r2, [r3, #0]
- 112 00b2 4FF4A840 		mov	r0, #21504
- 113 00b6 C4F20000 		movt	r0, 16384
- 114 00ba 4FF07601 		mov	r1, #118
- 115 00be 4FF0FF02 		mov	r2, #255
- 116 00c2 4FF04803 		mov	r3, #72
- 117 00c6 FFF7FEFF 		bl	i2cWrite
- 118 00ca 05B0     		add	sp, sp, #20
- 119 00cc 00BD     		pop	{pc}
- 121 00ce 00BF     		.align	2
- 122              		.global	readPressureRequestTemperature
- 123              		.thumb
- 124              		.thumb_func
- 126              	readPressureRequestTemperature:
- 127              		@ args = 0, pretend = 0, frame = 8
- 128              		@ frame_needed = 0, uses_anonymous_args = 0
- 129 00d0 00B5     		push	{lr}
- 130 00d2 85B0     		sub	sp, sp, #20
- 131 00d4 03AB     		add	r3, sp, #12
- 132 00d6 0093     		str	r3, [sp, #0]
- 133 00d8 4FF4A840 		mov	r0, #21504
- 134 00dc C4F20000 		movt	r0, 16384
- 135 00e0 4FF07601 		mov	r1, #118
- 136 00e4 4FF00002 		mov	r2, #0
- 137 00e8 4FF00303 		mov	r3, #3
- 138 00ec FFF7FEFF 		bl	i2cRead
- 139 00f0 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 140 00f4 40F20003 		movw	r3, #:lower16:d1
- 141 00f8 C0F20003 		movt	r3, #:upper16:d1
- 142 00fc 9A70     		strb	r2, [r3, #2]
- 143 00fe 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 144 0102 40F20003 		movw	r3, #:lower16:d1
- 145 0106 C0F20003 		movt	r3, #:upper16:d1
- 146 010a 5A70     		strb	r2, [r3, #1]
- 147 010c 9DF80E20 		ldrb	r2, [sp, #14]	@ zero_extendqisi2
- 148 0110 40F20003 		movw	r3, #:lower16:d1
- 149 0114 C0F20003 		movt	r3, #:upper16:d1
- 150 0118 1A70     		strb	r2, [r3, #0]
- 151 011a 4FF4A840 		mov	r0, #21504
- 152 011e C4F20000 		movt	r0, 16384
- 153 0122 4FF07601 		mov	r1, #118
- 154 0126 4FF0FF02 		mov	r2, #255
- 155 012a 4FF05803 		mov	r3, #88
- 156 012e FFF7FEFF 		bl	i2cWrite
- 157 0132 05B0     		add	sp, sp, #20
- 158 0134 00BD     		pop	{pc}
- 160 0136 00BF     		.align	2
- 161              		.global	calculateTemperature
- 162              		.thumb
- 163              		.thumb_func
- 165              	calculateTemperature:
- 166              		@ args = 0, pretend = 0, frame = 0
- 167              		@ frame_needed = 0, uses_anonymous_args = 0
- 168              		@ link register save eliminated.
- 169 0138 2DE9F003 		push	{r4, r5, r6, r7, r8, r9}
- 170 013c 40F20003 		movw	r3, #:lower16:d2
- 171 0140 C0F20003 		movt	r3, #:upper16:d2
- 172 0144 1A68     		ldr	r2, [r3, #0]
- 173 0146 40F20003 		movw	r3, #:lower16:c5
- 174 014a C0F20003 		movt	r3, #:upper16:c5
- 175 014e 1B88     		ldrh	r3, [r3, #0]
- 176 0150 4FEA0323 		lsl	r3, r3, #8
- 177 0154 D31A     		subs	r3, r2, r3
- 178 0156 1A46     		mov	r2, r3
- 179 0158 40F20003 		movw	r3, #:lower16:dT
- 180 015c C0F20003 		movt	r3, #:upper16:dT
- 181 0160 1A60     		str	r2, [r3, #0]
- 182 0162 40F20003 		movw	r3, #:lower16:dT
- 183 0166 C0F20003 		movt	r3, #:upper16:dT
- 184 016a 1B68     		ldr	r3, [r3, #0]
- 185 016c 1E46     		mov	r6, r3
- 186 016e 4FEAE677 		asr	r7, r6, #31
- 187 0172 40F20003 		movw	r3, #:lower16:c6
- 188 0176 C0F20003 		movt	r3, #:upper16:c6
- 189 017a 1B88     		ldrh	r3, [r3, #0]
- 190 017c 9CB2     		uxth	r4, r3
- 191 017e 4FF00005 		mov	r5, #0
- 192 0182 04FB07F2 		mul	r2, r4, r7
- 193 0186 06FB05F3 		mul	r3, r6, r5
- 194 018a D118     		adds	r1, r2, r3
- 195 018c A6FB0423 		umull	r2, r3, r6, r4
- 196 0190 C918     		adds	r1, r1, r3
- 197 0192 0B46     		mov	r3, r1
- 198 0194 4FEA4321 		lsl	r1, r3, #9
- 199 0198 4FEAD258 		lsr	r8, r2, #23
- 200 019c 41EA0808 		orr	r8, r1, r8
- 201 01a0 4FEAE359 		asr	r9, r3, #23
- 202 01a4 4346     		mov	r3, r8
- 203 01a6 03F5FA62 		add	r2, r3, #2000
- 204 01aa 40F20003 		movw	r3, #:lower16:temp
- 205 01ae C0F20003 		movt	r3, #:upper16:temp
- 206 01b2 1A60     		str	r2, [r3, #0]
- 207 01b4 BDE8F003 		pop	{r4, r5, r6, r7, r8, r9}
- 208 01b8 7047     		bx	lr
- 210              		.global	__aeabi_f2d
- 211              		.global	__aeabi_dsub
- 212              		.global	__aeabi_dmul
- 213              		.global	__aeabi_d2f
- 214 01ba 00BF     		.align	2
- 215              		.global	calculatePressureAltitude
- 216              		.thumb
- 217              		.thumb_func
- 219              	calculatePressureAltitude:
- 220              		@ args = 0, pretend = 0, frame = 16
- 221              		@ frame_needed = 0, uses_anonymous_args = 0
- 222 01bc 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
- 223 01c0 85B0     		sub	sp, sp, #20
- 224 01c2 40F20003 		movw	r3, #:lower16:c2
- 225 01c6 C0F20003 		movt	r3, #:upper16:c2
- 226 01ca 1B88     		ldrh	r3, [r3, #0]
- 227 01cc 4FEA0343 		lsl	r3, r3, #16
- 228 01d0 0293     		str	r3, [sp, #8]
- 229 01d2 4FF00000 		mov	r0, #0
- 230 01d6 0390     		str	r0, [sp, #12]
- 231 01d8 40F20003 		movw	r3, #:lower16:c4
- 232 01dc C0F20003 		movt	r3, #:upper16:c4
- 233 01e0 1B88     		ldrh	r3, [r3, #0]
- 234 01e2 9CB2     		uxth	r4, r3
- 235 01e4 4FF00005 		mov	r5, #0
- 236 01e8 40F20003 		movw	r3, #:lower16:dT
- 237 01ec C0F20003 		movt	r3, #:upper16:dT
- 238 01f0 1968     		ldr	r1, [r3, #0]
- 239 01f2 0A46     		mov	r2, r1
- 240 01f4 4FEAE273 		asr	r3, r2, #31
- 241 01f8 02FB05F0 		mul	r0, r2, r5
- 242 01fc 04FB03F1 		mul	r1, r4, r3
- 243 0200 4118     		adds	r1, r0, r1
- 244 0202 A4FB0223 		umull	r2, r3, r4, r2
- 245 0206 C918     		adds	r1, r1, r3
- 246 0208 0B46     		mov	r3, r1
- 247 020a 4FEA4361 		lsl	r1, r3, #25
- 248 020e 4FEAD216 		lsr	r6, r2, #7
- 249 0212 0E43     		orrs	r6, r6, r1
- 250 0214 4FEAE317 		asr	r7, r3, #7
- 251 0218 DDE90201 		ldrd	r0, [sp, #8]
- 252 021c 8019     		adds	r0, r0, r6
- 253 021e 41EB0701 		adc	r1, r1, r7
- 254 0222 40F20003 		movw	r3, #:lower16:offset
- 255 0226 C0F20003 		movt	r3, #:upper16:offset
- 256 022a C3E90001 		strd	r0, [r3]
- 257 022e 40F20003 		movw	r3, #:lower16:c1
- 258 0232 C0F20003 		movt	r3, #:upper16:c1
- 259 0236 1B88     		ldrh	r3, [r3, #0]
- 260 0238 4FEAC333 		lsl	r3, r3, #15
- 261 023c 1E46     		mov	r6, r3
- 262 023e 4FF00007 		mov	r7, #0
- 263 0242 40F20003 		movw	r3, #:lower16:c3
- 264 0246 C0F20003 		movt	r3, #:upper16:c3
- 265 024a 1B88     		ldrh	r3, [r3, #0]
- 266 024c 9CB2     		uxth	r4, r3
- 267 024e 4FF00005 		mov	r5, #0
- 268 0252 40F20003 		movw	r3, #:lower16:dT
- 269 0256 C0F20003 		movt	r3, #:upper16:dT
- 270 025a 1968     		ldr	r1, [r3, #0]
- 271 025c 0A46     		mov	r2, r1
- 272 025e 4FEAE273 		asr	r3, r2, #31
- 273 0262 02FB05F0 		mul	r0, r2, r5
- 274 0266 04FB03F1 		mul	r1, r4, r3
- 275 026a 4118     		adds	r1, r0, r1
- 276 026c A4FB0223 		umull	r2, r3, r4, r2
- 277 0270 C918     		adds	r1, r1, r3
- 278 0272 0B46     		mov	r3, r1
- 279 0274 4FEA0361 		lsl	r1, r3, #24
- 280 0278 4FEA1228 		lsr	r8, r2, #8
- 281 027c 41EA0808 		orr	r8, r1, r8
- 282 0280 4FEA2329 		asr	r9, r3, #8
- 283 0284 3046     		mov	r0, r6
- 284 0286 3946     		mov	r1, r7
- 285 0288 10EB0800 		adds	r0, r0, r8
- 286 028c 41EB0901 		adc	r1, r1, r9
- 287 0290 40F20003 		movw	r3, #:lower16:sens
- 288 0294 C0F20003 		movt	r3, #:upper16:sens
- 289 0298 C3E90001 		strd	r0, [r3]
- 290 029c 40F20003 		movw	r3, #:lower16:d1Average
- 291 02a0 C0F20003 		movt	r3, #:upper16:d1Average
- 292 02a4 1B68     		ldr	r3, [r3, #0]
- 293 02a6 1C46     		mov	r4, r3
- 294 02a8 4FF00005 		mov	r5, #0
- 295 02ac 40F20003 		movw	r3, #:lower16:sens
- 296 02b0 C0F20003 		movt	r3, #:upper16:sens
- 297 02b4 D3E90023 		ldrd	r2, [r3]
- 298 02b8 02FB05F0 		mul	r0, r2, r5
- 299 02bc 04FB03F1 		mul	r1, r4, r3
- 300 02c0 4118     		adds	r1, r0, r1
- 301 02c2 A4FB0223 		umull	r2, r3, r4, r2
- 302 02c6 C918     		adds	r1, r1, r3
- 303 02c8 0B46     		mov	r3, r1
- 304 02ca 4FEAC321 		lsl	r1, r3, #11
- 305 02ce 4FEA5250 		lsr	r0, r2, #21
- 306 02d2 0090     		str	r0, [sp, #0]
- 307 02d4 0098     		ldr	r0, [sp, #0]
- 308 02d6 0843     		orrs	r0, r0, r1
- 309 02d8 0090     		str	r0, [sp, #0]
- 310 02da 4FEA6351 		asr	r1, r3, #21
- 311 02de 0191     		str	r1, [sp, #4]
- 312 02e0 40F20003 		movw	r3, #:lower16:offset
- 313 02e4 C0F20003 		movt	r3, #:upper16:offset
- 314 02e8 D3E90023 		ldrd	r2, [r3]
- 315 02ec DDE90001 		ldrd	r0, [sp]
- 316 02f0 821A     		subs	r2, r0, r2
- 317 02f2 61EB0303 		sbc	r3, r1, r3
- 318 02f6 4FEA4341 		lsl	r1, r3, #17
- 319 02fa 4FEAD23A 		lsr	sl, r2, #15
- 320 02fe 41EA0A0A 		orr	sl, r1, sl
- 321 0302 4FEAE33B 		asr	fp, r3, #15
- 322 0306 5246     		mov	r2, sl
- 323 0308 40F20003 		movw	r3, #:lower16:p
- 324 030c C0F20003 		movt	r3, #:upper16:p
- 325 0310 1A60     		str	r2, [r3, #0]
- 326 0312 40F20003 		movw	r3, #:lower16:p
- 327 0316 C0F20003 		movt	r3, #:upper16:p
- 328 031a 1B68     		ldr	r3, [r3, #0]
- 329 031c 07EE903A 		fmsr	s15, r3	@ int
- 330 0320 B8EEE77A 		fsitos	s14, s15
- 331 0324 DFED1E7A 		flds	s15, .L6+24
- 332 0328 C7EE277A 		fdivs	s15, s14, s15
- 333 032c 17EE900A 		fmrs	r0, s15
- 334 0330 FFF7FEFF 		bl	__aeabi_f2d
- 335 0334 0246     		mov	r2, r0
- 336 0336 0B46     		mov	r3, r1
- 337 0338 1046     		mov	r0, r2
- 338 033a 1946     		mov	r1, r3
- 339 033c 12A3     		adr	r3, .L6
- 340 033e D3E90023 		ldrd	r2, [r3]
- 341 0342 FFF7FEFF 		bl	pow
- 342 0346 0246     		mov	r2, r0
- 343 0348 0B46     		mov	r3, r1
- 344 034a 11A1     		adr	r1, .L6+8
- 345 034c D1E90001 		ldrd	r0, [r1]
- 346 0350 FFF7FEFF 		bl	__aeabi_dsub
- 347 0354 0246     		mov	r2, r0
- 348 0356 0B46     		mov	r3, r1
- 349 0358 1046     		mov	r0, r2
- 350 035a 1946     		mov	r1, r3
- 351 035c 0EA3     		adr	r3, .L6+16
- 352 035e D3E90023 		ldrd	r2, [r3]
- 353 0362 FFF7FEFF 		bl	__aeabi_dmul
- 354 0366 0246     		mov	r2, r0
- 355 0368 0B46     		mov	r3, r1
- 356 036a 1046     		mov	r0, r2
- 357 036c 1946     		mov	r1, r3
- 358 036e FFF7FEFF 		bl	__aeabi_d2f
- 359 0372 0246     		mov	r2, r0	@ float
- 360 0374 40F20003 		movw	r3, #:lower16:sensors
- 361 0378 C0F20003 		movt	r3, #:upper16:sensors
- 362 037c DA63     		str	r2, [r3, #60]	@ float
- 363 037e 05B0     		add	sp, sp, #20
- 364 0380 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 365              	.L7:
- 366 0384 AFF30080 		.align	3
- 367              	.L6:
- 368 0388 00000020 		.word	536870912
- 369 038c 965BC83F 		.word	1070095254
- 370 0390 00000000 		.word	0
- 371 0394 0000F03F 		.word	1072693248
- 372 0398 00000000 		.word	0
- 373 039c 40A5E540 		.word	1088791872
- 374 03a0 80E6C547 		.word	1204151936
- 376              		.align	2
- 377              		.global	initPressure
- 378              		.thumb
- 379              		.thumb_func
- 381              	initPressure:
- 382              		@ args = 0, pretend = 0, frame = 8
- 383              		@ frame_needed = 0, uses_anonymous_args = 0
- 384 03a4 00B5     		push	{lr}
- 385 03a6 85B0     		sub	sp, sp, #20
- 386 03a8 4FF4A840 		mov	r0, #21504
- 387 03ac C4F20000 		movt	r0, 16384
- 388 03b0 4FF07601 		mov	r1, #118
- 389 03b4 4FF0FF02 		mov	r2, #255
- 390 03b8 4FF01E03 		mov	r3, #30
- 391 03bc FFF7FEFF 		bl	i2cWrite
- 392 03c0 4FF00A00 		mov	r0, #10
- 393 03c4 FFF7FEFF 		bl	delay
- 394 03c8 03AB     		add	r3, sp, #12
- 395 03ca 0093     		str	r3, [sp, #0]
- 396 03cc 4FF4A840 		mov	r0, #21504
- 397 03d0 C4F20000 		movt	r0, 16384
- 398 03d4 4FF07601 		mov	r1, #118
- 399 03d8 4FF0A202 		mov	r2, #162
- 400 03dc 4FF00203 		mov	r3, #2
- 401 03e0 FFF7FEFF 		bl	i2cRead
- 402 03e4 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 403 03e8 40F20003 		movw	r3, #:lower16:c1
- 404 03ec C0F20003 		movt	r3, #:upper16:c1
- 405 03f0 5A70     		strb	r2, [r3, #1]
- 406 03f2 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 407 03f6 40F20003 		movw	r3, #:lower16:c1
- 408 03fa C0F20003 		movt	r3, #:upper16:c1
- 409 03fe 1A70     		strb	r2, [r3, #0]
- 410 0400 03AB     		add	r3, sp, #12
- 411 0402 0093     		str	r3, [sp, #0]
- 412 0404 4FF4A840 		mov	r0, #21504
- 413 0408 C4F20000 		movt	r0, 16384
- 414 040c 4FF07601 		mov	r1, #118
- 415 0410 4FF0A402 		mov	r2, #164
- 416 0414 4FF00203 		mov	r3, #2
- 417 0418 FFF7FEFF 		bl	i2cRead
- 418 041c 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 419 0420 40F20003 		movw	r3, #:lower16:c2
- 420 0424 C0F20003 		movt	r3, #:upper16:c2
- 421 0428 5A70     		strb	r2, [r3, #1]
- 422 042a 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 423 042e 40F20003 		movw	r3, #:lower16:c2
- 424 0432 C0F20003 		movt	r3, #:upper16:c2
- 425 0436 1A70     		strb	r2, [r3, #0]
- 426 0438 03AB     		add	r3, sp, #12
- 427 043a 0093     		str	r3, [sp, #0]
- 428 043c 4FF4A840 		mov	r0, #21504
- 429 0440 C4F20000 		movt	r0, 16384
- 430 0444 4FF07601 		mov	r1, #118
- 431 0448 4FF0A602 		mov	r2, #166
- 432 044c 4FF00203 		mov	r3, #2
- 433 0450 FFF7FEFF 		bl	i2cRead
- 434 0454 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 435 0458 40F20003 		movw	r3, #:lower16:c3
- 436 045c C0F20003 		movt	r3, #:upper16:c3
- 437 0460 5A70     		strb	r2, [r3, #1]
- 438 0462 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 439 0466 40F20003 		movw	r3, #:lower16:c3
- 440 046a C0F20003 		movt	r3, #:upper16:c3
- 441 046e 1A70     		strb	r2, [r3, #0]
- 442 0470 03AB     		add	r3, sp, #12
- 443 0472 0093     		str	r3, [sp, #0]
- 444 0474 4FF4A840 		mov	r0, #21504
- 445 0478 C4F20000 		movt	r0, 16384
- 446 047c 4FF07601 		mov	r1, #118
- 447 0480 4FF0A802 		mov	r2, #168
- 448 0484 4FF00203 		mov	r3, #2
- 449 0488 FFF7FEFF 		bl	i2cRead
- 450 048c 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 451 0490 40F20003 		movw	r3, #:lower16:c4
- 452 0494 C0F20003 		movt	r3, #:upper16:c4
- 453 0498 5A70     		strb	r2, [r3, #1]
- 454 049a 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 455 049e 40F20003 		movw	r3, #:lower16:c4
- 456 04a2 C0F20003 		movt	r3, #:upper16:c4
- 457 04a6 1A70     		strb	r2, [r3, #0]
- 458 04a8 03AB     		add	r3, sp, #12
- 459 04aa 0093     		str	r3, [sp, #0]
- 460 04ac 4FF4A840 		mov	r0, #21504
- 461 04b0 C4F20000 		movt	r0, 16384
- 462 04b4 4FF07601 		mov	r1, #118
- 463 04b8 4FF0AA02 		mov	r2, #170
- 464 04bc 4FF00203 		mov	r3, #2
- 465 04c0 FFF7FEFF 		bl	i2cRead
- 466 04c4 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 467 04c8 40F20003 		movw	r3, #:lower16:c5
- 468 04cc C0F20003 		movt	r3, #:upper16:c5
- 469 04d0 5A70     		strb	r2, [r3, #1]
- 470 04d2 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 471 04d6 40F20003 		movw	r3, #:lower16:c5
- 472 04da C0F20003 		movt	r3, #:upper16:c5
- 473 04de 1A70     		strb	r2, [r3, #0]
- 474 04e0 03AB     		add	r3, sp, #12
- 475 04e2 0093     		str	r3, [sp, #0]
- 476 04e4 4FF4A840 		mov	r0, #21504
- 477 04e8 C4F20000 		movt	r0, 16384
- 478 04ec 4FF07601 		mov	r1, #118
- 479 04f0 4FF0AC02 		mov	r2, #172
- 480 04f4 4FF00203 		mov	r3, #2
- 481 04f8 FFF7FEFF 		bl	i2cRead
- 482 04fc 9DF80C20 		ldrb	r2, [sp, #12]	@ zero_extendqisi2
- 483 0500 40F20003 		movw	r3, #:lower16:c6
- 484 0504 C0F20003 		movt	r3, #:upper16:c6
- 485 0508 5A70     		strb	r2, [r3, #1]
- 486 050a 9DF80D20 		ldrb	r2, [sp, #13]	@ zero_extendqisi2
- 487 050e 40F20003 		movw	r3, #:lower16:c6
- 488 0512 C0F20003 		movt	r3, #:upper16:c6
- 489 0516 1A70     		strb	r2, [r3, #0]
- 490 0518 4FF4A840 		mov	r0, #21504
- 491 051c C4F20000 		movt	r0, 16384
- 492 0520 4FF07601 		mov	r1, #118
- 493 0524 4FF0FF02 		mov	r2, #255
- 494 0528 4FF05803 		mov	r3, #88
- 495 052c FFF7FEFF 		bl	i2cWrite
- 496 0530 4FF00A00 		mov	r0, #10
- 497 0534 FFF7FEFF 		bl	delay
- 498 0538 FFF7FEFF 		bl	readTemperatureRequestPressure
- 499 053c 4FF00A00 		mov	r0, #10
- 500 0540 FFF7FEFF 		bl	delay
- 501 0544 05B0     		add	sp, sp, #20
- 502 0546 00BD     		pop	{pc}
- 504              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  52 0002 87B0     		sub	sp, sp, #28
+  53 0004 0390     		str	r0, [sp, #12]
+  54 0006 05AB     		add	r3, sp, #20
+  55 0008 0093     		str	r3, [sp, #0]
+  56 000a 0398     		ldr	r0, [sp, #12]
+  57 000c 4FF07701 		mov	r1, #119
+  58 0010 4FF00002 		mov	r2, #0
+  59 0014 4FF00303 		mov	r3, #3
+  60 0018 FFF7FEFF 		bl	i2cRead
+  61 001c 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+  62 0020 40F20003 		movw	r3, #:lower16:d2
+  63 0024 C0F20003 		movt	r3, #:upper16:d2
+  64 0028 9A70     		strb	r2, [r3, #2]
+  65 002a 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+  66 002e 40F20003 		movw	r3, #:lower16:d2
+  67 0032 C0F20003 		movt	r3, #:upper16:d2
+  68 0036 5A70     		strb	r2, [r3, #1]
+  69 0038 9DF81620 		ldrb	r2, [sp, #22]	@ zero_extendqisi2
+  70 003c 40F20003 		movw	r3, #:lower16:d2
+  71 0040 C0F20003 		movt	r3, #:upper16:d2
+  72 0044 1A70     		strb	r2, [r3, #0]
+  73 0046 0398     		ldr	r0, [sp, #12]
+  74 0048 4FF07701 		mov	r1, #119
+  75 004c 4FF0FF02 		mov	r2, #255
+  76 0050 4FF04803 		mov	r3, #72
+  77 0054 FFF7FEFF 		bl	i2cWrite
+  78 0058 07B0     		add	sp, sp, #28
+  79 005a 00BD     		pop	{pc}
+  81              		.align	2
+  82              		.global	readPressureRequestPressure
+  83              		.thumb
+  84              		.thumb_func
+  86              	readPressureRequestPressure:
+  87              		@ args = 0, pretend = 0, frame = 16
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89 005c 00B5     		push	{lr}
+  90 005e 87B0     		sub	sp, sp, #28
+  91 0060 0390     		str	r0, [sp, #12]
+  92 0062 05AB     		add	r3, sp, #20
+  93 0064 0093     		str	r3, [sp, #0]
+  94 0066 0398     		ldr	r0, [sp, #12]
+  95 0068 4FF07701 		mov	r1, #119
+  96 006c 4FF00002 		mov	r2, #0
+  97 0070 4FF00303 		mov	r3, #3
+  98 0074 FFF7FEFF 		bl	i2cRead
+  99 0078 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 100 007c 40F20003 		movw	r3, #:lower16:d1
+ 101 0080 C0F20003 		movt	r3, #:upper16:d1
+ 102 0084 9A70     		strb	r2, [r3, #2]
+ 103 0086 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 104 008a 40F20003 		movw	r3, #:lower16:d1
+ 105 008e C0F20003 		movt	r3, #:upper16:d1
+ 106 0092 5A70     		strb	r2, [r3, #1]
+ 107 0094 9DF81620 		ldrb	r2, [sp, #22]	@ zero_extendqisi2
+ 108 0098 40F20003 		movw	r3, #:lower16:d1
+ 109 009c C0F20003 		movt	r3, #:upper16:d1
+ 110 00a0 1A70     		strb	r2, [r3, #0]
+ 111 00a2 0398     		ldr	r0, [sp, #12]
+ 112 00a4 4FF07701 		mov	r1, #119
+ 113 00a8 4FF0FF02 		mov	r2, #255
+ 114 00ac 4FF04803 		mov	r3, #72
+ 115 00b0 FFF7FEFF 		bl	i2cWrite
+ 116 00b4 07B0     		add	sp, sp, #28
+ 117 00b6 00BD     		pop	{pc}
+ 119              		.align	2
+ 120              		.global	readPressureRequestTemperature
+ 121              		.thumb
+ 122              		.thumb_func
+ 124              	readPressureRequestTemperature:
+ 125              		@ args = 0, pretend = 0, frame = 16
+ 126              		@ frame_needed = 0, uses_anonymous_args = 0
+ 127 00b8 00B5     		push	{lr}
+ 128 00ba 87B0     		sub	sp, sp, #28
+ 129 00bc 0390     		str	r0, [sp, #12]
+ 130 00be 05AB     		add	r3, sp, #20
+ 131 00c0 0093     		str	r3, [sp, #0]
+ 132 00c2 0398     		ldr	r0, [sp, #12]
+ 133 00c4 4FF07701 		mov	r1, #119
+ 134 00c8 4FF00002 		mov	r2, #0
+ 135 00cc 4FF00303 		mov	r3, #3
+ 136 00d0 FFF7FEFF 		bl	i2cRead
+ 137 00d4 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 138 00d8 40F20003 		movw	r3, #:lower16:d1
+ 139 00dc C0F20003 		movt	r3, #:upper16:d1
+ 140 00e0 9A70     		strb	r2, [r3, #2]
+ 141 00e2 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 142 00e6 40F20003 		movw	r3, #:lower16:d1
+ 143 00ea C0F20003 		movt	r3, #:upper16:d1
+ 144 00ee 5A70     		strb	r2, [r3, #1]
+ 145 00f0 9DF81620 		ldrb	r2, [sp, #22]	@ zero_extendqisi2
+ 146 00f4 40F20003 		movw	r3, #:lower16:d1
+ 147 00f8 C0F20003 		movt	r3, #:upper16:d1
+ 148 00fc 1A70     		strb	r2, [r3, #0]
+ 149 00fe 0398     		ldr	r0, [sp, #12]
+ 150 0100 4FF07701 		mov	r1, #119
+ 151 0104 4FF0FF02 		mov	r2, #255
+ 152 0108 4FF05803 		mov	r3, #88
+ 153 010c FFF7FEFF 		bl	i2cWrite
+ 154 0110 07B0     		add	sp, sp, #28
+ 155 0112 00BD     		pop	{pc}
+ 157              		.align	2
+ 158              		.global	calculateTemperature
+ 159              		.thumb
+ 160              		.thumb_func
+ 162              	calculateTemperature:
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+ 166 0114 2DE9F003 		push	{r4, r5, r6, r7, r8, r9}
+ 167 0118 40F20003 		movw	r3, #:lower16:d2
+ 168 011c C0F20003 		movt	r3, #:upper16:d2
+ 169 0120 1A68     		ldr	r2, [r3, #0]
+ 170 0122 40F20003 		movw	r3, #:lower16:c5
+ 171 0126 C0F20003 		movt	r3, #:upper16:c5
+ 172 012a 1B88     		ldrh	r3, [r3, #0]
+ 173 012c 4FEA0323 		lsl	r3, r3, #8
+ 174 0130 D31A     		subs	r3, r2, r3
+ 175 0132 1A46     		mov	r2, r3
+ 176 0134 40F20003 		movw	r3, #:lower16:dT
+ 177 0138 C0F20003 		movt	r3, #:upper16:dT
+ 178 013c 1A60     		str	r2, [r3, #0]
+ 179 013e 40F20003 		movw	r3, #:lower16:dT
+ 180 0142 C0F20003 		movt	r3, #:upper16:dT
+ 181 0146 1B68     		ldr	r3, [r3, #0]
+ 182 0148 1E46     		mov	r6, r3
+ 183 014a 4FEAE677 		asr	r7, r6, #31
+ 184 014e 40F20003 		movw	r3, #:lower16:c6
+ 185 0152 C0F20003 		movt	r3, #:upper16:c6
+ 186 0156 1B88     		ldrh	r3, [r3, #0]
+ 187 0158 9CB2     		uxth	r4, r3
+ 188 015a 4FF00005 		mov	r5, #0
+ 189 015e 04FB07F2 		mul	r2, r4, r7
+ 190 0162 06FB05F3 		mul	r3, r6, r5
+ 191 0166 D118     		adds	r1, r2, r3
+ 192 0168 A6FB0423 		umull	r2, r3, r6, r4
+ 193 016c C918     		adds	r1, r1, r3
+ 194 016e 0B46     		mov	r3, r1
+ 195 0170 4FEA4321 		lsl	r1, r3, #9
+ 196 0174 4FEAD258 		lsr	r8, r2, #23
+ 197 0178 41EA0808 		orr	r8, r1, r8
+ 198 017c 4FEAE359 		asr	r9, r3, #23
+ 199 0180 4346     		mov	r3, r8
+ 200 0182 03F5FA62 		add	r2, r3, #2000
+ 201 0186 40F20003 		movw	r3, #:lower16:temp
+ 202 018a C0F20003 		movt	r3, #:upper16:temp
+ 203 018e 1A60     		str	r2, [r3, #0]
+ 204 0190 BDE8F003 		pop	{r4, r5, r6, r7, r8, r9}
+ 205 0194 7047     		bx	lr
+ 207              		.global	__aeabi_f2d
+ 208              		.global	__aeabi_dsub
+ 209              		.global	__aeabi_dmul
+ 210              		.global	__aeabi_d2f
+ 211 0196 00BF     		.align	2
+ 212              		.global	calculatePressureAltitude
+ 213              		.thumb
+ 214              		.thumb_func
+ 216              	calculatePressureAltitude:
+ 217              		@ args = 0, pretend = 0, frame = 32
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219 0198 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 220 019c 89B0     		sub	sp, sp, #36
+ 221 019e 4FF00002 		mov	r2, #0
+ 222 01a2 4FF00003 		mov	r3, #0
+ 223 01a6 CDE90623 		strd	r2, [sp, #24]
+ 224 01aa 4FF00002 		mov	r2, #0
+ 225 01ae 4FF00003 		mov	r3, #0
+ 226 01b2 CDE90423 		strd	r2, [sp, #16]
+ 227 01b6 40F20003 		movw	r3, #:lower16:c2
+ 228 01ba C0F20003 		movt	r3, #:upper16:c2
+ 229 01be 1B88     		ldrh	r3, [r3, #0]
+ 230 01c0 4FEA0343 		lsl	r3, r3, #16
+ 231 01c4 9A46     		mov	sl, r3
+ 232 01c6 4FF0000B 		mov	fp, #0
+ 233 01ca 40F20003 		movw	r3, #:lower16:c4
+ 234 01ce C0F20003 		movt	r3, #:upper16:c4
+ 235 01d2 1B88     		ldrh	r3, [r3, #0]
+ 236 01d4 9CB2     		uxth	r4, r3
+ 237 01d6 4FF00005 		mov	r5, #0
+ 238 01da 40F20003 		movw	r3, #:lower16:dT
+ 239 01de C0F20003 		movt	r3, #:upper16:dT
+ 240 01e2 1968     		ldr	r1, [r3, #0]
+ 241 01e4 0A46     		mov	r2, r1
+ 242 01e6 4FEAE273 		asr	r3, r2, #31
+ 243 01ea 02FB05F0 		mul	r0, r2, r5
+ 244 01ee 04FB03F1 		mul	r1, r4, r3
+ 245 01f2 4118     		adds	r1, r0, r1
+ 246 01f4 A4FB0223 		umull	r2, r3, r4, r2
+ 247 01f8 C918     		adds	r1, r1, r3
+ 248 01fa 0B46     		mov	r3, r1
+ 249 01fc 4FEA4361 		lsl	r1, r3, #25
+ 250 0200 4FEAD216 		lsr	r6, r2, #7
+ 251 0204 0E43     		orrs	r6, r6, r1
+ 252 0206 4FEAE317 		asr	r7, r3, #7
+ 253 020a 5046     		mov	r0, sl
+ 254 020c 5946     		mov	r1, fp
+ 255 020e 8019     		adds	r0, r0, r6
+ 256 0210 41EB0701 		adc	r1, r1, r7
+ 257 0214 40F20003 		movw	r3, #:lower16:offset
+ 258 0218 C0F20003 		movt	r3, #:upper16:offset
+ 259 021c C3E90001 		strd	r0, [r3]
+ 260 0220 40F20003 		movw	r3, #:lower16:c1
+ 261 0224 C0F20003 		movt	r3, #:upper16:c1
+ 262 0228 1B88     		ldrh	r3, [r3, #0]
+ 263 022a 4FEAC333 		lsl	r3, r3, #15
+ 264 022e 1E46     		mov	r6, r3
+ 265 0230 4FF00007 		mov	r7, #0
+ 266 0234 40F20003 		movw	r3, #:lower16:c3
+ 267 0238 C0F20003 		movt	r3, #:upper16:c3
+ 268 023c 1B88     		ldrh	r3, [r3, #0]
+ 269 023e 9CB2     		uxth	r4, r3
+ 270 0240 4FF00005 		mov	r5, #0
+ 271 0244 40F20003 		movw	r3, #:lower16:dT
+ 272 0248 C0F20003 		movt	r3, #:upper16:dT
+ 273 024c 1968     		ldr	r1, [r3, #0]
+ 274 024e 0A46     		mov	r2, r1
+ 275 0250 4FEAE273 		asr	r3, r2, #31
+ 276 0254 02FB05F0 		mul	r0, r2, r5
+ 277 0258 04FB03F1 		mul	r1, r4, r3
+ 278 025c 4118     		adds	r1, r0, r1
+ 279 025e A4FB0223 		umull	r2, r3, r4, r2
+ 280 0262 C918     		adds	r1, r1, r3
+ 281 0264 0B46     		mov	r3, r1
+ 282 0266 4FEA0361 		lsl	r1, r3, #24
+ 283 026a 4FEA1228 		lsr	r8, r2, #8
+ 284 026e 41EA0808 		orr	r8, r1, r8
+ 285 0272 4FEA2329 		asr	r9, r3, #8
+ 286 0276 3046     		mov	r0, r6
+ 287 0278 3946     		mov	r1, r7
+ 288 027a 10EB0800 		adds	r0, r0, r8
+ 289 027e 41EB0901 		adc	r1, r1, r9
+ 290 0282 40F20003 		movw	r3, #:lower16:sensitivity
+ 291 0286 C0F20003 		movt	r3, #:upper16:sensitivity
+ 292 028a C3E90001 		strd	r0, [r3]
+ 293 028e 40F20003 		movw	r3, #:lower16:temp
+ 294 0292 C0F20003 		movt	r3, #:upper16:temp
+ 295 0296 1B68     		ldr	r3, [r3, #0]
+ 296 0298 132B     		cmp	r3, #19
+ 297 029a 7EDC     		bgt	.L6
+ 298 029c 40F20003 		movw	r3, #:lower16:temp
+ 299 02a0 C0F20003 		movt	r3, #:upper16:temp
+ 300 02a4 1A68     		ldr	r2, [r3, #0]
+ 301 02a6 4FF63503 		movw	r3, #63541
+ 302 02aa CFF6FF73 		movt	r3, 65535
+ 303 02ae 03FB02F3 		mul	r3, r3, r2
+ 304 02b2 A3F57A71 		sub	r1, r3, #1000
+ 305 02b6 0A46     		mov	r2, r1
+ 306 02b8 4FEAE273 		asr	r3, r2, #31
+ 307 02bc CDE90623 		strd	r2, [sp, #24]
+ 308 02c0 40F20003 		movw	r3, #:lower16:temp
+ 309 02c4 C0F20003 		movt	r3, #:upper16:temp
+ 310 02c8 1A68     		ldr	r2, [r3, #0]
+ 311 02ca 4FF63503 		movw	r3, #63541
+ 312 02ce CFF6FF73 		movt	r3, 65535
+ 313 02d2 03FB02F3 		mul	r3, r3, r2
+ 314 02d6 A3F5FA71 		sub	r1, r3, #500
+ 315 02da 0A46     		mov	r2, r1
+ 316 02dc 4FEAE273 		asr	r3, r2, #31
+ 317 02e0 CDE90423 		strd	r2, [sp, #16]
+ 318 02e4 40F20003 		movw	r3, #:lower16:temp
+ 319 02e8 C0F20003 		movt	r3, #:upper16:temp
+ 320 02ec 1B68     		ldr	r3, [r3, #0]
+ 321 02ee 13F10F0F 		cmn	r3, #15
+ 322 02f2 52DA     		bge	.L6
+ 323 02f4 40F20003 		movw	r3, #:lower16:temp
+ 324 02f8 C0F20003 		movt	r3, #:upper16:temp
+ 325 02fc 1A68     		ldr	r2, [r3, #0]
+ 326 02fe 1346     		mov	r3, r2
+ 327 0300 4FEAC303 		lsl	r3, r3, #3
+ 328 0304 991A     		subs	r1, r3, r2
+ 329 0306 0A46     		mov	r2, r1
+ 330 0308 4FEAE273 		asr	r3, r2, #31
+ 331 030c DDE90601 		ldrd	r0, [sp, #24]
+ 332 0310 8018     		adds	r0, r0, r2
+ 333 0312 41EB0301 		adc	r1, r1, r3
+ 334 0316 40F20003 		movw	r3, #:lower16:temp
+ 335 031a C0F20003 		movt	r3, #:upper16:temp
+ 336 031e 1B68     		ldr	r3, [r3, #0]
+ 337 0320 40F2DC52 		movw	r2, #1500
+ 338 0324 02FB03F4 		mul	r4, r2, r3
+ 339 0328 2246     		mov	r2, r4
+ 340 032a 4FEAE273 		asr	r3, r2, #31
+ 341 032e 8018     		adds	r0, r0, r2
+ 342 0330 41EB0301 		adc	r1, r1, r3
+ 343 0334 6DA3     		adr	r3, .L7+28
+ 344 0336 D3E90023 		ldrd	r2, [r3]
+ 345 033a 1218     		adds	r2, r2, r0
+ 346 033c 43EB0103 		adc	r3, r3, r1
+ 347 0340 CDE90623 		strd	r2, [sp, #24]
+ 348 0344 40F20003 		movw	r3, #:lower16:temp
+ 349 0348 C0F20003 		movt	r3, #:upper16:temp
+ 350 034c 1A68     		ldr	r2, [r3, #0]
+ 351 034e 1346     		mov	r3, r2
+ 352 0350 4FEA8303 		lsl	r3, r3, #2
+ 353 0354 9B18     		adds	r3, r3, r2
+ 354 0356 4FEA4303 		lsl	r3, r3, #1
+ 355 035a 9918     		adds	r1, r3, r2
+ 356 035c 0A46     		mov	r2, r1
+ 357 035e 4FEAE273 		asr	r3, r2, #31
+ 358 0362 DDE90401 		ldrd	r0, [sp, #16]
+ 359 0366 8018     		adds	r0, r0, r2
+ 360 0368 41EB0301 		adc	r1, r1, r3
+ 361 036c 40F20003 		movw	r3, #:lower16:temp
+ 362 0370 C0F20003 		movt	r3, #:upper16:temp
+ 363 0374 1B68     		ldr	r3, [r3, #0]
+ 364 0376 40F2DC52 		movw	r2, #1500
+ 365 037a 02FB03F4 		mul	r4, r2, r3
+ 366 037e 2246     		mov	r2, r4
+ 367 0380 4FEAE273 		asr	r3, r2, #31
+ 368 0384 8018     		adds	r0, r0, r2
+ 369 0386 41EB0301 		adc	r1, r1, r3
+ 370 038a 5AA3     		adr	r3, .L7+36
+ 371 038c D3E90023 		ldrd	r2, [r3]
+ 372 0390 1218     		adds	r2, r2, r0
+ 373 0392 43EB0103 		adc	r3, r3, r1
+ 374 0396 CDE90423 		strd	r2, [sp, #16]
+ 375              	.L6:
+ 376 039a 40F20003 		movw	r3, #:lower16:offset
+ 377 039e C0F20003 		movt	r3, #:upper16:offset
+ 378 03a2 D3E90001 		ldrd	r0, [r3]
+ 379 03a6 DDE90623 		ldrd	r2, [sp, #24]
+ 380 03aa 801A     		subs	r0, r0, r2
+ 381 03ac 61EB0301 		sbc	r1, r1, r3
+ 382 03b0 40F20003 		movw	r3, #:lower16:offset
+ 383 03b4 C0F20003 		movt	r3, #:upper16:offset
+ 384 03b8 C3E90001 		strd	r0, [r3]
+ 385 03bc 40F20003 		movw	r3, #:lower16:sensitivity
+ 386 03c0 C0F20003 		movt	r3, #:upper16:sensitivity
+ 387 03c4 D3E90001 		ldrd	r0, [r3]
+ 388 03c8 DDE90423 		ldrd	r2, [sp, #16]
+ 389 03cc 801A     		subs	r0, r0, r2
+ 390 03ce 61EB0301 		sbc	r1, r1, r3
+ 391 03d2 40F20003 		movw	r3, #:lower16:sensitivity
+ 392 03d6 C0F20003 		movt	r3, #:upper16:sensitivity
+ 393 03da C3E90001 		strd	r0, [r3]
+ 394 03de 40F20003 		movw	r3, #:lower16:d1Average
+ 395 03e2 C0F20003 		movt	r3, #:upper16:d1Average
+ 396 03e6 1B68     		ldr	r3, [r3, #0]
+ 397 03e8 1C46     		mov	r4, r3
+ 398 03ea 4FF00005 		mov	r5, #0
+ 399 03ee 40F20003 		movw	r3, #:lower16:sensitivity
+ 400 03f2 C0F20003 		movt	r3, #:upper16:sensitivity
+ 401 03f6 D3E90023 		ldrd	r2, [r3]
+ 402 03fa 02FB05F0 		mul	r0, r2, r5
+ 403 03fe 04FB03F1 		mul	r1, r4, r3
+ 404 0402 4118     		adds	r1, r0, r1
+ 405 0404 A4FB0223 		umull	r2, r3, r4, r2
+ 406 0408 C918     		adds	r1, r1, r3
+ 407 040a 0B46     		mov	r3, r1
+ 408 040c 4FEAC321 		lsl	r1, r3, #11
+ 409 0410 4FEA5250 		lsr	r0, r2, #21
+ 410 0414 0290     		str	r0, [sp, #8]
+ 411 0416 0298     		ldr	r0, [sp, #8]
+ 412 0418 0843     		orrs	r0, r0, r1
+ 413 041a 0290     		str	r0, [sp, #8]
+ 414 041c 4FEA6351 		asr	r1, r3, #21
+ 415 0420 0391     		str	r1, [sp, #12]
+ 416 0422 40F20003 		movw	r3, #:lower16:offset
+ 417 0426 C0F20003 		movt	r3, #:upper16:offset
+ 418 042a D3E90023 		ldrd	r2, [r3]
+ 419 042e DDE90201 		ldrd	r0, [sp, #8]
+ 420 0432 821A     		subs	r2, r0, r2
+ 421 0434 61EB0303 		sbc	r3, r1, r3
+ 422 0438 4FEA4341 		lsl	r1, r3, #17
+ 423 043c 4FEAD230 		lsr	r0, r2, #15
+ 424 0440 0090     		str	r0, [sp, #0]
+ 425 0442 0098     		ldr	r0, [sp, #0]
+ 426 0444 0843     		orrs	r0, r0, r1
+ 427 0446 0090     		str	r0, [sp, #0]
+ 428 0448 4FEAE331 		asr	r1, r3, #15
+ 429 044c 0191     		str	r1, [sp, #4]
+ 430 044e 009A     		ldr	r2, [sp, #0]
+ 431 0450 40F20003 		movw	r3, #:lower16:p
+ 432 0454 C0F20003 		movt	r3, #:upper16:p
+ 433 0458 1A60     		str	r2, [r3, #0]
+ 434 045a 40F20003 		movw	r3, #:lower16:p
+ 435 045e C0F20003 		movt	r3, #:upper16:p
+ 436 0462 1B68     		ldr	r3, [r3, #0]
+ 437 0464 07EE903A 		fmsr	s15, r3	@ int
+ 438 0468 B8EEE77A 		fsitos	s14, s15
+ 439 046c DFED1E7A 		flds	s15, .L7+24
+ 440 0470 C7EE277A 		fdivs	s15, s14, s15
+ 441 0474 17EE900A 		fmrs	r0, s15
+ 442 0478 FFF7FEFF 		bl	__aeabi_f2d
+ 443 047c 0246     		mov	r2, r0
+ 444 047e 0B46     		mov	r3, r1
+ 445 0480 1046     		mov	r0, r2
+ 446 0482 1946     		mov	r1, r3
+ 447 0484 12A3     		adr	r3, .L7
+ 448 0486 D3E90023 		ldrd	r2, [r3]
+ 449 048a FFF7FEFF 		bl	pow
+ 450 048e 0246     		mov	r2, r0
+ 451 0490 0B46     		mov	r3, r1
+ 452 0492 11A1     		adr	r1, .L7+8
+ 453 0494 D1E90001 		ldrd	r0, [r1]
+ 454 0498 FFF7FEFF 		bl	__aeabi_dsub
+ 455 049c 0246     		mov	r2, r0
+ 456 049e 0B46     		mov	r3, r1
+ 457 04a0 1046     		mov	r0, r2
+ 458 04a2 1946     		mov	r1, r3
+ 459 04a4 0EA3     		adr	r3, .L7+16
+ 460 04a6 D3E90023 		ldrd	r2, [r3]
+ 461 04aa FFF7FEFF 		bl	__aeabi_dmul
+ 462 04ae 0246     		mov	r2, r0
+ 463 04b0 0B46     		mov	r3, r1
+ 464 04b2 1046     		mov	r0, r2
+ 465 04b4 1946     		mov	r1, r3
+ 466 04b6 FFF7FEFF 		bl	__aeabi_d2f
+ 467 04ba 0246     		mov	r2, r0	@ float
+ 468 04bc 40F20003 		movw	r3, #:lower16:sensors
+ 469 04c0 C0F20003 		movt	r3, #:upper16:sensors
+ 470 04c4 DA63     		str	r2, [r3, #60]	@ float
+ 471 04c6 09B0     		add	sp, sp, #36
+ 472 04c8 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 473              	.L8:
+ 474 04cc AFF30080 		.align	3
+ 475              	.L7:
+ 476 04d0 00000020 		.word	536870912
+ 477 04d4 965BC83F 		.word	1070095254
+ 478 04d8 00000000 		.word	0
+ 479 04dc 0000F03F 		.word	1072693248
+ 480 04e0 00000000 		.word	0
+ 481 04e4 40A5E540 		.word	1088791872
+ 482 04e8 80E6C547 		.word	1204151936
+ 483 04ec DC050000 		.word	1500
+ 484 04f0 00000000 		.word	0
+ 485 04f4 EE020000 		.word	750
+ 486 04f8 00000000 		.word	0
+ 488              		.align	2
+ 489              		.global	initPressure
+ 490              		.thumb
+ 491              		.thumb_func
+ 493              	initPressure:
+ 494              		@ args = 0, pretend = 0, frame = 16
+ 495              		@ frame_needed = 0, uses_anonymous_args = 0
+ 496 04fc 00B5     		push	{lr}
+ 497 04fe 87B0     		sub	sp, sp, #28
+ 498 0500 0390     		str	r0, [sp, #12]
+ 499 0502 0398     		ldr	r0, [sp, #12]
+ 500 0504 4FF07701 		mov	r1, #119
+ 501 0508 4FF0FF02 		mov	r2, #255
+ 502 050c 4FF01E03 		mov	r3, #30
+ 503 0510 FFF7FEFF 		bl	i2cWrite
+ 504 0514 4FF00A00 		mov	r0, #10
+ 505 0518 FFF7FEFF 		bl	delay
+ 506 051c 05AB     		add	r3, sp, #20
+ 507 051e 0093     		str	r3, [sp, #0]
+ 508 0520 0398     		ldr	r0, [sp, #12]
+ 509 0522 4FF07701 		mov	r1, #119
+ 510 0526 4FF0A202 		mov	r2, #162
+ 511 052a 4FF00203 		mov	r3, #2
+ 512 052e FFF7FEFF 		bl	i2cRead
+ 513 0532 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 514 0536 40F20003 		movw	r3, #:lower16:c1
+ 515 053a C0F20003 		movt	r3, #:upper16:c1
+ 516 053e 5A70     		strb	r2, [r3, #1]
+ 517 0540 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 518 0544 40F20003 		movw	r3, #:lower16:c1
+ 519 0548 C0F20003 		movt	r3, #:upper16:c1
+ 520 054c 1A70     		strb	r2, [r3, #0]
+ 521 054e 05AB     		add	r3, sp, #20
+ 522 0550 0093     		str	r3, [sp, #0]
+ 523 0552 0398     		ldr	r0, [sp, #12]
+ 524 0554 4FF07701 		mov	r1, #119
+ 525 0558 4FF0A402 		mov	r2, #164
+ 526 055c 4FF00203 		mov	r3, #2
+ 527 0560 FFF7FEFF 		bl	i2cRead
+ 528 0564 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 529 0568 40F20003 		movw	r3, #:lower16:c2
+ 530 056c C0F20003 		movt	r3, #:upper16:c2
+ 531 0570 5A70     		strb	r2, [r3, #1]
+ 532 0572 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 533 0576 40F20003 		movw	r3, #:lower16:c2
+ 534 057a C0F20003 		movt	r3, #:upper16:c2
+ 535 057e 1A70     		strb	r2, [r3, #0]
+ 536 0580 05AB     		add	r3, sp, #20
+ 537 0582 0093     		str	r3, [sp, #0]
+ 538 0584 0398     		ldr	r0, [sp, #12]
+ 539 0586 4FF07701 		mov	r1, #119
+ 540 058a 4FF0A602 		mov	r2, #166
+ 541 058e 4FF00203 		mov	r3, #2
+ 542 0592 FFF7FEFF 		bl	i2cRead
+ 543 0596 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 544 059a 40F20003 		movw	r3, #:lower16:c3
+ 545 059e C0F20003 		movt	r3, #:upper16:c3
+ 546 05a2 5A70     		strb	r2, [r3, #1]
+ 547 05a4 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 548 05a8 40F20003 		movw	r3, #:lower16:c3
+ 549 05ac C0F20003 		movt	r3, #:upper16:c3
+ 550 05b0 1A70     		strb	r2, [r3, #0]
+ 551 05b2 05AB     		add	r3, sp, #20
+ 552 05b4 0093     		str	r3, [sp, #0]
+ 553 05b6 0398     		ldr	r0, [sp, #12]
+ 554 05b8 4FF07701 		mov	r1, #119
+ 555 05bc 4FF0A802 		mov	r2, #168
+ 556 05c0 4FF00203 		mov	r3, #2
+ 557 05c4 FFF7FEFF 		bl	i2cRead
+ 558 05c8 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 559 05cc 40F20003 		movw	r3, #:lower16:c4
+ 560 05d0 C0F20003 		movt	r3, #:upper16:c4
+ 561 05d4 5A70     		strb	r2, [r3, #1]
+ 562 05d6 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 563 05da 40F20003 		movw	r3, #:lower16:c4
+ 564 05de C0F20003 		movt	r3, #:upper16:c4
+ 565 05e2 1A70     		strb	r2, [r3, #0]
+ 566 05e4 05AB     		add	r3, sp, #20
+ 567 05e6 0093     		str	r3, [sp, #0]
+ 568 05e8 0398     		ldr	r0, [sp, #12]
+ 569 05ea 4FF07701 		mov	r1, #119
+ 570 05ee 4FF0AA02 		mov	r2, #170
+ 571 05f2 4FF00203 		mov	r3, #2
+ 572 05f6 FFF7FEFF 		bl	i2cRead
+ 573 05fa 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 574 05fe 40F20003 		movw	r3, #:lower16:c5
+ 575 0602 C0F20003 		movt	r3, #:upper16:c5
+ 576 0606 5A70     		strb	r2, [r3, #1]
+ 577 0608 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 578 060c 40F20003 		movw	r3, #:lower16:c5
+ 579 0610 C0F20003 		movt	r3, #:upper16:c5
+ 580 0614 1A70     		strb	r2, [r3, #0]
+ 581 0616 05AB     		add	r3, sp, #20
+ 582 0618 0093     		str	r3, [sp, #0]
+ 583 061a 0398     		ldr	r0, [sp, #12]
+ 584 061c 4FF07701 		mov	r1, #119
+ 585 0620 4FF0AC02 		mov	r2, #172
+ 586 0624 4FF00203 		mov	r3, #2
+ 587 0628 FFF7FEFF 		bl	i2cRead
+ 588 062c 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+ 589 0630 40F20003 		movw	r3, #:lower16:c6
+ 590 0634 C0F20003 		movt	r3, #:upper16:c6
+ 591 0638 5A70     		strb	r2, [r3, #1]
+ 592 063a 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+ 593 063e 40F20003 		movw	r3, #:lower16:c6
+ 594 0642 C0F20003 		movt	r3, #:upper16:c6
+ 595 0646 1A70     		strb	r2, [r3, #0]
+ 596 0648 0398     		ldr	r0, [sp, #12]
+ 597 064a 4FF07701 		mov	r1, #119
+ 598 064e 4FF0FF02 		mov	r2, #255
+ 599 0652 4FF05803 		mov	r3, #88
+ 600 0656 FFF7FEFF 		bl	i2cWrite
+ 601 065a 4FF00A00 		mov	r0, #10
+ 602 065e FFF7FEFF 		bl	delay
+ 603 0662 0398     		ldr	r0, [sp, #12]
+ 604 0664 FFF7FEFF 		bl	readTemperatureRequestPressure
+ 605 0668 4FF00A00 		mov	r0, #10
+ 606 066c FFF7FEFF 		bl	delay
+ 607 0670 07B0     		add	sp, sp, #28
+ 608 0672 00BD     		pop	{pc}
+ 610 0674 AFF30080 		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 ms5611.c
                             *COM*:00000004 d1Average
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:22     .bss:00000000 d1Sum
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:19     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:22     .bss:00000000 d1Sum
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:19     .bss:00000000 $d
                             *COM*:00000002 c1
                             *COM*:00000002 c2
                             *COM*:00000002 c3
@@ -502,18 +608,18 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:19     .bss:00000000 $d
                             *COM*:00000004 dT
                             *COM*:00000004 temp
                             *COM*:00000008 offset
-                            *COM*:00000008 sens
+                            *COM*:00000008 sensitivity
                             *COM*:00000004 p
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:40     .bss:00000004 pressureAltValid
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:43     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:48     .text:00000000 readTemperatureRequestPressure
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:87     .text:00000068 readPressureRequestPressure
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:126    .text:000000d0 readPressureRequestTemperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:165    .text:00000138 calculateTemperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:219    .text:000001bc calculatePressureAltitude
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:368    .text:00000388 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:376    .text:000003a4 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYr4caj.s:381    .text:000003a4 initPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:40     .bss:00000004 pressureAltValid
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:43     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:48     .text:00000000 readTemperatureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:86     .text:0000005c readPressureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:124    .text:000000b8 readPressureRequestTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:162    .text:00000114 calculateTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:216    .text:00000198 calculatePressureAltitude
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:476    .text:000004d0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:488    .text:000004fc $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:493    .text:000004fc initPressure
 
 UNDEFINED SYMBOLS
 i2cRead

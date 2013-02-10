@@ -1284,40 +1284,40 @@
  1350 0996 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_i2c.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:22     .text:00000000 I2C_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:74     .text:00000080 I2C_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:257    .text:00000270 I2C_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:289    .text:000002a8 I2C_Cmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:325    .text:000002e0 I2C_GenerateSTART
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:361    .text:00000318 I2C_GenerateSTOP
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:397    .text:00000350 I2C_Send7bitAddress
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:431    .text:00000390 I2C_AcknowledgeConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:467    .text:000003c8 I2C_OwnAddress2Config
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:502    .text:00000414 I2C_DualAddressCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:538    .text:0000044c I2C_GeneralCallCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:574    .text:00000484 I2C_SoftwareResetCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:612    .text:000004c4 I2C_StretchClockCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:648    .text:000004fc I2C_FastModeDutyCycleConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:684    .text:00000538 I2C_NACKPositionConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:720    .text:00000574 I2C_SMBusAlertConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:756    .text:000005b0 I2C_ARPCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:792    .text:000005e8 I2C_SendData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:812    .text:00000600 I2C_ReceiveData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:831    .text:00000614 I2C_TransmitPEC
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:867    .text:0000064c I2C_PECPositionConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:903    .text:00000688 I2C_CalculatePEC
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:939    .text:000006c0 I2C_GetPEC
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:960    .text:000006d8 I2C_DMACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:996    .text:00000710 I2C_DMALastTransferCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1032   .text:00000748 I2C_ReadRegister
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1060   .text:00000774 I2C_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1102   .text:000007bc I2C_CheckEvent
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1156   .text:00000828 I2C_GetLastEvent
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1194   .text:0000086c I2C_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1253   .text:000008e4 I2C_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1279   .text:0000090c I2C_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cczvGisk.s:1329   .text:00000970 I2C_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:22     .text:00000000 I2C_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:74     .text:00000080 I2C_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:257    .text:00000270 I2C_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:289    .text:000002a8 I2C_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:325    .text:000002e0 I2C_GenerateSTART
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:361    .text:00000318 I2C_GenerateSTOP
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:397    .text:00000350 I2C_Send7bitAddress
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:431    .text:00000390 I2C_AcknowledgeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:467    .text:000003c8 I2C_OwnAddress2Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:502    .text:00000414 I2C_DualAddressCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:538    .text:0000044c I2C_GeneralCallCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:574    .text:00000484 I2C_SoftwareResetCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:612    .text:000004c4 I2C_StretchClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:648    .text:000004fc I2C_FastModeDutyCycleConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:684    .text:00000538 I2C_NACKPositionConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:720    .text:00000574 I2C_SMBusAlertConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:756    .text:000005b0 I2C_ARPCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:792    .text:000005e8 I2C_SendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:812    .text:00000600 I2C_ReceiveData
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:831    .text:00000614 I2C_TransmitPEC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:867    .text:0000064c I2C_PECPositionConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:903    .text:00000688 I2C_CalculatePEC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:939    .text:000006c0 I2C_GetPEC
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:960    .text:000006d8 I2C_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:996    .text:00000710 I2C_DMALastTransferCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1032   .text:00000748 I2C_ReadRegister
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1060   .text:00000774 I2C_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1102   .text:000007bc I2C_CheckEvent
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1156   .text:00000828 I2C_GetLastEvent
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1194   .text:0000086c I2C_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1253   .text:000008e4 I2C_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1279   .text:0000090c I2C_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cckww5ME.s:1329   .text:00000970 I2C_ClearITPendingBit
 
 UNDEFINED SYMBOLS
 RCC_APB1PeriphResetCmd

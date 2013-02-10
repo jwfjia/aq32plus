@@ -51,12 +51,23 @@ uint8_t  previousCommandInDetent[3] = { true, true, true };
 
 uint8_t flightMode = RATE;
 
+uint8_t headingHoldEngaged = false;
+
 ///////////////////////////////////////////////////////////////////////////////
 // Arm State Variables
 ///////////////////////////////////////////////////////////////////////////////
 
 uint8_t armed       = false;
 uint8_t armingTimer = 0;
+
+///////////////////////////////////////////////////////////////////////////////
+// Altitude Hold State Variables
+///////////////////////////////////////////////////////////////////////////////
+
+uint8_t  altitudeHoldState = DISENGAGED;
+uint16_t previousAUX2State = MINCOMMAND;
+
+float    altitudeHoldThrottleValue = 0.0f;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Read Flight Commands
@@ -151,21 +162,64 @@ void processFlightCommands(void)
 		}
 	}
 
+	///////////////////////////////////
+
 	// Check for armed true and throttle command > minThrottle
-    if ( (armed == true) && (rxCommand[THROTTLE] > eepromConfig.minThrottle) )
+    if ((armed == true) && (rxCommand[THROTTLE] > eepromConfig.minThrottle))
     	holdIntegrators = false;
     else
     	holdIntegrators = true;
 
-    // Check AUX1 for rate or attitude mode
-	if ( rxCommand[AUX1] > MIDCOMMAND )
+    ///////////////////////////////////
+
+    // Check AUX1 for rate, attitude, or GPS mode (3 Position Switch) NOT COMPLETE YET....
+
+	if ((rxCommand[AUX1] > MIDCOMMAND) && (flightMode == RATE))
 	{
 		flightMode = ATTITUDE;
+		setPIDintegralError(ROLL_ATT_PID,  0.0f);
+		setPIDintegralError(PITCH_ATT_PID, 0.0f);
+		setPIDintegralError(HEADING_PID,   0.0f);
+		setPIDstates(ROLL_ATT_PID,  0.0f);
+		setPIDstates(PITCH_ATT_PID, 0.0f);
+		setPIDstates(HEADING_PID,   0.0f);
 	}
-	else
+	else if ((rxCommand[AUX1] <= MIDCOMMAND) && (flightMode == ATTITUDE))
 	{
 		flightMode = RATE;
+		setPIDintegralError(ROLL_RATE_PID,  0.0f);
+		setPIDintegralError(PITCH_RATE_PID, 0.0f);
+		setPIDintegralError(YAW_RATE_PID,   0.0f);
+		setPIDstates(ROLL_RATE_PID,  0.0f);
+		setPIDstates(PITCH_RATE_PID, 0.0f);
+		setPIDstates(YAW_RATE_PID,   0.0f);
 	}
+
+	///////////////////////////////////
+
+	if ((commandInDetent[YAW] == true) && (flightMode == ATTITUDE))
+	    headingHoldEngaged = true;
+	else
+	    headingHoldEngaged = false;
+
+	///////////////////////////////////
+
+	// Check AUX2 for altitude hold mode (2 Position Switch)
+
+	if ((rxCommand[AUX2] > MIDCOMMAND) && (previousAUX2State <= MIDCOMMAND))      // Rising edge detection
+	{
+		altitudeHoldState = ENGAGED;
+		altitudeHoldThrottleValue = rxCommand[THROTTLE];
+	}
+	else if ((rxCommand[AUX2] <= MIDCOMMAND) && (previousAUX2State > MIDCOMMAND)) // Falling edge detection
+	{
+		altitudeHoldState = DISENGAGED;
+	}
+
+	previousAUX2State = rxCommand[AUX2];
+
+
+	///////////////////////////////////
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -170,7 +170,7 @@
  119 008c C0F20003 		movt	r3, #:upper16:escCalibrating
  120 0090 4FF00002 		mov	r2, #0
  121 0094 1A70     		strb	r2, [r3, #0]
- 122 0096 92E0     		b	.L1
+ 122 0096 94E0     		b	.L1
  123              	.L3:
  124 0098 40F20000 		movw	r0, #:lower16:.LC5
  125 009c C0F20000 		movt	r0, #:upper16:.LC5
@@ -216,8 +216,8 @@
  165 0108 CB000000 		.word	.L14+1
  166 010c CB000000 		.word	.L14+1
  167 0110 CB000000 		.word	.L14+1
- 168 0114 85010000 		.word	.L8+1
- 169 0118 67010000 		.word	.L9+1
+ 168 0114 89010000 		.word	.L8+1
+ 169 0118 69010000 		.word	.L9+1
  170 011c CB000000 		.word	.L14+1
  171 0120 CB000000 		.word	.L14+1
  172 0124 CB000000 		.word	.L14+1
@@ -228,79 +228,79 @@
  177 0138 CB000000 		.word	.L14+1
  178 013c CB000000 		.word	.L14+1
  179 0140 CB000000 		.word	.L14+1
- 180 0144 99010000 		.word	.L10+1
+ 180 0144 9D010000 		.word	.L10+1
  181              	.L7:
  182 0148 40F20000 		movw	r0, #:lower16:.LC9
  183 014c C0F20000 		movt	r0, #:upper16:.LC9
  184 0150 FFF7FEFF 		bl	usbPrint
  185 0154 40F20003 		movw	r3, #:lower16:eepromConfig
  186 0158 C0F20003 		movt	r3, #:upper16:eepromConfig
- 187 015c DB6F     		ldr	r3, [r3, #124]	@ float
- 188 015e 1846     		mov	r0, r3	@ float
- 189 0160 FFF7FEFF 		bl	writeAllMotors
- 190 0164 2AE0     		b	.L6
+ 187 015c D3F89830 		ldr	r3, [r3, #152]	@ float
+ 188 0160 1846     		mov	r0, r3	@ float
+ 189 0162 FFF7FEFF 		bl	writeAllMotors
+ 190 0166 2BE0     		b	.L6
  191              	.L9:
- 192 0166 40F20000 		movw	r0, #:lower16:.LC10
- 193 016a C0F20000 		movt	r0, #:upper16:.LC10
- 194 016e FFF7FEFF 		bl	usbPrint
- 195 0172 40F20003 		movw	r3, #:lower16:eepromConfig
- 196 0176 C0F20003 		movt	r3, #:upper16:eepromConfig
- 197 017a DB6E     		ldr	r3, [r3, #108]	@ float
- 198 017c 1846     		mov	r0, r3	@ float
- 199 017e FFF7FEFF 		bl	writeAllMotors
- 200 0182 1BE0     		b	.L6
+ 192 0168 40F20000 		movw	r0, #:lower16:.LC10
+ 193 016c C0F20000 		movt	r0, #:upper16:.LC10
+ 194 0170 FFF7FEFF 		bl	usbPrint
+ 195 0174 40F20003 		movw	r3, #:lower16:eepromConfig
+ 196 0178 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 197 017c D3F88830 		ldr	r3, [r3, #136]	@ float
+ 198 0180 1846     		mov	r0, r3	@ float
+ 199 0182 FFF7FEFF 		bl	writeAllMotors
+ 200 0186 1BE0     		b	.L6
  201              	.L8:
- 202 0184 40F20000 		movw	r0, #:lower16:.LC11
- 203 0188 C0F20000 		movt	r0, #:upper16:.LC11
- 204 018c FFF7FEFF 		bl	usbPrint
- 205 0190 0B48     		ldr	r0, .L15	@ float
- 206 0192 FFF7FEFF 		bl	writeAllMotors
- 207 0196 11E0     		b	.L6
+ 202 0188 40F20000 		movw	r0, #:lower16:.LC11
+ 203 018c C0F20000 		movt	r0, #:upper16:.LC11
+ 204 0190 FFF7FEFF 		bl	usbPrint
+ 205 0194 0B48     		ldr	r0, .L15	@ float
+ 206 0196 FFF7FEFF 		bl	writeAllMotors
+ 207 019a 11E0     		b	.L6
  208              	.L10:
- 209 0198 40F20000 		movw	r0, #:lower16:.LC12
- 210 019c C0F20000 		movt	r0, #:upper16:.LC12
- 211 01a0 FFF7FEFF 		bl	usbPrint
- 212 01a4 0648     		ldr	r0, .L15	@ float
- 213 01a6 FFF7FEFF 		bl	writeAllMotors
- 214 01aa 40F20003 		movw	r3, #:lower16:escCalibrating
- 215 01ae C0F20003 		movt	r3, #:upper16:escCalibrating
- 216 01b2 4FF00002 		mov	r2, #0
- 217 01b6 1A70     		strb	r2, [r3, #0]
- 218 01b8 00BF     		nop
- 219 01ba 00E0     		b	.L1
+ 209 019c 40F20000 		movw	r0, #:lower16:.LC12
+ 210 01a0 C0F20000 		movt	r0, #:upper16:.LC12
+ 211 01a4 FFF7FEFF 		bl	usbPrint
+ 212 01a8 0648     		ldr	r0, .L15	@ float
+ 213 01aa FFF7FEFF 		bl	writeAllMotors
+ 214 01ae 40F20003 		movw	r3, #:lower16:escCalibrating
+ 215 01b2 C0F20003 		movt	r3, #:upper16:escCalibrating
+ 216 01b6 4FF00002 		mov	r2, #0
+ 217 01ba 1A70     		strb	r2, [r3, #0]
+ 218 01bc 00BF     		nop
+ 219 01be 00E0     		b	.L1
  220              	.L6:
- 221 01bc 85E7     		b	.L14
+ 221 01c0 83E7     		b	.L14
  222              	.L1:
- 223 01be 08BD     		pop	{r3, pc}
+ 223 01c2 08BD     		pop	{r3, pc}
  224              	.L16:
  225              		.align	2
  226              	.L15:
- 227 01c0 0000FA44 		.word	1157234688
+ 227 01c4 0000FA44 		.word	1157234688
  229              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 escCalibration.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:20     .bss:00000000 escCalibrating
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:20     .bss:00000000 escCalibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:21     .bss:00000000 $d
                             *COM*:00000001 temp
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:24     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:25     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:28     .rodata:00000014 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:32     .rodata:00000050 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:36     .rodata:0000008c .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:40     .rodata:000000c4 .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:43     .rodata:000000e4 .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:46     .rodata:00000104 .LC6
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:49     .rodata:00000124 .LC7
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:52     .rodata:00000144 .LC8
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:55     .rodata:0000015c .LC9
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:58     .rodata:00000178 .LC10
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:61     .rodata:00000194 .LC11
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:64     .rodata:000001b0 .LC12
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:68     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:73     .text:00000000 escCalibration
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:164    .text:00000104 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:182    .text:00000148 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4CP8VH.s:227    .text:000001c0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:24     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:25     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:28     .rodata:00000014 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:32     .rodata:00000050 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:36     .rodata:0000008c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:40     .rodata:000000c4 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:43     .rodata:000000e4 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:46     .rodata:00000104 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:49     .rodata:00000124 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:52     .rodata:00000144 .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:55     .rodata:0000015c .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:58     .rodata:00000178 .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:61     .rodata:00000194 .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:64     .rodata:000001b0 .LC12
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:68     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:73     .text:00000000 escCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:164    .text:00000104 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:182    .text:00000148 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoW3Ohg.s:227    .text:000001c4 $d
 
 UNDEFINED SYMBOLS
 armed

@@ -127,9 +127,6 @@ void readRFPID(unsigned char PIDid)
 
 void rfCom(void)
 {
-    uint8_t index;
-    uint8_t rows, columns;
-
     if (uart3Available())
     	queryType = uart3Read();
 
@@ -137,51 +134,7 @@ void rfCom(void)
     {
         ///////////////////////////////
 
-         case 'h': // 500 Hz Gyro Data
-        	ftoa( sensors.gyro500Hz[ROLL ] * 57.3f, numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.gyro500Hz[PITCH] * 57.3f, numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.gyro500Hz[YAW  ] * 57.3f, numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( mpu6000Temperature,               numberString ); uart3Print(numberString); uart3Print("\n");
-
-        	break;
-
-        ///////////////////////////////
-
-        case 'i': // 500 Hz Accel Data
-        	ftoa( sensors.accel500Hz[XAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.accel500Hz[YAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.accel500Hz[ZAXIS], numberString ); uart3Print(numberString); uart3Print("\n");
-
-        	break;
-
-        ///////////////////////////////
-
-        case 'j': // 50 Hz Mag Data
-        	ftoa( sensors.mag10Hz[XAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.mag10Hz[YAXIS], numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.mag10Hz[ZAXIS], numberString ); uart3Print(numberString); uart3Print("\n");
-
-        	break;
-
-        ///////////////////////////////
-
-        case 'k': // 10Hz Pressure Altitude
-        	ftoa(sensors.pressureAlt10Hz, numberString); uart3Print(numberString); uart3Print("\n");
-
-        	break;
-
-        ///////////////////////////////
-
-        case 'l': // Euler Angles
-        	ftoa( sensors.attitude500Hz[ROLL ]   * 57.3f, numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.attitude500Hz[PITCH]   * 57.3f, numberString ); uart3Print(numberString); uart3Print(", ");
-        	ftoa( sensors.attitude500Hz[YAW  ]   * 57.3f, numberString ); uart3Print(numberString); uart3Print("\n");
-
-        	break;
-
-        ///////////////////////////////
-
-        case 'q': // Rate PIDs
+        case 'a': // Rate PIDs
             uart3Print("\n");
 
             uart3Print("Roll Rate PID:  ");
@@ -222,7 +175,7 @@ void rfCom(void)
 
         ///////////////////////////////
 
-        case 'r': // Attitude PIDs
+        case 'b': // Attitude PIDs
             uart3Print("\n");
 
             uart3Print("Roll Attitude PID:  ");
@@ -263,27 +216,85 @@ void rfCom(void)
 
         ///////////////////////////////
 
-        case 's': // Altitude PIDs
-        	queryType = 'x';
-        	break;
+        case 'c': // Velocity PIDs
+            uart3Print("\n");
+
+            uart3Print("nDot PID:  ");
+            ftoa(eepromConfig.PID[NDOT_PID].B,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[NDOT_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[NDOT_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[NDOT_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[NDOT_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[NDOT_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
+
+            uart3Print("eDot PID:  ");
+            ftoa(eepromConfig.PID[EDOT_PID].B,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[EDOT_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[EDOT_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[EDOT_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[EDOT_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[EDOT_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
+
+            uart3Print("hDot PID:  ");
+            ftoa(eepromConfig.PID[HDOT_PID].B,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[HDOT_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[HDOT_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[HDOT_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[HDOT_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[HDOT_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
+
+            queryType = 'x';
+            break;
 
         ///////////////////////////////
 
-        case 'v': // Free Mix Matrix
-        	uart3Print("\nNumber of Free Mixer Motors:  ");
-        	itoa( eepromConfig.freeMixMotors, numberString, 10 ); uart3Print( numberString ); uart3Print("\n\n");
-            uart3Print("         Roll    Pitch   Yaw\n");
+        case 'd': // Position PIDs
+            uart3Print("\n");
 
-        	for ( index = 0; index < eepromConfig.freeMixMotors; index++ )
-        	{
-        		uart3Print("Motor"); itoa(index, numberString, 10);     uart3Print(numberString); uart3Print("  ");
-        		ftoa(eepromConfig.freeMix[index][ROLL ], numberString); uart3Print(numberString); uart3Print("  ");
-        		ftoa(eepromConfig.freeMix[index][PITCH], numberString); uart3Print(numberString); uart3Print("  ");
-        		ftoa(eepromConfig.freeMix[index][YAW  ], numberString); uart3Print(numberString); uart3Print("\n");
-        	}
+            uart3Print("n PID:  ");
+            ftoa(eepromConfig.PID[N_PID].B,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[N_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[N_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[N_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[N_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[N_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
 
-        	queryType = 'x';
-        	break;
+            uart3Print("e PID:  ");
+            ftoa(eepromConfig.PID[E_PID].B,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[E_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[E_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[E_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[E_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[E_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
+
+            uart3Print("h PID:  ");
+            ftoa(eepromConfig.PID[H_PID].B,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[H_PID].P,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[H_PID].I,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[H_PID].D,            numberString); uart3Print(numberString); uart3Print(", ");
+            ftoa(eepromConfig.PID[H_PID].windupGuard,  numberString); uart3Print(numberString); uart3Print(", ");
+            if  (eepromConfig.PID[H_PID].dErrorCalc)
+                uart3Print("Error\n");
+            else
+                uart3Print("State\n");
+
+            queryType = 'x';
+            break;
 
         ///////////////////////////////
 
@@ -443,49 +454,57 @@ void rfCom(void)
 
         ///////////////////////////////
 
-        case 'G': // Read Altitude Hold PID Values
+        case 'G': // Read nDot PID Values
+            readRFPID(NDOT_PID);
+            uart3Print( "\nnDot PID Received....\n" );
+
         	queryType = 'x';
         	break;
 
         ///////////////////////////////
 
-        case 'X': // Read Free Mix Matrix Element
-            rows    = (uint8_t)readFloatRF();
-            columns = (uint8_t)readFloatRF();
-            eepromConfig.freeMix[rows][columns] = readFloatRF();
-            uart3Print( "\nFree Mix Value Received....\n");
+        case 'H': // Read eDot PID Values
+            readRFPID(EDOT_PID);
+            uart3Print( "\neDot PID Received....\n" );
 
-            queryType = 'v';
+            queryType = 'x';
+          	break;
+
+        ///////////////////////////////
+
+        case 'I': // Read hDot PID Values
+            readRFPID(HDOT_PID);
+            uart3Print( "\nhDot PID Received....\n" );
+
+          	queryType = 'x';
+          	break;
+
+       	///////////////////////////////
+
+        case 'J': // Read n PID Values
+            readRFPID(N_PID);
+            uart3Print( "\nn PID Received....\n" );
+
+            queryType = 'x';
             break;
 
         ///////////////////////////////
 
-        case 'Y': // Read Accel Cutoff
-            eepromConfig.accelCutoff = readFloatRF();
-            uart3Print( "\nAccel Cutoff Received....\n" );
+        case 'K': // Read e PID Values
+            readRFPID(E_PID);
+            uart3Print( "\ne PID Received....\n" );
+
+            queryType = 'x';
+            break;
+
+        ///////////////////////////////
+
+        case 'L': // Read h PID Values
+            readRFPID(H_PID);
+            uart3Print( "\nh PID Received....\n" );
 
             queryType = 'x';
         	break;
-
-        ///////////////////////////////
-
-        case '!': // Read kpAcc, kiAcc
-            eepromConfig.KpAcc = readFloatRF();
-            eepromConfig.KiAcc = readFloatRF();
-            uart3Print("\nkpAcc and kiAcc Received....\n");
-
-            queryType = 'x';
-            break;
-
-        ///////////////////////////////
-
-        case '@': // Read kpMag, kiMag
-            eepromConfig.KpMag = readFloatRF();
-            eepromConfig.KiMag = readFloatRF();
-            uart3Print("\nkpMag and kiMaf Received....\n");
-
-            queryType = 'x';
-            break;
 
         ///////////////////////////////
     }

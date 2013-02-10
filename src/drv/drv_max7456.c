@@ -1,3 +1,37 @@
+/*
+  October 2012
+
+  aq32Plus Rev -
+
+  Copyright (c) 2012 John Ihlein.  All rights reserved.
+
+  Open Source STM32 Based Multicopter Controller Software
+
+  Includes code and/or ideas from:
+
+  1)AeroQuad
+  2)BaseFlight
+  3)CH Robotics
+  4)MultiWii
+  5)S.O.H. Madgwick
+  6)UAVX
+
+  Designed to run on the AQ32 Flight Control Board
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "board.h"
@@ -84,7 +118,7 @@ void unhideOSD()
 // - buf=NULL or len>strlen(buf) can be used to write zeroes (clear)
 // - flags: 0x01 blink, 0x02 invert (can be combined)
 
-void writeChars( const char* buf, uint8_t len, uint8_t flags, uint8_t y, uint8_t x)
+void writeMax7456Chars( const char* buf, uint8_t len, uint8_t flags, uint8_t y, uint8_t x)
 {
     uint8_t  i;
     uint16_t offset = y * 30 + x;
@@ -239,10 +273,10 @@ void resetMax7456()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Show Font
+// Show MAX7456 Font
 ///////////////////////////////////////////////////////////////////////////////
 
-void showFont() //show all chars on 24 wide grid
+void showMax7456Font(void) //show all chars on 24 wide grid
 {
     uint8_t i, x;
 
@@ -325,20 +359,20 @@ void writeNVMcharacter(uint8_t ch, const uint16_t index)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Transfer Font Data
+// Download MAX7456 Font Data
 ///////////////////////////////////////////////////////////////////////////////
 
-void transferFontData()
+void downloadMax7456Font(void)
 {
     uint16_t ch;
 
     if (sizeof(fontdata)!=16384)
     {
-        usbPrint("ERROR: fontdata with invalid size, aborting!!!\n");
+        usbPrint("\nERROR: fontdata with invalid size, aborting!!!\n\n");
         return;
     }
 
-    usbPrint("Downloading font to MAX7456 NVM, this may take a while...\n");
+    usbPrint("\nDownloading font to MAX7456 NVM, this may take a while...\n\n");
 
     for (ch = 0; ch < 256; ch++)
     {
@@ -352,193 +386,9 @@ void transferFontData()
     // force soft reset on Max7456
     resetMax7456();
 
-    showFont();
+    showMax7456Font();
 
-    usbPrint("\n");
-    usbPrint("Done with MAX7456 font download\n");
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// MAX7456 CLI
-///////////////////////////////////////////////////////////////////////////////
-
-void max7456cli()
-{
-    uint8_t  max7456query;
-
-    cliBusy = true;
-
-    usbPrint("\nEntering MAX7456 CLI....\n\n");
-
-    if (eepromConfig.osdInstalled)
-    {
-    	resetMax7456();
-
-        while(true)
-        {
-			usbPrint("MAX7456 CLI -> ");
-
-			while (usbAvailable() == false);
-
-			max7456query = usbRead();
-
-			usbPrint("\n");
-
-			switch(max7456query)
-			{
-                case 'a': // Enable OSD Altitude Display
-                    eepromConfig.osdDisplayAlt  = true;
-                    usbPrint("\nOSD Altitude Display = On....\n\n");
-                    break;
-
-                case 'A': // Disable OSD Altitude Display
-                    eepromConfig.osdDisplayAlt = false;
-                    usbPrint("\nOSD Altitude Display = Off....\n\n");
-                    break;
-
-                case 'b': // Enable OSD Artifical Horizon Display
-                    eepromConfig.osdDisplayAH  = true;
-                    eepromConfig.osdDisplayAtt = false;
-                    usbPrint("\nOSD Artifical Horizon Display = On....");
-                    usbPrint("\nOSD Attitude Display = Off....\n\n");
-                    break;
-
-                case 'B': // Disable OSD Artifical Horizon Display
-                    eepromConfig.osdDisplayAH = false;
-                    usbPrint("\nOSD Artifical Horizon Display = Off....\n\n");
-                    break;
-
-                case 'c': // Enable OSD Attitude Display
-                    eepromConfig.osdDisplayAtt = true;
-                    eepromConfig.osdDisplayAH  = false;
-                    usbPrint("\nOSD Attitude Display = On....");
-                    usbPrint("\nOSD Artifical Horizon Display = Off....\n\n");
-                    break;
-
-                case 'C': // Disable OSD Attitude Display
-                    eepromConfig.osdDisplayAtt = false;
-                    usbPrint("\nOSD Atttiude Display = Off....\n\n");
-                    break;
-
-                case 'd': // Enable OSD Heading Display
-                    eepromConfig.osdDisplayHdg = true;
-                    usbPrint("\nOSD Heading Display = On....\n\n");
-                    break;
-
-                case 'D': // Disable OSD Heading Display
-                    eepromConfig.osdDisplayHdg = false;
-                    usbPrint("\nOSD Heading Display = Off....\n\n");
-                    break;
-
-                case 'r': // reset
-                    resetMax7456();
-                    usbPrint("MAX7456 Reset....\n");
-                    break;
-
-                case 's': // show charset
-                    showFont();
-                    usbPrint("MAX7456 Character Set Displayed....\n");
-                    break;
-
-                case 't': // download font
-                    transferFontData();
-                    break;
-
-                case 'u': // change OSD status to uninstalled
-                    eepromConfig.osdInstalled = false;
-                    usbPrint("\nOSD State Changed to Uninstalled....\n");
-                    usbPrint("\nSystem Resetting....\n\n");
-                    delay(100);
-                    writeEEPROM();
-                    systemReset(false);
-                    break;
-
-				case 'v': // change default video standard
-				    if (eepromConfig.defaultVideoStandard)         // If  PAL
-				        eepromConfig.defaultVideoStandard = NTSC;  // Set NTSC
-				    else                                           // If  NTSC
-				        eepromConfig.defaultVideoStandard = PAL;   // Set PAL
-
-                    usbPrint("\nDefault Video Standard Changed to ");
-                    if (eepromConfig.defaultVideoStandard)
-                        usbPrint("PAL....\n");
-                    else
-                        usbPrint("NTSC....\n");
-
-                    usbPrint("\nSystem Resetting....\n\n");
-					delay(100);
-					writeEEPROM();
-					systemReset(false);
-				    break;
-
-                case 'w': // Set English Display Units
-                    eepromConfig.metricUnits = false;
-                    usbPrint("\nOSD Display Units = English....\n");
-                    break;
-
-                case 'W': // Set Metric Display Units
-                    eepromConfig.metricUnits = true;
-                    usbPrint("\nOSD Display Units = Metric....\n");
-                    break;
-
-				case 'x':
-				    usbPrint("\nExiting MAX7456 CLI....\n");
-				    cliBusy = false;
-				    return;
-				    break;
-
-				case '?':
-				   	usbPrint("'a' Enable OSD Artificial Horizon Display      'A' Disable OSD Artificial Horizon Display\n");
-				   	usbPrint("'b' Enable OSD Artificial Horizon Display      'B' Disable OSD Artificial Horizon Display\n");
-				   	usbPrint("'c' Enable OSD Attitude Display                'C' Disable OSD Attitude Display\n");
-				   	usbPrint("'d' Enable OSD Heading Display                 'D' Disable OSD Heading Display\n");
-				   	usbPrint("'r' Reset MAX7456\n");
-				   	usbPrint("'s' Display MAX7456 Character Set\n");
-				   	usbPrint("'t' Download Font to MAX7456\n");
-				   	usbPrint("'u' Change OSD State to Uninstalled\n");
-				   	usbPrint("'v' Change Default Video Standard\n");
-				   	usbPrint("'w' Set English Display Units                  'W' Set Metric Display Units\n");
-				   	usbPrint("'x' Exit MAX7456 CLI\n");
-   		    	    break;
-		    }
-	    }
-	}
-	else
-	{
-		while(true)
-		{
-			usbPrint("MAX7456 CLI -> ");
-
-		    while (usbAvailable() == false);
-
-			max7456query = usbRead();
-
-			usbPrint("\n");
-
-			switch(max7456query)
-			{
-                case 'i': // change OSD status to installed
-            	    eepromConfig.osdInstalled = true;
-            	    usbPrint("\nOSD State Changed to Installed....\n");
-            	    usbPrint("\nSystem Resetting....\n\n");
-            	    writeEEPROM();
-            	    delay(100);
-            	    systemReset(false);
-            	    break;
-
-				case 'x':
-				    usbPrint("\nExiting MAX7456 CLI....\n");
-				    cliBusy = false;
-				    return;
-				    break;
-
-				case '?':
-				    usbPrint("'i' Change OSD State to Installed\n");
-				   	usbPrint("'x' Exit MAX7456 CLI\n");
-				   	break;
-			}
-		}
-	}
+    usbPrint("\nDone with MAX7456 font download\n\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

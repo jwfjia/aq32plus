@@ -79,7 +79,7 @@ int main(void)
 			if (eepromConfig.osdInstalled)
 			{
 				if (eepromConfig.osdDisplayAlt)
-				    displayAltitude(sensors.pressureAlt10Hz, 0.0f, OFF);
+				    displayAltitude(sensors.pressureAlt10Hz, 0.0f, DISENGAGED);
 
 				if (eepromConfig.osdDisplayAH)
 				    displayArtificialHorizon(sensors.attitude500Hz[ROLL], sensors.attitude500Hz[PITCH], flightMode);
@@ -146,15 +146,55 @@ int main(void)
        	 	dt500Hz = (float)timerValue * 0.0000005f;  // For integrations in 500 Hz loop
 
             computeMPU6000TCBias();
-
+            /*
+            sensorTemp1 = computeMPU6000SensorTemp();
+            sensorTemp2 = sensorTemp1 * sensorTemp1;
+            sensorTemp3 = sensorTemp2 * sensorTemp1;
+            */
             sensors.accel500Hz[XAXIS] =  ((float)accelSummedSamples500Hz[XAXIS] / 2.0f - accelTCBias[XAXIS]) * ACCEL_SCALE_FACTOR;
 			sensors.accel500Hz[YAXIS] = -((float)accelSummedSamples500Hz[YAXIS] / 2.0f - accelTCBias[YAXIS]) * ACCEL_SCALE_FACTOR;
 			sensors.accel500Hz[ZAXIS] = -((float)accelSummedSamples500Hz[ZAXIS] / 2.0f - accelTCBias[ZAXIS]) * ACCEL_SCALE_FACTOR;
+            /*
+            sensors.accel500Hz[XAXIS] =  ((float)accelSummedSamples500Hz[XAXIS] / 2.0f  +
+                                          eepromConfig.accelBiasP0[XAXIS]               +
+                                          eepromConfig.accelBiasP1[XAXIS] * sensorTemp1 +
+                                          eepromConfig.accelBiasP2[XAXIS] * sensorTemp2 +
+                                          eepromConfig.accelBiasP3[XAXIS] * sensorTemp3 ) * ACCEL_SCALE_FACTOR;
 
+			sensors.accel500Hz[YAXIS] = -((float)accelSummedSamples500Hz[YAXIS] / 2.0f  +
+			                              eepromConfig.accelBiasP0[YAXIS]               +
+			                              eepromConfig.accelBiasP1[YAXIS] * sensorTemp1 +
+			                              eepromConfig.accelBiasP2[YAXIS] * sensorTemp2 +
+			                              eepromConfig.accelBiasP3[YAXIS] * sensorTemp3 ) * ACCEL_SCALE_FACTOR;
+
+			sensors.accel500Hz[ZAXIS] = -((float)accelSummedSamples500Hz[ZAXIS] / 2.0f  +
+			                              eepromConfig.accelBiasP0[ZAXIS]               +
+			                              eepromConfig.accelBiasP1[ZAXIS] * sensorTemp1 +
+			                              eepromConfig.accelBiasP2[ZAXIS] * sensorTemp2 +
+			                              eepromConfig.accelBiasP3[ZAXIS] * sensorTemp3 ) * ACCEL_SCALE_FACTOR;
+            */
             sensors.gyro500Hz[ROLL ] =  ((float)gyroSummedSamples500Hz[ROLL]  / 2.0f - gyroRTBias[ROLL ] - gyroTCBias[ROLL ]) * GYRO_SCALE_FACTOR;
 			sensors.gyro500Hz[PITCH] = -((float)gyroSummedSamples500Hz[PITCH] / 2.0f - gyroRTBias[PITCH] - gyroTCBias[PITCH]) * GYRO_SCALE_FACTOR;
             sensors.gyro500Hz[YAW  ] = -((float)gyroSummedSamples500Hz[YAW]   / 2.0f - gyroRTBias[YAW  ] - gyroTCBias[YAW  ]) * GYRO_SCALE_FACTOR;
+            /*
+            sensors.gyro500Hz[ROLL ] =  ((float)gyroSummedSamples500Hz[ROLL ] / 2.0f  +
+                                         gyroBiasP0[ROLL ]                            +
+                                         eepromConfig.gyroBiasP1[ROLL ] * sensorTemp1 +
+                                         eepromConfig.gyroBiasP2[ROLL ] * sensorTemp2 +
+                                         eepromConfig.gyroBiasP3[ROLL ] * sensorTemp3 ) * GYRO_SCALE_FACTOR;
 
+			sensors.gyro500Hz[PITCH] = -((float)gyroSummedSamples500Hz[PITCH] / 2.0f  +
+			                             gyroBiasP0[PITCH]                            +
+			                             eepromConfig.gyroBiasP1[PITCH] * sensorTemp1 +
+			                             eepromConfig.gyroBiasP2[PITCH] * sensorTemp2 +
+			                             eepromConfig.gyroBiasP3[PITCH] * sensorTemp3 ) * GYRO_SCALE_FACTOR;
+
+            sensors.gyro500Hz[YAW  ] = -((float)gyroSummedSamples500Hz[YAW]   / 2.0f  +
+                                         gyroBiasP0[YAW  ]                            +
+                                         eepromConfig.gyroBiasP1[YAW  ] * sensorTemp1 +
+                                         eepromConfig.gyroBiasP2[YAW  ] * sensorTemp2 +
+                                         eepromConfig.gyroBiasP3[YAW  ] * sensorTemp3 ) * GYRO_SCALE_FACTOR;
+            */
             MargAHRSupdate( sensors.gyro500Hz[ROLL],   sensors.gyro500Hz[PITCH],  sensors.gyro500Hz[YAW],
                             sensors.accel500Hz[XAXIS], sensors.accel500Hz[YAXIS], sensors.accel500Hz[ZAXIS],
                             sensors.mag10Hz[XAXIS],    sensors.mag10Hz[YAXIS],    sensors.mag10Hz[ZAXIS],

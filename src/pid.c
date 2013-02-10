@@ -134,9 +134,16 @@ void zeroPIDintegralError(void)
     uint8_t index;
 
     for (index = 0; index < NUMBER_OF_PIDS; index++)
-    {
-        setPIDintegralError(index, 0.0f);
-    }
+         setPIDintegralError(index, 0.0f);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void setPIDstates(uint8_t IDPid, float value)
+{
+    eepromConfig.PID[IDPid].lastDcalcValue = value;
+    eepromConfig.PID[IDPid].lastDterm      = value;
+    eepromConfig.PID[IDPid].lastLastDterm  = value;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -146,11 +153,7 @@ void zeroPIDstates(void)
     uint8_t index;
 
     for (index = 0; index < NUMBER_OF_PIDS; index++)
-    {
-    	eepromConfig.PID[index].lastDcalcValue = 0.0f;
-    	eepromConfig.PID[index].lastDterm      = 0.0f;
-    	eepromConfig.PID[index].lastLastDterm  = 0.0f;
-    }
+         setPIDstates(index, 0.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

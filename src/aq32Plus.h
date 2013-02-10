@@ -108,15 +108,23 @@ extern sensors_t sensors;
 // PID Definitions
 ///////////////////////////////////////////////////////////////////////////////
 
-#define NUMBER_OF_PIDS 6
+#define NUMBER_OF_PIDS   12
 
-#define ROLL_RATE_PID  0
-#define PITCH_RATE_PID 1
-#define YAW_RATE_PID   2
+#define ROLL_RATE_PID     0
+#define PITCH_RATE_PID    1
+#define YAW_RATE_PID      2
 
-#define ROLL_ATT_PID   3
-#define PITCH_ATT_PID  4
-#define HEADING_PID    5
+#define ROLL_ATT_PID      3
+#define PITCH_ATT_PID     4
+#define HEADING_PID       5
+
+#define NDOT_PID          6
+#define EDOT_PID          7
+#define HDOT_PID          8
+
+#define N_PID             9
+#define E_PID            10
+#define H_PID            11
 
 ///////////////////////////////////////////////////////////////////////////////
 // Mixer Configurations
@@ -156,14 +164,26 @@ typedef enum mixerType_e
 } mixerType;
 
 ///////////////////////////////////////////////////////////////////////////////
+// Flight Modes
+///////////////////////////////////////////////////////////////////////////////
+
+typedef enum flightModeType_e
+{
+    RATE      = 0,
+    ATTITUDE  = 1,
+    GPS       = 1,  // Make equal to 2 when implemented
+
+} flightModeType;
+
+///////////////////////////////////////////////////////////////////////////////
 // Altitude Hold States
 ///////////////////////////////////////////////////////////////////////////////
 
 typedef enum altHoldStateType_e
 {
-    OFF       = 0,
-    ON        = 1,
-    ALTPANIC  = 2,
+    DISENGAGED = 0,
+    ENGAGED    = 1,
+    PANIC      = 2,
 
 } altHoldStateType;
 
@@ -223,6 +243,16 @@ typedef struct eepromConfig_t
     float compFilterB;
 
     uint8_t dlpfSetting;
+
+    ///////////////////////////////////
+
+    float rateScaling;
+
+    float attitudeScaling;
+
+    float velocityScaling;
+
+    float altitudeRateScaling;
 
     ///////////////////////////////////
 

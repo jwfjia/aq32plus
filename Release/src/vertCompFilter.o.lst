@@ -68,7 +68,7 @@
   75 0054 6FD1     		bne	.L1
   76 0056 40F20003 		movw	r3, #:lower16:eepromConfig
   77 005a C0F20003 		movt	r3, #:upper16:eepromConfig
-  78 005e 93ED907A 		flds	s14, [r3, #576]
+  78 005e 93ED167A 		flds	s14, [r3, #88]
   79 0062 40F20003 		movw	r3, #:lower16:estimationError
   80 0066 C0F20003 		movt	r3, #:upper16:estimationError
   81 006a D3ED007A 		flds	s15, [r3, #0]
@@ -94,7 +94,7 @@
  101 00ba C3ED007A 		fsts	s15, [r3, #0]
  102 00be 40F20003 		movw	r3, #:lower16:eepromConfig
  103 00c2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 104 00c6 93ED8F7A 		flds	s14, [r3, #572]
+ 104 00c6 93ED157A 		flds	s14, [r3, #84]
  105 00ca 40F20003 		movw	r3, #:lower16:estimationError
  106 00ce C0F20003 		movt	r3, #:upper16:estimationError
  107 00d2 D3ED007A 		flds	s15, [r3, #0]
@@ -129,13 +129,13 @@
 DEFINED SYMBOLS
                             *ABS*:00000000 vertCompFilter.c
                             *COM*:00000004 accelZ
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:22     .bss:00000000 estimationError
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:19     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:28     .bss:00000004 hDotEstimate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBLhIUK.s:22     .bss:00000000 estimationError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBLhIUK.s:19     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBLhIUK.s:28     .bss:00000004 hDotEstimate
                             *COM*:00000004 hEstimate
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:34     .bss:00000008 previousExecUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:37     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVSK4kk.s:42     .text:00000000 vertCompFilter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBLhIUK.s:34     .bss:00000008 previousExecUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBLhIUK.s:37     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBLhIUK.s:42     .text:00000000 vertCompFilter
 
 UNDEFINED SYMBOLS
 execUp

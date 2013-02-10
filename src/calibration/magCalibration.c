@@ -55,7 +55,7 @@ void magCalibration(I2C_TypeDef *I2Cx)
 
 	magCalibrating = true;
 
-	usbPrint("\n\nMagnetometer Calibration:\n\n");
+	usbPrint("\nMagnetometer Calibration:\n\n");
 
     usbPrint("Rotate magnetometer around all axes multiple times\n");
     usbPrint("Must complete within 60 seconds....\n\n");
@@ -63,7 +63,7 @@ void magCalibration(I2C_TypeDef *I2Cx)
 
     while (usbAvailable() == false);
 
-    usbPrint("  Start rotations.....\n\n");
+    usbPrint("  Start rotations.....\n");
 
     usbRead();
 
@@ -81,8 +81,10 @@ void magCalibration(I2C_TypeDef *I2Cx)
 		delay(20);
 	}
 
+	usbRead();
+
 	itoa(calibrationCounter, numberString, 10);
-	usbPrint("\r\nMagnetometer Bias Calculation ("); usbPrint(numberString); usbPrint(" samples collected out of 3000 max)\n\n");
+	usbPrint("\nMagnetometer Bias Calculation ("); usbPrint(numberString); usbPrint(" samples collected out of 3000 max)\n\n");
 
 	sphereFit(d, calibrationCounter, 100, 0.0f, population, sphereOrigin, &sphereRadius);
 
@@ -90,12 +92,7 @@ void magCalibration(I2C_TypeDef *I2Cx)
 	eepromConfig.magBias[YAXIS] = sphereOrigin[YAXIS];
 	eepromConfig.magBias[ZAXIS] = sphereOrigin[ZAXIS];
 
-    usbPrint("Magnetometer Bias Values: ");
-    ftoa(eepromConfig.magBias[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
-    ftoa(eepromConfig.magBias[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
-    ftoa(eepromConfig.magBias[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
-
-	usbPrint("\n\nMagnetometer Calibration Complete.\n\n");
+	usbPrint("Magnetometer Calibration Complete.\n\n");
 
 	magCalibrating = false;
 }

@@ -69,326 +69,366 @@
   70 0098 4FF46053 		mov	r3, #14336
   71 009c C4F20003 		movt	r3, 16384
   72 00a0 9A42     		cmp	r2, r3
-  73 00a2 40D1     		bne	.L3
-  74 00a4 4FF00200 		mov	r0, #2
-  75 00a8 4FF00101 		mov	r1, #1
-  76 00ac FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
-  77 00b0 4FF48040 		mov	r0, #16384
-  78 00b4 4FF00101 		mov	r1, #1
-  79 00b8 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
-  80 00bc 08AB     		add	r3, sp, #32
-  81 00be 1846     		mov	r0, r3
-  82 00c0 FFF7FEFF 		bl	GPIO_StructInit
-  83 00c4 4FF46043 		mov	r3, #57344
-  84 00c8 0893     		str	r3, [sp, #32]
-  85 00ca 4FF00203 		mov	r3, #2
-  86 00ce 8DF82430 		strb	r3, [sp, #36]
-  87 00d2 4FF00203 		mov	r3, #2
-  88 00d6 8DF82530 		strb	r3, [sp, #37]
-  89 00da 4FF48060 		mov	r0, #1024
-  90 00de C4F20200 		movt	r0, 16386
-  91 00e2 08AB     		add	r3, sp, #32
-  92 00e4 1946     		mov	r1, r3
-  93 00e6 FFF7FEFF 		bl	GPIO_Init
-  94 00ea 4FF48060 		mov	r0, #1024
-  95 00ee C4F20200 		movt	r0, 16386
-  96 00f2 4FF00D01 		mov	r1, #13
-  97 00f6 4FF00502 		mov	r2, #5
-  98 00fa FFF7FEFF 		bl	GPIO_PinAFConfig
-  99 00fe 4FF48060 		mov	r0, #1024
- 100 0102 C4F20200 		movt	r0, 16386
- 101 0106 4FF00E01 		mov	r1, #14
- 102 010a 4FF00502 		mov	r2, #5
- 103 010e FFF7FEFF 		bl	GPIO_PinAFConfig
- 104 0112 4FF48060 		mov	r0, #1024
- 105 0116 C4F20200 		movt	r0, 16386
- 106 011a 4FF00F01 		mov	r1, #15
- 107 011e 4FF00502 		mov	r2, #5
- 108 0122 FFF7FEFF 		bl	GPIO_PinAFConfig
- 109              	.L3:
- 110 0126 019A     		ldr	r2, [sp, #4]
- 111 0128 4FF47053 		mov	r3, #15360
- 112 012c C4F20003 		movt	r3, 16384
- 113 0130 9A42     		cmp	r2, r3
- 114 0132 40F09480 		bne	.L1
- 115 0136 4FF00200 		mov	r0, #2
- 116 013a 4FF00101 		mov	r1, #1
- 117 013e FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 118 0142 4FF00400 		mov	r0, #4
- 119 0146 4FF00101 		mov	r1, #1
- 120 014a FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 121 014e 4FF40040 		mov	r0, #32768
- 122 0152 4FF00101 		mov	r1, #1
- 123 0156 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
- 124 015a 08AB     		add	r3, sp, #32
- 125 015c 1846     		mov	r0, r3
- 126 015e FFF7FEFF 		bl	GPIO_StructInit
- 127 0162 4FF4E053 		mov	r3, #7168
- 128 0166 0893     		str	r3, [sp, #32]
- 129 0168 4FF00203 		mov	r3, #2
- 130 016c 8DF82430 		strb	r3, [sp, #36]
- 131 0170 4FF00203 		mov	r3, #2
- 132 0174 8DF82530 		strb	r3, [sp, #37]
- 133 0178 4FF40060 		mov	r0, #2048
- 134 017c C4F20200 		movt	r0, 16386
- 135 0180 08AB     		add	r3, sp, #32
- 136 0182 1946     		mov	r1, r3
- 137 0184 FFF7FEFF 		bl	GPIO_Init
- 138 0188 4FF40060 		mov	r0, #2048
- 139 018c C4F20200 		movt	r0, 16386
- 140 0190 4FF00A01 		mov	r1, #10
- 141 0194 4FF00602 		mov	r2, #6
- 142 0198 FFF7FEFF 		bl	GPIO_PinAFConfig
- 143 019c 4FF40060 		mov	r0, #2048
- 144 01a0 C4F20200 		movt	r0, 16386
- 145 01a4 4FF00B01 		mov	r1, #11
- 146 01a8 4FF00602 		mov	r2, #6
- 147 01ac FFF7FEFF 		bl	GPIO_PinAFConfig
- 148 01b0 4FF40060 		mov	r0, #2048
- 149 01b4 C4F20200 		movt	r0, 16386
- 150 01b8 4FF00C01 		mov	r1, #12
- 151 01bc 4FF00602 		mov	r2, #6
- 152 01c0 FFF7FEFF 		bl	GPIO_PinAFConfig
- 153 01c4 08AB     		add	r3, sp, #32
- 154 01c6 1846     		mov	r0, r3
- 155 01c8 FFF7FEFF 		bl	GPIO_StructInit
- 156 01cc 4FF48073 		mov	r3, #256
- 157 01d0 0893     		str	r3, [sp, #32]
- 158 01d2 4FF00103 		mov	r3, #1
- 159 01d6 8DF82430 		strb	r3, [sp, #36]
- 160 01da 4FF00203 		mov	r3, #2
- 161 01de 8DF82530 		strb	r3, [sp, #37]
- 162 01e2 4FF48060 		mov	r0, #1024
- 163 01e6 C4F20200 		movt	r0, 16386
- 164 01ea 08AB     		add	r3, sp, #32
- 165 01ec 1946     		mov	r1, r3
- 166 01ee FFF7FEFF 		bl	GPIO_Init
- 167 01f2 4FF48060 		mov	r0, #1024
- 168 01f6 C4F20200 		movt	r0, 16386
- 169 01fa 4FF48071 		mov	r1, #256
- 170 01fe FFF7FEFF 		bl	GPIO_SetBits
- 171 0202 03AB     		add	r3, sp, #12
- 172 0204 1846     		mov	r0, r3
- 173 0206 FFF7FEFF 		bl	SPI_StructInit
- 174 020a 4FF47050 		mov	r0, #15360
- 175 020e C4F20000 		movt	r0, 16384
- 176 0212 FFF7FEFF 		bl	SPI_I2S_DeInit
- 177 0216 4FF48273 		mov	r3, #260
- 178 021a ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 179 021e 4FF00203 		mov	r3, #2
- 180 0222 ADF81230 		strh	r3, [sp, #18]	@ movhi
- 181 0226 4FF00103 		mov	r3, #1
- 182 022a ADF81430 		strh	r3, [sp, #20]	@ movhi
- 183 022e 4FF40073 		mov	r3, #512
- 184 0232 ADF81630 		strh	r3, [sp, #22]	@ movhi
- 185 0236 4FF02803 		mov	r3, #40
- 186 023a ADF81830 		strh	r3, [sp, #24]	@ movhi
- 187 023e 4FF47050 		mov	r0, #15360
- 188 0242 C4F20000 		movt	r0, 16384
- 189 0246 03AB     		add	r3, sp, #12
- 190 0248 1946     		mov	r1, r3
- 191 024a FFF7FEFF 		bl	SPI_Init
- 192 024e 4FF47050 		mov	r0, #15360
- 193 0252 C4F20000 		movt	r0, 16384
- 194 0256 4FF00101 		mov	r1, #1
- 195 025a FFF7FEFF 		bl	SPI_Cmd
- 196              	.L1:
- 197 025e 0BB0     		add	sp, sp, #44
- 198 0260 00BD     		pop	{pc}
- 200 0262 00BF     		.align	2
- 201              		.global	spiTransfer
- 202              		.thumb
- 203              		.thumb_func
- 205              	spiTransfer:
- 206              		@ args = 0, pretend = 0, frame = 16
- 207              		@ frame_needed = 0, uses_anonymous_args = 0
- 208 0264 00B5     		push	{lr}
- 209 0266 85B0     		sub	sp, sp, #20
- 210 0268 0190     		str	r0, [sp, #4]
- 211 026a 0B46     		mov	r3, r1
- 212 026c 8DF80330 		strb	r3, [sp, #3]
- 213 0270 4FF48053 		mov	r3, #4096
- 214 0274 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 215 0278 11E0     		b	.L6
- 216              	.L8:
- 217 027a BDF80E30 		ldrh	r3, [sp, #14]
- 218 027e 002B     		cmp	r3, #0
- 219 0280 14BF     		ite	ne
- 220 0282 0023     		movne	r3, #0
- 221 0284 0123     		moveq	r3, #1
- 222 0286 DBB2     		uxtb	r3, r3
- 223 0288 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
- 224 028c 02F1FF32 		add	r2, r2, #-1
- 225 0290 ADF80E20 		strh	r2, [sp, #14]	@ movhi
- 226 0294 002B     		cmp	r3, #0
- 227 0296 02D0     		beq	.L6
- 228 0298 4FF00003 		mov	r3, #0
- 229 029c 32E0     		b	.L7
- 230              	.L6:
- 231 029e 0198     		ldr	r0, [sp, #4]
- 232 02a0 4FF00201 		mov	r1, #2
- 233 02a4 FFF7FEFF 		bl	SPI_I2S_GetFlagStatus
- 234 02a8 0346     		mov	r3, r0
- 235 02aa 002B     		cmp	r3, #0
- 236 02ac E5D0     		beq	.L8
- 237 02ae 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
- 238 02b2 9BB2     		uxth	r3, r3
- 239 02b4 0198     		ldr	r0, [sp, #4]
- 240 02b6 1946     		mov	r1, r3
- 241 02b8 FFF7FEFF 		bl	SPI_I2S_SendData
- 242 02bc 4FF48053 		mov	r3, #4096
- 243 02c0 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 244 02c4 11E0     		b	.L9
- 245              	.L10:
- 246 02c6 BDF80E30 		ldrh	r3, [sp, #14]
- 247 02ca 002B     		cmp	r3, #0
- 248 02cc 14BF     		ite	ne
- 249 02ce 0023     		movne	r3, #0
- 250 02d0 0123     		moveq	r3, #1
- 251 02d2 DBB2     		uxtb	r3, r3
- 252 02d4 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
- 253 02d8 02F1FF32 		add	r2, r2, #-1
- 254 02dc ADF80E20 		strh	r2, [sp, #14]	@ movhi
- 255 02e0 002B     		cmp	r3, #0
- 256 02e2 02D0     		beq	.L9
- 257 02e4 4FF00003 		mov	r3, #0
- 258 02e8 0CE0     		b	.L7
- 259              	.L9:
- 260 02ea 0198     		ldr	r0, [sp, #4]
- 261 02ec 4FF00101 		mov	r1, #1
- 262 02f0 FFF7FEFF 		bl	SPI_I2S_GetFlagStatus
- 263 02f4 0346     		mov	r3, r0
- 264 02f6 002B     		cmp	r3, #0
- 265 02f8 E5D0     		beq	.L10
- 266 02fa 0198     		ldr	r0, [sp, #4]
- 267 02fc FFF7FEFF 		bl	SPI_I2S_ReceiveData
- 268 0300 0346     		mov	r3, r0
- 269 0302 DBB2     		uxtb	r3, r3
- 270              	.L7:
- 271 0304 1846     		mov	r0, r3
- 272 0306 05B0     		add	sp, sp, #20
- 273 0308 00BD     		pop	{pc}
- 275 030a 00BF     		.align	2
- 276              		.global	setSPIdivisor
- 277              		.thumb
- 278              		.thumb_func
- 280              	setSPIdivisor:
- 281              		@ args = 0, pretend = 0, frame = 16
- 282              		@ frame_needed = 0, uses_anonymous_args = 0
- 283 030c 00B5     		push	{lr}
- 284 030e 85B0     		sub	sp, sp, #20
- 285 0310 0190     		str	r0, [sp, #4]
- 286 0312 0B46     		mov	r3, r1
- 287 0314 ADF80230 		strh	r3, [sp, #2]	@ movhi
- 288 0318 0198     		ldr	r0, [sp, #4]
- 289 031a 4FF00001 		mov	r1, #0
- 290 031e FFF7FEFF 		bl	SPI_Cmd
- 291 0322 019B     		ldr	r3, [sp, #4]
- 292 0324 1B88     		ldrh	r3, [r3, #0]	@ movhi
- 293 0326 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 294 032a BDF80230 		ldrh	r3, [sp, #2]
- 295 032e 102B     		cmp	r3, #16
- 296 0330 36D0     		beq	.L16
- 297 0332 102B     		cmp	r3, #16
- 298 0334 06DC     		bgt	.L21
- 299 0336 042B     		cmp	r3, #4
- 300 0338 18D0     		beq	.L14
- 301 033a 082B     		cmp	r3, #8
- 302 033c 23D0     		beq	.L15
- 303 033e 022B     		cmp	r3, #2
- 304 0340 0DD0     		beq	.L13
- 305 0342 6EE0     		b	.L12
- 306              	.L21:
- 307 0344 402B     		cmp	r3, #64
- 308 0346 45D0     		beq	.L18
- 309 0348 402B     		cmp	r3, #64
- 310 034a 02DC     		bgt	.L22
- 311 034c 202B     		cmp	r3, #32
- 312 034e 34D0     		beq	.L17
- 313 0350 67E0     		b	.L12
- 314              	.L22:
- 315 0352 802B     		cmp	r3, #128
- 316 0354 4BD0     		beq	.L19
- 317 0356 B3F5807F 		cmp	r3, #256
- 318 035a 55D0     		beq	.L20
- 319 035c 61E0     		b	.L12
- 320              	.L13:
- 321 035e BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 322 0362 23F03803 		bic	r3, r3, #56
- 323 0366 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 324 036a 5AE0     		b	.L12
- 325              	.L14:
- 326 036c BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 327 0370 23F03803 		bic	r3, r3, #56
- 328 0374 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 329 0378 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 330 037c 43F00803 		orr	r3, r3, #8
- 331 0380 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 332 0384 4DE0     		b	.L12
- 333              	.L15:
- 334 0386 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 335 038a 23F03803 		bic	r3, r3, #56
- 336 038e ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 337 0392 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 338 0396 43F01003 		orr	r3, r3, #16
- 339 039a ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 340 039e 40E0     		b	.L12
- 341              	.L16:
- 342 03a0 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 343 03a4 23F03803 		bic	r3, r3, #56
- 344 03a8 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 345 03ac BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 346 03b0 43F01803 		orr	r3, r3, #24
- 347 03b4 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 348 03b8 33E0     		b	.L12
- 349              	.L17:
- 350 03ba BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 351 03be 23F03803 		bic	r3, r3, #56
- 352 03c2 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 353 03c6 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 354 03ca 43F02003 		orr	r3, r3, #32
- 355 03ce ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 356 03d2 26E0     		b	.L12
- 357              	.L18:
- 358 03d4 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 359 03d8 23F03803 		bic	r3, r3, #56
- 360 03dc ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 361 03e0 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 362 03e4 43F02803 		orr	r3, r3, #40
- 363 03e8 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 364 03ec 19E0     		b	.L12
- 365              	.L19:
- 366 03ee BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 367 03f2 23F03803 		bic	r3, r3, #56
- 368 03f6 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 369 03fa BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 370 03fe 43F03003 		orr	r3, r3, #48
- 371 0402 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 372 0406 0CE0     		b	.L12
- 373              	.L20:
- 374 0408 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 375 040c 23F03803 		bic	r3, r3, #56
- 376 0410 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 377 0414 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
- 378 0418 43F03803 		orr	r3, r3, #56
- 379 041c ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 380 0420 00BF     		nop
- 381              	.L12:
- 382 0422 019B     		ldr	r3, [sp, #4]
- 383 0424 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
- 384 0428 1A80     		strh	r2, [r3, #0]	@ movhi
- 385 042a 0198     		ldr	r0, [sp, #4]
- 386 042c 4FF00101 		mov	r1, #1
- 387 0430 FFF7FEFF 		bl	SPI_Cmd
- 388 0434 05B0     		add	sp, sp, #20
- 389 0436 00BD     		pop	{pc}
- 391              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  73 00a2 40F08A80 		bne	.L3
+  74 00a6 4FF00200 		mov	r0, #2
+  75 00aa 4FF00101 		mov	r1, #1
+  76 00ae FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+  77 00b2 4FF48040 		mov	r0, #16384
+  78 00b6 4FF00101 		mov	r1, #1
+  79 00ba FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  80 00be 08AB     		add	r3, sp, #32
+  81 00c0 1846     		mov	r0, r3
+  82 00c2 FFF7FEFF 		bl	GPIO_StructInit
+  83 00c6 4FF46043 		mov	r3, #57344
+  84 00ca 0893     		str	r3, [sp, #32]
+  85 00cc 4FF00203 		mov	r3, #2
+  86 00d0 8DF82430 		strb	r3, [sp, #36]
+  87 00d4 4FF00203 		mov	r3, #2
+  88 00d8 8DF82530 		strb	r3, [sp, #37]
+  89 00dc 4FF48060 		mov	r0, #1024
+  90 00e0 C4F20200 		movt	r0, 16386
+  91 00e4 08AB     		add	r3, sp, #32
+  92 00e6 1946     		mov	r1, r3
+  93 00e8 FFF7FEFF 		bl	GPIO_Init
+  94 00ec 4FF48060 		mov	r0, #1024
+  95 00f0 C4F20200 		movt	r0, 16386
+  96 00f4 4FF00D01 		mov	r1, #13
+  97 00f8 4FF00502 		mov	r2, #5
+  98 00fc FFF7FEFF 		bl	GPIO_PinAFConfig
+  99 0100 4FF48060 		mov	r0, #1024
+ 100 0104 C4F20200 		movt	r0, 16386
+ 101 0108 4FF00E01 		mov	r1, #14
+ 102 010c 4FF00502 		mov	r2, #5
+ 103 0110 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 104 0114 4FF48060 		mov	r0, #1024
+ 105 0118 C4F20200 		movt	r0, 16386
+ 106 011c 4FF00F01 		mov	r1, #15
+ 107 0120 4FF00502 		mov	r2, #5
+ 108 0124 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 109 0128 4FF00803 		mov	r3, #8
+ 110 012c 0893     		str	r3, [sp, #32]
+ 111 012e 4FF00103 		mov	r3, #1
+ 112 0132 8DF82430 		strb	r3, [sp, #36]
+ 113 0136 4FF00203 		mov	r3, #2
+ 114 013a 8DF82530 		strb	r3, [sp, #37]
+ 115 013e 4FF00000 		mov	r0, #0
+ 116 0142 C4F20200 		movt	r0, 16386
+ 117 0146 08AB     		add	r3, sp, #32
+ 118 0148 1946     		mov	r1, r3
+ 119 014a FFF7FEFF 		bl	GPIO_Init
+ 120 014e 4FF00000 		mov	r0, #0
+ 121 0152 C4F20200 		movt	r0, 16386
+ 122 0156 4FF00801 		mov	r1, #8
+ 123 015a FFF7FEFF 		bl	GPIO_SetBits
+ 124 015e 03AB     		add	r3, sp, #12
+ 125 0160 1846     		mov	r0, r3
+ 126 0162 FFF7FEFF 		bl	SPI_StructInit
+ 127 0166 4FF46050 		mov	r0, #14336
+ 128 016a C4F20000 		movt	r0, 16384
+ 129 016e FFF7FEFF 		bl	SPI_I2S_DeInit
+ 130 0172 4FF48273 		mov	r3, #260
+ 131 0176 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 132 017a 4FF00203 		mov	r3, #2
+ 133 017e ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 134 0182 4FF00103 		mov	r3, #1
+ 135 0186 ADF81430 		strh	r3, [sp, #20]	@ movhi
+ 136 018a 4FF40073 		mov	r3, #512
+ 137 018e ADF81630 		strh	r3, [sp, #22]	@ movhi
+ 138 0192 4FF00803 		mov	r3, #8
+ 139 0196 ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 140 019a 4FF46050 		mov	r0, #14336
+ 141 019e C4F20000 		movt	r0, 16384
+ 142 01a2 03AB     		add	r3, sp, #12
+ 143 01a4 1946     		mov	r1, r3
+ 144 01a6 FFF7FEFF 		bl	SPI_Init
+ 145 01aa 4FF46050 		mov	r0, #14336
+ 146 01ae C4F20000 		movt	r0, 16384
+ 147 01b2 4FF00101 		mov	r1, #1
+ 148 01b6 FFF7FEFF 		bl	SPI_Cmd
+ 149              	.L3:
+ 150 01ba 019A     		ldr	r2, [sp, #4]
+ 151 01bc 4FF47053 		mov	r3, #15360
+ 152 01c0 C4F20003 		movt	r3, 16384
+ 153 01c4 9A42     		cmp	r2, r3
+ 154 01c6 40F09480 		bne	.L1
+ 155 01ca 4FF00200 		mov	r0, #2
+ 156 01ce 4FF00101 		mov	r1, #1
+ 157 01d2 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 158 01d6 4FF00400 		mov	r0, #4
+ 159 01da 4FF00101 		mov	r1, #1
+ 160 01de FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 161 01e2 4FF40040 		mov	r0, #32768
+ 162 01e6 4FF00101 		mov	r1, #1
+ 163 01ea FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 164 01ee 08AB     		add	r3, sp, #32
+ 165 01f0 1846     		mov	r0, r3
+ 166 01f2 FFF7FEFF 		bl	GPIO_StructInit
+ 167 01f6 4FF4E053 		mov	r3, #7168
+ 168 01fa 0893     		str	r3, [sp, #32]
+ 169 01fc 4FF00203 		mov	r3, #2
+ 170 0200 8DF82430 		strb	r3, [sp, #36]
+ 171 0204 4FF00203 		mov	r3, #2
+ 172 0208 8DF82530 		strb	r3, [sp, #37]
+ 173 020c 4FF40060 		mov	r0, #2048
+ 174 0210 C4F20200 		movt	r0, 16386
+ 175 0214 08AB     		add	r3, sp, #32
+ 176 0216 1946     		mov	r1, r3
+ 177 0218 FFF7FEFF 		bl	GPIO_Init
+ 178 021c 4FF40060 		mov	r0, #2048
+ 179 0220 C4F20200 		movt	r0, 16386
+ 180 0224 4FF00A01 		mov	r1, #10
+ 181 0228 4FF00602 		mov	r2, #6
+ 182 022c FFF7FEFF 		bl	GPIO_PinAFConfig
+ 183 0230 4FF40060 		mov	r0, #2048
+ 184 0234 C4F20200 		movt	r0, 16386
+ 185 0238 4FF00B01 		mov	r1, #11
+ 186 023c 4FF00602 		mov	r2, #6
+ 187 0240 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 188 0244 4FF40060 		mov	r0, #2048
+ 189 0248 C4F20200 		movt	r0, 16386
+ 190 024c 4FF00C01 		mov	r1, #12
+ 191 0250 4FF00602 		mov	r2, #6
+ 192 0254 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 193 0258 08AB     		add	r3, sp, #32
+ 194 025a 1846     		mov	r0, r3
+ 195 025c FFF7FEFF 		bl	GPIO_StructInit
+ 196 0260 4FF48073 		mov	r3, #256
+ 197 0264 0893     		str	r3, [sp, #32]
+ 198 0266 4FF00103 		mov	r3, #1
+ 199 026a 8DF82430 		strb	r3, [sp, #36]
+ 200 026e 4FF00203 		mov	r3, #2
+ 201 0272 8DF82530 		strb	r3, [sp, #37]
+ 202 0276 4FF48060 		mov	r0, #1024
+ 203 027a C4F20200 		movt	r0, 16386
+ 204 027e 08AB     		add	r3, sp, #32
+ 205 0280 1946     		mov	r1, r3
+ 206 0282 FFF7FEFF 		bl	GPIO_Init
+ 207 0286 4FF48060 		mov	r0, #1024
+ 208 028a C4F20200 		movt	r0, 16386
+ 209 028e 4FF48071 		mov	r1, #256
+ 210 0292 FFF7FEFF 		bl	GPIO_SetBits
+ 211 0296 03AB     		add	r3, sp, #12
+ 212 0298 1846     		mov	r0, r3
+ 213 029a FFF7FEFF 		bl	SPI_StructInit
+ 214 029e 4FF47050 		mov	r0, #15360
+ 215 02a2 C4F20000 		movt	r0, 16384
+ 216 02a6 FFF7FEFF 		bl	SPI_I2S_DeInit
+ 217 02aa 4FF48273 		mov	r3, #260
+ 218 02ae ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 219 02b2 4FF00203 		mov	r3, #2
+ 220 02b6 ADF81230 		strh	r3, [sp, #18]	@ movhi
+ 221 02ba 4FF00103 		mov	r3, #1
+ 222 02be ADF81430 		strh	r3, [sp, #20]	@ movhi
+ 223 02c2 4FF40073 		mov	r3, #512
+ 224 02c6 ADF81630 		strh	r3, [sp, #22]	@ movhi
+ 225 02ca 4FF02803 		mov	r3, #40
+ 226 02ce ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 227 02d2 4FF47050 		mov	r0, #15360
+ 228 02d6 C4F20000 		movt	r0, 16384
+ 229 02da 03AB     		add	r3, sp, #12
+ 230 02dc 1946     		mov	r1, r3
+ 231 02de FFF7FEFF 		bl	SPI_Init
+ 232 02e2 4FF47050 		mov	r0, #15360
+ 233 02e6 C4F20000 		movt	r0, 16384
+ 234 02ea 4FF00101 		mov	r1, #1
+ 235 02ee FFF7FEFF 		bl	SPI_Cmd
+ 236              	.L1:
+ 237 02f2 0BB0     		add	sp, sp, #44
+ 238 02f4 00BD     		pop	{pc}
+ 240 02f6 00BF     		.align	2
+ 241              		.global	spiTransfer
+ 242              		.thumb
+ 243              		.thumb_func
+ 245              	spiTransfer:
+ 246              		@ args = 0, pretend = 0, frame = 16
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248 02f8 00B5     		push	{lr}
+ 249 02fa 85B0     		sub	sp, sp, #20
+ 250 02fc 0190     		str	r0, [sp, #4]
+ 251 02fe 0B46     		mov	r3, r1
+ 252 0300 8DF80330 		strb	r3, [sp, #3]
+ 253 0304 4FF48053 		mov	r3, #4096
+ 254 0308 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 255 030c 11E0     		b	.L6
+ 256              	.L8:
+ 257 030e BDF80E30 		ldrh	r3, [sp, #14]
+ 258 0312 002B     		cmp	r3, #0
+ 259 0314 14BF     		ite	ne
+ 260 0316 0023     		movne	r3, #0
+ 261 0318 0123     		moveq	r3, #1
+ 262 031a DBB2     		uxtb	r3, r3
+ 263 031c BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
+ 264 0320 02F1FF32 		add	r2, r2, #-1
+ 265 0324 ADF80E20 		strh	r2, [sp, #14]	@ movhi
+ 266 0328 002B     		cmp	r3, #0
+ 267 032a 02D0     		beq	.L6
+ 268 032c 4FF00003 		mov	r3, #0
+ 269 0330 32E0     		b	.L7
+ 270              	.L6:
+ 271 0332 0198     		ldr	r0, [sp, #4]
+ 272 0334 4FF00201 		mov	r1, #2
+ 273 0338 FFF7FEFF 		bl	SPI_I2S_GetFlagStatus
+ 274 033c 0346     		mov	r3, r0
+ 275 033e 002B     		cmp	r3, #0
+ 276 0340 E5D0     		beq	.L8
+ 277 0342 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 278 0346 9BB2     		uxth	r3, r3
+ 279 0348 0198     		ldr	r0, [sp, #4]
+ 280 034a 1946     		mov	r1, r3
+ 281 034c FFF7FEFF 		bl	SPI_I2S_SendData
+ 282 0350 4FF48053 		mov	r3, #4096
+ 283 0354 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 284 0358 11E0     		b	.L9
+ 285              	.L10:
+ 286 035a BDF80E30 		ldrh	r3, [sp, #14]
+ 287 035e 002B     		cmp	r3, #0
+ 288 0360 14BF     		ite	ne
+ 289 0362 0023     		movne	r3, #0
+ 290 0364 0123     		moveq	r3, #1
+ 291 0366 DBB2     		uxtb	r3, r3
+ 292 0368 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
+ 293 036c 02F1FF32 		add	r2, r2, #-1
+ 294 0370 ADF80E20 		strh	r2, [sp, #14]	@ movhi
+ 295 0374 002B     		cmp	r3, #0
+ 296 0376 02D0     		beq	.L9
+ 297 0378 4FF00003 		mov	r3, #0
+ 298 037c 0CE0     		b	.L7
+ 299              	.L9:
+ 300 037e 0198     		ldr	r0, [sp, #4]
+ 301 0380 4FF00101 		mov	r1, #1
+ 302 0384 FFF7FEFF 		bl	SPI_I2S_GetFlagStatus
+ 303 0388 0346     		mov	r3, r0
+ 304 038a 002B     		cmp	r3, #0
+ 305 038c E5D0     		beq	.L10
+ 306 038e 0198     		ldr	r0, [sp, #4]
+ 307 0390 FFF7FEFF 		bl	SPI_I2S_ReceiveData
+ 308 0394 0346     		mov	r3, r0
+ 309 0396 DBB2     		uxtb	r3, r3
+ 310              	.L7:
+ 311 0398 1846     		mov	r0, r3
+ 312 039a 05B0     		add	sp, sp, #20
+ 313 039c 00BD     		pop	{pc}
+ 315 039e 00BF     		.align	2
+ 316              		.global	setSPIdivisor
+ 317              		.thumb
+ 318              		.thumb_func
+ 320              	setSPIdivisor:
+ 321              		@ args = 0, pretend = 0, frame = 16
+ 322              		@ frame_needed = 0, uses_anonymous_args = 0
+ 323 03a0 00B5     		push	{lr}
+ 324 03a2 85B0     		sub	sp, sp, #20
+ 325 03a4 0190     		str	r0, [sp, #4]
+ 326 03a6 0B46     		mov	r3, r1
+ 327 03a8 ADF80230 		strh	r3, [sp, #2]	@ movhi
+ 328 03ac 0198     		ldr	r0, [sp, #4]
+ 329 03ae 4FF00001 		mov	r1, #0
+ 330 03b2 FFF7FEFF 		bl	SPI_Cmd
+ 331 03b6 019B     		ldr	r3, [sp, #4]
+ 332 03b8 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 333 03ba ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 334 03be BDF80230 		ldrh	r3, [sp, #2]
+ 335 03c2 102B     		cmp	r3, #16
+ 336 03c4 36D0     		beq	.L16
+ 337 03c6 102B     		cmp	r3, #16
+ 338 03c8 06DC     		bgt	.L21
+ 339 03ca 042B     		cmp	r3, #4
+ 340 03cc 18D0     		beq	.L14
+ 341 03ce 082B     		cmp	r3, #8
+ 342 03d0 23D0     		beq	.L15
+ 343 03d2 022B     		cmp	r3, #2
+ 344 03d4 0DD0     		beq	.L13
+ 345 03d6 6EE0     		b	.L12
+ 346              	.L21:
+ 347 03d8 402B     		cmp	r3, #64
+ 348 03da 45D0     		beq	.L18
+ 349 03dc 402B     		cmp	r3, #64
+ 350 03de 02DC     		bgt	.L22
+ 351 03e0 202B     		cmp	r3, #32
+ 352 03e2 34D0     		beq	.L17
+ 353 03e4 67E0     		b	.L12
+ 354              	.L22:
+ 355 03e6 802B     		cmp	r3, #128
+ 356 03e8 4BD0     		beq	.L19
+ 357 03ea B3F5807F 		cmp	r3, #256
+ 358 03ee 55D0     		beq	.L20
+ 359 03f0 61E0     		b	.L12
+ 360              	.L13:
+ 361 03f2 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 362 03f6 23F03803 		bic	r3, r3, #56
+ 363 03fa ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 364 03fe 5AE0     		b	.L12
+ 365              	.L14:
+ 366 0400 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 367 0404 23F03803 		bic	r3, r3, #56
+ 368 0408 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 369 040c BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 370 0410 43F00803 		orr	r3, r3, #8
+ 371 0414 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 372 0418 4DE0     		b	.L12
+ 373              	.L15:
+ 374 041a BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 375 041e 23F03803 		bic	r3, r3, #56
+ 376 0422 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 377 0426 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 378 042a 43F01003 		orr	r3, r3, #16
+ 379 042e ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 380 0432 40E0     		b	.L12
+ 381              	.L16:
+ 382 0434 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 383 0438 23F03803 		bic	r3, r3, #56
+ 384 043c ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 385 0440 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 386 0444 43F01803 		orr	r3, r3, #24
+ 387 0448 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 388 044c 33E0     		b	.L12
+ 389              	.L17:
+ 390 044e BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 391 0452 23F03803 		bic	r3, r3, #56
+ 392 0456 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 393 045a BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 394 045e 43F02003 		orr	r3, r3, #32
+ 395 0462 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 396 0466 26E0     		b	.L12
+ 397              	.L18:
+ 398 0468 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 399 046c 23F03803 		bic	r3, r3, #56
+ 400 0470 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 401 0474 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 402 0478 43F02803 		orr	r3, r3, #40
+ 403 047c ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 404 0480 19E0     		b	.L12
+ 405              	.L19:
+ 406 0482 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 407 0486 23F03803 		bic	r3, r3, #56
+ 408 048a ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 409 048e BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 410 0492 43F03003 		orr	r3, r3, #48
+ 411 0496 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 412 049a 0CE0     		b	.L12
+ 413              	.L20:
+ 414 049c BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 415 04a0 23F03803 		bic	r3, r3, #56
+ 416 04a4 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 417 04a8 BDF80E30 		ldrh	r3, [sp, #14]	@ movhi
+ 418 04ac 43F03803 		orr	r3, r3, #56
+ 419 04b0 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 420 04b4 00BF     		nop
+ 421              	.L12:
+ 422 04b6 019B     		ldr	r3, [sp, #4]
+ 423 04b8 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
+ 424 04bc 1A80     		strh	r2, [r3, #0]	@ movhi
+ 425 04be 0198     		ldr	r0, [sp, #4]
+ 426 04c0 4FF00101 		mov	r1, #1
+ 427 04c4 FFF7FEFF 		bl	SPI_Cmd
+ 428 04c8 05B0     		add	sp, sp, #20
+ 429 04ca 00BD     		pop	{pc}
+ 431              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_spi.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqdxj3s.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqdxj3s.s:22     .text:00000000 spiInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqdxj3s.s:205    .text:00000264 spiTransfer
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqdxj3s.s:280    .text:0000030c setSPIdivisor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccI1MiPb.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccI1MiPb.s:22     .text:00000000 spiInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccI1MiPb.s:245    .text:000002f8 spiTransfer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccI1MiPb.s:320    .text:000003a0 setSPIdivisor
 
 UNDEFINED SYMBOLS
 RCC_AHB1PeriphClockCmd

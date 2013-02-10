@@ -88,6 +88,7 @@
 #include "ms5611.h"
 
 #include "cli.h"
+#include "cliSupport.h"
 #include "computeAxisCommands.h"
 #include "config.h"
 #include "coordinateTransforms.h"

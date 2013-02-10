@@ -1,3 +1,37 @@
+/*
+  October 2012
+
+  aq32Plus Rev -
+
+  Copyright (c) 2012 John Ihlein.  All rights reserved.
+
+  Open Source STM32 Based Multicopter Controller Software
+
+  Includes code and/or ideas from:
+
+  1)AeroQuad
+  2)BaseFlight
+  3)CH Robotics
+  4)MultiWii
+  5)S.O.H. Madgwick
+  6)UAVX
+
+  Designed to run on the AQ32 Flight Control Board
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -39,7 +73,7 @@
 #define WHITE_LEVEL_100     0x01
 #define WHITE_LEVEL_120     0x00
 
-#define MAX_FONR_ROM        0xFF
+#define MAX_FONT_ROM        0xFF
 #define STATUS_REG_NVR_BUSY 0x20
 #define NVM_RAM_SIZE        0x36
 
@@ -69,15 +103,21 @@ void initMax7456();
 void resetMax7456(void);
 
 ///////////////////////////////////////////////////////////////////////////////
-// MAX7456 CLI
+// Show MAX7456 Font
 ///////////////////////////////////////////////////////////////////////////////
 
-void max7456cli(void);
+void showMax7456Font(void);
+
+///////////////////////////////////////////////////////////////////////////////
+// Download MAX7456 Font Data
+///////////////////////////////////////////////////////////////////////////////
+
+void downloadMax7456Font(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Write Characters
 ///////////////////////////////////////////////////////////////////////////////
 
-void writeChars( const char* buf, uint8_t len, uint8_t flags, uint8_t y, uint8_t x);
+void writeMax7456Chars( const char* buf, uint8_t len, uint8_t flags, uint8_t y, uint8_t x);
 
 ///////////////////////////////////////////////////////////////////////////////
