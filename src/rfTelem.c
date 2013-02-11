@@ -40,7 +40,7 @@
 
 uint8_t rfBusy = false;
 
-static volatile uint8_t queryType;
+static volatile uint8_t rfQueryType;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Read Character String from RF Comm
@@ -83,13 +83,14 @@ float readFloatRF(void)
 
     do
     {
-        if ((data[index] = uart3Read()) == 0)
+        if (uart3Available() == false)
         {
             delay(10);
             timeout++;
         }
         else
         {
+            data[index] = uart3Read();
             timeout = 0;
             index++;
         }
@@ -128,9 +129,9 @@ void readRFPID(unsigned char PIDid)
 void rfCom(void)
 {
     if (uart3Available())
-    	queryType = uart3Read();
+    	rfQueryType = uart3Read();
 
-    switch (queryType)
+    switch (rfQueryType)
     {
         ///////////////////////////////
 
@@ -170,7 +171,7 @@ void rfCom(void)
             else
                 uart3Print("State\n");
 
-            queryType = 'x';
+            rfQueryType = 'x';
             break;
 
         ///////////////////////////////
@@ -211,7 +212,7 @@ void rfCom(void)
             else
                 uart3Print("State\n");
 
-            queryType = 'x';
+            rfQueryType = 'x';
             break;
 
         ///////////////////////////////
@@ -252,7 +253,7 @@ void rfCom(void)
             else
                 uart3Print("State\n");
 
-            queryType = 'x';
+            rfQueryType = 'x';
             break;
 
         ///////////////////////////////
@@ -293,7 +294,7 @@ void rfCom(void)
             else
                 uart3Print("State\n");
 
-            queryType = 'x';
+            rfQueryType = 'x';
             break;
 
         ///////////////////////////////
@@ -307,7 +308,7 @@ void rfCom(void)
         	highSpeedTelemDisable();
           	highSpeedTelem1Enabled = true;
 
-        	queryType = 'x';
+        	rfQueryType = 'x';
             break;
 
         ///////////////////////////////
@@ -316,7 +317,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem2Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -325,7 +326,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem3Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -334,7 +335,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem4Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -343,7 +344,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem5Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -352,7 +353,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem6Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -361,7 +362,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem7Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -370,7 +371,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem8Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -379,7 +380,7 @@ void rfCom(void)
            	highSpeedTelemDisable();
            	highSpeedTelem9Enabled = true;
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
 
         ///////////////////////////////
@@ -387,9 +388,8 @@ void rfCom(void)
         case '0': // Disable high speed telemetry 0
            	highSpeedTelemDisable();
 
-            queryType = 'x';
+            rfQueryType = 'x';
            	break;
-
 
         ///////////////////////////////
 
@@ -404,7 +404,7 @@ void rfCom(void)
             readRFPID(ROLL_RATE_PID);
             uart3Print( "\nRoll Rate PID Received....\n" );
 
-        	queryType = 'q';
+        	rfQueryType = 'a';
         	break;
 
         ///////////////////////////////
@@ -413,7 +413,7 @@ void rfCom(void)
             readRFPID(PITCH_RATE_PID);
             uart3Print( "\nPitch Rate PID Received....\n" );
 
-        	queryType = 'q';
+        	rfQueryType = 'a';
         	break;
 
         ///////////////////////////////
@@ -422,7 +422,7 @@ void rfCom(void)
             readRFPID(YAW_RATE_PID);
             uart3Print( "\nYaw Rate PID Received....\n" );
 
-        	queryType = 'q';
+        	rfQueryType = 'a';
         	break;
 
         ///////////////////////////////
@@ -431,7 +431,7 @@ void rfCom(void)
             readRFPID(ROLL_ATT_PID);
             uart3Print( "\nRoll Attitude PID Received....\n" );
 
-        	queryType = 'r';
+        	rfQueryType = 'b';
         	break;
 
         ///////////////////////////////
@@ -440,7 +440,7 @@ void rfCom(void)
             readRFPID(PITCH_ATT_PID);
             uart3Print( "\nPitch Attitude PID Received....\n" );
 
-        	queryType = 'r';
+        	rfQueryType = 'b';
         	break;
 
         ///////////////////////////////
@@ -449,7 +449,7 @@ void rfCom(void)
             readRFPID(HEADING_PID);
             uart3Print( "\nHeading PID Received....\n" );
 
-        	queryType = 'r';
+        	rfQueryType = 'b';
         	break;
 
         ///////////////////////////////
@@ -458,7 +458,7 @@ void rfCom(void)
             readRFPID(NDOT_PID);
             uart3Print( "\nnDot PID Received....\n" );
 
-        	queryType = 'x';
+        	rfQueryType = 'c';
         	break;
 
         ///////////////////////////////
@@ -467,7 +467,7 @@ void rfCom(void)
             readRFPID(EDOT_PID);
             uart3Print( "\neDot PID Received....\n" );
 
-            queryType = 'x';
+            rfQueryType = 'c';
           	break;
 
         ///////////////////////////////
@@ -476,7 +476,7 @@ void rfCom(void)
             readRFPID(HDOT_PID);
             uart3Print( "\nhDot PID Received....\n" );
 
-          	queryType = 'x';
+          	rfQueryType = 'c';
           	break;
 
        	///////////////////////////////
@@ -485,7 +485,7 @@ void rfCom(void)
             readRFPID(N_PID);
             uart3Print( "\nn PID Received....\n" );
 
-            queryType = 'x';
+            rfQueryType = 'd';
             break;
 
         ///////////////////////////////
@@ -494,7 +494,7 @@ void rfCom(void)
             readRFPID(E_PID);
             uart3Print( "\ne PID Received....\n" );
 
-            queryType = 'x';
+            rfQueryType = 'd';
             break;
 
         ///////////////////////////////
@@ -503,8 +503,17 @@ void rfCom(void)
             readRFPID(H_PID);
             uart3Print( "\nh PID Received....\n" );
 
-            queryType = 'x';
+            rfQueryType = 'd';
         	break;
+
+        ///////////////////////////////
+
+        case 'W': // Write EEPROM Parameters
+            uart3Print("\nWriting EEPROM Parameters....\n");
+            writeEEPROM();
+
+            rfQueryType = 'x';
+         	break;
 
         ///////////////////////////////
     }
