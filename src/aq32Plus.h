@@ -250,9 +250,9 @@ typedef struct eepromConfig_t
 
     float attitudeScaling;
 
-    float velocityScaling;
+    float nDotEdotScaling;
 
-    float altitudeRateScaling;
+    float hDotScaling;
 
     ///////////////////////////////////
 

@@ -1163,19 +1163,19 @@
  1172              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 config.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:21     .rodata:00000000 rcChannelLetters
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:18     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:21     .rodata:00000000 rcChannelLetters
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:18     .rodata:00000000 $d
                             *COM*:00000004 vTailThrust
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:27     .data:00000000 checkNewEEPROMConf
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:30     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:35     .text:00000000 parseRcChannels
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:88     .text:00000060 readEEPROM
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:150    .text:00000108 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:155    .text:00000118 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:160    .text:00000118 writeEEPROM
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:214    .rodata:00000008 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:222    .text:00000194 checkFirstTime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBproUc.s:1151   .text:00000f38 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:27     .data:00000000 checkNewEEPROMConf
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:30     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:35     .text:00000000 parseRcChannels
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:88     .text:00000060 readEEPROM
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:150    .text:00000108 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:155    .text:00000118 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:160    .text:00000118 writeEEPROM
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:214    .rodata:00000008 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:222    .text:00000194 checkFirstTime
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:1151   .text:00000f38 $d
 
 UNDEFINED SYMBOLS
 strchr

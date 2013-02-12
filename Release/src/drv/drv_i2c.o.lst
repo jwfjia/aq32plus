@@ -1644,34 +1644,34 @@
  1668 001b 00       		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_i2c.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:17     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:18     .bss:00000000 I2Cx
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:21     .bss:00000004 i2c1ErrorCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:24     .bss:00000006 i2c2ErrorCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:26     .bss:00000008 busy
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:28     .bss:00000009 addr
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:30     .bss:0000000a reg
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:32     .bss:0000000b bytes
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:34     .bss:0000000c writing
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:36     .bss:0000000d reading
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:39     .bss:00000010 write_p
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:42     .bss:00000014 read_p
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:45     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:50     .text:00000000 I2C_ER_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1457   .text:00000f00 i2cInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:168    .text:00000130 I2C_EV_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1662   .bss:00000018 index.10912
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1664   .bss:00000019 subaddress_sent.10910
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1666   .bss:0000001a final_stop.10911
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:851    .text:000008b0 I2C1_ER_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:863    .text:000008b8 I2C1_EV_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:875    .text:000008c0 I2C2_ER_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:887    .text:000008c8 I2C2_EV_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:899    .text:000008d0 i2cWriteBuffer
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1086   .text:00000ac8 i2cWrite
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1114   .text:00000b00 i2cRead
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1274   .text:00000cb0 i2cUnstick
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc4l3Agw.s:1635   .text:00001148 i2cGetErrorCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:17     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:18     .bss:00000000 I2Cx
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:21     .bss:00000004 i2c1ErrorCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:24     .bss:00000006 i2c2ErrorCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:26     .bss:00000008 busy
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:28     .bss:00000009 addr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:30     .bss:0000000a reg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:32     .bss:0000000b bytes
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:34     .bss:0000000c writing
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:36     .bss:0000000d reading
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:39     .bss:00000010 write_p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:42     .bss:00000014 read_p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:45     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:50     .text:00000000 I2C_ER_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1457   .text:00000f00 i2cInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:168    .text:00000130 I2C_EV_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1662   .bss:00000018 index.10912
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1664   .bss:00000019 subaddress_sent.10910
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1666   .bss:0000001a final_stop.10911
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:851    .text:000008b0 I2C1_ER_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:863    .text:000008b8 I2C1_EV_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:875    .text:000008c0 I2C2_ER_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:887    .text:000008c8 I2C2_EV_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:899    .text:000008d0 i2cWriteBuffer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1086   .text:00000ac8 i2cWrite
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1114   .text:00000b00 i2cRead
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1274   .text:00000cb0 i2cUnstick
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccWOz5Kc.s:1635   .text:00001148 i2cGetErrorCounter
 
 UNDEFINED SYMBOLS
 I2C_ITConfig

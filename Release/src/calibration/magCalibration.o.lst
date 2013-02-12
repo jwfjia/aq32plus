@@ -290,20 +290,20 @@
  259              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 magCalibration.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:20     .bss:00000000 magCalibrating
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:21     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:23     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:24     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:27     .rodata:00000020 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:31     .rodata:00000054 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:34     .rodata:0000007c .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:38     .rodata:000000c0 .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:41     .rodata:000000d8 .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:44     .rodata:000000fc .LC6
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:47     .rodata:00000124 .LC7
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:50     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:55     .text:00000000 magCalibration
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc3tBtwp.s:257    .text:00000278 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:20     .bss:00000000 magCalibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:23     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:24     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:27     .rodata:00000020 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:31     .rodata:00000054 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:34     .rodata:0000007c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:38     .rodata:000000c0 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:41     .rodata:000000d8 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:44     .rodata:000000fc .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:47     .rodata:00000124 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:50     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:55     .text:00000000 magCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccP86ozG.s:257    .text:00000278 $d
 
 UNDEFINED SYMBOLS
 usbPrint

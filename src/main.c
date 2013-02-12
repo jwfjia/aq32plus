@@ -257,21 +257,21 @@ int main(void)
             {
             	// Roll Rate, Roll Rate Command
             	ftoa(sensors.gyro500Hz[ROLL],        numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(rxCommand[ROLL] * RATE_SCALING, numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(rxCommand[ROLL] * eepromConfig.rateScaling, numberString); uart3Print(numberString); uart3Print("\n");
             }
 
             if ( highSpeedTelem4Enabled == true )
             {
             	// Pitch Rate, Pitch Rate Command
             	ftoa(sensors.gyro500Hz[PITCH],        numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(rxCommand[PITCH] * RATE_SCALING, numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(rxCommand[PITCH] * eepromConfig.rateScaling, numberString); uart3Print(numberString); uart3Print("\n");
             }
 
             if ( highSpeedTelem5Enabled == true )
             {
             	// Yaw Rate, Yaw Rate Command
             	ftoa(sensors.gyro500Hz[YAW],        numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(rxCommand[YAW] * RATE_SCALING, numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(rxCommand[YAW] * eepromConfig.rateScaling, numberString); uart3Print(numberString); uart3Print("\n");
             }
 
             if ( highSpeedTelem6Enabled == true )

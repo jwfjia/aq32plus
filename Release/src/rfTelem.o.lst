@@ -414,1425 +414,1641 @@
  334      20454550 
  334      524F4D20 
  334      50617261 
- 335              		.text
- 336              		.align	2
- 337              		.global	rfCom
- 338              		.thumb
- 339              		.thumb_func
- 341              	rfCom:
- 342              		@ args = 0, pretend = 0, frame = 0
- 343              		@ frame_needed = 0, uses_anonymous_args = 0
- 344 0204 08B5     		push	{r3, lr}
- 345 0206 FFF7FEFF 		bl	uart3Available
- 346 020a 0346     		mov	r3, r0
- 347 020c 002B     		cmp	r3, #0
- 348 020e 08D0     		beq	.L17
- 349 0210 FFF7FEFF 		bl	uart3Read
- 350 0214 0346     		mov	r3, r0
- 351 0216 1A46     		mov	r2, r3
- 352 0218 40F20003 		movw	r3, #:lower16:rfQueryType
- 353 021c C0F20003 		movt	r3, #:upper16:rfQueryType
- 354 0220 1A70     		strb	r2, [r3, #0]
- 355              	.L17:
- 356 0222 40F20003 		movw	r3, #:lower16:rfQueryType
- 357 0226 C0F20003 		movt	r3, #:upper16:rfQueryType
- 358 022a 1B78     		ldrb	r3, [r3, #0]
- 359 022c DBB2     		uxtb	r3, r3
- 360 022e A3F13003 		sub	r3, r3, #48
- 361 0232 482B     		cmp	r3, #72
- 362 0234 01F27B81 		bhi	.L16
- 363 0238 01A2     		adr	r2, .L47
- 364 023a 52F823F0 		ldr	pc, [r2, r3, lsl #2]
- 365 023e 00BF     		.align	2
- 366              	.L47:
- 367 0240 4B130000 		.word	.L19+1
- 368 0244 19120000 		.word	.L20+1
- 369 0248 3B120000 		.word	.L21+1
- 370 024c 5D120000 		.word	.L22+1
- 371 0250 7F120000 		.word	.L23+1
- 372 0254 A1120000 		.word	.L24+1
- 373 0258 C3120000 		.word	.L25+1
- 374 025c E5120000 		.word	.L26+1
- 375 0260 07130000 		.word	.L27+1
- 376 0264 29130000 		.word	.L28+1
- 377 0268 2F150000 		.word	.L16+1
- 378 026c 2F150000 		.word	.L16+1
- 379 0270 2F150000 		.word	.L16+1
- 380 0274 2F150000 		.word	.L16+1
- 381 0278 2F150000 		.word	.L16+1
- 382 027c 2F150000 		.word	.L16+1
- 383 0280 2F150000 		.word	.L16+1
- 384 0284 5F130000 		.word	.L29+1
- 385 0288 83130000 		.word	.L30+1
- 386 028c A7130000 		.word	.L31+1
- 387 0290 CB130000 		.word	.L32+1
- 388 0294 EF130000 		.word	.L33+1
- 389 0298 13140000 		.word	.L34+1
- 390 029c 37140000 		.word	.L35+1
- 391 02a0 5B140000 		.word	.L36+1
- 392 02a4 7F140000 		.word	.L37+1
- 393 02a8 A3140000 		.word	.L38+1
- 394 02ac C7140000 		.word	.L39+1
- 395 02b0 EB140000 		.word	.L40+1
- 396 02b4 2F150000 		.word	.L16+1
- 397 02b8 2F150000 		.word	.L16+1
- 398 02bc 2F150000 		.word	.L16+1
- 399 02c0 2F150000 		.word	.L16+1
- 400 02c4 2F150000 		.word	.L16+1
- 401 02c8 2F150000 		.word	.L16+1
- 402 02cc 2F150000 		.word	.L16+1
- 403 02d0 2F150000 		.word	.L16+1
- 404 02d4 2F150000 		.word	.L16+1
- 405 02d8 2F150000 		.word	.L16+1
- 406 02dc 0F150000 		.word	.L41+1
- 407 02e0 2F150000 		.word	.L16+1
- 408 02e4 2F150000 		.word	.L16+1
- 409 02e8 2F150000 		.word	.L16+1
- 410 02ec 2F150000 		.word	.L16+1
- 411 02f0 2F150000 		.word	.L16+1
- 412 02f4 2F150000 		.word	.L16+1
- 413 02f8 2F150000 		.word	.L16+1
- 414 02fc 2F150000 		.word	.L16+1
- 415 0300 2F150000 		.word	.L16+1
- 416 0304 65030000 		.word	.L42+1
- 417 0308 13070000 		.word	.L43+1
- 418 030c C10A0000 		.word	.L44+1
- 419 0310 6D0E0000 		.word	.L45+1
- 420 0314 2F150000 		.word	.L16+1
- 421 0318 2F150000 		.word	.L16+1
- 422 031c 2F150000 		.word	.L16+1
- 423 0320 2F150000 		.word	.L16+1
- 424 0324 2F150000 		.word	.L16+1
- 425 0328 2F150000 		.word	.L16+1
- 426 032c 2F150000 		.word	.L16+1
- 427 0330 2F150000 		.word	.L16+1
- 428 0334 2F150000 		.word	.L16+1
- 429 0338 2F150000 		.word	.L16+1
- 430 033c 2F150000 		.word	.L16+1
- 431 0340 2F150000 		.word	.L16+1
- 432 0344 2F150000 		.word	.L16+1
- 433 0348 2F150000 		.word	.L16+1
- 434 034c 2F150000 		.word	.L16+1
- 435 0350 2F150000 		.word	.L16+1
- 436 0354 2F150000 		.word	.L16+1
- 437 0358 2F150000 		.word	.L16+1
- 438 035c 2F150000 		.word	.L16+1
- 439 0360 2F150000 		.word	.L16+1
- 440              	.L42:
- 441 0364 40F20000 		movw	r0, #:lower16:.LC0
- 442 0368 C0F20000 		movt	r0, #:upper16:.LC0
- 443 036c FFF7FEFF 		bl	uart3Print
- 444 0370 40F20000 		movw	r0, #:lower16:.LC1
- 445 0374 C0F20000 		movt	r0, #:upper16:.LC1
- 446 0378 FFF7FEFF 		bl	uart3Print
- 447 037c 40F20003 		movw	r3, #:lower16:eepromConfig
- 448 0380 C0F20003 		movt	r3, #:upper16:eepromConfig
- 449 0384 D3F89C30 		ldr	r3, [r3, #156]	@ float
- 450 0388 1846     		mov	r0, r3	@ float
- 451 038a 40F20001 		movw	r1, #:lower16:numberString
- 452 038e C0F20001 		movt	r1, #:upper16:numberString
- 453 0392 FFF7FEFF 		bl	ftoa
- 454 0396 40F20000 		movw	r0, #:lower16:numberString
- 455 039a C0F20000 		movt	r0, #:upper16:numberString
- 456 039e FFF7FEFF 		bl	uart3Print
- 457 03a2 40F20000 		movw	r0, #:lower16:.LC2
- 458 03a6 C0F20000 		movt	r0, #:upper16:.LC2
- 459 03aa FFF7FEFF 		bl	uart3Print
- 460 03ae 40F20003 		movw	r3, #:lower16:eepromConfig
- 461 03b2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 462 03b6 D3F8A030 		ldr	r3, [r3, #160]	@ float
- 463 03ba 1846     		mov	r0, r3	@ float
- 464 03bc 40F20001 		movw	r1, #:lower16:numberString
- 465 03c0 C0F20001 		movt	r1, #:upper16:numberString
- 466 03c4 FFF7FEFF 		bl	ftoa
- 467 03c8 40F20000 		movw	r0, #:lower16:numberString
- 468 03cc C0F20000 		movt	r0, #:upper16:numberString
- 469 03d0 FFF7FEFF 		bl	uart3Print
- 470 03d4 40F20000 		movw	r0, #:lower16:.LC2
- 471 03d8 C0F20000 		movt	r0, #:upper16:.LC2
- 472 03dc FFF7FEFF 		bl	uart3Print
- 473 03e0 40F20003 		movw	r3, #:lower16:eepromConfig
- 474 03e4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 475 03e8 D3F8A430 		ldr	r3, [r3, #164]	@ float
- 476 03ec 1846     		mov	r0, r3	@ float
- 477 03ee 40F20001 		movw	r1, #:lower16:numberString
- 478 03f2 C0F20001 		movt	r1, #:upper16:numberString
- 479 03f6 FFF7FEFF 		bl	ftoa
- 480 03fa 40F20000 		movw	r0, #:lower16:numberString
- 481 03fe C0F20000 		movt	r0, #:upper16:numberString
- 482 0402 FFF7FEFF 		bl	uart3Print
- 483 0406 40F20000 		movw	r0, #:lower16:.LC2
- 484 040a C0F20000 		movt	r0, #:upper16:.LC2
- 485 040e FFF7FEFF 		bl	uart3Print
- 486 0412 40F20003 		movw	r3, #:lower16:eepromConfig
- 487 0416 C0F20003 		movt	r3, #:upper16:eepromConfig
- 488 041a D3F8A830 		ldr	r3, [r3, #168]	@ float
- 489 041e 1846     		mov	r0, r3	@ float
- 490 0420 40F20001 		movw	r1, #:lower16:numberString
- 491 0424 C0F20001 		movt	r1, #:upper16:numberString
- 492 0428 FFF7FEFF 		bl	ftoa
- 493 042c 40F20000 		movw	r0, #:lower16:numberString
- 494 0430 C0F20000 		movt	r0, #:upper16:numberString
- 495 0434 FFF7FEFF 		bl	uart3Print
- 496 0438 40F20000 		movw	r0, #:lower16:.LC2
- 497 043c C0F20000 		movt	r0, #:upper16:.LC2
- 498 0440 FFF7FEFF 		bl	uart3Print
- 499 0444 40F20003 		movw	r3, #:lower16:eepromConfig
- 500 0448 C0F20003 		movt	r3, #:upper16:eepromConfig
- 501 044c D3F8B030 		ldr	r3, [r3, #176]	@ float
- 502 0450 1846     		mov	r0, r3	@ float
- 503 0452 40F20001 		movw	r1, #:lower16:numberString
- 504 0456 C0F20001 		movt	r1, #:upper16:numberString
- 505 045a FFF7FEFF 		bl	ftoa
- 506 045e 40F20000 		movw	r0, #:lower16:numberString
- 507 0462 C0F20000 		movt	r0, #:upper16:numberString
- 508 0466 FFF7FEFF 		bl	uart3Print
- 509 046a 40F20000 		movw	r0, #:lower16:.LC2
- 510 046e C0F20000 		movt	r0, #:upper16:.LC2
- 511 0472 FFF7FEFF 		bl	uart3Print
- 512 0476 40F20003 		movw	r3, #:lower16:eepromConfig
- 513 047a C0F20003 		movt	r3, #:upper16:eepromConfig
- 514 047e 93F8C030 		ldrb	r3, [r3, #192]	@ zero_extendqisi2
- 515 0482 002B     		cmp	r3, #0
- 516 0484 06D0     		beq	.L48
- 517 0486 40F20000 		movw	r0, #:lower16:.LC3
- 518 048a C0F20000 		movt	r0, #:upper16:.LC3
- 519 048e FFF7FEFF 		bl	uart3Print
- 520 0492 05E0     		b	.L49
- 521              	.L48:
- 522 0494 40F20000 		movw	r0, #:lower16:.LC4
- 523 0498 C0F20000 		movt	r0, #:upper16:.LC4
- 524 049c FFF7FEFF 		bl	uart3Print
- 525              	.L49:
- 526 04a0 40F20000 		movw	r0, #:lower16:.LC5
- 527 04a4 C0F20000 		movt	r0, #:upper16:.LC5
- 528 04a8 FFF7FEFF 		bl	uart3Print
- 529 04ac 40F20003 		movw	r3, #:lower16:eepromConfig
- 530 04b0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 531 04b4 D3F8C430 		ldr	r3, [r3, #196]	@ float
- 532 04b8 1846     		mov	r0, r3	@ float
- 533 04ba 40F20001 		movw	r1, #:lower16:numberString
- 534 04be C0F20001 		movt	r1, #:upper16:numberString
- 535 04c2 FFF7FEFF 		bl	ftoa
- 536 04c6 40F20000 		movw	r0, #:lower16:numberString
- 537 04ca C0F20000 		movt	r0, #:upper16:numberString
- 538 04ce FFF7FEFF 		bl	uart3Print
- 539 04d2 40F20000 		movw	r0, #:lower16:.LC2
- 540 04d6 C0F20000 		movt	r0, #:upper16:.LC2
- 541 04da FFF7FEFF 		bl	uart3Print
- 542 04de 40F20003 		movw	r3, #:lower16:eepromConfig
- 543 04e2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 544 04e6 D3F8C830 		ldr	r3, [r3, #200]	@ float
- 545 04ea 1846     		mov	r0, r3	@ float
- 546 04ec 40F20001 		movw	r1, #:lower16:numberString
- 547 04f0 C0F20001 		movt	r1, #:upper16:numberString
- 548 04f4 FFF7FEFF 		bl	ftoa
- 549 04f8 40F20000 		movw	r0, #:lower16:numberString
- 550 04fc C0F20000 		movt	r0, #:upper16:numberString
- 551 0500 FFF7FEFF 		bl	uart3Print
- 552 0504 40F20000 		movw	r0, #:lower16:.LC2
- 553 0508 C0F20000 		movt	r0, #:upper16:.LC2
- 554 050c FFF7FEFF 		bl	uart3Print
- 555 0510 40F20003 		movw	r3, #:lower16:eepromConfig
- 556 0514 C0F20003 		movt	r3, #:upper16:eepromConfig
- 557 0518 D3F8CC30 		ldr	r3, [r3, #204]	@ float
- 558 051c 1846     		mov	r0, r3	@ float
- 559 051e 40F20001 		movw	r1, #:lower16:numberString
- 560 0522 C0F20001 		movt	r1, #:upper16:numberString
- 561 0526 FFF7FEFF 		bl	ftoa
- 562 052a 40F20000 		movw	r0, #:lower16:numberString
- 563 052e C0F20000 		movt	r0, #:upper16:numberString
- 564 0532 FFF7FEFF 		bl	uart3Print
- 565 0536 40F20000 		movw	r0, #:lower16:.LC2
- 566 053a C0F20000 		movt	r0, #:upper16:.LC2
- 567 053e FFF7FEFF 		bl	uart3Print
- 568 0542 40F20003 		movw	r3, #:lower16:eepromConfig
- 569 0546 C0F20003 		movt	r3, #:upper16:eepromConfig
- 570 054a D3F8D030 		ldr	r3, [r3, #208]	@ float
- 571 054e 1846     		mov	r0, r3	@ float
- 572 0550 40F20001 		movw	r1, #:lower16:numberString
- 573 0554 C0F20001 		movt	r1, #:upper16:numberString
- 574 0558 FFF7FEFF 		bl	ftoa
- 575 055c 40F20000 		movw	r0, #:lower16:numberString
- 576 0560 C0F20000 		movt	r0, #:upper16:numberString
- 577 0564 FFF7FEFF 		bl	uart3Print
- 578 0568 40F20000 		movw	r0, #:lower16:.LC2
- 579 056c C0F20000 		movt	r0, #:upper16:.LC2
- 580 0570 FFF7FEFF 		bl	uart3Print
- 581 0574 40F20003 		movw	r3, #:lower16:eepromConfig
- 582 0578 C0F20003 		movt	r3, #:upper16:eepromConfig
- 583 057c D3F8D830 		ldr	r3, [r3, #216]	@ float
- 584 0580 1846     		mov	r0, r3	@ float
- 585 0582 40F20001 		movw	r1, #:lower16:numberString
- 586 0586 C0F20001 		movt	r1, #:upper16:numberString
- 587 058a FFF7FEFF 		bl	ftoa
- 588 058e 40F20000 		movw	r0, #:lower16:numberString
- 589 0592 C0F20000 		movt	r0, #:upper16:numberString
- 590 0596 FFF7FEFF 		bl	uart3Print
- 591 059a 40F20000 		movw	r0, #:lower16:.LC2
- 592 059e C0F20000 		movt	r0, #:upper16:.LC2
- 593 05a2 FFF7FEFF 		bl	uart3Print
- 594 05a6 40F20003 		movw	r3, #:lower16:eepromConfig
- 595 05aa C0F20003 		movt	r3, #:upper16:eepromConfig
- 596 05ae 93F8E830 		ldrb	r3, [r3, #232]	@ zero_extendqisi2
- 597 05b2 002B     		cmp	r3, #0
- 598 05b4 06D0     		beq	.L50
- 599 05b6 40F20000 		movw	r0, #:lower16:.LC3
- 600 05ba C0F20000 		movt	r0, #:upper16:.LC3
- 601 05be FFF7FEFF 		bl	uart3Print
- 602 05c2 05E0     		b	.L51
- 603              	.L50:
- 604 05c4 40F20000 		movw	r0, #:lower16:.LC4
- 605 05c8 C0F20000 		movt	r0, #:upper16:.LC4
- 606 05cc FFF7FEFF 		bl	uart3Print
- 607              	.L51:
- 608 05d0 40F20000 		movw	r0, #:lower16:.LC6
- 609 05d4 C0F20000 		movt	r0, #:upper16:.LC6
- 610 05d8 FFF7FEFF 		bl	uart3Print
- 611 05dc 40F20003 		movw	r3, #:lower16:eepromConfig
- 612 05e0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 613 05e4 D3F8EC30 		ldr	r3, [r3, #236]	@ float
- 614 05e8 1846     		mov	r0, r3	@ float
- 615 05ea 40F20001 		movw	r1, #:lower16:numberString
- 616 05ee C0F20001 		movt	r1, #:upper16:numberString
- 617 05f2 FFF7FEFF 		bl	ftoa
- 618 05f6 40F20000 		movw	r0, #:lower16:numberString
- 619 05fa C0F20000 		movt	r0, #:upper16:numberString
- 620 05fe FFF7FEFF 		bl	uart3Print
- 621 0602 40F20000 		movw	r0, #:lower16:.LC2
- 622 0606 C0F20000 		movt	r0, #:upper16:.LC2
- 623 060a FFF7FEFF 		bl	uart3Print
- 624 060e 40F20003 		movw	r3, #:lower16:eepromConfig
- 625 0612 C0F20003 		movt	r3, #:upper16:eepromConfig
- 626 0616 D3F8F030 		ldr	r3, [r3, #240]	@ float
- 627 061a 1846     		mov	r0, r3	@ float
- 628 061c 40F20001 		movw	r1, #:lower16:numberString
- 629 0620 C0F20001 		movt	r1, #:upper16:numberString
- 630 0624 FFF7FEFF 		bl	ftoa
- 631 0628 40F20000 		movw	r0, #:lower16:numberString
- 632 062c C0F20000 		movt	r0, #:upper16:numberString
- 633 0630 FFF7FEFF 		bl	uart3Print
- 634 0634 40F20000 		movw	r0, #:lower16:.LC2
- 635 0638 C0F20000 		movt	r0, #:upper16:.LC2
- 636 063c FFF7FEFF 		bl	uart3Print
- 637 0640 40F20003 		movw	r3, #:lower16:eepromConfig
- 638 0644 C0F20003 		movt	r3, #:upper16:eepromConfig
- 639 0648 D3F8F430 		ldr	r3, [r3, #244]	@ float
- 640 064c 1846     		mov	r0, r3	@ float
- 641 064e 40F20001 		movw	r1, #:lower16:numberString
- 642 0652 C0F20001 		movt	r1, #:upper16:numberString
- 643 0656 FFF7FEFF 		bl	ftoa
- 644 065a 40F20000 		movw	r0, #:lower16:numberString
- 645 065e C0F20000 		movt	r0, #:upper16:numberString
- 646 0662 FFF7FEFF 		bl	uart3Print
- 647 0666 40F20000 		movw	r0, #:lower16:.LC2
- 648 066a C0F20000 		movt	r0, #:upper16:.LC2
- 649 066e FFF7FEFF 		bl	uart3Print
- 650 0672 40F20003 		movw	r3, #:lower16:eepromConfig
- 651 0676 C0F20003 		movt	r3, #:upper16:eepromConfig
- 652 067a D3F8F830 		ldr	r3, [r3, #248]	@ float
- 653 067e 1846     		mov	r0, r3	@ float
- 654 0680 40F20001 		movw	r1, #:lower16:numberString
- 655 0684 C0F20001 		movt	r1, #:upper16:numberString
- 656 0688 FFF7FEFF 		bl	ftoa
- 657 068c 40F20000 		movw	r0, #:lower16:numberString
- 658 0690 C0F20000 		movt	r0, #:upper16:numberString
- 659 0694 FFF7FEFF 		bl	uart3Print
- 660 0698 40F20000 		movw	r0, #:lower16:.LC2
- 661 069c C0F20000 		movt	r0, #:upper16:.LC2
- 662 06a0 FFF7FEFF 		bl	uart3Print
- 663 06a4 40F20003 		movw	r3, #:lower16:eepromConfig
- 664 06a8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 665 06ac D3F80031 		ldr	r3, [r3, #256]	@ float
- 666 06b0 1846     		mov	r0, r3	@ float
- 667 06b2 40F20001 		movw	r1, #:lower16:numberString
- 668 06b6 C0F20001 		movt	r1, #:upper16:numberString
- 669 06ba FFF7FEFF 		bl	ftoa
- 670 06be 40F20000 		movw	r0, #:lower16:numberString
- 671 06c2 C0F20000 		movt	r0, #:upper16:numberString
- 672 06c6 FFF7FEFF 		bl	uart3Print
- 673 06ca 40F20000 		movw	r0, #:lower16:.LC2
- 674 06ce C0F20000 		movt	r0, #:upper16:.LC2
- 675 06d2 FFF7FEFF 		bl	uart3Print
- 676 06d6 40F20003 		movw	r3, #:lower16:eepromConfig
- 677 06da C0F20003 		movt	r3, #:upper16:eepromConfig
- 678 06de 93F81031 		ldrb	r3, [r3, #272]	@ zero_extendqisi2
- 679 06e2 002B     		cmp	r3, #0
- 680 06e4 06D0     		beq	.L52
- 681 06e6 40F20000 		movw	r0, #:lower16:.LC3
- 682 06ea C0F20000 		movt	r0, #:upper16:.LC3
- 683 06ee FFF7FEFF 		bl	uart3Print
- 684 06f2 05E0     		b	.L53
- 685              	.L52:
- 686 06f4 40F20000 		movw	r0, #:lower16:.LC4
- 687 06f8 C0F20000 		movt	r0, #:upper16:.LC4
- 688 06fc FFF7FEFF 		bl	uart3Print
- 689              	.L53:
- 690 0700 40F20003 		movw	r3, #:lower16:rfQueryType
- 691 0704 C0F20003 		movt	r3, #:upper16:rfQueryType
- 692 0708 4FF07802 		mov	r2, #120
- 693 070c 1A70     		strb	r2, [r3, #0]
- 694 070e 00F00EBF 		b	.L16
- 695              	.L43:
- 696 0712 40F20000 		movw	r0, #:lower16:.LC0
- 697 0716 C0F20000 		movt	r0, #:upper16:.LC0
- 698 071a FFF7FEFF 		bl	uart3Print
- 699 071e 40F20000 		movw	r0, #:lower16:.LC7
- 700 0722 C0F20000 		movt	r0, #:upper16:.LC7
- 701 0726 FFF7FEFF 		bl	uart3Print
- 702 072a 40F20003 		movw	r3, #:lower16:eepromConfig
- 703 072e C0F20003 		movt	r3, #:upper16:eepromConfig
- 704 0732 D3F81431 		ldr	r3, [r3, #276]	@ float
- 705 0736 1846     		mov	r0, r3	@ float
- 706 0738 40F20001 		movw	r1, #:lower16:numberString
- 707 073c C0F20001 		movt	r1, #:upper16:numberString
- 708 0740 FFF7FEFF 		bl	ftoa
- 709 0744 40F20000 		movw	r0, #:lower16:numberString
- 710 0748 C0F20000 		movt	r0, #:upper16:numberString
- 711 074c FFF7FEFF 		bl	uart3Print
- 712 0750 40F20000 		movw	r0, #:lower16:.LC2
- 713 0754 C0F20000 		movt	r0, #:upper16:.LC2
- 714 0758 FFF7FEFF 		bl	uart3Print
- 715 075c 40F20003 		movw	r3, #:lower16:eepromConfig
- 716 0760 C0F20003 		movt	r3, #:upper16:eepromConfig
- 717 0764 D3F81831 		ldr	r3, [r3, #280]	@ float
- 718 0768 1846     		mov	r0, r3	@ float
- 719 076a 40F20001 		movw	r1, #:lower16:numberString
- 720 076e C0F20001 		movt	r1, #:upper16:numberString
- 721 0772 FFF7FEFF 		bl	ftoa
- 722 0776 40F20000 		movw	r0, #:lower16:numberString
- 723 077a C0F20000 		movt	r0, #:upper16:numberString
- 724 077e FFF7FEFF 		bl	uart3Print
- 725 0782 40F20000 		movw	r0, #:lower16:.LC2
- 726 0786 C0F20000 		movt	r0, #:upper16:.LC2
- 727 078a FFF7FEFF 		bl	uart3Print
- 728 078e 40F20003 		movw	r3, #:lower16:eepromConfig
- 729 0792 C0F20003 		movt	r3, #:upper16:eepromConfig
- 730 0796 D3F81C31 		ldr	r3, [r3, #284]	@ float
- 731 079a 1846     		mov	r0, r3	@ float
- 732 079c 40F20001 		movw	r1, #:lower16:numberString
- 733 07a0 C0F20001 		movt	r1, #:upper16:numberString
- 734 07a4 FFF7FEFF 		bl	ftoa
- 735 07a8 40F20000 		movw	r0, #:lower16:numberString
- 736 07ac C0F20000 		movt	r0, #:upper16:numberString
- 737 07b0 FFF7FEFF 		bl	uart3Print
- 738 07b4 40F20000 		movw	r0, #:lower16:.LC2
- 739 07b8 C0F20000 		movt	r0, #:upper16:.LC2
- 740 07bc FFF7FEFF 		bl	uart3Print
- 741 07c0 40F20003 		movw	r3, #:lower16:eepromConfig
- 742 07c4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 743 07c8 D3F82031 		ldr	r3, [r3, #288]	@ float
- 744 07cc 1846     		mov	r0, r3	@ float
- 745 07ce 40F20001 		movw	r1, #:lower16:numberString
- 746 07d2 C0F20001 		movt	r1, #:upper16:numberString
- 747 07d6 FFF7FEFF 		bl	ftoa
- 748 07da 40F20000 		movw	r0, #:lower16:numberString
- 749 07de C0F20000 		movt	r0, #:upper16:numberString
- 750 07e2 FFF7FEFF 		bl	uart3Print
- 751 07e6 40F20000 		movw	r0, #:lower16:.LC2
- 752 07ea C0F20000 		movt	r0, #:upper16:.LC2
- 753 07ee FFF7FEFF 		bl	uart3Print
- 754 07f2 40F20003 		movw	r3, #:lower16:eepromConfig
- 755 07f6 C0F20003 		movt	r3, #:upper16:eepromConfig
- 756 07fa D3F82831 		ldr	r3, [r3, #296]	@ float
- 757 07fe 1846     		mov	r0, r3	@ float
- 758 0800 40F20001 		movw	r1, #:lower16:numberString
- 759 0804 C0F20001 		movt	r1, #:upper16:numberString
- 760 0808 FFF7FEFF 		bl	ftoa
- 761 080c 40F20000 		movw	r0, #:lower16:numberString
- 762 0810 C0F20000 		movt	r0, #:upper16:numberString
- 763 0814 FFF7FEFF 		bl	uart3Print
- 764 0818 40F20000 		movw	r0, #:lower16:.LC2
- 765 081c C0F20000 		movt	r0, #:upper16:.LC2
- 766 0820 FFF7FEFF 		bl	uart3Print
- 767 0824 40F20003 		movw	r3, #:lower16:eepromConfig
- 768 0828 C0F20003 		movt	r3, #:upper16:eepromConfig
- 769 082c 93F83831 		ldrb	r3, [r3, #312]	@ zero_extendqisi2
- 770 0830 002B     		cmp	r3, #0
- 771 0832 06D0     		beq	.L54
- 772 0834 40F20000 		movw	r0, #:lower16:.LC3
- 773 0838 C0F20000 		movt	r0, #:upper16:.LC3
- 774 083c FFF7FEFF 		bl	uart3Print
- 775 0840 05E0     		b	.L55
- 776              	.L54:
- 777 0842 40F20000 		movw	r0, #:lower16:.LC4
- 778 0846 C0F20000 		movt	r0, #:upper16:.LC4
- 779 084a FFF7FEFF 		bl	uart3Print
- 780              	.L55:
- 781 084e 40F20000 		movw	r0, #:lower16:.LC8
- 782 0852 C0F20000 		movt	r0, #:upper16:.LC8
- 783 0856 FFF7FEFF 		bl	uart3Print
- 784 085a 40F20003 		movw	r3, #:lower16:eepromConfig
- 785 085e C0F20003 		movt	r3, #:upper16:eepromConfig
- 786 0862 D3F83C31 		ldr	r3, [r3, #316]	@ float
- 787 0866 1846     		mov	r0, r3	@ float
- 788 0868 40F20001 		movw	r1, #:lower16:numberString
- 789 086c C0F20001 		movt	r1, #:upper16:numberString
- 790 0870 FFF7FEFF 		bl	ftoa
- 791 0874 40F20000 		movw	r0, #:lower16:numberString
- 792 0878 C0F20000 		movt	r0, #:upper16:numberString
- 793 087c FFF7FEFF 		bl	uart3Print
- 794 0880 40F20000 		movw	r0, #:lower16:.LC2
- 795 0884 C0F20000 		movt	r0, #:upper16:.LC2
- 796 0888 FFF7FEFF 		bl	uart3Print
- 797 088c 40F20003 		movw	r3, #:lower16:eepromConfig
- 798 0890 C0F20003 		movt	r3, #:upper16:eepromConfig
- 799 0894 D3F84031 		ldr	r3, [r3, #320]	@ float
- 800 0898 1846     		mov	r0, r3	@ float
- 801 089a 40F20001 		movw	r1, #:lower16:numberString
- 802 089e C0F20001 		movt	r1, #:upper16:numberString
- 803 08a2 FFF7FEFF 		bl	ftoa
- 804 08a6 40F20000 		movw	r0, #:lower16:numberString
- 805 08aa C0F20000 		movt	r0, #:upper16:numberString
- 806 08ae FFF7FEFF 		bl	uart3Print
- 807 08b2 40F20000 		movw	r0, #:lower16:.LC2
- 808 08b6 C0F20000 		movt	r0, #:upper16:.LC2
- 809 08ba FFF7FEFF 		bl	uart3Print
- 810 08be 40F20003 		movw	r3, #:lower16:eepromConfig
- 811 08c2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 812 08c6 D3F84431 		ldr	r3, [r3, #324]	@ float
- 813 08ca 1846     		mov	r0, r3	@ float
- 814 08cc 40F20001 		movw	r1, #:lower16:numberString
- 815 08d0 C0F20001 		movt	r1, #:upper16:numberString
- 816 08d4 FFF7FEFF 		bl	ftoa
- 817 08d8 40F20000 		movw	r0, #:lower16:numberString
- 818 08dc C0F20000 		movt	r0, #:upper16:numberString
- 819 08e0 FFF7FEFF 		bl	uart3Print
- 820 08e4 40F20000 		movw	r0, #:lower16:.LC2
- 821 08e8 C0F20000 		movt	r0, #:upper16:.LC2
- 822 08ec FFF7FEFF 		bl	uart3Print
- 823 08f0 40F20003 		movw	r3, #:lower16:eepromConfig
- 824 08f4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 825 08f8 D3F84831 		ldr	r3, [r3, #328]	@ float
- 826 08fc 1846     		mov	r0, r3	@ float
- 827 08fe 40F20001 		movw	r1, #:lower16:numberString
- 828 0902 C0F20001 		movt	r1, #:upper16:numberString
- 829 0906 FFF7FEFF 		bl	ftoa
- 830 090a 40F20000 		movw	r0, #:lower16:numberString
- 831 090e C0F20000 		movt	r0, #:upper16:numberString
- 832 0912 FFF7FEFF 		bl	uart3Print
- 833 0916 40F20000 		movw	r0, #:lower16:.LC2
- 834 091a C0F20000 		movt	r0, #:upper16:.LC2
- 835 091e FFF7FEFF 		bl	uart3Print
- 836 0922 40F20003 		movw	r3, #:lower16:eepromConfig
- 837 0926 C0F20003 		movt	r3, #:upper16:eepromConfig
- 838 092a D3F85031 		ldr	r3, [r3, #336]	@ float
- 839 092e 1846     		mov	r0, r3	@ float
- 840 0930 40F20001 		movw	r1, #:lower16:numberString
- 841 0934 C0F20001 		movt	r1, #:upper16:numberString
- 842 0938 FFF7FEFF 		bl	ftoa
- 843 093c 40F20000 		movw	r0, #:lower16:numberString
- 844 0940 C0F20000 		movt	r0, #:upper16:numberString
- 845 0944 FFF7FEFF 		bl	uart3Print
- 846 0948 40F20000 		movw	r0, #:lower16:.LC2
- 847 094c C0F20000 		movt	r0, #:upper16:.LC2
- 848 0950 FFF7FEFF 		bl	uart3Print
- 849 0954 40F20003 		movw	r3, #:lower16:eepromConfig
- 850 0958 C0F20003 		movt	r3, #:upper16:eepromConfig
- 851 095c 93F86031 		ldrb	r3, [r3, #352]	@ zero_extendqisi2
- 852 0960 002B     		cmp	r3, #0
- 853 0962 06D0     		beq	.L56
- 854 0964 40F20000 		movw	r0, #:lower16:.LC3
- 855 0968 C0F20000 		movt	r0, #:upper16:.LC3
- 856 096c FFF7FEFF 		bl	uart3Print
- 857 0970 05E0     		b	.L57
- 858              	.L56:
- 859 0972 40F20000 		movw	r0, #:lower16:.LC4
- 860 0976 C0F20000 		movt	r0, #:upper16:.LC4
- 861 097a FFF7FEFF 		bl	uart3Print
- 862              	.L57:
- 863 097e 40F20000 		movw	r0, #:lower16:.LC9
- 864 0982 C0F20000 		movt	r0, #:upper16:.LC9
- 865 0986 FFF7FEFF 		bl	uart3Print
- 866 098a 40F20003 		movw	r3, #:lower16:eepromConfig
- 867 098e C0F20003 		movt	r3, #:upper16:eepromConfig
- 868 0992 D3F86431 		ldr	r3, [r3, #356]	@ float
- 869 0996 1846     		mov	r0, r3	@ float
- 870 0998 40F20001 		movw	r1, #:lower16:numberString
- 871 099c C0F20001 		movt	r1, #:upper16:numberString
- 872 09a0 FFF7FEFF 		bl	ftoa
- 873 09a4 40F20000 		movw	r0, #:lower16:numberString
- 874 09a8 C0F20000 		movt	r0, #:upper16:numberString
- 875 09ac FFF7FEFF 		bl	uart3Print
- 876 09b0 40F20000 		movw	r0, #:lower16:.LC2
- 877 09b4 C0F20000 		movt	r0, #:upper16:.LC2
- 878 09b8 FFF7FEFF 		bl	uart3Print
- 879 09bc 40F20003 		movw	r3, #:lower16:eepromConfig
- 880 09c0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 881 09c4 D3F86831 		ldr	r3, [r3, #360]	@ float
- 882 09c8 1846     		mov	r0, r3	@ float
- 883 09ca 40F20001 		movw	r1, #:lower16:numberString
- 884 09ce C0F20001 		movt	r1, #:upper16:numberString
- 885 09d2 FFF7FEFF 		bl	ftoa
- 886 09d6 40F20000 		movw	r0, #:lower16:numberString
- 887 09da C0F20000 		movt	r0, #:upper16:numberString
- 888 09de FFF7FEFF 		bl	uart3Print
- 889 09e2 40F20000 		movw	r0, #:lower16:.LC2
- 890 09e6 C0F20000 		movt	r0, #:upper16:.LC2
- 891 09ea FFF7FEFF 		bl	uart3Print
- 892 09ee 40F20003 		movw	r3, #:lower16:eepromConfig
- 893 09f2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 894 09f6 D3F86C31 		ldr	r3, [r3, #364]	@ float
- 895 09fa 1846     		mov	r0, r3	@ float
- 896 09fc 40F20001 		movw	r1, #:lower16:numberString
- 897 0a00 C0F20001 		movt	r1, #:upper16:numberString
- 898 0a04 FFF7FEFF 		bl	ftoa
- 899 0a08 40F20000 		movw	r0, #:lower16:numberString
- 900 0a0c C0F20000 		movt	r0, #:upper16:numberString
- 901 0a10 FFF7FEFF 		bl	uart3Print
- 902 0a14 40F20000 		movw	r0, #:lower16:.LC2
- 903 0a18 C0F20000 		movt	r0, #:upper16:.LC2
- 904 0a1c FFF7FEFF 		bl	uart3Print
- 905 0a20 40F20003 		movw	r3, #:lower16:eepromConfig
- 906 0a24 C0F20003 		movt	r3, #:upper16:eepromConfig
- 907 0a28 D3F87031 		ldr	r3, [r3, #368]	@ float
- 908 0a2c 1846     		mov	r0, r3	@ float
- 909 0a2e 40F20001 		movw	r1, #:lower16:numberString
- 910 0a32 C0F20001 		movt	r1, #:upper16:numberString
- 911 0a36 FFF7FEFF 		bl	ftoa
- 912 0a3a 40F20000 		movw	r0, #:lower16:numberString
- 913 0a3e C0F20000 		movt	r0, #:upper16:numberString
- 914 0a42 FFF7FEFF 		bl	uart3Print
- 915 0a46 40F20000 		movw	r0, #:lower16:.LC2
- 916 0a4a C0F20000 		movt	r0, #:upper16:.LC2
- 917 0a4e FFF7FEFF 		bl	uart3Print
- 918 0a52 40F20003 		movw	r3, #:lower16:eepromConfig
- 919 0a56 C0F20003 		movt	r3, #:upper16:eepromConfig
- 920 0a5a D3F87831 		ldr	r3, [r3, #376]	@ float
- 921 0a5e 1846     		mov	r0, r3	@ float
- 922 0a60 40F20001 		movw	r1, #:lower16:numberString
- 923 0a64 C0F20001 		movt	r1, #:upper16:numberString
- 924 0a68 FFF7FEFF 		bl	ftoa
- 925 0a6c 40F20000 		movw	r0, #:lower16:numberString
- 926 0a70 C0F20000 		movt	r0, #:upper16:numberString
- 927 0a74 FFF7FEFF 		bl	uart3Print
- 928 0a78 40F20000 		movw	r0, #:lower16:.LC2
- 929 0a7c C0F20000 		movt	r0, #:upper16:.LC2
- 930 0a80 FFF7FEFF 		bl	uart3Print
- 931 0a84 40F20003 		movw	r3, #:lower16:eepromConfig
- 932 0a88 C0F20003 		movt	r3, #:upper16:eepromConfig
- 933 0a8c 93F88831 		ldrb	r3, [r3, #392]	@ zero_extendqisi2
- 934 0a90 002B     		cmp	r3, #0
- 935 0a92 06D0     		beq	.L58
- 936 0a94 40F20000 		movw	r0, #:lower16:.LC3
- 937 0a98 C0F20000 		movt	r0, #:upper16:.LC3
- 938 0a9c FFF7FEFF 		bl	uart3Print
- 939 0aa0 05E0     		b	.L59
- 940              	.L58:
- 941 0aa2 40F20000 		movw	r0, #:lower16:.LC4
- 942 0aa6 C0F20000 		movt	r0, #:upper16:.LC4
- 943 0aaa FFF7FEFF 		bl	uart3Print
- 944              	.L59:
- 945 0aae 40F20003 		movw	r3, #:lower16:rfQueryType
- 946 0ab2 C0F20003 		movt	r3, #:upper16:rfQueryType
- 947 0ab6 4FF07802 		mov	r2, #120
- 948 0aba 1A70     		strb	r2, [r3, #0]
- 949 0abc 00F037BD 		b	.L16
- 950              	.L44:
- 951 0ac0 40F20000 		movw	r0, #:lower16:.LC0
- 952 0ac4 C0F20000 		movt	r0, #:upper16:.LC0
- 953 0ac8 FFF7FEFF 		bl	uart3Print
- 954 0acc 40F20000 		movw	r0, #:lower16:.LC10
- 955 0ad0 C0F20000 		movt	r0, #:upper16:.LC10
- 956 0ad4 FFF7FEFF 		bl	uart3Print
- 957 0ad8 40F20003 		movw	r3, #:lower16:eepromConfig
- 958 0adc C0F20003 		movt	r3, #:upper16:eepromConfig
- 959 0ae0 D3F88C31 		ldr	r3, [r3, #396]	@ float
- 960 0ae4 1846     		mov	r0, r3	@ float
- 961 0ae6 40F20001 		movw	r1, #:lower16:numberString
- 962 0aea C0F20001 		movt	r1, #:upper16:numberString
- 963 0aee FFF7FEFF 		bl	ftoa
- 964 0af2 40F20000 		movw	r0, #:lower16:numberString
- 965 0af6 C0F20000 		movt	r0, #:upper16:numberString
- 966 0afa FFF7FEFF 		bl	uart3Print
- 967 0afe 40F20000 		movw	r0, #:lower16:.LC2
- 968 0b02 C0F20000 		movt	r0, #:upper16:.LC2
- 969 0b06 FFF7FEFF 		bl	uart3Print
- 970 0b0a 40F20003 		movw	r3, #:lower16:eepromConfig
- 971 0b0e C0F20003 		movt	r3, #:upper16:eepromConfig
- 972 0b12 D3F89031 		ldr	r3, [r3, #400]	@ float
- 973 0b16 1846     		mov	r0, r3	@ float
- 974 0b18 40F20001 		movw	r1, #:lower16:numberString
- 975 0b1c C0F20001 		movt	r1, #:upper16:numberString
- 976 0b20 FFF7FEFF 		bl	ftoa
- 977 0b24 40F20000 		movw	r0, #:lower16:numberString
- 978 0b28 C0F20000 		movt	r0, #:upper16:numberString
- 979 0b2c FFF7FEFF 		bl	uart3Print
- 980 0b30 40F20000 		movw	r0, #:lower16:.LC2
- 981 0b34 C0F20000 		movt	r0, #:upper16:.LC2
- 982 0b38 FFF7FEFF 		bl	uart3Print
- 983 0b3c 40F20003 		movw	r3, #:lower16:eepromConfig
- 984 0b40 C0F20003 		movt	r3, #:upper16:eepromConfig
- 985 0b44 D3F89431 		ldr	r3, [r3, #404]	@ float
- 986 0b48 1846     		mov	r0, r3	@ float
- 987 0b4a 40F20001 		movw	r1, #:lower16:numberString
- 988 0b4e C0F20001 		movt	r1, #:upper16:numberString
- 989 0b52 FFF7FEFF 		bl	ftoa
- 990 0b56 40F20000 		movw	r0, #:lower16:numberString
- 991 0b5a C0F20000 		movt	r0, #:upper16:numberString
- 992 0b5e FFF7FEFF 		bl	uart3Print
- 993 0b62 40F20000 		movw	r0, #:lower16:.LC2
- 994 0b66 C0F20000 		movt	r0, #:upper16:.LC2
- 995 0b6a FFF7FEFF 		bl	uart3Print
- 996 0b6e 40F20003 		movw	r3, #:lower16:eepromConfig
- 997 0b72 C0F20003 		movt	r3, #:upper16:eepromConfig
- 998 0b76 D3F89831 		ldr	r3, [r3, #408]	@ float
- 999 0b7a 1846     		mov	r0, r3	@ float
- 1000 0b7c 40F20001 		movw	r1, #:lower16:numberString
- 1001 0b80 C0F20001 		movt	r1, #:upper16:numberString
- 1002 0b84 FFF7FEFF 		bl	ftoa
- 1003 0b88 40F20000 		movw	r0, #:lower16:numberString
- 1004 0b8c C0F20000 		movt	r0, #:upper16:numberString
- 1005 0b90 FFF7FEFF 		bl	uart3Print
- 1006 0b94 40F20000 		movw	r0, #:lower16:.LC2
- 1007 0b98 C0F20000 		movt	r0, #:upper16:.LC2
- 1008 0b9c FFF7FEFF 		bl	uart3Print
- 1009 0ba0 40F20003 		movw	r3, #:lower16:eepromConfig
- 1010 0ba4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1011 0ba8 D3F8A031 		ldr	r3, [r3, #416]	@ float
- 1012 0bac 1846     		mov	r0, r3	@ float
- 1013 0bae 40F20001 		movw	r1, #:lower16:numberString
- 1014 0bb2 C0F20001 		movt	r1, #:upper16:numberString
- 1015 0bb6 FFF7FEFF 		bl	ftoa
- 1016 0bba 40F20000 		movw	r0, #:lower16:numberString
- 1017 0bbe C0F20000 		movt	r0, #:upper16:numberString
- 1018 0bc2 FFF7FEFF 		bl	uart3Print
- 1019 0bc6 40F20000 		movw	r0, #:lower16:.LC2
- 1020 0bca C0F20000 		movt	r0, #:upper16:.LC2
- 1021 0bce FFF7FEFF 		bl	uart3Print
- 1022 0bd2 40F20003 		movw	r3, #:lower16:eepromConfig
- 1023 0bd6 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1024 0bda 93F8B031 		ldrb	r3, [r3, #432]	@ zero_extendqisi2
- 1025 0bde 002B     		cmp	r3, #0
- 1026 0be0 06D0     		beq	.L60
- 1027 0be2 40F20000 		movw	r0, #:lower16:.LC3
- 1028 0be6 C0F20000 		movt	r0, #:upper16:.LC3
- 1029 0bea FFF7FEFF 		bl	uart3Print
- 1030 0bee 05E0     		b	.L61
- 1031              	.L60:
- 1032 0bf0 40F20000 		movw	r0, #:lower16:.LC4
- 1033 0bf4 C0F20000 		movt	r0, #:upper16:.LC4
- 1034 0bf8 FFF7FEFF 		bl	uart3Print
- 1035              	.L61:
- 1036 0bfc 40F20000 		movw	r0, #:lower16:.LC11
- 1037 0c00 C0F20000 		movt	r0, #:upper16:.LC11
- 1038 0c04 FFF7FEFF 		bl	uart3Print
- 1039 0c08 40F20003 		movw	r3, #:lower16:eepromConfig
- 1040 0c0c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1041 0c10 D3F8B431 		ldr	r3, [r3, #436]	@ float
- 1042 0c14 1846     		mov	r0, r3	@ float
- 1043 0c16 40F20001 		movw	r1, #:lower16:numberString
- 1044 0c1a C0F20001 		movt	r1, #:upper16:numberString
- 1045 0c1e FFF7FEFF 		bl	ftoa
- 1046 0c22 40F20000 		movw	r0, #:lower16:numberString
- 1047 0c26 C0F20000 		movt	r0, #:upper16:numberString
- 1048 0c2a FFF7FEFF 		bl	uart3Print
- 1049 0c2e 40F20000 		movw	r0, #:lower16:.LC2
- 1050 0c32 C0F20000 		movt	r0, #:upper16:.LC2
- 1051 0c36 FFF7FEFF 		bl	uart3Print
- 1052 0c3a 40F20003 		movw	r3, #:lower16:eepromConfig
- 1053 0c3e C0F20003 		movt	r3, #:upper16:eepromConfig
- 1054 0c42 D3F8B831 		ldr	r3, [r3, #440]	@ float
- 1055 0c46 1846     		mov	r0, r3	@ float
- 1056 0c48 40F20001 		movw	r1, #:lower16:numberString
- 1057 0c4c C0F20001 		movt	r1, #:upper16:numberString
- 1058 0c50 FFF7FEFF 		bl	ftoa
- 1059 0c54 40F20000 		movw	r0, #:lower16:numberString
- 1060 0c58 C0F20000 		movt	r0, #:upper16:numberString
- 1061 0c5c FFF7FEFF 		bl	uart3Print
- 1062 0c60 40F20000 		movw	r0, #:lower16:.LC2
- 1063 0c64 C0F20000 		movt	r0, #:upper16:.LC2
- 1064 0c68 FFF7FEFF 		bl	uart3Print
- 1065 0c6c 40F20003 		movw	r3, #:lower16:eepromConfig
- 1066 0c70 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1067 0c74 D3F8BC31 		ldr	r3, [r3, #444]	@ float
- 1068 0c78 1846     		mov	r0, r3	@ float
- 1069 0c7a 40F20001 		movw	r1, #:lower16:numberString
- 1070 0c7e C0F20001 		movt	r1, #:upper16:numberString
- 1071 0c82 FFF7FEFF 		bl	ftoa
- 1072 0c86 40F20000 		movw	r0, #:lower16:numberString
- 1073 0c8a C0F20000 		movt	r0, #:upper16:numberString
- 1074 0c8e FFF7FEFF 		bl	uart3Print
- 1075 0c92 40F20000 		movw	r0, #:lower16:.LC2
- 1076 0c96 C0F20000 		movt	r0, #:upper16:.LC2
- 1077 0c9a FFF7FEFF 		bl	uart3Print
- 1078 0c9e 40F20003 		movw	r3, #:lower16:eepromConfig
- 1079 0ca2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1080 0ca6 D3F8C031 		ldr	r3, [r3, #448]	@ float
- 1081 0caa 1846     		mov	r0, r3	@ float
- 1082 0cac 40F20001 		movw	r1, #:lower16:numberString
- 1083 0cb0 C0F20001 		movt	r1, #:upper16:numberString
- 1084 0cb4 FFF7FEFF 		bl	ftoa
- 1085 0cb8 40F20000 		movw	r0, #:lower16:numberString
- 1086 0cbc C0F20000 		movt	r0, #:upper16:numberString
- 1087 0cc0 FFF7FEFF 		bl	uart3Print
- 1088 0cc4 40F20000 		movw	r0, #:lower16:.LC2
- 1089 0cc8 C0F20000 		movt	r0, #:upper16:.LC2
- 1090 0ccc FFF7FEFF 		bl	uart3Print
- 1091 0cd0 40F20003 		movw	r3, #:lower16:eepromConfig
- 1092 0cd4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1093 0cd8 D3F8C831 		ldr	r3, [r3, #456]	@ float
- 1094 0cdc 1846     		mov	r0, r3	@ float
- 1095 0cde 40F20001 		movw	r1, #:lower16:numberString
- 1096 0ce2 C0F20001 		movt	r1, #:upper16:numberString
- 1097 0ce6 FFF7FEFF 		bl	ftoa
- 1098 0cea 40F20000 		movw	r0, #:lower16:numberString
- 1099 0cee C0F20000 		movt	r0, #:upper16:numberString
- 1100 0cf2 FFF7FEFF 		bl	uart3Print
- 1101 0cf6 40F20000 		movw	r0, #:lower16:.LC2
- 1102 0cfa C0F20000 		movt	r0, #:upper16:.LC2
- 1103 0cfe FFF7FEFF 		bl	uart3Print
- 1104 0d02 40F20003 		movw	r3, #:lower16:eepromConfig
- 1105 0d06 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1106 0d0a 93F8D831 		ldrb	r3, [r3, #472]	@ zero_extendqisi2
- 1107 0d0e 002B     		cmp	r3, #0
- 1108 0d10 06D0     		beq	.L62
- 1109 0d12 40F20000 		movw	r0, #:lower16:.LC3
- 1110 0d16 C0F20000 		movt	r0, #:upper16:.LC3
- 1111 0d1a FFF7FEFF 		bl	uart3Print
- 1112 0d1e 05E0     		b	.L63
- 1113              	.L62:
- 1114 0d20 40F20000 		movw	r0, #:lower16:.LC4
- 1115 0d24 C0F20000 		movt	r0, #:upper16:.LC4
- 1116 0d28 FFF7FEFF 		bl	uart3Print
- 1117              	.L63:
- 1118 0d2c 40F20000 		movw	r0, #:lower16:.LC12
- 1119 0d30 C0F20000 		movt	r0, #:upper16:.LC12
- 1120 0d34 FFF7FEFF 		bl	uart3Print
- 1121 0d38 40F20003 		movw	r3, #:lower16:eepromConfig
- 1122 0d3c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1123 0d40 D3F8DC31 		ldr	r3, [r3, #476]	@ float
- 1124 0d44 1846     		mov	r0, r3	@ float
- 1125 0d46 40F20001 		movw	r1, #:lower16:numberString
- 1126 0d4a C0F20001 		movt	r1, #:upper16:numberString
- 1127 0d4e FFF7FEFF 		bl	ftoa
- 1128 0d52 40F20000 		movw	r0, #:lower16:numberString
- 1129 0d56 C0F20000 		movt	r0, #:upper16:numberString
- 1130 0d5a FFF7FEFF 		bl	uart3Print
- 1131 0d5e 40F20000 		movw	r0, #:lower16:.LC2
- 1132 0d62 C0F20000 		movt	r0, #:upper16:.LC2
- 1133 0d66 FFF7FEFF 		bl	uart3Print
- 1134 0d6a 40F20003 		movw	r3, #:lower16:eepromConfig
- 1135 0d6e C0F20003 		movt	r3, #:upper16:eepromConfig
- 1136 0d72 D3F8E031 		ldr	r3, [r3, #480]	@ float
- 1137 0d76 1846     		mov	r0, r3	@ float
- 1138 0d78 40F20001 		movw	r1, #:lower16:numberString
- 1139 0d7c C0F20001 		movt	r1, #:upper16:numberString
- 1140 0d80 FFF7FEFF 		bl	ftoa
- 1141 0d84 40F20000 		movw	r0, #:lower16:numberString
- 1142 0d88 C0F20000 		movt	r0, #:upper16:numberString
- 1143 0d8c FFF7FEFF 		bl	uart3Print
- 1144 0d90 40F20000 		movw	r0, #:lower16:.LC2
- 1145 0d94 C0F20000 		movt	r0, #:upper16:.LC2
- 1146 0d98 FFF7FEFF 		bl	uart3Print
- 1147 0d9c 40F20003 		movw	r3, #:lower16:eepromConfig
- 1148 0da0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1149 0da4 D3F8E431 		ldr	r3, [r3, #484]	@ float
- 1150 0da8 1846     		mov	r0, r3	@ float
- 1151 0daa 40F20001 		movw	r1, #:lower16:numberString
- 1152 0dae C0F20001 		movt	r1, #:upper16:numberString
- 1153 0db2 FFF7FEFF 		bl	ftoa
- 1154 0db6 40F20000 		movw	r0, #:lower16:numberString
- 1155 0dba C0F20000 		movt	r0, #:upper16:numberString
- 1156 0dbe FFF7FEFF 		bl	uart3Print
- 1157 0dc2 40F20000 		movw	r0, #:lower16:.LC2
- 1158 0dc6 C0F20000 		movt	r0, #:upper16:.LC2
- 1159 0dca FFF7FEFF 		bl	uart3Print
- 1160 0dce 40F20003 		movw	r3, #:lower16:eepromConfig
- 1161 0dd2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1162 0dd6 D3F8E831 		ldr	r3, [r3, #488]	@ float
- 1163 0dda 1846     		mov	r0, r3	@ float
- 1164 0ddc 40F20001 		movw	r1, #:lower16:numberString
- 1165 0de0 C0F20001 		movt	r1, #:upper16:numberString
- 1166 0de4 FFF7FEFF 		bl	ftoa
- 1167 0de8 40F20000 		movw	r0, #:lower16:numberString
- 1168 0dec C0F20000 		movt	r0, #:upper16:numberString
- 1169 0df0 FFF7FEFF 		bl	uart3Print
- 1170 0df4 40F20000 		movw	r0, #:lower16:.LC2
- 1171 0df8 C0F20000 		movt	r0, #:upper16:.LC2
- 1172 0dfc FFF7FEFF 		bl	uart3Print
- 1173 0e00 40F20003 		movw	r3, #:lower16:eepromConfig
- 1174 0e04 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1175 0e08 D3F8F031 		ldr	r3, [r3, #496]	@ float
- 1176 0e0c 1846     		mov	r0, r3	@ float
- 1177 0e0e 40F20001 		movw	r1, #:lower16:numberString
- 1178 0e12 C0F20001 		movt	r1, #:upper16:numberString
- 1179 0e16 FFF7FEFF 		bl	ftoa
- 1180 0e1a 40F20000 		movw	r0, #:lower16:numberString
- 1181 0e1e C0F20000 		movt	r0, #:upper16:numberString
- 1182 0e22 FFF7FEFF 		bl	uart3Print
- 1183 0e26 40F20000 		movw	r0, #:lower16:.LC2
- 1184 0e2a C0F20000 		movt	r0, #:upper16:.LC2
- 1185 0e2e FFF7FEFF 		bl	uart3Print
- 1186 0e32 40F20003 		movw	r3, #:lower16:eepromConfig
- 1187 0e36 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1188 0e3a 93F80032 		ldrb	r3, [r3, #512]	@ zero_extendqisi2
- 1189 0e3e 002B     		cmp	r3, #0
- 1190 0e40 06D0     		beq	.L64
- 1191 0e42 40F20000 		movw	r0, #:lower16:.LC3
- 1192 0e46 C0F20000 		movt	r0, #:upper16:.LC3
- 1193 0e4a FFF7FEFF 		bl	uart3Print
- 1194 0e4e 05E0     		b	.L65
- 1195              	.L64:
- 1196 0e50 40F20000 		movw	r0, #:lower16:.LC4
- 1197 0e54 C0F20000 		movt	r0, #:upper16:.LC4
- 1198 0e58 FFF7FEFF 		bl	uart3Print
- 1199              	.L65:
- 1200 0e5c 40F20003 		movw	r3, #:lower16:rfQueryType
- 1201 0e60 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1202 0e64 4FF07802 		mov	r2, #120
- 1203 0e68 1A70     		strb	r2, [r3, #0]
- 1204 0e6a 60E3     		b	.L16
- 1205              	.L45:
- 1206 0e6c 40F20000 		movw	r0, #:lower16:.LC0
- 1207 0e70 C0F20000 		movt	r0, #:upper16:.LC0
- 1208 0e74 FFF7FEFF 		bl	uart3Print
- 1209 0e78 40F20000 		movw	r0, #:lower16:.LC13
- 1210 0e7c C0F20000 		movt	r0, #:upper16:.LC13
- 1211 0e80 FFF7FEFF 		bl	uart3Print
- 1212 0e84 40F20003 		movw	r3, #:lower16:eepromConfig
- 1213 0e88 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1214 0e8c D3F80432 		ldr	r3, [r3, #516]	@ float
- 1215 0e90 1846     		mov	r0, r3	@ float
- 1216 0e92 40F20001 		movw	r1, #:lower16:numberString
- 1217 0e96 C0F20001 		movt	r1, #:upper16:numberString
- 1218 0e9a FFF7FEFF 		bl	ftoa
- 1219 0e9e 40F20000 		movw	r0, #:lower16:numberString
- 1220 0ea2 C0F20000 		movt	r0, #:upper16:numberString
- 1221 0ea6 FFF7FEFF 		bl	uart3Print
- 1222 0eaa 40F20000 		movw	r0, #:lower16:.LC2
- 1223 0eae C0F20000 		movt	r0, #:upper16:.LC2
- 1224 0eb2 FFF7FEFF 		bl	uart3Print
- 1225 0eb6 40F20003 		movw	r3, #:lower16:eepromConfig
- 1226 0eba C0F20003 		movt	r3, #:upper16:eepromConfig
- 1227 0ebe D3F80832 		ldr	r3, [r3, #520]	@ float
- 1228 0ec2 1846     		mov	r0, r3	@ float
- 1229 0ec4 40F20001 		movw	r1, #:lower16:numberString
- 1230 0ec8 C0F20001 		movt	r1, #:upper16:numberString
- 1231 0ecc FFF7FEFF 		bl	ftoa
- 1232 0ed0 40F20000 		movw	r0, #:lower16:numberString
- 1233 0ed4 C0F20000 		movt	r0, #:upper16:numberString
- 1234 0ed8 FFF7FEFF 		bl	uart3Print
- 1235 0edc 40F20000 		movw	r0, #:lower16:.LC2
- 1236 0ee0 C0F20000 		movt	r0, #:upper16:.LC2
- 1237 0ee4 FFF7FEFF 		bl	uart3Print
- 1238 0ee8 40F20003 		movw	r3, #:lower16:eepromConfig
- 1239 0eec C0F20003 		movt	r3, #:upper16:eepromConfig
- 1240 0ef0 D3F80C32 		ldr	r3, [r3, #524]	@ float
- 1241 0ef4 1846     		mov	r0, r3	@ float
- 1242 0ef6 40F20001 		movw	r1, #:lower16:numberString
- 1243 0efa C0F20001 		movt	r1, #:upper16:numberString
- 1244 0efe FFF7FEFF 		bl	ftoa
- 1245 0f02 40F20000 		movw	r0, #:lower16:numberString
- 1246 0f06 C0F20000 		movt	r0, #:upper16:numberString
- 1247 0f0a FFF7FEFF 		bl	uart3Print
- 1248 0f0e 40F20000 		movw	r0, #:lower16:.LC2
- 1249 0f12 C0F20000 		movt	r0, #:upper16:.LC2
- 1250 0f16 FFF7FEFF 		bl	uart3Print
- 1251 0f1a 40F20003 		movw	r3, #:lower16:eepromConfig
- 1252 0f1e C0F20003 		movt	r3, #:upper16:eepromConfig
- 1253 0f22 D3F81032 		ldr	r3, [r3, #528]	@ float
- 1254 0f26 1846     		mov	r0, r3	@ float
- 1255 0f28 40F20001 		movw	r1, #:lower16:numberString
- 1256 0f2c C0F20001 		movt	r1, #:upper16:numberString
- 1257 0f30 FFF7FEFF 		bl	ftoa
- 1258 0f34 40F20000 		movw	r0, #:lower16:numberString
- 1259 0f38 C0F20000 		movt	r0, #:upper16:numberString
- 1260 0f3c FFF7FEFF 		bl	uart3Print
- 1261 0f40 40F20000 		movw	r0, #:lower16:.LC2
- 1262 0f44 C0F20000 		movt	r0, #:upper16:.LC2
- 1263 0f48 FFF7FEFF 		bl	uart3Print
- 1264 0f4c 40F20003 		movw	r3, #:lower16:eepromConfig
- 1265 0f50 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1266 0f54 D3F81832 		ldr	r3, [r3, #536]	@ float
- 1267 0f58 1846     		mov	r0, r3	@ float
- 1268 0f5a 40F20001 		movw	r1, #:lower16:numberString
- 1269 0f5e C0F20001 		movt	r1, #:upper16:numberString
- 1270 0f62 FFF7FEFF 		bl	ftoa
- 1271 0f66 40F20000 		movw	r0, #:lower16:numberString
- 1272 0f6a C0F20000 		movt	r0, #:upper16:numberString
- 1273 0f6e FFF7FEFF 		bl	uart3Print
- 1274 0f72 40F20000 		movw	r0, #:lower16:.LC2
- 1275 0f76 C0F20000 		movt	r0, #:upper16:.LC2
- 1276 0f7a FFF7FEFF 		bl	uart3Print
- 1277 0f7e 40F20003 		movw	r3, #:lower16:eepromConfig
- 1278 0f82 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1279 0f86 93F82832 		ldrb	r3, [r3, #552]	@ zero_extendqisi2
- 1280 0f8a 002B     		cmp	r3, #0
- 1281 0f8c 06D0     		beq	.L66
- 1282 0f8e 40F20000 		movw	r0, #:lower16:.LC3
- 1283 0f92 C0F20000 		movt	r0, #:upper16:.LC3
- 1284 0f96 FFF7FEFF 		bl	uart3Print
- 1285 0f9a 05E0     		b	.L67
- 1286              	.L66:
- 1287 0f9c 40F20000 		movw	r0, #:lower16:.LC4
- 1288 0fa0 C0F20000 		movt	r0, #:upper16:.LC4
- 1289 0fa4 FFF7FEFF 		bl	uart3Print
- 1290              	.L67:
- 1291 0fa8 40F20000 		movw	r0, #:lower16:.LC14
- 1292 0fac C0F20000 		movt	r0, #:upper16:.LC14
- 1293 0fb0 FFF7FEFF 		bl	uart3Print
- 1294 0fb4 40F20003 		movw	r3, #:lower16:eepromConfig
- 1295 0fb8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1296 0fbc D3F82C32 		ldr	r3, [r3, #556]	@ float
- 1297 0fc0 1846     		mov	r0, r3	@ float
- 1298 0fc2 40F20001 		movw	r1, #:lower16:numberString
- 1299 0fc6 C0F20001 		movt	r1, #:upper16:numberString
- 1300 0fca FFF7FEFF 		bl	ftoa
- 1301 0fce 40F20000 		movw	r0, #:lower16:numberString
- 1302 0fd2 C0F20000 		movt	r0, #:upper16:numberString
- 1303 0fd6 FFF7FEFF 		bl	uart3Print
- 1304 0fda 40F20000 		movw	r0, #:lower16:.LC2
- 1305 0fde C0F20000 		movt	r0, #:upper16:.LC2
- 1306 0fe2 FFF7FEFF 		bl	uart3Print
- 1307 0fe6 40F20003 		movw	r3, #:lower16:eepromConfig
- 1308 0fea C0F20003 		movt	r3, #:upper16:eepromConfig
- 1309 0fee D3F83032 		ldr	r3, [r3, #560]	@ float
- 1310 0ff2 1846     		mov	r0, r3	@ float
- 1311 0ff4 40F20001 		movw	r1, #:lower16:numberString
- 1312 0ff8 C0F20001 		movt	r1, #:upper16:numberString
- 1313 0ffc FFF7FEFF 		bl	ftoa
- 1314 1000 40F20000 		movw	r0, #:lower16:numberString
- 1315 1004 C0F20000 		movt	r0, #:upper16:numberString
- 1316 1008 FFF7FEFF 		bl	uart3Print
- 1317 100c 40F20000 		movw	r0, #:lower16:.LC2
- 1318 1010 C0F20000 		movt	r0, #:upper16:.LC2
- 1319 1014 FFF7FEFF 		bl	uart3Print
- 1320 1018 40F20003 		movw	r3, #:lower16:eepromConfig
- 1321 101c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1322 1020 D3F83432 		ldr	r3, [r3, #564]	@ float
- 1323 1024 1846     		mov	r0, r3	@ float
- 1324 1026 40F20001 		movw	r1, #:lower16:numberString
- 1325 102a C0F20001 		movt	r1, #:upper16:numberString
- 1326 102e FFF7FEFF 		bl	ftoa
- 1327 1032 40F20000 		movw	r0, #:lower16:numberString
- 1328 1036 C0F20000 		movt	r0, #:upper16:numberString
- 1329 103a FFF7FEFF 		bl	uart3Print
- 1330 103e 40F20000 		movw	r0, #:lower16:.LC2
- 1331 1042 C0F20000 		movt	r0, #:upper16:.LC2
- 1332 1046 FFF7FEFF 		bl	uart3Print
- 1333 104a 40F20003 		movw	r3, #:lower16:eepromConfig
- 1334 104e C0F20003 		movt	r3, #:upper16:eepromConfig
- 1335 1052 D3F83832 		ldr	r3, [r3, #568]	@ float
- 1336 1056 1846     		mov	r0, r3	@ float
- 1337 1058 40F20001 		movw	r1, #:lower16:numberString
- 1338 105c C0F20001 		movt	r1, #:upper16:numberString
- 1339 1060 FFF7FEFF 		bl	ftoa
- 1340 1064 40F20000 		movw	r0, #:lower16:numberString
- 1341 1068 C0F20000 		movt	r0, #:upper16:numberString
- 1342 106c FFF7FEFF 		bl	uart3Print
- 1343 1070 40F20000 		movw	r0, #:lower16:.LC2
- 1344 1074 C0F20000 		movt	r0, #:upper16:.LC2
- 1345 1078 FFF7FEFF 		bl	uart3Print
- 1346 107c 40F20003 		movw	r3, #:lower16:eepromConfig
- 1347 1080 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1348 1084 D3F84032 		ldr	r3, [r3, #576]	@ float
- 1349 1088 1846     		mov	r0, r3	@ float
- 1350 108a 40F20001 		movw	r1, #:lower16:numberString
- 1351 108e C0F20001 		movt	r1, #:upper16:numberString
- 1352 1092 FFF7FEFF 		bl	ftoa
- 1353 1096 40F20000 		movw	r0, #:lower16:numberString
- 1354 109a C0F20000 		movt	r0, #:upper16:numberString
- 1355 109e FFF7FEFF 		bl	uart3Print
- 1356 10a2 40F20000 		movw	r0, #:lower16:.LC2
- 1357 10a6 C0F20000 		movt	r0, #:upper16:.LC2
- 1358 10aa FFF7FEFF 		bl	uart3Print
- 1359 10ae 40F20003 		movw	r3, #:lower16:eepromConfig
- 1360 10b2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1361 10b6 93F85032 		ldrb	r3, [r3, #592]	@ zero_extendqisi2
- 1362 10ba 002B     		cmp	r3, #0
- 1363 10bc 06D0     		beq	.L68
- 1364 10be 40F20000 		movw	r0, #:lower16:.LC3
- 1365 10c2 C0F20000 		movt	r0, #:upper16:.LC3
- 1366 10c6 FFF7FEFF 		bl	uart3Print
- 1367 10ca 05E0     		b	.L69
- 1368              	.L68:
- 1369 10cc 40F20000 		movw	r0, #:lower16:.LC4
- 1370 10d0 C0F20000 		movt	r0, #:upper16:.LC4
- 1371 10d4 FFF7FEFF 		bl	uart3Print
- 1372              	.L69:
- 1373 10d8 40F20000 		movw	r0, #:lower16:.LC15
- 1374 10dc C0F20000 		movt	r0, #:upper16:.LC15
- 1375 10e0 FFF7FEFF 		bl	uart3Print
- 1376 10e4 40F20003 		movw	r3, #:lower16:eepromConfig
- 1377 10e8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1378 10ec D3F85432 		ldr	r3, [r3, #596]	@ float
- 1379 10f0 1846     		mov	r0, r3	@ float
- 1380 10f2 40F20001 		movw	r1, #:lower16:numberString
- 1381 10f6 C0F20001 		movt	r1, #:upper16:numberString
- 1382 10fa FFF7FEFF 		bl	ftoa
- 1383 10fe 40F20000 		movw	r0, #:lower16:numberString
- 1384 1102 C0F20000 		movt	r0, #:upper16:numberString
- 1385 1106 FFF7FEFF 		bl	uart3Print
- 1386 110a 40F20000 		movw	r0, #:lower16:.LC2
- 1387 110e C0F20000 		movt	r0, #:upper16:.LC2
- 1388 1112 FFF7FEFF 		bl	uart3Print
- 1389 1116 40F20003 		movw	r3, #:lower16:eepromConfig
- 1390 111a C0F20003 		movt	r3, #:upper16:eepromConfig
- 1391 111e D3F85832 		ldr	r3, [r3, #600]	@ float
- 1392 1122 1846     		mov	r0, r3	@ float
- 1393 1124 40F20001 		movw	r1, #:lower16:numberString
- 1394 1128 C0F20001 		movt	r1, #:upper16:numberString
- 1395 112c FFF7FEFF 		bl	ftoa
- 1396 1130 40F20000 		movw	r0, #:lower16:numberString
- 1397 1134 C0F20000 		movt	r0, #:upper16:numberString
- 1398 1138 FFF7FEFF 		bl	uart3Print
- 1399 113c 40F20000 		movw	r0, #:lower16:.LC2
- 1400 1140 C0F20000 		movt	r0, #:upper16:.LC2
- 1401 1144 FFF7FEFF 		bl	uart3Print
- 1402 1148 40F20003 		movw	r3, #:lower16:eepromConfig
- 1403 114c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1404 1150 D3F85C32 		ldr	r3, [r3, #604]	@ float
- 1405 1154 1846     		mov	r0, r3	@ float
- 1406 1156 40F20001 		movw	r1, #:lower16:numberString
- 1407 115a C0F20001 		movt	r1, #:upper16:numberString
- 1408 115e FFF7FEFF 		bl	ftoa
- 1409 1162 40F20000 		movw	r0, #:lower16:numberString
- 1410 1166 C0F20000 		movt	r0, #:upper16:numberString
- 1411 116a FFF7FEFF 		bl	uart3Print
- 1412 116e 40F20000 		movw	r0, #:lower16:.LC2
- 1413 1172 C0F20000 		movt	r0, #:upper16:.LC2
- 1414 1176 FFF7FEFF 		bl	uart3Print
- 1415 117a 40F20003 		movw	r3, #:lower16:eepromConfig
- 1416 117e C0F20003 		movt	r3, #:upper16:eepromConfig
- 1417 1182 D3F86032 		ldr	r3, [r3, #608]	@ float
- 1418 1186 1846     		mov	r0, r3	@ float
- 1419 1188 40F20001 		movw	r1, #:lower16:numberString
- 1420 118c C0F20001 		movt	r1, #:upper16:numberString
- 1421 1190 FFF7FEFF 		bl	ftoa
- 1422 1194 40F20000 		movw	r0, #:lower16:numberString
- 1423 1198 C0F20000 		movt	r0, #:upper16:numberString
- 1424 119c FFF7FEFF 		bl	uart3Print
- 1425 11a0 40F20000 		movw	r0, #:lower16:.LC2
- 1426 11a4 C0F20000 		movt	r0, #:upper16:.LC2
- 1427 11a8 FFF7FEFF 		bl	uart3Print
- 1428 11ac 40F20003 		movw	r3, #:lower16:eepromConfig
- 1429 11b0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1430 11b4 D3F86832 		ldr	r3, [r3, #616]	@ float
- 1431 11b8 1846     		mov	r0, r3	@ float
- 1432 11ba 40F20001 		movw	r1, #:lower16:numberString
- 1433 11be C0F20001 		movt	r1, #:upper16:numberString
- 1434 11c2 FFF7FEFF 		bl	ftoa
- 1435 11c6 40F20000 		movw	r0, #:lower16:numberString
- 1436 11ca C0F20000 		movt	r0, #:upper16:numberString
- 1437 11ce FFF7FEFF 		bl	uart3Print
- 1438 11d2 40F20000 		movw	r0, #:lower16:.LC2
- 1439 11d6 C0F20000 		movt	r0, #:upper16:.LC2
- 1440 11da FFF7FEFF 		bl	uart3Print
- 1441 11de 40F20003 		movw	r3, #:lower16:eepromConfig
- 1442 11e2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1443 11e6 93F87832 		ldrb	r3, [r3, #632]	@ zero_extendqisi2
- 1444 11ea 002B     		cmp	r3, #0
- 1445 11ec 06D0     		beq	.L70
- 1446 11ee 40F20000 		movw	r0, #:lower16:.LC3
- 1447 11f2 C0F20000 		movt	r0, #:upper16:.LC3
- 1448 11f6 FFF7FEFF 		bl	uart3Print
- 1449 11fa 05E0     		b	.L71
- 1450              	.L70:
- 1451 11fc 40F20000 		movw	r0, #:lower16:.LC4
- 1452 1200 C0F20000 		movt	r0, #:upper16:.LC4
- 1453 1204 FFF7FEFF 		bl	uart3Print
- 1454              	.L71:
- 1455 1208 40F20003 		movw	r3, #:lower16:rfQueryType
- 1456 120c C0F20003 		movt	r3, #:upper16:rfQueryType
- 1457 1210 4FF07802 		mov	r2, #120
- 1458 1214 1A70     		strb	r2, [r3, #0]
- 1459 1216 8AE1     		b	.L16
- 1460              	.L20:
- 1461 1218 FFF7FEFF 		bl	highSpeedTelemDisable
- 1462 121c 40F20003 		movw	r3, #:lower16:highSpeedTelem1Enabled
- 1463 1220 C0F20003 		movt	r3, #:upper16:highSpeedTelem1Enabled
- 1464 1224 4FF00102 		mov	r2, #1
- 1465 1228 1A70     		strb	r2, [r3, #0]
- 1466 122a 40F20003 		movw	r3, #:lower16:rfQueryType
- 1467 122e C0F20003 		movt	r3, #:upper16:rfQueryType
- 1468 1232 4FF07802 		mov	r2, #120
- 1469 1236 1A70     		strb	r2, [r3, #0]
- 1470 1238 79E1     		b	.L16
- 1471              	.L21:
- 1472 123a FFF7FEFF 		bl	highSpeedTelemDisable
- 1473 123e 40F20003 		movw	r3, #:lower16:highSpeedTelem2Enabled
- 1474 1242 C0F20003 		movt	r3, #:upper16:highSpeedTelem2Enabled
- 1475 1246 4FF00102 		mov	r2, #1
- 1476 124a 1A70     		strb	r2, [r3, #0]
- 1477 124c 40F20003 		movw	r3, #:lower16:rfQueryType
- 1478 1250 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1479 1254 4FF07802 		mov	r2, #120
- 1480 1258 1A70     		strb	r2, [r3, #0]
- 1481 125a 68E1     		b	.L16
- 1482              	.L22:
- 1483 125c FFF7FEFF 		bl	highSpeedTelemDisable
- 1484 1260 40F20003 		movw	r3, #:lower16:highSpeedTelem3Enabled
- 1485 1264 C0F20003 		movt	r3, #:upper16:highSpeedTelem3Enabled
- 1486 1268 4FF00102 		mov	r2, #1
- 1487 126c 1A70     		strb	r2, [r3, #0]
- 1488 126e 40F20003 		movw	r3, #:lower16:rfQueryType
- 1489 1272 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1490 1276 4FF07802 		mov	r2, #120
- 1491 127a 1A70     		strb	r2, [r3, #0]
- 1492 127c 57E1     		b	.L16
- 1493              	.L23:
- 1494 127e FFF7FEFF 		bl	highSpeedTelemDisable
- 1495 1282 40F20003 		movw	r3, #:lower16:highSpeedTelem4Enabled
- 1496 1286 C0F20003 		movt	r3, #:upper16:highSpeedTelem4Enabled
- 1497 128a 4FF00102 		mov	r2, #1
- 1498 128e 1A70     		strb	r2, [r3, #0]
- 1499 1290 40F20003 		movw	r3, #:lower16:rfQueryType
- 1500 1294 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1501 1298 4FF07802 		mov	r2, #120
- 1502 129c 1A70     		strb	r2, [r3, #0]
- 1503 129e 46E1     		b	.L16
- 1504              	.L24:
- 1505 12a0 FFF7FEFF 		bl	highSpeedTelemDisable
- 1506 12a4 40F20003 		movw	r3, #:lower16:highSpeedTelem5Enabled
- 1507 12a8 C0F20003 		movt	r3, #:upper16:highSpeedTelem5Enabled
- 1508 12ac 4FF00102 		mov	r2, #1
- 1509 12b0 1A70     		strb	r2, [r3, #0]
- 1510 12b2 40F20003 		movw	r3, #:lower16:rfQueryType
- 1511 12b6 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1512 12ba 4FF07802 		mov	r2, #120
- 1513 12be 1A70     		strb	r2, [r3, #0]
- 1514 12c0 35E1     		b	.L16
- 1515              	.L25:
- 1516 12c2 FFF7FEFF 		bl	highSpeedTelemDisable
- 1517 12c6 40F20003 		movw	r3, #:lower16:highSpeedTelem6Enabled
- 1518 12ca C0F20003 		movt	r3, #:upper16:highSpeedTelem6Enabled
- 1519 12ce 4FF00102 		mov	r2, #1
- 1520 12d2 1A70     		strb	r2, [r3, #0]
- 1521 12d4 40F20003 		movw	r3, #:lower16:rfQueryType
- 1522 12d8 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1523 12dc 4FF07802 		mov	r2, #120
- 1524 12e0 1A70     		strb	r2, [r3, #0]
- 1525 12e2 24E1     		b	.L16
- 1526              	.L26:
- 1527 12e4 FFF7FEFF 		bl	highSpeedTelemDisable
- 1528 12e8 40F20003 		movw	r3, #:lower16:highSpeedTelem7Enabled
- 1529 12ec C0F20003 		movt	r3, #:upper16:highSpeedTelem7Enabled
- 1530 12f0 4FF00102 		mov	r2, #1
- 1531 12f4 1A70     		strb	r2, [r3, #0]
- 1532 12f6 40F20003 		movw	r3, #:lower16:rfQueryType
- 1533 12fa C0F20003 		movt	r3, #:upper16:rfQueryType
- 1534 12fe 4FF07802 		mov	r2, #120
- 1535 1302 1A70     		strb	r2, [r3, #0]
- 1536 1304 13E1     		b	.L16
- 1537              	.L27:
- 1538 1306 FFF7FEFF 		bl	highSpeedTelemDisable
- 1539 130a 40F20003 		movw	r3, #:lower16:highSpeedTelem8Enabled
- 1540 130e C0F20003 		movt	r3, #:upper16:highSpeedTelem8Enabled
- 1541 1312 4FF00102 		mov	r2, #1
- 1542 1316 1A70     		strb	r2, [r3, #0]
- 1543 1318 40F20003 		movw	r3, #:lower16:rfQueryType
- 1544 131c C0F20003 		movt	r3, #:upper16:rfQueryType
- 1545 1320 4FF07802 		mov	r2, #120
- 1546 1324 1A70     		strb	r2, [r3, #0]
- 1547 1326 02E1     		b	.L16
- 1548              	.L28:
- 1549 1328 FFF7FEFF 		bl	highSpeedTelemDisable
- 1550 132c 40F20003 		movw	r3, #:lower16:highSpeedTelem9Enabled
- 1551 1330 C0F20003 		movt	r3, #:upper16:highSpeedTelem9Enabled
- 1552 1334 4FF00102 		mov	r2, #1
- 1553 1338 1A70     		strb	r2, [r3, #0]
- 1554 133a 40F20003 		movw	r3, #:lower16:rfQueryType
- 1555 133e C0F20003 		movt	r3, #:upper16:rfQueryType
- 1556 1342 4FF07802 		mov	r2, #120
- 1557 1346 1A70     		strb	r2, [r3, #0]
- 1558 1348 F1E0     		b	.L16
- 1559              	.L19:
- 1560 134a FFF7FEFF 		bl	highSpeedTelemDisable
- 1561 134e 40F20003 		movw	r3, #:lower16:rfQueryType
- 1562 1352 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1563 1356 4FF07802 		mov	r2, #120
- 1564 135a 1A70     		strb	r2, [r3, #0]
- 1565 135c E7E0     		b	.L16
- 1566              	.L29:
- 1567 135e 4FF00000 		mov	r0, #0
- 1568 1362 FFF7FEFF 		bl	readRFPID
- 1569 1366 40F20000 		movw	r0, #:lower16:.LC16
- 1570 136a C0F20000 		movt	r0, #:upper16:.LC16
- 1571 136e FFF7FEFF 		bl	uart3Print
- 1572 1372 40F20003 		movw	r3, #:lower16:rfQueryType
- 1573 1376 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1574 137a 4FF06102 		mov	r2, #97
- 1575 137e 1A70     		strb	r2, [r3, #0]
- 1576 1380 D5E0     		b	.L16
- 1577              	.L30:
- 1578 1382 4FF00100 		mov	r0, #1
- 1579 1386 FFF7FEFF 		bl	readRFPID
- 1580 138a 40F20000 		movw	r0, #:lower16:.LC17
- 1581 138e C0F20000 		movt	r0, #:upper16:.LC17
- 1582 1392 FFF7FEFF 		bl	uart3Print
- 1583 1396 40F20003 		movw	r3, #:lower16:rfQueryType
- 1584 139a C0F20003 		movt	r3, #:upper16:rfQueryType
- 1585 139e 4FF06102 		mov	r2, #97
- 1586 13a2 1A70     		strb	r2, [r3, #0]
- 1587 13a4 C3E0     		b	.L16
- 1588              	.L31:
- 1589 13a6 4FF00200 		mov	r0, #2
- 1590 13aa FFF7FEFF 		bl	readRFPID
- 1591 13ae 40F20000 		movw	r0, #:lower16:.LC18
- 1592 13b2 C0F20000 		movt	r0, #:upper16:.LC18
- 1593 13b6 FFF7FEFF 		bl	uart3Print
- 1594 13ba 40F20003 		movw	r3, #:lower16:rfQueryType
- 1595 13be C0F20003 		movt	r3, #:upper16:rfQueryType
- 1596 13c2 4FF06102 		mov	r2, #97
- 1597 13c6 1A70     		strb	r2, [r3, #0]
- 1598 13c8 B1E0     		b	.L16
- 1599              	.L32:
- 1600 13ca 4FF00300 		mov	r0, #3
- 1601 13ce FFF7FEFF 		bl	readRFPID
- 1602 13d2 40F20000 		movw	r0, #:lower16:.LC19
- 1603 13d6 C0F20000 		movt	r0, #:upper16:.LC19
- 1604 13da FFF7FEFF 		bl	uart3Print
- 1605 13de 40F20003 		movw	r3, #:lower16:rfQueryType
- 1606 13e2 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1607 13e6 4FF06202 		mov	r2, #98
- 1608 13ea 1A70     		strb	r2, [r3, #0]
- 1609 13ec 9FE0     		b	.L16
- 1610              	.L33:
- 1611 13ee 4FF00400 		mov	r0, #4
- 1612 13f2 FFF7FEFF 		bl	readRFPID
- 1613 13f6 40F20000 		movw	r0, #:lower16:.LC20
- 1614 13fa C0F20000 		movt	r0, #:upper16:.LC20
- 1615 13fe FFF7FEFF 		bl	uart3Print
- 1616 1402 40F20003 		movw	r3, #:lower16:rfQueryType
- 1617 1406 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1618 140a 4FF06202 		mov	r2, #98
- 1619 140e 1A70     		strb	r2, [r3, #0]
- 1620 1410 8DE0     		b	.L16
- 1621              	.L34:
- 1622 1412 4FF00500 		mov	r0, #5
- 1623 1416 FFF7FEFF 		bl	readRFPID
- 1624 141a 40F20000 		movw	r0, #:lower16:.LC21
- 1625 141e C0F20000 		movt	r0, #:upper16:.LC21
- 1626 1422 FFF7FEFF 		bl	uart3Print
- 1627 1426 40F20003 		movw	r3, #:lower16:rfQueryType
- 1628 142a C0F20003 		movt	r3, #:upper16:rfQueryType
- 1629 142e 4FF06202 		mov	r2, #98
- 1630 1432 1A70     		strb	r2, [r3, #0]
- 1631 1434 7BE0     		b	.L16
- 1632              	.L35:
- 1633 1436 4FF00600 		mov	r0, #6
- 1634 143a FFF7FEFF 		bl	readRFPID
- 1635 143e 40F20000 		movw	r0, #:lower16:.LC22
- 1636 1442 C0F20000 		movt	r0, #:upper16:.LC22
- 1637 1446 FFF7FEFF 		bl	uart3Print
- 1638 144a 40F20003 		movw	r3, #:lower16:rfQueryType
- 1639 144e C0F20003 		movt	r3, #:upper16:rfQueryType
- 1640 1452 4FF06302 		mov	r2, #99
- 1641 1456 1A70     		strb	r2, [r3, #0]
- 1642 1458 69E0     		b	.L16
- 1643              	.L36:
- 1644 145a 4FF00700 		mov	r0, #7
- 1645 145e FFF7FEFF 		bl	readRFPID
- 1646 1462 40F20000 		movw	r0, #:lower16:.LC23
- 1647 1466 C0F20000 		movt	r0, #:upper16:.LC23
- 1648 146a FFF7FEFF 		bl	uart3Print
- 1649 146e 40F20003 		movw	r3, #:lower16:rfQueryType
- 1650 1472 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1651 1476 4FF06302 		mov	r2, #99
- 1652 147a 1A70     		strb	r2, [r3, #0]
- 1653 147c 57E0     		b	.L16
- 1654              	.L37:
- 1655 147e 4FF00800 		mov	r0, #8
- 1656 1482 FFF7FEFF 		bl	readRFPID
- 1657 1486 40F20000 		movw	r0, #:lower16:.LC24
- 1658 148a C0F20000 		movt	r0, #:upper16:.LC24
- 1659 148e FFF7FEFF 		bl	uart3Print
- 1660 1492 40F20003 		movw	r3, #:lower16:rfQueryType
- 1661 1496 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1662 149a 4FF06302 		mov	r2, #99
- 1663 149e 1A70     		strb	r2, [r3, #0]
- 1664 14a0 45E0     		b	.L16
- 1665              	.L38:
- 1666 14a2 4FF00900 		mov	r0, #9
- 1667 14a6 FFF7FEFF 		bl	readRFPID
- 1668 14aa 40F20000 		movw	r0, #:lower16:.LC25
- 1669 14ae C0F20000 		movt	r0, #:upper16:.LC25
- 1670 14b2 FFF7FEFF 		bl	uart3Print
- 1671 14b6 40F20003 		movw	r3, #:lower16:rfQueryType
- 1672 14ba C0F20003 		movt	r3, #:upper16:rfQueryType
- 1673 14be 4FF06402 		mov	r2, #100
- 1674 14c2 1A70     		strb	r2, [r3, #0]
- 1675 14c4 33E0     		b	.L16
- 1676              	.L39:
- 1677 14c6 4FF00A00 		mov	r0, #10
- 1678 14ca FFF7FEFF 		bl	readRFPID
- 1679 14ce 40F20000 		movw	r0, #:lower16:.LC26
- 1680 14d2 C0F20000 		movt	r0, #:upper16:.LC26
- 1681 14d6 FFF7FEFF 		bl	uart3Print
- 1682 14da 40F20003 		movw	r3, #:lower16:rfQueryType
- 1683 14de C0F20003 		movt	r3, #:upper16:rfQueryType
- 1684 14e2 4FF06402 		mov	r2, #100
- 1685 14e6 1A70     		strb	r2, [r3, #0]
- 1686 14e8 21E0     		b	.L16
- 1687              	.L40:
- 1688 14ea 4FF00B00 		mov	r0, #11
- 1689 14ee FFF7FEFF 		bl	readRFPID
- 1690 14f2 40F20000 		movw	r0, #:lower16:.LC27
- 1691 14f6 C0F20000 		movt	r0, #:upper16:.LC27
- 1692 14fa FFF7FEFF 		bl	uart3Print
- 1693 14fe 40F20003 		movw	r3, #:lower16:rfQueryType
- 1694 1502 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1695 1506 4FF06402 		mov	r2, #100
- 1696 150a 1A70     		strb	r2, [r3, #0]
- 1697 150c 0FE0     		b	.L16
- 1698              	.L41:
- 1699 150e 40F20000 		movw	r0, #:lower16:.LC28
- 1700 1512 C0F20000 		movt	r0, #:upper16:.LC28
- 1701 1516 FFF7FEFF 		bl	uart3Print
- 1702 151a FFF7FEFF 		bl	writeEEPROM
- 1703 151e 40F20003 		movw	r3, #:lower16:rfQueryType
- 1704 1522 C0F20003 		movt	r3, #:upper16:rfQueryType
- 1705 1526 4FF07802 		mov	r2, #120
- 1706 152a 1A70     		strb	r2, [r3, #0]
- 1707 152c 00BF     		nop
- 1708              	.L16:
- 1709 152e 08BD     		pop	{r3, pc}
- 1711              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+ 335              		.align	2
+ 336              	.LC29:
+ 337 0254 27612720 		.ascii	"'a' Rate PIDs        'A' Set Roll Rate PID Data   A"
+ 337      52617465 
+ 337      20504944 
+ 337      73202020 
+ 337      20202020 
+ 338 0287 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 338      493B443B 
+ 338      77696E64 
+ 338      75704775 
+ 338      6172643B 
+ 339 02a7 00       		.align	2
+ 340              	.LC30:
+ 341 02a8 27622720 		.ascii	"'b' Attitude PIDs    'B' Set Pitch Rate PID Data  B"
+ 341      41747469 
+ 341      74756465 
+ 341      20504944 
+ 341      73202020 
+ 342 02db 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 342      493B443B 
+ 342      77696E64 
+ 342      75704775 
+ 342      6172643B 
+ 343 02fb 00       		.align	2
+ 344              	.LC31:
+ 345 02fc 27632720 		.ascii	"'c' Velocity PIDs    'C' Set Yaw Rate PID Data    C"
+ 345      56656C6F 
+ 345      63697479 
+ 345      20504944 
+ 345      73202020 
+ 346 032f 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 346      493B443B 
+ 346      77696E64 
+ 346      75704775 
+ 346      6172643B 
+ 347 034f 00       		.align	2
+ 348              	.LC32:
+ 349 0350 27642720 		.ascii	"'d' Position PIDs    'D' Set Roll Att PID Data    D"
+ 349      506F7369 
+ 349      74696F6E 
+ 349      20504944 
+ 349      73202020 
+ 350 0383 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 350      493B443B 
+ 350      77696E64 
+ 350      75704775 
+ 350      6172643B 
+ 351 03a3 00       		.align	2
+ 352              	.LC33:
+ 353 03a4 20202020 		.ascii	"                     'E' Set Pitch Att PID Data   E"
+ 353      20202020 
+ 353      20202020 
+ 353      20202020 
+ 353      20202020 
+ 354 03d7 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 354      493B443B 
+ 354      77696E64 
+ 354      75704775 
+ 354      6172643B 
+ 355 03f7 00       		.align	2
+ 356              	.LC34:
+ 357 03f8 20202020 		.ascii	"                     'F' Set Hdg Hold PID Data    F"
+ 357      20202020 
+ 357      20202020 
+ 357      20202020 
+ 357      20202020 
+ 358 042b 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 358      493B443B 
+ 358      77696E64 
+ 358      75704775 
+ 358      6172643B 
+ 359 044b 00       		.align	2
+ 360              	.LC35:
+ 361 044c 20202020 		.ascii	"                     'G' Set nDot PID Data        G"
+ 361      20202020 
+ 361      20202020 
+ 361      20202020 
+ 361      20202020 
+ 362 047f 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 362      493B443B 
+ 362      77696E64 
+ 362      75704775 
+ 362      6172643B 
+ 363 049f 00       		.align	2
+ 364              	.LC36:
+ 365 04a0 20202020 		.ascii	"                     'H' Set eDot PID Data        H"
+ 365      20202020 
+ 365      20202020 
+ 365      20202020 
+ 365      20202020 
+ 366 04d3 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 366      493B443B 
+ 366      77696E64 
+ 366      75704775 
+ 366      6172643B 
+ 367 04f3 00       		.align	2
+ 368              	.LC37:
+ 369 04f4 20202020 		.ascii	"                     'I' Set hDot PID Data        I"
+ 369      20202020 
+ 369      20202020 
+ 369      20202020 
+ 369      20202020 
+ 370 0527 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 370      493B443B 
+ 370      77696E64 
+ 370      75704775 
+ 370      6172643B 
+ 371 0547 00       		.align	2
+ 372              	.LC38:
+ 373 0548 20202020 		.ascii	"                     'J' Set n PID Data           J"
+ 373      20202020 
+ 373      20202020 
+ 373      20202020 
+ 373      20202020 
+ 374 057b 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 374      493B443B 
+ 374      77696E64 
+ 374      75704775 
+ 374      6172643B 
+ 375 059b 00       		.align	2
+ 376              	.LC39:
+ 377 059c 20202020 		.ascii	"                     'K' Set e PID Data           K"
+ 377      20202020 
+ 377      20202020 
+ 377      20202020 
+ 377      20202020 
+ 378 05cf 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 378      493B443B 
+ 378      77696E64 
+ 378      75704775 
+ 378      6172643B 
+ 379 05ef 00       		.align	2
+ 380              	.LC40:
+ 381 05f0 20202020 		.ascii	"                     'L' Set h PID Data           L"
+ 381      20202020 
+ 381      20202020 
+ 381      20202020 
+ 381      20202020 
+ 382 0623 423B503B 		.ascii	"B;P;I;D;windupGuard;dErrorCalc\012\000"
+ 382      493B443B 
+ 382      77696E64 
+ 382      75704775 
+ 382      6172643B 
+ 383 0643 00       		.align	2
+ 384              	.LC41:
+ 385 0644 20202020 		.ascii	"                     'W' Write EEPROM Parameters\012"
+ 385      20202020 
+ 385      20202020 
+ 385      20202020 
+ 385      20202020 
+ 386 0675 00       		.ascii	"\000"
+ 387 0676 0000     		.text
+ 388              		.align	2
+ 389              		.global	rfCom
+ 390              		.thumb
+ 391              		.thumb_func
+ 393              	rfCom:
+ 394              		@ args = 0, pretend = 0, frame = 0
+ 395              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396 0204 08B5     		push	{r3, lr}
+ 397 0206 FFF7FEFF 		bl	uart3Available
+ 398 020a 0346     		mov	r3, r0
+ 399 020c 002B     		cmp	r3, #0
+ 400 020e 08D0     		beq	.L17
+ 401 0210 FFF7FEFF 		bl	uart3Read
+ 402 0214 0346     		mov	r3, r0
+ 403 0216 1A46     		mov	r2, r3
+ 404 0218 40F20003 		movw	r3, #:lower16:rfQueryType
+ 405 021c C0F20003 		movt	r3, #:upper16:rfQueryType
+ 406 0220 1A70     		strb	r2, [r3, #0]
+ 407              	.L17:
+ 408 0222 40F20003 		movw	r3, #:lower16:rfQueryType
+ 409 0226 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 410 022a 1B78     		ldrb	r3, [r3, #0]
+ 411 022c DBB2     		uxtb	r3, r3
+ 412 022e A3F13003 		sub	r3, r3, #48
+ 413 0232 482B     		cmp	r3, #72
+ 414 0234 01F2DD81 		bhi	.L16
+ 415 0238 01A2     		adr	r2, .L48
+ 416 023a 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 417 023e 00BF     		.align	2
+ 418              	.L48:
+ 419 0240 4B130000 		.word	.L19+1
+ 420 0244 19120000 		.word	.L20+1
+ 421 0248 3B120000 		.word	.L21+1
+ 422 024c 5D120000 		.word	.L22+1
+ 423 0250 7F120000 		.word	.L23+1
+ 424 0254 A1120000 		.word	.L24+1
+ 425 0258 C3120000 		.word	.L25+1
+ 426 025c E5120000 		.word	.L26+1
+ 427 0260 07130000 		.word	.L27+1
+ 428 0264 29130000 		.word	.L28+1
+ 429 0268 F3150000 		.word	.L16+1
+ 430 026c F3150000 		.word	.L16+1
+ 431 0270 F3150000 		.word	.L16+1
+ 432 0274 F3150000 		.word	.L16+1
+ 433 0278 F3150000 		.word	.L16+1
+ 434 027c 2F150000 		.word	.L29+1
+ 435 0280 F3150000 		.word	.L16+1
+ 436 0284 5F130000 		.word	.L30+1
+ 437 0288 83130000 		.word	.L31+1
+ 438 028c A7130000 		.word	.L32+1
+ 439 0290 CB130000 		.word	.L33+1
+ 440 0294 EF130000 		.word	.L34+1
+ 441 0298 13140000 		.word	.L35+1
+ 442 029c 37140000 		.word	.L36+1
+ 443 02a0 5B140000 		.word	.L37+1
+ 444 02a4 7F140000 		.word	.L38+1
+ 445 02a8 A3140000 		.word	.L39+1
+ 446 02ac C7140000 		.word	.L40+1
+ 447 02b0 EB140000 		.word	.L41+1
+ 448 02b4 F3150000 		.word	.L16+1
+ 449 02b8 F3150000 		.word	.L16+1
+ 450 02bc F3150000 		.word	.L16+1
+ 451 02c0 F3150000 		.word	.L16+1
+ 452 02c4 F3150000 		.word	.L16+1
+ 453 02c8 F3150000 		.word	.L16+1
+ 454 02cc F3150000 		.word	.L16+1
+ 455 02d0 F3150000 		.word	.L16+1
+ 456 02d4 F3150000 		.word	.L16+1
+ 457 02d8 F3150000 		.word	.L16+1
+ 458 02dc 0F150000 		.word	.L42+1
+ 459 02e0 F3150000 		.word	.L16+1
+ 460 02e4 F3150000 		.word	.L16+1
+ 461 02e8 F3150000 		.word	.L16+1
+ 462 02ec F3150000 		.word	.L16+1
+ 463 02f0 F3150000 		.word	.L16+1
+ 464 02f4 F3150000 		.word	.L16+1
+ 465 02f8 F3150000 		.word	.L16+1
+ 466 02fc F3150000 		.word	.L16+1
+ 467 0300 F3150000 		.word	.L16+1
+ 468 0304 65030000 		.word	.L43+1
+ 469 0308 13070000 		.word	.L44+1
+ 470 030c C10A0000 		.word	.L45+1
+ 471 0310 6D0E0000 		.word	.L46+1
+ 472 0314 F3150000 		.word	.L16+1
+ 473 0318 F3150000 		.word	.L16+1
+ 474 031c F3150000 		.word	.L16+1
+ 475 0320 F3150000 		.word	.L16+1
+ 476 0324 F3150000 		.word	.L16+1
+ 477 0328 F3150000 		.word	.L16+1
+ 478 032c F3150000 		.word	.L16+1
+ 479 0330 F3150000 		.word	.L16+1
+ 480 0334 F3150000 		.word	.L16+1
+ 481 0338 F3150000 		.word	.L16+1
+ 482 033c F3150000 		.word	.L16+1
+ 483 0340 F3150000 		.word	.L16+1
+ 484 0344 F3150000 		.word	.L16+1
+ 485 0348 F3150000 		.word	.L16+1
+ 486 034c F3150000 		.word	.L16+1
+ 487 0350 F3150000 		.word	.L16+1
+ 488 0354 F3150000 		.word	.L16+1
+ 489 0358 F3150000 		.word	.L16+1
+ 490 035c F3150000 		.word	.L16+1
+ 491 0360 F3150000 		.word	.L16+1
+ 492              	.L43:
+ 493 0364 40F20000 		movw	r0, #:lower16:.LC0
+ 494 0368 C0F20000 		movt	r0, #:upper16:.LC0
+ 495 036c FFF7FEFF 		bl	uart3Print
+ 496 0370 40F20000 		movw	r0, #:lower16:.LC1
+ 497 0374 C0F20000 		movt	r0, #:upper16:.LC1
+ 498 0378 FFF7FEFF 		bl	uart3Print
+ 499 037c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 500 0380 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 501 0384 D3F89C30 		ldr	r3, [r3, #156]	@ float
+ 502 0388 1846     		mov	r0, r3	@ float
+ 503 038a 40F20001 		movw	r1, #:lower16:numberString
+ 504 038e C0F20001 		movt	r1, #:upper16:numberString
+ 505 0392 FFF7FEFF 		bl	ftoa
+ 506 0396 40F20000 		movw	r0, #:lower16:numberString
+ 507 039a C0F20000 		movt	r0, #:upper16:numberString
+ 508 039e FFF7FEFF 		bl	uart3Print
+ 509 03a2 40F20000 		movw	r0, #:lower16:.LC2
+ 510 03a6 C0F20000 		movt	r0, #:upper16:.LC2
+ 511 03aa FFF7FEFF 		bl	uart3Print
+ 512 03ae 40F20003 		movw	r3, #:lower16:eepromConfig
+ 513 03b2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 514 03b6 D3F8A030 		ldr	r3, [r3, #160]	@ float
+ 515 03ba 1846     		mov	r0, r3	@ float
+ 516 03bc 40F20001 		movw	r1, #:lower16:numberString
+ 517 03c0 C0F20001 		movt	r1, #:upper16:numberString
+ 518 03c4 FFF7FEFF 		bl	ftoa
+ 519 03c8 40F20000 		movw	r0, #:lower16:numberString
+ 520 03cc C0F20000 		movt	r0, #:upper16:numberString
+ 521 03d0 FFF7FEFF 		bl	uart3Print
+ 522 03d4 40F20000 		movw	r0, #:lower16:.LC2
+ 523 03d8 C0F20000 		movt	r0, #:upper16:.LC2
+ 524 03dc FFF7FEFF 		bl	uart3Print
+ 525 03e0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 526 03e4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 527 03e8 D3F8A430 		ldr	r3, [r3, #164]	@ float
+ 528 03ec 1846     		mov	r0, r3	@ float
+ 529 03ee 40F20001 		movw	r1, #:lower16:numberString
+ 530 03f2 C0F20001 		movt	r1, #:upper16:numberString
+ 531 03f6 FFF7FEFF 		bl	ftoa
+ 532 03fa 40F20000 		movw	r0, #:lower16:numberString
+ 533 03fe C0F20000 		movt	r0, #:upper16:numberString
+ 534 0402 FFF7FEFF 		bl	uart3Print
+ 535 0406 40F20000 		movw	r0, #:lower16:.LC2
+ 536 040a C0F20000 		movt	r0, #:upper16:.LC2
+ 537 040e FFF7FEFF 		bl	uart3Print
+ 538 0412 40F20003 		movw	r3, #:lower16:eepromConfig
+ 539 0416 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 540 041a D3F8A830 		ldr	r3, [r3, #168]	@ float
+ 541 041e 1846     		mov	r0, r3	@ float
+ 542 0420 40F20001 		movw	r1, #:lower16:numberString
+ 543 0424 C0F20001 		movt	r1, #:upper16:numberString
+ 544 0428 FFF7FEFF 		bl	ftoa
+ 545 042c 40F20000 		movw	r0, #:lower16:numberString
+ 546 0430 C0F20000 		movt	r0, #:upper16:numberString
+ 547 0434 FFF7FEFF 		bl	uart3Print
+ 548 0438 40F20000 		movw	r0, #:lower16:.LC2
+ 549 043c C0F20000 		movt	r0, #:upper16:.LC2
+ 550 0440 FFF7FEFF 		bl	uart3Print
+ 551 0444 40F20003 		movw	r3, #:lower16:eepromConfig
+ 552 0448 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 553 044c D3F8B030 		ldr	r3, [r3, #176]	@ float
+ 554 0450 1846     		mov	r0, r3	@ float
+ 555 0452 40F20001 		movw	r1, #:lower16:numberString
+ 556 0456 C0F20001 		movt	r1, #:upper16:numberString
+ 557 045a FFF7FEFF 		bl	ftoa
+ 558 045e 40F20000 		movw	r0, #:lower16:numberString
+ 559 0462 C0F20000 		movt	r0, #:upper16:numberString
+ 560 0466 FFF7FEFF 		bl	uart3Print
+ 561 046a 40F20000 		movw	r0, #:lower16:.LC2
+ 562 046e C0F20000 		movt	r0, #:upper16:.LC2
+ 563 0472 FFF7FEFF 		bl	uart3Print
+ 564 0476 40F20003 		movw	r3, #:lower16:eepromConfig
+ 565 047a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 566 047e 93F8C030 		ldrb	r3, [r3, #192]	@ zero_extendqisi2
+ 567 0482 002B     		cmp	r3, #0
+ 568 0484 06D0     		beq	.L49
+ 569 0486 40F20000 		movw	r0, #:lower16:.LC3
+ 570 048a C0F20000 		movt	r0, #:upper16:.LC3
+ 571 048e FFF7FEFF 		bl	uart3Print
+ 572 0492 05E0     		b	.L50
+ 573              	.L49:
+ 574 0494 40F20000 		movw	r0, #:lower16:.LC4
+ 575 0498 C0F20000 		movt	r0, #:upper16:.LC4
+ 576 049c FFF7FEFF 		bl	uart3Print
+ 577              	.L50:
+ 578 04a0 40F20000 		movw	r0, #:lower16:.LC5
+ 579 04a4 C0F20000 		movt	r0, #:upper16:.LC5
+ 580 04a8 FFF7FEFF 		bl	uart3Print
+ 581 04ac 40F20003 		movw	r3, #:lower16:eepromConfig
+ 582 04b0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 583 04b4 D3F8C430 		ldr	r3, [r3, #196]	@ float
+ 584 04b8 1846     		mov	r0, r3	@ float
+ 585 04ba 40F20001 		movw	r1, #:lower16:numberString
+ 586 04be C0F20001 		movt	r1, #:upper16:numberString
+ 587 04c2 FFF7FEFF 		bl	ftoa
+ 588 04c6 40F20000 		movw	r0, #:lower16:numberString
+ 589 04ca C0F20000 		movt	r0, #:upper16:numberString
+ 590 04ce FFF7FEFF 		bl	uart3Print
+ 591 04d2 40F20000 		movw	r0, #:lower16:.LC2
+ 592 04d6 C0F20000 		movt	r0, #:upper16:.LC2
+ 593 04da FFF7FEFF 		bl	uart3Print
+ 594 04de 40F20003 		movw	r3, #:lower16:eepromConfig
+ 595 04e2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 596 04e6 D3F8C830 		ldr	r3, [r3, #200]	@ float
+ 597 04ea 1846     		mov	r0, r3	@ float
+ 598 04ec 40F20001 		movw	r1, #:lower16:numberString
+ 599 04f0 C0F20001 		movt	r1, #:upper16:numberString
+ 600 04f4 FFF7FEFF 		bl	ftoa
+ 601 04f8 40F20000 		movw	r0, #:lower16:numberString
+ 602 04fc C0F20000 		movt	r0, #:upper16:numberString
+ 603 0500 FFF7FEFF 		bl	uart3Print
+ 604 0504 40F20000 		movw	r0, #:lower16:.LC2
+ 605 0508 C0F20000 		movt	r0, #:upper16:.LC2
+ 606 050c FFF7FEFF 		bl	uart3Print
+ 607 0510 40F20003 		movw	r3, #:lower16:eepromConfig
+ 608 0514 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 609 0518 D3F8CC30 		ldr	r3, [r3, #204]	@ float
+ 610 051c 1846     		mov	r0, r3	@ float
+ 611 051e 40F20001 		movw	r1, #:lower16:numberString
+ 612 0522 C0F20001 		movt	r1, #:upper16:numberString
+ 613 0526 FFF7FEFF 		bl	ftoa
+ 614 052a 40F20000 		movw	r0, #:lower16:numberString
+ 615 052e C0F20000 		movt	r0, #:upper16:numberString
+ 616 0532 FFF7FEFF 		bl	uart3Print
+ 617 0536 40F20000 		movw	r0, #:lower16:.LC2
+ 618 053a C0F20000 		movt	r0, #:upper16:.LC2
+ 619 053e FFF7FEFF 		bl	uart3Print
+ 620 0542 40F20003 		movw	r3, #:lower16:eepromConfig
+ 621 0546 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 622 054a D3F8D030 		ldr	r3, [r3, #208]	@ float
+ 623 054e 1846     		mov	r0, r3	@ float
+ 624 0550 40F20001 		movw	r1, #:lower16:numberString
+ 625 0554 C0F20001 		movt	r1, #:upper16:numberString
+ 626 0558 FFF7FEFF 		bl	ftoa
+ 627 055c 40F20000 		movw	r0, #:lower16:numberString
+ 628 0560 C0F20000 		movt	r0, #:upper16:numberString
+ 629 0564 FFF7FEFF 		bl	uart3Print
+ 630 0568 40F20000 		movw	r0, #:lower16:.LC2
+ 631 056c C0F20000 		movt	r0, #:upper16:.LC2
+ 632 0570 FFF7FEFF 		bl	uart3Print
+ 633 0574 40F20003 		movw	r3, #:lower16:eepromConfig
+ 634 0578 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 635 057c D3F8D830 		ldr	r3, [r3, #216]	@ float
+ 636 0580 1846     		mov	r0, r3	@ float
+ 637 0582 40F20001 		movw	r1, #:lower16:numberString
+ 638 0586 C0F20001 		movt	r1, #:upper16:numberString
+ 639 058a FFF7FEFF 		bl	ftoa
+ 640 058e 40F20000 		movw	r0, #:lower16:numberString
+ 641 0592 C0F20000 		movt	r0, #:upper16:numberString
+ 642 0596 FFF7FEFF 		bl	uart3Print
+ 643 059a 40F20000 		movw	r0, #:lower16:.LC2
+ 644 059e C0F20000 		movt	r0, #:upper16:.LC2
+ 645 05a2 FFF7FEFF 		bl	uart3Print
+ 646 05a6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 647 05aa C0F20003 		movt	r3, #:upper16:eepromConfig
+ 648 05ae 93F8E830 		ldrb	r3, [r3, #232]	@ zero_extendqisi2
+ 649 05b2 002B     		cmp	r3, #0
+ 650 05b4 06D0     		beq	.L51
+ 651 05b6 40F20000 		movw	r0, #:lower16:.LC3
+ 652 05ba C0F20000 		movt	r0, #:upper16:.LC3
+ 653 05be FFF7FEFF 		bl	uart3Print
+ 654 05c2 05E0     		b	.L52
+ 655              	.L51:
+ 656 05c4 40F20000 		movw	r0, #:lower16:.LC4
+ 657 05c8 C0F20000 		movt	r0, #:upper16:.LC4
+ 658 05cc FFF7FEFF 		bl	uart3Print
+ 659              	.L52:
+ 660 05d0 40F20000 		movw	r0, #:lower16:.LC6
+ 661 05d4 C0F20000 		movt	r0, #:upper16:.LC6
+ 662 05d8 FFF7FEFF 		bl	uart3Print
+ 663 05dc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 664 05e0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 665 05e4 D3F8EC30 		ldr	r3, [r3, #236]	@ float
+ 666 05e8 1846     		mov	r0, r3	@ float
+ 667 05ea 40F20001 		movw	r1, #:lower16:numberString
+ 668 05ee C0F20001 		movt	r1, #:upper16:numberString
+ 669 05f2 FFF7FEFF 		bl	ftoa
+ 670 05f6 40F20000 		movw	r0, #:lower16:numberString
+ 671 05fa C0F20000 		movt	r0, #:upper16:numberString
+ 672 05fe FFF7FEFF 		bl	uart3Print
+ 673 0602 40F20000 		movw	r0, #:lower16:.LC2
+ 674 0606 C0F20000 		movt	r0, #:upper16:.LC2
+ 675 060a FFF7FEFF 		bl	uart3Print
+ 676 060e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 677 0612 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 678 0616 D3F8F030 		ldr	r3, [r3, #240]	@ float
+ 679 061a 1846     		mov	r0, r3	@ float
+ 680 061c 40F20001 		movw	r1, #:lower16:numberString
+ 681 0620 C0F20001 		movt	r1, #:upper16:numberString
+ 682 0624 FFF7FEFF 		bl	ftoa
+ 683 0628 40F20000 		movw	r0, #:lower16:numberString
+ 684 062c C0F20000 		movt	r0, #:upper16:numberString
+ 685 0630 FFF7FEFF 		bl	uart3Print
+ 686 0634 40F20000 		movw	r0, #:lower16:.LC2
+ 687 0638 C0F20000 		movt	r0, #:upper16:.LC2
+ 688 063c FFF7FEFF 		bl	uart3Print
+ 689 0640 40F20003 		movw	r3, #:lower16:eepromConfig
+ 690 0644 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 691 0648 D3F8F430 		ldr	r3, [r3, #244]	@ float
+ 692 064c 1846     		mov	r0, r3	@ float
+ 693 064e 40F20001 		movw	r1, #:lower16:numberString
+ 694 0652 C0F20001 		movt	r1, #:upper16:numberString
+ 695 0656 FFF7FEFF 		bl	ftoa
+ 696 065a 40F20000 		movw	r0, #:lower16:numberString
+ 697 065e C0F20000 		movt	r0, #:upper16:numberString
+ 698 0662 FFF7FEFF 		bl	uart3Print
+ 699 0666 40F20000 		movw	r0, #:lower16:.LC2
+ 700 066a C0F20000 		movt	r0, #:upper16:.LC2
+ 701 066e FFF7FEFF 		bl	uart3Print
+ 702 0672 40F20003 		movw	r3, #:lower16:eepromConfig
+ 703 0676 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 704 067a D3F8F830 		ldr	r3, [r3, #248]	@ float
+ 705 067e 1846     		mov	r0, r3	@ float
+ 706 0680 40F20001 		movw	r1, #:lower16:numberString
+ 707 0684 C0F20001 		movt	r1, #:upper16:numberString
+ 708 0688 FFF7FEFF 		bl	ftoa
+ 709 068c 40F20000 		movw	r0, #:lower16:numberString
+ 710 0690 C0F20000 		movt	r0, #:upper16:numberString
+ 711 0694 FFF7FEFF 		bl	uart3Print
+ 712 0698 40F20000 		movw	r0, #:lower16:.LC2
+ 713 069c C0F20000 		movt	r0, #:upper16:.LC2
+ 714 06a0 FFF7FEFF 		bl	uart3Print
+ 715 06a4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 716 06a8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 717 06ac D3F80031 		ldr	r3, [r3, #256]	@ float
+ 718 06b0 1846     		mov	r0, r3	@ float
+ 719 06b2 40F20001 		movw	r1, #:lower16:numberString
+ 720 06b6 C0F20001 		movt	r1, #:upper16:numberString
+ 721 06ba FFF7FEFF 		bl	ftoa
+ 722 06be 40F20000 		movw	r0, #:lower16:numberString
+ 723 06c2 C0F20000 		movt	r0, #:upper16:numberString
+ 724 06c6 FFF7FEFF 		bl	uart3Print
+ 725 06ca 40F20000 		movw	r0, #:lower16:.LC2
+ 726 06ce C0F20000 		movt	r0, #:upper16:.LC2
+ 727 06d2 FFF7FEFF 		bl	uart3Print
+ 728 06d6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 729 06da C0F20003 		movt	r3, #:upper16:eepromConfig
+ 730 06de 93F81031 		ldrb	r3, [r3, #272]	@ zero_extendqisi2
+ 731 06e2 002B     		cmp	r3, #0
+ 732 06e4 06D0     		beq	.L53
+ 733 06e6 40F20000 		movw	r0, #:lower16:.LC3
+ 734 06ea C0F20000 		movt	r0, #:upper16:.LC3
+ 735 06ee FFF7FEFF 		bl	uart3Print
+ 736 06f2 05E0     		b	.L54
+ 737              	.L53:
+ 738 06f4 40F20000 		movw	r0, #:lower16:.LC4
+ 739 06f8 C0F20000 		movt	r0, #:upper16:.LC4
+ 740 06fc FFF7FEFF 		bl	uart3Print
+ 741              	.L54:
+ 742 0700 40F20003 		movw	r3, #:lower16:rfQueryType
+ 743 0704 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 744 0708 4FF07802 		mov	r2, #120
+ 745 070c 1A70     		strb	r2, [r3, #0]
+ 746 070e 00F070BF 		b	.L16
+ 747              	.L44:
+ 748 0712 40F20000 		movw	r0, #:lower16:.LC0
+ 749 0716 C0F20000 		movt	r0, #:upper16:.LC0
+ 750 071a FFF7FEFF 		bl	uart3Print
+ 751 071e 40F20000 		movw	r0, #:lower16:.LC7
+ 752 0722 C0F20000 		movt	r0, #:upper16:.LC7
+ 753 0726 FFF7FEFF 		bl	uart3Print
+ 754 072a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 755 072e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 756 0732 D3F81431 		ldr	r3, [r3, #276]	@ float
+ 757 0736 1846     		mov	r0, r3	@ float
+ 758 0738 40F20001 		movw	r1, #:lower16:numberString
+ 759 073c C0F20001 		movt	r1, #:upper16:numberString
+ 760 0740 FFF7FEFF 		bl	ftoa
+ 761 0744 40F20000 		movw	r0, #:lower16:numberString
+ 762 0748 C0F20000 		movt	r0, #:upper16:numberString
+ 763 074c FFF7FEFF 		bl	uart3Print
+ 764 0750 40F20000 		movw	r0, #:lower16:.LC2
+ 765 0754 C0F20000 		movt	r0, #:upper16:.LC2
+ 766 0758 FFF7FEFF 		bl	uart3Print
+ 767 075c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 768 0760 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 769 0764 D3F81831 		ldr	r3, [r3, #280]	@ float
+ 770 0768 1846     		mov	r0, r3	@ float
+ 771 076a 40F20001 		movw	r1, #:lower16:numberString
+ 772 076e C0F20001 		movt	r1, #:upper16:numberString
+ 773 0772 FFF7FEFF 		bl	ftoa
+ 774 0776 40F20000 		movw	r0, #:lower16:numberString
+ 775 077a C0F20000 		movt	r0, #:upper16:numberString
+ 776 077e FFF7FEFF 		bl	uart3Print
+ 777 0782 40F20000 		movw	r0, #:lower16:.LC2
+ 778 0786 C0F20000 		movt	r0, #:upper16:.LC2
+ 779 078a FFF7FEFF 		bl	uart3Print
+ 780 078e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 781 0792 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 782 0796 D3F81C31 		ldr	r3, [r3, #284]	@ float
+ 783 079a 1846     		mov	r0, r3	@ float
+ 784 079c 40F20001 		movw	r1, #:lower16:numberString
+ 785 07a0 C0F20001 		movt	r1, #:upper16:numberString
+ 786 07a4 FFF7FEFF 		bl	ftoa
+ 787 07a8 40F20000 		movw	r0, #:lower16:numberString
+ 788 07ac C0F20000 		movt	r0, #:upper16:numberString
+ 789 07b0 FFF7FEFF 		bl	uart3Print
+ 790 07b4 40F20000 		movw	r0, #:lower16:.LC2
+ 791 07b8 C0F20000 		movt	r0, #:upper16:.LC2
+ 792 07bc FFF7FEFF 		bl	uart3Print
+ 793 07c0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 794 07c4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 795 07c8 D3F82031 		ldr	r3, [r3, #288]	@ float
+ 796 07cc 1846     		mov	r0, r3	@ float
+ 797 07ce 40F20001 		movw	r1, #:lower16:numberString
+ 798 07d2 C0F20001 		movt	r1, #:upper16:numberString
+ 799 07d6 FFF7FEFF 		bl	ftoa
+ 800 07da 40F20000 		movw	r0, #:lower16:numberString
+ 801 07de C0F20000 		movt	r0, #:upper16:numberString
+ 802 07e2 FFF7FEFF 		bl	uart3Print
+ 803 07e6 40F20000 		movw	r0, #:lower16:.LC2
+ 804 07ea C0F20000 		movt	r0, #:upper16:.LC2
+ 805 07ee FFF7FEFF 		bl	uart3Print
+ 806 07f2 40F20003 		movw	r3, #:lower16:eepromConfig
+ 807 07f6 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 808 07fa D3F82831 		ldr	r3, [r3, #296]	@ float
+ 809 07fe 1846     		mov	r0, r3	@ float
+ 810 0800 40F20001 		movw	r1, #:lower16:numberString
+ 811 0804 C0F20001 		movt	r1, #:upper16:numberString
+ 812 0808 FFF7FEFF 		bl	ftoa
+ 813 080c 40F20000 		movw	r0, #:lower16:numberString
+ 814 0810 C0F20000 		movt	r0, #:upper16:numberString
+ 815 0814 FFF7FEFF 		bl	uart3Print
+ 816 0818 40F20000 		movw	r0, #:lower16:.LC2
+ 817 081c C0F20000 		movt	r0, #:upper16:.LC2
+ 818 0820 FFF7FEFF 		bl	uart3Print
+ 819 0824 40F20003 		movw	r3, #:lower16:eepromConfig
+ 820 0828 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 821 082c 93F83831 		ldrb	r3, [r3, #312]	@ zero_extendqisi2
+ 822 0830 002B     		cmp	r3, #0
+ 823 0832 06D0     		beq	.L55
+ 824 0834 40F20000 		movw	r0, #:lower16:.LC3
+ 825 0838 C0F20000 		movt	r0, #:upper16:.LC3
+ 826 083c FFF7FEFF 		bl	uart3Print
+ 827 0840 05E0     		b	.L56
+ 828              	.L55:
+ 829 0842 40F20000 		movw	r0, #:lower16:.LC4
+ 830 0846 C0F20000 		movt	r0, #:upper16:.LC4
+ 831 084a FFF7FEFF 		bl	uart3Print
+ 832              	.L56:
+ 833 084e 40F20000 		movw	r0, #:lower16:.LC8
+ 834 0852 C0F20000 		movt	r0, #:upper16:.LC8
+ 835 0856 FFF7FEFF 		bl	uart3Print
+ 836 085a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 837 085e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 838 0862 D3F83C31 		ldr	r3, [r3, #316]	@ float
+ 839 0866 1846     		mov	r0, r3	@ float
+ 840 0868 40F20001 		movw	r1, #:lower16:numberString
+ 841 086c C0F20001 		movt	r1, #:upper16:numberString
+ 842 0870 FFF7FEFF 		bl	ftoa
+ 843 0874 40F20000 		movw	r0, #:lower16:numberString
+ 844 0878 C0F20000 		movt	r0, #:upper16:numberString
+ 845 087c FFF7FEFF 		bl	uart3Print
+ 846 0880 40F20000 		movw	r0, #:lower16:.LC2
+ 847 0884 C0F20000 		movt	r0, #:upper16:.LC2
+ 848 0888 FFF7FEFF 		bl	uart3Print
+ 849 088c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 850 0890 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 851 0894 D3F84031 		ldr	r3, [r3, #320]	@ float
+ 852 0898 1846     		mov	r0, r3	@ float
+ 853 089a 40F20001 		movw	r1, #:lower16:numberString
+ 854 089e C0F20001 		movt	r1, #:upper16:numberString
+ 855 08a2 FFF7FEFF 		bl	ftoa
+ 856 08a6 40F20000 		movw	r0, #:lower16:numberString
+ 857 08aa C0F20000 		movt	r0, #:upper16:numberString
+ 858 08ae FFF7FEFF 		bl	uart3Print
+ 859 08b2 40F20000 		movw	r0, #:lower16:.LC2
+ 860 08b6 C0F20000 		movt	r0, #:upper16:.LC2
+ 861 08ba FFF7FEFF 		bl	uart3Print
+ 862 08be 40F20003 		movw	r3, #:lower16:eepromConfig
+ 863 08c2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 864 08c6 D3F84431 		ldr	r3, [r3, #324]	@ float
+ 865 08ca 1846     		mov	r0, r3	@ float
+ 866 08cc 40F20001 		movw	r1, #:lower16:numberString
+ 867 08d0 C0F20001 		movt	r1, #:upper16:numberString
+ 868 08d4 FFF7FEFF 		bl	ftoa
+ 869 08d8 40F20000 		movw	r0, #:lower16:numberString
+ 870 08dc C0F20000 		movt	r0, #:upper16:numberString
+ 871 08e0 FFF7FEFF 		bl	uart3Print
+ 872 08e4 40F20000 		movw	r0, #:lower16:.LC2
+ 873 08e8 C0F20000 		movt	r0, #:upper16:.LC2
+ 874 08ec FFF7FEFF 		bl	uart3Print
+ 875 08f0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 876 08f4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 877 08f8 D3F84831 		ldr	r3, [r3, #328]	@ float
+ 878 08fc 1846     		mov	r0, r3	@ float
+ 879 08fe 40F20001 		movw	r1, #:lower16:numberString
+ 880 0902 C0F20001 		movt	r1, #:upper16:numberString
+ 881 0906 FFF7FEFF 		bl	ftoa
+ 882 090a 40F20000 		movw	r0, #:lower16:numberString
+ 883 090e C0F20000 		movt	r0, #:upper16:numberString
+ 884 0912 FFF7FEFF 		bl	uart3Print
+ 885 0916 40F20000 		movw	r0, #:lower16:.LC2
+ 886 091a C0F20000 		movt	r0, #:upper16:.LC2
+ 887 091e FFF7FEFF 		bl	uart3Print
+ 888 0922 40F20003 		movw	r3, #:lower16:eepromConfig
+ 889 0926 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 890 092a D3F85031 		ldr	r3, [r3, #336]	@ float
+ 891 092e 1846     		mov	r0, r3	@ float
+ 892 0930 40F20001 		movw	r1, #:lower16:numberString
+ 893 0934 C0F20001 		movt	r1, #:upper16:numberString
+ 894 0938 FFF7FEFF 		bl	ftoa
+ 895 093c 40F20000 		movw	r0, #:lower16:numberString
+ 896 0940 C0F20000 		movt	r0, #:upper16:numberString
+ 897 0944 FFF7FEFF 		bl	uart3Print
+ 898 0948 40F20000 		movw	r0, #:lower16:.LC2
+ 899 094c C0F20000 		movt	r0, #:upper16:.LC2
+ 900 0950 FFF7FEFF 		bl	uart3Print
+ 901 0954 40F20003 		movw	r3, #:lower16:eepromConfig
+ 902 0958 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 903 095c 93F86031 		ldrb	r3, [r3, #352]	@ zero_extendqisi2
+ 904 0960 002B     		cmp	r3, #0
+ 905 0962 06D0     		beq	.L57
+ 906 0964 40F20000 		movw	r0, #:lower16:.LC3
+ 907 0968 C0F20000 		movt	r0, #:upper16:.LC3
+ 908 096c FFF7FEFF 		bl	uart3Print
+ 909 0970 05E0     		b	.L58
+ 910              	.L57:
+ 911 0972 40F20000 		movw	r0, #:lower16:.LC4
+ 912 0976 C0F20000 		movt	r0, #:upper16:.LC4
+ 913 097a FFF7FEFF 		bl	uart3Print
+ 914              	.L58:
+ 915 097e 40F20000 		movw	r0, #:lower16:.LC9
+ 916 0982 C0F20000 		movt	r0, #:upper16:.LC9
+ 917 0986 FFF7FEFF 		bl	uart3Print
+ 918 098a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 919 098e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 920 0992 D3F86431 		ldr	r3, [r3, #356]	@ float
+ 921 0996 1846     		mov	r0, r3	@ float
+ 922 0998 40F20001 		movw	r1, #:lower16:numberString
+ 923 099c C0F20001 		movt	r1, #:upper16:numberString
+ 924 09a0 FFF7FEFF 		bl	ftoa
+ 925 09a4 40F20000 		movw	r0, #:lower16:numberString
+ 926 09a8 C0F20000 		movt	r0, #:upper16:numberString
+ 927 09ac FFF7FEFF 		bl	uart3Print
+ 928 09b0 40F20000 		movw	r0, #:lower16:.LC2
+ 929 09b4 C0F20000 		movt	r0, #:upper16:.LC2
+ 930 09b8 FFF7FEFF 		bl	uart3Print
+ 931 09bc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 932 09c0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 933 09c4 D3F86831 		ldr	r3, [r3, #360]	@ float
+ 934 09c8 1846     		mov	r0, r3	@ float
+ 935 09ca 40F20001 		movw	r1, #:lower16:numberString
+ 936 09ce C0F20001 		movt	r1, #:upper16:numberString
+ 937 09d2 FFF7FEFF 		bl	ftoa
+ 938 09d6 40F20000 		movw	r0, #:lower16:numberString
+ 939 09da C0F20000 		movt	r0, #:upper16:numberString
+ 940 09de FFF7FEFF 		bl	uart3Print
+ 941 09e2 40F20000 		movw	r0, #:lower16:.LC2
+ 942 09e6 C0F20000 		movt	r0, #:upper16:.LC2
+ 943 09ea FFF7FEFF 		bl	uart3Print
+ 944 09ee 40F20003 		movw	r3, #:lower16:eepromConfig
+ 945 09f2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 946 09f6 D3F86C31 		ldr	r3, [r3, #364]	@ float
+ 947 09fa 1846     		mov	r0, r3	@ float
+ 948 09fc 40F20001 		movw	r1, #:lower16:numberString
+ 949 0a00 C0F20001 		movt	r1, #:upper16:numberString
+ 950 0a04 FFF7FEFF 		bl	ftoa
+ 951 0a08 40F20000 		movw	r0, #:lower16:numberString
+ 952 0a0c C0F20000 		movt	r0, #:upper16:numberString
+ 953 0a10 FFF7FEFF 		bl	uart3Print
+ 954 0a14 40F20000 		movw	r0, #:lower16:.LC2
+ 955 0a18 C0F20000 		movt	r0, #:upper16:.LC2
+ 956 0a1c FFF7FEFF 		bl	uart3Print
+ 957 0a20 40F20003 		movw	r3, #:lower16:eepromConfig
+ 958 0a24 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 959 0a28 D3F87031 		ldr	r3, [r3, #368]	@ float
+ 960 0a2c 1846     		mov	r0, r3	@ float
+ 961 0a2e 40F20001 		movw	r1, #:lower16:numberString
+ 962 0a32 C0F20001 		movt	r1, #:upper16:numberString
+ 963 0a36 FFF7FEFF 		bl	ftoa
+ 964 0a3a 40F20000 		movw	r0, #:lower16:numberString
+ 965 0a3e C0F20000 		movt	r0, #:upper16:numberString
+ 966 0a42 FFF7FEFF 		bl	uart3Print
+ 967 0a46 40F20000 		movw	r0, #:lower16:.LC2
+ 968 0a4a C0F20000 		movt	r0, #:upper16:.LC2
+ 969 0a4e FFF7FEFF 		bl	uart3Print
+ 970 0a52 40F20003 		movw	r3, #:lower16:eepromConfig
+ 971 0a56 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 972 0a5a D3F87831 		ldr	r3, [r3, #376]	@ float
+ 973 0a5e 1846     		mov	r0, r3	@ float
+ 974 0a60 40F20001 		movw	r1, #:lower16:numberString
+ 975 0a64 C0F20001 		movt	r1, #:upper16:numberString
+ 976 0a68 FFF7FEFF 		bl	ftoa
+ 977 0a6c 40F20000 		movw	r0, #:lower16:numberString
+ 978 0a70 C0F20000 		movt	r0, #:upper16:numberString
+ 979 0a74 FFF7FEFF 		bl	uart3Print
+ 980 0a78 40F20000 		movw	r0, #:lower16:.LC2
+ 981 0a7c C0F20000 		movt	r0, #:upper16:.LC2
+ 982 0a80 FFF7FEFF 		bl	uart3Print
+ 983 0a84 40F20003 		movw	r3, #:lower16:eepromConfig
+ 984 0a88 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 985 0a8c 93F88831 		ldrb	r3, [r3, #392]	@ zero_extendqisi2
+ 986 0a90 002B     		cmp	r3, #0
+ 987 0a92 06D0     		beq	.L59
+ 988 0a94 40F20000 		movw	r0, #:lower16:.LC3
+ 989 0a98 C0F20000 		movt	r0, #:upper16:.LC3
+ 990 0a9c FFF7FEFF 		bl	uart3Print
+ 991 0aa0 05E0     		b	.L60
+ 992              	.L59:
+ 993 0aa2 40F20000 		movw	r0, #:lower16:.LC4
+ 994 0aa6 C0F20000 		movt	r0, #:upper16:.LC4
+ 995 0aaa FFF7FEFF 		bl	uart3Print
+ 996              	.L60:
+ 997 0aae 40F20003 		movw	r3, #:lower16:rfQueryType
+ 998 0ab2 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 999 0ab6 4FF07802 		mov	r2, #120
+ 1000 0aba 1A70     		strb	r2, [r3, #0]
+ 1001 0abc 00F099BD 		b	.L16
+ 1002              	.L45:
+ 1003 0ac0 40F20000 		movw	r0, #:lower16:.LC0
+ 1004 0ac4 C0F20000 		movt	r0, #:upper16:.LC0
+ 1005 0ac8 FFF7FEFF 		bl	uart3Print
+ 1006 0acc 40F20000 		movw	r0, #:lower16:.LC10
+ 1007 0ad0 C0F20000 		movt	r0, #:upper16:.LC10
+ 1008 0ad4 FFF7FEFF 		bl	uart3Print
+ 1009 0ad8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1010 0adc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1011 0ae0 D3F88C31 		ldr	r3, [r3, #396]	@ float
+ 1012 0ae4 1846     		mov	r0, r3	@ float
+ 1013 0ae6 40F20001 		movw	r1, #:lower16:numberString
+ 1014 0aea C0F20001 		movt	r1, #:upper16:numberString
+ 1015 0aee FFF7FEFF 		bl	ftoa
+ 1016 0af2 40F20000 		movw	r0, #:lower16:numberString
+ 1017 0af6 C0F20000 		movt	r0, #:upper16:numberString
+ 1018 0afa FFF7FEFF 		bl	uart3Print
+ 1019 0afe 40F20000 		movw	r0, #:lower16:.LC2
+ 1020 0b02 C0F20000 		movt	r0, #:upper16:.LC2
+ 1021 0b06 FFF7FEFF 		bl	uart3Print
+ 1022 0b0a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1023 0b0e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1024 0b12 D3F89031 		ldr	r3, [r3, #400]	@ float
+ 1025 0b16 1846     		mov	r0, r3	@ float
+ 1026 0b18 40F20001 		movw	r1, #:lower16:numberString
+ 1027 0b1c C0F20001 		movt	r1, #:upper16:numberString
+ 1028 0b20 FFF7FEFF 		bl	ftoa
+ 1029 0b24 40F20000 		movw	r0, #:lower16:numberString
+ 1030 0b28 C0F20000 		movt	r0, #:upper16:numberString
+ 1031 0b2c FFF7FEFF 		bl	uart3Print
+ 1032 0b30 40F20000 		movw	r0, #:lower16:.LC2
+ 1033 0b34 C0F20000 		movt	r0, #:upper16:.LC2
+ 1034 0b38 FFF7FEFF 		bl	uart3Print
+ 1035 0b3c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1036 0b40 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1037 0b44 D3F89431 		ldr	r3, [r3, #404]	@ float
+ 1038 0b48 1846     		mov	r0, r3	@ float
+ 1039 0b4a 40F20001 		movw	r1, #:lower16:numberString
+ 1040 0b4e C0F20001 		movt	r1, #:upper16:numberString
+ 1041 0b52 FFF7FEFF 		bl	ftoa
+ 1042 0b56 40F20000 		movw	r0, #:lower16:numberString
+ 1043 0b5a C0F20000 		movt	r0, #:upper16:numberString
+ 1044 0b5e FFF7FEFF 		bl	uart3Print
+ 1045 0b62 40F20000 		movw	r0, #:lower16:.LC2
+ 1046 0b66 C0F20000 		movt	r0, #:upper16:.LC2
+ 1047 0b6a FFF7FEFF 		bl	uart3Print
+ 1048 0b6e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1049 0b72 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1050 0b76 D3F89831 		ldr	r3, [r3, #408]	@ float
+ 1051 0b7a 1846     		mov	r0, r3	@ float
+ 1052 0b7c 40F20001 		movw	r1, #:lower16:numberString
+ 1053 0b80 C0F20001 		movt	r1, #:upper16:numberString
+ 1054 0b84 FFF7FEFF 		bl	ftoa
+ 1055 0b88 40F20000 		movw	r0, #:lower16:numberString
+ 1056 0b8c C0F20000 		movt	r0, #:upper16:numberString
+ 1057 0b90 FFF7FEFF 		bl	uart3Print
+ 1058 0b94 40F20000 		movw	r0, #:lower16:.LC2
+ 1059 0b98 C0F20000 		movt	r0, #:upper16:.LC2
+ 1060 0b9c FFF7FEFF 		bl	uart3Print
+ 1061 0ba0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1062 0ba4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1063 0ba8 D3F8A031 		ldr	r3, [r3, #416]	@ float
+ 1064 0bac 1846     		mov	r0, r3	@ float
+ 1065 0bae 40F20001 		movw	r1, #:lower16:numberString
+ 1066 0bb2 C0F20001 		movt	r1, #:upper16:numberString
+ 1067 0bb6 FFF7FEFF 		bl	ftoa
+ 1068 0bba 40F20000 		movw	r0, #:lower16:numberString
+ 1069 0bbe C0F20000 		movt	r0, #:upper16:numberString
+ 1070 0bc2 FFF7FEFF 		bl	uart3Print
+ 1071 0bc6 40F20000 		movw	r0, #:lower16:.LC2
+ 1072 0bca C0F20000 		movt	r0, #:upper16:.LC2
+ 1073 0bce FFF7FEFF 		bl	uart3Print
+ 1074 0bd2 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1075 0bd6 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1076 0bda 93F8B031 		ldrb	r3, [r3, #432]	@ zero_extendqisi2
+ 1077 0bde 002B     		cmp	r3, #0
+ 1078 0be0 06D0     		beq	.L61
+ 1079 0be2 40F20000 		movw	r0, #:lower16:.LC3
+ 1080 0be6 C0F20000 		movt	r0, #:upper16:.LC3
+ 1081 0bea FFF7FEFF 		bl	uart3Print
+ 1082 0bee 05E0     		b	.L62
+ 1083              	.L61:
+ 1084 0bf0 40F20000 		movw	r0, #:lower16:.LC4
+ 1085 0bf4 C0F20000 		movt	r0, #:upper16:.LC4
+ 1086 0bf8 FFF7FEFF 		bl	uart3Print
+ 1087              	.L62:
+ 1088 0bfc 40F20000 		movw	r0, #:lower16:.LC11
+ 1089 0c00 C0F20000 		movt	r0, #:upper16:.LC11
+ 1090 0c04 FFF7FEFF 		bl	uart3Print
+ 1091 0c08 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1092 0c0c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1093 0c10 D3F8B431 		ldr	r3, [r3, #436]	@ float
+ 1094 0c14 1846     		mov	r0, r3	@ float
+ 1095 0c16 40F20001 		movw	r1, #:lower16:numberString
+ 1096 0c1a C0F20001 		movt	r1, #:upper16:numberString
+ 1097 0c1e FFF7FEFF 		bl	ftoa
+ 1098 0c22 40F20000 		movw	r0, #:lower16:numberString
+ 1099 0c26 C0F20000 		movt	r0, #:upper16:numberString
+ 1100 0c2a FFF7FEFF 		bl	uart3Print
+ 1101 0c2e 40F20000 		movw	r0, #:lower16:.LC2
+ 1102 0c32 C0F20000 		movt	r0, #:upper16:.LC2
+ 1103 0c36 FFF7FEFF 		bl	uart3Print
+ 1104 0c3a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1105 0c3e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1106 0c42 D3F8B831 		ldr	r3, [r3, #440]	@ float
+ 1107 0c46 1846     		mov	r0, r3	@ float
+ 1108 0c48 40F20001 		movw	r1, #:lower16:numberString
+ 1109 0c4c C0F20001 		movt	r1, #:upper16:numberString
+ 1110 0c50 FFF7FEFF 		bl	ftoa
+ 1111 0c54 40F20000 		movw	r0, #:lower16:numberString
+ 1112 0c58 C0F20000 		movt	r0, #:upper16:numberString
+ 1113 0c5c FFF7FEFF 		bl	uart3Print
+ 1114 0c60 40F20000 		movw	r0, #:lower16:.LC2
+ 1115 0c64 C0F20000 		movt	r0, #:upper16:.LC2
+ 1116 0c68 FFF7FEFF 		bl	uart3Print
+ 1117 0c6c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1118 0c70 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1119 0c74 D3F8BC31 		ldr	r3, [r3, #444]	@ float
+ 1120 0c78 1846     		mov	r0, r3	@ float
+ 1121 0c7a 40F20001 		movw	r1, #:lower16:numberString
+ 1122 0c7e C0F20001 		movt	r1, #:upper16:numberString
+ 1123 0c82 FFF7FEFF 		bl	ftoa
+ 1124 0c86 40F20000 		movw	r0, #:lower16:numberString
+ 1125 0c8a C0F20000 		movt	r0, #:upper16:numberString
+ 1126 0c8e FFF7FEFF 		bl	uart3Print
+ 1127 0c92 40F20000 		movw	r0, #:lower16:.LC2
+ 1128 0c96 C0F20000 		movt	r0, #:upper16:.LC2
+ 1129 0c9a FFF7FEFF 		bl	uart3Print
+ 1130 0c9e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1131 0ca2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1132 0ca6 D3F8C031 		ldr	r3, [r3, #448]	@ float
+ 1133 0caa 1846     		mov	r0, r3	@ float
+ 1134 0cac 40F20001 		movw	r1, #:lower16:numberString
+ 1135 0cb0 C0F20001 		movt	r1, #:upper16:numberString
+ 1136 0cb4 FFF7FEFF 		bl	ftoa
+ 1137 0cb8 40F20000 		movw	r0, #:lower16:numberString
+ 1138 0cbc C0F20000 		movt	r0, #:upper16:numberString
+ 1139 0cc0 FFF7FEFF 		bl	uart3Print
+ 1140 0cc4 40F20000 		movw	r0, #:lower16:.LC2
+ 1141 0cc8 C0F20000 		movt	r0, #:upper16:.LC2
+ 1142 0ccc FFF7FEFF 		bl	uart3Print
+ 1143 0cd0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1144 0cd4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1145 0cd8 D3F8C831 		ldr	r3, [r3, #456]	@ float
+ 1146 0cdc 1846     		mov	r0, r3	@ float
+ 1147 0cde 40F20001 		movw	r1, #:lower16:numberString
+ 1148 0ce2 C0F20001 		movt	r1, #:upper16:numberString
+ 1149 0ce6 FFF7FEFF 		bl	ftoa
+ 1150 0cea 40F20000 		movw	r0, #:lower16:numberString
+ 1151 0cee C0F20000 		movt	r0, #:upper16:numberString
+ 1152 0cf2 FFF7FEFF 		bl	uart3Print
+ 1153 0cf6 40F20000 		movw	r0, #:lower16:.LC2
+ 1154 0cfa C0F20000 		movt	r0, #:upper16:.LC2
+ 1155 0cfe FFF7FEFF 		bl	uart3Print
+ 1156 0d02 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1157 0d06 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1158 0d0a 93F8D831 		ldrb	r3, [r3, #472]	@ zero_extendqisi2
+ 1159 0d0e 002B     		cmp	r3, #0
+ 1160 0d10 06D0     		beq	.L63
+ 1161 0d12 40F20000 		movw	r0, #:lower16:.LC3
+ 1162 0d16 C0F20000 		movt	r0, #:upper16:.LC3
+ 1163 0d1a FFF7FEFF 		bl	uart3Print
+ 1164 0d1e 05E0     		b	.L64
+ 1165              	.L63:
+ 1166 0d20 40F20000 		movw	r0, #:lower16:.LC4
+ 1167 0d24 C0F20000 		movt	r0, #:upper16:.LC4
+ 1168 0d28 FFF7FEFF 		bl	uart3Print
+ 1169              	.L64:
+ 1170 0d2c 40F20000 		movw	r0, #:lower16:.LC12
+ 1171 0d30 C0F20000 		movt	r0, #:upper16:.LC12
+ 1172 0d34 FFF7FEFF 		bl	uart3Print
+ 1173 0d38 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1174 0d3c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1175 0d40 D3F8DC31 		ldr	r3, [r3, #476]	@ float
+ 1176 0d44 1846     		mov	r0, r3	@ float
+ 1177 0d46 40F20001 		movw	r1, #:lower16:numberString
+ 1178 0d4a C0F20001 		movt	r1, #:upper16:numberString
+ 1179 0d4e FFF7FEFF 		bl	ftoa
+ 1180 0d52 40F20000 		movw	r0, #:lower16:numberString
+ 1181 0d56 C0F20000 		movt	r0, #:upper16:numberString
+ 1182 0d5a FFF7FEFF 		bl	uart3Print
+ 1183 0d5e 40F20000 		movw	r0, #:lower16:.LC2
+ 1184 0d62 C0F20000 		movt	r0, #:upper16:.LC2
+ 1185 0d66 FFF7FEFF 		bl	uart3Print
+ 1186 0d6a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1187 0d6e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1188 0d72 D3F8E031 		ldr	r3, [r3, #480]	@ float
+ 1189 0d76 1846     		mov	r0, r3	@ float
+ 1190 0d78 40F20001 		movw	r1, #:lower16:numberString
+ 1191 0d7c C0F20001 		movt	r1, #:upper16:numberString
+ 1192 0d80 FFF7FEFF 		bl	ftoa
+ 1193 0d84 40F20000 		movw	r0, #:lower16:numberString
+ 1194 0d88 C0F20000 		movt	r0, #:upper16:numberString
+ 1195 0d8c FFF7FEFF 		bl	uart3Print
+ 1196 0d90 40F20000 		movw	r0, #:lower16:.LC2
+ 1197 0d94 C0F20000 		movt	r0, #:upper16:.LC2
+ 1198 0d98 FFF7FEFF 		bl	uart3Print
+ 1199 0d9c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1200 0da0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1201 0da4 D3F8E431 		ldr	r3, [r3, #484]	@ float
+ 1202 0da8 1846     		mov	r0, r3	@ float
+ 1203 0daa 40F20001 		movw	r1, #:lower16:numberString
+ 1204 0dae C0F20001 		movt	r1, #:upper16:numberString
+ 1205 0db2 FFF7FEFF 		bl	ftoa
+ 1206 0db6 40F20000 		movw	r0, #:lower16:numberString
+ 1207 0dba C0F20000 		movt	r0, #:upper16:numberString
+ 1208 0dbe FFF7FEFF 		bl	uart3Print
+ 1209 0dc2 40F20000 		movw	r0, #:lower16:.LC2
+ 1210 0dc6 C0F20000 		movt	r0, #:upper16:.LC2
+ 1211 0dca FFF7FEFF 		bl	uart3Print
+ 1212 0dce 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1213 0dd2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1214 0dd6 D3F8E831 		ldr	r3, [r3, #488]	@ float
+ 1215 0dda 1846     		mov	r0, r3	@ float
+ 1216 0ddc 40F20001 		movw	r1, #:lower16:numberString
+ 1217 0de0 C0F20001 		movt	r1, #:upper16:numberString
+ 1218 0de4 FFF7FEFF 		bl	ftoa
+ 1219 0de8 40F20000 		movw	r0, #:lower16:numberString
+ 1220 0dec C0F20000 		movt	r0, #:upper16:numberString
+ 1221 0df0 FFF7FEFF 		bl	uart3Print
+ 1222 0df4 40F20000 		movw	r0, #:lower16:.LC2
+ 1223 0df8 C0F20000 		movt	r0, #:upper16:.LC2
+ 1224 0dfc FFF7FEFF 		bl	uart3Print
+ 1225 0e00 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1226 0e04 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1227 0e08 D3F8F031 		ldr	r3, [r3, #496]	@ float
+ 1228 0e0c 1846     		mov	r0, r3	@ float
+ 1229 0e0e 40F20001 		movw	r1, #:lower16:numberString
+ 1230 0e12 C0F20001 		movt	r1, #:upper16:numberString
+ 1231 0e16 FFF7FEFF 		bl	ftoa
+ 1232 0e1a 40F20000 		movw	r0, #:lower16:numberString
+ 1233 0e1e C0F20000 		movt	r0, #:upper16:numberString
+ 1234 0e22 FFF7FEFF 		bl	uart3Print
+ 1235 0e26 40F20000 		movw	r0, #:lower16:.LC2
+ 1236 0e2a C0F20000 		movt	r0, #:upper16:.LC2
+ 1237 0e2e FFF7FEFF 		bl	uart3Print
+ 1238 0e32 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1239 0e36 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1240 0e3a 93F80032 		ldrb	r3, [r3, #512]	@ zero_extendqisi2
+ 1241 0e3e 002B     		cmp	r3, #0
+ 1242 0e40 06D0     		beq	.L65
+ 1243 0e42 40F20000 		movw	r0, #:lower16:.LC3
+ 1244 0e46 C0F20000 		movt	r0, #:upper16:.LC3
+ 1245 0e4a FFF7FEFF 		bl	uart3Print
+ 1246 0e4e 05E0     		b	.L66
+ 1247              	.L65:
+ 1248 0e50 40F20000 		movw	r0, #:lower16:.LC4
+ 1249 0e54 C0F20000 		movt	r0, #:upper16:.LC4
+ 1250 0e58 FFF7FEFF 		bl	uart3Print
+ 1251              	.L66:
+ 1252 0e5c 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1253 0e60 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1254 0e64 4FF07802 		mov	r2, #120
+ 1255 0e68 1A70     		strb	r2, [r3, #0]
+ 1256 0e6a C2E3     		b	.L16
+ 1257              	.L46:
+ 1258 0e6c 40F20000 		movw	r0, #:lower16:.LC0
+ 1259 0e70 C0F20000 		movt	r0, #:upper16:.LC0
+ 1260 0e74 FFF7FEFF 		bl	uart3Print
+ 1261 0e78 40F20000 		movw	r0, #:lower16:.LC13
+ 1262 0e7c C0F20000 		movt	r0, #:upper16:.LC13
+ 1263 0e80 FFF7FEFF 		bl	uart3Print
+ 1264 0e84 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1265 0e88 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1266 0e8c D3F80432 		ldr	r3, [r3, #516]	@ float
+ 1267 0e90 1846     		mov	r0, r3	@ float
+ 1268 0e92 40F20001 		movw	r1, #:lower16:numberString
+ 1269 0e96 C0F20001 		movt	r1, #:upper16:numberString
+ 1270 0e9a FFF7FEFF 		bl	ftoa
+ 1271 0e9e 40F20000 		movw	r0, #:lower16:numberString
+ 1272 0ea2 C0F20000 		movt	r0, #:upper16:numberString
+ 1273 0ea6 FFF7FEFF 		bl	uart3Print
+ 1274 0eaa 40F20000 		movw	r0, #:lower16:.LC2
+ 1275 0eae C0F20000 		movt	r0, #:upper16:.LC2
+ 1276 0eb2 FFF7FEFF 		bl	uart3Print
+ 1277 0eb6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1278 0eba C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1279 0ebe D3F80832 		ldr	r3, [r3, #520]	@ float
+ 1280 0ec2 1846     		mov	r0, r3	@ float
+ 1281 0ec4 40F20001 		movw	r1, #:lower16:numberString
+ 1282 0ec8 C0F20001 		movt	r1, #:upper16:numberString
+ 1283 0ecc FFF7FEFF 		bl	ftoa
+ 1284 0ed0 40F20000 		movw	r0, #:lower16:numberString
+ 1285 0ed4 C0F20000 		movt	r0, #:upper16:numberString
+ 1286 0ed8 FFF7FEFF 		bl	uart3Print
+ 1287 0edc 40F20000 		movw	r0, #:lower16:.LC2
+ 1288 0ee0 C0F20000 		movt	r0, #:upper16:.LC2
+ 1289 0ee4 FFF7FEFF 		bl	uart3Print
+ 1290 0ee8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1291 0eec C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1292 0ef0 D3F80C32 		ldr	r3, [r3, #524]	@ float
+ 1293 0ef4 1846     		mov	r0, r3	@ float
+ 1294 0ef6 40F20001 		movw	r1, #:lower16:numberString
+ 1295 0efa C0F20001 		movt	r1, #:upper16:numberString
+ 1296 0efe FFF7FEFF 		bl	ftoa
+ 1297 0f02 40F20000 		movw	r0, #:lower16:numberString
+ 1298 0f06 C0F20000 		movt	r0, #:upper16:numberString
+ 1299 0f0a FFF7FEFF 		bl	uart3Print
+ 1300 0f0e 40F20000 		movw	r0, #:lower16:.LC2
+ 1301 0f12 C0F20000 		movt	r0, #:upper16:.LC2
+ 1302 0f16 FFF7FEFF 		bl	uart3Print
+ 1303 0f1a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1304 0f1e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1305 0f22 D3F81032 		ldr	r3, [r3, #528]	@ float
+ 1306 0f26 1846     		mov	r0, r3	@ float
+ 1307 0f28 40F20001 		movw	r1, #:lower16:numberString
+ 1308 0f2c C0F20001 		movt	r1, #:upper16:numberString
+ 1309 0f30 FFF7FEFF 		bl	ftoa
+ 1310 0f34 40F20000 		movw	r0, #:lower16:numberString
+ 1311 0f38 C0F20000 		movt	r0, #:upper16:numberString
+ 1312 0f3c FFF7FEFF 		bl	uart3Print
+ 1313 0f40 40F20000 		movw	r0, #:lower16:.LC2
+ 1314 0f44 C0F20000 		movt	r0, #:upper16:.LC2
+ 1315 0f48 FFF7FEFF 		bl	uart3Print
+ 1316 0f4c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1317 0f50 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1318 0f54 D3F81832 		ldr	r3, [r3, #536]	@ float
+ 1319 0f58 1846     		mov	r0, r3	@ float
+ 1320 0f5a 40F20001 		movw	r1, #:lower16:numberString
+ 1321 0f5e C0F20001 		movt	r1, #:upper16:numberString
+ 1322 0f62 FFF7FEFF 		bl	ftoa
+ 1323 0f66 40F20000 		movw	r0, #:lower16:numberString
+ 1324 0f6a C0F20000 		movt	r0, #:upper16:numberString
+ 1325 0f6e FFF7FEFF 		bl	uart3Print
+ 1326 0f72 40F20000 		movw	r0, #:lower16:.LC2
+ 1327 0f76 C0F20000 		movt	r0, #:upper16:.LC2
+ 1328 0f7a FFF7FEFF 		bl	uart3Print
+ 1329 0f7e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1330 0f82 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1331 0f86 93F82832 		ldrb	r3, [r3, #552]	@ zero_extendqisi2
+ 1332 0f8a 002B     		cmp	r3, #0
+ 1333 0f8c 06D0     		beq	.L67
+ 1334 0f8e 40F20000 		movw	r0, #:lower16:.LC3
+ 1335 0f92 C0F20000 		movt	r0, #:upper16:.LC3
+ 1336 0f96 FFF7FEFF 		bl	uart3Print
+ 1337 0f9a 05E0     		b	.L68
+ 1338              	.L67:
+ 1339 0f9c 40F20000 		movw	r0, #:lower16:.LC4
+ 1340 0fa0 C0F20000 		movt	r0, #:upper16:.LC4
+ 1341 0fa4 FFF7FEFF 		bl	uart3Print
+ 1342              	.L68:
+ 1343 0fa8 40F20000 		movw	r0, #:lower16:.LC14
+ 1344 0fac C0F20000 		movt	r0, #:upper16:.LC14
+ 1345 0fb0 FFF7FEFF 		bl	uart3Print
+ 1346 0fb4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1347 0fb8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1348 0fbc D3F82C32 		ldr	r3, [r3, #556]	@ float
+ 1349 0fc0 1846     		mov	r0, r3	@ float
+ 1350 0fc2 40F20001 		movw	r1, #:lower16:numberString
+ 1351 0fc6 C0F20001 		movt	r1, #:upper16:numberString
+ 1352 0fca FFF7FEFF 		bl	ftoa
+ 1353 0fce 40F20000 		movw	r0, #:lower16:numberString
+ 1354 0fd2 C0F20000 		movt	r0, #:upper16:numberString
+ 1355 0fd6 FFF7FEFF 		bl	uart3Print
+ 1356 0fda 40F20000 		movw	r0, #:lower16:.LC2
+ 1357 0fde C0F20000 		movt	r0, #:upper16:.LC2
+ 1358 0fe2 FFF7FEFF 		bl	uart3Print
+ 1359 0fe6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1360 0fea C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1361 0fee D3F83032 		ldr	r3, [r3, #560]	@ float
+ 1362 0ff2 1846     		mov	r0, r3	@ float
+ 1363 0ff4 40F20001 		movw	r1, #:lower16:numberString
+ 1364 0ff8 C0F20001 		movt	r1, #:upper16:numberString
+ 1365 0ffc FFF7FEFF 		bl	ftoa
+ 1366 1000 40F20000 		movw	r0, #:lower16:numberString
+ 1367 1004 C0F20000 		movt	r0, #:upper16:numberString
+ 1368 1008 FFF7FEFF 		bl	uart3Print
+ 1369 100c 40F20000 		movw	r0, #:lower16:.LC2
+ 1370 1010 C0F20000 		movt	r0, #:upper16:.LC2
+ 1371 1014 FFF7FEFF 		bl	uart3Print
+ 1372 1018 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1373 101c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1374 1020 D3F83432 		ldr	r3, [r3, #564]	@ float
+ 1375 1024 1846     		mov	r0, r3	@ float
+ 1376 1026 40F20001 		movw	r1, #:lower16:numberString
+ 1377 102a C0F20001 		movt	r1, #:upper16:numberString
+ 1378 102e FFF7FEFF 		bl	ftoa
+ 1379 1032 40F20000 		movw	r0, #:lower16:numberString
+ 1380 1036 C0F20000 		movt	r0, #:upper16:numberString
+ 1381 103a FFF7FEFF 		bl	uart3Print
+ 1382 103e 40F20000 		movw	r0, #:lower16:.LC2
+ 1383 1042 C0F20000 		movt	r0, #:upper16:.LC2
+ 1384 1046 FFF7FEFF 		bl	uart3Print
+ 1385 104a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1386 104e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1387 1052 D3F83832 		ldr	r3, [r3, #568]	@ float
+ 1388 1056 1846     		mov	r0, r3	@ float
+ 1389 1058 40F20001 		movw	r1, #:lower16:numberString
+ 1390 105c C0F20001 		movt	r1, #:upper16:numberString
+ 1391 1060 FFF7FEFF 		bl	ftoa
+ 1392 1064 40F20000 		movw	r0, #:lower16:numberString
+ 1393 1068 C0F20000 		movt	r0, #:upper16:numberString
+ 1394 106c FFF7FEFF 		bl	uart3Print
+ 1395 1070 40F20000 		movw	r0, #:lower16:.LC2
+ 1396 1074 C0F20000 		movt	r0, #:upper16:.LC2
+ 1397 1078 FFF7FEFF 		bl	uart3Print
+ 1398 107c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1399 1080 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1400 1084 D3F84032 		ldr	r3, [r3, #576]	@ float
+ 1401 1088 1846     		mov	r0, r3	@ float
+ 1402 108a 40F20001 		movw	r1, #:lower16:numberString
+ 1403 108e C0F20001 		movt	r1, #:upper16:numberString
+ 1404 1092 FFF7FEFF 		bl	ftoa
+ 1405 1096 40F20000 		movw	r0, #:lower16:numberString
+ 1406 109a C0F20000 		movt	r0, #:upper16:numberString
+ 1407 109e FFF7FEFF 		bl	uart3Print
+ 1408 10a2 40F20000 		movw	r0, #:lower16:.LC2
+ 1409 10a6 C0F20000 		movt	r0, #:upper16:.LC2
+ 1410 10aa FFF7FEFF 		bl	uart3Print
+ 1411 10ae 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1412 10b2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1413 10b6 93F85032 		ldrb	r3, [r3, #592]	@ zero_extendqisi2
+ 1414 10ba 002B     		cmp	r3, #0
+ 1415 10bc 06D0     		beq	.L69
+ 1416 10be 40F20000 		movw	r0, #:lower16:.LC3
+ 1417 10c2 C0F20000 		movt	r0, #:upper16:.LC3
+ 1418 10c6 FFF7FEFF 		bl	uart3Print
+ 1419 10ca 05E0     		b	.L70
+ 1420              	.L69:
+ 1421 10cc 40F20000 		movw	r0, #:lower16:.LC4
+ 1422 10d0 C0F20000 		movt	r0, #:upper16:.LC4
+ 1423 10d4 FFF7FEFF 		bl	uart3Print
+ 1424              	.L70:
+ 1425 10d8 40F20000 		movw	r0, #:lower16:.LC15
+ 1426 10dc C0F20000 		movt	r0, #:upper16:.LC15
+ 1427 10e0 FFF7FEFF 		bl	uart3Print
+ 1428 10e4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1429 10e8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1430 10ec D3F85432 		ldr	r3, [r3, #596]	@ float
+ 1431 10f0 1846     		mov	r0, r3	@ float
+ 1432 10f2 40F20001 		movw	r1, #:lower16:numberString
+ 1433 10f6 C0F20001 		movt	r1, #:upper16:numberString
+ 1434 10fa FFF7FEFF 		bl	ftoa
+ 1435 10fe 40F20000 		movw	r0, #:lower16:numberString
+ 1436 1102 C0F20000 		movt	r0, #:upper16:numberString
+ 1437 1106 FFF7FEFF 		bl	uart3Print
+ 1438 110a 40F20000 		movw	r0, #:lower16:.LC2
+ 1439 110e C0F20000 		movt	r0, #:upper16:.LC2
+ 1440 1112 FFF7FEFF 		bl	uart3Print
+ 1441 1116 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1442 111a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1443 111e D3F85832 		ldr	r3, [r3, #600]	@ float
+ 1444 1122 1846     		mov	r0, r3	@ float
+ 1445 1124 40F20001 		movw	r1, #:lower16:numberString
+ 1446 1128 C0F20001 		movt	r1, #:upper16:numberString
+ 1447 112c FFF7FEFF 		bl	ftoa
+ 1448 1130 40F20000 		movw	r0, #:lower16:numberString
+ 1449 1134 C0F20000 		movt	r0, #:upper16:numberString
+ 1450 1138 FFF7FEFF 		bl	uart3Print
+ 1451 113c 40F20000 		movw	r0, #:lower16:.LC2
+ 1452 1140 C0F20000 		movt	r0, #:upper16:.LC2
+ 1453 1144 FFF7FEFF 		bl	uart3Print
+ 1454 1148 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1455 114c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1456 1150 D3F85C32 		ldr	r3, [r3, #604]	@ float
+ 1457 1154 1846     		mov	r0, r3	@ float
+ 1458 1156 40F20001 		movw	r1, #:lower16:numberString
+ 1459 115a C0F20001 		movt	r1, #:upper16:numberString
+ 1460 115e FFF7FEFF 		bl	ftoa
+ 1461 1162 40F20000 		movw	r0, #:lower16:numberString
+ 1462 1166 C0F20000 		movt	r0, #:upper16:numberString
+ 1463 116a FFF7FEFF 		bl	uart3Print
+ 1464 116e 40F20000 		movw	r0, #:lower16:.LC2
+ 1465 1172 C0F20000 		movt	r0, #:upper16:.LC2
+ 1466 1176 FFF7FEFF 		bl	uart3Print
+ 1467 117a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1468 117e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1469 1182 D3F86032 		ldr	r3, [r3, #608]	@ float
+ 1470 1186 1846     		mov	r0, r3	@ float
+ 1471 1188 40F20001 		movw	r1, #:lower16:numberString
+ 1472 118c C0F20001 		movt	r1, #:upper16:numberString
+ 1473 1190 FFF7FEFF 		bl	ftoa
+ 1474 1194 40F20000 		movw	r0, #:lower16:numberString
+ 1475 1198 C0F20000 		movt	r0, #:upper16:numberString
+ 1476 119c FFF7FEFF 		bl	uart3Print
+ 1477 11a0 40F20000 		movw	r0, #:lower16:.LC2
+ 1478 11a4 C0F20000 		movt	r0, #:upper16:.LC2
+ 1479 11a8 FFF7FEFF 		bl	uart3Print
+ 1480 11ac 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1481 11b0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1482 11b4 D3F86832 		ldr	r3, [r3, #616]	@ float
+ 1483 11b8 1846     		mov	r0, r3	@ float
+ 1484 11ba 40F20001 		movw	r1, #:lower16:numberString
+ 1485 11be C0F20001 		movt	r1, #:upper16:numberString
+ 1486 11c2 FFF7FEFF 		bl	ftoa
+ 1487 11c6 40F20000 		movw	r0, #:lower16:numberString
+ 1488 11ca C0F20000 		movt	r0, #:upper16:numberString
+ 1489 11ce FFF7FEFF 		bl	uart3Print
+ 1490 11d2 40F20000 		movw	r0, #:lower16:.LC2
+ 1491 11d6 C0F20000 		movt	r0, #:upper16:.LC2
+ 1492 11da FFF7FEFF 		bl	uart3Print
+ 1493 11de 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1494 11e2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1495 11e6 93F87832 		ldrb	r3, [r3, #632]	@ zero_extendqisi2
+ 1496 11ea 002B     		cmp	r3, #0
+ 1497 11ec 06D0     		beq	.L71
+ 1498 11ee 40F20000 		movw	r0, #:lower16:.LC3
+ 1499 11f2 C0F20000 		movt	r0, #:upper16:.LC3
+ 1500 11f6 FFF7FEFF 		bl	uart3Print
+ 1501 11fa 05E0     		b	.L72
+ 1502              	.L71:
+ 1503 11fc 40F20000 		movw	r0, #:lower16:.LC4
+ 1504 1200 C0F20000 		movt	r0, #:upper16:.LC4
+ 1505 1204 FFF7FEFF 		bl	uart3Print
+ 1506              	.L72:
+ 1507 1208 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1508 120c C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1509 1210 4FF07802 		mov	r2, #120
+ 1510 1214 1A70     		strb	r2, [r3, #0]
+ 1511 1216 ECE1     		b	.L16
+ 1512              	.L20:
+ 1513 1218 FFF7FEFF 		bl	highSpeedTelemDisable
+ 1514 121c 40F20003 		movw	r3, #:lower16:highSpeedTelem1Enabled
+ 1515 1220 C0F20003 		movt	r3, #:upper16:highSpeedTelem1Enabled
+ 1516 1224 4FF00102 		mov	r2, #1
+ 1517 1228 1A70     		strb	r2, [r3, #0]
+ 1518 122a 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1519 122e C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1520 1232 4FF07802 		mov	r2, #120
+ 1521 1236 1A70     		strb	r2, [r3, #0]
+ 1522 1238 DBE1     		b	.L16
+ 1523              	.L21:
+ 1524 123a FFF7FEFF 		bl	highSpeedTelemDisable
+ 1525 123e 40F20003 		movw	r3, #:lower16:highSpeedTelem2Enabled
+ 1526 1242 C0F20003 		movt	r3, #:upper16:highSpeedTelem2Enabled
+ 1527 1246 4FF00102 		mov	r2, #1
+ 1528 124a 1A70     		strb	r2, [r3, #0]
+ 1529 124c 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1530 1250 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1531 1254 4FF07802 		mov	r2, #120
+ 1532 1258 1A70     		strb	r2, [r3, #0]
+ 1533 125a CAE1     		b	.L16
+ 1534              	.L22:
+ 1535 125c FFF7FEFF 		bl	highSpeedTelemDisable
+ 1536 1260 40F20003 		movw	r3, #:lower16:highSpeedTelem3Enabled
+ 1537 1264 C0F20003 		movt	r3, #:upper16:highSpeedTelem3Enabled
+ 1538 1268 4FF00102 		mov	r2, #1
+ 1539 126c 1A70     		strb	r2, [r3, #0]
+ 1540 126e 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1541 1272 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1542 1276 4FF07802 		mov	r2, #120
+ 1543 127a 1A70     		strb	r2, [r3, #0]
+ 1544 127c B9E1     		b	.L16
+ 1545              	.L23:
+ 1546 127e FFF7FEFF 		bl	highSpeedTelemDisable
+ 1547 1282 40F20003 		movw	r3, #:lower16:highSpeedTelem4Enabled
+ 1548 1286 C0F20003 		movt	r3, #:upper16:highSpeedTelem4Enabled
+ 1549 128a 4FF00102 		mov	r2, #1
+ 1550 128e 1A70     		strb	r2, [r3, #0]
+ 1551 1290 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1552 1294 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1553 1298 4FF07802 		mov	r2, #120
+ 1554 129c 1A70     		strb	r2, [r3, #0]
+ 1555 129e A8E1     		b	.L16
+ 1556              	.L24:
+ 1557 12a0 FFF7FEFF 		bl	highSpeedTelemDisable
+ 1558 12a4 40F20003 		movw	r3, #:lower16:highSpeedTelem5Enabled
+ 1559 12a8 C0F20003 		movt	r3, #:upper16:highSpeedTelem5Enabled
+ 1560 12ac 4FF00102 		mov	r2, #1
+ 1561 12b0 1A70     		strb	r2, [r3, #0]
+ 1562 12b2 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1563 12b6 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1564 12ba 4FF07802 		mov	r2, #120
+ 1565 12be 1A70     		strb	r2, [r3, #0]
+ 1566 12c0 97E1     		b	.L16
+ 1567              	.L25:
+ 1568 12c2 FFF7FEFF 		bl	highSpeedTelemDisable
+ 1569 12c6 40F20003 		movw	r3, #:lower16:highSpeedTelem6Enabled
+ 1570 12ca C0F20003 		movt	r3, #:upper16:highSpeedTelem6Enabled
+ 1571 12ce 4FF00102 		mov	r2, #1
+ 1572 12d2 1A70     		strb	r2, [r3, #0]
+ 1573 12d4 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1574 12d8 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1575 12dc 4FF07802 		mov	r2, #120
+ 1576 12e0 1A70     		strb	r2, [r3, #0]
+ 1577 12e2 86E1     		b	.L16
+ 1578              	.L26:
+ 1579 12e4 FFF7FEFF 		bl	highSpeedTelemDisable
+ 1580 12e8 40F20003 		movw	r3, #:lower16:highSpeedTelem7Enabled
+ 1581 12ec C0F20003 		movt	r3, #:upper16:highSpeedTelem7Enabled
+ 1582 12f0 4FF00102 		mov	r2, #1
+ 1583 12f4 1A70     		strb	r2, [r3, #0]
+ 1584 12f6 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1585 12fa C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1586 12fe 4FF07802 		mov	r2, #120
+ 1587 1302 1A70     		strb	r2, [r3, #0]
+ 1588 1304 75E1     		b	.L16
+ 1589              	.L27:
+ 1590 1306 FFF7FEFF 		bl	highSpeedTelemDisable
+ 1591 130a 40F20003 		movw	r3, #:lower16:highSpeedTelem8Enabled
+ 1592 130e C0F20003 		movt	r3, #:upper16:highSpeedTelem8Enabled
+ 1593 1312 4FF00102 		mov	r2, #1
+ 1594 1316 1A70     		strb	r2, [r3, #0]
+ 1595 1318 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1596 131c C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1597 1320 4FF07802 		mov	r2, #120
+ 1598 1324 1A70     		strb	r2, [r3, #0]
+ 1599 1326 64E1     		b	.L16
+ 1600              	.L28:
+ 1601 1328 FFF7FEFF 		bl	highSpeedTelemDisable
+ 1602 132c 40F20003 		movw	r3, #:lower16:highSpeedTelem9Enabled
+ 1603 1330 C0F20003 		movt	r3, #:upper16:highSpeedTelem9Enabled
+ 1604 1334 4FF00102 		mov	r2, #1
+ 1605 1338 1A70     		strb	r2, [r3, #0]
+ 1606 133a 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1607 133e C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1608 1342 4FF07802 		mov	r2, #120
+ 1609 1346 1A70     		strb	r2, [r3, #0]
+ 1610 1348 53E1     		b	.L16
+ 1611              	.L19:
+ 1612 134a FFF7FEFF 		bl	highSpeedTelemDisable
+ 1613 134e 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1614 1352 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1615 1356 4FF07802 		mov	r2, #120
+ 1616 135a 1A70     		strb	r2, [r3, #0]
+ 1617 135c 49E1     		b	.L16
+ 1618              	.L30:
+ 1619 135e 4FF00000 		mov	r0, #0
+ 1620 1362 FFF7FEFF 		bl	readRFPID
+ 1621 1366 40F20000 		movw	r0, #:lower16:.LC16
+ 1622 136a C0F20000 		movt	r0, #:upper16:.LC16
+ 1623 136e FFF7FEFF 		bl	uart3Print
+ 1624 1372 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1625 1376 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1626 137a 4FF06102 		mov	r2, #97
+ 1627 137e 1A70     		strb	r2, [r3, #0]
+ 1628 1380 37E1     		b	.L16
+ 1629              	.L31:
+ 1630 1382 4FF00100 		mov	r0, #1
+ 1631 1386 FFF7FEFF 		bl	readRFPID
+ 1632 138a 40F20000 		movw	r0, #:lower16:.LC17
+ 1633 138e C0F20000 		movt	r0, #:upper16:.LC17
+ 1634 1392 FFF7FEFF 		bl	uart3Print
+ 1635 1396 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1636 139a C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1637 139e 4FF06102 		mov	r2, #97
+ 1638 13a2 1A70     		strb	r2, [r3, #0]
+ 1639 13a4 25E1     		b	.L16
+ 1640              	.L32:
+ 1641 13a6 4FF00200 		mov	r0, #2
+ 1642 13aa FFF7FEFF 		bl	readRFPID
+ 1643 13ae 40F20000 		movw	r0, #:lower16:.LC18
+ 1644 13b2 C0F20000 		movt	r0, #:upper16:.LC18
+ 1645 13b6 FFF7FEFF 		bl	uart3Print
+ 1646 13ba 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1647 13be C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1648 13c2 4FF06102 		mov	r2, #97
+ 1649 13c6 1A70     		strb	r2, [r3, #0]
+ 1650 13c8 13E1     		b	.L16
+ 1651              	.L33:
+ 1652 13ca 4FF00300 		mov	r0, #3
+ 1653 13ce FFF7FEFF 		bl	readRFPID
+ 1654 13d2 40F20000 		movw	r0, #:lower16:.LC19
+ 1655 13d6 C0F20000 		movt	r0, #:upper16:.LC19
+ 1656 13da FFF7FEFF 		bl	uart3Print
+ 1657 13de 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1658 13e2 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1659 13e6 4FF06202 		mov	r2, #98
+ 1660 13ea 1A70     		strb	r2, [r3, #0]
+ 1661 13ec 01E1     		b	.L16
+ 1662              	.L34:
+ 1663 13ee 4FF00400 		mov	r0, #4
+ 1664 13f2 FFF7FEFF 		bl	readRFPID
+ 1665 13f6 40F20000 		movw	r0, #:lower16:.LC20
+ 1666 13fa C0F20000 		movt	r0, #:upper16:.LC20
+ 1667 13fe FFF7FEFF 		bl	uart3Print
+ 1668 1402 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1669 1406 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1670 140a 4FF06202 		mov	r2, #98
+ 1671 140e 1A70     		strb	r2, [r3, #0]
+ 1672 1410 EFE0     		b	.L16
+ 1673              	.L35:
+ 1674 1412 4FF00500 		mov	r0, #5
+ 1675 1416 FFF7FEFF 		bl	readRFPID
+ 1676 141a 40F20000 		movw	r0, #:lower16:.LC21
+ 1677 141e C0F20000 		movt	r0, #:upper16:.LC21
+ 1678 1422 FFF7FEFF 		bl	uart3Print
+ 1679 1426 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1680 142a C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1681 142e 4FF06202 		mov	r2, #98
+ 1682 1432 1A70     		strb	r2, [r3, #0]
+ 1683 1434 DDE0     		b	.L16
+ 1684              	.L36:
+ 1685 1436 4FF00600 		mov	r0, #6
+ 1686 143a FFF7FEFF 		bl	readRFPID
+ 1687 143e 40F20000 		movw	r0, #:lower16:.LC22
+ 1688 1442 C0F20000 		movt	r0, #:upper16:.LC22
+ 1689 1446 FFF7FEFF 		bl	uart3Print
+ 1690 144a 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1691 144e C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1692 1452 4FF06302 		mov	r2, #99
+ 1693 1456 1A70     		strb	r2, [r3, #0]
+ 1694 1458 CBE0     		b	.L16
+ 1695              	.L37:
+ 1696 145a 4FF00700 		mov	r0, #7
+ 1697 145e FFF7FEFF 		bl	readRFPID
+ 1698 1462 40F20000 		movw	r0, #:lower16:.LC23
+ 1699 1466 C0F20000 		movt	r0, #:upper16:.LC23
+ 1700 146a FFF7FEFF 		bl	uart3Print
+ 1701 146e 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1702 1472 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1703 1476 4FF06302 		mov	r2, #99
+ 1704 147a 1A70     		strb	r2, [r3, #0]
+ 1705 147c B9E0     		b	.L16
+ 1706              	.L38:
+ 1707 147e 4FF00800 		mov	r0, #8
+ 1708 1482 FFF7FEFF 		bl	readRFPID
+ 1709 1486 40F20000 		movw	r0, #:lower16:.LC24
+ 1710 148a C0F20000 		movt	r0, #:upper16:.LC24
+ 1711 148e FFF7FEFF 		bl	uart3Print
+ 1712 1492 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1713 1496 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1714 149a 4FF06302 		mov	r2, #99
+ 1715 149e 1A70     		strb	r2, [r3, #0]
+ 1716 14a0 A7E0     		b	.L16
+ 1717              	.L39:
+ 1718 14a2 4FF00900 		mov	r0, #9
+ 1719 14a6 FFF7FEFF 		bl	readRFPID
+ 1720 14aa 40F20000 		movw	r0, #:lower16:.LC25
+ 1721 14ae C0F20000 		movt	r0, #:upper16:.LC25
+ 1722 14b2 FFF7FEFF 		bl	uart3Print
+ 1723 14b6 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1724 14ba C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1725 14be 4FF06402 		mov	r2, #100
+ 1726 14c2 1A70     		strb	r2, [r3, #0]
+ 1727 14c4 95E0     		b	.L16
+ 1728              	.L40:
+ 1729 14c6 4FF00A00 		mov	r0, #10
+ 1730 14ca FFF7FEFF 		bl	readRFPID
+ 1731 14ce 40F20000 		movw	r0, #:lower16:.LC26
+ 1732 14d2 C0F20000 		movt	r0, #:upper16:.LC26
+ 1733 14d6 FFF7FEFF 		bl	uart3Print
+ 1734 14da 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1735 14de C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1736 14e2 4FF06402 		mov	r2, #100
+ 1737 14e6 1A70     		strb	r2, [r3, #0]
+ 1738 14e8 83E0     		b	.L16
+ 1739              	.L41:
+ 1740 14ea 4FF00B00 		mov	r0, #11
+ 1741 14ee FFF7FEFF 		bl	readRFPID
+ 1742 14f2 40F20000 		movw	r0, #:lower16:.LC27
+ 1743 14f6 C0F20000 		movt	r0, #:upper16:.LC27
+ 1744 14fa FFF7FEFF 		bl	uart3Print
+ 1745 14fe 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1746 1502 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1747 1506 4FF06402 		mov	r2, #100
+ 1748 150a 1A70     		strb	r2, [r3, #0]
+ 1749 150c 71E0     		b	.L16
+ 1750              	.L42:
+ 1751 150e 40F20000 		movw	r0, #:lower16:.LC28
+ 1752 1512 C0F20000 		movt	r0, #:upper16:.LC28
+ 1753 1516 FFF7FEFF 		bl	uart3Print
+ 1754 151a FFF7FEFF 		bl	writeEEPROM
+ 1755 151e 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1756 1522 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1757 1526 4FF07802 		mov	r2, #120
+ 1758 152a 1A70     		strb	r2, [r3, #0]
+ 1759 152c 61E0     		b	.L16
+ 1760              	.L29:
+ 1761 152e 40F20000 		movw	r0, #:lower16:.LC0
+ 1762 1532 C0F20000 		movt	r0, #:upper16:.LC0
+ 1763 1536 FFF7FEFF 		bl	uart3Print
+ 1764 153a 40F20000 		movw	r0, #:lower16:.LC29
+ 1765 153e C0F20000 		movt	r0, #:upper16:.LC29
+ 1766 1542 FFF7FEFF 		bl	uart3Print
+ 1767 1546 40F20000 		movw	r0, #:lower16:.LC30
+ 1768 154a C0F20000 		movt	r0, #:upper16:.LC30
+ 1769 154e FFF7FEFF 		bl	uart3Print
+ 1770 1552 40F20000 		movw	r0, #:lower16:.LC31
+ 1771 1556 C0F20000 		movt	r0, #:upper16:.LC31
+ 1772 155a FFF7FEFF 		bl	uart3Print
+ 1773 155e 40F20000 		movw	r0, #:lower16:.LC32
+ 1774 1562 C0F20000 		movt	r0, #:upper16:.LC32
+ 1775 1566 FFF7FEFF 		bl	uart3Print
+ 1776 156a 40F20000 		movw	r0, #:lower16:.LC33
+ 1777 156e C0F20000 		movt	r0, #:upper16:.LC33
+ 1778 1572 FFF7FEFF 		bl	uart3Print
+ 1779 1576 40F20000 		movw	r0, #:lower16:.LC34
+ 1780 157a C0F20000 		movt	r0, #:upper16:.LC34
+ 1781 157e FFF7FEFF 		bl	uart3Print
+ 1782 1582 40F20000 		movw	r0, #:lower16:.LC35
+ 1783 1586 C0F20000 		movt	r0, #:upper16:.LC35
+ 1784 158a FFF7FEFF 		bl	uart3Print
+ 1785 158e 40F20000 		movw	r0, #:lower16:.LC36
+ 1786 1592 C0F20000 		movt	r0, #:upper16:.LC36
+ 1787 1596 FFF7FEFF 		bl	uart3Print
+ 1788 159a 40F20000 		movw	r0, #:lower16:.LC37
+ 1789 159e C0F20000 		movt	r0, #:upper16:.LC37
+ 1790 15a2 FFF7FEFF 		bl	uart3Print
+ 1791 15a6 40F20000 		movw	r0, #:lower16:.LC38
+ 1792 15aa C0F20000 		movt	r0, #:upper16:.LC38
+ 1793 15ae FFF7FEFF 		bl	uart3Print
+ 1794 15b2 40F20000 		movw	r0, #:lower16:.LC39
+ 1795 15b6 C0F20000 		movt	r0, #:upper16:.LC39
+ 1796 15ba FFF7FEFF 		bl	uart3Print
+ 1797 15be 40F20000 		movw	r0, #:lower16:.LC40
+ 1798 15c2 C0F20000 		movt	r0, #:upper16:.LC40
+ 1799 15c6 FFF7FEFF 		bl	uart3Print
+ 1800 15ca 40F20000 		movw	r0, #:lower16:.LC41
+ 1801 15ce C0F20000 		movt	r0, #:upper16:.LC41
+ 1802 15d2 FFF7FEFF 		bl	uart3Print
+ 1803 15d6 40F20000 		movw	r0, #:lower16:.LC0
+ 1804 15da C0F20000 		movt	r0, #:upper16:.LC0
+ 1805 15de FFF7FEFF 		bl	uart3Print
+ 1806 15e2 40F20003 		movw	r3, #:lower16:rfQueryType
+ 1807 15e6 C0F20003 		movt	r3, #:upper16:rfQueryType
+ 1808 15ea 4FF07802 		mov	r2, #120
+ 1809 15ee 1A70     		strb	r2, [r3, #0]
+ 1810 15f0 00BF     		nop
+ 1811              	.L16:
+ 1812 15f2 08BD     		pop	{r3, pc}
+ 1814              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 rfTelem.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:20     .bss:00000000 rfBusy
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:21     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:22     .bss:00000001 rfQueryType
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:25     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:30     .text:00000000 readStringRF
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:101    .text:000000a4 readFloatRF
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:184    .text:00000174 readRFPID
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:244    .text:000001fc $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:248    .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:249    .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:252    .rodata:00000004 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:255    .rodata:00000018 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:258    .rodata:0000001c .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:261    .rodata:00000024 .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:264    .rodata:0000002c .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:267    .rodata:00000040 .LC6
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:270    .rodata:00000054 .LC7
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:273    .rodata:0000006c .LC8
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:276    .rodata:00000084 .LC9
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:279    .rodata:0000009c .LC10
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:282    .rodata:000000a8 .LC11
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:285    .rodata:000000b4 .LC12
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:288    .rodata:000000c0 .LC13
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:291    .rodata:000000cc .LC14
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:294    .rodata:000000d8 .LC15
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:297    .rodata:000000e4 .LC16
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:300    .rodata:00000104 .LC17
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:303    .rodata:00000124 .LC18
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:306    .rodata:00000140 .LC19
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:309    .rodata:00000164 .LC20
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:312    .rodata:00000188 .LC21
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:315    .rodata:000001a4 .LC22
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:318    .rodata:000001bc .LC23
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:321    .rodata:000001d4 .LC24
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:324    .rodata:000001ec .LC25
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:327    .rodata:00000204 .LC26
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:330    .rodata:0000021c .LC27
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:333    .rodata:00000234 .LC28
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:336    .text:00000204 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:341    .text:00000204 rfCom
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:367    .text:00000240 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cct10dXp.s:441    .text:00000364 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:20     .bss:00000000 rfBusy
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:22     .bss:00000001 rfQueryType
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:25     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:30     .text:00000000 readStringRF
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:101    .text:000000a4 readFloatRF
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:184    .text:00000174 readRFPID
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:244    .text:000001fc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:248    .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:249    .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:252    .rodata:00000004 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:255    .rodata:00000018 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:258    .rodata:0000001c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:261    .rodata:00000024 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:264    .rodata:0000002c .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:267    .rodata:00000040 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:270    .rodata:00000054 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:273    .rodata:0000006c .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:276    .rodata:00000084 .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:279    .rodata:0000009c .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:282    .rodata:000000a8 .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:285    .rodata:000000b4 .LC12
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:288    .rodata:000000c0 .LC13
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:291    .rodata:000000cc .LC14
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:294    .rodata:000000d8 .LC15
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:297    .rodata:000000e4 .LC16
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:300    .rodata:00000104 .LC17
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:303    .rodata:00000124 .LC18
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:306    .rodata:00000140 .LC19
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:309    .rodata:00000164 .LC20
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:312    .rodata:00000188 .LC21
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:315    .rodata:000001a4 .LC22
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:318    .rodata:000001bc .LC23
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:321    .rodata:000001d4 .LC24
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:324    .rodata:000001ec .LC25
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:327    .rodata:00000204 .LC26
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:330    .rodata:0000021c .LC27
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:333    .rodata:00000234 .LC28
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:336    .rodata:00000254 .LC29
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:340    .rodata:000002a8 .LC30
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:344    .rodata:000002fc .LC31
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:348    .rodata:00000350 .LC32
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:352    .rodata:000003a4 .LC33
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:356    .rodata:000003f8 .LC34
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:360    .rodata:0000044c .LC35
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:364    .rodata:000004a0 .LC36
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:368    .rodata:000004f4 .LC37
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:372    .rodata:00000548 .LC38
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:376    .rodata:0000059c .LC39
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:380    .rodata:000005f0 .LC40
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:384    .rodata:00000644 .LC41
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:388    .text:00000204 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:393    .text:00000204 rfCom
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:419    .text:00000240 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuHGd4u.s:493    .text:00000364 $t
 
 UNDEFINED SYMBOLS
 uart3Read

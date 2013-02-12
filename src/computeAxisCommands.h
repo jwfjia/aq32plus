@@ -38,9 +38,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#define RATE_SCALING     0.005  // Stick to rate scaling (5 radians/sec)/(1000 RX PWM Steps) = 0.005
-#define ATTITUDE_SCALING 0.001  // Stick to att scaling (1 radian)/(1000 RX PWM Steps) = 0.001
-
 extern float axisPID[3];
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -595,8 +595,8 @@
 DEFINED SYMBOLS
                             *ABS*:00000000 ms5611.c
                             *COM*:00000004 d1Average
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:22     .bss:00000000 d1Sum
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:19     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:22     .bss:00000000 d1Sum
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:19     .bss:00000000 $d
                             *COM*:00000002 c1
                             *COM*:00000002 c2
                             *COM*:00000002 c3
@@ -610,16 +610,16 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:19     .bss:00000000 $d
                             *COM*:00000008 offset
                             *COM*:00000008 sensitivity
                             *COM*:00000004 p
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:40     .bss:00000004 pressureAltValid
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:43     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:48     .text:00000000 readTemperatureRequestPressure
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:86     .text:0000005c readPressureRequestPressure
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:124    .text:000000b8 readPressureRequestTemperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:162    .text:00000114 calculateTemperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:216    .text:00000198 calculatePressureAltitude
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:476    .text:000004d0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:488    .text:000004fc $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccFfsLKM.s:493    .text:000004fc initPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:40     .bss:00000004 pressureAltValid
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:43     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:48     .text:00000000 readTemperatureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:86     .text:0000005c readPressureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:124    .text:000000b8 readPressureRequestTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:162    .text:00000114 calculateTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:216    .text:00000198 calculatePressureAltitude
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:476    .text:000004d0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:488    .text:000004fc $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccANGpOs.s:493    .text:000004fc initPressure
 
 UNDEFINED SYMBOLS
 i2cRead

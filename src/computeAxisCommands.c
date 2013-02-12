@@ -58,8 +58,8 @@ void computeAxisCommands(float dt)
 {
     if (flightMode == ATTITUDE)
     {
-        attCmd[ROLL ] = rxCommand[ROLL ] * ATTITUDE_SCALING;
-        attCmd[PITCH] = rxCommand[PITCH] * ATTITUDE_SCALING;
+        attCmd[ROLL ] = rxCommand[ROLL ] * eepromConfig.attitudeScaling;
+        attCmd[PITCH] = rxCommand[PITCH] * eepromConfig.attitudeScaling;
     }
 
     if (flightMode >= ATTITUDE)
@@ -70,8 +70,8 @@ void computeAxisCommands(float dt)
 
     if (flightMode == RATE)
     {
-        rateCmd[ROLL ] = rxCommand[ROLL ] * RATE_SCALING;
-        rateCmd[PITCH] = rxCommand[PITCH] * RATE_SCALING;
+        rateCmd[ROLL ] = rxCommand[ROLL ] * eepromConfig.rateScaling;
+        rateCmd[PITCH] = rxCommand[PITCH] * eepromConfig.rateScaling;
     }
     else
     {
@@ -89,7 +89,7 @@ void computeAxisCommands(float dt)
     }
     else  // Heading Hold is OFF
     {
-        rateCmd[YAW] = rxCommand[YAW] * RATE_SCALING;
+        rateCmd[YAW] = rxCommand[YAW] * eepromConfig.rateScaling;
         headingReference = sensors.attitude500Hz[YAW];
     }
 

@@ -556,23 +556,23 @@
  585              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 usbd_core.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:21     .data:00000000 USBD_DCD_INT_cb
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:18     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:154    .text:000000cc USBD_DataOutStage
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:258    .text:000001a0 USBD_DataInStage
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:100    .text:00000064 USBD_SetupStage
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:469    .text:0000034c USBD_SOF
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:390    .text:000002b4 USBD_Reset
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:447    .text:00000328 USBD_Suspend
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:425    .text:00000304 USBD_Resume
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:549    .text:000003d0 USBD_IsoINIncomplete
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:569    .text:000003ec USBD_IsoOUTIncomplete
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:36     .data:0000002c USBD_DCD_INT_fops
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:39     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:44     .text:00000000 USBD_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:85     .text:00000054 USBD_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:496    .text:00000374 USBD_SetCfg
-C:\Users\JOHNIH~1\AppData\Local\Temp\cccATVPL.s:525    .text:000003a8 USBD_ClrCfg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:21     .data:00000000 USBD_DCD_INT_cb
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:154    .text:000000cc USBD_DataOutStage
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:258    .text:000001a0 USBD_DataInStage
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:100    .text:00000064 USBD_SetupStage
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:469    .text:0000034c USBD_SOF
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:390    .text:000002b4 USBD_Reset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:447    .text:00000328 USBD_Suspend
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:425    .text:00000304 USBD_Resume
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:549    .text:000003d0 USBD_IsoINIncomplete
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:569    .text:000003ec USBD_IsoOUTIncomplete
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:36     .data:0000002c USBD_DCD_INT_fops
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:39     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:44     .text:00000000 USBD_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:85     .text:00000054 USBD_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:496    .text:00000374 USBD_SetCfg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccdT52bS.s:525    .text:000003a8 USBD_ClrCfg
 
 UNDEFINED SYMBOLS
 USB_OTG_BSP_Init

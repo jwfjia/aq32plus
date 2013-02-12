@@ -689,23 +689,23 @@
  711              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 flightCommand.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:21     .data:00000000 rxCommand
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:18     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:34     .data:00000020 commandInDetent
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:42     .data:00000024 previousCommandInDetent
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:50     .bss:00000000 flightMode
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:51     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:55     .bss:00000001 headingHoldEngaged
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:60     .bss:00000002 armed
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:65     .bss:00000003 armingTimer
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:70     .bss:00000004 altitudeHoldState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:77     .data:00000028 previousAUX2State
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:84     .bss:00000008 altitudeHoldThrottleValue
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:87     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:92     .text:00000000 processFlightCommands
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:328    .text:00000320 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:333    .text:00000330 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq3vbeT.s:708    .text:000007b4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:21     .data:00000000 rxCommand
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:34     .data:00000020 commandInDetent
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:42     .data:00000024 previousCommandInDetent
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:50     .bss:00000000 flightMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:51     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:55     .bss:00000001 headingHoldEngaged
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:60     .bss:00000002 armed
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:65     .bss:00000003 armingTimer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:70     .bss:00000004 altitudeHoldState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:77     .data:00000028 previousAUX2State
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:84     .bss:00000008 altitudeHoldThrottleValue
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:87     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:92     .text:00000000 processFlightCommands
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:328    .text:00000320 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:333    .text:00000330 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCcWPHq.s:708    .text:000007b4 $d
 
 UNDEFINED SYMBOLS
 rcActive

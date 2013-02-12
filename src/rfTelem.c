@@ -516,6 +516,29 @@ void rfCom(void)
          	break;
 
         ///////////////////////////////
+
+        case '?': // Command Summary
+
+        	uart3Print("\n");
+   		    uart3Print("'a' Rate PIDs        'A' Set Roll Rate PID Data   AB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("'b' Attitude PIDs    'B' Set Pitch Rate PID Data  BB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("'c' Velocity PIDs    'C' Set Yaw Rate PID Data    CB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("'d' Position PIDs    'D' Set Roll Att PID Data    DB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'E' Set Pitch Att PID Data   EB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'F' Set Hdg Hold PID Data    FB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'G' Set nDot PID Data        GB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'H' Set eDot PID Data        HB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'I' Set hDot PID Data        IB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'J' Set n PID Data           JB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'K' Set e PID Data           KB;P;I;D;windupGuard;dErrorCalc\n");
+   		    uart3Print("                     'L' Set h PID Data           LB;P;I;D;windupGuard;dErrorCalc\n");
+		   	uart3Print("                     'W' Write EEPROM Parameters\n");
+   		    uart3Print("\n");
+
+  		    rfQueryType = 'x';
+  		    break;
+
+            ///////////////////////////////
     }
 }
 

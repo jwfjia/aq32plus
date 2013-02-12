@@ -326,27 +326,27 @@
  325              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 usbd_desc.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:21     .data:00000000 USR_desc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:18     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:82     .text:00000000 USBD_USR_DeviceDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:104    .text:00000020 USBD_USR_LangIDStrDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:176    .text:00000090 USBD_USR_ManufacturerStrDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:134    .text:00000040 USBD_USR_ProductStrDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:209    .text:000000c0 USBD_USR_SerialStrDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:251    .text:00000110 USBD_USR_ConfigStrDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:293    .text:00000160 USBD_USR_InterfaceStrDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:33     .data:0000001c USBD_DeviceDesc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:56     .data:00000030 USBD_DeviceQualifierDesc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:71     .data:0000003c USBD_LangIDDesc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:77     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:122    .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:123    .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:126    .rodata:00000024 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:168    .rodata:00000048 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:198    .rodata:0000005c .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:201    .rodata:0000006c .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:243    .rodata:0000007c .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccadSAWB.s:285    .rodata:00000088 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:21     .data:00000000 USR_desc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:82     .text:00000000 USBD_USR_DeviceDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:104    .text:00000020 USBD_USR_LangIDStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:176    .text:00000090 USBD_USR_ManufacturerStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:134    .text:00000040 USBD_USR_ProductStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:209    .text:000000c0 USBD_USR_SerialStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:251    .text:00000110 USBD_USR_ConfigStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:293    .text:00000160 USBD_USR_InterfaceStrDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:33     .data:0000001c USBD_DeviceDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:56     .data:00000030 USBD_DeviceQualifierDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:71     .data:0000003c USBD_LangIDDesc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:77     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:122    .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:123    .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:126    .rodata:00000024 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:168    .rodata:00000048 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:198    .rodata:0000005c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:201    .rodata:0000006c .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:243    .rodata:0000007c .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccgKXlmO.s:285    .rodata:00000088 .LC6
 
 UNDEFINED SYMBOLS
 USBD_StrDesc
