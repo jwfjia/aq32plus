@@ -165,9 +165,9 @@ void checkFirstTime(bool eepromReset)
 
 	    ///////////////////////////////////
 
-        eepromConfig.rateScaling     = 0.005f;      // Stick to rate scaling (5 radians/sec)/(1000 RX PWM Steps) = 0.005
+        eepromConfig.rateScaling     = 300.0 / 180000.0 * PI;  // Stick to rate scaling for 300 DPS
 
-        eepromConfig.attitudeScaling = 0.001f;      // Stick to att scaling (1 radian)/(1000 RX PWM Steps) = 0.001
+        eepromConfig.attitudeScaling = 60.0  / 180000.0 * PI;  // Stick to att scaling for 60 degrees
 
         eepromConfig.nDotEdotScaling = 0.009f;      // Stick to nDot/eDot scaling (9 mps)/(1000 RX PWM Steps) = 0.009
 

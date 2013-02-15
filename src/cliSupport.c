@@ -814,6 +814,7 @@ void mixerCLI()
 void receiverCLI()
 {
     char     rcOrderString[9];
+    float    tempFloat;
     uint8_t  index;
     uint8_t  receiverQuery;
     uint8_t  validQuery = false;
@@ -884,8 +885,36 @@ void receiverCLI()
 				usbPrint("Max Thottle:                    ");
 				itoa((uint16_t)eepromConfig.maxThrottle,  numberString, 10); usbPrint(numberString); usbPrint("\n\n");
 
-                validQuery = false;
+				usbPrint("Max Rate Command:              ");
+				tempFloat = eepromConfig.rateScaling * 180000.0 / PI;
+				ftoa(tempFloat,  numberString); usbPrint(numberString); usbPrint(" DPS\n");
+
+				usbPrint("Max Attitude Command:          ");
+				tempFloat = eepromConfig.attitudeScaling * 180000.0 / PI;
+				ftoa(tempFloat,  numberString); usbPrint(numberString); usbPrint(" Degrees\n\n");
+
+				validQuery = false;
                 break;
+
+                ///////////////////////////
+
+                case 'b': // Read Max Rate Value
+                    eepromConfig.rateScaling = readFloatUsb() / 180000 * PI;
+                    usbPrint("\nMaximum Rate Command Received....\n\n");
+
+                    receiverQuery = 'a';
+                    validQuery = true;
+                    break;
+
+                ///////////////////////////
+
+                case 'c': // Read Max Attitude Value
+                    eepromConfig.attitudeScaling = readFloatUsb() / 180000 * PI;
+                    usbPrint("\nMaximum Attitude Command Received....\n\n");
+
+                    receiverQuery = 'a';
+                    validQuery = true;
+                    break;
 
             ///////////////////////////
 
@@ -967,8 +996,8 @@ void receiverCLI()
 			case '?':
 			   	usbPrint("\n");
 			   	usbPrint("'a' Receiver Configuration Data            'A' Set RX Input Type                    AX, 1=Parallel, 2=Serial, 3=Spektrum\n");
-   		        usbPrint("                                           'B' Set RC Control Order                 BTAER1234\n");
-			   	usbPrint("                                           'C' Set Spektrum Resolution              C0 or C1\n");
+   		        usbPrint("'b' Set Maximum Rate Command               'B' Set RC Control Order                 BTAER1234\n");
+			   	usbPrint("'c' Set Maximum Attitude Command           'C' Set Spektrum Resolution              C0 or C1\n");
 			   	usbPrint("                                           'D' Set Number of Spektrum Channels      D6 thru D12\n");
 			   	usbPrint("                                           'E' Set RC Control Points                EMidCmd;minChk;MaxChk;MinThrot;MaxThrot\n");
 			   	usbPrint("'x' Exit Receiver CLI                      'W' Write EEPROM Parameters\n");
@@ -1193,7 +1222,7 @@ void sensorCLI()
             ///////////////////////////
 
             case 'W': // Write EEPROM Parameters
-                usbPrint("\nWriting EEPROM Parameters....\n");
+                usbPrint("\nWriting EEPROM Parameters....\n\n");
                 writeEEPROM();
                 break;
 

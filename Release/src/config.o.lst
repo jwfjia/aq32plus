@@ -332,19 +332,19 @@
  340 031c 83F85C20 		strb	r2, [r3, #92]
  341 0320 40F20003 		movw	r3, #:lower16:eepromConfig
  342 0324 C0F20003 		movt	r3, #:upper16:eepromConfig
- 343 0328 DFF8182C 		ldr	r2, .L17+12	@ float
+ 343 0328 DFF81C2C 		ldr	r2, .L17+16	@ float
  344 032c 1A66     		str	r2, [r3, #96]	@ float
  345 032e 40F20003 		movw	r3, #:lower16:eepromConfig
  346 0332 C0F20003 		movt	r3, #:upper16:eepromConfig
- 347 0336 DFF8102C 		ldr	r2, .L17+16	@ float
+ 347 0336 DFF8142C 		ldr	r2, .L17+20	@ float
  348 033a 5A66     		str	r2, [r3, #100]	@ float
  349 033c 40F20003 		movw	r3, #:lower16:eepromConfig
  350 0340 C0F20003 		movt	r3, #:upper16:eepromConfig
- 351 0344 DFF8042C 		ldr	r2, .L17+20	@ float
+ 351 0344 DFF8082C 		ldr	r2, .L17+24	@ float
  352 0348 9A66     		str	r2, [r3, #104]	@ float
  353 034a 40F20003 		movw	r3, #:lower16:eepromConfig
  354 034e C0F20003 		movt	r3, #:upper16:eepromConfig
- 355 0352 DFF8FC2B 		ldr	r2, .L17+24	@ float
+ 355 0352 DFF8002C 		ldr	r2, .L17+28	@ float
  356 0356 DA66     		str	r2, [r3, #108]	@ float
  357 0358 40F20003 		movw	r3, #:lower16:eepromConfig
  358 035c C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -379,23 +379,23 @@
  387 03d0 C3F88420 		str	r2, [r3, #132]	@ float
  388 03d4 40F20003 		movw	r3, #:lower16:eepromConfig
  389 03d8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 390 03dc DFF8742B 		ldr	r2, .L17+28	@ float
+ 390 03dc DFF8782B 		ldr	r2, .L17+32	@ float
  391 03e0 C3F88820 		str	r2, [r3, #136]	@ float
  392 03e4 40F20003 		movw	r3, #:lower16:eepromConfig
  393 03e8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 394 03ec DFF8682B 		ldr	r2, .L17+32	@ float
+ 394 03ec DFF86C2B 		ldr	r2, .L17+36	@ float
  395 03f0 C3F88C20 		str	r2, [r3, #140]	@ float
  396 03f4 40F20003 		movw	r3, #:lower16:eepromConfig
  397 03f8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 398 03fc DFF85C2B 		ldr	r2, .L17+36	@ float
+ 398 03fc DFF8602B 		ldr	r2, .L17+40	@ float
  399 0400 C3F89020 		str	r2, [r3, #144]	@ float
  400 0404 40F20003 		movw	r3, #:lower16:eepromConfig
  401 0408 C0F20003 		movt	r3, #:upper16:eepromConfig
- 402 040c DFF8482B 		ldr	r2, .L17+32	@ float
+ 402 040c DFF84C2B 		ldr	r2, .L17+36	@ float
  403 0410 C3F89420 		str	r2, [r3, #148]	@ float
  404 0414 40F20003 		movw	r3, #:lower16:eepromConfig
  405 0418 C0F20003 		movt	r3, #:upper16:eepromConfig
- 406 041c DFF8402B 		ldr	r2, .L17+40	@ float
+ 406 041c DFF8442B 		ldr	r2, .L17+44	@ float
  407 0420 C3F89820 		str	r2, [r3, #152]	@ float
  408 0424 40F20003 		movw	r3, #:lower16:eepromConfig
  409 0428 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -403,11 +403,11 @@
  411 0430 C3F89C20 		str	r2, [r3, #156]	@ float
  412 0434 40F20003 		movw	r3, #:lower16:eepromConfig
  413 0438 C0F20003 		movt	r3, #:upper16:eepromConfig
- 414 043c DFF8242B 		ldr	r2, .L17+44	@ float
+ 414 043c DFF8282B 		ldr	r2, .L17+48	@ float
  415 0440 C3F8A020 		str	r2, [r3, #160]	@ float
  416 0444 40F20003 		movw	r3, #:lower16:eepromConfig
  417 0448 C0F20003 		movt	r3, #:upper16:eepromConfig
- 418 044c DFF8182B 		ldr	r2, .L17+48	@ float
+ 418 044c DFF81C2B 		ldr	r2, .L17+52	@ float
  419 0450 C3F8A420 		str	r2, [r3, #164]	@ float
  420 0454 40F20003 		movw	r3, #:lower16:eepromConfig
  421 0458 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -419,7 +419,7 @@
  427 0470 C3F8AC20 		str	r2, [r3, #172]	@ float
  428 0474 40F20003 		movw	r3, #:lower16:eepromConfig
  429 0478 C0F20003 		movt	r3, #:upper16:eepromConfig
- 430 047c DFF8E82A 		ldr	r2, .L17+48	@ float
+ 430 047c DFF8EC2A 		ldr	r2, .L17+52	@ float
  431 0480 C3F8B020 		str	r2, [r3, #176]	@ float
  432 0484 40F20003 		movw	r3, #:lower16:eepromConfig
  433 0488 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -447,11 +447,11 @@
  455 04e0 C3F8C420 		str	r2, [r3, #196]	@ float
  456 04e4 40F20003 		movw	r3, #:lower16:eepromConfig
  457 04e8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 458 04ec DFF8742A 		ldr	r2, .L17+44	@ float
+ 458 04ec DFF8782A 		ldr	r2, .L17+48	@ float
  459 04f0 C3F8C820 		str	r2, [r3, #200]	@ float
  460 04f4 40F20003 		movw	r3, #:lower16:eepromConfig
  461 04f8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 462 04fc DFF8682A 		ldr	r2, .L17+48	@ float
+ 462 04fc DFF86C2A 		ldr	r2, .L17+52	@ float
  463 0500 C3F8CC20 		str	r2, [r3, #204]	@ float
  464 0504 40F20003 		movw	r3, #:lower16:eepromConfig
  465 0508 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -463,7 +463,7 @@
  471 0520 C3F8D420 		str	r2, [r3, #212]	@ float
  472 0524 40F20003 		movw	r3, #:lower16:eepromConfig
  473 0528 C0F20003 		movt	r3, #:upper16:eepromConfig
- 474 052c DFF8382A 		ldr	r2, .L17+48	@ float
+ 474 052c DFF83C2A 		ldr	r2, .L17+52	@ float
  475 0530 C3F8D820 		str	r2, [r3, #216]	@ float
  476 0534 40F20003 		movw	r3, #:lower16:eepromConfig
  477 0538 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -491,11 +491,11 @@
  499 0590 C3F8EC20 		str	r2, [r3, #236]	@ float
  500 0594 40F20003 		movw	r3, #:lower16:eepromConfig
  501 0598 C0F20003 		movt	r3, #:upper16:eepromConfig
- 502 059c DFF8CC29 		ldr	r2, .L17+52	@ float
+ 502 059c DFF8D029 		ldr	r2, .L17+56	@ float
  503 05a0 C3F8F020 		str	r2, [r3, #240]	@ float
  504 05a4 40F20003 		movw	r3, #:lower16:eepromConfig
  505 05a8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 506 05ac DFF8B829 		ldr	r2, .L17+48	@ float
+ 506 05ac DFF8BC29 		ldr	r2, .L17+52	@ float
  507 05b0 C3F8F420 		str	r2, [r3, #244]	@ float
  508 05b4 40F20003 		movw	r3, #:lower16:eepromConfig
  509 05b8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -507,7 +507,7 @@
  515 05d0 C3F8FC20 		str	r2, [r3, #252]	@ float
  516 05d4 40F20003 		movw	r3, #:lower16:eepromConfig
  517 05d8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 518 05dc DFF88829 		ldr	r2, .L17+48	@ float
+ 518 05dc DFF88C29 		ldr	r2, .L17+52	@ float
  519 05e0 C3F80021 		str	r2, [r3, #256]	@ float
  520 05e4 40F20003 		movw	r3, #:lower16:eepromConfig
  521 05e8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -535,7 +535,7 @@
  543 0640 C3F81421 		str	r2, [r3, #276]	@ float
  544 0644 40F20003 		movw	r3, #:lower16:eepromConfig
  545 0648 C0F20003 		movt	r3, #:upper16:eepromConfig
- 546 064c DFF82029 		ldr	r2, .L17+56	@ float
+ 546 064c DFF82429 		ldr	r2, .L17+60	@ float
  547 0650 C3F81821 		str	r2, [r3, #280]	@ float
  548 0654 40F20003 		movw	r3, #:lower16:eepromConfig
  549 0658 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -551,7 +551,7 @@
  559 0680 C3F82421 		str	r2, [r3, #292]	@ float
  560 0684 40F20003 		movw	r3, #:lower16:eepromConfig
  561 0688 C0F20003 		movt	r3, #:upper16:eepromConfig
- 562 068c DFF8E428 		ldr	r2, .L17+60	@ float
+ 562 068c DFF8E828 		ldr	r2, .L17+64	@ float
  563 0690 C3F82821 		str	r2, [r3, #296]	@ float
  564 0694 40F20003 		movw	r3, #:lower16:eepromConfig
  565 0698 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -579,7 +579,7 @@
  587 06f0 C3F83C21 		str	r2, [r3, #316]	@ float
  588 06f4 40F20003 		movw	r3, #:lower16:eepromConfig
  589 06f8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 590 06fc DFF87028 		ldr	r2, .L17+56	@ float
+ 590 06fc DFF87428 		ldr	r2, .L17+60	@ float
  591 0700 C3F84021 		str	r2, [r3, #320]	@ float
  592 0704 40F20003 		movw	r3, #:lower16:eepromConfig
  593 0708 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -595,7 +595,7 @@
  603 0730 C3F84C21 		str	r2, [r3, #332]	@ float
  604 0734 40F20003 		movw	r3, #:lower16:eepromConfig
  605 0738 C0F20003 		movt	r3, #:upper16:eepromConfig
- 606 073c DFF83428 		ldr	r2, .L17+60	@ float
+ 606 073c DFF83828 		ldr	r2, .L17+64	@ float
  607 0740 C3F85021 		str	r2, [r3, #336]	@ float
  608 0744 40F20003 		movw	r3, #:lower16:eepromConfig
  609 0748 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -623,7 +623,7 @@
  631 07a0 C3F86421 		str	r2, [r3, #356]	@ float
  632 07a4 40F20003 		movw	r3, #:lower16:eepromConfig
  633 07a8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 634 07ac DFF8C827 		ldr	r2, .L17+64	@ float
+ 634 07ac DFF8CC27 		ldr	r2, .L17+68	@ float
  635 07b0 C3F86821 		str	r2, [r3, #360]	@ float
  636 07b4 40F20003 		movw	r3, #:lower16:eepromConfig
  637 07b8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -639,7 +639,7 @@
  647 07e0 C3F87421 		str	r2, [r3, #372]	@ float
  648 07e4 40F20003 		movw	r3, #:lower16:eepromConfig
  649 07e8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 650 07ec DFF88427 		ldr	r2, .L17+60	@ float
+ 650 07ec DFF88827 		ldr	r2, .L17+64	@ float
  651 07f0 C3F87821 		str	r2, [r3, #376]	@ float
  652 07f4 40F20003 		movw	r3, #:lower16:eepromConfig
  653 07f8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -667,7 +667,7 @@
  675 0850 C3F88C21 		str	r2, [r3, #396]	@ float
  676 0854 40F20003 		movw	r3, #:lower16:eepromConfig
  677 0858 C0F20003 		movt	r3, #:upper16:eepromConfig
- 678 085c DFF81827 		ldr	r2, .L17+64	@ float
+ 678 085c DFF81C27 		ldr	r2, .L17+68	@ float
  679 0860 C3F89021 		str	r2, [r3, #400]	@ float
  680 0864 40F20003 		movw	r3, #:lower16:eepromConfig
  681 0868 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -683,7 +683,7 @@
  691 0890 C3F89C21 		str	r2, [r3, #412]	@ float
  692 0894 40F20003 		movw	r3, #:lower16:eepromConfig
  693 0898 C0F20003 		movt	r3, #:upper16:eepromConfig
- 694 089c DFF8D426 		ldr	r2, .L17+60	@ float
+ 694 089c DFF8D826 		ldr	r2, .L17+64	@ float
  695 08a0 C3F8A021 		str	r2, [r3, #416]	@ float
  696 08a4 40F20003 		movw	r3, #:lower16:eepromConfig
  697 08a8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -711,7 +711,7 @@
  719 0900 C3F8B421 		str	r2, [r3, #436]	@ float
  720 0904 40F20003 		movw	r3, #:lower16:eepromConfig
  721 0908 C0F20003 		movt	r3, #:upper16:eepromConfig
- 722 090c DFF86826 		ldr	r2, .L17+64	@ float
+ 722 090c DFF86C26 		ldr	r2, .L17+68	@ float
  723 0910 C3F8B821 		str	r2, [r3, #440]	@ float
  724 0914 40F20003 		movw	r3, #:lower16:eepromConfig
  725 0918 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -727,7 +727,7 @@
  735 0940 C3F8C421 		str	r2, [r3, #452]	@ float
  736 0944 40F20003 		movw	r3, #:lower16:eepromConfig
  737 0948 C0F20003 		movt	r3, #:upper16:eepromConfig
- 738 094c DFF82426 		ldr	r2, .L17+60	@ float
+ 738 094c DFF82826 		ldr	r2, .L17+64	@ float
  739 0950 C3F8C821 		str	r2, [r3, #456]	@ float
  740 0954 40F20003 		movw	r3, #:lower16:eepromConfig
  741 0958 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -755,7 +755,7 @@
  763 09b0 C3F8DC21 		str	r2, [r3, #476]	@ float
  764 09b4 40F20003 		movw	r3, #:lower16:eepromConfig
  765 09b8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 766 09bc DFF8B025 		ldr	r2, .L17+56	@ float
+ 766 09bc DFF8B425 		ldr	r2, .L17+60	@ float
  767 09c0 C3F8E021 		str	r2, [r3, #480]	@ float
  768 09c4 40F20003 		movw	r3, #:lower16:eepromConfig
  769 09c8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -799,7 +799,7 @@
  807 0a60 C3F80422 		str	r2, [r3, #516]	@ float
  808 0a64 40F20003 		movw	r3, #:lower16:eepromConfig
  809 0a68 C0F20003 		movt	r3, #:upper16:eepromConfig
- 810 0a6c DFF80825 		ldr	r2, .L17+64	@ float
+ 810 0a6c DFF80C25 		ldr	r2, .L17+68	@ float
  811 0a70 C3F80822 		str	r2, [r3, #520]	@ float
  812 0a74 40F20003 		movw	r3, #:lower16:eepromConfig
  813 0a78 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -815,7 +815,7 @@
  823 0aa0 C3F81422 		str	r2, [r3, #532]	@ float
  824 0aa4 40F20003 		movw	r3, #:lower16:eepromConfig
  825 0aa8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 826 0aac DFF8C424 		ldr	r2, .L17+60	@ float
+ 826 0aac DFF8C824 		ldr	r2, .L17+64	@ float
  827 0ab0 C3F81822 		str	r2, [r3, #536]	@ float
  828 0ab4 40F20003 		movw	r3, #:lower16:eepromConfig
  829 0ab8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -843,7 +843,7 @@
  851 0b10 C3F82C22 		str	r2, [r3, #556]	@ float
  852 0b14 40F20003 		movw	r3, #:lower16:eepromConfig
  853 0b18 C0F20003 		movt	r3, #:upper16:eepromConfig
- 854 0b1c DFF85824 		ldr	r2, .L17+64	@ float
+ 854 0b1c DFF85C24 		ldr	r2, .L17+68	@ float
  855 0b20 C3F83022 		str	r2, [r3, #560]	@ float
  856 0b24 40F20003 		movw	r3, #:lower16:eepromConfig
  857 0b28 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -859,7 +859,7 @@
  867 0b4c C3F83C22 		str	r2, [r3, #572]	@ float
  868 0b50 40F20003 		movw	r3, #:lower16:eepromConfig
  869 0b54 C0F20003 		movt	r3, #:upper16:eepromConfig
- 870 0b58 DFF81824 		ldr	r2, .L17+60	@ float
+ 870 0b58 DFF81C24 		ldr	r2, .L17+64	@ float
  871 0b5c C3F84022 		str	r2, [r3, #576]	@ float
  872 0b60 40F20003 		movw	r3, #:lower16:eepromConfig
  873 0b64 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -887,7 +887,7 @@
  895 0bb4 C3F85422 		str	r2, [r3, #596]	@ float
  896 0bb8 40F20003 		movw	r3, #:lower16:eepromConfig
  897 0bbc C0F20003 		movt	r3, #:upper16:eepromConfig
- 898 0bc0 EB4A     		ldr	r2, .L17+56	@ float
+ 898 0bc0 EC4A     		ldr	r2, .L17+60	@ float
  899 0bc2 C3F85822 		str	r2, [r3, #600]	@ float
  900 0bc6 40F20003 		movw	r3, #:lower16:eepromConfig
  901 0bca C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -927,15 +927,15 @@
  935 0c44 83F87922 		strb	r2, [r3, #633]
  936 0c48 40F20003 		movw	r3, #:lower16:eepromConfig
  937 0c4c C0F20003 		movt	r3, #:upper16:eepromConfig
- 938 0c50 CA4A     		ldr	r2, .L17+68	@ float
+ 938 0c50 CB4A     		ldr	r2, .L17+72	@ float
  939 0c52 C3F87C22 		str	r2, [r3, #636]	@ float
  940 0c56 40F20003 		movw	r3, #:lower16:eepromConfig
  941 0c5a C0F20003 		movt	r3, #:upper16:eepromConfig
- 942 0c5e BD4A     		ldr	r2, .L17+28	@ float
+ 942 0c5e BE4A     		ldr	r2, .L17+32	@ float
  943 0c60 C3F88022 		str	r2, [r3, #640]	@ float
  944 0c64 40F20003 		movw	r3, #:lower16:eepromConfig
  945 0c68 C0F20003 		movt	r3, #:upper16:eepromConfig
- 946 0c6c BC4A     		ldr	r2, .L17+40	@ float
+ 946 0c6c BD4A     		ldr	r2, .L17+44	@ float
  947 0c6e C3F88422 		str	r2, [r3, #644]	@ float
  948 0c72 40F20003 		movw	r3, #:lower16:eepromConfig
  949 0c76 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -943,15 +943,15 @@
  951 0c7c C3F88822 		str	r2, [r3, #648]	@ float
  952 0c80 40F20003 		movw	r3, #:lower16:eepromConfig
  953 0c84 C0F20003 		movt	r3, #:upper16:eepromConfig
- 954 0c88 BC4A     		ldr	r2, .L17+68	@ float
+ 954 0c88 BD4A     		ldr	r2, .L17+72	@ float
  955 0c8a C3F88C22 		str	r2, [r3, #652]	@ float
  956 0c8e 40F20003 		movw	r3, #:lower16:eepromConfig
  957 0c92 C0F20003 		movt	r3, #:upper16:eepromConfig
- 958 0c96 AF4A     		ldr	r2, .L17+28	@ float
+ 958 0c96 B04A     		ldr	r2, .L17+32	@ float
  959 0c98 C3F89022 		str	r2, [r3, #656]	@ float
  960 0c9c 40F20003 		movw	r3, #:lower16:eepromConfig
  961 0ca0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 962 0ca4 AE4A     		ldr	r2, .L17+40	@ float
+ 962 0ca4 AF4A     		ldr	r2, .L17+44	@ float
  963 0ca6 C3F89422 		str	r2, [r3, #660]	@ float
  964 0caa 40F20003 		movw	r3, #:lower16:eepromConfig
  965 0cae C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -959,7 +959,7 @@
  967 0cb4 C3F89822 		str	r2, [r3, #664]	@ float
  968 0cb8 40F20003 		movw	r3, #:lower16:eepromConfig
  969 0cbc C0F20003 		movt	r3, #:upper16:eepromConfig
- 970 0cc0 AF4A     		ldr	r2, .L17+72	@ float
+ 970 0cc0 B04A     		ldr	r2, .L17+76	@ float
  971 0cc2 C3F89C22 		str	r2, [r3, #668]	@ float
  972 0cc6 40F20003 		movw	r3, #:lower16:eepromConfig
  973 0cca C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -967,7 +967,7 @@
  975 0cd0 C3F8A022 		str	r2, [r3, #672]	@ float
  976 0cd4 40F20003 		movw	r3, #:lower16:eepromConfig
  977 0cd8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 978 0cdc A84A     		ldr	r2, .L17+72	@ float
+ 978 0cdc A94A     		ldr	r2, .L17+76	@ float
  979 0cde C3F8A422 		str	r2, [r3, #676]	@ float
  980 0ce2 40F20003 		movw	r3, #:lower16:eepromConfig
  981 0ce6 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -975,59 +975,59 @@
  983 0cec C3F8A822 		str	r2, [r3, #680]	@ float
  984 0cf0 40F20003 		movw	r3, #:lower16:eepromConfig
  985 0cf4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 986 0cf8 A04A     		ldr	r2, .L17+68	@ float
+ 986 0cf8 A14A     		ldr	r2, .L17+72	@ float
  987 0cfa C3F8AC22 		str	r2, [r3, #684]	@ float
  988 0cfe 40F20003 		movw	r3, #:lower16:eepromConfig
  989 0d02 C0F20003 		movt	r3, #:upper16:eepromConfig
- 990 0d06 964A     		ldr	r2, .L17+40	@ float
+ 990 0d06 974A     		ldr	r2, .L17+44	@ float
  991 0d08 C3F8B022 		str	r2, [r3, #688]	@ float
  992 0d0c 40F20003 		movw	r3, #:lower16:eepromConfig
  993 0d10 C0F20003 		movt	r3, #:upper16:eepromConfig
- 994 0d14 994A     		ldr	r2, .L17+68	@ float
+ 994 0d14 9A4A     		ldr	r2, .L17+72	@ float
  995 0d16 C3F8B422 		str	r2, [r3, #692]	@ float
  996 0d1a 40F20003 		movw	r3, #:lower16:eepromConfig
  997 0d1e C0F20003 		movt	r3, #:upper16:eepromConfig
- 998 0d22 8F4A     		ldr	r2, .L17+40	@ float
+ 998 0d22 904A     		ldr	r2, .L17+44	@ float
  999 0d24 C3F8B822 		str	r2, [r3, #696]	@ float
  1000 0d28 40F20003 		movw	r3, #:lower16:eepromConfig
  1001 0d2c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1002 0d30 924A     		ldr	r2, .L17+68	@ float
+ 1002 0d30 934A     		ldr	r2, .L17+72	@ float
  1003 0d32 C3F8BC22 		str	r2, [r3, #700]	@ float
  1004 0d36 40F20003 		movw	r3, #:lower16:eepromConfig
  1005 0d3a C0F20003 		movt	r3, #:upper16:eepromConfig
- 1006 0d3e 854A     		ldr	r2, .L17+28	@ float
+ 1006 0d3e 864A     		ldr	r2, .L17+32	@ float
  1007 0d40 C3F8C022 		str	r2, [r3, #704]	@ float
  1008 0d44 40F20003 		movw	r3, #:lower16:eepromConfig
  1009 0d48 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1010 0d4c 844A     		ldr	r2, .L17+40	@ float
+ 1010 0d4c 854A     		ldr	r2, .L17+44	@ float
  1011 0d4e C3F8C422 		str	r2, [r3, #708]	@ float
  1012 0d52 40F20003 		movw	r3, #:lower16:eepromConfig
  1013 0d56 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1014 0d5a 884A     		ldr	r2, .L17+68	@ float
+ 1014 0d5a 894A     		ldr	r2, .L17+72	@ float
  1015 0d5c C3F8C822 		str	r2, [r3, #712]	@ float
  1016 0d60 40F20003 		movw	r3, #:lower16:eepromConfig
  1017 0d64 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1018 0d68 7A4A     		ldr	r2, .L17+28	@ float
+ 1018 0d68 7B4A     		ldr	r2, .L17+32	@ float
  1019 0d6a C3F8CC22 		str	r2, [r3, #716]	@ float
  1020 0d6e 40F20003 		movw	r3, #:lower16:eepromConfig
  1021 0d72 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1022 0d76 7A4A     		ldr	r2, .L17+40	@ float
+ 1022 0d76 7B4A     		ldr	r2, .L17+44	@ float
  1023 0d78 C3F8D022 		str	r2, [r3, #720]	@ float
  1024 0d7c 40F20003 		movw	r3, #:lower16:eepromConfig
  1025 0d80 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1026 0d84 7D4A     		ldr	r2, .L17+68	@ float
+ 1026 0d84 7E4A     		ldr	r2, .L17+72	@ float
  1027 0d86 C3F8D422 		str	r2, [r3, #724]	@ float
  1028 0d8a 40F20003 		movw	r3, #:lower16:eepromConfig
  1029 0d8e C0F20003 		movt	r3, #:upper16:eepromConfig
- 1030 0d92 704A     		ldr	r2, .L17+28	@ float
+ 1030 0d92 714A     		ldr	r2, .L17+32	@ float
  1031 0d94 C3F8D822 		str	r2, [r3, #728]	@ float
  1032 0d98 40F20003 		movw	r3, #:lower16:eepromConfig
  1033 0d9c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1034 0da0 6F4A     		ldr	r2, .L17+40	@ float
+ 1034 0da0 704A     		ldr	r2, .L17+44	@ float
  1035 0da2 C3F8DC22 		str	r2, [r3, #732]	@ float
  1036 0da6 40F20003 		movw	r3, #:lower16:eepromConfig
  1037 0daa C0F20003 		movt	r3, #:upper16:eepromConfig
- 1038 0dae 754A     		ldr	r2, .L17+76	@ float
+ 1038 0dae 764A     		ldr	r2, .L17+80	@ float
  1039 0db0 C3F8E022 		str	r2, [r3, #736]	@ float
  1040 0db4 40F20003 		movw	r3, #:lower16:eepromConfig
  1041 0db8 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -1039,19 +1039,19 @@
  1047 0dce C3F8E822 		str	r2, [r3, #744]	@ float
  1048 0dd2 40F20003 		movw	r3, #:lower16:eepromConfig
  1049 0dd6 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1050 0dda 694A     		ldr	r2, .L17+72	@ float
+ 1050 0dda 6A4A     		ldr	r2, .L17+76	@ float
  1051 0ddc C3F8EC22 		str	r2, [r3, #748]	@ float
  1052 0de0 40F20003 		movw	r3, #:lower16:eepromConfig
  1053 0de4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1054 0de8 654A     		ldr	r2, .L17+72	@ float
+ 1054 0de8 664A     		ldr	r2, .L17+76	@ float
  1055 0dea C3F8F022 		str	r2, [r3, #752]	@ float
  1056 0dee 40F20003 		movw	r3, #:lower16:eepromConfig
  1057 0df2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1058 0df6 624A     		ldr	r2, .L17+72	@ float
+ 1058 0df6 634A     		ldr	r2, .L17+76	@ float
  1059 0df8 C3F8F422 		str	r2, [r3, #756]	@ float
  1060 0dfc 40F20003 		movw	r3, #:lower16:eepromConfig
  1061 0e00 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1062 0e04 5E4A     		ldr	r2, .L17+72	@ float
+ 1062 0e04 5F4A     		ldr	r2, .L17+76	@ float
  1063 0e06 C3F8F822 		str	r2, [r3, #760]	@ float
  1064 0e0a 40F20003 		movw	r3, #:lower16:eepromConfig
  1065 0e0e C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -1059,7 +1059,7 @@
  1067 0e14 C3F8FC22 		str	r2, [r3, #764]	@ float
  1068 0e18 40F20003 		movw	r3, #:lower16:eepromConfig
  1069 0e1c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1070 0e20 574A     		ldr	r2, .L17+72	@ float
+ 1070 0e20 584A     		ldr	r2, .L17+76	@ float
  1071 0e22 C3F80023 		str	r2, [r3, #768]	@ float
  1072 0e26 40F20003 		movw	r3, #:lower16:eepromConfig
  1073 0e2a C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -1067,7 +1067,7 @@
  1075 0e30 C3F80423 		str	r2, [r3, #772]	@ float
  1076 0e34 40F20003 		movw	r3, #:lower16:eepromConfig
  1077 0e38 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1078 0e3c 504A     		ldr	r2, .L17+72	@ float
+ 1078 0e3c 514A     		ldr	r2, .L17+76	@ float
  1079 0e3e C3F80823 		str	r2, [r3, #776]	@ float
  1080 0e42 40F20003 		movw	r3, #:lower16:eepromConfig
  1081 0e46 C0F20003 		movt	r3, #:upper16:eepromConfig
@@ -1144,38 +1144,40 @@
  1152 0f3c 0000803F 		.word	1065353216
  1153 0f40 0000A040 		.word	1084227584
  1154 0f44 0AD7A33B 		.word	1000593162
- 1155 0f48 6F12833A 		.word	981668463
- 1156 0f4c BC74133C 		.word	1007908028
- 1157 0f50 A69B443B 		.word	994352038
- 1158 0f54 00803B45 		.word	1161527296
- 1159 0f58 00800945 		.word	1158250496
- 1160 0f5c 00806D45 		.word	1164804096
- 1161 0f60 00007A45 		.word	1165623296
- 1162 0f64 00007A43 		.word	1132068864
- 1163 0f68 0000C842 		.word	1120403456
- 1164 0f6c 0000AF43 		.word	1135542272
- 1165 0f70 00000040 		.word	1073741824
- 1166 0f74 0000003F 		.word	1056964608
- 1167 0f78 00004040 		.word	1077936128
- 1168 0f7c 0000FA44 		.word	1157234688
- 1169 0f80 000080BF 		.word	-1082130432
- 1170 0f84 00002042 		.word	1109393408
- 1172              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+ 1155 0f48 A692AB3B 		.word	1001099942
+ 1156 0f4c 1F42893A 		.word	982073887
+ 1157 0f50 BC74133C 		.word	1007908028
+ 1158 0f54 A69B443B 		.word	994352038
+ 1159 0f58 00803B45 		.word	1161527296
+ 1160 0f5c 00800945 		.word	1158250496
+ 1161 0f60 00806D45 		.word	1164804096
+ 1162 0f64 00007A45 		.word	1165623296
+ 1163 0f68 00007A43 		.word	1132068864
+ 1164 0f6c 0000C842 		.word	1120403456
+ 1165 0f70 0000AF43 		.word	1135542272
+ 1166 0f74 00000040 		.word	1073741824
+ 1167 0f78 0000003F 		.word	1056964608
+ 1168 0f7c 00004040 		.word	1077936128
+ 1169 0f80 0000FA44 		.word	1157234688
+ 1170 0f84 000080BF 		.word	-1082130432
+ 1171 0f88 00002042 		.word	1109393408
+ 1173 0f8c AFF30080 		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 config.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:21     .rodata:00000000 rcChannelLetters
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:18     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:21     .rodata:00000000 rcChannelLetters
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:18     .rodata:00000000 $d
                             *COM*:00000004 vTailThrust
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:27     .data:00000000 checkNewEEPROMConf
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:30     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:35     .text:00000000 parseRcChannels
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:88     .text:00000060 readEEPROM
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:150    .text:00000108 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:155    .text:00000118 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:160    .text:00000118 writeEEPROM
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:214    .rodata:00000008 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:222    .text:00000194 checkFirstTime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccPnyr8Q.s:1151   .text:00000f38 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:27     .data:00000000 checkNewEEPROMConf
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:30     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:35     .text:00000000 parseRcChannels
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:88     .text:00000060 readEEPROM
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:150    .text:00000108 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:155    .text:00000118 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:160    .text:00000118 writeEEPROM
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:214    .rodata:00000008 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:222    .text:00000194 checkFirstTime
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:1151   .text:00000f38 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfx9Pl2.s:1173   .text:00000f8c $t
 
 UNDEFINED SYMBOLS
 strchr
