@@ -53,7 +53,7 @@
 #define UART2_TX_PINSOURCE  GPIO_PinSource5
 #define UART2_RX_PINSOURCE  GPIO_PinSource6
 
-#define UART2_BUFFER_SIZE    2048
+#define UART2_BUFFER_SIZE    1024
 
 // Receive buffer, circular DMA
 volatile uint8_t rx2Buffer[UART2_BUFFER_SIZE];
@@ -114,7 +114,7 @@ void uart2Init(void)
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD,  ENABLE);
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1,   ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
       GPIO_InitStructure.GPIO_Pin   = UART2_TX_PIN | UART2_RX_PIN;
       GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
@@ -208,7 +208,7 @@ void uart2Init(void)
 
 uint16_t uart2Available(void)
 {
-    return (DMA_GetCurrDataCounter(DMA1_Stream1) != rx2DMAPos) ? true : false;
+    return (DMA_GetCurrDataCounter(DMA1_Stream5) != rx2DMAPos) ? true : false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
