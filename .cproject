@@ -73,7 +73,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="misc|Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates|Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_if_template.c|Libraries/STM32_USB_Device_Library/Class/msc|Libraries/STM32_USB_Device_Library/Class/hid|Libraries/STM32_USB_Device_Library/Class/dfu|Libraries/STM32_USB_Device_Library/Class/audio|Libraries/STM32_USB_OTG_Driver/src/usb_otg.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd_int.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/drv/drv_gps.h|src/drv/drv_gps.c|misc|Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates|Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_if_template.c|Libraries/STM32_USB_Device_Library/Class/msc|Libraries/STM32_USB_Device_Library/Class/hid|Libraries/STM32_USB_Device_Library/Class/dfu|Libraries/STM32_USB_Device_Library/Class/audio|Libraries/STM32_USB_OTG_Driver/src/usb_otg.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd_int.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -122,6 +122,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Libraries/STM32_USB_OTG_Driver/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/calibration}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/drv}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/gps}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/max7456}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/sensors}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/vcp}&quot;"/>
@@ -153,7 +154,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="misc|Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates|Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_if_template.c|Libraries/STM32_USB_Device_Library/Class/msc|Libraries/STM32_USB_Device_Library/Class/hid|Libraries/STM32_USB_Device_Library/Class/dfu|Libraries/STM32_USB_Device_Library/Class/audio|Libraries/STM32_USB_OTG_Driver/src/usb_otg.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd_int.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/drv/drv_gps.h|src/drv/drv_gps.c|misc|Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates|Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_if_template.c|Libraries/STM32_USB_Device_Library/Class/msc|Libraries/STM32_USB_Device_Library/Class/hid|Libraries/STM32_USB_Device_Library/Class/dfu|Libraries/STM32_USB_Device_Library/Class/audio|Libraries/STM32_USB_OTG_Driver/src/usb_otg.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd.c|Libraries/STM32_USB_OTG_Driver/src/usb_hcd_int.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

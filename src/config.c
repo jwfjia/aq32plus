@@ -406,6 +406,8 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.osdDisplayAtt        =  false;
         eepromConfig.osdDisplayHdg        =  true;
 
+        eepromConfig.gpsType              =  NO_GPS;
+
         writeEEPROM();
 	}
 }

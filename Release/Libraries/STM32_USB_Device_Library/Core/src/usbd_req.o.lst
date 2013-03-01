@@ -1225,35 +1225,35 @@
  1259 000d 000000   		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 usbd_req.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:21     .bss:00000000 USBD_ep_status
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:18     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:27     .bss:00000004 USBD_default_cfg
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:33     .bss:00000008 USBD_cfg_status
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:21     .bss:00000000 USBD_ep_status
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:18     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:27     .bss:00000004 USBD_default_cfg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:33     .bss:00000008 USBD_cfg_status
                             *COM*:00000032 USBD_StrDesc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:37     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:42     .text:00000000 USBD_StdDevReq
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:59     .text:00000020 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:70     .text:00000048 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:412    .text:00000318 USBD_GetDescriptor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:620    .text:000004e4 USBD_SetAddress
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:682    .text:00000568 USBD_SetConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:806    .text:00000698 USBD_GetConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:857    .text:000006f8 USBD_GetStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:903    .text:00000758 USBD_SetFeature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:1005   .text:00000838 USBD_ClrFeature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:1114   .text:00000910 USBD_CtlError
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:120    .text:000000a4 USBD_StdItfReq
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:178    .text:00000110 USBD_StdEPReq
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:430    .text:0000033c $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:438    .text:00000358 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:489    .text:000003cc $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:496    .text:000003e4 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:1257   .bss:0000000c cfgidx.8314
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:955    .text:000007cc $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:961    .text:000007e0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:1050   .text:00000888 USBD_ParseSetupRequest
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:1155   .text:00000958 USBD_GetString
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccqr7FUy.s:1230   .text:00000a08 USBD_GetLen
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:37     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:42     .text:00000000 USBD_StdDevReq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:59     .text:00000020 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:70     .text:00000048 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:412    .text:00000318 USBD_GetDescriptor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:620    .text:000004e4 USBD_SetAddress
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:682    .text:00000568 USBD_SetConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:806    .text:00000698 USBD_GetConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:857    .text:000006f8 USBD_GetStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:903    .text:00000758 USBD_SetFeature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:1005   .text:00000838 USBD_ClrFeature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:1114   .text:00000910 USBD_CtlError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:120    .text:000000a4 USBD_StdItfReq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:178    .text:00000110 USBD_StdEPReq
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:430    .text:0000033c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:438    .text:00000358 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:489    .text:000003cc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:496    .text:000003e4 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:1257   .bss:0000000c cfgidx.8314
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:955    .text:000007cc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:961    .text:000007e0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:1050   .text:00000888 USBD_ParseSetupRequest
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:1155   .text:00000958 USBD_GetString
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccexdLXZ.s:1230   .text:00000a08 USBD_GetLen
 
 UNDEFINED SYMBOLS
 USBD_CtlSendStatus

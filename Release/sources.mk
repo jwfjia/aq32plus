@@ -24,6 +24,7 @@ src/vcp \
 src/startup \
 src/sensors \
 src/max7456 \
+src/gps \
 src/drv \
 src/calibration \
 Libraries/STM32_USB_OTG_Driver/src \

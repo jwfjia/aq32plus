@@ -66,8 +66,12 @@ src/pid.d: ../src/pid.c ../src/board.h \
  ../src/cli.h ../src/cliSupport.h ../src/computeAxisCommands.h \
  ../src/config.h ../src/coordinateTransforms.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\calibration/escCalibration.h \
- ../src/flightCommand.h ../src/linearAlgebra.h ../src/lowPassFilter.h \
- ../src/MargAHRS.h \
+ ../src/flightCommand.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gps.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsMediaTek19.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsNMEA.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsUblox.h \
+ ../src/linearAlgebra.h ../src/lowPassFilter.h ../src/MargAHRS.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\calibration/magCalibration.h \
  ../src/mixer.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\calibration/mpu6000Calibration.h \
@@ -219,6 +223,14 @@ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\sensors/ms5611.h:
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\calibration/escCalibration.h:
 
 ../src/flightCommand.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gps.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsMediaTek19.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsNMEA.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsUblox.h:
 
 ../src/linearAlgebra.h:
 

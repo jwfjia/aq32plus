@@ -73,6 +73,10 @@ src/calibration/mpu6000Calibration.d: \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/coordinateTransforms.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\calibration/escCalibration.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/flightCommand.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gps.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsMediaTek19.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsNMEA.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsUblox.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/linearAlgebra.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/lowPassFilter.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/MargAHRS.h \
@@ -229,6 +233,14 @@ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/coordinateTransforms.h
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\calibration/escCalibration.h:
 
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/flightCommand.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gps.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsMediaTek19.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsNMEA.h:
+
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\gps/gpsUblox.h:
 
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/linearAlgebra.h:
 

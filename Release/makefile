@@ -12,6 +12,7 @@ RM := cs-rm -rf
 -include src/startup/subdir.mk
 -include src/sensors/subdir.mk
 -include src/max7456/subdir.mk
+-include src/gps/subdir.mk
 -include src/drv/subdir.mk
 -include src/calibration/subdir.mk
 -include src/subdir.mk

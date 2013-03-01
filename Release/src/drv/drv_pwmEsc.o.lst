@@ -13,245 +13,251 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"drv_pwmEsc.c"
-  16              		.data
-  17              		.align	2
-  20              	OutputChannels:
-  21 0000 40040140 		.word	1073808448
-  22 0004 3C040140 		.word	1073808444
-  23 0008 38040140 		.word	1073808440
-  24 000c 34040140 		.word	1073808436
-  25 0010 38000040 		.word	1073741880
-  26 0014 34040040 		.word	1073742900
-  27 0018 38040040 		.word	1073742904
-  28 001c 34000040 		.word	1073741876
-  29              		.text
-  30              		.align	2
-  31              		.global	pwmEscInit
-  32              		.thumb
-  33              		.thumb_func
-  35              	pwmEscInit:
-  36              		@ args = 0, pretend = 0, frame = 48
-  37              		@ frame_needed = 0, uses_anonymous_args = 0
-  38 0000 00B5     		push	{lr}
-  39 0002 8DB0     		sub	sp, sp, #52
-  40 0004 0346     		mov	r3, r0
-  41 0006 ADF80630 		strh	r3, [sp, #6]	@ movhi
-  42 000a 0AAB     		add	r3, sp, #40
-  43 000c 1846     		mov	r0, r3
-  44 000e FFF7FEFF 		bl	GPIO_StructInit
-  45 0012 07AB     		add	r3, sp, #28
-  46 0014 1846     		mov	r0, r3
-  47 0016 FFF7FEFF 		bl	TIM_TimeBaseStructInit
-  48 001a 02AB     		add	r3, sp, #8
-  49 001c 1846     		mov	r0, r3
-  50 001e FFF7FEFF 		bl	TIM_OCStructInit
-  51 0022 4FF00100 		mov	r0, #1
-  52 0026 4FF00101 		mov	r1, #1
-  53 002a FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
-  54 002e 4FF00200 		mov	r0, #2
-  55 0032 4FF00101 		mov	r1, #1
-  56 0036 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
-  57 003a 4FF00400 		mov	r0, #4
-  58 003e 4FF00101 		mov	r1, #1
-  59 0042 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
-  60 0046 4FF00100 		mov	r0, #1
-  61 004a 4FF00101 		mov	r1, #1
-  62 004e FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
-  63 0052 4FF00200 		mov	r0, #2
-  64 0056 4FF00101 		mov	r1, #1
-  65 005a FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
-  66 005e 4FF00200 		mov	r0, #2
-  67 0062 4FF00101 		mov	r1, #1
-  68 0066 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
-  69 006a 4FF40043 		mov	r3, #32768
-  70 006e 0A93     		str	r3, [sp, #40]
-  71 0070 4FF00203 		mov	r3, #2
-  72 0074 8DF82C30 		strb	r3, [sp, #44]
-  73 0078 4FF00203 		mov	r3, #2
-  74 007c 8DF82D30 		strb	r3, [sp, #45]
-  75 0080 4FF00000 		mov	r0, #0
-  76 0084 C4F20200 		movt	r0, 16386
-  77 0088 0AAB     		add	r3, sp, #40
-  78 008a 1946     		mov	r1, r3
-  79 008c FFF7FEFF 		bl	GPIO_Init
-  80 0090 4FF03803 		mov	r3, #56
-  81 0094 0A93     		str	r3, [sp, #40]
-  82 0096 4FF48060 		mov	r0, #1024
-  83 009a C4F20200 		movt	r0, 16386
-  84 009e 0AAB     		add	r3, sp, #40
-  85 00a0 1946     		mov	r1, r3
-  86 00a2 FFF7FEFF 		bl	GPIO_Init
-  87 00a6 4FF47073 		mov	r3, #960
-  88 00aa 0A93     		str	r3, [sp, #40]
-  89 00ac 4FF40060 		mov	r0, #2048
-  90 00b0 C4F20200 		movt	r0, 16386
-  91 00b4 0AAB     		add	r3, sp, #40
-  92 00b6 1946     		mov	r1, r3
-  93 00b8 FFF7FEFF 		bl	GPIO_Init
-  94 00bc 4FF00000 		mov	r0, #0
-  95 00c0 C4F20200 		movt	r0, 16386
-  96 00c4 4FF00F01 		mov	r1, #15
-  97 00c8 4FF00102 		mov	r2, #1
-  98 00cc FFF7FEFF 		bl	GPIO_PinAFConfig
-  99 00d0 4FF48060 		mov	r0, #1024
- 100 00d4 C4F20200 		movt	r0, 16386
- 101 00d8 4FF00301 		mov	r1, #3
- 102 00dc 4FF00102 		mov	r2, #1
- 103 00e0 FFF7FEFF 		bl	GPIO_PinAFConfig
- 104 00e4 4FF48060 		mov	r0, #1024
- 105 00e8 C4F20200 		movt	r0, 16386
- 106 00ec 4FF00401 		mov	r1, #4
- 107 00f0 4FF00202 		mov	r2, #2
- 108 00f4 FFF7FEFF 		bl	GPIO_PinAFConfig
- 109 00f8 4FF48060 		mov	r0, #1024
- 110 00fc C4F20200 		movt	r0, 16386
- 111 0100 4FF00501 		mov	r1, #5
- 112 0104 4FF00202 		mov	r2, #2
- 113 0108 FFF7FEFF 		bl	GPIO_PinAFConfig
- 114 010c 4FF40060 		mov	r0, #2048
- 115 0110 C4F20200 		movt	r0, 16386
- 116 0114 4FF00601 		mov	r1, #6
- 117 0118 4FF00302 		mov	r2, #3
- 118 011c FFF7FEFF 		bl	GPIO_PinAFConfig
- 119 0120 4FF40060 		mov	r0, #2048
- 120 0124 C4F20200 		movt	r0, 16386
- 121 0128 4FF00701 		mov	r1, #7
- 122 012c 4FF00302 		mov	r2, #3
- 123 0130 FFF7FEFF 		bl	GPIO_PinAFConfig
- 124 0134 4FF40060 		mov	r0, #2048
- 125 0138 C4F20200 		movt	r0, 16386
- 126 013c 4FF00801 		mov	r1, #8
- 127 0140 4FF00302 		mov	r2, #3
- 128 0144 FFF7FEFF 		bl	GPIO_PinAFConfig
- 129 0148 4FF40060 		mov	r0, #2048
- 130 014c C4F20200 		movt	r0, 16386
- 131 0150 4FF00901 		mov	r1, #9
- 132 0154 4FF00302 		mov	r2, #3
- 133 0158 FFF7FEFF 		bl	GPIO_PinAFConfig
- 134 015c BDF80620 		ldrh	r2, [sp, #6]
- 135 0160 48F28043 		movw	r3, #33920
- 136 0164 C0F21E03 		movt	r3, 30
- 137 0168 93FBF2F3 		sdiv	r3, r3, r2
- 138 016c 9BB2     		uxth	r3, r3
- 139 016e 03F1FF33 		add	r3, r3, #-1
- 140 0172 0893     		str	r3, [sp, #32]
- 141 0174 4FF02903 		mov	r3, #41
- 142 0178 ADF81C30 		strh	r3, [sp, #28]	@ movhi
- 143 017c 4FF08040 		mov	r0, #1073741824
- 144 0180 07AB     		add	r3, sp, #28
- 145 0182 1946     		mov	r1, r3
- 146 0184 FFF7FEFF 		bl	TIM_TimeBaseInit
- 147 0188 4FF48060 		mov	r0, #1024
- 148 018c C4F20000 		movt	r0, 16384
- 149 0190 07AB     		add	r3, sp, #28
- 150 0192 1946     		mov	r1, r3
- 151 0194 FFF7FEFF 		bl	TIM_TimeBaseInit
- 152 0198 4FF48060 		mov	r0, #1024
- 153 019c C4F20100 		movt	r0, 16385
- 154 01a0 07AB     		add	r3, sp, #28
- 155 01a2 1946     		mov	r1, r3
- 156 01a4 FFF7FEFF 		bl	TIM_TimeBaseInit
- 157 01a8 4FF07003 		mov	r3, #112
- 158 01ac ADF80830 		strh	r3, [sp, #8]	@ movhi
- 159 01b0 4FF00103 		mov	r3, #1
- 160 01b4 ADF80A30 		strh	r3, [sp, #10]	@ movhi
- 161 01b8 4FF4FA63 		mov	r3, #2000
- 162 01bc 0493     		str	r3, [sp, #16]
- 163 01be 4FF00203 		mov	r3, #2
- 164 01c2 ADF81430 		strh	r3, [sp, #20]	@ movhi
- 165 01c6 4FF48073 		mov	r3, #256
- 166 01ca ADF81830 		strh	r3, [sp, #24]	@ movhi
- 167 01ce 4FF08040 		mov	r0, #1073741824
- 168 01d2 02AB     		add	r3, sp, #8
- 169 01d4 1946     		mov	r1, r3
- 170 01d6 FFF7FEFF 		bl	TIM_OC1Init
- 171 01da 4FF08040 		mov	r0, #1073741824
- 172 01de 02AB     		add	r3, sp, #8
- 173 01e0 1946     		mov	r1, r3
- 174 01e2 FFF7FEFF 		bl	TIM_OC2Init
- 175 01e6 4FF48060 		mov	r0, #1024
- 176 01ea C4F20000 		movt	r0, 16384
- 177 01ee 02AB     		add	r3, sp, #8
- 178 01f0 1946     		mov	r1, r3
- 179 01f2 FFF7FEFF 		bl	TIM_OC1Init
- 180 01f6 4FF48060 		mov	r0, #1024
- 181 01fa C4F20000 		movt	r0, 16384
- 182 01fe 02AB     		add	r3, sp, #8
- 183 0200 1946     		mov	r1, r3
- 184 0202 FFF7FEFF 		bl	TIM_OC2Init
- 185 0206 4FF48060 		mov	r0, #1024
- 186 020a C4F20100 		movt	r0, 16385
- 187 020e 02AB     		add	r3, sp, #8
- 188 0210 1946     		mov	r1, r3
- 189 0212 FFF7FEFF 		bl	TIM_OC1Init
- 190 0216 4FF48060 		mov	r0, #1024
- 191 021a C4F20100 		movt	r0, 16385
- 192 021e 02AB     		add	r3, sp, #8
- 193 0220 1946     		mov	r1, r3
- 194 0222 FFF7FEFF 		bl	TIM_OC2Init
- 195 0226 4FF48060 		mov	r0, #1024
- 196 022a C4F20100 		movt	r0, 16385
- 197 022e 02AB     		add	r3, sp, #8
- 198 0230 1946     		mov	r1, r3
- 199 0232 FFF7FEFF 		bl	TIM_OC3Init
- 200 0236 4FF48060 		mov	r0, #1024
- 201 023a C4F20100 		movt	r0, 16385
- 202 023e 02AB     		add	r3, sp, #8
- 203 0240 1946     		mov	r1, r3
- 204 0242 FFF7FEFF 		bl	TIM_OC4Init
- 205 0246 4FF08040 		mov	r0, #1073741824
- 206 024a 4FF00101 		mov	r1, #1
- 207 024e FFF7FEFF 		bl	TIM_Cmd
- 208 0252 4FF48060 		mov	r0, #1024
- 209 0256 C4F20000 		movt	r0, 16384
- 210 025a 4FF00101 		mov	r1, #1
- 211 025e FFF7FEFF 		bl	TIM_Cmd
- 212 0262 4FF48060 		mov	r0, #1024
- 213 0266 C4F20100 		movt	r0, 16385
- 214 026a 4FF00101 		mov	r1, #1
- 215 026e FFF7FEFF 		bl	TIM_Cmd
- 216 0272 4FF08040 		mov	r0, #1073741824
- 217 0276 4FF00101 		mov	r1, #1
- 218 027a FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 219 027e 4FF48060 		mov	r0, #1024
- 220 0282 C4F20000 		movt	r0, 16384
- 221 0286 4FF00101 		mov	r1, #1
- 222 028a FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 223 028e 4FF48060 		mov	r0, #1024
- 224 0292 C4F20100 		movt	r0, 16385
- 225 0296 4FF00101 		mov	r1, #1
- 226 029a FFF7FEFF 		bl	TIM_CtrlPWMOutputs
- 227 029e 0DB0     		add	sp, sp, #52
- 228 02a0 00BD     		pop	{pc}
- 230 02a2 00BF     		.align	2
- 231              		.global	pwmEscWrite
- 232              		.thumb
- 233              		.thumb_func
- 235              	pwmEscWrite:
- 236              		@ args = 0, pretend = 0, frame = 8
- 237              		@ frame_needed = 0, uses_anonymous_args = 0
- 238              		@ link register save eliminated.
- 239 02a4 82B0     		sub	sp, sp, #8
- 240 02a6 0246     		mov	r2, r0
- 241 02a8 0B46     		mov	r3, r1
- 242 02aa 8DF80720 		strb	r2, [sp, #7]
- 243 02ae ADF80430 		strh	r3, [sp, #4]	@ movhi
- 244 02b2 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
- 245 02b6 40F20003 		movw	r3, #:lower16:OutputChannels
- 246 02ba C0F20003 		movt	r3, #:upper16:OutputChannels
- 247 02be 53F82230 		ldr	r3, [r3, r2, lsl #2]
- 248 02c2 BDF80420 		ldrh	r2, [sp, #4]
- 249 02c6 1A60     		str	r2, [r3, #0]
- 250 02c8 02B0     		add	sp, sp, #8
- 251 02ca 7047     		bx	lr
- 253              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.data
+  20              		.align	2
+  23              	OutputChannels:
+  24 0000 40040140 		.word	1073808448
+  25 0004 3C040140 		.word	1073808444
+  26 0008 38040140 		.word	1073808440
+  27 000c 34040140 		.word	1073808436
+  28 0010 38000040 		.word	1073741880
+  29 0014 34040040 		.word	1073742900
+  30 0018 38040040 		.word	1073742904
+  31 001c 34000040 		.word	1073741876
+  32              		.text
+  33              		.align	2
+  34              		.global	pwmEscInit
+  35              		.thumb
+  36              		.thumb_func
+  38              	pwmEscInit:
+  39              		@ args = 0, pretend = 0, frame = 48
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41 0000 00B5     		push	{lr}
+  42 0002 8DB0     		sub	sp, sp, #52
+  43 0004 0346     		mov	r3, r0
+  44 0006 ADF80630 		strh	r3, [sp, #6]	@ movhi
+  45 000a 0AAB     		add	r3, sp, #40
+  46 000c 1846     		mov	r0, r3
+  47 000e FFF7FEFF 		bl	GPIO_StructInit
+  48 0012 07AB     		add	r3, sp, #28
+  49 0014 1846     		mov	r0, r3
+  50 0016 FFF7FEFF 		bl	TIM_TimeBaseStructInit
+  51 001a 02AB     		add	r3, sp, #8
+  52 001c 1846     		mov	r0, r3
+  53 001e FFF7FEFF 		bl	TIM_OCStructInit
+  54 0022 4FF00100 		mov	r0, #1
+  55 0026 4FF00101 		mov	r1, #1
+  56 002a FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+  57 002e 4FF00200 		mov	r0, #2
+  58 0032 4FF00101 		mov	r1, #1
+  59 0036 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+  60 003a 4FF00400 		mov	r0, #4
+  61 003e 4FF00101 		mov	r1, #1
+  62 0042 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+  63 0046 4FF00100 		mov	r0, #1
+  64 004a 4FF00101 		mov	r1, #1
+  65 004e FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  66 0052 4FF00200 		mov	r0, #2
+  67 0056 4FF00101 		mov	r1, #1
+  68 005a FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  69 005e 4FF00200 		mov	r0, #2
+  70 0062 4FF00101 		mov	r1, #1
+  71 0066 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  72 006a 4FF40043 		mov	r3, #32768
+  73 006e 0A93     		str	r3, [sp, #40]
+  74 0070 4FF00203 		mov	r3, #2
+  75 0074 8DF82C30 		strb	r3, [sp, #44]
+  76 0078 4FF00203 		mov	r3, #2
+  77 007c 8DF82D30 		strb	r3, [sp, #45]
+  78 0080 4FF00000 		mov	r0, #0
+  79 0084 C4F20200 		movt	r0, 16386
+  80 0088 0AAB     		add	r3, sp, #40
+  81 008a 1946     		mov	r1, r3
+  82 008c FFF7FEFF 		bl	GPIO_Init
+  83 0090 4FF03803 		mov	r3, #56
+  84 0094 0A93     		str	r3, [sp, #40]
+  85 0096 4FF48060 		mov	r0, #1024
+  86 009a C4F20200 		movt	r0, 16386
+  87 009e 0AAB     		add	r3, sp, #40
+  88 00a0 1946     		mov	r1, r3
+  89 00a2 FFF7FEFF 		bl	GPIO_Init
+  90 00a6 4FF47073 		mov	r3, #960
+  91 00aa 0A93     		str	r3, [sp, #40]
+  92 00ac 4FF40060 		mov	r0, #2048
+  93 00b0 C4F20200 		movt	r0, 16386
+  94 00b4 0AAB     		add	r3, sp, #40
+  95 00b6 1946     		mov	r1, r3
+  96 00b8 FFF7FEFF 		bl	GPIO_Init
+  97 00bc 4FF00000 		mov	r0, #0
+  98 00c0 C4F20200 		movt	r0, 16386
+  99 00c4 4FF00F01 		mov	r1, #15
+ 100 00c8 4FF00102 		mov	r2, #1
+ 101 00cc FFF7FEFF 		bl	GPIO_PinAFConfig
+ 102 00d0 4FF48060 		mov	r0, #1024
+ 103 00d4 C4F20200 		movt	r0, 16386
+ 104 00d8 4FF00301 		mov	r1, #3
+ 105 00dc 4FF00102 		mov	r2, #1
+ 106 00e0 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 107 00e4 4FF48060 		mov	r0, #1024
+ 108 00e8 C4F20200 		movt	r0, 16386
+ 109 00ec 4FF00401 		mov	r1, #4
+ 110 00f0 4FF00202 		mov	r2, #2
+ 111 00f4 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 112 00f8 4FF48060 		mov	r0, #1024
+ 113 00fc C4F20200 		movt	r0, 16386
+ 114 0100 4FF00501 		mov	r1, #5
+ 115 0104 4FF00202 		mov	r2, #2
+ 116 0108 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 117 010c 4FF40060 		mov	r0, #2048
+ 118 0110 C4F20200 		movt	r0, 16386
+ 119 0114 4FF00601 		mov	r1, #6
+ 120 0118 4FF00302 		mov	r2, #3
+ 121 011c FFF7FEFF 		bl	GPIO_PinAFConfig
+ 122 0120 4FF40060 		mov	r0, #2048
+ 123 0124 C4F20200 		movt	r0, 16386
+ 124 0128 4FF00701 		mov	r1, #7
+ 125 012c 4FF00302 		mov	r2, #3
+ 126 0130 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 127 0134 4FF40060 		mov	r0, #2048
+ 128 0138 C4F20200 		movt	r0, 16386
+ 129 013c 4FF00801 		mov	r1, #8
+ 130 0140 4FF00302 		mov	r2, #3
+ 131 0144 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 132 0148 4FF40060 		mov	r0, #2048
+ 133 014c C4F20200 		movt	r0, 16386
+ 134 0150 4FF00901 		mov	r1, #9
+ 135 0154 4FF00302 		mov	r2, #3
+ 136 0158 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 137 015c BDF80620 		ldrh	r2, [sp, #6]
+ 138 0160 48F28043 		movw	r3, #33920
+ 139 0164 C0F21E03 		movt	r3, 30
+ 140 0168 93FBF2F3 		sdiv	r3, r3, r2
+ 141 016c 9BB2     		uxth	r3, r3
+ 142 016e 03F1FF33 		add	r3, r3, #-1
+ 143 0172 0893     		str	r3, [sp, #32]
+ 144 0174 4FF02903 		mov	r3, #41
+ 145 0178 ADF81C30 		strh	r3, [sp, #28]	@ movhi
+ 146 017c 4FF08040 		mov	r0, #1073741824
+ 147 0180 07AB     		add	r3, sp, #28
+ 148 0182 1946     		mov	r1, r3
+ 149 0184 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 150 0188 4FF48060 		mov	r0, #1024
+ 151 018c C4F20000 		movt	r0, 16384
+ 152 0190 07AB     		add	r3, sp, #28
+ 153 0192 1946     		mov	r1, r3
+ 154 0194 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 155 0198 4FF48060 		mov	r0, #1024
+ 156 019c C4F20100 		movt	r0, 16385
+ 157 01a0 07AB     		add	r3, sp, #28
+ 158 01a2 1946     		mov	r1, r3
+ 159 01a4 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 160 01a8 4FF07003 		mov	r3, #112
+ 161 01ac ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 162 01b0 4FF00103 		mov	r3, #1
+ 163 01b4 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 164 01b8 4FF4FA63 		mov	r3, #2000
+ 165 01bc 0493     		str	r3, [sp, #16]
+ 166 01be 4FF00203 		mov	r3, #2
+ 167 01c2 ADF81430 		strh	r3, [sp, #20]	@ movhi
+ 168 01c6 4FF48073 		mov	r3, #256
+ 169 01ca ADF81830 		strh	r3, [sp, #24]	@ movhi
+ 170 01ce 4FF08040 		mov	r0, #1073741824
+ 171 01d2 02AB     		add	r3, sp, #8
+ 172 01d4 1946     		mov	r1, r3
+ 173 01d6 FFF7FEFF 		bl	TIM_OC1Init
+ 174 01da 4FF08040 		mov	r0, #1073741824
+ 175 01de 02AB     		add	r3, sp, #8
+ 176 01e0 1946     		mov	r1, r3
+ 177 01e2 FFF7FEFF 		bl	TIM_OC2Init
+ 178 01e6 4FF48060 		mov	r0, #1024
+ 179 01ea C4F20000 		movt	r0, 16384
+ 180 01ee 02AB     		add	r3, sp, #8
+ 181 01f0 1946     		mov	r1, r3
+ 182 01f2 FFF7FEFF 		bl	TIM_OC1Init
+ 183 01f6 4FF48060 		mov	r0, #1024
+ 184 01fa C4F20000 		movt	r0, 16384
+ 185 01fe 02AB     		add	r3, sp, #8
+ 186 0200 1946     		mov	r1, r3
+ 187 0202 FFF7FEFF 		bl	TIM_OC2Init
+ 188 0206 4FF48060 		mov	r0, #1024
+ 189 020a C4F20100 		movt	r0, 16385
+ 190 020e 02AB     		add	r3, sp, #8
+ 191 0210 1946     		mov	r1, r3
+ 192 0212 FFF7FEFF 		bl	TIM_OC1Init
+ 193 0216 4FF48060 		mov	r0, #1024
+ 194 021a C4F20100 		movt	r0, 16385
+ 195 021e 02AB     		add	r3, sp, #8
+ 196 0220 1946     		mov	r1, r3
+ 197 0222 FFF7FEFF 		bl	TIM_OC2Init
+ 198 0226 4FF48060 		mov	r0, #1024
+ 199 022a C4F20100 		movt	r0, 16385
+ 200 022e 02AB     		add	r3, sp, #8
+ 201 0230 1946     		mov	r1, r3
+ 202 0232 FFF7FEFF 		bl	TIM_OC3Init
+ 203 0236 4FF48060 		mov	r0, #1024
+ 204 023a C4F20100 		movt	r0, 16385
+ 205 023e 02AB     		add	r3, sp, #8
+ 206 0240 1946     		mov	r1, r3
+ 207 0242 FFF7FEFF 		bl	TIM_OC4Init
+ 208 0246 4FF08040 		mov	r0, #1073741824
+ 209 024a 4FF00101 		mov	r1, #1
+ 210 024e FFF7FEFF 		bl	TIM_Cmd
+ 211 0252 4FF48060 		mov	r0, #1024
+ 212 0256 C4F20000 		movt	r0, 16384
+ 213 025a 4FF00101 		mov	r1, #1
+ 214 025e FFF7FEFF 		bl	TIM_Cmd
+ 215 0262 4FF48060 		mov	r0, #1024
+ 216 0266 C4F20100 		movt	r0, 16385
+ 217 026a 4FF00101 		mov	r1, #1
+ 218 026e FFF7FEFF 		bl	TIM_Cmd
+ 219 0272 4FF08040 		mov	r0, #1073741824
+ 220 0276 4FF00101 		mov	r1, #1
+ 221 027a FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 222 027e 4FF48060 		mov	r0, #1024
+ 223 0282 C4F20000 		movt	r0, 16384
+ 224 0286 4FF00101 		mov	r1, #1
+ 225 028a FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 226 028e 4FF48060 		mov	r0, #1024
+ 227 0292 C4F20100 		movt	r0, 16385
+ 228 0296 4FF00101 		mov	r1, #1
+ 229 029a FFF7FEFF 		bl	TIM_CtrlPWMOutputs
+ 230 029e 0DB0     		add	sp, sp, #52
+ 231 02a0 00BD     		pop	{pc}
+ 233 02a2 00BF     		.align	2
+ 234              		.global	pwmEscWrite
+ 235              		.thumb
+ 236              		.thumb_func
+ 238              	pwmEscWrite:
+ 239              		@ args = 0, pretend = 0, frame = 8
+ 240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 241              		@ link register save eliminated.
+ 242 02a4 82B0     		sub	sp, sp, #8
+ 243 02a6 0246     		mov	r2, r0
+ 244 02a8 0B46     		mov	r3, r1
+ 245 02aa 8DF80720 		strb	r2, [sp, #7]
+ 246 02ae ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 247 02b2 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 248 02b6 40F20003 		movw	r3, #:lower16:OutputChannels
+ 249 02ba C0F20003 		movt	r3, #:upper16:OutputChannels
+ 250 02be 53F82230 		ldr	r3, [r3, r2, lsl #2]
+ 251 02c2 BDF80420 		ldrh	r2, [sp, #4]
+ 252 02c6 1A60     		str	r2, [r3, #0]
+ 253 02c8 02B0     		add	sp, sp, #8
+ 254 02ca 7047     		bx	lr
+ 256              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_pwmEsc.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccLmiBUj.s:17     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccLmiBUj.s:20     .data:00000000 OutputChannels
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccLmiBUj.s:30     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccLmiBUj.s:35     .text:00000000 pwmEscInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccLmiBUj.s:235    .text:000002a4 pwmEscWrite
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuVdyXi.s:20     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuVdyXi.s:23     .data:00000000 OutputChannels
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuVdyXi.s:33     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuVdyXi.s:38     .text:00000000 pwmEscInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccuVdyXi.s:238    .text:000002a4 pwmEscWrite
 
 UNDEFINED SYMBOLS
 GPIO_StructInit

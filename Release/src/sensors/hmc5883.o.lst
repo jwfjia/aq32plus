@@ -13,266 +13,272 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"hmc5883.c"
-  16              		.comm	magScaleFactor,12,4
-  17              		.global	magDataUpdate
-  18              		.bss
-  21              	magDataUpdate:
-  22 0000 00       		.space	1
-  23              		.global	newMagData
-  26              	newMagData:
-  27 0001 00       		.space	1
-  28              		.comm	rawMag,6,4
-  29              		.text
-  30              		.align	2
-  31              		.global	readMag
-  32              		.thumb
-  33              		.thumb_func
-  35              	readMag:
-  36              		@ args = 0, pretend = 0, frame = 16
-  37              		@ frame_needed = 0, uses_anonymous_args = 0
-  38 0000 00B5     		push	{lr}
-  39 0002 87B0     		sub	sp, sp, #28
-  40 0004 0390     		str	r0, [sp, #12]
-  41 0006 04AB     		add	r3, sp, #16
-  42 0008 0093     		str	r3, [sp, #0]
-  43 000a 0398     		ldr	r0, [sp, #12]
-  44 000c 4FF01E01 		mov	r1, #30
-  45 0010 4FF00302 		mov	r2, #3
-  46 0014 4FF00603 		mov	r3, #6
-  47 0018 FFF7FEFF 		bl	i2cRead
-  48 001c 9DF81020 		ldrb	r2, [sp, #16]	@ zero_extendqisi2
-  49 0020 40F20003 		movw	r3, #:lower16:rawMag
-  50 0024 C0F20003 		movt	r3, #:upper16:rawMag
-  51 0028 DA70     		strb	r2, [r3, #3]
-  52 002a 9DF81120 		ldrb	r2, [sp, #17]	@ zero_extendqisi2
-  53 002e 40F20003 		movw	r3, #:lower16:rawMag
-  54 0032 C0F20003 		movt	r3, #:upper16:rawMag
-  55 0036 9A70     		strb	r2, [r3, #2]
-  56 0038 9DF81220 		ldrb	r2, [sp, #18]	@ zero_extendqisi2
-  57 003c 40F20003 		movw	r3, #:lower16:rawMag
-  58 0040 C0F20003 		movt	r3, #:upper16:rawMag
-  59 0044 5A71     		strb	r2, [r3, #5]
-  60 0046 9DF81320 		ldrb	r2, [sp, #19]	@ zero_extendqisi2
-  61 004a 40F20003 		movw	r3, #:lower16:rawMag
-  62 004e C0F20003 		movt	r3, #:upper16:rawMag
-  63 0052 1A71     		strb	r2, [r3, #4]
-  64 0054 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
-  65 0058 40F20003 		movw	r3, #:lower16:rawMag
-  66 005c C0F20003 		movt	r3, #:upper16:rawMag
-  67 0060 5A70     		strb	r2, [r3, #1]
-  68 0062 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
-  69 0066 40F20003 		movw	r3, #:lower16:rawMag
-  70 006a C0F20003 		movt	r3, #:upper16:rawMag
-  71 006e 1A70     		strb	r2, [r3, #0]
-  72 0070 40F20003 		movw	r3, #:lower16:rawMag
-  73 0074 C0F20003 		movt	r3, #:upper16:rawMag
-  74 0078 1B88     		ldrh	r3, [r3, #0]
-  75 007a 1BB2     		sxth	r3, r3
-  76 007c 13F5805F 		cmn	r3, #4096
-  77 0080 11D0     		beq	.L2
-  78 0082 40F20003 		movw	r3, #:lower16:rawMag
-  79 0086 C0F20003 		movt	r3, #:upper16:rawMag
-  80 008a 5B88     		ldrh	r3, [r3, #2]
-  81 008c 1BB2     		sxth	r3, r3
-  82 008e 13F5805F 		cmn	r3, #4096
-  83 0092 08D0     		beq	.L2
-  84 0094 40F20003 		movw	r3, #:lower16:rawMag
-  85 0098 C0F20003 		movt	r3, #:upper16:rawMag
-  86 009c 9B88     		ldrh	r3, [r3, #4]
-  87 009e 1BB2     		sxth	r3, r3
-  88 00a0 13F5805F 		cmn	r3, #4096
-  89 00a4 02D1     		bne	.L3
-  90              	.L2:
-  91 00a6 4FF00003 		mov	r3, #0
-  92 00aa 01E0     		b	.L4
-  93              	.L3:
-  94 00ac 4FF00103 		mov	r3, #1
-  95              	.L4:
-  96 00b0 1846     		mov	r0, r3
-  97 00b2 07B0     		add	sp, sp, #28
-  98 00b4 00BD     		pop	{pc}
- 100 00b6 00BF     		.align	2
- 101              		.global	initMag
- 102              		.thumb
- 103              		.thumb_func
- 105              	initMag:
- 106              		@ args = 0, pretend = 0, frame = 16
- 107              		@ frame_needed = 0, uses_anonymous_args = 0
- 108 00b8 00B5     		push	{lr}
- 109 00ba 87B0     		sub	sp, sp, #28
- 110 00bc 0390     		str	r0, [sp, #12]
- 111 00be 4FF00003 		mov	r3, #0
- 112 00c2 8DF81430 		strb	r3, [sp, #20]
- 113 00c6 0398     		ldr	r0, [sp, #12]
- 114 00c8 4FF01E01 		mov	r1, #30
- 115 00cc 4FF00002 		mov	r2, #0
- 116 00d0 4FF07103 		mov	r3, #113
- 117 00d4 FFF7FEFF 		bl	i2cWrite
- 118 00d8 4FF03200 		mov	r0, #50
- 119 00dc FFF7FEFF 		bl	delay
- 120 00e0 0398     		ldr	r0, [sp, #12]
- 121 00e2 4FF01E01 		mov	r1, #30
- 122 00e6 4FF00102 		mov	r2, #1
- 123 00ea 4FF02003 		mov	r3, #32
- 124 00ee FFF7FEFF 		bl	i2cWrite
- 125 00f2 4FF01400 		mov	r0, #20
- 126 00f6 FFF7FEFF 		bl	delay
- 127 00fa 40F20003 		movw	r3, #:lower16:magScaleFactor
- 128 00fe C0F20003 		movt	r3, #:upper16:magScaleFactor
- 129 0102 784A     		ldr	r2, .L10+8	@ float
- 130 0104 1A60     		str	r2, [r3, #0]	@ float
- 131 0106 40F20003 		movw	r3, #:lower16:magScaleFactor
- 132 010a C0F20003 		movt	r3, #:upper16:magScaleFactor
- 133 010e 754A     		ldr	r2, .L10+8	@ float
- 134 0110 5A60     		str	r2, [r3, #4]	@ float
- 135 0112 40F20003 		movw	r3, #:lower16:magScaleFactor
- 136 0116 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 137 011a 724A     		ldr	r2, .L10+8	@ float
- 138 011c 9A60     		str	r2, [r3, #8]	@ float
- 139 011e 4FF00003 		mov	r3, #0
- 140 0122 8DF81730 		strb	r3, [sp, #23]
- 141 0126 7BE0     		b	.L6
- 142              	.L9:
- 143 0128 0398     		ldr	r0, [sp, #12]
- 144 012a 4FF01E01 		mov	r1, #30
- 145 012e 4FF00202 		mov	r2, #2
- 146 0132 4FF00103 		mov	r3, #1
- 147 0136 FFF7FEFF 		bl	i2cWrite
- 148 013a 4FF01400 		mov	r0, #20
- 149 013e FFF7FEFF 		bl	delay
- 150 0142 0AE0     		b	.L7
- 151              	.L8:
- 152 0144 05AB     		add	r3, sp, #20
- 153 0146 0093     		str	r3, [sp, #0]
- 154 0148 0398     		ldr	r0, [sp, #12]
- 155 014a 4FF01E01 		mov	r1, #30
- 156 014e 4FF00902 		mov	r2, #9
- 157 0152 4FF00103 		mov	r3, #1
- 158 0156 FFF7FEFF 		bl	i2cRead
- 159              	.L7:
- 160 015a 9DF81430 		ldrb	r3, [sp, #20]	@ zero_extendqisi2
- 161 015e 03F00103 		and	r3, r3, #1
- 162 0162 002B     		cmp	r3, #0
- 163 0164 EED0     		beq	.L8
- 164 0166 0398     		ldr	r0, [sp, #12]
- 165 0168 FFF7FEFF 		bl	readMag
- 166 016c 40F20003 		movw	r3, #:lower16:magScaleFactor
- 167 0170 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 168 0174 93ED007A 		flds	s14, [r3, #0]
- 169 0178 40F20003 		movw	r3, #:lower16:rawMag
- 170 017c C0F20003 		movt	r3, #:upper16:rawMag
- 171 0180 1B88     		ldrh	r3, [r3, #0]
- 172 0182 1BB2     		sxth	r3, r3
- 173 0184 06EE903A 		fmsr	s13, r3	@ int
- 174 0188 F8EEE67A 		fsitos	s15, s13
- 175 018c DFED536A 		flds	s13, .L10
- 176 0190 C6EEA77A 		fdivs	s15, s13, s15
- 177 0194 77EE277A 		fadds	s15, s14, s15
- 178 0198 40F20003 		movw	r3, #:lower16:magScaleFactor
- 179 019c C0F20003 		movt	r3, #:upper16:magScaleFactor
- 180 01a0 C3ED007A 		fsts	s15, [r3, #0]
- 181 01a4 40F20003 		movw	r3, #:lower16:magScaleFactor
- 182 01a8 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 183 01ac 93ED017A 		flds	s14, [r3, #4]
- 184 01b0 40F20003 		movw	r3, #:lower16:rawMag
- 185 01b4 C0F20003 		movt	r3, #:upper16:rawMag
- 186 01b8 5B88     		ldrh	r3, [r3, #2]
- 187 01ba 1BB2     		sxth	r3, r3
- 188 01bc 06EE903A 		fmsr	s13, r3	@ int
- 189 01c0 F8EEE67A 		fsitos	s15, s13
- 190 01c4 DFED456A 		flds	s13, .L10
- 191 01c8 C6EEA77A 		fdivs	s15, s13, s15
- 192 01cc 77EE277A 		fadds	s15, s14, s15
- 193 01d0 40F20003 		movw	r3, #:lower16:magScaleFactor
- 194 01d4 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 195 01d8 C3ED017A 		fsts	s15, [r3, #4]
- 196 01dc 40F20003 		movw	r3, #:lower16:magScaleFactor
- 197 01e0 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 198 01e4 93ED027A 		flds	s14, [r3, #8]
- 199 01e8 40F20003 		movw	r3, #:lower16:rawMag
- 200 01ec C0F20003 		movt	r3, #:upper16:rawMag
- 201 01f0 9B88     		ldrh	r3, [r3, #4]
- 202 01f2 1BB2     		sxth	r3, r3
- 203 01f4 06EE903A 		fmsr	s13, r3	@ int
- 204 01f8 F8EEE67A 		fsitos	s15, s13
- 205 01fc DFED386A 		flds	s13, .L10+4
- 206 0200 C6EEA77A 		fdivs	s15, s13, s15
- 207 0204 77EE277A 		fadds	s15, s14, s15
- 208 0208 40F20003 		movw	r3, #:lower16:magScaleFactor
- 209 020c C0F20003 		movt	r3, #:upper16:magScaleFactor
- 210 0210 C3ED027A 		fsts	s15, [r3, #8]
- 211 0214 9DF81730 		ldrb	r3, [sp, #23]
- 212 0218 03F10103 		add	r3, r3, #1
- 213 021c 8DF81730 		strb	r3, [sp, #23]
- 214              	.L6:
- 215 0220 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
- 216 0224 092B     		cmp	r3, #9
- 217 0226 7FF67FAF 		bls	.L9
- 218 022a 40F20003 		movw	r3, #:lower16:magScaleFactor
- 219 022e C0F20003 		movt	r3, #:upper16:magScaleFactor
- 220 0232 93ED007A 		flds	s14, [r3, #0]
- 221 0236 F2EE047A 		fconsts	s15, #36
- 222 023a C7EE277A 		fdivs	s15, s14, s15
- 223 023e F0EEE77A 		fabss	s15, s15
- 224 0242 40F20003 		movw	r3, #:lower16:magScaleFactor
- 225 0246 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 226 024a C3ED007A 		fsts	s15, [r3, #0]
- 227 024e 40F20003 		movw	r3, #:lower16:magScaleFactor
- 228 0252 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 229 0256 93ED017A 		flds	s14, [r3, #4]
- 230 025a F2EE047A 		fconsts	s15, #36
- 231 025e C7EE277A 		fdivs	s15, s14, s15
- 232 0262 F0EEE77A 		fabss	s15, s15
- 233 0266 40F20003 		movw	r3, #:lower16:magScaleFactor
- 234 026a C0F20003 		movt	r3, #:upper16:magScaleFactor
- 235 026e C3ED017A 		fsts	s15, [r3, #4]
- 236 0272 40F20003 		movw	r3, #:lower16:magScaleFactor
- 237 0276 C0F20003 		movt	r3, #:upper16:magScaleFactor
- 238 027a 93ED027A 		flds	s14, [r3, #8]
- 239 027e F2EE047A 		fconsts	s15, #36
- 240 0282 C7EE277A 		fdivs	s15, s14, s15
- 241 0286 F0EEE77A 		fabss	s15, s15
- 242 028a 40F20003 		movw	r3, #:lower16:magScaleFactor
- 243 028e C0F20003 		movt	r3, #:upper16:magScaleFactor
- 244 0292 C3ED027A 		fsts	s15, [r3, #8]
- 245 0296 0398     		ldr	r0, [sp, #12]
- 246 0298 4FF01E01 		mov	r1, #30
- 247 029c 4FF00002 		mov	r2, #0
- 248 02a0 4FF07003 		mov	r3, #112
- 249 02a4 FFF7FEFF 		bl	i2cWrite
- 250 02a8 4FF03200 		mov	r0, #50
- 251 02ac FFF7FEFF 		bl	delay
- 252 02b0 0398     		ldr	r0, [sp, #12]
- 253 02b2 4FF01E01 		mov	r1, #30
- 254 02b6 4FF00202 		mov	r2, #2
- 255 02ba 4FF00003 		mov	r3, #0
- 256 02be FFF7FEFF 		bl	i2cWrite
- 257 02c2 4FF01400 		mov	r0, #20
- 258 02c6 FFF7FEFF 		bl	delay
- 259 02ca 0398     		ldr	r0, [sp, #12]
- 260 02cc FFF7FEFF 		bl	readMag
- 261 02d0 4FF01400 		mov	r0, #20
- 262 02d4 FFF7FEFF 		bl	delay
- 263 02d8 07B0     		add	sp, sp, #28
- 264 02da 00BD     		pop	{pc}
- 265              	.L11:
- 266              		.align	2
- 267              	.L10:
- 268 02dc CD0C9E44 		.word	1151208653
- 269 02e0 67269344 		.word	1150494311
- 270 02e4 00000000 		.word	0
- 272              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.comm	magScaleFactor,12,4
+  20              		.global	magDataUpdate
+  21              		.bss
+  24              	magDataUpdate:
+  25 0000 00       		.space	1
+  26              		.global	newMagData
+  29              	newMagData:
+  30 0001 00       		.space	1
+  31              		.comm	rawMag,6,4
+  32              		.text
+  33              		.align	2
+  34              		.global	readMag
+  35              		.thumb
+  36              		.thumb_func
+  38              	readMag:
+  39              		@ args = 0, pretend = 0, frame = 16
+  40              		@ frame_needed = 0, uses_anonymous_args = 0
+  41 0000 00B5     		push	{lr}
+  42 0002 87B0     		sub	sp, sp, #28
+  43 0004 0390     		str	r0, [sp, #12]
+  44 0006 04AB     		add	r3, sp, #16
+  45 0008 0093     		str	r3, [sp, #0]
+  46 000a 0398     		ldr	r0, [sp, #12]
+  47 000c 4FF01E01 		mov	r1, #30
+  48 0010 4FF00302 		mov	r2, #3
+  49 0014 4FF00603 		mov	r3, #6
+  50 0018 FFF7FEFF 		bl	i2cRead
+  51 001c 9DF81020 		ldrb	r2, [sp, #16]	@ zero_extendqisi2
+  52 0020 40F20003 		movw	r3, #:lower16:rawMag
+  53 0024 C0F20003 		movt	r3, #:upper16:rawMag
+  54 0028 DA70     		strb	r2, [r3, #3]
+  55 002a 9DF81120 		ldrb	r2, [sp, #17]	@ zero_extendqisi2
+  56 002e 40F20003 		movw	r3, #:lower16:rawMag
+  57 0032 C0F20003 		movt	r3, #:upper16:rawMag
+  58 0036 9A70     		strb	r2, [r3, #2]
+  59 0038 9DF81220 		ldrb	r2, [sp, #18]	@ zero_extendqisi2
+  60 003c 40F20003 		movw	r3, #:lower16:rawMag
+  61 0040 C0F20003 		movt	r3, #:upper16:rawMag
+  62 0044 5A71     		strb	r2, [r3, #5]
+  63 0046 9DF81320 		ldrb	r2, [sp, #19]	@ zero_extendqisi2
+  64 004a 40F20003 		movw	r3, #:lower16:rawMag
+  65 004e C0F20003 		movt	r3, #:upper16:rawMag
+  66 0052 1A71     		strb	r2, [r3, #4]
+  67 0054 9DF81420 		ldrb	r2, [sp, #20]	@ zero_extendqisi2
+  68 0058 40F20003 		movw	r3, #:lower16:rawMag
+  69 005c C0F20003 		movt	r3, #:upper16:rawMag
+  70 0060 5A70     		strb	r2, [r3, #1]
+  71 0062 9DF81520 		ldrb	r2, [sp, #21]	@ zero_extendqisi2
+  72 0066 40F20003 		movw	r3, #:lower16:rawMag
+  73 006a C0F20003 		movt	r3, #:upper16:rawMag
+  74 006e 1A70     		strb	r2, [r3, #0]
+  75 0070 40F20003 		movw	r3, #:lower16:rawMag
+  76 0074 C0F20003 		movt	r3, #:upper16:rawMag
+  77 0078 1B88     		ldrh	r3, [r3, #0]
+  78 007a 1BB2     		sxth	r3, r3
+  79 007c 13F5805F 		cmn	r3, #4096
+  80 0080 11D0     		beq	.L2
+  81 0082 40F20003 		movw	r3, #:lower16:rawMag
+  82 0086 C0F20003 		movt	r3, #:upper16:rawMag
+  83 008a 5B88     		ldrh	r3, [r3, #2]
+  84 008c 1BB2     		sxth	r3, r3
+  85 008e 13F5805F 		cmn	r3, #4096
+  86 0092 08D0     		beq	.L2
+  87 0094 40F20003 		movw	r3, #:lower16:rawMag
+  88 0098 C0F20003 		movt	r3, #:upper16:rawMag
+  89 009c 9B88     		ldrh	r3, [r3, #4]
+  90 009e 1BB2     		sxth	r3, r3
+  91 00a0 13F5805F 		cmn	r3, #4096
+  92 00a4 02D1     		bne	.L3
+  93              	.L2:
+  94 00a6 4FF00003 		mov	r3, #0
+  95 00aa 01E0     		b	.L4
+  96              	.L3:
+  97 00ac 4FF00103 		mov	r3, #1
+  98              	.L4:
+  99 00b0 1846     		mov	r0, r3
+ 100 00b2 07B0     		add	sp, sp, #28
+ 101 00b4 00BD     		pop	{pc}
+ 103 00b6 00BF     		.align	2
+ 104              		.global	initMag
+ 105              		.thumb
+ 106              		.thumb_func
+ 108              	initMag:
+ 109              		@ args = 0, pretend = 0, frame = 16
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111 00b8 00B5     		push	{lr}
+ 112 00ba 87B0     		sub	sp, sp, #28
+ 113 00bc 0390     		str	r0, [sp, #12]
+ 114 00be 4FF00003 		mov	r3, #0
+ 115 00c2 8DF81430 		strb	r3, [sp, #20]
+ 116 00c6 0398     		ldr	r0, [sp, #12]
+ 117 00c8 4FF01E01 		mov	r1, #30
+ 118 00cc 4FF00002 		mov	r2, #0
+ 119 00d0 4FF07103 		mov	r3, #113
+ 120 00d4 FFF7FEFF 		bl	i2cWrite
+ 121 00d8 4FF03200 		mov	r0, #50
+ 122 00dc FFF7FEFF 		bl	delay
+ 123 00e0 0398     		ldr	r0, [sp, #12]
+ 124 00e2 4FF01E01 		mov	r1, #30
+ 125 00e6 4FF00102 		mov	r2, #1
+ 126 00ea 4FF02003 		mov	r3, #32
+ 127 00ee FFF7FEFF 		bl	i2cWrite
+ 128 00f2 4FF01400 		mov	r0, #20
+ 129 00f6 FFF7FEFF 		bl	delay
+ 130 00fa 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 131 00fe C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 132 0102 784A     		ldr	r2, .L10+8	@ float
+ 133 0104 1A60     		str	r2, [r3, #0]	@ float
+ 134 0106 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 135 010a C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 136 010e 754A     		ldr	r2, .L10+8	@ float
+ 137 0110 5A60     		str	r2, [r3, #4]	@ float
+ 138 0112 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 139 0116 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 140 011a 724A     		ldr	r2, .L10+8	@ float
+ 141 011c 9A60     		str	r2, [r3, #8]	@ float
+ 142 011e 4FF00003 		mov	r3, #0
+ 143 0122 8DF81730 		strb	r3, [sp, #23]
+ 144 0126 7BE0     		b	.L6
+ 145              	.L9:
+ 146 0128 0398     		ldr	r0, [sp, #12]
+ 147 012a 4FF01E01 		mov	r1, #30
+ 148 012e 4FF00202 		mov	r2, #2
+ 149 0132 4FF00103 		mov	r3, #1
+ 150 0136 FFF7FEFF 		bl	i2cWrite
+ 151 013a 4FF01400 		mov	r0, #20
+ 152 013e FFF7FEFF 		bl	delay
+ 153 0142 0AE0     		b	.L7
+ 154              	.L8:
+ 155 0144 05AB     		add	r3, sp, #20
+ 156 0146 0093     		str	r3, [sp, #0]
+ 157 0148 0398     		ldr	r0, [sp, #12]
+ 158 014a 4FF01E01 		mov	r1, #30
+ 159 014e 4FF00902 		mov	r2, #9
+ 160 0152 4FF00103 		mov	r3, #1
+ 161 0156 FFF7FEFF 		bl	i2cRead
+ 162              	.L7:
+ 163 015a 9DF81430 		ldrb	r3, [sp, #20]	@ zero_extendqisi2
+ 164 015e 03F00103 		and	r3, r3, #1
+ 165 0162 002B     		cmp	r3, #0
+ 166 0164 EED0     		beq	.L8
+ 167 0166 0398     		ldr	r0, [sp, #12]
+ 168 0168 FFF7FEFF 		bl	readMag
+ 169 016c 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 170 0170 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 171 0174 93ED007A 		flds	s14, [r3, #0]
+ 172 0178 40F20003 		movw	r3, #:lower16:rawMag
+ 173 017c C0F20003 		movt	r3, #:upper16:rawMag
+ 174 0180 1B88     		ldrh	r3, [r3, #0]
+ 175 0182 1BB2     		sxth	r3, r3
+ 176 0184 06EE903A 		fmsr	s13, r3	@ int
+ 177 0188 F8EEE67A 		fsitos	s15, s13
+ 178 018c DFED536A 		flds	s13, .L10
+ 179 0190 C6EEA77A 		fdivs	s15, s13, s15
+ 180 0194 77EE277A 		fadds	s15, s14, s15
+ 181 0198 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 182 019c C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 183 01a0 C3ED007A 		fsts	s15, [r3, #0]
+ 184 01a4 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 185 01a8 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 186 01ac 93ED017A 		flds	s14, [r3, #4]
+ 187 01b0 40F20003 		movw	r3, #:lower16:rawMag
+ 188 01b4 C0F20003 		movt	r3, #:upper16:rawMag
+ 189 01b8 5B88     		ldrh	r3, [r3, #2]
+ 190 01ba 1BB2     		sxth	r3, r3
+ 191 01bc 06EE903A 		fmsr	s13, r3	@ int
+ 192 01c0 F8EEE67A 		fsitos	s15, s13
+ 193 01c4 DFED456A 		flds	s13, .L10
+ 194 01c8 C6EEA77A 		fdivs	s15, s13, s15
+ 195 01cc 77EE277A 		fadds	s15, s14, s15
+ 196 01d0 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 197 01d4 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 198 01d8 C3ED017A 		fsts	s15, [r3, #4]
+ 199 01dc 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 200 01e0 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 201 01e4 93ED027A 		flds	s14, [r3, #8]
+ 202 01e8 40F20003 		movw	r3, #:lower16:rawMag
+ 203 01ec C0F20003 		movt	r3, #:upper16:rawMag
+ 204 01f0 9B88     		ldrh	r3, [r3, #4]
+ 205 01f2 1BB2     		sxth	r3, r3
+ 206 01f4 06EE903A 		fmsr	s13, r3	@ int
+ 207 01f8 F8EEE67A 		fsitos	s15, s13
+ 208 01fc DFED386A 		flds	s13, .L10+4
+ 209 0200 C6EEA77A 		fdivs	s15, s13, s15
+ 210 0204 77EE277A 		fadds	s15, s14, s15
+ 211 0208 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 212 020c C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 213 0210 C3ED027A 		fsts	s15, [r3, #8]
+ 214 0214 9DF81730 		ldrb	r3, [sp, #23]
+ 215 0218 03F10103 		add	r3, r3, #1
+ 216 021c 8DF81730 		strb	r3, [sp, #23]
+ 217              	.L6:
+ 218 0220 9DF81730 		ldrb	r3, [sp, #23]	@ zero_extendqisi2
+ 219 0224 092B     		cmp	r3, #9
+ 220 0226 7FF67FAF 		bls	.L9
+ 221 022a 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 222 022e C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 223 0232 93ED007A 		flds	s14, [r3, #0]
+ 224 0236 F2EE047A 		fconsts	s15, #36
+ 225 023a C7EE277A 		fdivs	s15, s14, s15
+ 226 023e F0EEE77A 		fabss	s15, s15
+ 227 0242 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 228 0246 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 229 024a C3ED007A 		fsts	s15, [r3, #0]
+ 230 024e 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 231 0252 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 232 0256 93ED017A 		flds	s14, [r3, #4]
+ 233 025a F2EE047A 		fconsts	s15, #36
+ 234 025e C7EE277A 		fdivs	s15, s14, s15
+ 235 0262 F0EEE77A 		fabss	s15, s15
+ 236 0266 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 237 026a C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 238 026e C3ED017A 		fsts	s15, [r3, #4]
+ 239 0272 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 240 0276 C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 241 027a 93ED027A 		flds	s14, [r3, #8]
+ 242 027e F2EE047A 		fconsts	s15, #36
+ 243 0282 C7EE277A 		fdivs	s15, s14, s15
+ 244 0286 F0EEE77A 		fabss	s15, s15
+ 245 028a 40F20003 		movw	r3, #:lower16:magScaleFactor
+ 246 028e C0F20003 		movt	r3, #:upper16:magScaleFactor
+ 247 0292 C3ED027A 		fsts	s15, [r3, #8]
+ 248 0296 0398     		ldr	r0, [sp, #12]
+ 249 0298 4FF01E01 		mov	r1, #30
+ 250 029c 4FF00002 		mov	r2, #0
+ 251 02a0 4FF07003 		mov	r3, #112
+ 252 02a4 FFF7FEFF 		bl	i2cWrite
+ 253 02a8 4FF03200 		mov	r0, #50
+ 254 02ac FFF7FEFF 		bl	delay
+ 255 02b0 0398     		ldr	r0, [sp, #12]
+ 256 02b2 4FF01E01 		mov	r1, #30
+ 257 02b6 4FF00202 		mov	r2, #2
+ 258 02ba 4FF00003 		mov	r3, #0
+ 259 02be FFF7FEFF 		bl	i2cWrite
+ 260 02c2 4FF01400 		mov	r0, #20
+ 261 02c6 FFF7FEFF 		bl	delay
+ 262 02ca 0398     		ldr	r0, [sp, #12]
+ 263 02cc FFF7FEFF 		bl	readMag
+ 264 02d0 4FF01400 		mov	r0, #20
+ 265 02d4 FFF7FEFF 		bl	delay
+ 266 02d8 07B0     		add	sp, sp, #28
+ 267 02da 00BD     		pop	{pc}
+ 268              	.L11:
+ 269              		.align	2
+ 270              	.L10:
+ 271 02dc CD0C9E44 		.word	1151208653
+ 272 02e0 67269344 		.word	1150494311
+ 273 02e4 00000000 		.word	0
+ 275              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 hmc5883.c
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
                             *COM*:0000000c magScaleFactor
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:21     .bss:00000000 magDataUpdate
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:22     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:26     .bss:00000001 newMagData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:24     .bss:00000000 magDataUpdate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:25     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:29     .bss:00000001 newMagData
                             *COM*:00000006 rawMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:30     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:35     .text:00000000 readMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:105    .text:000000b8 initMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccTPxUSR.s:268    .text:000002dc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:33     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:38     .text:00000000 readMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:108    .text:000000b8 initMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrY2rQR.s:271    .text:000002dc $d
 
 UNDEFINED SYMBOLS
 i2cRead

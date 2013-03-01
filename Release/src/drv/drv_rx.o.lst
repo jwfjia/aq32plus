@@ -13,1184 +13,1190 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"drv_rx.c"
-  16              		.global	rcActive
-  17              		.bss
-  20              	rcActive:
-  21 0000 00       		.space	1
-  22              		.data
-  23              		.align	2
-  26              	Channels:
-  27 0000 00080040 		.word	1073743872
-  28 0004 0000     		.short	0
-  29 0006 0200     		.short	2
-  30 0008 00080040 		.word	1073743872
-  31 000c 0400     		.short	4
-  32 000e 0400     		.short	4
-  33 0010 00080040 		.word	1073743872
-  34 0014 0800     		.short	8
-  35 0016 0800     		.short	8
-  36 0018 00080040 		.word	1073743872
-  37 001c 0C00     		.short	12
-  38 001e 1000     		.short	16
-  39 0020 00000140 		.word	1073807360
-  40 0024 0000     		.short	0
-  41 0026 0200     		.short	2
-  42 0028 00000140 		.word	1073807360
-  43 002c 0400     		.short	4
-  44 002e 0400     		.short	4
-  45 0030 00000140 		.word	1073807360
-  46 0034 0800     		.short	8
-  47 0036 0800     		.short	8
-  48 0038 00000140 		.word	1073807360
-  49 003c 0C00     		.short	12
-  50 003e 1000     		.short	16
-  51              		.bss
-  52 0001 000000   		.align	2
-  53              	Inputs:
-  54 0004 00000000 		.space	48
-  54      00000000 
-  54      00000000 
-  54      00000000 
-  54      00000000 
-  55              		.align	2
-  56              	TIM_ICInitStructure:
-  57 0034 00000000 		.space	10
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.global	rcActive
+  20              		.bss
+  23              	rcActive:
+  24 0000 00       		.space	1
+  25              		.data
+  26              		.align	2
+  29              	Channels:
+  30 0000 00080040 		.word	1073743872
+  31 0004 0000     		.short	0
+  32 0006 0200     		.short	2
+  33 0008 00080040 		.word	1073743872
+  34 000c 0400     		.short	4
+  35 000e 0400     		.short	4
+  36 0010 00080040 		.word	1073743872
+  37 0014 0800     		.short	8
+  38 0016 0800     		.short	8
+  39 0018 00080040 		.word	1073743872
+  40 001c 0C00     		.short	12
+  41 001e 1000     		.short	16
+  42 0020 00000140 		.word	1073807360
+  43 0024 0000     		.short	0
+  44 0026 0200     		.short	2
+  45 0028 00000140 		.word	1073807360
+  46 002c 0400     		.short	4
+  47 002e 0400     		.short	4
+  48 0030 00000140 		.word	1073807360
+  49 0034 0800     		.short	8
+  50 0036 0800     		.short	8
+  51 0038 00000140 		.word	1073807360
+  52 003c 0C00     		.short	12
+  53 003e 1000     		.short	16
+  54              		.bss
+  55 0001 000000   		.align	2
+  56              	Inputs:
+  57 0004 00000000 		.space	48
   57      00000000 
-  57      0000
-  58              		.comm	i,1,1
-  59              		.comm	spektrumBindCount,1,1
-  60              		.comm	spektrumChannelData,48,4
-  61              		.comm	spektrumChannelMask,1,1
-  62              		.comm	spektrumChannelShift,1,1
-  63              		.comm	spektrumFrame,16,4
-  64              		.global	spektrumFrameComplete
-  67              	spektrumFrameComplete:
-  68 003e 00       		.space	1
-  69              		.comm	spektrumFramePosition,1,1
-  70              		.comm	spektrumTimeInterval,4,4
-  71              		.comm	spektrumTimeLast,4,4
-  72              		.text
-  73              		.align	2
-  74              		.thumb
-  75              		.thumb_func
-  77              	serialPWM_IRQHandler:
-  78              		@ args = 0, pretend = 0, frame = 16
-  79              		@ frame_needed = 0, uses_anonymous_args = 0
-  80 0000 00B5     		push	{lr}
-  81 0002 85B0     		sub	sp, sp, #20
-  82 0004 0190     		str	r0, [sp, #4]
-  83 0006 0198     		ldr	r0, [sp, #4]
-  84 0008 4FF01001 		mov	r1, #16
-  85 000c FFF7FEFF 		bl	TIM_GetITStatus
-  86 0010 0346     		mov	r3, r0
-  87 0012 012B     		cmp	r3, #1
-  88 0014 1AD1     		bne	.L2
-  89 0016 40F20003 		movw	r3, #:lower16:now.10911
-  90 001a C0F20003 		movt	r3, #:upper16:now.10911
-  91 001e 1A88     		ldrh	r2, [r3, #0]
-  92 0020 40F20003 		movw	r3, #:lower16:last.10912
-  93 0024 C0F20003 		movt	r3, #:upper16:last.10912
-  94 0028 1A80     		strh	r2, [r3, #0]	@ movhi
-  95 002a 0198     		ldr	r0, [sp, #4]
-  96 002c FFF7FEFF 		bl	TIM_GetCapture4
-  97 0030 0346     		mov	r3, r0
-  98 0032 9AB2     		uxth	r2, r3
-  99 0034 40F20003 		movw	r3, #:lower16:now.10911
- 100 0038 C0F20003 		movt	r3, #:upper16:now.10911
- 101 003c 1A80     		strh	r2, [r3, #0]	@ movhi
- 102 003e 40F20003 		movw	r3, #:lower16:rcActive
- 103 0042 C0F20003 		movt	r3, #:upper16:rcActive
- 104 0046 4FF00102 		mov	r2, #1
- 105 004a 1A70     		strb	r2, [r3, #0]
- 106              	.L2:
- 107 004c 0198     		ldr	r0, [sp, #4]
- 108 004e 4FF01001 		mov	r1, #16
- 109 0052 FFF7FEFF 		bl	TIM_ClearITPendingBit
- 110 0056 40F20003 		movw	r3, #:lower16:now.10911
- 111 005a C0F20003 		movt	r3, #:upper16:now.10911
- 112 005e 1A88     		ldrh	r2, [r3, #0]
- 113 0060 40F20003 		movw	r3, #:lower16:last.10912
- 114 0064 C0F20003 		movt	r3, #:upper16:last.10912
- 115 0068 1B88     		ldrh	r3, [r3, #0]
- 116 006a D31A     		subs	r3, r2, r3
- 117 006c ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 118 0070 BDF80E20 		ldrh	r2, [sp, #14]
- 119 0074 41F21853 		movw	r3, #5400
- 120 0078 9A42     		cmp	r2, r3
- 121 007a 07D9     		bls	.L3
- 122 007c 40F20003 		movw	r3, #:lower16:chan.10913
- 123 0080 C0F20003 		movt	r3, #:upper16:chan.10913
- 124 0084 4FF00002 		mov	r2, #0
- 125 0088 1A70     		strb	r2, [r3, #0]
- 126 008a 33E0     		b	.L1
- 127              	.L3:
- 128 008c BDF80E20 		ldrh	r2, [sp, #14]
- 129 0090 40F2DC53 		movw	r3, #1500
- 130 0094 9A42     		cmp	r2, r3
- 131 0096 20D9     		bls	.L5
- 132 0098 BDF80E20 		ldrh	r2, [sp, #14]
- 133 009c 41F29313 		movw	r3, #4499
- 134 00a0 9A42     		cmp	r2, r3
- 135 00a2 1AD8     		bhi	.L5
- 136 00a4 40F20003 		movw	r3, #:lower16:chan.10913
- 137 00a8 C0F20003 		movt	r3, #:upper16:chan.10913
- 138 00ac 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 139 00ae 072B     		cmp	r3, #7
- 140 00b0 13D8     		bhi	.L5
- 141 00b2 40F20003 		movw	r3, #:lower16:chan.10913
- 142 00b6 C0F20003 		movt	r3, #:upper16:chan.10913
- 143 00ba 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 144 00bc 1946     		mov	r1, r3
- 145 00be 40F20002 		movw	r2, #:lower16:Inputs
- 146 00c2 C0F20002 		movt	r2, #:upper16:Inputs
- 147 00c6 0B46     		mov	r3, r1
- 148 00c8 4FEA4303 		lsl	r3, r3, #1
- 149 00cc 5B18     		adds	r3, r3, r1
- 150 00ce 4FEA4303 		lsl	r3, r3, #1
- 151 00d2 D318     		adds	r3, r2, r3
- 152 00d4 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
- 153 00d8 9A80     		strh	r2, [r3, #4]	@ movhi
- 154              	.L5:
- 155 00da 40F20003 		movw	r3, #:lower16:chan.10913
- 156 00de C0F20003 		movt	r3, #:upper16:chan.10913
- 157 00e2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 158 00e4 03F10103 		add	r3, r3, #1
- 159 00e8 DAB2     		uxtb	r2, r3
- 160 00ea 40F20003 		movw	r3, #:lower16:chan.10913
- 161 00ee C0F20003 		movt	r3, #:upper16:chan.10913
- 162 00f2 1A70     		strb	r2, [r3, #0]
- 163              	.L1:
- 164 00f4 05B0     		add	sp, sp, #20
- 165 00f6 00BD     		pop	{pc}
- 167              		.align	2
- 168              		.thumb
- 169              		.thumb_func
- 171              	parallelPWM_IRQHandler:
- 172              		@ args = 0, pretend = 0, frame = 32
- 173              		@ frame_needed = 0, uses_anonymous_args = 0
- 174 00f8 00B5     		push	{lr}
- 175 00fa 89B0     		sub	sp, sp, #36
- 176 00fc 0190     		str	r0, [sp, #4]
- 177 00fe 4FF00003 		mov	r3, #0
- 178 0102 0693     		str	r3, [sp, #24]
- 179 0104 4FF00003 		mov	r3, #0
- 180 0108 8DF81F30 		strb	r3, [sp, #31]
- 181 010c DDE0     		b	.L7
- 182              	.L19:
- 183 010e 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
- 184 0112 40F20002 		movw	r2, #:lower16:Channels
- 185 0116 C0F20002 		movt	r2, #:upper16:Channels
- 186 011a 4FEAC303 		lsl	r3, r3, #3
- 187 011e D318     		adds	r3, r2, r3
- 188 0120 93E80300 		ldmia	r3, {r0, r1}
- 189 0124 03AB     		add	r3, sp, #12
- 190 0126 83E80300 		stmia	r3, {r0, r1}
- 191 012a 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
- 192 012e 1346     		mov	r3, r2
- 193 0130 4FEA4303 		lsl	r3, r3, #1
- 194 0134 9B18     		adds	r3, r3, r2
- 195 0136 4FEA4303 		lsl	r3, r3, #1
- 196 013a 1A46     		mov	r2, r3
- 197 013c 40F20003 		movw	r3, #:lower16:Inputs
- 198 0140 C0F20003 		movt	r3, #:upper16:Inputs
- 199 0144 D318     		adds	r3, r2, r3
- 200 0146 0593     		str	r3, [sp, #20]
- 201 0148 039A     		ldr	r2, [sp, #12]
- 202 014a 019B     		ldr	r3, [sp, #4]
- 203 014c 9A42     		cmp	r2, r3
- 204 014e 40F0B680 		bne	.L8
- 205 0152 039A     		ldr	r2, [sp, #12]
- 206 0154 BDF81230 		ldrh	r3, [sp, #18]
- 207 0158 1046     		mov	r0, r2
- 208 015a 1946     		mov	r1, r3
- 209 015c FFF7FEFF 		bl	TIM_GetITStatus
- 210 0160 0346     		mov	r3, r0
- 211 0162 012B     		cmp	r3, #1
- 212 0164 40F0AB80 		bne	.L8
- 213 0168 039A     		ldr	r2, [sp, #12]
- 214 016a BDF81230 		ldrh	r3, [sp, #18]
- 215 016e 1046     		mov	r0, r2
- 216 0170 1946     		mov	r1, r3
- 217 0172 FFF7FEFF 		bl	TIM_ClearITPendingBit
- 218 0176 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
- 219 017a 002B     		cmp	r3, #0
- 220 017c 06D1     		bne	.L9
- 221 017e 40F20003 		movw	r3, #:lower16:rcActive
- 222 0182 C0F20003 		movt	r3, #:upper16:rcActive
- 223 0186 4FF00102 		mov	r2, #1
- 224 018a 1A70     		strb	r2, [r3, #0]
- 225              	.L9:
- 226 018c BDF81030 		ldrh	r3, [sp, #16]
- 227 0190 0C2B     		cmp	r3, #12
- 228 0192 3DD8     		bhi	.L10
- 229 0194 01A2     		adr	r2, .L15
- 230 0196 52F823F0 		ldr	pc, [r2, r3, lsl #2]
- 231 019a 00BF     		.align	2
- 232              	.L15:
- 233 019c D1010000 		.word	.L11+1
- 234 01a0 11020000 		.word	.L10+1
- 235 01a4 11020000 		.word	.L10+1
- 236 01a8 11020000 		.word	.L10+1
- 237 01ac E1010000 		.word	.L12+1
- 238 01b0 11020000 		.word	.L10+1
- 239 01b4 11020000 		.word	.L10+1
- 240 01b8 11020000 		.word	.L10+1
- 241 01bc F1010000 		.word	.L13+1
- 242 01c0 11020000 		.word	.L10+1
- 243 01c4 11020000 		.word	.L10+1
- 244 01c8 11020000 		.word	.L10+1
- 245 01cc 01020000 		.word	.L14+1
- 246              	.L11:
- 247 01d0 039B     		ldr	r3, [sp, #12]
- 248 01d2 1846     		mov	r0, r3
- 249 01d4 FFF7FEFF 		bl	TIM_GetCapture1
- 250 01d8 0346     		mov	r3, r0
- 251 01da 9BB2     		uxth	r3, r3
- 252 01dc 0693     		str	r3, [sp, #24]
- 253 01de 17E0     		b	.L10
- 254              	.L12:
- 255 01e0 039B     		ldr	r3, [sp, #12]
- 256 01e2 1846     		mov	r0, r3
- 257 01e4 FFF7FEFF 		bl	TIM_GetCapture2
- 258 01e8 0346     		mov	r3, r0
- 259 01ea 9BB2     		uxth	r3, r3
- 260 01ec 0693     		str	r3, [sp, #24]
- 261 01ee 0FE0     		b	.L10
- 262              	.L13:
- 263 01f0 039B     		ldr	r3, [sp, #12]
- 264 01f2 1846     		mov	r0, r3
- 265 01f4 FFF7FEFF 		bl	TIM_GetCapture3
- 266 01f8 0346     		mov	r3, r0
- 267 01fa 9BB2     		uxth	r3, r3
- 268 01fc 0693     		str	r3, [sp, #24]
- 269 01fe 07E0     		b	.L10
- 270              	.L14:
- 271 0200 039B     		ldr	r3, [sp, #12]
- 272 0202 1846     		mov	r0, r3
- 273 0204 FFF7FEFF 		bl	TIM_GetCapture4
- 274 0208 0346     		mov	r3, r0
- 275 020a 9BB2     		uxth	r3, r3
- 276 020c 0693     		str	r3, [sp, #24]
- 277 020e 00BF     		nop
- 278              	.L10:
- 279 0210 059B     		ldr	r3, [sp, #20]
- 280 0212 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 281 0214 002B     		cmp	r3, #0
- 282 0216 1ED1     		bne	.L16
- 283 0218 069B     		ldr	r3, [sp, #24]
- 284 021a 9AB2     		uxth	r2, r3
- 285 021c 059B     		ldr	r3, [sp, #20]
- 286 021e 5A80     		strh	r2, [r3, #2]	@ movhi
- 287 0220 059B     		ldr	r3, [sp, #20]
- 288 0222 4FF00102 		mov	r2, #1
- 289 0226 1A70     		strb	r2, [r3, #0]
- 290 0228 BDF81020 		ldrh	r2, [sp, #16]
- 291 022c 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 292 0230 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 293 0234 1A80     		strh	r2, [r3, #0]	@ movhi
- 294 0236 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 295 023a C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 296 023e 4FF00202 		mov	r2, #2
- 297 0242 5A80     		strh	r2, [r3, #2]	@ movhi
- 298 0244 039B     		ldr	r3, [sp, #12]
- 299 0246 1846     		mov	r0, r3
- 300 0248 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
- 301 024c C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
- 302 0250 FFF7FEFF 		bl	TIM_ICInit
- 303 0254 33E0     		b	.L8
- 304              	.L16:
- 305 0256 059B     		ldr	r3, [sp, #20]
- 306 0258 5B88     		ldrh	r3, [r3, #2]
- 307 025a 1A46     		mov	r2, r3
- 308 025c 069B     		ldr	r3, [sp, #24]
- 309 025e 9A42     		cmp	r2, r3
- 310 0260 08D2     		bcs	.L17
- 311 0262 069B     		ldr	r3, [sp, #24]
- 312 0264 9AB2     		uxth	r2, r3
- 313 0266 059B     		ldr	r3, [sp, #20]
- 314 0268 5B88     		ldrh	r3, [r3, #2]
- 315 026a D31A     		subs	r3, r2, r3
- 316 026c 9AB2     		uxth	r2, r3
- 317 026e 059B     		ldr	r3, [sp, #20]
- 318 0270 9A80     		strh	r2, [r3, #4]	@ movhi
- 319 0272 0AE0     		b	.L18
- 320              	.L17:
- 321 0274 069B     		ldr	r3, [sp, #24]
- 322 0276 9AB2     		uxth	r2, r3
- 323 0278 059B     		ldr	r3, [sp, #20]
- 324 027a 5B88     		ldrh	r3, [r3, #2]
- 325 027c D31A     		subs	r3, r2, r3
- 326 027e 9BB2     		uxth	r3, r3
- 327 0280 03F1FF33 		add	r3, r3, #-1
- 328 0284 9AB2     		uxth	r2, r3
- 329 0286 059B     		ldr	r3, [sp, #20]
- 330 0288 9A80     		strh	r2, [r3, #4]	@ movhi
- 331              	.L18:
- 332 028a 059B     		ldr	r3, [sp, #20]
- 333 028c 4FF00002 		mov	r2, #0
- 334 0290 1A70     		strb	r2, [r3, #0]
- 335 0292 BDF81020 		ldrh	r2, [sp, #16]
- 336 0296 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 337 029a C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 338 029e 1A80     		strh	r2, [r3, #0]	@ movhi
- 339 02a0 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 340 02a4 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 341 02a8 4FF00002 		mov	r2, #0
- 342 02ac 5A80     		strh	r2, [r3, #2]	@ movhi
- 343 02ae 039B     		ldr	r3, [sp, #12]
- 344 02b0 1846     		mov	r0, r3
- 345 02b2 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
- 346 02b6 C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
- 347 02ba FFF7FEFF 		bl	TIM_ICInit
- 348              	.L8:
- 349 02be 9DF81F30 		ldrb	r3, [sp, #31]
- 350 02c2 03F10103 		add	r3, r3, #1
- 351 02c6 8DF81F30 		strb	r3, [sp, #31]
- 352              	.L7:
- 353 02ca 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
- 354 02ce 072B     		cmp	r3, #7
- 355 02d0 7FF61DAF 		bls	.L19
- 356 02d4 09B0     		add	sp, sp, #36
- 357 02d6 00BD     		pop	{pc}
- 359              		.align	2
- 360              		.global	TIM4_IRQHandler
- 361              		.thumb
- 362              		.thumb_func
- 364              	TIM4_IRQHandler:
- 365              		@ args = 0, pretend = 0, frame = 0
- 366              		@ frame_needed = 0, uses_anonymous_args = 0
- 367 02d8 08B5     		push	{r3, lr}
- 368 02da 40F20003 		movw	r3, #:lower16:eepromConfig
- 369 02de C0F20003 		movt	r3, #:upper16:eepromConfig
- 370 02e2 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
- 371 02e6 022B     		cmp	r3, #2
- 372 02e8 06D1     		bne	.L21
- 373 02ea 4FF40060 		mov	r0, #2048
- 374 02ee C4F20000 		movt	r0, 16384
- 375 02f2 FFF785FE 		bl	serialPWM_IRQHandler
- 376 02f6 05E0     		b	.L20
- 377              	.L21:
- 378 02f8 4FF40060 		mov	r0, #2048
- 379 02fc C4F20000 		movt	r0, 16384
- 380 0300 FFF7FAFE 		bl	parallelPWM_IRQHandler
- 381              	.L20:
- 382 0304 08BD     		pop	{r3, pc}
- 384 0306 00BF     		.align	2
- 385              		.global	TIM1_CC_IRQHandler
- 386              		.thumb
- 387              		.thumb_func
- 389              	TIM1_CC_IRQHandler:
- 390              		@ args = 0, pretend = 0, frame = 0
- 391              		@ frame_needed = 0, uses_anonymous_args = 0
- 392 0308 08B5     		push	{r3, lr}
- 393 030a 4FF00000 		mov	r0, #0
- 394 030e C4F20100 		movt	r0, 16385
- 395 0312 FFF7F1FE 		bl	parallelPWM_IRQHandler
- 396 0316 08BD     		pop	{r3, pc}
- 398              		.align	2
- 399              		.global	USART1_IRQHandler
- 400              		.thumb
- 401              		.thumb_func
- 403              	USART1_IRQHandler:
- 404              		@ args = 0, pretend = 0, frame = 16
- 405              		@ frame_needed = 0, uses_anonymous_args = 0
- 406 0318 10B5     		push	{r4, lr}
- 407 031a 84B0     		sub	sp, sp, #16
- 408 031c 4FF48050 		mov	r0, #4096
- 409 0320 C4F20100 		movt	r0, 16385
- 410 0324 40F22551 		movw	r1, #1317
- 411 0328 FFF7FEFF 		bl	USART_GetITStatus
- 412 032c 0346     		mov	r3, r0
- 413 032e 012B     		cmp	r3, #1
- 414 0330 40F0BA80 		bne	.L24
- 415 0334 40F20003 		movw	r3, #:lower16:rcActive
- 416 0338 C0F20003 		movt	r3, #:upper16:rcActive
- 417 033c 4FF00102 		mov	r2, #1
- 418 0340 1A70     		strb	r2, [r3, #0]
- 419 0342 FFF7FEFF 		bl	micros
- 420 0346 0290     		str	r0, [sp, #8]
- 421 0348 40F20003 		movw	r3, #:lower16:spektrumTimeLast
- 422 034c C0F20003 		movt	r3, #:upper16:spektrumTimeLast
- 423 0350 1B68     		ldr	r3, [r3, #0]
- 424 0352 029A     		ldr	r2, [sp, #8]
- 425 0354 D21A     		subs	r2, r2, r3
- 426 0356 40F20003 		movw	r3, #:lower16:spektrumTimeInterval
- 427 035a C0F20003 		movt	r3, #:upper16:spektrumTimeInterval
- 428 035e 1A60     		str	r2, [r3, #0]
- 429 0360 40F20003 		movw	r3, #:lower16:spektrumTimeLast
- 430 0364 C0F20003 		movt	r3, #:upper16:spektrumTimeLast
- 431 0368 029A     		ldr	r2, [sp, #8]
- 432 036a 1A60     		str	r2, [r3, #0]
- 433 036c 40F20003 		movw	r3, #:lower16:spektrumTimeInterval
- 434 0370 C0F20003 		movt	r3, #:upper16:spektrumTimeInterval
- 435 0374 1A68     		ldr	r2, [r3, #0]
- 436 0376 41F28833 		movw	r3, #5000
- 437 037a 9A42     		cmp	r2, r3
- 438 037c 06D9     		bls	.L26
- 439 037e 40F20003 		movw	r3, #:lower16:spektrumFramePosition
- 440 0382 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
- 441 0386 4FF00002 		mov	r2, #0
- 442 038a 1A70     		strb	r2, [r3, #0]
- 443              	.L26:
- 444 038c 40F20003 		movw	r3, #:lower16:spektrumFramePosition
- 445 0390 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
- 446 0394 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 447 0396 1C46     		mov	r4, r3
- 448 0398 4FF48050 		mov	r0, #4096
- 449 039c C4F20100 		movt	r0, 16385
- 450 03a0 FFF7FEFF 		bl	USART_ReceiveData
- 451 03a4 0346     		mov	r3, r0
- 452 03a6 DAB2     		uxtb	r2, r3
- 453 03a8 40F20003 		movw	r3, #:lower16:spektrumFrame
- 454 03ac C0F20003 		movt	r3, #:upper16:spektrumFrame
- 455 03b0 1A55     		strb	r2, [r3, r4]
- 456 03b2 40F20003 		movw	r3, #:lower16:spektrumFramePosition
- 457 03b6 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
- 458 03ba 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 459 03bc 0F2B     		cmp	r3, #15
- 460 03be 07D1     		bne	.L27
- 461 03c0 40F20003 		movw	r3, #:lower16:spektrumFrameComplete
- 462 03c4 C0F20003 		movt	r3, #:upper16:spektrumFrameComplete
- 463 03c8 4FF00102 		mov	r2, #1
- 464 03cc 1A70     		strb	r2, [r3, #0]
- 465 03ce 0CE0     		b	.L28
- 466              	.L27:
- 467 03d0 40F20003 		movw	r3, #:lower16:spektrumFramePosition
- 468 03d4 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
- 469 03d8 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 470 03da 03F10103 		add	r3, r3, #1
- 471 03de DAB2     		uxtb	r2, r3
- 472 03e0 40F20003 		movw	r3, #:lower16:spektrumFramePosition
- 473 03e4 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
- 474 03e8 1A70     		strb	r2, [r3, #0]
- 475              	.L28:
- 476 03ea 40F20003 		movw	r3, #:lower16:spektrumFrameComplete
- 477 03ee C0F20003 		movt	r3, #:upper16:spektrumFrameComplete
- 478 03f2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 479 03f4 002B     		cmp	r3, #0
- 480 03f6 57D0     		beq	.L24
- 481 03f8 4FF00303 		mov	r3, #3
- 482 03fc 8DF80F30 		strb	r3, [sp, #15]
- 483 0400 47E0     		b	.L29
- 484              	.L31:
- 485 0402 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
- 486 0406 03F1FF32 		add	r2, r3, #-1
- 487 040a 40F20003 		movw	r3, #:lower16:spektrumFrame
- 488 040e C0F20003 		movt	r3, #:upper16:spektrumFrame
- 489 0412 9B5C     		ldrb	r3, [r3, r2]	@ zero_extendqisi2
- 490 0414 1A46     		mov	r2, r3
- 491 0416 40F20003 		movw	r3, #:lower16:spektrumChannelShift
- 492 041a C0F20003 		movt	r3, #:upper16:spektrumChannelShift
- 493 041e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 494 0420 42FA03F3 		asr	r3, r2, r3
- 495 0424 DBB2     		uxtb	r3, r3
- 496 0426 03F00F03 		and	r3, r3, #15
- 497 042a 8DF80730 		strb	r3, [sp, #7]
- 498 042e 40F20003 		movw	r3, #:lower16:eepromConfig
- 499 0432 C0F20003 		movt	r3, #:upper16:eepromConfig
- 500 0436 93F87130 		ldrb	r3, [r3, #113]	@ zero_extendqisi2
- 501 043a 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
- 502 043e 9A42     		cmp	r2, r3
- 503 0440 21D2     		bcs	.L30
- 504 0442 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
- 505 0446 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
- 506 044a 03F1FF31 		add	r1, r3, #-1
- 507 044e 40F20003 		movw	r3, #:lower16:spektrumFrame
- 508 0452 C0F20003 		movt	r3, #:upper16:spektrumFrame
- 509 0456 595C     		ldrb	r1, [r3, r1]	@ zero_extendqisi2
- 510 0458 40F20003 		movw	r3, #:lower16:spektrumChannelMask
- 511 045c C0F20003 		movt	r3, #:upper16:spektrumChannelMask
- 512 0460 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 513 0462 0B40     		ands	r3, r3, r1
- 514 0464 DBB2     		uxtb	r3, r3
- 515 0466 4FEA0321 		lsl	r1, r3, #8
- 516 046a 9DF80F00 		ldrb	r0, [sp, #15]	@ zero_extendqisi2
- 517 046e 40F20003 		movw	r3, #:lower16:spektrumFrame
- 518 0472 C0F20003 		movt	r3, #:upper16:spektrumFrame
- 519 0476 1B5C     		ldrb	r3, [r3, r0]	@ zero_extendqisi2
- 520 0478 C918     		adds	r1, r1, r3
- 521 047a 40F20003 		movw	r3, #:lower16:spektrumChannelData
- 522 047e C0F20003 		movt	r3, #:upper16:spektrumChannelData
- 523 0482 43F82210 		str	r1, [r3, r2, lsl #2]
- 524              	.L30:
- 525 0486 9DF80F30 		ldrb	r3, [sp, #15]
- 526 048a 03F10203 		add	r3, r3, #2
- 527 048e 8DF80F30 		strb	r3, [sp, #15]
- 528              	.L29:
- 529 0492 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
- 530 0496 0F2B     		cmp	r3, #15
- 531 0498 B3D9     		bls	.L31
- 532 049a 40F20003 		movw	r3, #:lower16:spektrumFrameComplete
- 533 049e C0F20003 		movt	r3, #:upper16:spektrumFrameComplete
- 534 04a2 4FF00002 		mov	r2, #0
- 535 04a6 1A70     		strb	r2, [r3, #0]
- 536              	.L24:
- 537 04a8 04B0     		add	sp, sp, #16
- 538 04aa 10BD     		pop	{r4, pc}
- 540              		.align	2
- 541              		.global	rxInit
- 542              		.thumb
- 543              		.thumb_func
- 545              	rxInit:
- 546              		@ args = 0, pretend = 0, frame = 40
- 547              		@ frame_needed = 0, uses_anonymous_args = 0
- 548 04ac 00B5     		push	{lr}
- 549 04ae 8BB0     		sub	sp, sp, #44
- 550 04b0 05AB     		add	r3, sp, #20
- 551 04b2 1846     		mov	r0, r3
- 552 04b4 FFF7FEFF 		bl	TIM_TimeBaseStructInit
- 553 04b8 40F20000 		movw	r0, #:lower16:TIM_ICInitStructure
- 554 04bc C0F20000 		movt	r0, #:upper16:TIM_ICInitStructure
- 555 04c0 FFF7FEFF 		bl	TIM_ICStructInit
- 556 04c4 6B46     		mov	r3, sp
- 557 04c6 1846     		mov	r0, r3
- 558 04c8 FFF7FEFF 		bl	USART_StructInit
- 559 04cc 40F20003 		movw	r3, #:lower16:eepromConfig
- 560 04d0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 561 04d4 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
- 562 04d8 022B     		cmp	r3, #2
- 563 04da 40F0C480 		bne	.L33
- 564 04de 4FF00800 		mov	r0, #8
- 565 04e2 4FF00101 		mov	r1, #1
- 566 04e6 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 567 04ea 4FF00400 		mov	r0, #4
- 568 04ee 4FF00101 		mov	r1, #1
- 569 04f2 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
- 570 04f6 40F20003 		movw	r3, #:lower16:i
- 571 04fa C0F20003 		movt	r3, #:upper16:i
- 572 04fe 4FF00002 		mov	r2, #0
- 573 0502 1A70     		strb	r2, [r3, #0]
- 574 0504 20E0     		b	.L34
- 575              	.L35:
- 576 0506 40F20003 		movw	r3, #:lower16:i
- 577 050a C0F20003 		movt	r3, #:upper16:i
- 578 050e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 579 0510 1946     		mov	r1, r3
- 580 0512 40F20002 		movw	r2, #:lower16:Inputs
- 581 0516 C0F20002 		movt	r2, #:upper16:Inputs
- 582 051a 0B46     		mov	r3, r1
- 583 051c 4FEA4303 		lsl	r3, r3, #1
- 584 0520 5B18     		adds	r3, r3, r1
- 585 0522 4FEA4303 		lsl	r3, r3, #1
- 586 0526 D318     		adds	r3, r2, r3
- 587 0528 40F6B832 		movw	r2, #3000
- 588 052c 9A80     		strh	r2, [r3, #4]	@ movhi
- 589 052e 40F20003 		movw	r3, #:lower16:i
- 590 0532 C0F20003 		movt	r3, #:upper16:i
- 591 0536 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 592 0538 03F10103 		add	r3, r3, #1
- 593 053c DAB2     		uxtb	r2, r3
- 594 053e 40F20003 		movw	r3, #:lower16:i
- 595 0542 C0F20003 		movt	r3, #:upper16:i
- 596 0546 1A70     		strb	r2, [r3, #0]
- 597              	.L34:
- 598 0548 40F20003 		movw	r3, #:lower16:i
- 599 054c C0F20003 		movt	r3, #:upper16:i
- 600 0550 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 601 0552 072B     		cmp	r3, #7
- 602 0554 D7D9     		bls	.L35
- 603 0556 4FF40043 		mov	r3, #32768
- 604 055a 0893     		str	r3, [sp, #32]
- 605 055c 4FF00203 		mov	r3, #2
- 606 0560 8DF82430 		strb	r3, [sp, #36]
- 607 0564 4FF00203 		mov	r3, #2
- 608 0568 8DF82530 		strb	r3, [sp, #37]
- 609 056c 4FF00003 		mov	r3, #0
- 610 0570 8DF82630 		strb	r3, [sp, #38]
- 611 0574 4FF00003 		mov	r3, #0
- 612 0578 8DF82730 		strb	r3, [sp, #39]
- 613 057c 4FF44060 		mov	r0, #3072
- 614 0580 C4F20200 		movt	r0, 16386
- 615 0584 08AB     		add	r3, sp, #32
- 616 0586 1946     		mov	r1, r3
- 617 0588 FFF7FEFF 		bl	GPIO_Init
- 618 058c 4FF44060 		mov	r0, #3072
- 619 0590 C4F20200 		movt	r0, 16386
- 620 0594 4FF00F01 		mov	r1, #15
- 621 0598 4FF00202 		mov	r2, #2
- 622 059c FFF7FEFF 		bl	GPIO_PinAFConfig
- 623 05a0 4FF01E03 		mov	r3, #30
- 624 05a4 8DF81030 		strb	r3, [sp, #16]
- 625 05a8 4FF00203 		mov	r3, #2
- 626 05ac 8DF81130 		strb	r3, [sp, #17]
- 627 05b0 4FF00003 		mov	r3, #0
- 628 05b4 8DF81230 		strb	r3, [sp, #18]
- 629 05b8 4FF00103 		mov	r3, #1
- 630 05bc 8DF81330 		strb	r3, [sp, #19]
- 631 05c0 04AB     		add	r3, sp, #16
- 632 05c2 1846     		mov	r0, r3
- 633 05c4 FFF7FEFF 		bl	NVIC_Init
- 634 05c8 4FF02903 		mov	r3, #41
- 635 05cc ADF81430 		strh	r3, [sp, #20]	@ movhi
- 636 05d0 4FF6FF73 		movw	r3, #65535
- 637 05d4 0693     		str	r3, [sp, #24]
- 638 05d6 4FF40060 		mov	r0, #2048
- 639 05da C4F20000 		movt	r0, 16384
- 640 05de 05AB     		add	r3, sp, #20
- 641 05e0 1946     		mov	r1, r3
- 642 05e2 FFF7FEFF 		bl	TIM_TimeBaseInit
- 643 05e6 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 644 05ea C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 645 05ee 4FF00C02 		mov	r2, #12
- 646 05f2 1A80     		strh	r2, [r3, #0]	@ movhi
- 647 05f4 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 648 05f8 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 649 05fc 4FF00002 		mov	r2, #0
- 650 0600 5A80     		strh	r2, [r3, #2]	@ movhi
- 651 0602 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 652 0606 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 653 060a 4FF00102 		mov	r2, #1
- 654 060e 9A80     		strh	r2, [r3, #4]	@ movhi
- 655 0610 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 656 0614 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 657 0618 4FF00002 		mov	r2, #0
- 658 061c DA80     		strh	r2, [r3, #6]	@ movhi
- 659 061e 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 660 0622 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 661 0626 4FF00002 		mov	r2, #0
- 662 062a 1A81     		strh	r2, [r3, #8]	@ movhi
- 663 062c 4FF40060 		mov	r0, #2048
- 664 0630 C4F20000 		movt	r0, 16384
- 665 0634 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
- 666 0638 C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
- 667 063c FFF7FEFF 		bl	TIM_ICInit
- 668 0640 4FF40060 		mov	r0, #2048
- 669 0644 C4F20000 		movt	r0, 16384
- 670 0648 4FF01001 		mov	r1, #16
- 671 064c 4FF00102 		mov	r2, #1
- 672 0650 FFF7FEFF 		bl	TIM_ITConfig
- 673 0654 4FF40060 		mov	r0, #2048
- 674 0658 C4F20000 		movt	r0, 16384
- 675 065c 4FF00101 		mov	r1, #1
- 676 0660 FFF7FEFF 		bl	TIM_Cmd
- 677 0664 13E2     		b	.L32
- 678              	.L33:
- 679 0666 40F20003 		movw	r3, #:lower16:eepromConfig
- 680 066a C0F20003 		movt	r3, #:upper16:eepromConfig
- 681 066e 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
- 682 0672 012B     		cmp	r3, #1
- 683 0674 40F07381 		bne	.L37
- 684 0678 4FF00800 		mov	r0, #8
- 685 067c 4FF00101 		mov	r1, #1
- 686 0680 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 687 0684 4FF01000 		mov	r0, #16
- 688 0688 4FF00101 		mov	r1, #1
- 689 068c FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 690 0690 4FF00400 		mov	r0, #4
- 691 0694 4FF00101 		mov	r1, #1
- 692 0698 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
- 693 069c 4FF00100 		mov	r0, #1
- 694 06a0 4FF00101 		mov	r1, #1
- 695 06a4 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
- 696 06a8 40F20003 		movw	r3, #:lower16:i
- 697 06ac C0F20003 		movt	r3, #:upper16:i
- 698 06b0 4FF00002 		mov	r2, #0
- 699 06b4 1A70     		strb	r2, [r3, #0]
- 700 06b6 20E0     		b	.L38
- 701              	.L39:
- 702 06b8 40F20003 		movw	r3, #:lower16:i
- 703 06bc C0F20003 		movt	r3, #:upper16:i
- 704 06c0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 705 06c2 1946     		mov	r1, r3
- 706 06c4 40F20002 		movw	r2, #:lower16:Inputs
- 707 06c8 C0F20002 		movt	r2, #:upper16:Inputs
- 708 06cc 0B46     		mov	r3, r1
- 709 06ce 4FEA4303 		lsl	r3, r3, #1
- 710 06d2 5B18     		adds	r3, r3, r1
- 711 06d4 4FEA4303 		lsl	r3, r3, #1
- 712 06d8 D318     		adds	r3, r2, r3
- 713 06da 40F6B832 		movw	r2, #3000
- 714 06de 9A80     		strh	r2, [r3, #4]	@ movhi
- 715 06e0 40F20003 		movw	r3, #:lower16:i
- 716 06e4 C0F20003 		movt	r3, #:upper16:i
- 717 06e8 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 718 06ea 03F10103 		add	r3, r3, #1
- 719 06ee DAB2     		uxtb	r2, r3
- 720 06f0 40F20003 		movw	r3, #:lower16:i
- 721 06f4 C0F20003 		movt	r3, #:upper16:i
- 722 06f8 1A70     		strb	r2, [r3, #0]
- 723              	.L38:
- 724 06fa 40F20003 		movw	r3, #:lower16:i
- 725 06fe C0F20003 		movt	r3, #:upper16:i
- 726 0702 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 727 0704 072B     		cmp	r3, #7
- 728 0706 D7D9     		bls	.L39
- 729 0708 4FF47043 		mov	r3, #61440
- 730 070c 0893     		str	r3, [sp, #32]
- 731 070e 4FF00203 		mov	r3, #2
- 732 0712 8DF82430 		strb	r3, [sp, #36]
- 733 0716 4FF00203 		mov	r3, #2
- 734 071a 8DF82530 		strb	r3, [sp, #37]
- 735 071e 4FF00003 		mov	r3, #0
- 736 0722 8DF82630 		strb	r3, [sp, #38]
- 737 0726 4FF00203 		mov	r3, #2
- 738 072a 8DF82730 		strb	r3, [sp, #39]
- 739 072e 4FF44060 		mov	r0, #3072
- 740 0732 C4F20200 		movt	r0, 16386
- 741 0736 08AB     		add	r3, sp, #32
- 742 0738 1946     		mov	r1, r3
- 743 073a FFF7FEFF 		bl	GPIO_Init
- 744 073e 4FF4D443 		mov	r3, #27136
- 745 0742 0893     		str	r3, [sp, #32]
- 746 0744 4FF48050 		mov	r0, #4096
- 747 0748 C4F20200 		movt	r0, 16386
- 748 074c 08AB     		add	r3, sp, #32
- 749 074e 1946     		mov	r1, r3
- 750 0750 FFF7FEFF 		bl	GPIO_Init
- 751 0754 4FF44060 		mov	r0, #3072
- 752 0758 C4F20200 		movt	r0, 16386
- 753 075c 4FF00C01 		mov	r1, #12
- 754 0760 4FF00202 		mov	r2, #2
- 755 0764 FFF7FEFF 		bl	GPIO_PinAFConfig
- 756 0768 4FF44060 		mov	r0, #3072
- 757 076c C4F20200 		movt	r0, 16386
- 758 0770 4FF00D01 		mov	r1, #13
- 759 0774 4FF00202 		mov	r2, #2
- 760 0778 FFF7FEFF 		bl	GPIO_PinAFConfig
- 761 077c 4FF44060 		mov	r0, #3072
- 762 0780 C4F20200 		movt	r0, 16386
- 763 0784 4FF00E01 		mov	r1, #14
- 764 0788 4FF00202 		mov	r2, #2
- 765 078c FFF7FEFF 		bl	GPIO_PinAFConfig
- 766 0790 4FF44060 		mov	r0, #3072
- 767 0794 C4F20200 		movt	r0, 16386
- 768 0798 4FF00F01 		mov	r1, #15
- 769 079c 4FF00202 		mov	r2, #2
- 770 07a0 FFF7FEFF 		bl	GPIO_PinAFConfig
- 771 07a4 4FF48050 		mov	r0, #4096
- 772 07a8 C4F20200 		movt	r0, 16386
- 773 07ac 4FF00901 		mov	r1, #9
- 774 07b0 4FF00102 		mov	r2, #1
- 775 07b4 FFF7FEFF 		bl	GPIO_PinAFConfig
- 776 07b8 4FF48050 		mov	r0, #4096
- 777 07bc C4F20200 		movt	r0, 16386
- 778 07c0 4FF00B01 		mov	r1, #11
- 779 07c4 4FF00102 		mov	r2, #1
- 780 07c8 FFF7FEFF 		bl	GPIO_PinAFConfig
- 781 07cc 4FF48050 		mov	r0, #4096
- 782 07d0 C4F20200 		movt	r0, 16386
- 783 07d4 4FF00D01 		mov	r1, #13
- 784 07d8 4FF00102 		mov	r2, #1
- 785 07dc FFF7FEFF 		bl	GPIO_PinAFConfig
- 786 07e0 4FF48050 		mov	r0, #4096
- 787 07e4 C4F20200 		movt	r0, 16386
- 788 07e8 4FF00E01 		mov	r1, #14
- 789 07ec 4FF00102 		mov	r2, #1
- 790 07f0 FFF7FEFF 		bl	GPIO_PinAFConfig
- 791 07f4 4FF01E03 		mov	r3, #30
- 792 07f8 8DF81030 		strb	r3, [sp, #16]
- 793 07fc 4FF00203 		mov	r3, #2
- 794 0800 8DF81130 		strb	r3, [sp, #17]
- 795 0804 4FF00003 		mov	r3, #0
- 796 0808 8DF81230 		strb	r3, [sp, #18]
- 797 080c 4FF00103 		mov	r3, #1
- 798 0810 8DF81330 		strb	r3, [sp, #19]
- 799 0814 04AB     		add	r3, sp, #16
- 800 0816 1846     		mov	r0, r3
- 801 0818 FFF7FEFF 		bl	NVIC_Init
- 802 081c 4FF01B03 		mov	r3, #27
- 803 0820 8DF81030 		strb	r3, [sp, #16]
- 804 0824 04AB     		add	r3, sp, #16
- 805 0826 1846     		mov	r0, r3
- 806 0828 FFF7FEFF 		bl	NVIC_Init
- 807 082c 4FF02903 		mov	r3, #41
- 808 0830 ADF81430 		strh	r3, [sp, #20]	@ movhi
- 809 0834 4FF6FF73 		movw	r3, #65535
- 810 0838 0693     		str	r3, [sp, #24]
- 811 083a 4FF40060 		mov	r0, #2048
- 812 083e C4F20000 		movt	r0, 16384
- 813 0842 05AB     		add	r3, sp, #20
- 814 0844 1946     		mov	r1, r3
- 815 0846 FFF7FEFF 		bl	TIM_TimeBaseInit
- 816 084a 4FF00000 		mov	r0, #0
- 817 084e C4F20100 		movt	r0, 16385
- 818 0852 05AB     		add	r3, sp, #20
- 819 0854 1946     		mov	r1, r3
- 820 0856 FFF7FEFF 		bl	TIM_TimeBaseInit
- 821 085a 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 822 085e C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 823 0862 4FF00002 		mov	r2, #0
- 824 0866 5A80     		strh	r2, [r3, #2]	@ movhi
- 825 0868 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 826 086c C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 827 0870 4FF00102 		mov	r2, #1
- 828 0874 9A80     		strh	r2, [r3, #4]	@ movhi
- 829 0876 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 830 087a C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 831 087e 4FF00002 		mov	r2, #0
- 832 0882 DA80     		strh	r2, [r3, #6]	@ movhi
- 833 0884 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 834 0888 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 835 088c 4FF00002 		mov	r2, #0
- 836 0890 1A81     		strh	r2, [r3, #8]	@ movhi
- 837 0892 40F20003 		movw	r3, #:lower16:i
- 838 0896 C0F20003 		movt	r3, #:upper16:i
- 839 089a 4FF00002 		mov	r2, #0
- 840 089e 1A70     		strb	r2, [r3, #0]
- 841 08a0 31E0     		b	.L40
- 842              	.L41:
- 843 08a2 40F20003 		movw	r3, #:lower16:i
- 844 08a6 C0F20003 		movt	r3, #:upper16:i
- 845 08aa 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 846 08ac 40F20002 		movw	r2, #:lower16:Channels
- 847 08b0 C0F20002 		movt	r2, #:upper16:Channels
- 848 08b4 4FEAC303 		lsl	r3, r3, #3
- 849 08b8 D318     		adds	r3, r2, r3
- 850 08ba 9A88     		ldrh	r2, [r3, #4]
- 851 08bc 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
- 852 08c0 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
- 853 08c4 1A80     		strh	r2, [r3, #0]	@ movhi
- 854 08c6 40F20003 		movw	r3, #:lower16:i
- 855 08ca C0F20003 		movt	r3, #:upper16:i
- 856 08ce 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 857 08d0 1A46     		mov	r2, r3
- 858 08d2 40F20003 		movw	r3, #:lower16:Channels
- 859 08d6 C0F20003 		movt	r3, #:upper16:Channels
- 860 08da 53F83230 		ldr	r3, [r3, r2, lsl #3]
- 861 08de 1846     		mov	r0, r3
- 862 08e0 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
- 863 08e4 C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
- 864 08e8 FFF7FEFF 		bl	TIM_ICInit
- 865 08ec 40F20003 		movw	r3, #:lower16:i
- 866 08f0 C0F20003 		movt	r3, #:upper16:i
- 867 08f4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 868 08f6 03F10103 		add	r3, r3, #1
- 869 08fa DAB2     		uxtb	r2, r3
- 870 08fc 40F20003 		movw	r3, #:lower16:i
- 871 0900 C0F20003 		movt	r3, #:upper16:i
- 872 0904 1A70     		strb	r2, [r3, #0]
- 873              	.L40:
- 874 0906 40F20003 		movw	r3, #:lower16:i
- 875 090a C0F20003 		movt	r3, #:upper16:i
- 876 090e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 877 0910 072B     		cmp	r3, #7
- 878 0912 C6D9     		bls	.L41
- 879 0914 4FF40060 		mov	r0, #2048
- 880 0918 C4F20000 		movt	r0, 16384
- 881 091c 4FF01E01 		mov	r1, #30
- 882 0920 4FF00102 		mov	r2, #1
- 883 0924 FFF7FEFF 		bl	TIM_ITConfig
- 884 0928 4FF00000 		mov	r0, #0
- 885 092c C4F20100 		movt	r0, 16385
- 886 0930 4FF01E01 		mov	r1, #30
- 887 0934 4FF00102 		mov	r2, #1
- 888 0938 FFF7FEFF 		bl	TIM_ITConfig
- 889 093c 4FF40060 		mov	r0, #2048
- 890 0940 C4F20000 		movt	r0, 16384
- 891 0944 4FF00101 		mov	r1, #1
- 892 0948 FFF7FEFF 		bl	TIM_Cmd
- 893 094c 4FF00000 		mov	r0, #0
- 894 0950 C4F20100 		movt	r0, 16385
- 895 0954 4FF00101 		mov	r1, #1
- 896 0958 FFF7FEFF 		bl	TIM_Cmd
- 897 095c 97E0     		b	.L32
- 898              	.L37:
- 899 095e 40F20003 		movw	r3, #:lower16:eepromConfig
- 900 0962 C0F20003 		movt	r3, #:upper16:eepromConfig
- 901 0966 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
- 902 096a 032B     		cmp	r3, #3
- 903 096c 40F08F80 		bne	.L32
- 904 0970 4FF00100 		mov	r0, #1
- 905 0974 4FF00101 		mov	r1, #1
- 906 0978 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 907 097c 4FF01000 		mov	r0, #16
- 908 0980 4FF00101 		mov	r1, #1
- 909 0984 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
- 910 0988 4FF02503 		mov	r3, #37
- 911 098c 8DF81030 		strb	r3, [sp, #16]
- 912 0990 4FF00203 		mov	r3, #2
- 913 0994 8DF81130 		strb	r3, [sp, #17]
- 914 0998 4FF00003 		mov	r3, #0
- 915 099c 8DF81230 		strb	r3, [sp, #18]
- 916 09a0 4FF00103 		mov	r3, #1
- 917 09a4 8DF81330 		strb	r3, [sp, #19]
- 918 09a8 04AB     		add	r3, sp, #16
- 919 09aa 1846     		mov	r0, r3
- 920 09ac FFF7FEFF 		bl	NVIC_Init
- 921 09b0 4FF48063 		mov	r3, #1024
- 922 09b4 0893     		str	r3, [sp, #32]
- 923 09b6 4FF00203 		mov	r3, #2
- 924 09ba 8DF82430 		strb	r3, [sp, #36]
- 925 09be 4FF00203 		mov	r3, #2
- 926 09c2 8DF82530 		strb	r3, [sp, #37]
- 927 09c6 4FF00003 		mov	r3, #0
- 928 09ca 8DF82630 		strb	r3, [sp, #38]
- 929 09ce 4FF00103 		mov	r3, #1
- 930 09d2 8DF82730 		strb	r3, [sp, #39]
- 931 09d6 4FF00000 		mov	r0, #0
- 932 09da C4F20200 		movt	r0, 16386
- 933 09de 08AB     		add	r3, sp, #32
- 934 09e0 1946     		mov	r1, r3
- 935 09e2 FFF7FEFF 		bl	GPIO_Init
- 936 09e6 4FF00000 		mov	r0, #0
- 937 09ea C4F20200 		movt	r0, 16386
- 938 09ee 4FF00A01 		mov	r1, #10
- 939 09f2 4FF00702 		mov	r2, #7
- 940 09f6 FFF7FEFF 		bl	GPIO_PinAFConfig
- 941 09fa 4FF4E133 		mov	r3, #115200
- 942 09fe 0093     		str	r3, [sp, #0]
- 943 0a00 4FF00403 		mov	r3, #4
- 944 0a04 ADF80A30 		strh	r3, [sp, #10]	@ movhi
- 945 0a08 4FF00003 		mov	r3, #0
- 946 0a0c ADF80C30 		strh	r3, [sp, #12]	@ movhi
- 947 0a10 4FF48050 		mov	r0, #4096
- 948 0a14 C4F20100 		movt	r0, 16385
- 949 0a18 6B46     		mov	r3, sp
- 950 0a1a 1946     		mov	r1, r3
- 951 0a1c FFF7FEFF 		bl	USART_Init
- 952 0a20 4FF48050 		mov	r0, #4096
- 953 0a24 C4F20100 		movt	r0, 16385
- 954 0a28 40F22551 		movw	r1, #1317
- 955 0a2c 4FF00102 		mov	r2, #1
- 956 0a30 FFF7FEFF 		bl	USART_ITConfig
- 957 0a34 4FF48050 		mov	r0, #4096
- 958 0a38 C4F20100 		movt	r0, 16385
- 959 0a3c 4FF00101 		mov	r1, #1
- 960 0a40 FFF7FEFF 		bl	USART_Cmd
- 961 0a44 40F20003 		movw	r3, #:lower16:eepromConfig
- 962 0a48 C0F20003 		movt	r3, #:upper16:eepromConfig
- 963 0a4c 93F87230 		ldrb	r3, [r3, #114]	@ zero_extendqisi2
- 964 0a50 002B     		cmp	r3, #0
- 965 0a52 0ED0     		beq	.L42
- 966 0a54 40F20003 		movw	r3, #:lower16:spektrumChannelShift
- 967 0a58 C0F20003 		movt	r3, #:upper16:spektrumChannelShift
- 968 0a5c 4FF00302 		mov	r2, #3
- 969 0a60 1A70     		strb	r2, [r3, #0]
- 970 0a62 40F20003 		movw	r3, #:lower16:spektrumChannelMask
- 971 0a66 C0F20003 		movt	r3, #:upper16:spektrumChannelMask
- 972 0a6a 4FF00702 		mov	r2, #7
- 973 0a6e 1A70     		strb	r2, [r3, #0]
- 974 0a70 0DE0     		b	.L32
- 975              	.L42:
- 976 0a72 40F20003 		movw	r3, #:lower16:spektrumChannelShift
- 977 0a76 C0F20003 		movt	r3, #:upper16:spektrumChannelShift
- 978 0a7a 4FF00202 		mov	r2, #2
- 979 0a7e 1A70     		strb	r2, [r3, #0]
- 980 0a80 40F20003 		movw	r3, #:lower16:spektrumChannelMask
- 981 0a84 C0F20003 		movt	r3, #:upper16:spektrumChannelMask
- 982 0a88 4FF00302 		mov	r2, #3
- 983 0a8c 1A70     		strb	r2, [r3, #0]
- 984              	.L32:
- 985 0a8e 0BB0     		add	sp, sp, #44
- 986 0a90 00BD     		pop	{pc}
- 988 0a92 00BF     		.align	2
- 989              		.global	rxRead
- 990              		.thumb
- 991              		.thumb_func
- 993              	rxRead:
- 994              		@ args = 0, pretend = 0, frame = 16
- 995              		@ frame_needed = 0, uses_anonymous_args = 0
- 996              		@ link register save eliminated.
- 997 0a94 84B0     		sub	sp, sp, #16
- 998 0a96 0346     		mov	r3, r0
- 999 0a98 8DF80730 		strb	r3, [sp, #7]
- 1000 0a9c 40F20003 		movw	r3, #:lower16:eepromConfig
- 1001 0aa0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1002 0aa4 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
- 1003 0aa8 032B     		cmp	r3, #3
- 1004 0aaa 37D1     		bne	.L44
- 1005 0aac 40F20003 		movw	r3, #:lower16:eepromConfig
- 1006 0ab0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1007 0ab4 93F87130 		ldrb	r3, [r3, #113]	@ zero_extendqisi2
- 1008 0ab8 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
- 1009 0abc 9A42     		cmp	r2, r3
- 1010 0abe 04D3     		bcc	.L45
- 1011 0ac0 4FF4FA63 		mov	r3, #2000
- 1012 0ac4 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 1013 0ac8 25E0     		b	.L46
- 1014              	.L45:
- 1015 0aca 40F20003 		movw	r3, #:lower16:eepromConfig
- 1016 0ace C0F20003 		movt	r3, #:upper16:eepromConfig
- 1017 0ad2 93F87230 		ldrb	r3, [r3, #114]	@ zero_extendqisi2
- 1018 0ad6 002B     		cmp	r3, #0
- 1019 0ad8 0DD0     		beq	.L47
- 1020 0ada 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
- 1021 0ade 40F20003 		movw	r3, #:lower16:spektrumChannelData
- 1022 0ae2 C0F20003 		movt	r3, #:upper16:spektrumChannelData
- 1023 0ae6 53F82230 		ldr	r3, [r3, r2, lsl #2]
- 1024 0aea 9BB2     		uxth	r3, r3
- 1025 0aec 03F57A73 		add	r3, r3, #1000
- 1026 0af0 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 1027 0af4 0FE0     		b	.L46
- 1028              	.L47:
- 1029 0af6 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
- 1030 0afa 40F20003 		movw	r3, #:lower16:spektrumChannelData
- 1031 0afe C0F20003 		movt	r3, #:upper16:spektrumChannelData
- 1032 0b02 53F82230 		ldr	r3, [r3, r2, lsl #2]
- 1033 0b06 9BB2     		uxth	r3, r3
- 1034 0b08 03F57A73 		add	r3, r3, #1000
- 1035 0b0c 9BB2     		uxth	r3, r3
- 1036 0b0e 4FEA4303 		lsl	r3, r3, #1
- 1037 0b12 ADF80E30 		strh	r3, [sp, #14]	@ movhi
- 1038              	.L46:
- 1039 0b16 BDF80E30 		ldrh	r3, [sp, #14]
- 1040 0b1a 0DE0     		b	.L48
- 1041              	.L44:
- 1042 0b1c 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
- 1043 0b20 40F20002 		movw	r2, #:lower16:Inputs
- 1044 0b24 C0F20002 		movt	r2, #:upper16:Inputs
- 1045 0b28 0B46     		mov	r3, r1
- 1046 0b2a 4FEA4303 		lsl	r3, r3, #1
- 1047 0b2e 5B18     		adds	r3, r3, r1
- 1048 0b30 4FEA4303 		lsl	r3, r3, #1
- 1049 0b34 D318     		adds	r3, r2, r3
- 1050 0b36 9B88     		ldrh	r3, [r3, #4]
- 1051              	.L48:
- 1052 0b38 1846     		mov	r0, r3
- 1053 0b3a 04B0     		add	sp, sp, #16
- 1054 0b3c 7047     		bx	lr
- 1056 0b3e 00BF     		.align	2
- 1057              		.global	checkSpektrumBind
- 1058              		.thumb
- 1059              		.thumb_func
- 1061              	checkSpektrumBind:
- 1062              		@ args = 0, pretend = 0, frame = 16
- 1063              		@ frame_needed = 0, uses_anonymous_args = 0
- 1064 0b40 00B5     		push	{lr}
- 1065 0b42 85B0     		sub	sp, sp, #20
- 1066 0b44 4FF00100 		mov	r0, #1
- 1067 0b48 4FF00101 		mov	r1, #1
- 1068 0b4c FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 1069 0b50 4FF01000 		mov	r0, #16
- 1070 0b54 4FF00101 		mov	r1, #1
- 1071 0b58 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 1072 0b5c 4FF48043 		mov	r3, #16384
- 1073 0b60 0193     		str	r3, [sp, #4]
- 1074 0b62 4FF00003 		mov	r3, #0
- 1075 0b66 8DF80830 		strb	r3, [sp, #8]
- 1076 0b6a 4FF00203 		mov	r3, #2
- 1077 0b6e 8DF80930 		strb	r3, [sp, #9]
- 1078 0b72 4FF00003 		mov	r3, #0
- 1079 0b76 8DF80A30 		strb	r3, [sp, #10]
- 1080 0b7a 4FF00103 		mov	r3, #1
- 1081 0b7e 8DF80B30 		strb	r3, [sp, #11]
- 1082 0b82 4FF48050 		mov	r0, #4096
- 1083 0b86 C4F20200 		movt	r0, 16386
- 1084 0b8a 01AB     		add	r3, sp, #4
- 1085 0b8c 1946     		mov	r1, r3
- 1086 0b8e FFF7FEFF 		bl	GPIO_Init
- 1087 0b92 4FF48050 		mov	r0, #4096
- 1088 0b96 C4F20200 		movt	r0, 16386
- 1089 0b9a 4FF48041 		mov	r1, #16384
- 1090 0b9e FFF7FEFF 		bl	GPIO_ReadInputDataBit
- 1091 0ba2 0346     		mov	r3, r0
- 1092 0ba4 012B     		cmp	r3, #1
- 1093 0ba6 70D0     		beq	.L56
- 1094              	.L50:
- 1095 0ba8 40F20003 		movw	r3, #:lower16:eepromConfig
- 1096 0bac C0F20003 		movt	r3, #:upper16:eepromConfig
- 1097 0bb0 93F87130 		ldrb	r3, [r3, #113]	@ zero_extendqisi2
- 1098 0bb4 072B     		cmp	r3, #7
- 1099 0bb6 07D8     		bhi	.L52
- 1100 0bb8 40F20003 		movw	r3, #:lower16:spektrumBindCount
- 1101 0bbc C0F20003 		movt	r3, #:upper16:spektrumBindCount
- 1102 0bc0 4FF00302 		mov	r2, #3
- 1103 0bc4 1A70     		strb	r2, [r3, #0]
- 1104 0bc6 06E0     		b	.L53
- 1105              	.L52:
- 1106 0bc8 40F20003 		movw	r3, #:lower16:spektrumBindCount
- 1107 0bcc C0F20003 		movt	r3, #:upper16:spektrumBindCount
- 1108 0bd0 4FF00502 		mov	r2, #5
- 1109 0bd4 1A70     		strb	r2, [r3, #0]
- 1110              	.L53:
- 1111 0bd6 4FF48063 		mov	r3, #1024
- 1112 0bda 0193     		str	r3, [sp, #4]
- 1113 0bdc 4FF00103 		mov	r3, #1
- 1114 0be0 8DF80830 		strb	r3, [sp, #8]
- 1115 0be4 4FF00203 		mov	r3, #2
- 1116 0be8 8DF80930 		strb	r3, [sp, #9]
- 1117 0bec 4FF00003 		mov	r3, #0
- 1118 0bf0 8DF80A30 		strb	r3, [sp, #10]
- 1119 0bf4 4FF00003 		mov	r3, #0
- 1120 0bf8 8DF80B30 		strb	r3, [sp, #11]
- 1121 0bfc 4FF00000 		mov	r0, #0
- 1122 0c00 C4F20200 		movt	r0, 16386
- 1123 0c04 01AB     		add	r3, sp, #4
- 1124 0c06 1946     		mov	r1, r3
- 1125 0c08 FFF7FEFF 		bl	GPIO_Init
- 1126 0c0c 4FF00000 		mov	r0, #0
- 1127 0c10 C4F20200 		movt	r0, 16386
- 1128 0c14 4FF48061 		mov	r1, #1024
- 1129 0c18 4FF00102 		mov	r2, #1
- 1130 0c1c FFF7FEFF 		bl	GPIO_WriteBit
- 1131 0c20 4FF03C00 		mov	r0, #60
- 1132 0c24 FFF7FEFF 		bl	delay
- 1133 0c28 4FF00003 		mov	r3, #0
- 1134 0c2c 8DF80F30 		strb	r3, [sp, #15]
- 1135 0c30 21E0     		b	.L54
- 1136              	.L55:
- 1137 0c32 4FF00000 		mov	r0, #0
- 1138 0c36 C4F20200 		movt	r0, 16386
- 1139 0c3a 4FF48061 		mov	r1, #1024
- 1140 0c3e 4FF00002 		mov	r2, #0
- 1141 0c42 FFF7FEFF 		bl	GPIO_WriteBit
- 1142 0c46 4FF07800 		mov	r0, #120
- 1143 0c4a FFF7FEFF 		bl	delayMicroseconds
- 1144 0c4e 4FF00000 		mov	r0, #0
- 1145 0c52 C4F20200 		movt	r0, 16386
- 1146 0c56 4FF48061 		mov	r1, #1024
- 1147 0c5a 4FF00102 		mov	r2, #1
- 1148 0c5e FFF7FEFF 		bl	GPIO_WriteBit
- 1149 0c62 4FF07800 		mov	r0, #120
- 1150 0c66 FFF7FEFF 		bl	delayMicroseconds
- 1151 0c6a 9DF80F30 		ldrb	r3, [sp, #15]
- 1152 0c6e 03F10103 		add	r3, r3, #1
- 1153 0c72 8DF80F30 		strb	r3, [sp, #15]
- 1154              	.L54:
- 1155 0c76 40F20003 		movw	r3, #:lower16:spektrumBindCount
- 1156 0c7a C0F20003 		movt	r3, #:upper16:spektrumBindCount
- 1157 0c7e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 1158 0c80 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
- 1159 0c84 9A42     		cmp	r2, r3
- 1160 0c86 D4D3     		bcc	.L55
- 1161 0c88 00E0     		b	.L49
- 1162              	.L56:
- 1163 0c8a 00BF     		nop
- 1164              	.L49:
- 1165 0c8c 05B0     		add	sp, sp, #20
- 1166 0c8e 00BD     		pop	{pc}
- 1168              		.bss
- 1169 003f 00       		.align	1
- 1170              	now.10911:
- 1171 0040 0000     		.space	2
- 1172              		.align	1
- 1173              	last.10912:
- 1174 0042 0000     		.space	2
- 1175              	chan.10913:
- 1176 0044 00       		.space	1
- 1177 0045 000000   		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  57      00000000 
+  57      00000000 
+  57      00000000 
+  58              		.align	2
+  59              	TIM_ICInitStructure:
+  60 0034 00000000 		.space	10
+  60      00000000 
+  60      0000
+  61              		.comm	i,1,1
+  62              		.comm	spektrumBindCount,1,1
+  63              		.comm	spektrumChannelData,48,4
+  64              		.comm	spektrumChannelMask,1,1
+  65              		.comm	spektrumChannelShift,1,1
+  66              		.comm	spektrumFrame,16,4
+  67              		.global	spektrumFrameComplete
+  70              	spektrumFrameComplete:
+  71 003e 00       		.space	1
+  72              		.comm	spektrumFramePosition,1,1
+  73              		.comm	spektrumTimeInterval,4,4
+  74              		.comm	spektrumTimeLast,4,4
+  75              		.text
+  76              		.align	2
+  77              		.thumb
+  78              		.thumb_func
+  80              	serialPWM_IRQHandler:
+  81              		@ args = 0, pretend = 0, frame = 16
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83 0000 00B5     		push	{lr}
+  84 0002 85B0     		sub	sp, sp, #20
+  85 0004 0190     		str	r0, [sp, #4]
+  86 0006 0198     		ldr	r0, [sp, #4]
+  87 0008 4FF01001 		mov	r1, #16
+  88 000c FFF7FEFF 		bl	TIM_GetITStatus
+  89 0010 0346     		mov	r3, r0
+  90 0012 012B     		cmp	r3, #1
+  91 0014 1AD1     		bne	.L2
+  92 0016 40F20003 		movw	r3, #:lower16:now.10969
+  93 001a C0F20003 		movt	r3, #:upper16:now.10969
+  94 001e 1A88     		ldrh	r2, [r3, #0]
+  95 0020 40F20003 		movw	r3, #:lower16:last.10970
+  96 0024 C0F20003 		movt	r3, #:upper16:last.10970
+  97 0028 1A80     		strh	r2, [r3, #0]	@ movhi
+  98 002a 0198     		ldr	r0, [sp, #4]
+  99 002c FFF7FEFF 		bl	TIM_GetCapture4
+ 100 0030 0346     		mov	r3, r0
+ 101 0032 9AB2     		uxth	r2, r3
+ 102 0034 40F20003 		movw	r3, #:lower16:now.10969
+ 103 0038 C0F20003 		movt	r3, #:upper16:now.10969
+ 104 003c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 105 003e 40F20003 		movw	r3, #:lower16:rcActive
+ 106 0042 C0F20003 		movt	r3, #:upper16:rcActive
+ 107 0046 4FF00102 		mov	r2, #1
+ 108 004a 1A70     		strb	r2, [r3, #0]
+ 109              	.L2:
+ 110 004c 0198     		ldr	r0, [sp, #4]
+ 111 004e 4FF01001 		mov	r1, #16
+ 112 0052 FFF7FEFF 		bl	TIM_ClearITPendingBit
+ 113 0056 40F20003 		movw	r3, #:lower16:now.10969
+ 114 005a C0F20003 		movt	r3, #:upper16:now.10969
+ 115 005e 1A88     		ldrh	r2, [r3, #0]
+ 116 0060 40F20003 		movw	r3, #:lower16:last.10970
+ 117 0064 C0F20003 		movt	r3, #:upper16:last.10970
+ 118 0068 1B88     		ldrh	r3, [r3, #0]
+ 119 006a D31A     		subs	r3, r2, r3
+ 120 006c ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 121 0070 BDF80E20 		ldrh	r2, [sp, #14]
+ 122 0074 41F21853 		movw	r3, #5400
+ 123 0078 9A42     		cmp	r2, r3
+ 124 007a 07D9     		bls	.L3
+ 125 007c 40F20003 		movw	r3, #:lower16:chan.10971
+ 126 0080 C0F20003 		movt	r3, #:upper16:chan.10971
+ 127 0084 4FF00002 		mov	r2, #0
+ 128 0088 1A70     		strb	r2, [r3, #0]
+ 129 008a 33E0     		b	.L1
+ 130              	.L3:
+ 131 008c BDF80E20 		ldrh	r2, [sp, #14]
+ 132 0090 40F2DC53 		movw	r3, #1500
+ 133 0094 9A42     		cmp	r2, r3
+ 134 0096 20D9     		bls	.L5
+ 135 0098 BDF80E20 		ldrh	r2, [sp, #14]
+ 136 009c 41F29313 		movw	r3, #4499
+ 137 00a0 9A42     		cmp	r2, r3
+ 138 00a2 1AD8     		bhi	.L5
+ 139 00a4 40F20003 		movw	r3, #:lower16:chan.10971
+ 140 00a8 C0F20003 		movt	r3, #:upper16:chan.10971
+ 141 00ac 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 142 00ae 072B     		cmp	r3, #7
+ 143 00b0 13D8     		bhi	.L5
+ 144 00b2 40F20003 		movw	r3, #:lower16:chan.10971
+ 145 00b6 C0F20003 		movt	r3, #:upper16:chan.10971
+ 146 00ba 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 147 00bc 1946     		mov	r1, r3
+ 148 00be 40F20002 		movw	r2, #:lower16:Inputs
+ 149 00c2 C0F20002 		movt	r2, #:upper16:Inputs
+ 150 00c6 0B46     		mov	r3, r1
+ 151 00c8 4FEA4303 		lsl	r3, r3, #1
+ 152 00cc 5B18     		adds	r3, r3, r1
+ 153 00ce 4FEA4303 		lsl	r3, r3, #1
+ 154 00d2 D318     		adds	r3, r2, r3
+ 155 00d4 BDF80E20 		ldrh	r2, [sp, #14]	@ movhi
+ 156 00d8 9A80     		strh	r2, [r3, #4]	@ movhi
+ 157              	.L5:
+ 158 00da 40F20003 		movw	r3, #:lower16:chan.10971
+ 159 00de C0F20003 		movt	r3, #:upper16:chan.10971
+ 160 00e2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 161 00e4 03F10103 		add	r3, r3, #1
+ 162 00e8 DAB2     		uxtb	r2, r3
+ 163 00ea 40F20003 		movw	r3, #:lower16:chan.10971
+ 164 00ee C0F20003 		movt	r3, #:upper16:chan.10971
+ 165 00f2 1A70     		strb	r2, [r3, #0]
+ 166              	.L1:
+ 167 00f4 05B0     		add	sp, sp, #20
+ 168 00f6 00BD     		pop	{pc}
+ 170              		.align	2
+ 171              		.thumb
+ 172              		.thumb_func
+ 174              	parallelPWM_IRQHandler:
+ 175              		@ args = 0, pretend = 0, frame = 32
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177 00f8 00B5     		push	{lr}
+ 178 00fa 89B0     		sub	sp, sp, #36
+ 179 00fc 0190     		str	r0, [sp, #4]
+ 180 00fe 4FF00003 		mov	r3, #0
+ 181 0102 0693     		str	r3, [sp, #24]
+ 182 0104 4FF00003 		mov	r3, #0
+ 183 0108 8DF81F30 		strb	r3, [sp, #31]
+ 184 010c DDE0     		b	.L7
+ 185              	.L19:
+ 186 010e 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 187 0112 40F20002 		movw	r2, #:lower16:Channels
+ 188 0116 C0F20002 		movt	r2, #:upper16:Channels
+ 189 011a 4FEAC303 		lsl	r3, r3, #3
+ 190 011e D318     		adds	r3, r2, r3
+ 191 0120 93E80300 		ldmia	r3, {r0, r1}
+ 192 0124 03AB     		add	r3, sp, #12
+ 193 0126 83E80300 		stmia	r3, {r0, r1}
+ 194 012a 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+ 195 012e 1346     		mov	r3, r2
+ 196 0130 4FEA4303 		lsl	r3, r3, #1
+ 197 0134 9B18     		adds	r3, r3, r2
+ 198 0136 4FEA4303 		lsl	r3, r3, #1
+ 199 013a 1A46     		mov	r2, r3
+ 200 013c 40F20003 		movw	r3, #:lower16:Inputs
+ 201 0140 C0F20003 		movt	r3, #:upper16:Inputs
+ 202 0144 D318     		adds	r3, r2, r3
+ 203 0146 0593     		str	r3, [sp, #20]
+ 204 0148 039A     		ldr	r2, [sp, #12]
+ 205 014a 019B     		ldr	r3, [sp, #4]
+ 206 014c 9A42     		cmp	r2, r3
+ 207 014e 40F0B680 		bne	.L8
+ 208 0152 039A     		ldr	r2, [sp, #12]
+ 209 0154 BDF81230 		ldrh	r3, [sp, #18]
+ 210 0158 1046     		mov	r0, r2
+ 211 015a 1946     		mov	r1, r3
+ 212 015c FFF7FEFF 		bl	TIM_GetITStatus
+ 213 0160 0346     		mov	r3, r0
+ 214 0162 012B     		cmp	r3, #1
+ 215 0164 40F0AB80 		bne	.L8
+ 216 0168 039A     		ldr	r2, [sp, #12]
+ 217 016a BDF81230 		ldrh	r3, [sp, #18]
+ 218 016e 1046     		mov	r0, r2
+ 219 0170 1946     		mov	r1, r3
+ 220 0172 FFF7FEFF 		bl	TIM_ClearITPendingBit
+ 221 0176 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 222 017a 002B     		cmp	r3, #0
+ 223 017c 06D1     		bne	.L9
+ 224 017e 40F20003 		movw	r3, #:lower16:rcActive
+ 225 0182 C0F20003 		movt	r3, #:upper16:rcActive
+ 226 0186 4FF00102 		mov	r2, #1
+ 227 018a 1A70     		strb	r2, [r3, #0]
+ 228              	.L9:
+ 229 018c BDF81030 		ldrh	r3, [sp, #16]
+ 230 0190 0C2B     		cmp	r3, #12
+ 231 0192 3DD8     		bhi	.L10
+ 232 0194 01A2     		adr	r2, .L15
+ 233 0196 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 234 019a 00BF     		.align	2
+ 235              	.L15:
+ 236 019c D1010000 		.word	.L11+1
+ 237 01a0 11020000 		.word	.L10+1
+ 238 01a4 11020000 		.word	.L10+1
+ 239 01a8 11020000 		.word	.L10+1
+ 240 01ac E1010000 		.word	.L12+1
+ 241 01b0 11020000 		.word	.L10+1
+ 242 01b4 11020000 		.word	.L10+1
+ 243 01b8 11020000 		.word	.L10+1
+ 244 01bc F1010000 		.word	.L13+1
+ 245 01c0 11020000 		.word	.L10+1
+ 246 01c4 11020000 		.word	.L10+1
+ 247 01c8 11020000 		.word	.L10+1
+ 248 01cc 01020000 		.word	.L14+1
+ 249              	.L11:
+ 250 01d0 039B     		ldr	r3, [sp, #12]
+ 251 01d2 1846     		mov	r0, r3
+ 252 01d4 FFF7FEFF 		bl	TIM_GetCapture1
+ 253 01d8 0346     		mov	r3, r0
+ 254 01da 9BB2     		uxth	r3, r3
+ 255 01dc 0693     		str	r3, [sp, #24]
+ 256 01de 17E0     		b	.L10
+ 257              	.L12:
+ 258 01e0 039B     		ldr	r3, [sp, #12]
+ 259 01e2 1846     		mov	r0, r3
+ 260 01e4 FFF7FEFF 		bl	TIM_GetCapture2
+ 261 01e8 0346     		mov	r3, r0
+ 262 01ea 9BB2     		uxth	r3, r3
+ 263 01ec 0693     		str	r3, [sp, #24]
+ 264 01ee 0FE0     		b	.L10
+ 265              	.L13:
+ 266 01f0 039B     		ldr	r3, [sp, #12]
+ 267 01f2 1846     		mov	r0, r3
+ 268 01f4 FFF7FEFF 		bl	TIM_GetCapture3
+ 269 01f8 0346     		mov	r3, r0
+ 270 01fa 9BB2     		uxth	r3, r3
+ 271 01fc 0693     		str	r3, [sp, #24]
+ 272 01fe 07E0     		b	.L10
+ 273              	.L14:
+ 274 0200 039B     		ldr	r3, [sp, #12]
+ 275 0202 1846     		mov	r0, r3
+ 276 0204 FFF7FEFF 		bl	TIM_GetCapture4
+ 277 0208 0346     		mov	r3, r0
+ 278 020a 9BB2     		uxth	r3, r3
+ 279 020c 0693     		str	r3, [sp, #24]
+ 280 020e 00BF     		nop
+ 281              	.L10:
+ 282 0210 059B     		ldr	r3, [sp, #20]
+ 283 0212 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 284 0214 002B     		cmp	r3, #0
+ 285 0216 1ED1     		bne	.L16
+ 286 0218 069B     		ldr	r3, [sp, #24]
+ 287 021a 9AB2     		uxth	r2, r3
+ 288 021c 059B     		ldr	r3, [sp, #20]
+ 289 021e 5A80     		strh	r2, [r3, #2]	@ movhi
+ 290 0220 059B     		ldr	r3, [sp, #20]
+ 291 0222 4FF00102 		mov	r2, #1
+ 292 0226 1A70     		strb	r2, [r3, #0]
+ 293 0228 BDF81020 		ldrh	r2, [sp, #16]
+ 294 022c 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 295 0230 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 296 0234 1A80     		strh	r2, [r3, #0]	@ movhi
+ 297 0236 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 298 023a C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 299 023e 4FF00202 		mov	r2, #2
+ 300 0242 5A80     		strh	r2, [r3, #2]	@ movhi
+ 301 0244 039B     		ldr	r3, [sp, #12]
+ 302 0246 1846     		mov	r0, r3
+ 303 0248 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
+ 304 024c C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
+ 305 0250 FFF7FEFF 		bl	TIM_ICInit
+ 306 0254 33E0     		b	.L8
+ 307              	.L16:
+ 308 0256 059B     		ldr	r3, [sp, #20]
+ 309 0258 5B88     		ldrh	r3, [r3, #2]
+ 310 025a 1A46     		mov	r2, r3
+ 311 025c 069B     		ldr	r3, [sp, #24]
+ 312 025e 9A42     		cmp	r2, r3
+ 313 0260 08D2     		bcs	.L17
+ 314 0262 069B     		ldr	r3, [sp, #24]
+ 315 0264 9AB2     		uxth	r2, r3
+ 316 0266 059B     		ldr	r3, [sp, #20]
+ 317 0268 5B88     		ldrh	r3, [r3, #2]
+ 318 026a D31A     		subs	r3, r2, r3
+ 319 026c 9AB2     		uxth	r2, r3
+ 320 026e 059B     		ldr	r3, [sp, #20]
+ 321 0270 9A80     		strh	r2, [r3, #4]	@ movhi
+ 322 0272 0AE0     		b	.L18
+ 323              	.L17:
+ 324 0274 069B     		ldr	r3, [sp, #24]
+ 325 0276 9AB2     		uxth	r2, r3
+ 326 0278 059B     		ldr	r3, [sp, #20]
+ 327 027a 5B88     		ldrh	r3, [r3, #2]
+ 328 027c D31A     		subs	r3, r2, r3
+ 329 027e 9BB2     		uxth	r3, r3
+ 330 0280 03F1FF33 		add	r3, r3, #-1
+ 331 0284 9AB2     		uxth	r2, r3
+ 332 0286 059B     		ldr	r3, [sp, #20]
+ 333 0288 9A80     		strh	r2, [r3, #4]	@ movhi
+ 334              	.L18:
+ 335 028a 059B     		ldr	r3, [sp, #20]
+ 336 028c 4FF00002 		mov	r2, #0
+ 337 0290 1A70     		strb	r2, [r3, #0]
+ 338 0292 BDF81020 		ldrh	r2, [sp, #16]
+ 339 0296 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 340 029a C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 341 029e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 342 02a0 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 343 02a4 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 344 02a8 4FF00002 		mov	r2, #0
+ 345 02ac 5A80     		strh	r2, [r3, #2]	@ movhi
+ 346 02ae 039B     		ldr	r3, [sp, #12]
+ 347 02b0 1846     		mov	r0, r3
+ 348 02b2 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
+ 349 02b6 C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
+ 350 02ba FFF7FEFF 		bl	TIM_ICInit
+ 351              	.L8:
+ 352 02be 9DF81F30 		ldrb	r3, [sp, #31]
+ 353 02c2 03F10103 		add	r3, r3, #1
+ 354 02c6 8DF81F30 		strb	r3, [sp, #31]
+ 355              	.L7:
+ 356 02ca 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 357 02ce 072B     		cmp	r3, #7
+ 358 02d0 7FF61DAF 		bls	.L19
+ 359 02d4 09B0     		add	sp, sp, #36
+ 360 02d6 00BD     		pop	{pc}
+ 362              		.align	2
+ 363              		.global	TIM4_IRQHandler
+ 364              		.thumb
+ 365              		.thumb_func
+ 367              	TIM4_IRQHandler:
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370 02d8 08B5     		push	{r3, lr}
+ 371 02da 40F20003 		movw	r3, #:lower16:eepromConfig
+ 372 02de C0F20003 		movt	r3, #:upper16:eepromConfig
+ 373 02e2 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 374 02e6 022B     		cmp	r3, #2
+ 375 02e8 06D1     		bne	.L21
+ 376 02ea 4FF40060 		mov	r0, #2048
+ 377 02ee C4F20000 		movt	r0, 16384
+ 378 02f2 FFF785FE 		bl	serialPWM_IRQHandler
+ 379 02f6 05E0     		b	.L20
+ 380              	.L21:
+ 381 02f8 4FF40060 		mov	r0, #2048
+ 382 02fc C4F20000 		movt	r0, 16384
+ 383 0300 FFF7FAFE 		bl	parallelPWM_IRQHandler
+ 384              	.L20:
+ 385 0304 08BD     		pop	{r3, pc}
+ 387 0306 00BF     		.align	2
+ 388              		.global	TIM1_CC_IRQHandler
+ 389              		.thumb
+ 390              		.thumb_func
+ 392              	TIM1_CC_IRQHandler:
+ 393              		@ args = 0, pretend = 0, frame = 0
+ 394              		@ frame_needed = 0, uses_anonymous_args = 0
+ 395 0308 08B5     		push	{r3, lr}
+ 396 030a 4FF00000 		mov	r0, #0
+ 397 030e C4F20100 		movt	r0, 16385
+ 398 0312 FFF7F1FE 		bl	parallelPWM_IRQHandler
+ 399 0316 08BD     		pop	{r3, pc}
+ 401              		.align	2
+ 402              		.global	USART1_IRQHandler
+ 403              		.thumb
+ 404              		.thumb_func
+ 406              	USART1_IRQHandler:
+ 407              		@ args = 0, pretend = 0, frame = 16
+ 408              		@ frame_needed = 0, uses_anonymous_args = 0
+ 409 0318 10B5     		push	{r4, lr}
+ 410 031a 84B0     		sub	sp, sp, #16
+ 411 031c 4FF48050 		mov	r0, #4096
+ 412 0320 C4F20100 		movt	r0, 16385
+ 413 0324 40F22551 		movw	r1, #1317
+ 414 0328 FFF7FEFF 		bl	USART_GetITStatus
+ 415 032c 0346     		mov	r3, r0
+ 416 032e 012B     		cmp	r3, #1
+ 417 0330 40F0BA80 		bne	.L24
+ 418 0334 40F20003 		movw	r3, #:lower16:rcActive
+ 419 0338 C0F20003 		movt	r3, #:upper16:rcActive
+ 420 033c 4FF00102 		mov	r2, #1
+ 421 0340 1A70     		strb	r2, [r3, #0]
+ 422 0342 FFF7FEFF 		bl	micros
+ 423 0346 0290     		str	r0, [sp, #8]
+ 424 0348 40F20003 		movw	r3, #:lower16:spektrumTimeLast
+ 425 034c C0F20003 		movt	r3, #:upper16:spektrumTimeLast
+ 426 0350 1B68     		ldr	r3, [r3, #0]
+ 427 0352 029A     		ldr	r2, [sp, #8]
+ 428 0354 D21A     		subs	r2, r2, r3
+ 429 0356 40F20003 		movw	r3, #:lower16:spektrumTimeInterval
+ 430 035a C0F20003 		movt	r3, #:upper16:spektrumTimeInterval
+ 431 035e 1A60     		str	r2, [r3, #0]
+ 432 0360 40F20003 		movw	r3, #:lower16:spektrumTimeLast
+ 433 0364 C0F20003 		movt	r3, #:upper16:spektrumTimeLast
+ 434 0368 029A     		ldr	r2, [sp, #8]
+ 435 036a 1A60     		str	r2, [r3, #0]
+ 436 036c 40F20003 		movw	r3, #:lower16:spektrumTimeInterval
+ 437 0370 C0F20003 		movt	r3, #:upper16:spektrumTimeInterval
+ 438 0374 1A68     		ldr	r2, [r3, #0]
+ 439 0376 41F28833 		movw	r3, #5000
+ 440 037a 9A42     		cmp	r2, r3
+ 441 037c 06D9     		bls	.L26
+ 442 037e 40F20003 		movw	r3, #:lower16:spektrumFramePosition
+ 443 0382 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
+ 444 0386 4FF00002 		mov	r2, #0
+ 445 038a 1A70     		strb	r2, [r3, #0]
+ 446              	.L26:
+ 447 038c 40F20003 		movw	r3, #:lower16:spektrumFramePosition
+ 448 0390 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
+ 449 0394 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 450 0396 1C46     		mov	r4, r3
+ 451 0398 4FF48050 		mov	r0, #4096
+ 452 039c C4F20100 		movt	r0, 16385
+ 453 03a0 FFF7FEFF 		bl	USART_ReceiveData
+ 454 03a4 0346     		mov	r3, r0
+ 455 03a6 DAB2     		uxtb	r2, r3
+ 456 03a8 40F20003 		movw	r3, #:lower16:spektrumFrame
+ 457 03ac C0F20003 		movt	r3, #:upper16:spektrumFrame
+ 458 03b0 1A55     		strb	r2, [r3, r4]
+ 459 03b2 40F20003 		movw	r3, #:lower16:spektrumFramePosition
+ 460 03b6 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
+ 461 03ba 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 462 03bc 0F2B     		cmp	r3, #15
+ 463 03be 07D1     		bne	.L27
+ 464 03c0 40F20003 		movw	r3, #:lower16:spektrumFrameComplete
+ 465 03c4 C0F20003 		movt	r3, #:upper16:spektrumFrameComplete
+ 466 03c8 4FF00102 		mov	r2, #1
+ 467 03cc 1A70     		strb	r2, [r3, #0]
+ 468 03ce 0CE0     		b	.L28
+ 469              	.L27:
+ 470 03d0 40F20003 		movw	r3, #:lower16:spektrumFramePosition
+ 471 03d4 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
+ 472 03d8 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 473 03da 03F10103 		add	r3, r3, #1
+ 474 03de DAB2     		uxtb	r2, r3
+ 475 03e0 40F20003 		movw	r3, #:lower16:spektrumFramePosition
+ 476 03e4 C0F20003 		movt	r3, #:upper16:spektrumFramePosition
+ 477 03e8 1A70     		strb	r2, [r3, #0]
+ 478              	.L28:
+ 479 03ea 40F20003 		movw	r3, #:lower16:spektrumFrameComplete
+ 480 03ee C0F20003 		movt	r3, #:upper16:spektrumFrameComplete
+ 481 03f2 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 482 03f4 002B     		cmp	r3, #0
+ 483 03f6 57D0     		beq	.L24
+ 484 03f8 4FF00303 		mov	r3, #3
+ 485 03fc 8DF80F30 		strb	r3, [sp, #15]
+ 486 0400 47E0     		b	.L29
+ 487              	.L31:
+ 488 0402 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 489 0406 03F1FF32 		add	r2, r3, #-1
+ 490 040a 40F20003 		movw	r3, #:lower16:spektrumFrame
+ 491 040e C0F20003 		movt	r3, #:upper16:spektrumFrame
+ 492 0412 9B5C     		ldrb	r3, [r3, r2]	@ zero_extendqisi2
+ 493 0414 1A46     		mov	r2, r3
+ 494 0416 40F20003 		movw	r3, #:lower16:spektrumChannelShift
+ 495 041a C0F20003 		movt	r3, #:upper16:spektrumChannelShift
+ 496 041e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 497 0420 42FA03F3 		asr	r3, r2, r3
+ 498 0424 DBB2     		uxtb	r3, r3
+ 499 0426 03F00F03 		and	r3, r3, #15
+ 500 042a 8DF80730 		strb	r3, [sp, #7]
+ 501 042e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 502 0432 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 503 0436 93F87130 		ldrb	r3, [r3, #113]	@ zero_extendqisi2
+ 504 043a 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 505 043e 9A42     		cmp	r2, r3
+ 506 0440 21D2     		bcs	.L30
+ 507 0442 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 508 0446 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 509 044a 03F1FF31 		add	r1, r3, #-1
+ 510 044e 40F20003 		movw	r3, #:lower16:spektrumFrame
+ 511 0452 C0F20003 		movt	r3, #:upper16:spektrumFrame
+ 512 0456 595C     		ldrb	r1, [r3, r1]	@ zero_extendqisi2
+ 513 0458 40F20003 		movw	r3, #:lower16:spektrumChannelMask
+ 514 045c C0F20003 		movt	r3, #:upper16:spektrumChannelMask
+ 515 0460 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 516 0462 0B40     		ands	r3, r3, r1
+ 517 0464 DBB2     		uxtb	r3, r3
+ 518 0466 4FEA0321 		lsl	r1, r3, #8
+ 519 046a 9DF80F00 		ldrb	r0, [sp, #15]	@ zero_extendqisi2
+ 520 046e 40F20003 		movw	r3, #:lower16:spektrumFrame
+ 521 0472 C0F20003 		movt	r3, #:upper16:spektrumFrame
+ 522 0476 1B5C     		ldrb	r3, [r3, r0]	@ zero_extendqisi2
+ 523 0478 C918     		adds	r1, r1, r3
+ 524 047a 40F20003 		movw	r3, #:lower16:spektrumChannelData
+ 525 047e C0F20003 		movt	r3, #:upper16:spektrumChannelData
+ 526 0482 43F82210 		str	r1, [r3, r2, lsl #2]
+ 527              	.L30:
+ 528 0486 9DF80F30 		ldrb	r3, [sp, #15]
+ 529 048a 03F10203 		add	r3, r3, #2
+ 530 048e 8DF80F30 		strb	r3, [sp, #15]
+ 531              	.L29:
+ 532 0492 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 533 0496 0F2B     		cmp	r3, #15
+ 534 0498 B3D9     		bls	.L31
+ 535 049a 40F20003 		movw	r3, #:lower16:spektrumFrameComplete
+ 536 049e C0F20003 		movt	r3, #:upper16:spektrumFrameComplete
+ 537 04a2 4FF00002 		mov	r2, #0
+ 538 04a6 1A70     		strb	r2, [r3, #0]
+ 539              	.L24:
+ 540 04a8 04B0     		add	sp, sp, #16
+ 541 04aa 10BD     		pop	{r4, pc}
+ 543              		.align	2
+ 544              		.global	rxInit
+ 545              		.thumb
+ 546              		.thumb_func
+ 548              	rxInit:
+ 549              		@ args = 0, pretend = 0, frame = 40
+ 550              		@ frame_needed = 0, uses_anonymous_args = 0
+ 551 04ac 00B5     		push	{lr}
+ 552 04ae 8BB0     		sub	sp, sp, #44
+ 553 04b0 05AB     		add	r3, sp, #20
+ 554 04b2 1846     		mov	r0, r3
+ 555 04b4 FFF7FEFF 		bl	TIM_TimeBaseStructInit
+ 556 04b8 40F20000 		movw	r0, #:lower16:TIM_ICInitStructure
+ 557 04bc C0F20000 		movt	r0, #:upper16:TIM_ICInitStructure
+ 558 04c0 FFF7FEFF 		bl	TIM_ICStructInit
+ 559 04c4 6B46     		mov	r3, sp
+ 560 04c6 1846     		mov	r0, r3
+ 561 04c8 FFF7FEFF 		bl	USART_StructInit
+ 562 04cc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 563 04d0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 564 04d4 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 565 04d8 022B     		cmp	r3, #2
+ 566 04da 40F0C480 		bne	.L33
+ 567 04de 4FF00800 		mov	r0, #8
+ 568 04e2 4FF00101 		mov	r1, #1
+ 569 04e6 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 570 04ea 4FF00400 		mov	r0, #4
+ 571 04ee 4FF00101 		mov	r1, #1
+ 572 04f2 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 573 04f6 40F20003 		movw	r3, #:lower16:i
+ 574 04fa C0F20003 		movt	r3, #:upper16:i
+ 575 04fe 4FF00002 		mov	r2, #0
+ 576 0502 1A70     		strb	r2, [r3, #0]
+ 577 0504 20E0     		b	.L34
+ 578              	.L35:
+ 579 0506 40F20003 		movw	r3, #:lower16:i
+ 580 050a C0F20003 		movt	r3, #:upper16:i
+ 581 050e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 582 0510 1946     		mov	r1, r3
+ 583 0512 40F20002 		movw	r2, #:lower16:Inputs
+ 584 0516 C0F20002 		movt	r2, #:upper16:Inputs
+ 585 051a 0B46     		mov	r3, r1
+ 586 051c 4FEA4303 		lsl	r3, r3, #1
+ 587 0520 5B18     		adds	r3, r3, r1
+ 588 0522 4FEA4303 		lsl	r3, r3, #1
+ 589 0526 D318     		adds	r3, r2, r3
+ 590 0528 40F6B832 		movw	r2, #3000
+ 591 052c 9A80     		strh	r2, [r3, #4]	@ movhi
+ 592 052e 40F20003 		movw	r3, #:lower16:i
+ 593 0532 C0F20003 		movt	r3, #:upper16:i
+ 594 0536 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 595 0538 03F10103 		add	r3, r3, #1
+ 596 053c DAB2     		uxtb	r2, r3
+ 597 053e 40F20003 		movw	r3, #:lower16:i
+ 598 0542 C0F20003 		movt	r3, #:upper16:i
+ 599 0546 1A70     		strb	r2, [r3, #0]
+ 600              	.L34:
+ 601 0548 40F20003 		movw	r3, #:lower16:i
+ 602 054c C0F20003 		movt	r3, #:upper16:i
+ 603 0550 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 604 0552 072B     		cmp	r3, #7
+ 605 0554 D7D9     		bls	.L35
+ 606 0556 4FF40043 		mov	r3, #32768
+ 607 055a 0893     		str	r3, [sp, #32]
+ 608 055c 4FF00203 		mov	r3, #2
+ 609 0560 8DF82430 		strb	r3, [sp, #36]
+ 610 0564 4FF00203 		mov	r3, #2
+ 611 0568 8DF82530 		strb	r3, [sp, #37]
+ 612 056c 4FF00003 		mov	r3, #0
+ 613 0570 8DF82630 		strb	r3, [sp, #38]
+ 614 0574 4FF00003 		mov	r3, #0
+ 615 0578 8DF82730 		strb	r3, [sp, #39]
+ 616 057c 4FF44060 		mov	r0, #3072
+ 617 0580 C4F20200 		movt	r0, 16386
+ 618 0584 08AB     		add	r3, sp, #32
+ 619 0586 1946     		mov	r1, r3
+ 620 0588 FFF7FEFF 		bl	GPIO_Init
+ 621 058c 4FF44060 		mov	r0, #3072
+ 622 0590 C4F20200 		movt	r0, 16386
+ 623 0594 4FF00F01 		mov	r1, #15
+ 624 0598 4FF00202 		mov	r2, #2
+ 625 059c FFF7FEFF 		bl	GPIO_PinAFConfig
+ 626 05a0 4FF01E03 		mov	r3, #30
+ 627 05a4 8DF81030 		strb	r3, [sp, #16]
+ 628 05a8 4FF00203 		mov	r3, #2
+ 629 05ac 8DF81130 		strb	r3, [sp, #17]
+ 630 05b0 4FF00003 		mov	r3, #0
+ 631 05b4 8DF81230 		strb	r3, [sp, #18]
+ 632 05b8 4FF00103 		mov	r3, #1
+ 633 05bc 8DF81330 		strb	r3, [sp, #19]
+ 634 05c0 04AB     		add	r3, sp, #16
+ 635 05c2 1846     		mov	r0, r3
+ 636 05c4 FFF7FEFF 		bl	NVIC_Init
+ 637 05c8 4FF02903 		mov	r3, #41
+ 638 05cc ADF81430 		strh	r3, [sp, #20]	@ movhi
+ 639 05d0 4FF6FF73 		movw	r3, #65535
+ 640 05d4 0693     		str	r3, [sp, #24]
+ 641 05d6 4FF40060 		mov	r0, #2048
+ 642 05da C4F20000 		movt	r0, 16384
+ 643 05de 05AB     		add	r3, sp, #20
+ 644 05e0 1946     		mov	r1, r3
+ 645 05e2 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 646 05e6 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 647 05ea C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 648 05ee 4FF00C02 		mov	r2, #12
+ 649 05f2 1A80     		strh	r2, [r3, #0]	@ movhi
+ 650 05f4 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 651 05f8 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 652 05fc 4FF00002 		mov	r2, #0
+ 653 0600 5A80     		strh	r2, [r3, #2]	@ movhi
+ 654 0602 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 655 0606 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 656 060a 4FF00102 		mov	r2, #1
+ 657 060e 9A80     		strh	r2, [r3, #4]	@ movhi
+ 658 0610 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 659 0614 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 660 0618 4FF00002 		mov	r2, #0
+ 661 061c DA80     		strh	r2, [r3, #6]	@ movhi
+ 662 061e 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 663 0622 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 664 0626 4FF00002 		mov	r2, #0
+ 665 062a 1A81     		strh	r2, [r3, #8]	@ movhi
+ 666 062c 4FF40060 		mov	r0, #2048
+ 667 0630 C4F20000 		movt	r0, 16384
+ 668 0634 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
+ 669 0638 C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
+ 670 063c FFF7FEFF 		bl	TIM_ICInit
+ 671 0640 4FF40060 		mov	r0, #2048
+ 672 0644 C4F20000 		movt	r0, 16384
+ 673 0648 4FF01001 		mov	r1, #16
+ 674 064c 4FF00102 		mov	r2, #1
+ 675 0650 FFF7FEFF 		bl	TIM_ITConfig
+ 676 0654 4FF40060 		mov	r0, #2048
+ 677 0658 C4F20000 		movt	r0, 16384
+ 678 065c 4FF00101 		mov	r1, #1
+ 679 0660 FFF7FEFF 		bl	TIM_Cmd
+ 680 0664 13E2     		b	.L32
+ 681              	.L33:
+ 682 0666 40F20003 		movw	r3, #:lower16:eepromConfig
+ 683 066a C0F20003 		movt	r3, #:upper16:eepromConfig
+ 684 066e 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 685 0672 012B     		cmp	r3, #1
+ 686 0674 40F07381 		bne	.L37
+ 687 0678 4FF00800 		mov	r0, #8
+ 688 067c 4FF00101 		mov	r1, #1
+ 689 0680 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 690 0684 4FF01000 		mov	r0, #16
+ 691 0688 4FF00101 		mov	r1, #1
+ 692 068c FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 693 0690 4FF00400 		mov	r0, #4
+ 694 0694 4FF00101 		mov	r1, #1
+ 695 0698 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 696 069c 4FF00100 		mov	r0, #1
+ 697 06a0 4FF00101 		mov	r1, #1
+ 698 06a4 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+ 699 06a8 40F20003 		movw	r3, #:lower16:i
+ 700 06ac C0F20003 		movt	r3, #:upper16:i
+ 701 06b0 4FF00002 		mov	r2, #0
+ 702 06b4 1A70     		strb	r2, [r3, #0]
+ 703 06b6 20E0     		b	.L38
+ 704              	.L39:
+ 705 06b8 40F20003 		movw	r3, #:lower16:i
+ 706 06bc C0F20003 		movt	r3, #:upper16:i
+ 707 06c0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 708 06c2 1946     		mov	r1, r3
+ 709 06c4 40F20002 		movw	r2, #:lower16:Inputs
+ 710 06c8 C0F20002 		movt	r2, #:upper16:Inputs
+ 711 06cc 0B46     		mov	r3, r1
+ 712 06ce 4FEA4303 		lsl	r3, r3, #1
+ 713 06d2 5B18     		adds	r3, r3, r1
+ 714 06d4 4FEA4303 		lsl	r3, r3, #1
+ 715 06d8 D318     		adds	r3, r2, r3
+ 716 06da 40F6B832 		movw	r2, #3000
+ 717 06de 9A80     		strh	r2, [r3, #4]	@ movhi
+ 718 06e0 40F20003 		movw	r3, #:lower16:i
+ 719 06e4 C0F20003 		movt	r3, #:upper16:i
+ 720 06e8 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 721 06ea 03F10103 		add	r3, r3, #1
+ 722 06ee DAB2     		uxtb	r2, r3
+ 723 06f0 40F20003 		movw	r3, #:lower16:i
+ 724 06f4 C0F20003 		movt	r3, #:upper16:i
+ 725 06f8 1A70     		strb	r2, [r3, #0]
+ 726              	.L38:
+ 727 06fa 40F20003 		movw	r3, #:lower16:i
+ 728 06fe C0F20003 		movt	r3, #:upper16:i
+ 729 0702 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 730 0704 072B     		cmp	r3, #7
+ 731 0706 D7D9     		bls	.L39
+ 732 0708 4FF47043 		mov	r3, #61440
+ 733 070c 0893     		str	r3, [sp, #32]
+ 734 070e 4FF00203 		mov	r3, #2
+ 735 0712 8DF82430 		strb	r3, [sp, #36]
+ 736 0716 4FF00203 		mov	r3, #2
+ 737 071a 8DF82530 		strb	r3, [sp, #37]
+ 738 071e 4FF00003 		mov	r3, #0
+ 739 0722 8DF82630 		strb	r3, [sp, #38]
+ 740 0726 4FF00203 		mov	r3, #2
+ 741 072a 8DF82730 		strb	r3, [sp, #39]
+ 742 072e 4FF44060 		mov	r0, #3072
+ 743 0732 C4F20200 		movt	r0, 16386
+ 744 0736 08AB     		add	r3, sp, #32
+ 745 0738 1946     		mov	r1, r3
+ 746 073a FFF7FEFF 		bl	GPIO_Init
+ 747 073e 4FF4D443 		mov	r3, #27136
+ 748 0742 0893     		str	r3, [sp, #32]
+ 749 0744 4FF48050 		mov	r0, #4096
+ 750 0748 C4F20200 		movt	r0, 16386
+ 751 074c 08AB     		add	r3, sp, #32
+ 752 074e 1946     		mov	r1, r3
+ 753 0750 FFF7FEFF 		bl	GPIO_Init
+ 754 0754 4FF44060 		mov	r0, #3072
+ 755 0758 C4F20200 		movt	r0, 16386
+ 756 075c 4FF00C01 		mov	r1, #12
+ 757 0760 4FF00202 		mov	r2, #2
+ 758 0764 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 759 0768 4FF44060 		mov	r0, #3072
+ 760 076c C4F20200 		movt	r0, 16386
+ 761 0770 4FF00D01 		mov	r1, #13
+ 762 0774 4FF00202 		mov	r2, #2
+ 763 0778 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 764 077c 4FF44060 		mov	r0, #3072
+ 765 0780 C4F20200 		movt	r0, 16386
+ 766 0784 4FF00E01 		mov	r1, #14
+ 767 0788 4FF00202 		mov	r2, #2
+ 768 078c FFF7FEFF 		bl	GPIO_PinAFConfig
+ 769 0790 4FF44060 		mov	r0, #3072
+ 770 0794 C4F20200 		movt	r0, 16386
+ 771 0798 4FF00F01 		mov	r1, #15
+ 772 079c 4FF00202 		mov	r2, #2
+ 773 07a0 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 774 07a4 4FF48050 		mov	r0, #4096
+ 775 07a8 C4F20200 		movt	r0, 16386
+ 776 07ac 4FF00901 		mov	r1, #9
+ 777 07b0 4FF00102 		mov	r2, #1
+ 778 07b4 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 779 07b8 4FF48050 		mov	r0, #4096
+ 780 07bc C4F20200 		movt	r0, 16386
+ 781 07c0 4FF00B01 		mov	r1, #11
+ 782 07c4 4FF00102 		mov	r2, #1
+ 783 07c8 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 784 07cc 4FF48050 		mov	r0, #4096
+ 785 07d0 C4F20200 		movt	r0, 16386
+ 786 07d4 4FF00D01 		mov	r1, #13
+ 787 07d8 4FF00102 		mov	r2, #1
+ 788 07dc FFF7FEFF 		bl	GPIO_PinAFConfig
+ 789 07e0 4FF48050 		mov	r0, #4096
+ 790 07e4 C4F20200 		movt	r0, 16386
+ 791 07e8 4FF00E01 		mov	r1, #14
+ 792 07ec 4FF00102 		mov	r2, #1
+ 793 07f0 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 794 07f4 4FF01E03 		mov	r3, #30
+ 795 07f8 8DF81030 		strb	r3, [sp, #16]
+ 796 07fc 4FF00203 		mov	r3, #2
+ 797 0800 8DF81130 		strb	r3, [sp, #17]
+ 798 0804 4FF00003 		mov	r3, #0
+ 799 0808 8DF81230 		strb	r3, [sp, #18]
+ 800 080c 4FF00103 		mov	r3, #1
+ 801 0810 8DF81330 		strb	r3, [sp, #19]
+ 802 0814 04AB     		add	r3, sp, #16
+ 803 0816 1846     		mov	r0, r3
+ 804 0818 FFF7FEFF 		bl	NVIC_Init
+ 805 081c 4FF01B03 		mov	r3, #27
+ 806 0820 8DF81030 		strb	r3, [sp, #16]
+ 807 0824 04AB     		add	r3, sp, #16
+ 808 0826 1846     		mov	r0, r3
+ 809 0828 FFF7FEFF 		bl	NVIC_Init
+ 810 082c 4FF02903 		mov	r3, #41
+ 811 0830 ADF81430 		strh	r3, [sp, #20]	@ movhi
+ 812 0834 4FF6FF73 		movw	r3, #65535
+ 813 0838 0693     		str	r3, [sp, #24]
+ 814 083a 4FF40060 		mov	r0, #2048
+ 815 083e C4F20000 		movt	r0, 16384
+ 816 0842 05AB     		add	r3, sp, #20
+ 817 0844 1946     		mov	r1, r3
+ 818 0846 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 819 084a 4FF00000 		mov	r0, #0
+ 820 084e C4F20100 		movt	r0, 16385
+ 821 0852 05AB     		add	r3, sp, #20
+ 822 0854 1946     		mov	r1, r3
+ 823 0856 FFF7FEFF 		bl	TIM_TimeBaseInit
+ 824 085a 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 825 085e C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 826 0862 4FF00002 		mov	r2, #0
+ 827 0866 5A80     		strh	r2, [r3, #2]	@ movhi
+ 828 0868 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 829 086c C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 830 0870 4FF00102 		mov	r2, #1
+ 831 0874 9A80     		strh	r2, [r3, #4]	@ movhi
+ 832 0876 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 833 087a C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 834 087e 4FF00002 		mov	r2, #0
+ 835 0882 DA80     		strh	r2, [r3, #6]	@ movhi
+ 836 0884 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 837 0888 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 838 088c 4FF00002 		mov	r2, #0
+ 839 0890 1A81     		strh	r2, [r3, #8]	@ movhi
+ 840 0892 40F20003 		movw	r3, #:lower16:i
+ 841 0896 C0F20003 		movt	r3, #:upper16:i
+ 842 089a 4FF00002 		mov	r2, #0
+ 843 089e 1A70     		strb	r2, [r3, #0]
+ 844 08a0 31E0     		b	.L40
+ 845              	.L41:
+ 846 08a2 40F20003 		movw	r3, #:lower16:i
+ 847 08a6 C0F20003 		movt	r3, #:upper16:i
+ 848 08aa 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 849 08ac 40F20002 		movw	r2, #:lower16:Channels
+ 850 08b0 C0F20002 		movt	r2, #:upper16:Channels
+ 851 08b4 4FEAC303 		lsl	r3, r3, #3
+ 852 08b8 D318     		adds	r3, r2, r3
+ 853 08ba 9A88     		ldrh	r2, [r3, #4]
+ 854 08bc 40F20003 		movw	r3, #:lower16:TIM_ICInitStructure
+ 855 08c0 C0F20003 		movt	r3, #:upper16:TIM_ICInitStructure
+ 856 08c4 1A80     		strh	r2, [r3, #0]	@ movhi
+ 857 08c6 40F20003 		movw	r3, #:lower16:i
+ 858 08ca C0F20003 		movt	r3, #:upper16:i
+ 859 08ce 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 860 08d0 1A46     		mov	r2, r3
+ 861 08d2 40F20003 		movw	r3, #:lower16:Channels
+ 862 08d6 C0F20003 		movt	r3, #:upper16:Channels
+ 863 08da 53F83230 		ldr	r3, [r3, r2, lsl #3]
+ 864 08de 1846     		mov	r0, r3
+ 865 08e0 40F20001 		movw	r1, #:lower16:TIM_ICInitStructure
+ 866 08e4 C0F20001 		movt	r1, #:upper16:TIM_ICInitStructure
+ 867 08e8 FFF7FEFF 		bl	TIM_ICInit
+ 868 08ec 40F20003 		movw	r3, #:lower16:i
+ 869 08f0 C0F20003 		movt	r3, #:upper16:i
+ 870 08f4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 871 08f6 03F10103 		add	r3, r3, #1
+ 872 08fa DAB2     		uxtb	r2, r3
+ 873 08fc 40F20003 		movw	r3, #:lower16:i
+ 874 0900 C0F20003 		movt	r3, #:upper16:i
+ 875 0904 1A70     		strb	r2, [r3, #0]
+ 876              	.L40:
+ 877 0906 40F20003 		movw	r3, #:lower16:i
+ 878 090a C0F20003 		movt	r3, #:upper16:i
+ 879 090e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 880 0910 072B     		cmp	r3, #7
+ 881 0912 C6D9     		bls	.L41
+ 882 0914 4FF40060 		mov	r0, #2048
+ 883 0918 C4F20000 		movt	r0, 16384
+ 884 091c 4FF01E01 		mov	r1, #30
+ 885 0920 4FF00102 		mov	r2, #1
+ 886 0924 FFF7FEFF 		bl	TIM_ITConfig
+ 887 0928 4FF00000 		mov	r0, #0
+ 888 092c C4F20100 		movt	r0, 16385
+ 889 0930 4FF01E01 		mov	r1, #30
+ 890 0934 4FF00102 		mov	r2, #1
+ 891 0938 FFF7FEFF 		bl	TIM_ITConfig
+ 892 093c 4FF40060 		mov	r0, #2048
+ 893 0940 C4F20000 		movt	r0, 16384
+ 894 0944 4FF00101 		mov	r1, #1
+ 895 0948 FFF7FEFF 		bl	TIM_Cmd
+ 896 094c 4FF00000 		mov	r0, #0
+ 897 0950 C4F20100 		movt	r0, 16385
+ 898 0954 4FF00101 		mov	r1, #1
+ 899 0958 FFF7FEFF 		bl	TIM_Cmd
+ 900 095c 97E0     		b	.L32
+ 901              	.L37:
+ 902 095e 40F20003 		movw	r3, #:lower16:eepromConfig
+ 903 0962 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 904 0966 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 905 096a 032B     		cmp	r3, #3
+ 906 096c 40F08F80 		bne	.L32
+ 907 0970 4FF00100 		mov	r0, #1
+ 908 0974 4FF00101 		mov	r1, #1
+ 909 0978 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 910 097c 4FF01000 		mov	r0, #16
+ 911 0980 4FF00101 		mov	r1, #1
+ 912 0984 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+ 913 0988 4FF02503 		mov	r3, #37
+ 914 098c 8DF81030 		strb	r3, [sp, #16]
+ 915 0990 4FF00203 		mov	r3, #2
+ 916 0994 8DF81130 		strb	r3, [sp, #17]
+ 917 0998 4FF00003 		mov	r3, #0
+ 918 099c 8DF81230 		strb	r3, [sp, #18]
+ 919 09a0 4FF00103 		mov	r3, #1
+ 920 09a4 8DF81330 		strb	r3, [sp, #19]
+ 921 09a8 04AB     		add	r3, sp, #16
+ 922 09aa 1846     		mov	r0, r3
+ 923 09ac FFF7FEFF 		bl	NVIC_Init
+ 924 09b0 4FF48063 		mov	r3, #1024
+ 925 09b4 0893     		str	r3, [sp, #32]
+ 926 09b6 4FF00203 		mov	r3, #2
+ 927 09ba 8DF82430 		strb	r3, [sp, #36]
+ 928 09be 4FF00203 		mov	r3, #2
+ 929 09c2 8DF82530 		strb	r3, [sp, #37]
+ 930 09c6 4FF00003 		mov	r3, #0
+ 931 09ca 8DF82630 		strb	r3, [sp, #38]
+ 932 09ce 4FF00103 		mov	r3, #1
+ 933 09d2 8DF82730 		strb	r3, [sp, #39]
+ 934 09d6 4FF00000 		mov	r0, #0
+ 935 09da C4F20200 		movt	r0, 16386
+ 936 09de 08AB     		add	r3, sp, #32
+ 937 09e0 1946     		mov	r1, r3
+ 938 09e2 FFF7FEFF 		bl	GPIO_Init
+ 939 09e6 4FF00000 		mov	r0, #0
+ 940 09ea C4F20200 		movt	r0, 16386
+ 941 09ee 4FF00A01 		mov	r1, #10
+ 942 09f2 4FF00702 		mov	r2, #7
+ 943 09f6 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 944 09fa 4FF4E133 		mov	r3, #115200
+ 945 09fe 0093     		str	r3, [sp, #0]
+ 946 0a00 4FF00403 		mov	r3, #4
+ 947 0a04 ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 948 0a08 4FF00003 		mov	r3, #0
+ 949 0a0c ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 950 0a10 4FF48050 		mov	r0, #4096
+ 951 0a14 C4F20100 		movt	r0, 16385
+ 952 0a18 6B46     		mov	r3, sp
+ 953 0a1a 1946     		mov	r1, r3
+ 954 0a1c FFF7FEFF 		bl	USART_Init
+ 955 0a20 4FF48050 		mov	r0, #4096
+ 956 0a24 C4F20100 		movt	r0, 16385
+ 957 0a28 40F22551 		movw	r1, #1317
+ 958 0a2c 4FF00102 		mov	r2, #1
+ 959 0a30 FFF7FEFF 		bl	USART_ITConfig
+ 960 0a34 4FF48050 		mov	r0, #4096
+ 961 0a38 C4F20100 		movt	r0, 16385
+ 962 0a3c 4FF00101 		mov	r1, #1
+ 963 0a40 FFF7FEFF 		bl	USART_Cmd
+ 964 0a44 40F20003 		movw	r3, #:lower16:eepromConfig
+ 965 0a48 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 966 0a4c 93F87230 		ldrb	r3, [r3, #114]	@ zero_extendqisi2
+ 967 0a50 002B     		cmp	r3, #0
+ 968 0a52 0ED0     		beq	.L42
+ 969 0a54 40F20003 		movw	r3, #:lower16:spektrumChannelShift
+ 970 0a58 C0F20003 		movt	r3, #:upper16:spektrumChannelShift
+ 971 0a5c 4FF00302 		mov	r2, #3
+ 972 0a60 1A70     		strb	r2, [r3, #0]
+ 973 0a62 40F20003 		movw	r3, #:lower16:spektrumChannelMask
+ 974 0a66 C0F20003 		movt	r3, #:upper16:spektrumChannelMask
+ 975 0a6a 4FF00702 		mov	r2, #7
+ 976 0a6e 1A70     		strb	r2, [r3, #0]
+ 977 0a70 0DE0     		b	.L32
+ 978              	.L42:
+ 979 0a72 40F20003 		movw	r3, #:lower16:spektrumChannelShift
+ 980 0a76 C0F20003 		movt	r3, #:upper16:spektrumChannelShift
+ 981 0a7a 4FF00202 		mov	r2, #2
+ 982 0a7e 1A70     		strb	r2, [r3, #0]
+ 983 0a80 40F20003 		movw	r3, #:lower16:spektrumChannelMask
+ 984 0a84 C0F20003 		movt	r3, #:upper16:spektrumChannelMask
+ 985 0a88 4FF00302 		mov	r2, #3
+ 986 0a8c 1A70     		strb	r2, [r3, #0]
+ 987              	.L32:
+ 988 0a8e 0BB0     		add	sp, sp, #44
+ 989 0a90 00BD     		pop	{pc}
+ 991 0a92 00BF     		.align	2
+ 992              		.global	rxRead
+ 993              		.thumb
+ 994              		.thumb_func
+ 996              	rxRead:
+ 997              		@ args = 0, pretend = 0, frame = 16
+ 998              		@ frame_needed = 0, uses_anonymous_args = 0
+ 999              		@ link register save eliminated.
+ 1000 0a94 84B0     		sub	sp, sp, #16
+ 1001 0a96 0346     		mov	r3, r0
+ 1002 0a98 8DF80730 		strb	r3, [sp, #7]
+ 1003 0a9c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1004 0aa0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1005 0aa4 93F87030 		ldrb	r3, [r3, #112]	@ zero_extendqisi2
+ 1006 0aa8 032B     		cmp	r3, #3
+ 1007 0aaa 37D1     		bne	.L44
+ 1008 0aac 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1009 0ab0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1010 0ab4 93F87130 		ldrb	r3, [r3, #113]	@ zero_extendqisi2
+ 1011 0ab8 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 1012 0abc 9A42     		cmp	r2, r3
+ 1013 0abe 04D3     		bcc	.L45
+ 1014 0ac0 4FF4FA63 		mov	r3, #2000
+ 1015 0ac4 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 1016 0ac8 25E0     		b	.L46
+ 1017              	.L45:
+ 1018 0aca 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1019 0ace C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1020 0ad2 93F87230 		ldrb	r3, [r3, #114]	@ zero_extendqisi2
+ 1021 0ad6 002B     		cmp	r3, #0
+ 1022 0ad8 0DD0     		beq	.L47
+ 1023 0ada 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 1024 0ade 40F20003 		movw	r3, #:lower16:spektrumChannelData
+ 1025 0ae2 C0F20003 		movt	r3, #:upper16:spektrumChannelData
+ 1026 0ae6 53F82230 		ldr	r3, [r3, r2, lsl #2]
+ 1027 0aea 9BB2     		uxth	r3, r3
+ 1028 0aec 03F57A73 		add	r3, r3, #1000
+ 1029 0af0 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 1030 0af4 0FE0     		b	.L46
+ 1031              	.L47:
+ 1032 0af6 9DF80720 		ldrb	r2, [sp, #7]	@ zero_extendqisi2
+ 1033 0afa 40F20003 		movw	r3, #:lower16:spektrumChannelData
+ 1034 0afe C0F20003 		movt	r3, #:upper16:spektrumChannelData
+ 1035 0b02 53F82230 		ldr	r3, [r3, r2, lsl #2]
+ 1036 0b06 9BB2     		uxth	r3, r3
+ 1037 0b08 03F57A73 		add	r3, r3, #1000
+ 1038 0b0c 9BB2     		uxth	r3, r3
+ 1039 0b0e 4FEA4303 		lsl	r3, r3, #1
+ 1040 0b12 ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 1041              	.L46:
+ 1042 0b16 BDF80E30 		ldrh	r3, [sp, #14]
+ 1043 0b1a 0DE0     		b	.L48
+ 1044              	.L44:
+ 1045 0b1c 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 1046 0b20 40F20002 		movw	r2, #:lower16:Inputs
+ 1047 0b24 C0F20002 		movt	r2, #:upper16:Inputs
+ 1048 0b28 0B46     		mov	r3, r1
+ 1049 0b2a 4FEA4303 		lsl	r3, r3, #1
+ 1050 0b2e 5B18     		adds	r3, r3, r1
+ 1051 0b30 4FEA4303 		lsl	r3, r3, #1
+ 1052 0b34 D318     		adds	r3, r2, r3
+ 1053 0b36 9B88     		ldrh	r3, [r3, #4]
+ 1054              	.L48:
+ 1055 0b38 1846     		mov	r0, r3
+ 1056 0b3a 04B0     		add	sp, sp, #16
+ 1057 0b3c 7047     		bx	lr
+ 1059 0b3e 00BF     		.align	2
+ 1060              		.global	checkSpektrumBind
+ 1061              		.thumb
+ 1062              		.thumb_func
+ 1064              	checkSpektrumBind:
+ 1065              		@ args = 0, pretend = 0, frame = 16
+ 1066              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1067 0b40 00B5     		push	{lr}
+ 1068 0b42 85B0     		sub	sp, sp, #20
+ 1069 0b44 4FF00100 		mov	r0, #1
+ 1070 0b48 4FF00101 		mov	r1, #1
+ 1071 0b4c FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 1072 0b50 4FF01000 		mov	r0, #16
+ 1073 0b54 4FF00101 		mov	r1, #1
+ 1074 0b58 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 1075 0b5c 4FF48043 		mov	r3, #16384
+ 1076 0b60 0193     		str	r3, [sp, #4]
+ 1077 0b62 4FF00003 		mov	r3, #0
+ 1078 0b66 8DF80830 		strb	r3, [sp, #8]
+ 1079 0b6a 4FF00203 		mov	r3, #2
+ 1080 0b6e 8DF80930 		strb	r3, [sp, #9]
+ 1081 0b72 4FF00003 		mov	r3, #0
+ 1082 0b76 8DF80A30 		strb	r3, [sp, #10]
+ 1083 0b7a 4FF00103 		mov	r3, #1
+ 1084 0b7e 8DF80B30 		strb	r3, [sp, #11]
+ 1085 0b82 4FF48050 		mov	r0, #4096
+ 1086 0b86 C4F20200 		movt	r0, 16386
+ 1087 0b8a 01AB     		add	r3, sp, #4
+ 1088 0b8c 1946     		mov	r1, r3
+ 1089 0b8e FFF7FEFF 		bl	GPIO_Init
+ 1090 0b92 4FF48050 		mov	r0, #4096
+ 1091 0b96 C4F20200 		movt	r0, 16386
+ 1092 0b9a 4FF48041 		mov	r1, #16384
+ 1093 0b9e FFF7FEFF 		bl	GPIO_ReadInputDataBit
+ 1094 0ba2 0346     		mov	r3, r0
+ 1095 0ba4 012B     		cmp	r3, #1
+ 1096 0ba6 70D0     		beq	.L56
+ 1097              	.L50:
+ 1098 0ba8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1099 0bac C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1100 0bb0 93F87130 		ldrb	r3, [r3, #113]	@ zero_extendqisi2
+ 1101 0bb4 072B     		cmp	r3, #7
+ 1102 0bb6 07D8     		bhi	.L52
+ 1103 0bb8 40F20003 		movw	r3, #:lower16:spektrumBindCount
+ 1104 0bbc C0F20003 		movt	r3, #:upper16:spektrumBindCount
+ 1105 0bc0 4FF00302 		mov	r2, #3
+ 1106 0bc4 1A70     		strb	r2, [r3, #0]
+ 1107 0bc6 06E0     		b	.L53
+ 1108              	.L52:
+ 1109 0bc8 40F20003 		movw	r3, #:lower16:spektrumBindCount
+ 1110 0bcc C0F20003 		movt	r3, #:upper16:spektrumBindCount
+ 1111 0bd0 4FF00502 		mov	r2, #5
+ 1112 0bd4 1A70     		strb	r2, [r3, #0]
+ 1113              	.L53:
+ 1114 0bd6 4FF48063 		mov	r3, #1024
+ 1115 0bda 0193     		str	r3, [sp, #4]
+ 1116 0bdc 4FF00103 		mov	r3, #1
+ 1117 0be0 8DF80830 		strb	r3, [sp, #8]
+ 1118 0be4 4FF00203 		mov	r3, #2
+ 1119 0be8 8DF80930 		strb	r3, [sp, #9]
+ 1120 0bec 4FF00003 		mov	r3, #0
+ 1121 0bf0 8DF80A30 		strb	r3, [sp, #10]
+ 1122 0bf4 4FF00003 		mov	r3, #0
+ 1123 0bf8 8DF80B30 		strb	r3, [sp, #11]
+ 1124 0bfc 4FF00000 		mov	r0, #0
+ 1125 0c00 C4F20200 		movt	r0, 16386
+ 1126 0c04 01AB     		add	r3, sp, #4
+ 1127 0c06 1946     		mov	r1, r3
+ 1128 0c08 FFF7FEFF 		bl	GPIO_Init
+ 1129 0c0c 4FF00000 		mov	r0, #0
+ 1130 0c10 C4F20200 		movt	r0, 16386
+ 1131 0c14 4FF48061 		mov	r1, #1024
+ 1132 0c18 4FF00102 		mov	r2, #1
+ 1133 0c1c FFF7FEFF 		bl	GPIO_WriteBit
+ 1134 0c20 4FF03C00 		mov	r0, #60
+ 1135 0c24 FFF7FEFF 		bl	delay
+ 1136 0c28 4FF00003 		mov	r3, #0
+ 1137 0c2c 8DF80F30 		strb	r3, [sp, #15]
+ 1138 0c30 21E0     		b	.L54
+ 1139              	.L55:
+ 1140 0c32 4FF00000 		mov	r0, #0
+ 1141 0c36 C4F20200 		movt	r0, 16386
+ 1142 0c3a 4FF48061 		mov	r1, #1024
+ 1143 0c3e 4FF00002 		mov	r2, #0
+ 1144 0c42 FFF7FEFF 		bl	GPIO_WriteBit
+ 1145 0c46 4FF07800 		mov	r0, #120
+ 1146 0c4a FFF7FEFF 		bl	delayMicroseconds
+ 1147 0c4e 4FF00000 		mov	r0, #0
+ 1148 0c52 C4F20200 		movt	r0, 16386
+ 1149 0c56 4FF48061 		mov	r1, #1024
+ 1150 0c5a 4FF00102 		mov	r2, #1
+ 1151 0c5e FFF7FEFF 		bl	GPIO_WriteBit
+ 1152 0c62 4FF07800 		mov	r0, #120
+ 1153 0c66 FFF7FEFF 		bl	delayMicroseconds
+ 1154 0c6a 9DF80F30 		ldrb	r3, [sp, #15]
+ 1155 0c6e 03F10103 		add	r3, r3, #1
+ 1156 0c72 8DF80F30 		strb	r3, [sp, #15]
+ 1157              	.L54:
+ 1158 0c76 40F20003 		movw	r3, #:lower16:spektrumBindCount
+ 1159 0c7a C0F20003 		movt	r3, #:upper16:spektrumBindCount
+ 1160 0c7e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 1161 0c80 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 1162 0c84 9A42     		cmp	r2, r3
+ 1163 0c86 D4D3     		bcc	.L55
+ 1164 0c88 00E0     		b	.L49
+ 1165              	.L56:
+ 1166 0c8a 00BF     		nop
+ 1167              	.L49:
+ 1168 0c8c 05B0     		add	sp, sp, #20
+ 1169 0c8e 00BD     		pop	{pc}
+ 1171              		.bss
+ 1172 003f 00       		.align	1
+ 1173              	now.10969:
+ 1174 0040 0000     		.space	2
+ 1175              		.align	1
+ 1176              	last.10970:
+ 1177 0042 0000     		.space	2
+ 1178              	chan.10971:
+ 1179 0044 00       		.space	1
+ 1180 0045 000000   		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_rx.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:20     .bss:00000000 rcActive
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:21     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:23     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:26     .data:00000000 Channels
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:53     .bss:00000004 Inputs
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:56     .bss:00000034 TIM_ICInitStructure
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:23     .bss:00000000 rcActive
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:24     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:26     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:29     .data:00000000 Channels
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:56     .bss:00000004 Inputs
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:59     .bss:00000034 TIM_ICInitStructure
                             *COM*:00000001 i
                             *COM*:00000001 spektrumBindCount
                             *COM*:00000030 spektrumChannelData
                             *COM*:00000001 spektrumChannelMask
                             *COM*:00000001 spektrumChannelShift
                             *COM*:00000010 spektrumFrame
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:67     .bss:0000003e spektrumFrameComplete
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:70     .bss:0000003e spektrumFrameComplete
                             *COM*:00000001 spektrumFramePosition
                             *COM*:00000004 spektrumTimeInterval
                             *COM*:00000004 spektrumTimeLast
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:73     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:77     .text:00000000 serialPWM_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:1170   .bss:00000040 now.10911
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:1173   .bss:00000042 last.10912
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:1175   .bss:00000044 chan.10913
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:171    .text:000000f8 parallelPWM_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:233    .text:0000019c $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:247    .text:000001d0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:364    .text:000002d8 TIM4_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:389    .text:00000308 TIM1_CC_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:403    .text:00000318 USART1_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:545    .text:000004ac rxInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:993    .text:00000a94 rxRead
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc6SBTnQ.s:1061   .text:00000b40 checkSpektrumBind
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:76     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:80     .text:00000000 serialPWM_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:1173   .bss:00000040 now.10969
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:1176   .bss:00000042 last.10970
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:1178   .bss:00000044 chan.10971
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:174    .text:000000f8 parallelPWM_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:236    .text:0000019c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:250    .text:000001d0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:367    .text:000002d8 TIM4_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:392    .text:00000308 TIM1_CC_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:406    .text:00000318 USART1_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:548    .text:000004ac rxInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:996    .text:00000a94 rxRead
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoWlaG9.s:1064   .text:00000b40 checkSpektrumBind
 
 UNDEFINED SYMBOLS
 TIM_GetITStatus

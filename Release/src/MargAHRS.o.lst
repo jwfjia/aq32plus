@@ -13,1547 +13,1553 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"MargAHRS.c"
-  16              		.global	exAcc
-  17              		.bss
-  18              		.align	2
-  21              	exAcc:
-  22 0000 00000000 		.space	4
-  23              		.global	eyAcc
-  24              		.align	2
-  27              	eyAcc:
-  28 0004 00000000 		.space	4
-  29              		.global	ezAcc
-  30              		.align	2
-  33              	ezAcc:
-  34 0008 00000000 		.space	4
-  35              		.global	exAccInt
-  36              		.align	2
-  39              	exAccInt:
-  40 000c 00000000 		.space	4
-  41              		.global	eyAccInt
-  42              		.align	2
-  45              	eyAccInt:
-  46 0010 00000000 		.space	4
-  47              		.global	ezAccInt
-  48              		.align	2
-  51              	ezAccInt:
-  52 0014 00000000 		.space	4
-  53              		.global	exMag
-  54              		.align	2
-  57              	exMag:
-  58 0018 00000000 		.space	4
-  59              		.global	eyMag
-  60              		.align	2
-  63              	eyMag:
-  64 001c 00000000 		.space	4
-  65              		.global	ezMag
-  66              		.align	2
-  69              	ezMag:
-  70 0020 00000000 		.space	4
-  71              		.global	exMagInt
-  72              		.align	2
-  75              	exMagInt:
-  76 0024 00000000 		.space	4
-  77              		.global	eyMagInt
-  78              		.align	2
-  81              	eyMagInt:
-  82 0028 00000000 		.space	4
-  83              		.global	ezMagInt
-  84              		.align	2
-  87              	ezMagInt:
-  88 002c 00000000 		.space	4
-  89              		.comm	kpAcc,4,4
-  90              		.comm	kiAcc,4,4
-  91              		.global	q0
-  92              		.data
-  93              		.align	2
-  96              	q0:
-  97 0000 0000803F 		.word	1065353216
-  98              		.global	q1
-  99              		.bss
- 100              		.align	2
- 103              	q1:
- 104 0030 00000000 		.space	4
- 105              		.global	q2
- 106              		.align	2
- 109              	q2:
- 110 0034 00000000 		.space	4
- 111              		.global	q3
- 112              		.align	2
- 115              	q3:
- 116 0038 00000000 		.space	4
- 117              		.comm	q0q0,4,4
- 118              		.comm	q0q1,4,4
- 119              		.comm	q0q2,4,4
- 120              		.comm	q0q3,4,4
- 121              		.comm	q1q1,4,4
- 122              		.comm	q1q2,4,4
- 123              		.comm	q1q3,4,4
- 124              		.comm	q2q2,4,4
- 125              		.comm	q2q3,4,4
- 126              		.comm	q3q3,4,4
- 127              		.comm	halfT,4,4
- 128              		.global	MargAHRSinitialized
- 131              	MargAHRSinitialized:
- 132 003c 00       		.space	1
- 133              		.global	accConfidenceDecay
- 134 003d 000000   		.align	2
- 137              	accConfidenceDecay:
- 138 0040 00000000 		.space	4
- 139              		.global	accConfidence
- 140              		.data
- 141              		.align	2
- 144              	accConfidence:
- 145 0004 0000803F 		.word	1065353216
- 146              		.global	__aeabi_f2d
- 147              		.global	__aeabi_dmul
- 148              		.global	__aeabi_dsub
- 149              		.global	__aeabi_d2f
- 150              		.text
- 151              		.align	2
- 152              		.global	calculateAccConfidence
- 153              		.thumb
- 154              		.thumb_func
- 156              	calculateAccConfidence:
- 157              		@ args = 0, pretend = 0, frame = 8
- 158              		@ frame_needed = 0, uses_anonymous_args = 0
- 159 0000 30B5     		push	{r4, r5, lr}
- 160 0002 83B0     		sub	sp, sp, #12
- 161 0004 0190     		str	r0, [sp, #4]	@ float
- 162 0006 40F20003 		movw	r3, #:lower16:accelOneG
- 163 000a C0F20003 		movt	r3, #:upper16:accelOneG
- 164 000e D3ED007A 		flds	s15, [r3, #0]
- 165 0012 9DED017A 		flds	s14, [sp, #4]
- 166 0016 C7EE277A 		fdivs	s15, s14, s15
- 167 001a CDED017A 		fsts	s15, [sp, #4]
- 168 001e 40F20003 		movw	r3, #:lower16:accMagP.10920
- 169 0022 C0F20003 		movt	r3, #:upper16:accMagP.10920
- 170 0026 93ED007A 		flds	s14, [r3, #0]
- 171 002a DFED2B7A 		flds	s15, .L2+8
- 172 002e 27EE277A 		fmuls	s14, s14, s15
- 173 0032 DDED016A 		flds	s13, [sp, #4]
- 174 0036 DFED297A 		flds	s15, .L2+12
- 175 003a 66EEA77A 		fmuls	s15, s13, s15
- 176 003e 77EE277A 		fadds	s15, s14, s15
- 177 0042 CDED017A 		fsts	s15, [sp, #4]
- 178 0046 40F20003 		movw	r3, #:lower16:accMagP.10920
- 179 004a C0F20003 		movt	r3, #:upper16:accMagP.10920
- 180 004e 019A     		ldr	r2, [sp, #4]	@ float
- 181 0050 1A60     		str	r2, [r3, #0]	@ float
- 182 0052 40F20003 		movw	r3, #:lower16:accConfidenceDecay
- 183 0056 C0F20003 		movt	r3, #:upper16:accConfidenceDecay
- 184 005a 1B68     		ldr	r3, [r3, #0]	@ float
- 185 005c 1846     		mov	r0, r3	@ float
- 186 005e FFF7FEFF 		bl	__aeabi_f2d
- 187 0062 0446     		mov	r4, r0
- 188 0064 0D46     		mov	r5, r1
- 189 0066 9DED017A 		flds	s14, [sp, #4]
- 190 006a F7EE007A 		fconsts	s15, #112
- 191 006e 77EE677A 		fsubs	s15, s14, s15
- 192 0072 F0EEE77A 		fabss	s15, s15
- 193 0076 17EE900A 		fmrs	r0, s15
- 194 007a FFF7FEFF 		bl	__aeabi_f2d
- 195 007e 0246     		mov	r2, r0
- 196 0080 0B46     		mov	r3, r1
- 197 0082 1046     		mov	r0, r2
- 198 0084 1946     		mov	r1, r3
- 199 0086 FFF7FEFF 		bl	sqrt
- 200 008a 0246     		mov	r2, r0
- 201 008c 0B46     		mov	r3, r1
- 202 008e 2046     		mov	r0, r4
- 203 0090 2946     		mov	r1, r5
- 204 0092 FFF7FEFF 		bl	__aeabi_dmul
- 205 0096 0246     		mov	r2, r0
- 206 0098 0B46     		mov	r3, r1
- 207 009a 0DA1     		adr	r1, .L2
- 208 009c D1E90001 		ldrd	r0, [r1]
- 209 00a0 FFF7FEFF 		bl	__aeabi_dsub
- 210 00a4 0246     		mov	r2, r0
- 211 00a6 0B46     		mov	r3, r1
- 212 00a8 1046     		mov	r0, r2
- 213 00aa 1946     		mov	r1, r3
- 214 00ac FFF7FEFF 		bl	__aeabi_d2f
- 215 00b0 0346     		mov	r3, r0	@ float
- 216 00b2 1846     		mov	r0, r3	@ float
- 217 00b4 0A49     		ldr	r1, .L2+16	@ float
- 218 00b6 0B4A     		ldr	r2, .L2+20	@ float
- 219 00b8 FFF7FEFF 		bl	constrain
- 220 00bc 0246     		mov	r2, r0	@ float
- 221 00be 40F20003 		movw	r3, #:lower16:accConfidence
- 222 00c2 C0F20003 		movt	r3, #:upper16:accConfidence
- 223 00c6 1A60     		str	r2, [r3, #0]	@ float
- 224 00c8 03B0     		add	sp, sp, #12
- 225 00ca 30BD     		pop	{r4, r5, pc}
- 226              	.L3:
- 227 00cc AFF30080 		.align	3
- 228              	.L2:
- 229 00d0 00000000 		.word	0
- 230 00d4 0000F03F 		.word	1072693248
- 231 00d8 6666663F 		.word	1063675494
- 232 00dc CDCCCC3D 		.word	1036831949
- 233 00e0 00000000 		.word	0
- 234 00e4 0000803F 		.word	1065353216
- 236              		.align	2
- 237              		.global	MargAHRSinit
- 238              		.thumb
- 239              		.thumb_func
- 241              	MargAHRSinit:
- 242              		@ args = 8, pretend = 0, frame = 64
- 243              		@ frame_needed = 0, uses_anonymous_args = 0
- 244 00e8 30B5     		push	{r4, r5, lr}
- 245 00ea 91B0     		sub	sp, sp, #68
- 246 00ec 0390     		str	r0, [sp, #12]	@ float
- 247 00ee 0291     		str	r1, [sp, #8]	@ float
- 248 00f0 0192     		str	r2, [sp, #4]	@ float
- 249 00f2 0093     		str	r3, [sp, #0]	@ float
- 250 00f4 DDED027A 		flds	s15, [sp, #8]
- 251 00f8 F1EE677A 		fnegs	s15, s15
- 252 00fc 17EE903A 		fmrs	r3, s15
- 253 0100 1846     		mov	r0, r3	@ float
- 254 0102 FFF7FEFF 		bl	__aeabi_f2d
- 255 0106 0446     		mov	r4, r0
- 256 0108 0D46     		mov	r5, r1
- 257 010a DDED017A 		flds	s15, [sp, #4]
- 258 010e F1EE677A 		fnegs	s15, s15
- 259 0112 17EE903A 		fmrs	r3, s15
- 260 0116 1846     		mov	r0, r3	@ float
- 261 0118 FFF7FEFF 		bl	__aeabi_f2d
- 262 011c 0246     		mov	r2, r0
- 263 011e 0B46     		mov	r3, r1
- 264 0120 2046     		mov	r0, r4
- 265 0122 2946     		mov	r1, r5
- 266 0124 FFF7FEFF 		bl	atan2
- 267 0128 0246     		mov	r2, r0
- 268 012a 0B46     		mov	r3, r1
- 269 012c 1046     		mov	r0, r2
- 270 012e 1946     		mov	r1, r3
- 271 0130 FFF7FEFF 		bl	__aeabi_d2f
- 272 0134 0346     		mov	r3, r0	@ float
- 273 0136 0F93     		str	r3, [sp, #60]	@ float
- 274 0138 0398     		ldr	r0, [sp, #12]	@ float
- 275 013a FFF7FEFF 		bl	__aeabi_f2d
- 276 013e 0446     		mov	r4, r0
- 277 0140 0D46     		mov	r5, r1
- 278 0142 DDED017A 		flds	s15, [sp, #4]
- 279 0146 F1EE677A 		fnegs	s15, s15
- 280 014a 17EE903A 		fmrs	r3, s15
- 281 014e 1846     		mov	r0, r3	@ float
- 282 0150 FFF7FEFF 		bl	__aeabi_f2d
- 283 0154 0246     		mov	r2, r0
- 284 0156 0B46     		mov	r3, r1
- 285 0158 2046     		mov	r0, r4
- 286 015a 2946     		mov	r1, r5
- 287 015c FFF7FEFF 		bl	atan2
- 288 0160 0246     		mov	r2, r0
- 289 0162 0B46     		mov	r3, r1
- 290 0164 1046     		mov	r0, r2
- 291 0166 1946     		mov	r1, r3
- 292 0168 FFF7FEFF 		bl	__aeabi_d2f
- 293 016c 0346     		mov	r3, r0	@ float
- 294 016e 0E93     		str	r3, [sp, #56]	@ float
- 295 0170 0F98     		ldr	r0, [sp, #60]	@ float
- 296 0172 FFF7FEFF 		bl	cosf
- 297 0176 0D90     		str	r0, [sp, #52]	@ float
- 298 0178 0F98     		ldr	r0, [sp, #60]	@ float
- 299 017a FFF7FEFF 		bl	sinf
- 300 017e 0C90     		str	r0, [sp, #48]	@ float
- 301 0180 0E98     		ldr	r0, [sp, #56]	@ float
- 302 0182 FFF7FEFF 		bl	cosf
- 303 0186 0B90     		str	r0, [sp, #44]	@ float
- 304 0188 0E98     		ldr	r0, [sp, #56]	@ float
- 305 018a FFF7FEFF 		bl	sinf
- 306 018e 0A90     		str	r0, [sp, #40]	@ float
- 307 0190 9DED007A 		flds	s14, [sp, #0]
- 308 0194 DDED0B7A 		flds	s15, [sp, #44]
- 309 0198 27EE277A 		fmuls	s14, s14, s15
- 310 019c DDED146A 		flds	s13, [sp, #80]
- 311 01a0 DDED0C7A 		flds	s15, [sp, #48]
- 312 01a4 66EEA77A 		fmuls	s15, s13, s15
- 313 01a8 DDED0A6A 		flds	s13, [sp, #40]
- 314 01ac 67EEA67A 		fmuls	s15, s15, s13
- 315 01b0 37EE277A 		fadds	s14, s14, s15
- 316 01b4 DDED156A 		flds	s13, [sp, #84]
- 317 01b8 DDED0D7A 		flds	s15, [sp, #52]
- 318 01bc 66EEA77A 		fmuls	s15, s13, s15
- 319 01c0 DDED0A6A 		flds	s13, [sp, #40]
- 320 01c4 67EEA67A 		fmuls	s15, s15, s13
- 321 01c8 77EE277A 		fadds	s15, s14, s15
- 322 01cc CDED097A 		fsts	s15, [sp, #36]
- 323 01d0 9DED147A 		flds	s14, [sp, #80]
- 324 01d4 DDED0D7A 		flds	s15, [sp, #52]
- 325 01d8 27EE277A 		fmuls	s14, s14, s15
- 326 01dc DDED156A 		flds	s13, [sp, #84]
- 327 01e0 DDED0C7A 		flds	s15, [sp, #48]
- 328 01e4 66EEA77A 		fmuls	s15, s13, s15
- 329 01e8 77EE677A 		fsubs	s15, s14, s15
- 330 01ec CDED087A 		fsts	s15, [sp, #32]
- 331 01f0 DDED087A 		flds	s15, [sp, #32]
- 332 01f4 F1EE677A 		fnegs	s15, s15
- 333 01f8 17EE903A 		fmrs	r3, s15
- 334 01fc 1846     		mov	r0, r3	@ float
- 335 01fe 0999     		ldr	r1, [sp, #36]	@ float
- 336 0200 FFF7FEFF 		bl	atan2f
- 337 0204 0790     		str	r0, [sp, #28]	@ float
- 338 0206 9DED0F7A 		flds	s14, [sp, #60]
- 339 020a F6EE007A 		fconsts	s15, #96
- 340 020e 67EE277A 		fmuls	s15, s14, s15
- 341 0212 17EE900A 		fmrs	r0, s15
- 342 0216 FFF7FEFF 		bl	cosf
- 343 021a 0D90     		str	r0, [sp, #52]	@ float
- 344 021c 9DED0F7A 		flds	s14, [sp, #60]
- 345 0220 F6EE007A 		fconsts	s15, #96
- 346 0224 67EE277A 		fmuls	s15, s14, s15
- 347 0228 17EE900A 		fmrs	r0, s15
- 348 022c FFF7FEFF 		bl	sinf
- 349 0230 0C90     		str	r0, [sp, #48]	@ float
- 350 0232 9DED0E7A 		flds	s14, [sp, #56]
- 351 0236 F6EE007A 		fconsts	s15, #96
- 352 023a 67EE277A 		fmuls	s15, s14, s15
- 353 023e 17EE900A 		fmrs	r0, s15
- 354 0242 FFF7FEFF 		bl	cosf
- 355 0246 0B90     		str	r0, [sp, #44]	@ float
- 356 0248 9DED0E7A 		flds	s14, [sp, #56]
- 357 024c F6EE007A 		fconsts	s15, #96
- 358 0250 67EE277A 		fmuls	s15, s14, s15
- 359 0254 17EE900A 		fmrs	r0, s15
- 360 0258 FFF7FEFF 		bl	sinf
- 361 025c 0A90     		str	r0, [sp, #40]	@ float
- 362 025e 9DED077A 		flds	s14, [sp, #28]
- 363 0262 F6EE007A 		fconsts	s15, #96
- 364 0266 67EE277A 		fmuls	s15, s14, s15
- 365 026a 17EE900A 		fmrs	r0, s15
- 366 026e FFF7FEFF 		bl	cosf
- 367 0272 0690     		str	r0, [sp, #24]	@ float
- 368 0274 9DED077A 		flds	s14, [sp, #28]
- 369 0278 F6EE007A 		fconsts	s15, #96
- 370 027c 67EE277A 		fmuls	s15, s14, s15
- 371 0280 17EE900A 		fmrs	r0, s15
- 372 0284 FFF7FEFF 		bl	sinf
- 373 0288 0590     		str	r0, [sp, #20]	@ float
- 374 028a 9DED0D7A 		flds	s14, [sp, #52]
- 375 028e DDED0B7A 		flds	s15, [sp, #44]
- 376 0292 67EE277A 		fmuls	s15, s14, s15
- 377 0296 9DED067A 		flds	s14, [sp, #24]
- 378 029a 27EE877A 		fmuls	s14, s15, s14
- 379 029e DDED0C6A 		flds	s13, [sp, #48]
- 380 02a2 DDED0A7A 		flds	s15, [sp, #40]
- 381 02a6 66EEA77A 		fmuls	s15, s13, s15
- 382 02aa DDED056A 		flds	s13, [sp, #20]
- 383 02ae 67EEA67A 		fmuls	s15, s15, s13
- 384 02b2 77EE277A 		fadds	s15, s14, s15
- 385 02b6 40F20003 		movw	r3, #:lower16:q0
- 386 02ba C0F20003 		movt	r3, #:upper16:q0
- 387 02be C3ED007A 		fsts	s15, [r3, #0]
- 388 02c2 9DED0C7A 		flds	s14, [sp, #48]
- 389 02c6 DDED0B7A 		flds	s15, [sp, #44]
- 390 02ca 67EE277A 		fmuls	s15, s14, s15
- 391 02ce 9DED067A 		flds	s14, [sp, #24]
- 392 02d2 27EE877A 		fmuls	s14, s15, s14
- 393 02d6 DDED0D6A 		flds	s13, [sp, #52]
- 394 02da DDED0A7A 		flds	s15, [sp, #40]
- 395 02de 66EEA77A 		fmuls	s15, s13, s15
- 396 02e2 DDED056A 		flds	s13, [sp, #20]
- 397 02e6 67EEA67A 		fmuls	s15, s15, s13
- 398 02ea 77EE677A 		fsubs	s15, s14, s15
- 399 02ee 40F20003 		movw	r3, #:lower16:q1
- 400 02f2 C0F20003 		movt	r3, #:upper16:q1
- 401 02f6 C3ED007A 		fsts	s15, [r3, #0]
- 402 02fa 9DED0D7A 		flds	s14, [sp, #52]
- 403 02fe DDED0A7A 		flds	s15, [sp, #40]
- 404 0302 67EE277A 		fmuls	s15, s14, s15
- 405 0306 9DED067A 		flds	s14, [sp, #24]
- 406 030a 27EE877A 		fmuls	s14, s15, s14
- 407 030e DDED0C6A 		flds	s13, [sp, #48]
- 408 0312 DDED0B7A 		flds	s15, [sp, #44]
- 409 0316 66EEA77A 		fmuls	s15, s13, s15
- 410 031a DDED056A 		flds	s13, [sp, #20]
- 411 031e 67EEA67A 		fmuls	s15, s15, s13
- 412 0322 77EE277A 		fadds	s15, s14, s15
- 413 0326 40F20003 		movw	r3, #:lower16:q2
- 414 032a C0F20003 		movt	r3, #:upper16:q2
- 415 032e C3ED007A 		fsts	s15, [r3, #0]
- 416 0332 9DED0D7A 		flds	s14, [sp, #52]
- 417 0336 DDED0B7A 		flds	s15, [sp, #44]
- 418 033a 67EE277A 		fmuls	s15, s14, s15
- 419 033e 9DED057A 		flds	s14, [sp, #20]
- 420 0342 27EE877A 		fmuls	s14, s15, s14
- 421 0346 DDED0C6A 		flds	s13, [sp, #48]
- 422 034a DDED0A7A 		flds	s15, [sp, #40]
- 423 034e 66EEA77A 		fmuls	s15, s13, s15
- 424 0352 DDED066A 		flds	s13, [sp, #24]
- 425 0356 67EEA67A 		fmuls	s15, s15, s13
- 426 035a 77EE677A 		fsubs	s15, s14, s15
- 427 035e 40F20003 		movw	r3, #:lower16:q3
- 428 0362 C0F20003 		movt	r3, #:upper16:q3
- 429 0366 C3ED007A 		fsts	s15, [r3, #0]
- 430 036a 40F20003 		movw	r3, #:lower16:q0
- 431 036e C0F20003 		movt	r3, #:upper16:q0
- 432 0372 93ED007A 		flds	s14, [r3, #0]
- 433 0376 40F20003 		movw	r3, #:lower16:q0
- 434 037a C0F20003 		movt	r3, #:upper16:q0
- 435 037e D3ED007A 		flds	s15, [r3, #0]
- 436 0382 67EE277A 		fmuls	s15, s14, s15
- 437 0386 40F20003 		movw	r3, #:lower16:q0q0
- 438 038a C0F20003 		movt	r3, #:upper16:q0q0
- 439 038e C3ED007A 		fsts	s15, [r3, #0]
- 440 0392 40F20003 		movw	r3, #:lower16:q0
- 441 0396 C0F20003 		movt	r3, #:upper16:q0
- 442 039a 93ED007A 		flds	s14, [r3, #0]
- 443 039e 40F20003 		movw	r3, #:lower16:q1
- 444 03a2 C0F20003 		movt	r3, #:upper16:q1
- 445 03a6 D3ED007A 		flds	s15, [r3, #0]
- 446 03aa 67EE277A 		fmuls	s15, s14, s15
- 447 03ae 40F20003 		movw	r3, #:lower16:q0q1
- 448 03b2 C0F20003 		movt	r3, #:upper16:q0q1
- 449 03b6 C3ED007A 		fsts	s15, [r3, #0]
- 450 03ba 40F20003 		movw	r3, #:lower16:q0
- 451 03be C0F20003 		movt	r3, #:upper16:q0
- 452 03c2 93ED007A 		flds	s14, [r3, #0]
- 453 03c6 40F20003 		movw	r3, #:lower16:q2
- 454 03ca C0F20003 		movt	r3, #:upper16:q2
- 455 03ce D3ED007A 		flds	s15, [r3, #0]
- 456 03d2 67EE277A 		fmuls	s15, s14, s15
- 457 03d6 40F20003 		movw	r3, #:lower16:q0q2
- 458 03da C0F20003 		movt	r3, #:upper16:q0q2
- 459 03de C3ED007A 		fsts	s15, [r3, #0]
- 460 03e2 40F20003 		movw	r3, #:lower16:q0
- 461 03e6 C0F20003 		movt	r3, #:upper16:q0
- 462 03ea 93ED007A 		flds	s14, [r3, #0]
- 463 03ee 40F20003 		movw	r3, #:lower16:q3
- 464 03f2 C0F20003 		movt	r3, #:upper16:q3
- 465 03f6 D3ED007A 		flds	s15, [r3, #0]
- 466 03fa 67EE277A 		fmuls	s15, s14, s15
- 467 03fe 40F20003 		movw	r3, #:lower16:q0q3
- 468 0402 C0F20003 		movt	r3, #:upper16:q0q3
- 469 0406 C3ED007A 		fsts	s15, [r3, #0]
- 470 040a 40F20003 		movw	r3, #:lower16:q1
- 471 040e C0F20003 		movt	r3, #:upper16:q1
- 472 0412 93ED007A 		flds	s14, [r3, #0]
- 473 0416 40F20003 		movw	r3, #:lower16:q1
- 474 041a C0F20003 		movt	r3, #:upper16:q1
- 475 041e D3ED007A 		flds	s15, [r3, #0]
- 476 0422 67EE277A 		fmuls	s15, s14, s15
- 477 0426 40F20003 		movw	r3, #:lower16:q1q1
- 478 042a C0F20003 		movt	r3, #:upper16:q1q1
- 479 042e C3ED007A 		fsts	s15, [r3, #0]
- 480 0432 40F20003 		movw	r3, #:lower16:q1
- 481 0436 C0F20003 		movt	r3, #:upper16:q1
- 482 043a 93ED007A 		flds	s14, [r3, #0]
- 483 043e 40F20003 		movw	r3, #:lower16:q2
- 484 0442 C0F20003 		movt	r3, #:upper16:q2
- 485 0446 D3ED007A 		flds	s15, [r3, #0]
- 486 044a 67EE277A 		fmuls	s15, s14, s15
- 487 044e 40F20003 		movw	r3, #:lower16:q1q2
- 488 0452 C0F20003 		movt	r3, #:upper16:q1q2
- 489 0456 C3ED007A 		fsts	s15, [r3, #0]
- 490 045a 40F20003 		movw	r3, #:lower16:q1
- 491 045e C0F20003 		movt	r3, #:upper16:q1
- 492 0462 93ED007A 		flds	s14, [r3, #0]
- 493 0466 40F20003 		movw	r3, #:lower16:q3
- 494 046a C0F20003 		movt	r3, #:upper16:q3
- 495 046e D3ED007A 		flds	s15, [r3, #0]
- 496 0472 67EE277A 		fmuls	s15, s14, s15
- 497 0476 40F20003 		movw	r3, #:lower16:q1q3
- 498 047a C0F20003 		movt	r3, #:upper16:q1q3
- 499 047e C3ED007A 		fsts	s15, [r3, #0]
- 500 0482 40F20003 		movw	r3, #:lower16:q2
- 501 0486 C0F20003 		movt	r3, #:upper16:q2
- 502 048a 93ED007A 		flds	s14, [r3, #0]
- 503 048e 40F20003 		movw	r3, #:lower16:q2
- 504 0492 C0F20003 		movt	r3, #:upper16:q2
- 505 0496 D3ED007A 		flds	s15, [r3, #0]
- 506 049a 67EE277A 		fmuls	s15, s14, s15
- 507 049e 40F20003 		movw	r3, #:lower16:q2q2
- 508 04a2 C0F20003 		movt	r3, #:upper16:q2q2
- 509 04a6 C3ED007A 		fsts	s15, [r3, #0]
- 510 04aa 40F20003 		movw	r3, #:lower16:q2
- 511 04ae C0F20003 		movt	r3, #:upper16:q2
- 512 04b2 93ED007A 		flds	s14, [r3, #0]
- 513 04b6 40F20003 		movw	r3, #:lower16:q3
- 514 04ba C0F20003 		movt	r3, #:upper16:q3
- 515 04be D3ED007A 		flds	s15, [r3, #0]
- 516 04c2 67EE277A 		fmuls	s15, s14, s15
- 517 04c6 40F20003 		movw	r3, #:lower16:q2q3
- 518 04ca C0F20003 		movt	r3, #:upper16:q2q3
- 519 04ce C3ED007A 		fsts	s15, [r3, #0]
- 520 04d2 40F20003 		movw	r3, #:lower16:q3
- 521 04d6 C0F20003 		movt	r3, #:upper16:q3
- 522 04da 93ED007A 		flds	s14, [r3, #0]
- 523 04de 40F20003 		movw	r3, #:lower16:q3
- 524 04e2 C0F20003 		movt	r3, #:upper16:q3
- 525 04e6 D3ED007A 		flds	s15, [r3, #0]
- 526 04ea 67EE277A 		fmuls	s15, s14, s15
- 527 04ee 40F20003 		movw	r3, #:lower16:q3q3
- 528 04f2 C0F20003 		movt	r3, #:upper16:q3q3
- 529 04f6 C3ED007A 		fsts	s15, [r3, #0]
- 530 04fa 11B0     		add	sp, sp, #68
- 531 04fc 30BD     		pop	{r4, r5, pc}
- 533              		.global	__aeabi_ddiv
- 534 04fe 00BF     		.align	2
- 535              		.global	MargAHRSupdate
- 536              		.thumb
- 537              		.thumb_func
- 539              	MargAHRSupdate:
- 540              		@ args = 32, pretend = 0, frame = 88
- 541              		@ frame_needed = 0, uses_anonymous_args = 0
- 542 0500 00B5     		push	{lr}
- 543 0502 99B0     		sub	sp, sp, #100
- 544 0504 0590     		str	r0, [sp, #20]	@ float
- 545 0506 0491     		str	r1, [sp, #16]	@ float
- 546 0508 0392     		str	r2, [sp, #12]	@ float
- 547 050a 0293     		str	r3, [sp, #8]	@ float
- 548 050c 40F20003 		movw	r3, #:lower16:MargAHRSinitialized
- 549 0510 C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
- 550 0514 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 551 0516 002B     		cmp	r3, #0
- 552 0518 14D1     		bne	.L6
- 553 051a 9DF88030 		ldrb	r3, [sp, #128]	@ zero_extendqisi2
- 554 051e 012B     		cmp	r3, #1
- 555 0520 10D1     		bne	.L6
- 556 0522 1D9B     		ldr	r3, [sp, #116]	@ float
- 557 0524 0093     		str	r3, [sp, #0]	@ float
- 558 0526 1E9B     		ldr	r3, [sp, #120]	@ float
- 559 0528 0193     		str	r3, [sp, #4]	@ float
- 560 052a 0298     		ldr	r0, [sp, #8]	@ float
- 561 052c 1A99     		ldr	r1, [sp, #104]	@ float
- 562 052e 1B9A     		ldr	r2, [sp, #108]	@ float
- 563 0530 1C9B     		ldr	r3, [sp, #112]	@ float
- 564 0532 FFF7FEFF 		bl	MargAHRSinit
- 565 0536 40F20003 		movw	r3, #:lower16:MargAHRSinitialized
- 566 053a C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
- 567 053e 4FF00102 		mov	r2, #1
- 568 0542 1A70     		strb	r2, [r3, #0]
- 569              	.L6:
- 570 0544 40F20003 		movw	r3, #:lower16:MargAHRSinitialized
- 571 0548 C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
- 572 054c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 573 054e 012B     		cmp	r3, #1
- 574 0550 40F07687 		bne	.L5
- 575 0554 9DED217A 		flds	s14, [sp, #132]
- 576 0558 F6EE007A 		fconsts	s15, #96
- 577 055c 67EE277A 		fmuls	s15, s14, s15
- 578 0560 40F20003 		movw	r3, #:lower16:halfT
- 579 0564 C0F20003 		movt	r3, #:upper16:halfT
- 580 0568 C3ED007A 		fsts	s15, [r3, #0]
- 581 056c 9DED027A 		flds	s14, [sp, #8]
- 582 0570 DDED027A 		flds	s15, [sp, #8]
- 583 0574 27EE277A 		fmuls	s14, s14, s15
- 584 0578 DDED1A6A 		flds	s13, [sp, #104]
- 585 057c DDED1A7A 		flds	s15, [sp, #104]
- 586 0580 66EEA77A 		fmuls	s15, s13, s15
- 587 0584 37EE277A 		fadds	s14, s14, s15
- 588 0588 DDED1B6A 		flds	s13, [sp, #108]
- 589 058c DDED1B7A 		flds	s15, [sp, #108]
- 590 0590 66EEA77A 		fmuls	s15, s13, s15
- 591 0594 77EE277A 		fadds	s15, s14, s15
- 592 0598 17EE900A 		fmrs	r0, s15
- 593 059c FFF7FEFF 		bl	__aeabi_f2d
- 594 05a0 0246     		mov	r2, r0
- 595 05a2 0B46     		mov	r3, r1
- 596 05a4 1046     		mov	r0, r2
- 597 05a6 1946     		mov	r1, r3
- 598 05a8 FFF7FEFF 		bl	sqrt
- 599 05ac 0246     		mov	r2, r0
- 600 05ae 0B46     		mov	r3, r1
- 601 05b0 1046     		mov	r0, r2
- 602 05b2 1946     		mov	r1, r3
- 603 05b4 FFF7FEFF 		bl	__aeabi_d2f
- 604 05b8 0346     		mov	r3, r0	@ float
- 605 05ba 1793     		str	r3, [sp, #92]	@ float
- 606 05bc DDED177A 		flds	s15, [sp, #92]
- 607 05c0 F5EE407A 		fcmpzs	s15
- 608 05c4 F1EE10FA 		fmstat
- 609 05c8 00F09181 		beq	.L8
- 610 05cc 1798     		ldr	r0, [sp, #92]	@ float
- 611 05ce FFF7FEFF 		bl	calculateAccConfidence
- 612 05d2 40F20003 		movw	r3, #:lower16:eepromConfig
- 613 05d6 C0F20003 		movt	r3, #:upper16:eepromConfig
- 614 05da 93ED117A 		flds	s14, [r3, #68]
- 615 05de 40F20003 		movw	r3, #:lower16:accConfidence
- 616 05e2 C0F20003 		movt	r3, #:upper16:accConfidence
- 617 05e6 D3ED007A 		flds	s15, [r3, #0]
- 618 05ea 67EE277A 		fmuls	s15, s14, s15
- 619 05ee 40F20003 		movw	r3, #:lower16:kpAcc
- 620 05f2 C0F20003 		movt	r3, #:upper16:kpAcc
- 621 05f6 C3ED007A 		fsts	s15, [r3, #0]
- 622 05fa 40F20003 		movw	r3, #:lower16:eepromConfig
- 623 05fe C0F20003 		movt	r3, #:upper16:eepromConfig
- 624 0602 93ED127A 		flds	s14, [r3, #72]
- 625 0606 40F20003 		movw	r3, #:lower16:accConfidence
- 626 060a C0F20003 		movt	r3, #:upper16:accConfidence
- 627 060e D3ED007A 		flds	s15, [r3, #0]
- 628 0612 67EE277A 		fmuls	s15, s14, s15
- 629 0616 40F20003 		movw	r3, #:lower16:kiAcc
- 630 061a C0F20003 		movt	r3, #:upper16:kiAcc
- 631 061e C3ED007A 		fsts	s15, [r3, #0]
- 632 0622 DFF82C3E 		ldr	r3, .L10+8	@ float
- 633 0626 DDED177A 		flds	s15, [sp, #92]
- 634 062a 07EE103A 		fmsr	s14, r3
- 635 062e C7EE277A 		fdivs	s15, s14, s15
- 636 0632 CDED167A 		fsts	s15, [sp, #88]
- 637 0636 9DED027A 		flds	s14, [sp, #8]
- 638 063a DDED167A 		flds	s15, [sp, #88]
- 639 063e 67EE277A 		fmuls	s15, s14, s15
- 640 0642 CDED027A 		fsts	s15, [sp, #8]
- 641 0646 9DED1A7A 		flds	s14, [sp, #104]
- 642 064a DDED167A 		flds	s15, [sp, #88]
- 643 064e 67EE277A 		fmuls	s15, s14, s15
- 644 0652 CDED1A7A 		fsts	s15, [sp, #104]
- 645 0656 9DED1B7A 		flds	s14, [sp, #108]
- 646 065a DDED167A 		flds	s15, [sp, #88]
- 647 065e 67EE277A 		fmuls	s15, s14, s15
- 648 0662 CDED1B7A 		fsts	s15, [sp, #108]
- 649 0666 40F20003 		movw	r3, #:lower16:q1q3
- 650 066a C0F20003 		movt	r3, #:upper16:q1q3
- 651 066e 93ED007A 		flds	s14, [r3, #0]
- 652 0672 40F20003 		movw	r3, #:lower16:q0q2
- 653 0676 C0F20003 		movt	r3, #:upper16:q0q2
- 654 067a D3ED007A 		flds	s15, [r3, #0]
- 655 067e 77EE677A 		fsubs	s15, s14, s15
- 656 0682 77EEA77A 		fadds	s15, s15, s15
- 657 0686 CDED157A 		fsts	s15, [sp, #84]
- 658 068a 40F20003 		movw	r3, #:lower16:q0q1
- 659 068e C0F20003 		movt	r3, #:upper16:q0q1
- 660 0692 93ED007A 		flds	s14, [r3, #0]
- 661 0696 40F20003 		movw	r3, #:lower16:q2q3
- 662 069a C0F20003 		movt	r3, #:upper16:q2q3
- 663 069e D3ED007A 		flds	s15, [r3, #0]
- 664 06a2 77EE277A 		fadds	s15, s14, s15
- 665 06a6 77EEA77A 		fadds	s15, s15, s15
- 666 06aa CDED147A 		fsts	s15, [sp, #80]
- 667 06ae 40F20003 		movw	r3, #:lower16:q0q0
- 668 06b2 C0F20003 		movt	r3, #:upper16:q0q0
- 669 06b6 93ED007A 		flds	s14, [r3, #0]
- 670 06ba 40F20003 		movw	r3, #:lower16:q1q1
- 671 06be C0F20003 		movt	r3, #:upper16:q1q1
- 672 06c2 D3ED007A 		flds	s15, [r3, #0]
- 673 06c6 37EE677A 		fsubs	s14, s14, s15
- 674 06ca 40F20003 		movw	r3, #:lower16:q2q2
- 675 06ce C0F20003 		movt	r3, #:upper16:q2q2
- 676 06d2 D3ED007A 		flds	s15, [r3, #0]
- 677 06d6 37EE677A 		fsubs	s14, s14, s15
- 678 06da 40F20003 		movw	r3, #:lower16:q3q3
- 679 06de C0F20003 		movt	r3, #:upper16:q3q3
- 680 06e2 D3ED007A 		flds	s15, [r3, #0]
- 681 06e6 77EE277A 		fadds	s15, s14, s15
- 682 06ea CDED137A 		fsts	s15, [sp, #76]
- 683 06ee 9DED147A 		flds	s14, [sp, #80]
- 684 06f2 DDED1B7A 		flds	s15, [sp, #108]
- 685 06f6 27EE277A 		fmuls	s14, s14, s15
- 686 06fa DDED136A 		flds	s13, [sp, #76]
- 687 06fe DDED1A7A 		flds	s15, [sp, #104]
- 688 0702 66EEA77A 		fmuls	s15, s13, s15
- 689 0706 77EE677A 		fsubs	s15, s14, s15
- 690 070a 40F20003 		movw	r3, #:lower16:exAcc
- 691 070e C0F20003 		movt	r3, #:upper16:exAcc
- 692 0712 C3ED007A 		fsts	s15, [r3, #0]
- 693 0716 9DED137A 		flds	s14, [sp, #76]
- 694 071a DDED027A 		flds	s15, [sp, #8]
- 695 071e 27EE277A 		fmuls	s14, s14, s15
- 696 0722 DDED156A 		flds	s13, [sp, #84]
- 697 0726 DDED1B7A 		flds	s15, [sp, #108]
- 698 072a 66EEA77A 		fmuls	s15, s13, s15
- 699 072e 77EE677A 		fsubs	s15, s14, s15
- 700 0732 40F20003 		movw	r3, #:lower16:eyAcc
- 701 0736 C0F20003 		movt	r3, #:upper16:eyAcc
- 702 073a C3ED007A 		fsts	s15, [r3, #0]
- 703 073e 9DED157A 		flds	s14, [sp, #84]
- 704 0742 DDED1A7A 		flds	s15, [sp, #104]
- 705 0746 27EE277A 		fmuls	s14, s14, s15
- 706 074a DDED146A 		flds	s13, [sp, #80]
- 707 074e DDED027A 		flds	s15, [sp, #8]
- 708 0752 66EEA77A 		fmuls	s15, s13, s15
- 709 0756 77EE677A 		fsubs	s15, s14, s15
- 710 075a 40F20003 		movw	r3, #:lower16:ezAcc
- 711 075e C0F20003 		movt	r3, #:upper16:ezAcc
- 712 0762 C3ED007A 		fsts	s15, [r3, #0]
- 713 0766 40F20003 		movw	r3, #:lower16:exAcc
- 714 076a C0F20003 		movt	r3, #:upper16:exAcc
- 715 076e 93ED007A 		flds	s14, [r3, #0]
- 716 0772 40F20003 		movw	r3, #:lower16:kpAcc
- 717 0776 C0F20003 		movt	r3, #:upper16:kpAcc
- 718 077a D3ED007A 		flds	s15, [r3, #0]
- 719 077e 67EE277A 		fmuls	s15, s14, s15
- 720 0782 9DED057A 		flds	s14, [sp, #20]
- 721 0786 77EE277A 		fadds	s15, s14, s15
- 722 078a CDED057A 		fsts	s15, [sp, #20]
- 723 078e 40F20003 		movw	r3, #:lower16:eyAcc
- 724 0792 C0F20003 		movt	r3, #:upper16:eyAcc
- 725 0796 93ED007A 		flds	s14, [r3, #0]
- 726 079a 40F20003 		movw	r3, #:lower16:kpAcc
- 727 079e C0F20003 		movt	r3, #:upper16:kpAcc
- 728 07a2 D3ED007A 		flds	s15, [r3, #0]
- 729 07a6 67EE277A 		fmuls	s15, s14, s15
- 730 07aa 9DED047A 		flds	s14, [sp, #16]
- 731 07ae 77EE277A 		fadds	s15, s14, s15
- 732 07b2 CDED047A 		fsts	s15, [sp, #16]
- 733 07b6 40F20003 		movw	r3, #:lower16:ezAcc
- 734 07ba C0F20003 		movt	r3, #:upper16:ezAcc
- 735 07be 93ED007A 		flds	s14, [r3, #0]
- 736 07c2 40F20003 		movw	r3, #:lower16:kpAcc
- 737 07c6 C0F20003 		movt	r3, #:upper16:kpAcc
- 738 07ca D3ED007A 		flds	s15, [r3, #0]
- 739 07ce 67EE277A 		fmuls	s15, s14, s15
- 740 07d2 9DED037A 		flds	s14, [sp, #12]
- 741 07d6 77EE277A 		fadds	s15, s14, s15
- 742 07da CDED037A 		fsts	s15, [sp, #12]
- 743 07de 40F20003 		movw	r3, #:lower16:kiAcc
- 744 07e2 C0F20003 		movt	r3, #:upper16:kiAcc
- 745 07e6 D3ED007A 		flds	s15, [r3, #0]
- 746 07ea F5EEC07A 		fcmpezs	s15
- 747 07ee F1EE10FA 		fmstat
- 748 07f2 D4BF     		ite	le
- 749 07f4 0023     		movle	r3, #0
- 750 07f6 0123     		movgt	r3, #1
- 751 07f8 DBB2     		uxtb	r3, r3
- 752 07fa 002B     		cmp	r3, #0
- 753 07fc 77D0     		beq	.L8
- 754 07fe 40F20003 		movw	r3, #:lower16:exAcc
- 755 0802 C0F20003 		movt	r3, #:upper16:exAcc
- 756 0806 93ED007A 		flds	s14, [r3, #0]
- 757 080a 40F20003 		movw	r3, #:lower16:kiAcc
- 758 080e C0F20003 		movt	r3, #:upper16:kiAcc
- 759 0812 D3ED007A 		flds	s15, [r3, #0]
- 760 0816 67EE277A 		fmuls	s15, s14, s15
- 761 081a 40F20003 		movw	r3, #:lower16:exAccInt
- 762 081e C0F20003 		movt	r3, #:upper16:exAccInt
- 763 0822 93ED007A 		flds	s14, [r3, #0]
- 764 0826 77EE877A 		fadds	s15, s15, s14
- 765 082a 40F20003 		movw	r3, #:lower16:exAccInt
- 766 082e C0F20003 		movt	r3, #:upper16:exAccInt
- 767 0832 C3ED007A 		fsts	s15, [r3, #0]
- 768 0836 40F20003 		movw	r3, #:lower16:eyAcc
- 769 083a C0F20003 		movt	r3, #:upper16:eyAcc
- 770 083e 93ED007A 		flds	s14, [r3, #0]
- 771 0842 40F20003 		movw	r3, #:lower16:kiAcc
- 772 0846 C0F20003 		movt	r3, #:upper16:kiAcc
- 773 084a D3ED007A 		flds	s15, [r3, #0]
- 774 084e 67EE277A 		fmuls	s15, s14, s15
- 775 0852 40F20003 		movw	r3, #:lower16:eyAccInt
- 776 0856 C0F20003 		movt	r3, #:upper16:eyAccInt
- 777 085a 93ED007A 		flds	s14, [r3, #0]
- 778 085e 77EE877A 		fadds	s15, s15, s14
- 779 0862 40F20003 		movw	r3, #:lower16:eyAccInt
- 780 0866 C0F20003 		movt	r3, #:upper16:eyAccInt
- 781 086a C3ED007A 		fsts	s15, [r3, #0]
- 782 086e 40F20003 		movw	r3, #:lower16:ezAcc
- 783 0872 C0F20003 		movt	r3, #:upper16:ezAcc
- 784 0876 93ED007A 		flds	s14, [r3, #0]
- 785 087a 40F20003 		movw	r3, #:lower16:kiAcc
- 786 087e C0F20003 		movt	r3, #:upper16:kiAcc
- 787 0882 D3ED007A 		flds	s15, [r3, #0]
- 788 0886 67EE277A 		fmuls	s15, s14, s15
- 789 088a 40F20003 		movw	r3, #:lower16:ezAccInt
- 790 088e C0F20003 		movt	r3, #:upper16:ezAccInt
- 791 0892 93ED007A 		flds	s14, [r3, #0]
- 792 0896 77EE877A 		fadds	s15, s15, s14
- 793 089a 40F20003 		movw	r3, #:lower16:ezAccInt
- 794 089e C0F20003 		movt	r3, #:upper16:ezAccInt
- 795 08a2 C3ED007A 		fsts	s15, [r3, #0]
- 796 08a6 40F20003 		movw	r3, #:lower16:exAccInt
- 797 08aa C0F20003 		movt	r3, #:upper16:exAccInt
- 798 08ae D3ED007A 		flds	s15, [r3, #0]
- 799 08b2 9DED057A 		flds	s14, [sp, #20]
- 800 08b6 77EE277A 		fadds	s15, s14, s15
- 801 08ba CDED057A 		fsts	s15, [sp, #20]
- 802 08be 40F20003 		movw	r3, #:lower16:eyAccInt
- 803 08c2 C0F20003 		movt	r3, #:upper16:eyAccInt
- 804 08c6 D3ED007A 		flds	s15, [r3, #0]
- 805 08ca 9DED047A 		flds	s14, [sp, #16]
- 806 08ce 77EE277A 		fadds	s15, s14, s15
- 807 08d2 CDED047A 		fsts	s15, [sp, #16]
- 808 08d6 40F20003 		movw	r3, #:lower16:ezAccInt
- 809 08da C0F20003 		movt	r3, #:upper16:ezAccInt
- 810 08de D3ED007A 		flds	s15, [r3, #0]
- 811 08e2 9DED037A 		flds	s14, [sp, #12]
- 812 08e6 77EE277A 		fadds	s15, s14, s15
- 813 08ea CDED037A 		fsts	s15, [sp, #12]
- 814              	.L8:
- 815 08ee 9DED1C7A 		flds	s14, [sp, #112]
- 816 08f2 DDED1C7A 		flds	s15, [sp, #112]
- 817 08f6 27EE277A 		fmuls	s14, s14, s15
- 818 08fa DDED1D6A 		flds	s13, [sp, #116]
- 819 08fe DDED1D7A 		flds	s15, [sp, #116]
- 820 0902 66EEA77A 		fmuls	s15, s13, s15
- 821 0906 37EE277A 		fadds	s14, s14, s15
- 822 090a DDED1E6A 		flds	s13, [sp, #120]
- 823 090e DDED1E7A 		flds	s15, [sp, #120]
- 824 0912 66EEA77A 		fmuls	s15, s13, s15
- 825 0916 77EE277A 		fadds	s15, s14, s15
- 826 091a 17EE900A 		fmrs	r0, s15
- 827 091e FFF7FEFF 		bl	__aeabi_f2d
- 828 0922 0246     		mov	r2, r0
- 829 0924 0B46     		mov	r3, r1
- 830 0926 1046     		mov	r0, r2
- 831 0928 1946     		mov	r1, r3
- 832 092a FFF7FEFF 		bl	sqrt
- 833 092e 0246     		mov	r2, r0
- 834 0930 0B46     		mov	r3, r1
- 835 0932 1046     		mov	r0, r2
- 836 0934 1946     		mov	r1, r3
- 837 0936 FFF7FEFF 		bl	__aeabi_d2f
- 838 093a 0346     		mov	r3, r0	@ float
- 839 093c 1793     		str	r3, [sp, #92]	@ float
- 840 093e 9DF88030 		ldrb	r3, [sp, #128]	@ zero_extendqisi2
- 841 0942 012B     		cmp	r3, #1
- 842 0944 40F09882 		bne	.L9
- 843 0948 DDED177A 		flds	s15, [sp, #92]
- 844 094c F5EE407A 		fcmpzs	s15
- 845 0950 F1EE10FA 		fmstat
- 846 0954 00F09082 		beq	.L9
- 847 0958 DFF8F43A 		ldr	r3, .L10+8	@ float
- 848 095c DDED177A 		flds	s15, [sp, #92]
- 849 0960 07EE103A 		fmsr	s14, r3
- 850 0964 C7EE277A 		fdivs	s15, s14, s15
- 851 0968 CDED167A 		fsts	s15, [sp, #88]
- 852 096c 9DED1C7A 		flds	s14, [sp, #112]
- 853 0970 DDED167A 		flds	s15, [sp, #88]
- 854 0974 67EE277A 		fmuls	s15, s14, s15
- 855 0978 CDED1C7A 		fsts	s15, [sp, #112]
- 856 097c 9DED1D7A 		flds	s14, [sp, #116]
- 857 0980 DDED167A 		flds	s15, [sp, #88]
- 858 0984 67EE277A 		fmuls	s15, s14, s15
- 859 0988 CDED1D7A 		fsts	s15, [sp, #116]
- 860 098c 9DED1E7A 		flds	s14, [sp, #120]
- 861 0990 DDED167A 		flds	s15, [sp, #88]
- 862 0994 67EE277A 		fmuls	s15, s14, s15
- 863 0998 CDED1E7A 		fsts	s15, [sp, #120]
- 864 099c 40F20003 		movw	r3, #:lower16:q2q2
- 865 09a0 C0F20003 		movt	r3, #:upper16:q2q2
- 866 09a4 D3ED007A 		flds	s15, [r3, #0]
- 867 09a8 B6EE007A 		fconsts	s14, #96
- 868 09ac 37EE677A 		fsubs	s14, s14, s15
- 869 09b0 40F20003 		movw	r3, #:lower16:q3q3
- 870 09b4 C0F20003 		movt	r3, #:upper16:q3q3
- 871 09b8 D3ED007A 		flds	s15, [r3, #0]
- 872 09bc 37EE677A 		fsubs	s14, s14, s15
- 873 09c0 DDED1C7A 		flds	s15, [sp, #112]
- 874 09c4 27EE277A 		fmuls	s14, s14, s15
- 875 09c8 40F20003 		movw	r3, #:lower16:q1q2
- 876 09cc C0F20003 		movt	r3, #:upper16:q1q2
- 877 09d0 D3ED006A 		flds	s13, [r3, #0]
- 878 09d4 40F20003 		movw	r3, #:lower16:q0q3
- 879 09d8 C0F20003 		movt	r3, #:upper16:q0q3
- 880 09dc D3ED007A 		flds	s15, [r3, #0]
- 881 09e0 76EEE76A 		fsubs	s13, s13, s15
- 882 09e4 DDED1D7A 		flds	s15, [sp, #116]
- 883 09e8 66EEA77A 		fmuls	s15, s13, s15
- 884 09ec 37EE277A 		fadds	s14, s14, s15
- 885 09f0 40F20003 		movw	r3, #:lower16:q1q3
- 886 09f4 C0F20003 		movt	r3, #:upper16:q1q3
- 887 09f8 D3ED006A 		flds	s13, [r3, #0]
- 888 09fc 40F20003 		movw	r3, #:lower16:q0q2
- 889 0a00 C0F20003 		movt	r3, #:upper16:q0q2
- 890 0a04 D3ED007A 		flds	s15, [r3, #0]
- 891 0a08 76EEA76A 		fadds	s13, s13, s15
- 892 0a0c DDED1E7A 		flds	s15, [sp, #120]
- 893 0a10 66EEA77A 		fmuls	s15, s13, s15
- 894 0a14 77EE277A 		fadds	s15, s14, s15
- 895 0a18 77EEA77A 		fadds	s15, s15, s15
- 896 0a1c CDED127A 		fsts	s15, [sp, #72]
- 897 0a20 40F20003 		movw	r3, #:lower16:q1q2
- 898 0a24 C0F20003 		movt	r3, #:upper16:q1q2
- 899 0a28 93ED007A 		flds	s14, [r3, #0]
- 900 0a2c 40F20003 		movw	r3, #:lower16:q0q3
- 901 0a30 C0F20003 		movt	r3, #:upper16:q0q3
- 902 0a34 D3ED007A 		flds	s15, [r3, #0]
- 903 0a38 37EE277A 		fadds	s14, s14, s15
- 904 0a3c DDED1C7A 		flds	s15, [sp, #112]
- 905 0a40 27EE277A 		fmuls	s14, s14, s15
- 906 0a44 40F20003 		movw	r3, #:lower16:q1q1
- 907 0a48 C0F20003 		movt	r3, #:upper16:q1q1
- 908 0a4c D3ED007A 		flds	s15, [r3, #0]
- 909 0a50 F6EE006A 		fconsts	s13, #96
- 910 0a54 76EEE76A 		fsubs	s13, s13, s15
- 911 0a58 40F20003 		movw	r3, #:lower16:q3q3
- 912 0a5c C0F20003 		movt	r3, #:upper16:q3q3
- 913 0a60 D3ED007A 		flds	s15, [r3, #0]
- 914 0a64 76EEE76A 		fsubs	s13, s13, s15
- 915 0a68 DDED1D7A 		flds	s15, [sp, #116]
- 916 0a6c 66EEA77A 		fmuls	s15, s13, s15
- 917 0a70 37EE277A 		fadds	s14, s14, s15
- 918 0a74 40F20003 		movw	r3, #:lower16:q2q3
- 919 0a78 C0F20003 		movt	r3, #:upper16:q2q3
- 920 0a7c D3ED006A 		flds	s13, [r3, #0]
- 921 0a80 40F20003 		movw	r3, #:lower16:q0q1
- 922 0a84 C0F20003 		movt	r3, #:upper16:q0q1
- 923 0a88 D3ED007A 		flds	s15, [r3, #0]
- 924 0a8c 76EEE76A 		fsubs	s13, s13, s15
- 925 0a90 DDED1E7A 		flds	s15, [sp, #120]
- 926 0a94 66EEA77A 		fmuls	s15, s13, s15
- 927 0a98 77EE277A 		fadds	s15, s14, s15
- 928 0a9c 77EEA77A 		fadds	s15, s15, s15
- 929 0aa0 CDED117A 		fsts	s15, [sp, #68]
- 930 0aa4 40F20003 		movw	r3, #:lower16:q1q3
- 931 0aa8 C0F20003 		movt	r3, #:upper16:q1q3
- 932 0aac 93ED007A 		flds	s14, [r3, #0]
- 933 0ab0 40F20003 		movw	r3, #:lower16:q0q2
- 934 0ab4 C0F20003 		movt	r3, #:upper16:q0q2
- 935 0ab8 D3ED007A 		flds	s15, [r3, #0]
- 936 0abc 37EE677A 		fsubs	s14, s14, s15
- 937 0ac0 DDED1C7A 		flds	s15, [sp, #112]
- 938 0ac4 27EE277A 		fmuls	s14, s14, s15
- 939 0ac8 40F20003 		movw	r3, #:lower16:q2q3
- 940 0acc C0F20003 		movt	r3, #:upper16:q2q3
- 941 0ad0 D3ED006A 		flds	s13, [r3, #0]
- 942 0ad4 40F20003 		movw	r3, #:lower16:q0q1
- 943 0ad8 C0F20003 		movt	r3, #:upper16:q0q1
- 944 0adc D3ED007A 		flds	s15, [r3, #0]
- 945 0ae0 76EEA76A 		fadds	s13, s13, s15
- 946 0ae4 DDED1D7A 		flds	s15, [sp, #116]
- 947 0ae8 66EEA77A 		fmuls	s15, s13, s15
- 948 0aec 37EE277A 		fadds	s14, s14, s15
- 949 0af0 40F20003 		movw	r3, #:lower16:q1q1
- 950 0af4 C0F20003 		movt	r3, #:upper16:q1q1
- 951 0af8 D3ED007A 		flds	s15, [r3, #0]
- 952 0afc F6EE006A 		fconsts	s13, #96
- 953 0b00 76EEE76A 		fsubs	s13, s13, s15
- 954 0b04 40F20003 		movw	r3, #:lower16:q2q2
- 955 0b08 C0F20003 		movt	r3, #:upper16:q2q2
- 956 0b0c D3ED007A 		flds	s15, [r3, #0]
- 957 0b10 76EEE76A 		fsubs	s13, s13, s15
- 958 0b14 DDED1E7A 		flds	s15, [sp, #120]
- 959 0b18 66EEA77A 		fmuls	s15, s13, s15
- 960 0b1c 77EE277A 		fadds	s15, s14, s15
- 961 0b20 77EEA77A 		fadds	s15, s15, s15
- 962 0b24 CDED107A 		fsts	s15, [sp, #64]
- 963 0b28 9DED127A 		flds	s14, [sp, #72]
- 964 0b2c DDED127A 		flds	s15, [sp, #72]
- 965 0b30 27EE277A 		fmuls	s14, s14, s15
- 966 0b34 DDED116A 		flds	s13, [sp, #68]
- 967 0b38 DDED117A 		flds	s15, [sp, #68]
- 968 0b3c 66EEA77A 		fmuls	s15, s13, s15
- 969 0b40 77EE277A 		fadds	s15, s14, s15
- 970 0b44 17EE900A 		fmrs	r0, s15
- 971 0b48 FFF7FEFF 		bl	__aeabi_f2d
- 972 0b4c 0246     		mov	r2, r0
- 973 0b4e 0B46     		mov	r3, r1
- 974 0b50 1046     		mov	r0, r2
- 975 0b52 1946     		mov	r1, r3
- 976 0b54 FFF7FEFF 		bl	sqrt
- 977 0b58 0246     		mov	r2, r0
- 978 0b5a 0B46     		mov	r3, r1
- 979 0b5c 1046     		mov	r0, r2
- 980 0b5e 1946     		mov	r1, r3
- 981 0b60 FFF7FEFF 		bl	__aeabi_d2f
- 982 0b64 0346     		mov	r3, r0	@ float
- 983 0b66 0F93     		str	r3, [sp, #60]	@ float
- 984 0b68 109B     		ldr	r3, [sp, #64]	@ float
- 985 0b6a 0E93     		str	r3, [sp, #56]	@ float
- 986 0b6c 40F20003 		movw	r3, #:lower16:q2q2
- 987 0b70 C0F20003 		movt	r3, #:upper16:q2q2
- 988 0b74 D3ED007A 		flds	s15, [r3, #0]
- 989 0b78 B6EE007A 		fconsts	s14, #96
- 990 0b7c 37EE677A 		fsubs	s14, s14, s15
- 991 0b80 40F20003 		movw	r3, #:lower16:q3q3
- 992 0b84 C0F20003 		movt	r3, #:upper16:q3q3
- 993 0b88 D3ED007A 		flds	s15, [r3, #0]
- 994 0b8c 37EE677A 		fsubs	s14, s14, s15
- 995 0b90 DDED0F7A 		flds	s15, [sp, #60]
- 996 0b94 27EE277A 		fmuls	s14, s14, s15
- 997 0b98 40F20003 		movw	r3, #:lower16:q1q3
- 998 0b9c C0F20003 		movt	r3, #:upper16:q1q3
- 999 0ba0 D3ED006A 		flds	s13, [r3, #0]
- 1000 0ba4 40F20003 		movw	r3, #:lower16:q0q2
- 1001 0ba8 C0F20003 		movt	r3, #:upper16:q0q2
- 1002 0bac D3ED007A 		flds	s15, [r3, #0]
- 1003 0bb0 76EEE76A 		fsubs	s13, s13, s15
- 1004 0bb4 DDED0E7A 		flds	s15, [sp, #56]
- 1005 0bb8 66EEA77A 		fmuls	s15, s13, s15
- 1006 0bbc 77EE277A 		fadds	s15, s14, s15
- 1007 0bc0 77EEA77A 		fadds	s15, s15, s15
- 1008 0bc4 CDED0D7A 		fsts	s15, [sp, #52]
- 1009 0bc8 40F20003 		movw	r3, #:lower16:q1q2
- 1010 0bcc C0F20003 		movt	r3, #:upper16:q1q2
- 1011 0bd0 93ED007A 		flds	s14, [r3, #0]
- 1012 0bd4 40F20003 		movw	r3, #:lower16:q0q3
- 1013 0bd8 C0F20003 		movt	r3, #:upper16:q0q3
- 1014 0bdc D3ED007A 		flds	s15, [r3, #0]
- 1015 0be0 37EE677A 		fsubs	s14, s14, s15
- 1016 0be4 DDED0F7A 		flds	s15, [sp, #60]
- 1017 0be8 27EE277A 		fmuls	s14, s14, s15
- 1018 0bec 40F20003 		movw	r3, #:lower16:q0q1
- 1019 0bf0 C0F20003 		movt	r3, #:upper16:q0q1
- 1020 0bf4 D3ED006A 		flds	s13, [r3, #0]
- 1021 0bf8 40F20003 		movw	r3, #:lower16:q2q3
- 1022 0bfc C0F20003 		movt	r3, #:upper16:q2q3
- 1023 0c00 D3ED007A 		flds	s15, [r3, #0]
- 1024 0c04 76EEA76A 		fadds	s13, s13, s15
- 1025 0c08 DDED0E7A 		flds	s15, [sp, #56]
- 1026 0c0c 66EEA77A 		fmuls	s15, s13, s15
- 1027 0c10 77EE277A 		fadds	s15, s14, s15
- 1028 0c14 77EEA77A 		fadds	s15, s15, s15
- 1029 0c18 CDED0C7A 		fsts	s15, [sp, #48]
- 1030 0c1c 40F20003 		movw	r3, #:lower16:q0q2
- 1031 0c20 C0F20003 		movt	r3, #:upper16:q0q2
- 1032 0c24 93ED007A 		flds	s14, [r3, #0]
- 1033 0c28 40F20003 		movw	r3, #:lower16:q1q3
- 1034 0c2c C0F20003 		movt	r3, #:upper16:q1q3
- 1035 0c30 D3ED007A 		flds	s15, [r3, #0]
- 1036 0c34 37EE277A 		fadds	s14, s14, s15
- 1037 0c38 DDED0F7A 		flds	s15, [sp, #60]
- 1038 0c3c 27EE277A 		fmuls	s14, s14, s15
- 1039 0c40 40F20003 		movw	r3, #:lower16:q1q1
- 1040 0c44 C0F20003 		movt	r3, #:upper16:q1q1
- 1041 0c48 D3ED007A 		flds	s15, [r3, #0]
- 1042 0c4c F6EE006A 		fconsts	s13, #96
- 1043 0c50 76EEE76A 		fsubs	s13, s13, s15
- 1044 0c54 40F20003 		movw	r3, #:lower16:q2q2
- 1045 0c58 C0F20003 		movt	r3, #:upper16:q2q2
- 1046 0c5c D3ED007A 		flds	s15, [r3, #0]
- 1047 0c60 76EEE76A 		fsubs	s13, s13, s15
- 1048 0c64 DDED0E7A 		flds	s15, [sp, #56]
- 1049 0c68 66EEA77A 		fmuls	s15, s13, s15
- 1050 0c6c 77EE277A 		fadds	s15, s14, s15
- 1051 0c70 77EEA77A 		fadds	s15, s15, s15
- 1052 0c74 CDED0B7A 		fsts	s15, [sp, #44]
- 1053 0c78 9DED1D7A 		flds	s14, [sp, #116]
- 1054 0c7c DDED0B7A 		flds	s15, [sp, #44]
- 1055 0c80 27EE277A 		fmuls	s14, s14, s15
- 1056 0c84 DDED1E6A 		flds	s13, [sp, #120]
- 1057 0c88 DDED0C7A 		flds	s15, [sp, #48]
- 1058 0c8c 66EEA77A 		fmuls	s15, s13, s15
- 1059 0c90 77EE677A 		fsubs	s15, s14, s15
- 1060 0c94 40F20003 		movw	r3, #:lower16:exMag
- 1061 0c98 C0F20003 		movt	r3, #:upper16:exMag
- 1062 0c9c C3ED007A 		fsts	s15, [r3, #0]
- 1063 0ca0 9DED1E7A 		flds	s14, [sp, #120]
- 1064 0ca4 DDED0D7A 		flds	s15, [sp, #52]
- 1065 0ca8 27EE277A 		fmuls	s14, s14, s15
- 1066 0cac DDED1C6A 		flds	s13, [sp, #112]
- 1067 0cb0 DDED0B7A 		flds	s15, [sp, #44]
- 1068 0cb4 66EEA77A 		fmuls	s15, s13, s15
- 1069 0cb8 77EE677A 		fsubs	s15, s14, s15
- 1070 0cbc 40F20003 		movw	r3, #:lower16:eyMag
- 1071 0cc0 C0F20003 		movt	r3, #:upper16:eyMag
- 1072 0cc4 C3ED007A 		fsts	s15, [r3, #0]
- 1073 0cc8 9DED1C7A 		flds	s14, [sp, #112]
- 1074 0ccc DDED0C7A 		flds	s15, [sp, #48]
- 1075 0cd0 27EE277A 		fmuls	s14, s14, s15
- 1076 0cd4 DDED1D6A 		flds	s13, [sp, #116]
- 1077 0cd8 DDED0D7A 		flds	s15, [sp, #52]
- 1078 0cdc 66EEA77A 		fmuls	s15, s13, s15
- 1079 0ce0 77EE677A 		fsubs	s15, s14, s15
- 1080 0ce4 40F20003 		movw	r3, #:lower16:ezMag
- 1081 0ce8 C0F20003 		movt	r3, #:upper16:ezMag
- 1082 0cec C3ED007A 		fsts	s15, [r3, #0]
- 1083 0cf0 40F20003 		movw	r3, #:lower16:eepromConfig
- 1084 0cf4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1085 0cf8 93ED137A 		flds	s14, [r3, #76]
- 1086 0cfc 40F20003 		movw	r3, #:lower16:exMag
- 1087 0d00 C0F20003 		movt	r3, #:upper16:exMag
- 1088 0d04 D3ED007A 		flds	s15, [r3, #0]
- 1089 0d08 67EE277A 		fmuls	s15, s14, s15
- 1090 0d0c 9DED057A 		flds	s14, [sp, #20]
- 1091 0d10 77EE277A 		fadds	s15, s14, s15
- 1092 0d14 CDED057A 		fsts	s15, [sp, #20]
- 1093 0d18 40F20003 		movw	r3, #:lower16:eepromConfig
- 1094 0d1c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1095 0d20 93ED137A 		flds	s14, [r3, #76]
- 1096 0d24 40F20003 		movw	r3, #:lower16:eyMag
- 1097 0d28 C0F20003 		movt	r3, #:upper16:eyMag
- 1098 0d2c D3ED007A 		flds	s15, [r3, #0]
- 1099 0d30 67EE277A 		fmuls	s15, s14, s15
- 1100 0d34 9DED047A 		flds	s14, [sp, #16]
- 1101 0d38 77EE277A 		fadds	s15, s14, s15
- 1102 0d3c CDED047A 		fsts	s15, [sp, #16]
- 1103 0d40 40F20003 		movw	r3, #:lower16:eepromConfig
- 1104 0d44 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1105 0d48 93ED137A 		flds	s14, [r3, #76]
- 1106 0d4c 40F20003 		movw	r3, #:lower16:ezMag
- 1107 0d50 C0F20003 		movt	r3, #:upper16:ezMag
- 1108 0d54 D3ED007A 		flds	s15, [r3, #0]
- 1109 0d58 67EE277A 		fmuls	s15, s14, s15
- 1110 0d5c 9DED037A 		flds	s14, [sp, #12]
- 1111 0d60 77EE277A 		fadds	s15, s14, s15
- 1112 0d64 CDED037A 		fsts	s15, [sp, #12]
- 1113 0d68 40F20003 		movw	r3, #:lower16:eepromConfig
- 1114 0d6c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1115 0d70 D3ED147A 		flds	s15, [r3, #80]
- 1116 0d74 F5EEC07A 		fcmpezs	s15
- 1117 0d78 F1EE10FA 		fmstat
- 1118 0d7c D4BF     		ite	le
- 1119 0d7e 0023     		movle	r3, #0
- 1120 0d80 0123     		movgt	r3, #1
- 1121 0d82 DBB2     		uxtb	r3, r3
- 1122 0d84 002B     		cmp	r3, #0
- 1123 0d86 77D0     		beq	.L9
- 1124 0d88 40F20003 		movw	r3, #:lower16:eepromConfig
- 1125 0d8c C0F20003 		movt	r3, #:upper16:eepromConfig
- 1126 0d90 93ED147A 		flds	s14, [r3, #80]
- 1127 0d94 40F20003 		movw	r3, #:lower16:exMag
- 1128 0d98 C0F20003 		movt	r3, #:upper16:exMag
- 1129 0d9c D3ED007A 		flds	s15, [r3, #0]
- 1130 0da0 67EE277A 		fmuls	s15, s14, s15
- 1131 0da4 40F20003 		movw	r3, #:lower16:exMagInt
- 1132 0da8 C0F20003 		movt	r3, #:upper16:exMagInt
- 1133 0dac 93ED007A 		flds	s14, [r3, #0]
- 1134 0db0 77EE877A 		fadds	s15, s15, s14
- 1135 0db4 40F20003 		movw	r3, #:lower16:exMagInt
- 1136 0db8 C0F20003 		movt	r3, #:upper16:exMagInt
- 1137 0dbc C3ED007A 		fsts	s15, [r3, #0]
- 1138 0dc0 40F20003 		movw	r3, #:lower16:eepromConfig
- 1139 0dc4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 1140 0dc8 93ED147A 		flds	s14, [r3, #80]
- 1141 0dcc 40F20003 		movw	r3, #:lower16:eyMag
- 1142 0dd0 C0F20003 		movt	r3, #:upper16:eyMag
- 1143 0dd4 D3ED007A 		flds	s15, [r3, #0]
- 1144 0dd8 67EE277A 		fmuls	s15, s14, s15
- 1145 0ddc 40F20003 		movw	r3, #:lower16:eyMagInt
- 1146 0de0 C0F20003 		movt	r3, #:upper16:eyMagInt
- 1147 0de4 93ED007A 		flds	s14, [r3, #0]
- 1148 0de8 77EE877A 		fadds	s15, s15, s14
- 1149 0dec 40F20003 		movw	r3, #:lower16:eyMagInt
- 1150 0df0 C0F20003 		movt	r3, #:upper16:eyMagInt
- 1151 0df4 C3ED007A 		fsts	s15, [r3, #0]
- 1152 0df8 40F20003 		movw	r3, #:lower16:eepromConfig
- 1153 0dfc C0F20003 		movt	r3, #:upper16:eepromConfig
- 1154 0e00 93ED147A 		flds	s14, [r3, #80]
- 1155 0e04 40F20003 		movw	r3, #:lower16:ezMag
- 1156 0e08 C0F20003 		movt	r3, #:upper16:ezMag
- 1157 0e0c D3ED007A 		flds	s15, [r3, #0]
- 1158 0e10 67EE277A 		fmuls	s15, s14, s15
- 1159 0e14 40F20003 		movw	r3, #:lower16:ezMagInt
- 1160 0e18 C0F20003 		movt	r3, #:upper16:ezMagInt
- 1161 0e1c 93ED007A 		flds	s14, [r3, #0]
- 1162 0e20 77EE877A 		fadds	s15, s15, s14
- 1163 0e24 40F20003 		movw	r3, #:lower16:ezMagInt
- 1164 0e28 C0F20003 		movt	r3, #:upper16:ezMagInt
- 1165 0e2c C3ED007A 		fsts	s15, [r3, #0]
- 1166 0e30 40F20003 		movw	r3, #:lower16:exMagInt
- 1167 0e34 C0F20003 		movt	r3, #:upper16:exMagInt
- 1168 0e38 D3ED007A 		flds	s15, [r3, #0]
- 1169 0e3c 9DED057A 		flds	s14, [sp, #20]
- 1170 0e40 77EE277A 		fadds	s15, s14, s15
- 1171 0e44 CDED057A 		fsts	s15, [sp, #20]
- 1172 0e48 40F20003 		movw	r3, #:lower16:eyMagInt
- 1173 0e4c C0F20003 		movt	r3, #:upper16:eyMagInt
- 1174 0e50 D3ED007A 		flds	s15, [r3, #0]
- 1175 0e54 9DED047A 		flds	s14, [sp, #16]
- 1176 0e58 77EE277A 		fadds	s15, s14, s15
- 1177 0e5c CDED047A 		fsts	s15, [sp, #16]
- 1178 0e60 40F20003 		movw	r3, #:lower16:ezMagInt
- 1179 0e64 C0F20003 		movt	r3, #:upper16:ezMagInt
- 1180 0e68 D3ED007A 		flds	s15, [r3, #0]
- 1181 0e6c 9DED037A 		flds	s14, [sp, #12]
- 1182 0e70 77EE277A 		fadds	s15, s14, s15
- 1183 0e74 CDED037A 		fsts	s15, [sp, #12]
- 1184              	.L9:
- 1185 0e78 40F20003 		movw	r3, #:lower16:q1
- 1186 0e7c C0F20003 		movt	r3, #:upper16:q1
- 1187 0e80 D3ED007A 		flds	s15, [r3, #0]
- 1188 0e84 B1EE677A 		fnegs	s14, s15
- 1189 0e88 DDED057A 		flds	s15, [sp, #20]
- 1190 0e8c 27EE277A 		fmuls	s14, s14, s15
- 1191 0e90 40F20003 		movw	r3, #:lower16:q2
- 1192 0e94 C0F20003 		movt	r3, #:upper16:q2
- 1193 0e98 D3ED006A 		flds	s13, [r3, #0]
- 1194 0e9c DDED047A 		flds	s15, [sp, #16]
- 1195 0ea0 66EEA77A 		fmuls	s15, s13, s15
- 1196 0ea4 37EE677A 		fsubs	s14, s14, s15
- 1197 0ea8 40F20003 		movw	r3, #:lower16:q3
- 1198 0eac C0F20003 		movt	r3, #:upper16:q3
- 1199 0eb0 D3ED006A 		flds	s13, [r3, #0]
- 1200 0eb4 DDED037A 		flds	s15, [sp, #12]
- 1201 0eb8 66EEA77A 		fmuls	s15, s13, s15
- 1202 0ebc 37EE677A 		fsubs	s14, s14, s15
- 1203 0ec0 40F20003 		movw	r3, #:lower16:halfT
- 1204 0ec4 C0F20003 		movt	r3, #:upper16:halfT
- 1205 0ec8 D3ED007A 		flds	s15, [r3, #0]
- 1206 0ecc 67EE277A 		fmuls	s15, s14, s15
- 1207 0ed0 CDED0A7A 		fsts	s15, [sp, #40]
- 1208 0ed4 40F20003 		movw	r3, #:lower16:q0
- 1209 0ed8 C0F20003 		movt	r3, #:upper16:q0
- 1210 0edc 93ED007A 		flds	s14, [r3, #0]
- 1211 0ee0 DDED057A 		flds	s15, [sp, #20]
- 1212 0ee4 27EE277A 		fmuls	s14, s14, s15
- 1213 0ee8 40F20003 		movw	r3, #:lower16:q2
- 1214 0eec C0F20003 		movt	r3, #:upper16:q2
- 1215 0ef0 D3ED006A 		flds	s13, [r3, #0]
- 1216 0ef4 DDED037A 		flds	s15, [sp, #12]
- 1217 0ef8 66EEA77A 		fmuls	s15, s13, s15
- 1218 0efc 37EE277A 		fadds	s14, s14, s15
- 1219 0f00 40F20003 		movw	r3, #:lower16:q3
- 1220 0f04 C0F20003 		movt	r3, #:upper16:q3
- 1221 0f08 D3ED006A 		flds	s13, [r3, #0]
- 1222 0f0c DDED047A 		flds	s15, [sp, #16]
- 1223 0f10 66EEA77A 		fmuls	s15, s13, s15
- 1224 0f14 37EE677A 		fsubs	s14, s14, s15
- 1225 0f18 40F20003 		movw	r3, #:lower16:halfT
- 1226 0f1c C0F20003 		movt	r3, #:upper16:halfT
- 1227 0f20 D3ED007A 		flds	s15, [r3, #0]
- 1228 0f24 67EE277A 		fmuls	s15, s14, s15
- 1229 0f28 CDED097A 		fsts	s15, [sp, #36]
- 1230 0f2c 40F20003 		movw	r3, #:lower16:q0
- 1231 0f30 C0F20003 		movt	r3, #:upper16:q0
- 1232 0f34 93ED007A 		flds	s14, [r3, #0]
- 1233 0f38 DDED047A 		flds	s15, [sp, #16]
- 1234 0f3c 27EE277A 		fmuls	s14, s14, s15
- 1235 0f40 40F20003 		movw	r3, #:lower16:q1
- 1236 0f44 C0F20003 		movt	r3, #:upper16:q1
- 1237 0f48 D3ED006A 		flds	s13, [r3, #0]
- 1238 0f4c DDED037A 		flds	s15, [sp, #12]
- 1239 0f50 66EEA77A 		fmuls	s15, s13, s15
- 1240 0f54 37EE677A 		fsubs	s14, s14, s15
- 1241 0f58 40F20003 		movw	r3, #:lower16:q3
- 1242 0f5c C0F20003 		movt	r3, #:upper16:q3
- 1243 0f60 D3ED006A 		flds	s13, [r3, #0]
- 1244 0f64 DDED057A 		flds	s15, [sp, #20]
- 1245 0f68 66EEA77A 		fmuls	s15, s13, s15
- 1246 0f6c 37EE277A 		fadds	s14, s14, s15
- 1247 0f70 40F20003 		movw	r3, #:lower16:halfT
- 1248 0f74 C0F20003 		movt	r3, #:upper16:halfT
- 1249 0f78 D3ED007A 		flds	s15, [r3, #0]
- 1250 0f7c 67EE277A 		fmuls	s15, s14, s15
- 1251 0f80 CDED087A 		fsts	s15, [sp, #32]
- 1252 0f84 40F20003 		movw	r3, #:lower16:q0
- 1253 0f88 C0F20003 		movt	r3, #:upper16:q0
- 1254 0f8c 93ED007A 		flds	s14, [r3, #0]
- 1255 0f90 DDED037A 		flds	s15, [sp, #12]
- 1256 0f94 27EE277A 		fmuls	s14, s14, s15
- 1257 0f98 40F20003 		movw	r3, #:lower16:q1
- 1258 0f9c C0F20003 		movt	r3, #:upper16:q1
- 1259 0fa0 D3ED006A 		flds	s13, [r3, #0]
- 1260 0fa4 DDED047A 		flds	s15, [sp, #16]
- 1261 0fa8 66EEA77A 		fmuls	s15, s13, s15
- 1262 0fac 37EE277A 		fadds	s14, s14, s15
- 1263 0fb0 40F20003 		movw	r3, #:lower16:q2
- 1264 0fb4 C0F20003 		movt	r3, #:upper16:q2
- 1265 0fb8 D3ED006A 		flds	s13, [r3, #0]
- 1266 0fbc DDED057A 		flds	s15, [sp, #20]
- 1267 0fc0 66EEA77A 		fmuls	s15, s13, s15
- 1268 0fc4 37EE677A 		fsubs	s14, s14, s15
- 1269 0fc8 40F20003 		movw	r3, #:lower16:halfT
- 1270 0fcc C0F20003 		movt	r3, #:upper16:halfT
- 1271 0fd0 D3ED007A 		flds	s15, [r3, #0]
- 1272 0fd4 67EE277A 		fmuls	s15, s14, s15
- 1273 0fd8 CDED077A 		fsts	s15, [sp, #28]
- 1274 0fdc 40F20003 		movw	r3, #:lower16:q0
- 1275 0fe0 C0F20003 		movt	r3, #:upper16:q0
- 1276 0fe4 93ED007A 		flds	s14, [r3, #0]
- 1277 0fe8 DDED0A7A 		flds	s15, [sp, #40]
- 1278 0fec 77EE277A 		fadds	s15, s14, s15
- 1279 0ff0 40F20003 		movw	r3, #:lower16:q0
- 1280 0ff4 C0F20003 		movt	r3, #:upper16:q0
- 1281 0ff8 C3ED007A 		fsts	s15, [r3, #0]
- 1282 0ffc 40F20003 		movw	r3, #:lower16:q1
- 1283 1000 C0F20003 		movt	r3, #:upper16:q1
- 1284 1004 93ED007A 		flds	s14, [r3, #0]
- 1285 1008 DDED097A 		flds	s15, [sp, #36]
- 1286 100c 77EE277A 		fadds	s15, s14, s15
- 1287 1010 40F20003 		movw	r3, #:lower16:q1
- 1288 1014 C0F20003 		movt	r3, #:upper16:q1
- 1289 1018 C3ED007A 		fsts	s15, [r3, #0]
- 1290 101c 40F20003 		movw	r3, #:lower16:q2
- 1291 1020 C0F20003 		movt	r3, #:upper16:q2
- 1292 1024 93ED007A 		flds	s14, [r3, #0]
- 1293 1028 DDED087A 		flds	s15, [sp, #32]
- 1294 102c 77EE277A 		fadds	s15, s14, s15
- 1295 1030 40F20003 		movw	r3, #:lower16:q2
- 1296 1034 C0F20003 		movt	r3, #:upper16:q2
- 1297 1038 C3ED007A 		fsts	s15, [r3, #0]
- 1298 103c 40F20003 		movw	r3, #:lower16:q3
- 1299 1040 C0F20003 		movt	r3, #:upper16:q3
- 1300 1044 93ED007A 		flds	s14, [r3, #0]
- 1301 1048 DDED077A 		flds	s15, [sp, #28]
- 1302 104c 77EE277A 		fadds	s15, s14, s15
- 1303 1050 40F20003 		movw	r3, #:lower16:q3
- 1304 1054 C0F20003 		movt	r3, #:upper16:q3
- 1305 1058 C3ED007A 		fsts	s15, [r3, #0]
- 1306 105c 40F20003 		movw	r3, #:lower16:q0
- 1307 1060 C0F20003 		movt	r3, #:upper16:q0
- 1308 1064 93ED007A 		flds	s14, [r3, #0]
- 1309 1068 40F20003 		movw	r3, #:lower16:q0
- 1310 106c C0F20003 		movt	r3, #:upper16:q0
- 1311 1070 D3ED007A 		flds	s15, [r3, #0]
- 1312 1074 27EE277A 		fmuls	s14, s14, s15
- 1313 1078 40F20003 		movw	r3, #:lower16:q1
- 1314 107c C0F20003 		movt	r3, #:upper16:q1
- 1315 1080 D3ED006A 		flds	s13, [r3, #0]
- 1316 1084 40F20003 		movw	r3, #:lower16:q1
- 1317 1088 C0F20003 		movt	r3, #:upper16:q1
- 1318 108c D3ED007A 		flds	s15, [r3, #0]
- 1319 1090 66EEA77A 		fmuls	s15, s13, s15
- 1320 1094 37EE277A 		fadds	s14, s14, s15
- 1321 1098 40F20003 		movw	r3, #:lower16:q2
- 1322 109c C0F20003 		movt	r3, #:upper16:q2
- 1323 10a0 D3ED006A 		flds	s13, [r3, #0]
- 1324 10a4 40F20003 		movw	r3, #:lower16:q2
- 1325 10a8 C0F20003 		movt	r3, #:upper16:q2
- 1326 10ac D3ED007A 		flds	s15, [r3, #0]
- 1327 10b0 66EEA77A 		fmuls	s15, s13, s15
- 1328 10b4 37EE277A 		fadds	s14, s14, s15
- 1329 10b8 40F20003 		movw	r3, #:lower16:q3
- 1330 10bc C0F20003 		movt	r3, #:upper16:q3
- 1331 10c0 D3ED006A 		flds	s13, [r3, #0]
- 1332 10c4 40F20003 		movw	r3, #:lower16:q3
- 1333 10c8 C0F20003 		movt	r3, #:upper16:q3
- 1334 10cc D3ED007A 		flds	s15, [r3, #0]
- 1335 10d0 66EEA77A 		fmuls	s15, s13, s15
- 1336 10d4 77EE277A 		fadds	s15, s14, s15
- 1337 10d8 17EE900A 		fmrs	r0, s15
- 1338 10dc FFF7FEFF 		bl	__aeabi_f2d
- 1339 10e0 0246     		mov	r2, r0
- 1340 10e2 0B46     		mov	r3, r1
- 1341 10e4 1046     		mov	r0, r2
- 1342 10e6 1946     		mov	r1, r3
- 1343 10e8 FFF7FEFF 		bl	sqrt
- 1344 10ec 0246     		mov	r2, r0
- 1345 10ee 0B46     		mov	r3, r1
- 1346 10f0 D5A1     		adr	r1, .L10
- 1347 10f2 D1E90001 		ldrd	r0, [r1]
- 1348 10f6 FFF7FEFF 		bl	__aeabi_ddiv
- 1349 10fa 0246     		mov	r2, r0
- 1350 10fc 0B46     		mov	r3, r1
- 1351 10fe 1046     		mov	r0, r2
- 1352 1100 1946     		mov	r1, r3
- 1353 1102 FFF7FEFF 		bl	__aeabi_d2f
- 1354 1106 0346     		mov	r3, r0	@ float
- 1355 1108 1693     		str	r3, [sp, #88]	@ float
- 1356 110a 40F20003 		movw	r3, #:lower16:q0
- 1357 110e C0F20003 		movt	r3, #:upper16:q0
- 1358 1112 93ED007A 		flds	s14, [r3, #0]
- 1359 1116 DDED167A 		flds	s15, [sp, #88]
- 1360 111a 67EE277A 		fmuls	s15, s14, s15
- 1361 111e 40F20003 		movw	r3, #:lower16:q0
- 1362 1122 C0F20003 		movt	r3, #:upper16:q0
- 1363 1126 C3ED007A 		fsts	s15, [r3, #0]
- 1364 112a 40F20003 		movw	r3, #:lower16:q1
- 1365 112e C0F20003 		movt	r3, #:upper16:q1
- 1366 1132 93ED007A 		flds	s14, [r3, #0]
- 1367 1136 DDED167A 		flds	s15, [sp, #88]
- 1368 113a 67EE277A 		fmuls	s15, s14, s15
- 1369 113e 40F20003 		movw	r3, #:lower16:q1
- 1370 1142 C0F20003 		movt	r3, #:upper16:q1
- 1371 1146 C3ED007A 		fsts	s15, [r3, #0]
- 1372 114a 40F20003 		movw	r3, #:lower16:q2
- 1373 114e C0F20003 		movt	r3, #:upper16:q2
- 1374 1152 93ED007A 		flds	s14, [r3, #0]
- 1375 1156 DDED167A 		flds	s15, [sp, #88]
- 1376 115a 67EE277A 		fmuls	s15, s14, s15
- 1377 115e 40F20003 		movw	r3, #:lower16:q2
- 1378 1162 C0F20003 		movt	r3, #:upper16:q2
- 1379 1166 C3ED007A 		fsts	s15, [r3, #0]
- 1380 116a 40F20003 		movw	r3, #:lower16:q3
- 1381 116e C0F20003 		movt	r3, #:upper16:q3
- 1382 1172 93ED007A 		flds	s14, [r3, #0]
- 1383 1176 DDED167A 		flds	s15, [sp, #88]
- 1384 117a 67EE277A 		fmuls	s15, s14, s15
- 1385 117e 40F20003 		movw	r3, #:lower16:q3
- 1386 1182 C0F20003 		movt	r3, #:upper16:q3
- 1387 1186 C3ED007A 		fsts	s15, [r3, #0]
- 1388 118a 40F20003 		movw	r3, #:lower16:q0
- 1389 118e C0F20003 		movt	r3, #:upper16:q0
- 1390 1192 93ED007A 		flds	s14, [r3, #0]
- 1391 1196 40F20003 		movw	r3, #:lower16:q0
- 1392 119a C0F20003 		movt	r3, #:upper16:q0
- 1393 119e D3ED007A 		flds	s15, [r3, #0]
- 1394 11a2 67EE277A 		fmuls	s15, s14, s15
- 1395 11a6 40F20003 		movw	r3, #:lower16:q0q0
- 1396 11aa C0F20003 		movt	r3, #:upper16:q0q0
- 1397 11ae C3ED007A 		fsts	s15, [r3, #0]
- 1398 11b2 40F20003 		movw	r3, #:lower16:q0
- 1399 11b6 C0F20003 		movt	r3, #:upper16:q0
- 1400 11ba 93ED007A 		flds	s14, [r3, #0]
- 1401 11be 40F20003 		movw	r3, #:lower16:q1
- 1402 11c2 C0F20003 		movt	r3, #:upper16:q1
- 1403 11c6 D3ED007A 		flds	s15, [r3, #0]
- 1404 11ca 67EE277A 		fmuls	s15, s14, s15
- 1405 11ce 40F20003 		movw	r3, #:lower16:q0q1
- 1406 11d2 C0F20003 		movt	r3, #:upper16:q0q1
- 1407 11d6 C3ED007A 		fsts	s15, [r3, #0]
- 1408 11da 40F20003 		movw	r3, #:lower16:q0
- 1409 11de C0F20003 		movt	r3, #:upper16:q0
- 1410 11e2 93ED007A 		flds	s14, [r3, #0]
- 1411 11e6 40F20003 		movw	r3, #:lower16:q2
- 1412 11ea C0F20003 		movt	r3, #:upper16:q2
- 1413 11ee D3ED007A 		flds	s15, [r3, #0]
- 1414 11f2 67EE277A 		fmuls	s15, s14, s15
- 1415 11f6 40F20003 		movw	r3, #:lower16:q0q2
- 1416 11fa C0F20003 		movt	r3, #:upper16:q0q2
- 1417 11fe C3ED007A 		fsts	s15, [r3, #0]
- 1418 1202 40F20003 		movw	r3, #:lower16:q0
- 1419 1206 C0F20003 		movt	r3, #:upper16:q0
- 1420 120a 93ED007A 		flds	s14, [r3, #0]
- 1421 120e 40F20003 		movw	r3, #:lower16:q3
- 1422 1212 C0F20003 		movt	r3, #:upper16:q3
- 1423 1216 D3ED007A 		flds	s15, [r3, #0]
- 1424 121a 67EE277A 		fmuls	s15, s14, s15
- 1425 121e 40F20003 		movw	r3, #:lower16:q0q3
- 1426 1222 C0F20003 		movt	r3, #:upper16:q0q3
- 1427 1226 C3ED007A 		fsts	s15, [r3, #0]
- 1428 122a 40F20003 		movw	r3, #:lower16:q1
- 1429 122e C0F20003 		movt	r3, #:upper16:q1
- 1430 1232 93ED007A 		flds	s14, [r3, #0]
- 1431 1236 40F20003 		movw	r3, #:lower16:q1
- 1432 123a C0F20003 		movt	r3, #:upper16:q1
- 1433 123e D3ED007A 		flds	s15, [r3, #0]
- 1434 1242 67EE277A 		fmuls	s15, s14, s15
- 1435 1246 40F20003 		movw	r3, #:lower16:q1q1
- 1436 124a C0F20003 		movt	r3, #:upper16:q1q1
- 1437 124e C3ED007A 		fsts	s15, [r3, #0]
- 1438 1252 40F20003 		movw	r3, #:lower16:q1
- 1439 1256 C0F20003 		movt	r3, #:upper16:q1
- 1440 125a 93ED007A 		flds	s14, [r3, #0]
- 1441 125e 40F20003 		movw	r3, #:lower16:q2
- 1442 1262 C0F20003 		movt	r3, #:upper16:q2
- 1443 1266 D3ED007A 		flds	s15, [r3, #0]
- 1444 126a 67EE277A 		fmuls	s15, s14, s15
- 1445 126e 40F20003 		movw	r3, #:lower16:q1q2
- 1446 1272 C0F20003 		movt	r3, #:upper16:q1q2
- 1447 1276 C3ED007A 		fsts	s15, [r3, #0]
- 1448 127a 40F20003 		movw	r3, #:lower16:q1
- 1449 127e C0F20003 		movt	r3, #:upper16:q1
- 1450 1282 93ED007A 		flds	s14, [r3, #0]
- 1451 1286 40F20003 		movw	r3, #:lower16:q3
- 1452 128a C0F20003 		movt	r3, #:upper16:q3
- 1453 128e D3ED007A 		flds	s15, [r3, #0]
- 1454 1292 67EE277A 		fmuls	s15, s14, s15
- 1455 1296 40F20003 		movw	r3, #:lower16:q1q3
- 1456 129a C0F20003 		movt	r3, #:upper16:q1q3
- 1457 129e C3ED007A 		fsts	s15, [r3, #0]
- 1458 12a2 40F20003 		movw	r3, #:lower16:q2
- 1459 12a6 C0F20003 		movt	r3, #:upper16:q2
- 1460 12aa 93ED007A 		flds	s14, [r3, #0]
- 1461 12ae 40F20003 		movw	r3, #:lower16:q2
- 1462 12b2 C0F20003 		movt	r3, #:upper16:q2
- 1463 12b6 D3ED007A 		flds	s15, [r3, #0]
- 1464 12ba 67EE277A 		fmuls	s15, s14, s15
- 1465 12be 40F20003 		movw	r3, #:lower16:q2q2
- 1466 12c2 C0F20003 		movt	r3, #:upper16:q2q2
- 1467 12c6 C3ED007A 		fsts	s15, [r3, #0]
- 1468 12ca 40F20003 		movw	r3, #:lower16:q2
- 1469 12ce C0F20003 		movt	r3, #:upper16:q2
- 1470 12d2 93ED007A 		flds	s14, [r3, #0]
- 1471 12d6 40F20003 		movw	r3, #:lower16:q3
- 1472 12da C0F20003 		movt	r3, #:upper16:q3
- 1473 12de D3ED007A 		flds	s15, [r3, #0]
- 1474 12e2 67EE277A 		fmuls	s15, s14, s15
- 1475 12e6 40F20003 		movw	r3, #:lower16:q2q3
- 1476 12ea C0F20003 		movt	r3, #:upper16:q2q3
- 1477 12ee C3ED007A 		fsts	s15, [r3, #0]
- 1478 12f2 40F20003 		movw	r3, #:lower16:q3
- 1479 12f6 C0F20003 		movt	r3, #:upper16:q3
- 1480 12fa 93ED007A 		flds	s14, [r3, #0]
- 1481 12fe 40F20003 		movw	r3, #:lower16:q3
- 1482 1302 C0F20003 		movt	r3, #:upper16:q3
- 1483 1306 D3ED007A 		flds	s15, [r3, #0]
- 1484 130a 67EE277A 		fmuls	s15, s14, s15
- 1485 130e 40F20003 		movw	r3, #:lower16:q3q3
- 1486 1312 C0F20003 		movt	r3, #:upper16:q3q3
- 1487 1316 C3ED007A 		fsts	s15, [r3, #0]
- 1488 131a 40F20003 		movw	r3, #:lower16:q0q1
- 1489 131e C0F20003 		movt	r3, #:upper16:q0q1
- 1490 1322 93ED007A 		flds	s14, [r3, #0]
- 1491 1326 40F20003 		movw	r3, #:lower16:q2q3
- 1492 132a C0F20003 		movt	r3, #:upper16:q2q3
- 1493 132e D3ED007A 		flds	s15, [r3, #0]
- 1494 1332 77EE277A 		fadds	s15, s14, s15
- 1495 1336 77EEA76A 		fadds	s13, s15, s15
- 1496 133a 40F20003 		movw	r3, #:lower16:q0q0
- 1497 133e C0F20003 		movt	r3, #:upper16:q0q0
- 1498 1342 93ED007A 		flds	s14, [r3, #0]
- 1499 1346 40F20003 		movw	r3, #:lower16:q1q1
- 1500 134a C0F20003 		movt	r3, #:upper16:q1q1
- 1501 134e D3ED007A 		flds	s15, [r3, #0]
- 1502 1352 37EE677A 		fsubs	s14, s14, s15
- 1503 1356 40F20003 		movw	r3, #:lower16:q2q2
- 1504 135a C0F20003 		movt	r3, #:upper16:q2q2
- 1505 135e D3ED007A 		flds	s15, [r3, #0]
- 1506 1362 37EE677A 		fsubs	s14, s14, s15
- 1507 1366 40F20003 		movw	r3, #:lower16:q3q3
- 1508 136a C0F20003 		movt	r3, #:upper16:q3q3
- 1509 136e D3ED007A 		flds	s15, [r3, #0]
- 1510 1372 77EE277A 		fadds	s15, s14, s15
- 1511 1376 16EE900A 		fmrs	r0, s13
- 1512 137a 17EE901A 		fmrs	r1, s15
- 1513 137e FFF7FEFF 		bl	atan2f
- 1514 1382 0246     		mov	r2, r0	@ float
- 1515 1384 40F20003 		movw	r3, #:lower16:sensors
- 1516 1388 C0F20003 		movt	r3, #:upper16:sensors
- 1517 138c 9A61     		str	r2, [r3, #24]	@ float
- 1518 138e 40F20003 		movw	r3, #:lower16:q1q3
- 1519 1392 C0F20003 		movt	r3, #:upper16:q1q3
- 1520 1396 93ED007A 		flds	s14, [r3, #0]
- 1521 139a 40F20003 		movw	r3, #:lower16:q0q2
- 1522 139e C0F20003 		movt	r3, #:upper16:q0q2
- 1523 13a2 D3ED007A 		flds	s15, [r3, #0]
- 1524 13a6 77EE677A 		fsubs	s15, s14, s15
- 1525 13aa 77EEA77A 		fadds	s15, s15, s15
- 1526 13ae 17EE900A 		fmrs	r0, s15
- 1527 13b2 FFF7FEFF 		bl	asinf
- 1528 13b6 0346     		mov	r3, r0	@ float
- 1529 13b8 07EE103A 		fmsr	s14, r3
- 1530 13bc F1EE477A 		fnegs	s15, s14
- 1531 13c0 40F20003 		movw	r3, #:lower16:sensors
- 1532 13c4 C0F20003 		movt	r3, #:upper16:sensors
- 1533 13c8 C3ED077A 		fsts	s15, [r3, #28]
- 1534 13cc 40F20003 		movw	r3, #:lower16:q1q2
- 1535 13d0 C0F20003 		movt	r3, #:upper16:q1q2
- 1536 13d4 93ED007A 		flds	s14, [r3, #0]
- 1537 13d8 40F20003 		movw	r3, #:lower16:q0q3
- 1538 13dc C0F20003 		movt	r3, #:upper16:q0q3
- 1539 13e0 D3ED007A 		flds	s15, [r3, #0]
- 1540 13e4 77EE277A 		fadds	s15, s14, s15
- 1541 13e8 77EEA76A 		fadds	s13, s15, s15
- 1542 13ec 40F20003 		movw	r3, #:lower16:q0q0
- 1543 13f0 C0F20003 		movt	r3, #:upper16:q0q0
- 1544 13f4 93ED007A 		flds	s14, [r3, #0]
- 1545 13f8 40F20003 		movw	r3, #:lower16:q1q1
- 1546 13fc C0F20003 		movt	r3, #:upper16:q1q1
- 1547 1400 D3ED007A 		flds	s15, [r3, #0]
- 1548 1404 37EE277A 		fadds	s14, s14, s15
- 1549 1408 40F20003 		movw	r3, #:lower16:q2q2
- 1550 140c C0F20003 		movt	r3, #:upper16:q2q2
- 1551 1410 D3ED007A 		flds	s15, [r3, #0]
- 1552 1414 37EE677A 		fsubs	s14, s14, s15
- 1553 1418 40F20003 		movw	r3, #:lower16:q3q3
- 1554 141c C0F20003 		movt	r3, #:upper16:q3q3
- 1555 1420 D3ED007A 		flds	s15, [r3, #0]
- 1556 1424 77EE677A 		fsubs	s15, s14, s15
- 1557 1428 16EE900A 		fmrs	r0, s13
- 1558 142c 17EE901A 		fmrs	r1, s15
- 1559 1430 FFF7FEFF 		bl	atan2f
- 1560 1434 0246     		mov	r2, r0	@ float
- 1561 1436 40F20003 		movw	r3, #:lower16:sensors
- 1562 143a C0F20003 		movt	r3, #:upper16:sensors
- 1563 143e 1A62     		str	r2, [r3, #32]	@ float
- 1564              	.L5:
- 1565 1440 19B0     		add	sp, sp, #100
- 1566 1442 00BD     		pop	{pc}
- 1567              	.L11:
- 1568 1444 AFF30080 		.align	3
- 1569              	.L10:
- 1570 1448 00000000 		.word	0
- 1571 144c 0000F03F 		.word	1072693248
- 1572 1450 0000803F 		.word	1065353216
- 1574 1454 AFF30080 		.data
- 1575              		.align	2
- 1578              	accMagP.10920:
- 1579 0008 0000803F 		.word	1065353216
- 1580              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.global	exAcc
+  20              		.bss
+  21              		.align	2
+  24              	exAcc:
+  25 0000 00000000 		.space	4
+  26              		.global	eyAcc
+  27              		.align	2
+  30              	eyAcc:
+  31 0004 00000000 		.space	4
+  32              		.global	ezAcc
+  33              		.align	2
+  36              	ezAcc:
+  37 0008 00000000 		.space	4
+  38              		.global	exAccInt
+  39              		.align	2
+  42              	exAccInt:
+  43 000c 00000000 		.space	4
+  44              		.global	eyAccInt
+  45              		.align	2
+  48              	eyAccInt:
+  49 0010 00000000 		.space	4
+  50              		.global	ezAccInt
+  51              		.align	2
+  54              	ezAccInt:
+  55 0014 00000000 		.space	4
+  56              		.global	exMag
+  57              		.align	2
+  60              	exMag:
+  61 0018 00000000 		.space	4
+  62              		.global	eyMag
+  63              		.align	2
+  66              	eyMag:
+  67 001c 00000000 		.space	4
+  68              		.global	ezMag
+  69              		.align	2
+  72              	ezMag:
+  73 0020 00000000 		.space	4
+  74              		.global	exMagInt
+  75              		.align	2
+  78              	exMagInt:
+  79 0024 00000000 		.space	4
+  80              		.global	eyMagInt
+  81              		.align	2
+  84              	eyMagInt:
+  85 0028 00000000 		.space	4
+  86              		.global	ezMagInt
+  87              		.align	2
+  90              	ezMagInt:
+  91 002c 00000000 		.space	4
+  92              		.comm	kpAcc,4,4
+  93              		.comm	kiAcc,4,4
+  94              		.global	q0
+  95              		.data
+  96              		.align	2
+  99              	q0:
+ 100 0000 0000803F 		.word	1065353216
+ 101              		.global	q1
+ 102              		.bss
+ 103              		.align	2
+ 106              	q1:
+ 107 0030 00000000 		.space	4
+ 108              		.global	q2
+ 109              		.align	2
+ 112              	q2:
+ 113 0034 00000000 		.space	4
+ 114              		.global	q3
+ 115              		.align	2
+ 118              	q3:
+ 119 0038 00000000 		.space	4
+ 120              		.comm	q0q0,4,4
+ 121              		.comm	q0q1,4,4
+ 122              		.comm	q0q2,4,4
+ 123              		.comm	q0q3,4,4
+ 124              		.comm	q1q1,4,4
+ 125              		.comm	q1q2,4,4
+ 126              		.comm	q1q3,4,4
+ 127              		.comm	q2q2,4,4
+ 128              		.comm	q2q3,4,4
+ 129              		.comm	q3q3,4,4
+ 130              		.comm	halfT,4,4
+ 131              		.global	MargAHRSinitialized
+ 134              	MargAHRSinitialized:
+ 135 003c 00       		.space	1
+ 136              		.global	accConfidenceDecay
+ 137 003d 000000   		.align	2
+ 140              	accConfidenceDecay:
+ 141 0040 00000000 		.space	4
+ 142              		.global	accConfidence
+ 143              		.data
+ 144              		.align	2
+ 147              	accConfidence:
+ 148 0004 0000803F 		.word	1065353216
+ 149              		.global	__aeabi_f2d
+ 150              		.global	__aeabi_dmul
+ 151              		.global	__aeabi_dsub
+ 152              		.global	__aeabi_d2f
+ 153              		.text
+ 154              		.align	2
+ 155              		.global	calculateAccConfidence
+ 156              		.thumb
+ 157              		.thumb_func
+ 159              	calculateAccConfidence:
+ 160              		@ args = 0, pretend = 0, frame = 8
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162 0000 30B5     		push	{r4, r5, lr}
+ 163 0002 83B0     		sub	sp, sp, #12
+ 164 0004 0190     		str	r0, [sp, #4]	@ float
+ 165 0006 40F20003 		movw	r3, #:lower16:accelOneG
+ 166 000a C0F20003 		movt	r3, #:upper16:accelOneG
+ 167 000e D3ED007A 		flds	s15, [r3, #0]
+ 168 0012 9DED017A 		flds	s14, [sp, #4]
+ 169 0016 C7EE277A 		fdivs	s15, s14, s15
+ 170 001a CDED017A 		fsts	s15, [sp, #4]
+ 171 001e 40F20003 		movw	r3, #:lower16:accMagP.10978
+ 172 0022 C0F20003 		movt	r3, #:upper16:accMagP.10978
+ 173 0026 93ED007A 		flds	s14, [r3, #0]
+ 174 002a DFED2B7A 		flds	s15, .L2+8
+ 175 002e 27EE277A 		fmuls	s14, s14, s15
+ 176 0032 DDED016A 		flds	s13, [sp, #4]
+ 177 0036 DFED297A 		flds	s15, .L2+12
+ 178 003a 66EEA77A 		fmuls	s15, s13, s15
+ 179 003e 77EE277A 		fadds	s15, s14, s15
+ 180 0042 CDED017A 		fsts	s15, [sp, #4]
+ 181 0046 40F20003 		movw	r3, #:lower16:accMagP.10978
+ 182 004a C0F20003 		movt	r3, #:upper16:accMagP.10978
+ 183 004e 019A     		ldr	r2, [sp, #4]	@ float
+ 184 0050 1A60     		str	r2, [r3, #0]	@ float
+ 185 0052 40F20003 		movw	r3, #:lower16:accConfidenceDecay
+ 186 0056 C0F20003 		movt	r3, #:upper16:accConfidenceDecay
+ 187 005a 1B68     		ldr	r3, [r3, #0]	@ float
+ 188 005c 1846     		mov	r0, r3	@ float
+ 189 005e FFF7FEFF 		bl	__aeabi_f2d
+ 190 0062 0446     		mov	r4, r0
+ 191 0064 0D46     		mov	r5, r1
+ 192 0066 9DED017A 		flds	s14, [sp, #4]
+ 193 006a F7EE007A 		fconsts	s15, #112
+ 194 006e 77EE677A 		fsubs	s15, s14, s15
+ 195 0072 F0EEE77A 		fabss	s15, s15
+ 196 0076 17EE900A 		fmrs	r0, s15
+ 197 007a FFF7FEFF 		bl	__aeabi_f2d
+ 198 007e 0246     		mov	r2, r0
+ 199 0080 0B46     		mov	r3, r1
+ 200 0082 1046     		mov	r0, r2
+ 201 0084 1946     		mov	r1, r3
+ 202 0086 FFF7FEFF 		bl	sqrt
+ 203 008a 0246     		mov	r2, r0
+ 204 008c 0B46     		mov	r3, r1
+ 205 008e 2046     		mov	r0, r4
+ 206 0090 2946     		mov	r1, r5
+ 207 0092 FFF7FEFF 		bl	__aeabi_dmul
+ 208 0096 0246     		mov	r2, r0
+ 209 0098 0B46     		mov	r3, r1
+ 210 009a 0DA1     		adr	r1, .L2
+ 211 009c D1E90001 		ldrd	r0, [r1]
+ 212 00a0 FFF7FEFF 		bl	__aeabi_dsub
+ 213 00a4 0246     		mov	r2, r0
+ 214 00a6 0B46     		mov	r3, r1
+ 215 00a8 1046     		mov	r0, r2
+ 216 00aa 1946     		mov	r1, r3
+ 217 00ac FFF7FEFF 		bl	__aeabi_d2f
+ 218 00b0 0346     		mov	r3, r0	@ float
+ 219 00b2 1846     		mov	r0, r3	@ float
+ 220 00b4 0A49     		ldr	r1, .L2+16	@ float
+ 221 00b6 0B4A     		ldr	r2, .L2+20	@ float
+ 222 00b8 FFF7FEFF 		bl	constrain
+ 223 00bc 0246     		mov	r2, r0	@ float
+ 224 00be 40F20003 		movw	r3, #:lower16:accConfidence
+ 225 00c2 C0F20003 		movt	r3, #:upper16:accConfidence
+ 226 00c6 1A60     		str	r2, [r3, #0]	@ float
+ 227 00c8 03B0     		add	sp, sp, #12
+ 228 00ca 30BD     		pop	{r4, r5, pc}
+ 229              	.L3:
+ 230 00cc AFF30080 		.align	3
+ 231              	.L2:
+ 232 00d0 00000000 		.word	0
+ 233 00d4 0000F03F 		.word	1072693248
+ 234 00d8 6666663F 		.word	1063675494
+ 235 00dc CDCCCC3D 		.word	1036831949
+ 236 00e0 00000000 		.word	0
+ 237 00e4 0000803F 		.word	1065353216
+ 239              		.align	2
+ 240              		.global	MargAHRSinit
+ 241              		.thumb
+ 242              		.thumb_func
+ 244              	MargAHRSinit:
+ 245              		@ args = 8, pretend = 0, frame = 64
+ 246              		@ frame_needed = 0, uses_anonymous_args = 0
+ 247 00e8 30B5     		push	{r4, r5, lr}
+ 248 00ea 91B0     		sub	sp, sp, #68
+ 249 00ec 0390     		str	r0, [sp, #12]	@ float
+ 250 00ee 0291     		str	r1, [sp, #8]	@ float
+ 251 00f0 0192     		str	r2, [sp, #4]	@ float
+ 252 00f2 0093     		str	r3, [sp, #0]	@ float
+ 253 00f4 DDED027A 		flds	s15, [sp, #8]
+ 254 00f8 F1EE677A 		fnegs	s15, s15
+ 255 00fc 17EE903A 		fmrs	r3, s15
+ 256 0100 1846     		mov	r0, r3	@ float
+ 257 0102 FFF7FEFF 		bl	__aeabi_f2d
+ 258 0106 0446     		mov	r4, r0
+ 259 0108 0D46     		mov	r5, r1
+ 260 010a DDED017A 		flds	s15, [sp, #4]
+ 261 010e F1EE677A 		fnegs	s15, s15
+ 262 0112 17EE903A 		fmrs	r3, s15
+ 263 0116 1846     		mov	r0, r3	@ float
+ 264 0118 FFF7FEFF 		bl	__aeabi_f2d
+ 265 011c 0246     		mov	r2, r0
+ 266 011e 0B46     		mov	r3, r1
+ 267 0120 2046     		mov	r0, r4
+ 268 0122 2946     		mov	r1, r5
+ 269 0124 FFF7FEFF 		bl	atan2
+ 270 0128 0246     		mov	r2, r0
+ 271 012a 0B46     		mov	r3, r1
+ 272 012c 1046     		mov	r0, r2
+ 273 012e 1946     		mov	r1, r3
+ 274 0130 FFF7FEFF 		bl	__aeabi_d2f
+ 275 0134 0346     		mov	r3, r0	@ float
+ 276 0136 0F93     		str	r3, [sp, #60]	@ float
+ 277 0138 0398     		ldr	r0, [sp, #12]	@ float
+ 278 013a FFF7FEFF 		bl	__aeabi_f2d
+ 279 013e 0446     		mov	r4, r0
+ 280 0140 0D46     		mov	r5, r1
+ 281 0142 DDED017A 		flds	s15, [sp, #4]
+ 282 0146 F1EE677A 		fnegs	s15, s15
+ 283 014a 17EE903A 		fmrs	r3, s15
+ 284 014e 1846     		mov	r0, r3	@ float
+ 285 0150 FFF7FEFF 		bl	__aeabi_f2d
+ 286 0154 0246     		mov	r2, r0
+ 287 0156 0B46     		mov	r3, r1
+ 288 0158 2046     		mov	r0, r4
+ 289 015a 2946     		mov	r1, r5
+ 290 015c FFF7FEFF 		bl	atan2
+ 291 0160 0246     		mov	r2, r0
+ 292 0162 0B46     		mov	r3, r1
+ 293 0164 1046     		mov	r0, r2
+ 294 0166 1946     		mov	r1, r3
+ 295 0168 FFF7FEFF 		bl	__aeabi_d2f
+ 296 016c 0346     		mov	r3, r0	@ float
+ 297 016e 0E93     		str	r3, [sp, #56]	@ float
+ 298 0170 0F98     		ldr	r0, [sp, #60]	@ float
+ 299 0172 FFF7FEFF 		bl	cosf
+ 300 0176 0D90     		str	r0, [sp, #52]	@ float
+ 301 0178 0F98     		ldr	r0, [sp, #60]	@ float
+ 302 017a FFF7FEFF 		bl	sinf
+ 303 017e 0C90     		str	r0, [sp, #48]	@ float
+ 304 0180 0E98     		ldr	r0, [sp, #56]	@ float
+ 305 0182 FFF7FEFF 		bl	cosf
+ 306 0186 0B90     		str	r0, [sp, #44]	@ float
+ 307 0188 0E98     		ldr	r0, [sp, #56]	@ float
+ 308 018a FFF7FEFF 		bl	sinf
+ 309 018e 0A90     		str	r0, [sp, #40]	@ float
+ 310 0190 9DED007A 		flds	s14, [sp, #0]
+ 311 0194 DDED0B7A 		flds	s15, [sp, #44]
+ 312 0198 27EE277A 		fmuls	s14, s14, s15
+ 313 019c DDED146A 		flds	s13, [sp, #80]
+ 314 01a0 DDED0C7A 		flds	s15, [sp, #48]
+ 315 01a4 66EEA77A 		fmuls	s15, s13, s15
+ 316 01a8 DDED0A6A 		flds	s13, [sp, #40]
+ 317 01ac 67EEA67A 		fmuls	s15, s15, s13
+ 318 01b0 37EE277A 		fadds	s14, s14, s15
+ 319 01b4 DDED156A 		flds	s13, [sp, #84]
+ 320 01b8 DDED0D7A 		flds	s15, [sp, #52]
+ 321 01bc 66EEA77A 		fmuls	s15, s13, s15
+ 322 01c0 DDED0A6A 		flds	s13, [sp, #40]
+ 323 01c4 67EEA67A 		fmuls	s15, s15, s13
+ 324 01c8 77EE277A 		fadds	s15, s14, s15
+ 325 01cc CDED097A 		fsts	s15, [sp, #36]
+ 326 01d0 9DED147A 		flds	s14, [sp, #80]
+ 327 01d4 DDED0D7A 		flds	s15, [sp, #52]
+ 328 01d8 27EE277A 		fmuls	s14, s14, s15
+ 329 01dc DDED156A 		flds	s13, [sp, #84]
+ 330 01e0 DDED0C7A 		flds	s15, [sp, #48]
+ 331 01e4 66EEA77A 		fmuls	s15, s13, s15
+ 332 01e8 77EE677A 		fsubs	s15, s14, s15
+ 333 01ec CDED087A 		fsts	s15, [sp, #32]
+ 334 01f0 DDED087A 		flds	s15, [sp, #32]
+ 335 01f4 F1EE677A 		fnegs	s15, s15
+ 336 01f8 17EE903A 		fmrs	r3, s15
+ 337 01fc 1846     		mov	r0, r3	@ float
+ 338 01fe 0999     		ldr	r1, [sp, #36]	@ float
+ 339 0200 FFF7FEFF 		bl	atan2f
+ 340 0204 0790     		str	r0, [sp, #28]	@ float
+ 341 0206 9DED0F7A 		flds	s14, [sp, #60]
+ 342 020a F6EE007A 		fconsts	s15, #96
+ 343 020e 67EE277A 		fmuls	s15, s14, s15
+ 344 0212 17EE900A 		fmrs	r0, s15
+ 345 0216 FFF7FEFF 		bl	cosf
+ 346 021a 0D90     		str	r0, [sp, #52]	@ float
+ 347 021c 9DED0F7A 		flds	s14, [sp, #60]
+ 348 0220 F6EE007A 		fconsts	s15, #96
+ 349 0224 67EE277A 		fmuls	s15, s14, s15
+ 350 0228 17EE900A 		fmrs	r0, s15
+ 351 022c FFF7FEFF 		bl	sinf
+ 352 0230 0C90     		str	r0, [sp, #48]	@ float
+ 353 0232 9DED0E7A 		flds	s14, [sp, #56]
+ 354 0236 F6EE007A 		fconsts	s15, #96
+ 355 023a 67EE277A 		fmuls	s15, s14, s15
+ 356 023e 17EE900A 		fmrs	r0, s15
+ 357 0242 FFF7FEFF 		bl	cosf
+ 358 0246 0B90     		str	r0, [sp, #44]	@ float
+ 359 0248 9DED0E7A 		flds	s14, [sp, #56]
+ 360 024c F6EE007A 		fconsts	s15, #96
+ 361 0250 67EE277A 		fmuls	s15, s14, s15
+ 362 0254 17EE900A 		fmrs	r0, s15
+ 363 0258 FFF7FEFF 		bl	sinf
+ 364 025c 0A90     		str	r0, [sp, #40]	@ float
+ 365 025e 9DED077A 		flds	s14, [sp, #28]
+ 366 0262 F6EE007A 		fconsts	s15, #96
+ 367 0266 67EE277A 		fmuls	s15, s14, s15
+ 368 026a 17EE900A 		fmrs	r0, s15
+ 369 026e FFF7FEFF 		bl	cosf
+ 370 0272 0690     		str	r0, [sp, #24]	@ float
+ 371 0274 9DED077A 		flds	s14, [sp, #28]
+ 372 0278 F6EE007A 		fconsts	s15, #96
+ 373 027c 67EE277A 		fmuls	s15, s14, s15
+ 374 0280 17EE900A 		fmrs	r0, s15
+ 375 0284 FFF7FEFF 		bl	sinf
+ 376 0288 0590     		str	r0, [sp, #20]	@ float
+ 377 028a 9DED0D7A 		flds	s14, [sp, #52]
+ 378 028e DDED0B7A 		flds	s15, [sp, #44]
+ 379 0292 67EE277A 		fmuls	s15, s14, s15
+ 380 0296 9DED067A 		flds	s14, [sp, #24]
+ 381 029a 27EE877A 		fmuls	s14, s15, s14
+ 382 029e DDED0C6A 		flds	s13, [sp, #48]
+ 383 02a2 DDED0A7A 		flds	s15, [sp, #40]
+ 384 02a6 66EEA77A 		fmuls	s15, s13, s15
+ 385 02aa DDED056A 		flds	s13, [sp, #20]
+ 386 02ae 67EEA67A 		fmuls	s15, s15, s13
+ 387 02b2 77EE277A 		fadds	s15, s14, s15
+ 388 02b6 40F20003 		movw	r3, #:lower16:q0
+ 389 02ba C0F20003 		movt	r3, #:upper16:q0
+ 390 02be C3ED007A 		fsts	s15, [r3, #0]
+ 391 02c2 9DED0C7A 		flds	s14, [sp, #48]
+ 392 02c6 DDED0B7A 		flds	s15, [sp, #44]
+ 393 02ca 67EE277A 		fmuls	s15, s14, s15
+ 394 02ce 9DED067A 		flds	s14, [sp, #24]
+ 395 02d2 27EE877A 		fmuls	s14, s15, s14
+ 396 02d6 DDED0D6A 		flds	s13, [sp, #52]
+ 397 02da DDED0A7A 		flds	s15, [sp, #40]
+ 398 02de 66EEA77A 		fmuls	s15, s13, s15
+ 399 02e2 DDED056A 		flds	s13, [sp, #20]
+ 400 02e6 67EEA67A 		fmuls	s15, s15, s13
+ 401 02ea 77EE677A 		fsubs	s15, s14, s15
+ 402 02ee 40F20003 		movw	r3, #:lower16:q1
+ 403 02f2 C0F20003 		movt	r3, #:upper16:q1
+ 404 02f6 C3ED007A 		fsts	s15, [r3, #0]
+ 405 02fa 9DED0D7A 		flds	s14, [sp, #52]
+ 406 02fe DDED0A7A 		flds	s15, [sp, #40]
+ 407 0302 67EE277A 		fmuls	s15, s14, s15
+ 408 0306 9DED067A 		flds	s14, [sp, #24]
+ 409 030a 27EE877A 		fmuls	s14, s15, s14
+ 410 030e DDED0C6A 		flds	s13, [sp, #48]
+ 411 0312 DDED0B7A 		flds	s15, [sp, #44]
+ 412 0316 66EEA77A 		fmuls	s15, s13, s15
+ 413 031a DDED056A 		flds	s13, [sp, #20]
+ 414 031e 67EEA67A 		fmuls	s15, s15, s13
+ 415 0322 77EE277A 		fadds	s15, s14, s15
+ 416 0326 40F20003 		movw	r3, #:lower16:q2
+ 417 032a C0F20003 		movt	r3, #:upper16:q2
+ 418 032e C3ED007A 		fsts	s15, [r3, #0]
+ 419 0332 9DED0D7A 		flds	s14, [sp, #52]
+ 420 0336 DDED0B7A 		flds	s15, [sp, #44]
+ 421 033a 67EE277A 		fmuls	s15, s14, s15
+ 422 033e 9DED057A 		flds	s14, [sp, #20]
+ 423 0342 27EE877A 		fmuls	s14, s15, s14
+ 424 0346 DDED0C6A 		flds	s13, [sp, #48]
+ 425 034a DDED0A7A 		flds	s15, [sp, #40]
+ 426 034e 66EEA77A 		fmuls	s15, s13, s15
+ 427 0352 DDED066A 		flds	s13, [sp, #24]
+ 428 0356 67EEA67A 		fmuls	s15, s15, s13
+ 429 035a 77EE677A 		fsubs	s15, s14, s15
+ 430 035e 40F20003 		movw	r3, #:lower16:q3
+ 431 0362 C0F20003 		movt	r3, #:upper16:q3
+ 432 0366 C3ED007A 		fsts	s15, [r3, #0]
+ 433 036a 40F20003 		movw	r3, #:lower16:q0
+ 434 036e C0F20003 		movt	r3, #:upper16:q0
+ 435 0372 93ED007A 		flds	s14, [r3, #0]
+ 436 0376 40F20003 		movw	r3, #:lower16:q0
+ 437 037a C0F20003 		movt	r3, #:upper16:q0
+ 438 037e D3ED007A 		flds	s15, [r3, #0]
+ 439 0382 67EE277A 		fmuls	s15, s14, s15
+ 440 0386 40F20003 		movw	r3, #:lower16:q0q0
+ 441 038a C0F20003 		movt	r3, #:upper16:q0q0
+ 442 038e C3ED007A 		fsts	s15, [r3, #0]
+ 443 0392 40F20003 		movw	r3, #:lower16:q0
+ 444 0396 C0F20003 		movt	r3, #:upper16:q0
+ 445 039a 93ED007A 		flds	s14, [r3, #0]
+ 446 039e 40F20003 		movw	r3, #:lower16:q1
+ 447 03a2 C0F20003 		movt	r3, #:upper16:q1
+ 448 03a6 D3ED007A 		flds	s15, [r3, #0]
+ 449 03aa 67EE277A 		fmuls	s15, s14, s15
+ 450 03ae 40F20003 		movw	r3, #:lower16:q0q1
+ 451 03b2 C0F20003 		movt	r3, #:upper16:q0q1
+ 452 03b6 C3ED007A 		fsts	s15, [r3, #0]
+ 453 03ba 40F20003 		movw	r3, #:lower16:q0
+ 454 03be C0F20003 		movt	r3, #:upper16:q0
+ 455 03c2 93ED007A 		flds	s14, [r3, #0]
+ 456 03c6 40F20003 		movw	r3, #:lower16:q2
+ 457 03ca C0F20003 		movt	r3, #:upper16:q2
+ 458 03ce D3ED007A 		flds	s15, [r3, #0]
+ 459 03d2 67EE277A 		fmuls	s15, s14, s15
+ 460 03d6 40F20003 		movw	r3, #:lower16:q0q2
+ 461 03da C0F20003 		movt	r3, #:upper16:q0q2
+ 462 03de C3ED007A 		fsts	s15, [r3, #0]
+ 463 03e2 40F20003 		movw	r3, #:lower16:q0
+ 464 03e6 C0F20003 		movt	r3, #:upper16:q0
+ 465 03ea 93ED007A 		flds	s14, [r3, #0]
+ 466 03ee 40F20003 		movw	r3, #:lower16:q3
+ 467 03f2 C0F20003 		movt	r3, #:upper16:q3
+ 468 03f6 D3ED007A 		flds	s15, [r3, #0]
+ 469 03fa 67EE277A 		fmuls	s15, s14, s15
+ 470 03fe 40F20003 		movw	r3, #:lower16:q0q3
+ 471 0402 C0F20003 		movt	r3, #:upper16:q0q3
+ 472 0406 C3ED007A 		fsts	s15, [r3, #0]
+ 473 040a 40F20003 		movw	r3, #:lower16:q1
+ 474 040e C0F20003 		movt	r3, #:upper16:q1
+ 475 0412 93ED007A 		flds	s14, [r3, #0]
+ 476 0416 40F20003 		movw	r3, #:lower16:q1
+ 477 041a C0F20003 		movt	r3, #:upper16:q1
+ 478 041e D3ED007A 		flds	s15, [r3, #0]
+ 479 0422 67EE277A 		fmuls	s15, s14, s15
+ 480 0426 40F20003 		movw	r3, #:lower16:q1q1
+ 481 042a C0F20003 		movt	r3, #:upper16:q1q1
+ 482 042e C3ED007A 		fsts	s15, [r3, #0]
+ 483 0432 40F20003 		movw	r3, #:lower16:q1
+ 484 0436 C0F20003 		movt	r3, #:upper16:q1
+ 485 043a 93ED007A 		flds	s14, [r3, #0]
+ 486 043e 40F20003 		movw	r3, #:lower16:q2
+ 487 0442 C0F20003 		movt	r3, #:upper16:q2
+ 488 0446 D3ED007A 		flds	s15, [r3, #0]
+ 489 044a 67EE277A 		fmuls	s15, s14, s15
+ 490 044e 40F20003 		movw	r3, #:lower16:q1q2
+ 491 0452 C0F20003 		movt	r3, #:upper16:q1q2
+ 492 0456 C3ED007A 		fsts	s15, [r3, #0]
+ 493 045a 40F20003 		movw	r3, #:lower16:q1
+ 494 045e C0F20003 		movt	r3, #:upper16:q1
+ 495 0462 93ED007A 		flds	s14, [r3, #0]
+ 496 0466 40F20003 		movw	r3, #:lower16:q3
+ 497 046a C0F20003 		movt	r3, #:upper16:q3
+ 498 046e D3ED007A 		flds	s15, [r3, #0]
+ 499 0472 67EE277A 		fmuls	s15, s14, s15
+ 500 0476 40F20003 		movw	r3, #:lower16:q1q3
+ 501 047a C0F20003 		movt	r3, #:upper16:q1q3
+ 502 047e C3ED007A 		fsts	s15, [r3, #0]
+ 503 0482 40F20003 		movw	r3, #:lower16:q2
+ 504 0486 C0F20003 		movt	r3, #:upper16:q2
+ 505 048a 93ED007A 		flds	s14, [r3, #0]
+ 506 048e 40F20003 		movw	r3, #:lower16:q2
+ 507 0492 C0F20003 		movt	r3, #:upper16:q2
+ 508 0496 D3ED007A 		flds	s15, [r3, #0]
+ 509 049a 67EE277A 		fmuls	s15, s14, s15
+ 510 049e 40F20003 		movw	r3, #:lower16:q2q2
+ 511 04a2 C0F20003 		movt	r3, #:upper16:q2q2
+ 512 04a6 C3ED007A 		fsts	s15, [r3, #0]
+ 513 04aa 40F20003 		movw	r3, #:lower16:q2
+ 514 04ae C0F20003 		movt	r3, #:upper16:q2
+ 515 04b2 93ED007A 		flds	s14, [r3, #0]
+ 516 04b6 40F20003 		movw	r3, #:lower16:q3
+ 517 04ba C0F20003 		movt	r3, #:upper16:q3
+ 518 04be D3ED007A 		flds	s15, [r3, #0]
+ 519 04c2 67EE277A 		fmuls	s15, s14, s15
+ 520 04c6 40F20003 		movw	r3, #:lower16:q2q3
+ 521 04ca C0F20003 		movt	r3, #:upper16:q2q3
+ 522 04ce C3ED007A 		fsts	s15, [r3, #0]
+ 523 04d2 40F20003 		movw	r3, #:lower16:q3
+ 524 04d6 C0F20003 		movt	r3, #:upper16:q3
+ 525 04da 93ED007A 		flds	s14, [r3, #0]
+ 526 04de 40F20003 		movw	r3, #:lower16:q3
+ 527 04e2 C0F20003 		movt	r3, #:upper16:q3
+ 528 04e6 D3ED007A 		flds	s15, [r3, #0]
+ 529 04ea 67EE277A 		fmuls	s15, s14, s15
+ 530 04ee 40F20003 		movw	r3, #:lower16:q3q3
+ 531 04f2 C0F20003 		movt	r3, #:upper16:q3q3
+ 532 04f6 C3ED007A 		fsts	s15, [r3, #0]
+ 533 04fa 11B0     		add	sp, sp, #68
+ 534 04fc 30BD     		pop	{r4, r5, pc}
+ 536              		.global	__aeabi_ddiv
+ 537 04fe 00BF     		.align	2
+ 538              		.global	MargAHRSupdate
+ 539              		.thumb
+ 540              		.thumb_func
+ 542              	MargAHRSupdate:
+ 543              		@ args = 32, pretend = 0, frame = 88
+ 544              		@ frame_needed = 0, uses_anonymous_args = 0
+ 545 0500 00B5     		push	{lr}
+ 546 0502 99B0     		sub	sp, sp, #100
+ 547 0504 0590     		str	r0, [sp, #20]	@ float
+ 548 0506 0491     		str	r1, [sp, #16]	@ float
+ 549 0508 0392     		str	r2, [sp, #12]	@ float
+ 550 050a 0293     		str	r3, [sp, #8]	@ float
+ 551 050c 40F20003 		movw	r3, #:lower16:MargAHRSinitialized
+ 552 0510 C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
+ 553 0514 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 554 0516 002B     		cmp	r3, #0
+ 555 0518 14D1     		bne	.L6
+ 556 051a 9DF88030 		ldrb	r3, [sp, #128]	@ zero_extendqisi2
+ 557 051e 012B     		cmp	r3, #1
+ 558 0520 10D1     		bne	.L6
+ 559 0522 1D9B     		ldr	r3, [sp, #116]	@ float
+ 560 0524 0093     		str	r3, [sp, #0]	@ float
+ 561 0526 1E9B     		ldr	r3, [sp, #120]	@ float
+ 562 0528 0193     		str	r3, [sp, #4]	@ float
+ 563 052a 0298     		ldr	r0, [sp, #8]	@ float
+ 564 052c 1A99     		ldr	r1, [sp, #104]	@ float
+ 565 052e 1B9A     		ldr	r2, [sp, #108]	@ float
+ 566 0530 1C9B     		ldr	r3, [sp, #112]	@ float
+ 567 0532 FFF7FEFF 		bl	MargAHRSinit
+ 568 0536 40F20003 		movw	r3, #:lower16:MargAHRSinitialized
+ 569 053a C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
+ 570 053e 4FF00102 		mov	r2, #1
+ 571 0542 1A70     		strb	r2, [r3, #0]
+ 572              	.L6:
+ 573 0544 40F20003 		movw	r3, #:lower16:MargAHRSinitialized
+ 574 0548 C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
+ 575 054c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 576 054e 012B     		cmp	r3, #1
+ 577 0550 40F07687 		bne	.L5
+ 578 0554 9DED217A 		flds	s14, [sp, #132]
+ 579 0558 F6EE007A 		fconsts	s15, #96
+ 580 055c 67EE277A 		fmuls	s15, s14, s15
+ 581 0560 40F20003 		movw	r3, #:lower16:halfT
+ 582 0564 C0F20003 		movt	r3, #:upper16:halfT
+ 583 0568 C3ED007A 		fsts	s15, [r3, #0]
+ 584 056c 9DED027A 		flds	s14, [sp, #8]
+ 585 0570 DDED027A 		flds	s15, [sp, #8]
+ 586 0574 27EE277A 		fmuls	s14, s14, s15
+ 587 0578 DDED1A6A 		flds	s13, [sp, #104]
+ 588 057c DDED1A7A 		flds	s15, [sp, #104]
+ 589 0580 66EEA77A 		fmuls	s15, s13, s15
+ 590 0584 37EE277A 		fadds	s14, s14, s15
+ 591 0588 DDED1B6A 		flds	s13, [sp, #108]
+ 592 058c DDED1B7A 		flds	s15, [sp, #108]
+ 593 0590 66EEA77A 		fmuls	s15, s13, s15
+ 594 0594 77EE277A 		fadds	s15, s14, s15
+ 595 0598 17EE900A 		fmrs	r0, s15
+ 596 059c FFF7FEFF 		bl	__aeabi_f2d
+ 597 05a0 0246     		mov	r2, r0
+ 598 05a2 0B46     		mov	r3, r1
+ 599 05a4 1046     		mov	r0, r2
+ 600 05a6 1946     		mov	r1, r3
+ 601 05a8 FFF7FEFF 		bl	sqrt
+ 602 05ac 0246     		mov	r2, r0
+ 603 05ae 0B46     		mov	r3, r1
+ 604 05b0 1046     		mov	r0, r2
+ 605 05b2 1946     		mov	r1, r3
+ 606 05b4 FFF7FEFF 		bl	__aeabi_d2f
+ 607 05b8 0346     		mov	r3, r0	@ float
+ 608 05ba 1793     		str	r3, [sp, #92]	@ float
+ 609 05bc DDED177A 		flds	s15, [sp, #92]
+ 610 05c0 F5EE407A 		fcmpzs	s15
+ 611 05c4 F1EE10FA 		fmstat
+ 612 05c8 00F09181 		beq	.L8
+ 613 05cc 1798     		ldr	r0, [sp, #92]	@ float
+ 614 05ce FFF7FEFF 		bl	calculateAccConfidence
+ 615 05d2 40F20003 		movw	r3, #:lower16:eepromConfig
+ 616 05d6 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 617 05da 93ED117A 		flds	s14, [r3, #68]
+ 618 05de 40F20003 		movw	r3, #:lower16:accConfidence
+ 619 05e2 C0F20003 		movt	r3, #:upper16:accConfidence
+ 620 05e6 D3ED007A 		flds	s15, [r3, #0]
+ 621 05ea 67EE277A 		fmuls	s15, s14, s15
+ 622 05ee 40F20003 		movw	r3, #:lower16:kpAcc
+ 623 05f2 C0F20003 		movt	r3, #:upper16:kpAcc
+ 624 05f6 C3ED007A 		fsts	s15, [r3, #0]
+ 625 05fa 40F20003 		movw	r3, #:lower16:eepromConfig
+ 626 05fe C0F20003 		movt	r3, #:upper16:eepromConfig
+ 627 0602 93ED127A 		flds	s14, [r3, #72]
+ 628 0606 40F20003 		movw	r3, #:lower16:accConfidence
+ 629 060a C0F20003 		movt	r3, #:upper16:accConfidence
+ 630 060e D3ED007A 		flds	s15, [r3, #0]
+ 631 0612 67EE277A 		fmuls	s15, s14, s15
+ 632 0616 40F20003 		movw	r3, #:lower16:kiAcc
+ 633 061a C0F20003 		movt	r3, #:upper16:kiAcc
+ 634 061e C3ED007A 		fsts	s15, [r3, #0]
+ 635 0622 DFF82C3E 		ldr	r3, .L10+8	@ float
+ 636 0626 DDED177A 		flds	s15, [sp, #92]
+ 637 062a 07EE103A 		fmsr	s14, r3
+ 638 062e C7EE277A 		fdivs	s15, s14, s15
+ 639 0632 CDED167A 		fsts	s15, [sp, #88]
+ 640 0636 9DED027A 		flds	s14, [sp, #8]
+ 641 063a DDED167A 		flds	s15, [sp, #88]
+ 642 063e 67EE277A 		fmuls	s15, s14, s15
+ 643 0642 CDED027A 		fsts	s15, [sp, #8]
+ 644 0646 9DED1A7A 		flds	s14, [sp, #104]
+ 645 064a DDED167A 		flds	s15, [sp, #88]
+ 646 064e 67EE277A 		fmuls	s15, s14, s15
+ 647 0652 CDED1A7A 		fsts	s15, [sp, #104]
+ 648 0656 9DED1B7A 		flds	s14, [sp, #108]
+ 649 065a DDED167A 		flds	s15, [sp, #88]
+ 650 065e 67EE277A 		fmuls	s15, s14, s15
+ 651 0662 CDED1B7A 		fsts	s15, [sp, #108]
+ 652 0666 40F20003 		movw	r3, #:lower16:q1q3
+ 653 066a C0F20003 		movt	r3, #:upper16:q1q3
+ 654 066e 93ED007A 		flds	s14, [r3, #0]
+ 655 0672 40F20003 		movw	r3, #:lower16:q0q2
+ 656 0676 C0F20003 		movt	r3, #:upper16:q0q2
+ 657 067a D3ED007A 		flds	s15, [r3, #0]
+ 658 067e 77EE677A 		fsubs	s15, s14, s15
+ 659 0682 77EEA77A 		fadds	s15, s15, s15
+ 660 0686 CDED157A 		fsts	s15, [sp, #84]
+ 661 068a 40F20003 		movw	r3, #:lower16:q0q1
+ 662 068e C0F20003 		movt	r3, #:upper16:q0q1
+ 663 0692 93ED007A 		flds	s14, [r3, #0]
+ 664 0696 40F20003 		movw	r3, #:lower16:q2q3
+ 665 069a C0F20003 		movt	r3, #:upper16:q2q3
+ 666 069e D3ED007A 		flds	s15, [r3, #0]
+ 667 06a2 77EE277A 		fadds	s15, s14, s15
+ 668 06a6 77EEA77A 		fadds	s15, s15, s15
+ 669 06aa CDED147A 		fsts	s15, [sp, #80]
+ 670 06ae 40F20003 		movw	r3, #:lower16:q0q0
+ 671 06b2 C0F20003 		movt	r3, #:upper16:q0q0
+ 672 06b6 93ED007A 		flds	s14, [r3, #0]
+ 673 06ba 40F20003 		movw	r3, #:lower16:q1q1
+ 674 06be C0F20003 		movt	r3, #:upper16:q1q1
+ 675 06c2 D3ED007A 		flds	s15, [r3, #0]
+ 676 06c6 37EE677A 		fsubs	s14, s14, s15
+ 677 06ca 40F20003 		movw	r3, #:lower16:q2q2
+ 678 06ce C0F20003 		movt	r3, #:upper16:q2q2
+ 679 06d2 D3ED007A 		flds	s15, [r3, #0]
+ 680 06d6 37EE677A 		fsubs	s14, s14, s15
+ 681 06da 40F20003 		movw	r3, #:lower16:q3q3
+ 682 06de C0F20003 		movt	r3, #:upper16:q3q3
+ 683 06e2 D3ED007A 		flds	s15, [r3, #0]
+ 684 06e6 77EE277A 		fadds	s15, s14, s15
+ 685 06ea CDED137A 		fsts	s15, [sp, #76]
+ 686 06ee 9DED147A 		flds	s14, [sp, #80]
+ 687 06f2 DDED1B7A 		flds	s15, [sp, #108]
+ 688 06f6 27EE277A 		fmuls	s14, s14, s15
+ 689 06fa DDED136A 		flds	s13, [sp, #76]
+ 690 06fe DDED1A7A 		flds	s15, [sp, #104]
+ 691 0702 66EEA77A 		fmuls	s15, s13, s15
+ 692 0706 77EE677A 		fsubs	s15, s14, s15
+ 693 070a 40F20003 		movw	r3, #:lower16:exAcc
+ 694 070e C0F20003 		movt	r3, #:upper16:exAcc
+ 695 0712 C3ED007A 		fsts	s15, [r3, #0]
+ 696 0716 9DED137A 		flds	s14, [sp, #76]
+ 697 071a DDED027A 		flds	s15, [sp, #8]
+ 698 071e 27EE277A 		fmuls	s14, s14, s15
+ 699 0722 DDED156A 		flds	s13, [sp, #84]
+ 700 0726 DDED1B7A 		flds	s15, [sp, #108]
+ 701 072a 66EEA77A 		fmuls	s15, s13, s15
+ 702 072e 77EE677A 		fsubs	s15, s14, s15
+ 703 0732 40F20003 		movw	r3, #:lower16:eyAcc
+ 704 0736 C0F20003 		movt	r3, #:upper16:eyAcc
+ 705 073a C3ED007A 		fsts	s15, [r3, #0]
+ 706 073e 9DED157A 		flds	s14, [sp, #84]
+ 707 0742 DDED1A7A 		flds	s15, [sp, #104]
+ 708 0746 27EE277A 		fmuls	s14, s14, s15
+ 709 074a DDED146A 		flds	s13, [sp, #80]
+ 710 074e DDED027A 		flds	s15, [sp, #8]
+ 711 0752 66EEA77A 		fmuls	s15, s13, s15
+ 712 0756 77EE677A 		fsubs	s15, s14, s15
+ 713 075a 40F20003 		movw	r3, #:lower16:ezAcc
+ 714 075e C0F20003 		movt	r3, #:upper16:ezAcc
+ 715 0762 C3ED007A 		fsts	s15, [r3, #0]
+ 716 0766 40F20003 		movw	r3, #:lower16:exAcc
+ 717 076a C0F20003 		movt	r3, #:upper16:exAcc
+ 718 076e 93ED007A 		flds	s14, [r3, #0]
+ 719 0772 40F20003 		movw	r3, #:lower16:kpAcc
+ 720 0776 C0F20003 		movt	r3, #:upper16:kpAcc
+ 721 077a D3ED007A 		flds	s15, [r3, #0]
+ 722 077e 67EE277A 		fmuls	s15, s14, s15
+ 723 0782 9DED057A 		flds	s14, [sp, #20]
+ 724 0786 77EE277A 		fadds	s15, s14, s15
+ 725 078a CDED057A 		fsts	s15, [sp, #20]
+ 726 078e 40F20003 		movw	r3, #:lower16:eyAcc
+ 727 0792 C0F20003 		movt	r3, #:upper16:eyAcc
+ 728 0796 93ED007A 		flds	s14, [r3, #0]
+ 729 079a 40F20003 		movw	r3, #:lower16:kpAcc
+ 730 079e C0F20003 		movt	r3, #:upper16:kpAcc
+ 731 07a2 D3ED007A 		flds	s15, [r3, #0]
+ 732 07a6 67EE277A 		fmuls	s15, s14, s15
+ 733 07aa 9DED047A 		flds	s14, [sp, #16]
+ 734 07ae 77EE277A 		fadds	s15, s14, s15
+ 735 07b2 CDED047A 		fsts	s15, [sp, #16]
+ 736 07b6 40F20003 		movw	r3, #:lower16:ezAcc
+ 737 07ba C0F20003 		movt	r3, #:upper16:ezAcc
+ 738 07be 93ED007A 		flds	s14, [r3, #0]
+ 739 07c2 40F20003 		movw	r3, #:lower16:kpAcc
+ 740 07c6 C0F20003 		movt	r3, #:upper16:kpAcc
+ 741 07ca D3ED007A 		flds	s15, [r3, #0]
+ 742 07ce 67EE277A 		fmuls	s15, s14, s15
+ 743 07d2 9DED037A 		flds	s14, [sp, #12]
+ 744 07d6 77EE277A 		fadds	s15, s14, s15
+ 745 07da CDED037A 		fsts	s15, [sp, #12]
+ 746 07de 40F20003 		movw	r3, #:lower16:kiAcc
+ 747 07e2 C0F20003 		movt	r3, #:upper16:kiAcc
+ 748 07e6 D3ED007A 		flds	s15, [r3, #0]
+ 749 07ea F5EEC07A 		fcmpezs	s15
+ 750 07ee F1EE10FA 		fmstat
+ 751 07f2 D4BF     		ite	le
+ 752 07f4 0023     		movle	r3, #0
+ 753 07f6 0123     		movgt	r3, #1
+ 754 07f8 DBB2     		uxtb	r3, r3
+ 755 07fa 002B     		cmp	r3, #0
+ 756 07fc 77D0     		beq	.L8
+ 757 07fe 40F20003 		movw	r3, #:lower16:exAcc
+ 758 0802 C0F20003 		movt	r3, #:upper16:exAcc
+ 759 0806 93ED007A 		flds	s14, [r3, #0]
+ 760 080a 40F20003 		movw	r3, #:lower16:kiAcc
+ 761 080e C0F20003 		movt	r3, #:upper16:kiAcc
+ 762 0812 D3ED007A 		flds	s15, [r3, #0]
+ 763 0816 67EE277A 		fmuls	s15, s14, s15
+ 764 081a 40F20003 		movw	r3, #:lower16:exAccInt
+ 765 081e C0F20003 		movt	r3, #:upper16:exAccInt
+ 766 0822 93ED007A 		flds	s14, [r3, #0]
+ 767 0826 77EE877A 		fadds	s15, s15, s14
+ 768 082a 40F20003 		movw	r3, #:lower16:exAccInt
+ 769 082e C0F20003 		movt	r3, #:upper16:exAccInt
+ 770 0832 C3ED007A 		fsts	s15, [r3, #0]
+ 771 0836 40F20003 		movw	r3, #:lower16:eyAcc
+ 772 083a C0F20003 		movt	r3, #:upper16:eyAcc
+ 773 083e 93ED007A 		flds	s14, [r3, #0]
+ 774 0842 40F20003 		movw	r3, #:lower16:kiAcc
+ 775 0846 C0F20003 		movt	r3, #:upper16:kiAcc
+ 776 084a D3ED007A 		flds	s15, [r3, #0]
+ 777 084e 67EE277A 		fmuls	s15, s14, s15
+ 778 0852 40F20003 		movw	r3, #:lower16:eyAccInt
+ 779 0856 C0F20003 		movt	r3, #:upper16:eyAccInt
+ 780 085a 93ED007A 		flds	s14, [r3, #0]
+ 781 085e 77EE877A 		fadds	s15, s15, s14
+ 782 0862 40F20003 		movw	r3, #:lower16:eyAccInt
+ 783 0866 C0F20003 		movt	r3, #:upper16:eyAccInt
+ 784 086a C3ED007A 		fsts	s15, [r3, #0]
+ 785 086e 40F20003 		movw	r3, #:lower16:ezAcc
+ 786 0872 C0F20003 		movt	r3, #:upper16:ezAcc
+ 787 0876 93ED007A 		flds	s14, [r3, #0]
+ 788 087a 40F20003 		movw	r3, #:lower16:kiAcc
+ 789 087e C0F20003 		movt	r3, #:upper16:kiAcc
+ 790 0882 D3ED007A 		flds	s15, [r3, #0]
+ 791 0886 67EE277A 		fmuls	s15, s14, s15
+ 792 088a 40F20003 		movw	r3, #:lower16:ezAccInt
+ 793 088e C0F20003 		movt	r3, #:upper16:ezAccInt
+ 794 0892 93ED007A 		flds	s14, [r3, #0]
+ 795 0896 77EE877A 		fadds	s15, s15, s14
+ 796 089a 40F20003 		movw	r3, #:lower16:ezAccInt
+ 797 089e C0F20003 		movt	r3, #:upper16:ezAccInt
+ 798 08a2 C3ED007A 		fsts	s15, [r3, #0]
+ 799 08a6 40F20003 		movw	r3, #:lower16:exAccInt
+ 800 08aa C0F20003 		movt	r3, #:upper16:exAccInt
+ 801 08ae D3ED007A 		flds	s15, [r3, #0]
+ 802 08b2 9DED057A 		flds	s14, [sp, #20]
+ 803 08b6 77EE277A 		fadds	s15, s14, s15
+ 804 08ba CDED057A 		fsts	s15, [sp, #20]
+ 805 08be 40F20003 		movw	r3, #:lower16:eyAccInt
+ 806 08c2 C0F20003 		movt	r3, #:upper16:eyAccInt
+ 807 08c6 D3ED007A 		flds	s15, [r3, #0]
+ 808 08ca 9DED047A 		flds	s14, [sp, #16]
+ 809 08ce 77EE277A 		fadds	s15, s14, s15
+ 810 08d2 CDED047A 		fsts	s15, [sp, #16]
+ 811 08d6 40F20003 		movw	r3, #:lower16:ezAccInt
+ 812 08da C0F20003 		movt	r3, #:upper16:ezAccInt
+ 813 08de D3ED007A 		flds	s15, [r3, #0]
+ 814 08e2 9DED037A 		flds	s14, [sp, #12]
+ 815 08e6 77EE277A 		fadds	s15, s14, s15
+ 816 08ea CDED037A 		fsts	s15, [sp, #12]
+ 817              	.L8:
+ 818 08ee 9DED1C7A 		flds	s14, [sp, #112]
+ 819 08f2 DDED1C7A 		flds	s15, [sp, #112]
+ 820 08f6 27EE277A 		fmuls	s14, s14, s15
+ 821 08fa DDED1D6A 		flds	s13, [sp, #116]
+ 822 08fe DDED1D7A 		flds	s15, [sp, #116]
+ 823 0902 66EEA77A 		fmuls	s15, s13, s15
+ 824 0906 37EE277A 		fadds	s14, s14, s15
+ 825 090a DDED1E6A 		flds	s13, [sp, #120]
+ 826 090e DDED1E7A 		flds	s15, [sp, #120]
+ 827 0912 66EEA77A 		fmuls	s15, s13, s15
+ 828 0916 77EE277A 		fadds	s15, s14, s15
+ 829 091a 17EE900A 		fmrs	r0, s15
+ 830 091e FFF7FEFF 		bl	__aeabi_f2d
+ 831 0922 0246     		mov	r2, r0
+ 832 0924 0B46     		mov	r3, r1
+ 833 0926 1046     		mov	r0, r2
+ 834 0928 1946     		mov	r1, r3
+ 835 092a FFF7FEFF 		bl	sqrt
+ 836 092e 0246     		mov	r2, r0
+ 837 0930 0B46     		mov	r3, r1
+ 838 0932 1046     		mov	r0, r2
+ 839 0934 1946     		mov	r1, r3
+ 840 0936 FFF7FEFF 		bl	__aeabi_d2f
+ 841 093a 0346     		mov	r3, r0	@ float
+ 842 093c 1793     		str	r3, [sp, #92]	@ float
+ 843 093e 9DF88030 		ldrb	r3, [sp, #128]	@ zero_extendqisi2
+ 844 0942 012B     		cmp	r3, #1
+ 845 0944 40F09882 		bne	.L9
+ 846 0948 DDED177A 		flds	s15, [sp, #92]
+ 847 094c F5EE407A 		fcmpzs	s15
+ 848 0950 F1EE10FA 		fmstat
+ 849 0954 00F09082 		beq	.L9
+ 850 0958 DFF8F43A 		ldr	r3, .L10+8	@ float
+ 851 095c DDED177A 		flds	s15, [sp, #92]
+ 852 0960 07EE103A 		fmsr	s14, r3
+ 853 0964 C7EE277A 		fdivs	s15, s14, s15
+ 854 0968 CDED167A 		fsts	s15, [sp, #88]
+ 855 096c 9DED1C7A 		flds	s14, [sp, #112]
+ 856 0970 DDED167A 		flds	s15, [sp, #88]
+ 857 0974 67EE277A 		fmuls	s15, s14, s15
+ 858 0978 CDED1C7A 		fsts	s15, [sp, #112]
+ 859 097c 9DED1D7A 		flds	s14, [sp, #116]
+ 860 0980 DDED167A 		flds	s15, [sp, #88]
+ 861 0984 67EE277A 		fmuls	s15, s14, s15
+ 862 0988 CDED1D7A 		fsts	s15, [sp, #116]
+ 863 098c 9DED1E7A 		flds	s14, [sp, #120]
+ 864 0990 DDED167A 		flds	s15, [sp, #88]
+ 865 0994 67EE277A 		fmuls	s15, s14, s15
+ 866 0998 CDED1E7A 		fsts	s15, [sp, #120]
+ 867 099c 40F20003 		movw	r3, #:lower16:q2q2
+ 868 09a0 C0F20003 		movt	r3, #:upper16:q2q2
+ 869 09a4 D3ED007A 		flds	s15, [r3, #0]
+ 870 09a8 B6EE007A 		fconsts	s14, #96
+ 871 09ac 37EE677A 		fsubs	s14, s14, s15
+ 872 09b0 40F20003 		movw	r3, #:lower16:q3q3
+ 873 09b4 C0F20003 		movt	r3, #:upper16:q3q3
+ 874 09b8 D3ED007A 		flds	s15, [r3, #0]
+ 875 09bc 37EE677A 		fsubs	s14, s14, s15
+ 876 09c0 DDED1C7A 		flds	s15, [sp, #112]
+ 877 09c4 27EE277A 		fmuls	s14, s14, s15
+ 878 09c8 40F20003 		movw	r3, #:lower16:q1q2
+ 879 09cc C0F20003 		movt	r3, #:upper16:q1q2
+ 880 09d0 D3ED006A 		flds	s13, [r3, #0]
+ 881 09d4 40F20003 		movw	r3, #:lower16:q0q3
+ 882 09d8 C0F20003 		movt	r3, #:upper16:q0q3
+ 883 09dc D3ED007A 		flds	s15, [r3, #0]
+ 884 09e0 76EEE76A 		fsubs	s13, s13, s15
+ 885 09e4 DDED1D7A 		flds	s15, [sp, #116]
+ 886 09e8 66EEA77A 		fmuls	s15, s13, s15
+ 887 09ec 37EE277A 		fadds	s14, s14, s15
+ 888 09f0 40F20003 		movw	r3, #:lower16:q1q3
+ 889 09f4 C0F20003 		movt	r3, #:upper16:q1q3
+ 890 09f8 D3ED006A 		flds	s13, [r3, #0]
+ 891 09fc 40F20003 		movw	r3, #:lower16:q0q2
+ 892 0a00 C0F20003 		movt	r3, #:upper16:q0q2
+ 893 0a04 D3ED007A 		flds	s15, [r3, #0]
+ 894 0a08 76EEA76A 		fadds	s13, s13, s15
+ 895 0a0c DDED1E7A 		flds	s15, [sp, #120]
+ 896 0a10 66EEA77A 		fmuls	s15, s13, s15
+ 897 0a14 77EE277A 		fadds	s15, s14, s15
+ 898 0a18 77EEA77A 		fadds	s15, s15, s15
+ 899 0a1c CDED127A 		fsts	s15, [sp, #72]
+ 900 0a20 40F20003 		movw	r3, #:lower16:q1q2
+ 901 0a24 C0F20003 		movt	r3, #:upper16:q1q2
+ 902 0a28 93ED007A 		flds	s14, [r3, #0]
+ 903 0a2c 40F20003 		movw	r3, #:lower16:q0q3
+ 904 0a30 C0F20003 		movt	r3, #:upper16:q0q3
+ 905 0a34 D3ED007A 		flds	s15, [r3, #0]
+ 906 0a38 37EE277A 		fadds	s14, s14, s15
+ 907 0a3c DDED1C7A 		flds	s15, [sp, #112]
+ 908 0a40 27EE277A 		fmuls	s14, s14, s15
+ 909 0a44 40F20003 		movw	r3, #:lower16:q1q1
+ 910 0a48 C0F20003 		movt	r3, #:upper16:q1q1
+ 911 0a4c D3ED007A 		flds	s15, [r3, #0]
+ 912 0a50 F6EE006A 		fconsts	s13, #96
+ 913 0a54 76EEE76A 		fsubs	s13, s13, s15
+ 914 0a58 40F20003 		movw	r3, #:lower16:q3q3
+ 915 0a5c C0F20003 		movt	r3, #:upper16:q3q3
+ 916 0a60 D3ED007A 		flds	s15, [r3, #0]
+ 917 0a64 76EEE76A 		fsubs	s13, s13, s15
+ 918 0a68 DDED1D7A 		flds	s15, [sp, #116]
+ 919 0a6c 66EEA77A 		fmuls	s15, s13, s15
+ 920 0a70 37EE277A 		fadds	s14, s14, s15
+ 921 0a74 40F20003 		movw	r3, #:lower16:q2q3
+ 922 0a78 C0F20003 		movt	r3, #:upper16:q2q3
+ 923 0a7c D3ED006A 		flds	s13, [r3, #0]
+ 924 0a80 40F20003 		movw	r3, #:lower16:q0q1
+ 925 0a84 C0F20003 		movt	r3, #:upper16:q0q1
+ 926 0a88 D3ED007A 		flds	s15, [r3, #0]
+ 927 0a8c 76EEE76A 		fsubs	s13, s13, s15
+ 928 0a90 DDED1E7A 		flds	s15, [sp, #120]
+ 929 0a94 66EEA77A 		fmuls	s15, s13, s15
+ 930 0a98 77EE277A 		fadds	s15, s14, s15
+ 931 0a9c 77EEA77A 		fadds	s15, s15, s15
+ 932 0aa0 CDED117A 		fsts	s15, [sp, #68]
+ 933 0aa4 40F20003 		movw	r3, #:lower16:q1q3
+ 934 0aa8 C0F20003 		movt	r3, #:upper16:q1q3
+ 935 0aac 93ED007A 		flds	s14, [r3, #0]
+ 936 0ab0 40F20003 		movw	r3, #:lower16:q0q2
+ 937 0ab4 C0F20003 		movt	r3, #:upper16:q0q2
+ 938 0ab8 D3ED007A 		flds	s15, [r3, #0]
+ 939 0abc 37EE677A 		fsubs	s14, s14, s15
+ 940 0ac0 DDED1C7A 		flds	s15, [sp, #112]
+ 941 0ac4 27EE277A 		fmuls	s14, s14, s15
+ 942 0ac8 40F20003 		movw	r3, #:lower16:q2q3
+ 943 0acc C0F20003 		movt	r3, #:upper16:q2q3
+ 944 0ad0 D3ED006A 		flds	s13, [r3, #0]
+ 945 0ad4 40F20003 		movw	r3, #:lower16:q0q1
+ 946 0ad8 C0F20003 		movt	r3, #:upper16:q0q1
+ 947 0adc D3ED007A 		flds	s15, [r3, #0]
+ 948 0ae0 76EEA76A 		fadds	s13, s13, s15
+ 949 0ae4 DDED1D7A 		flds	s15, [sp, #116]
+ 950 0ae8 66EEA77A 		fmuls	s15, s13, s15
+ 951 0aec 37EE277A 		fadds	s14, s14, s15
+ 952 0af0 40F20003 		movw	r3, #:lower16:q1q1
+ 953 0af4 C0F20003 		movt	r3, #:upper16:q1q1
+ 954 0af8 D3ED007A 		flds	s15, [r3, #0]
+ 955 0afc F6EE006A 		fconsts	s13, #96
+ 956 0b00 76EEE76A 		fsubs	s13, s13, s15
+ 957 0b04 40F20003 		movw	r3, #:lower16:q2q2
+ 958 0b08 C0F20003 		movt	r3, #:upper16:q2q2
+ 959 0b0c D3ED007A 		flds	s15, [r3, #0]
+ 960 0b10 76EEE76A 		fsubs	s13, s13, s15
+ 961 0b14 DDED1E7A 		flds	s15, [sp, #120]
+ 962 0b18 66EEA77A 		fmuls	s15, s13, s15
+ 963 0b1c 77EE277A 		fadds	s15, s14, s15
+ 964 0b20 77EEA77A 		fadds	s15, s15, s15
+ 965 0b24 CDED107A 		fsts	s15, [sp, #64]
+ 966 0b28 9DED127A 		flds	s14, [sp, #72]
+ 967 0b2c DDED127A 		flds	s15, [sp, #72]
+ 968 0b30 27EE277A 		fmuls	s14, s14, s15
+ 969 0b34 DDED116A 		flds	s13, [sp, #68]
+ 970 0b38 DDED117A 		flds	s15, [sp, #68]
+ 971 0b3c 66EEA77A 		fmuls	s15, s13, s15
+ 972 0b40 77EE277A 		fadds	s15, s14, s15
+ 973 0b44 17EE900A 		fmrs	r0, s15
+ 974 0b48 FFF7FEFF 		bl	__aeabi_f2d
+ 975 0b4c 0246     		mov	r2, r0
+ 976 0b4e 0B46     		mov	r3, r1
+ 977 0b50 1046     		mov	r0, r2
+ 978 0b52 1946     		mov	r1, r3
+ 979 0b54 FFF7FEFF 		bl	sqrt
+ 980 0b58 0246     		mov	r2, r0
+ 981 0b5a 0B46     		mov	r3, r1
+ 982 0b5c 1046     		mov	r0, r2
+ 983 0b5e 1946     		mov	r1, r3
+ 984 0b60 FFF7FEFF 		bl	__aeabi_d2f
+ 985 0b64 0346     		mov	r3, r0	@ float
+ 986 0b66 0F93     		str	r3, [sp, #60]	@ float
+ 987 0b68 109B     		ldr	r3, [sp, #64]	@ float
+ 988 0b6a 0E93     		str	r3, [sp, #56]	@ float
+ 989 0b6c 40F20003 		movw	r3, #:lower16:q2q2
+ 990 0b70 C0F20003 		movt	r3, #:upper16:q2q2
+ 991 0b74 D3ED007A 		flds	s15, [r3, #0]
+ 992 0b78 B6EE007A 		fconsts	s14, #96
+ 993 0b7c 37EE677A 		fsubs	s14, s14, s15
+ 994 0b80 40F20003 		movw	r3, #:lower16:q3q3
+ 995 0b84 C0F20003 		movt	r3, #:upper16:q3q3
+ 996 0b88 D3ED007A 		flds	s15, [r3, #0]
+ 997 0b8c 37EE677A 		fsubs	s14, s14, s15
+ 998 0b90 DDED0F7A 		flds	s15, [sp, #60]
+ 999 0b94 27EE277A 		fmuls	s14, s14, s15
+ 1000 0b98 40F20003 		movw	r3, #:lower16:q1q3
+ 1001 0b9c C0F20003 		movt	r3, #:upper16:q1q3
+ 1002 0ba0 D3ED006A 		flds	s13, [r3, #0]
+ 1003 0ba4 40F20003 		movw	r3, #:lower16:q0q2
+ 1004 0ba8 C0F20003 		movt	r3, #:upper16:q0q2
+ 1005 0bac D3ED007A 		flds	s15, [r3, #0]
+ 1006 0bb0 76EEE76A 		fsubs	s13, s13, s15
+ 1007 0bb4 DDED0E7A 		flds	s15, [sp, #56]
+ 1008 0bb8 66EEA77A 		fmuls	s15, s13, s15
+ 1009 0bbc 77EE277A 		fadds	s15, s14, s15
+ 1010 0bc0 77EEA77A 		fadds	s15, s15, s15
+ 1011 0bc4 CDED0D7A 		fsts	s15, [sp, #52]
+ 1012 0bc8 40F20003 		movw	r3, #:lower16:q1q2
+ 1013 0bcc C0F20003 		movt	r3, #:upper16:q1q2
+ 1014 0bd0 93ED007A 		flds	s14, [r3, #0]
+ 1015 0bd4 40F20003 		movw	r3, #:lower16:q0q3
+ 1016 0bd8 C0F20003 		movt	r3, #:upper16:q0q3
+ 1017 0bdc D3ED007A 		flds	s15, [r3, #0]
+ 1018 0be0 37EE677A 		fsubs	s14, s14, s15
+ 1019 0be4 DDED0F7A 		flds	s15, [sp, #60]
+ 1020 0be8 27EE277A 		fmuls	s14, s14, s15
+ 1021 0bec 40F20003 		movw	r3, #:lower16:q0q1
+ 1022 0bf0 C0F20003 		movt	r3, #:upper16:q0q1
+ 1023 0bf4 D3ED006A 		flds	s13, [r3, #0]
+ 1024 0bf8 40F20003 		movw	r3, #:lower16:q2q3
+ 1025 0bfc C0F20003 		movt	r3, #:upper16:q2q3
+ 1026 0c00 D3ED007A 		flds	s15, [r3, #0]
+ 1027 0c04 76EEA76A 		fadds	s13, s13, s15
+ 1028 0c08 DDED0E7A 		flds	s15, [sp, #56]
+ 1029 0c0c 66EEA77A 		fmuls	s15, s13, s15
+ 1030 0c10 77EE277A 		fadds	s15, s14, s15
+ 1031 0c14 77EEA77A 		fadds	s15, s15, s15
+ 1032 0c18 CDED0C7A 		fsts	s15, [sp, #48]
+ 1033 0c1c 40F20003 		movw	r3, #:lower16:q0q2
+ 1034 0c20 C0F20003 		movt	r3, #:upper16:q0q2
+ 1035 0c24 93ED007A 		flds	s14, [r3, #0]
+ 1036 0c28 40F20003 		movw	r3, #:lower16:q1q3
+ 1037 0c2c C0F20003 		movt	r3, #:upper16:q1q3
+ 1038 0c30 D3ED007A 		flds	s15, [r3, #0]
+ 1039 0c34 37EE277A 		fadds	s14, s14, s15
+ 1040 0c38 DDED0F7A 		flds	s15, [sp, #60]
+ 1041 0c3c 27EE277A 		fmuls	s14, s14, s15
+ 1042 0c40 40F20003 		movw	r3, #:lower16:q1q1
+ 1043 0c44 C0F20003 		movt	r3, #:upper16:q1q1
+ 1044 0c48 D3ED007A 		flds	s15, [r3, #0]
+ 1045 0c4c F6EE006A 		fconsts	s13, #96
+ 1046 0c50 76EEE76A 		fsubs	s13, s13, s15
+ 1047 0c54 40F20003 		movw	r3, #:lower16:q2q2
+ 1048 0c58 C0F20003 		movt	r3, #:upper16:q2q2
+ 1049 0c5c D3ED007A 		flds	s15, [r3, #0]
+ 1050 0c60 76EEE76A 		fsubs	s13, s13, s15
+ 1051 0c64 DDED0E7A 		flds	s15, [sp, #56]
+ 1052 0c68 66EEA77A 		fmuls	s15, s13, s15
+ 1053 0c6c 77EE277A 		fadds	s15, s14, s15
+ 1054 0c70 77EEA77A 		fadds	s15, s15, s15
+ 1055 0c74 CDED0B7A 		fsts	s15, [sp, #44]
+ 1056 0c78 9DED1D7A 		flds	s14, [sp, #116]
+ 1057 0c7c DDED0B7A 		flds	s15, [sp, #44]
+ 1058 0c80 27EE277A 		fmuls	s14, s14, s15
+ 1059 0c84 DDED1E6A 		flds	s13, [sp, #120]
+ 1060 0c88 DDED0C7A 		flds	s15, [sp, #48]
+ 1061 0c8c 66EEA77A 		fmuls	s15, s13, s15
+ 1062 0c90 77EE677A 		fsubs	s15, s14, s15
+ 1063 0c94 40F20003 		movw	r3, #:lower16:exMag
+ 1064 0c98 C0F20003 		movt	r3, #:upper16:exMag
+ 1065 0c9c C3ED007A 		fsts	s15, [r3, #0]
+ 1066 0ca0 9DED1E7A 		flds	s14, [sp, #120]
+ 1067 0ca4 DDED0D7A 		flds	s15, [sp, #52]
+ 1068 0ca8 27EE277A 		fmuls	s14, s14, s15
+ 1069 0cac DDED1C6A 		flds	s13, [sp, #112]
+ 1070 0cb0 DDED0B7A 		flds	s15, [sp, #44]
+ 1071 0cb4 66EEA77A 		fmuls	s15, s13, s15
+ 1072 0cb8 77EE677A 		fsubs	s15, s14, s15
+ 1073 0cbc 40F20003 		movw	r3, #:lower16:eyMag
+ 1074 0cc0 C0F20003 		movt	r3, #:upper16:eyMag
+ 1075 0cc4 C3ED007A 		fsts	s15, [r3, #0]
+ 1076 0cc8 9DED1C7A 		flds	s14, [sp, #112]
+ 1077 0ccc DDED0C7A 		flds	s15, [sp, #48]
+ 1078 0cd0 27EE277A 		fmuls	s14, s14, s15
+ 1079 0cd4 DDED1D6A 		flds	s13, [sp, #116]
+ 1080 0cd8 DDED0D7A 		flds	s15, [sp, #52]
+ 1081 0cdc 66EEA77A 		fmuls	s15, s13, s15
+ 1082 0ce0 77EE677A 		fsubs	s15, s14, s15
+ 1083 0ce4 40F20003 		movw	r3, #:lower16:ezMag
+ 1084 0ce8 C0F20003 		movt	r3, #:upper16:ezMag
+ 1085 0cec C3ED007A 		fsts	s15, [r3, #0]
+ 1086 0cf0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1087 0cf4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1088 0cf8 93ED137A 		flds	s14, [r3, #76]
+ 1089 0cfc 40F20003 		movw	r3, #:lower16:exMag
+ 1090 0d00 C0F20003 		movt	r3, #:upper16:exMag
+ 1091 0d04 D3ED007A 		flds	s15, [r3, #0]
+ 1092 0d08 67EE277A 		fmuls	s15, s14, s15
+ 1093 0d0c 9DED057A 		flds	s14, [sp, #20]
+ 1094 0d10 77EE277A 		fadds	s15, s14, s15
+ 1095 0d14 CDED057A 		fsts	s15, [sp, #20]
+ 1096 0d18 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1097 0d1c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1098 0d20 93ED137A 		flds	s14, [r3, #76]
+ 1099 0d24 40F20003 		movw	r3, #:lower16:eyMag
+ 1100 0d28 C0F20003 		movt	r3, #:upper16:eyMag
+ 1101 0d2c D3ED007A 		flds	s15, [r3, #0]
+ 1102 0d30 67EE277A 		fmuls	s15, s14, s15
+ 1103 0d34 9DED047A 		flds	s14, [sp, #16]
+ 1104 0d38 77EE277A 		fadds	s15, s14, s15
+ 1105 0d3c CDED047A 		fsts	s15, [sp, #16]
+ 1106 0d40 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1107 0d44 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1108 0d48 93ED137A 		flds	s14, [r3, #76]
+ 1109 0d4c 40F20003 		movw	r3, #:lower16:ezMag
+ 1110 0d50 C0F20003 		movt	r3, #:upper16:ezMag
+ 1111 0d54 D3ED007A 		flds	s15, [r3, #0]
+ 1112 0d58 67EE277A 		fmuls	s15, s14, s15
+ 1113 0d5c 9DED037A 		flds	s14, [sp, #12]
+ 1114 0d60 77EE277A 		fadds	s15, s14, s15
+ 1115 0d64 CDED037A 		fsts	s15, [sp, #12]
+ 1116 0d68 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1117 0d6c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1118 0d70 D3ED147A 		flds	s15, [r3, #80]
+ 1119 0d74 F5EEC07A 		fcmpezs	s15
+ 1120 0d78 F1EE10FA 		fmstat
+ 1121 0d7c D4BF     		ite	le
+ 1122 0d7e 0023     		movle	r3, #0
+ 1123 0d80 0123     		movgt	r3, #1
+ 1124 0d82 DBB2     		uxtb	r3, r3
+ 1125 0d84 002B     		cmp	r3, #0
+ 1126 0d86 77D0     		beq	.L9
+ 1127 0d88 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1128 0d8c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1129 0d90 93ED147A 		flds	s14, [r3, #80]
+ 1130 0d94 40F20003 		movw	r3, #:lower16:exMag
+ 1131 0d98 C0F20003 		movt	r3, #:upper16:exMag
+ 1132 0d9c D3ED007A 		flds	s15, [r3, #0]
+ 1133 0da0 67EE277A 		fmuls	s15, s14, s15
+ 1134 0da4 40F20003 		movw	r3, #:lower16:exMagInt
+ 1135 0da8 C0F20003 		movt	r3, #:upper16:exMagInt
+ 1136 0dac 93ED007A 		flds	s14, [r3, #0]
+ 1137 0db0 77EE877A 		fadds	s15, s15, s14
+ 1138 0db4 40F20003 		movw	r3, #:lower16:exMagInt
+ 1139 0db8 C0F20003 		movt	r3, #:upper16:exMagInt
+ 1140 0dbc C3ED007A 		fsts	s15, [r3, #0]
+ 1141 0dc0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1142 0dc4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1143 0dc8 93ED147A 		flds	s14, [r3, #80]
+ 1144 0dcc 40F20003 		movw	r3, #:lower16:eyMag
+ 1145 0dd0 C0F20003 		movt	r3, #:upper16:eyMag
+ 1146 0dd4 D3ED007A 		flds	s15, [r3, #0]
+ 1147 0dd8 67EE277A 		fmuls	s15, s14, s15
+ 1148 0ddc 40F20003 		movw	r3, #:lower16:eyMagInt
+ 1149 0de0 C0F20003 		movt	r3, #:upper16:eyMagInt
+ 1150 0de4 93ED007A 		flds	s14, [r3, #0]
+ 1151 0de8 77EE877A 		fadds	s15, s15, s14
+ 1152 0dec 40F20003 		movw	r3, #:lower16:eyMagInt
+ 1153 0df0 C0F20003 		movt	r3, #:upper16:eyMagInt
+ 1154 0df4 C3ED007A 		fsts	s15, [r3, #0]
+ 1155 0df8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1156 0dfc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1157 0e00 93ED147A 		flds	s14, [r3, #80]
+ 1158 0e04 40F20003 		movw	r3, #:lower16:ezMag
+ 1159 0e08 C0F20003 		movt	r3, #:upper16:ezMag
+ 1160 0e0c D3ED007A 		flds	s15, [r3, #0]
+ 1161 0e10 67EE277A 		fmuls	s15, s14, s15
+ 1162 0e14 40F20003 		movw	r3, #:lower16:ezMagInt
+ 1163 0e18 C0F20003 		movt	r3, #:upper16:ezMagInt
+ 1164 0e1c 93ED007A 		flds	s14, [r3, #0]
+ 1165 0e20 77EE877A 		fadds	s15, s15, s14
+ 1166 0e24 40F20003 		movw	r3, #:lower16:ezMagInt
+ 1167 0e28 C0F20003 		movt	r3, #:upper16:ezMagInt
+ 1168 0e2c C3ED007A 		fsts	s15, [r3, #0]
+ 1169 0e30 40F20003 		movw	r3, #:lower16:exMagInt
+ 1170 0e34 C0F20003 		movt	r3, #:upper16:exMagInt
+ 1171 0e38 D3ED007A 		flds	s15, [r3, #0]
+ 1172 0e3c 9DED057A 		flds	s14, [sp, #20]
+ 1173 0e40 77EE277A 		fadds	s15, s14, s15
+ 1174 0e44 CDED057A 		fsts	s15, [sp, #20]
+ 1175 0e48 40F20003 		movw	r3, #:lower16:eyMagInt
+ 1176 0e4c C0F20003 		movt	r3, #:upper16:eyMagInt
+ 1177 0e50 D3ED007A 		flds	s15, [r3, #0]
+ 1178 0e54 9DED047A 		flds	s14, [sp, #16]
+ 1179 0e58 77EE277A 		fadds	s15, s14, s15
+ 1180 0e5c CDED047A 		fsts	s15, [sp, #16]
+ 1181 0e60 40F20003 		movw	r3, #:lower16:ezMagInt
+ 1182 0e64 C0F20003 		movt	r3, #:upper16:ezMagInt
+ 1183 0e68 D3ED007A 		flds	s15, [r3, #0]
+ 1184 0e6c 9DED037A 		flds	s14, [sp, #12]
+ 1185 0e70 77EE277A 		fadds	s15, s14, s15
+ 1186 0e74 CDED037A 		fsts	s15, [sp, #12]
+ 1187              	.L9:
+ 1188 0e78 40F20003 		movw	r3, #:lower16:q1
+ 1189 0e7c C0F20003 		movt	r3, #:upper16:q1
+ 1190 0e80 D3ED007A 		flds	s15, [r3, #0]
+ 1191 0e84 B1EE677A 		fnegs	s14, s15
+ 1192 0e88 DDED057A 		flds	s15, [sp, #20]
+ 1193 0e8c 27EE277A 		fmuls	s14, s14, s15
+ 1194 0e90 40F20003 		movw	r3, #:lower16:q2
+ 1195 0e94 C0F20003 		movt	r3, #:upper16:q2
+ 1196 0e98 D3ED006A 		flds	s13, [r3, #0]
+ 1197 0e9c DDED047A 		flds	s15, [sp, #16]
+ 1198 0ea0 66EEA77A 		fmuls	s15, s13, s15
+ 1199 0ea4 37EE677A 		fsubs	s14, s14, s15
+ 1200 0ea8 40F20003 		movw	r3, #:lower16:q3
+ 1201 0eac C0F20003 		movt	r3, #:upper16:q3
+ 1202 0eb0 D3ED006A 		flds	s13, [r3, #0]
+ 1203 0eb4 DDED037A 		flds	s15, [sp, #12]
+ 1204 0eb8 66EEA77A 		fmuls	s15, s13, s15
+ 1205 0ebc 37EE677A 		fsubs	s14, s14, s15
+ 1206 0ec0 40F20003 		movw	r3, #:lower16:halfT
+ 1207 0ec4 C0F20003 		movt	r3, #:upper16:halfT
+ 1208 0ec8 D3ED007A 		flds	s15, [r3, #0]
+ 1209 0ecc 67EE277A 		fmuls	s15, s14, s15
+ 1210 0ed0 CDED0A7A 		fsts	s15, [sp, #40]
+ 1211 0ed4 40F20003 		movw	r3, #:lower16:q0
+ 1212 0ed8 C0F20003 		movt	r3, #:upper16:q0
+ 1213 0edc 93ED007A 		flds	s14, [r3, #0]
+ 1214 0ee0 DDED057A 		flds	s15, [sp, #20]
+ 1215 0ee4 27EE277A 		fmuls	s14, s14, s15
+ 1216 0ee8 40F20003 		movw	r3, #:lower16:q2
+ 1217 0eec C0F20003 		movt	r3, #:upper16:q2
+ 1218 0ef0 D3ED006A 		flds	s13, [r3, #0]
+ 1219 0ef4 DDED037A 		flds	s15, [sp, #12]
+ 1220 0ef8 66EEA77A 		fmuls	s15, s13, s15
+ 1221 0efc 37EE277A 		fadds	s14, s14, s15
+ 1222 0f00 40F20003 		movw	r3, #:lower16:q3
+ 1223 0f04 C0F20003 		movt	r3, #:upper16:q3
+ 1224 0f08 D3ED006A 		flds	s13, [r3, #0]
+ 1225 0f0c DDED047A 		flds	s15, [sp, #16]
+ 1226 0f10 66EEA77A 		fmuls	s15, s13, s15
+ 1227 0f14 37EE677A 		fsubs	s14, s14, s15
+ 1228 0f18 40F20003 		movw	r3, #:lower16:halfT
+ 1229 0f1c C0F20003 		movt	r3, #:upper16:halfT
+ 1230 0f20 D3ED007A 		flds	s15, [r3, #0]
+ 1231 0f24 67EE277A 		fmuls	s15, s14, s15
+ 1232 0f28 CDED097A 		fsts	s15, [sp, #36]
+ 1233 0f2c 40F20003 		movw	r3, #:lower16:q0
+ 1234 0f30 C0F20003 		movt	r3, #:upper16:q0
+ 1235 0f34 93ED007A 		flds	s14, [r3, #0]
+ 1236 0f38 DDED047A 		flds	s15, [sp, #16]
+ 1237 0f3c 27EE277A 		fmuls	s14, s14, s15
+ 1238 0f40 40F20003 		movw	r3, #:lower16:q1
+ 1239 0f44 C0F20003 		movt	r3, #:upper16:q1
+ 1240 0f48 D3ED006A 		flds	s13, [r3, #0]
+ 1241 0f4c DDED037A 		flds	s15, [sp, #12]
+ 1242 0f50 66EEA77A 		fmuls	s15, s13, s15
+ 1243 0f54 37EE677A 		fsubs	s14, s14, s15
+ 1244 0f58 40F20003 		movw	r3, #:lower16:q3
+ 1245 0f5c C0F20003 		movt	r3, #:upper16:q3
+ 1246 0f60 D3ED006A 		flds	s13, [r3, #0]
+ 1247 0f64 DDED057A 		flds	s15, [sp, #20]
+ 1248 0f68 66EEA77A 		fmuls	s15, s13, s15
+ 1249 0f6c 37EE277A 		fadds	s14, s14, s15
+ 1250 0f70 40F20003 		movw	r3, #:lower16:halfT
+ 1251 0f74 C0F20003 		movt	r3, #:upper16:halfT
+ 1252 0f78 D3ED007A 		flds	s15, [r3, #0]
+ 1253 0f7c 67EE277A 		fmuls	s15, s14, s15
+ 1254 0f80 CDED087A 		fsts	s15, [sp, #32]
+ 1255 0f84 40F20003 		movw	r3, #:lower16:q0
+ 1256 0f88 C0F20003 		movt	r3, #:upper16:q0
+ 1257 0f8c 93ED007A 		flds	s14, [r3, #0]
+ 1258 0f90 DDED037A 		flds	s15, [sp, #12]
+ 1259 0f94 27EE277A 		fmuls	s14, s14, s15
+ 1260 0f98 40F20003 		movw	r3, #:lower16:q1
+ 1261 0f9c C0F20003 		movt	r3, #:upper16:q1
+ 1262 0fa0 D3ED006A 		flds	s13, [r3, #0]
+ 1263 0fa4 DDED047A 		flds	s15, [sp, #16]
+ 1264 0fa8 66EEA77A 		fmuls	s15, s13, s15
+ 1265 0fac 37EE277A 		fadds	s14, s14, s15
+ 1266 0fb0 40F20003 		movw	r3, #:lower16:q2
+ 1267 0fb4 C0F20003 		movt	r3, #:upper16:q2
+ 1268 0fb8 D3ED006A 		flds	s13, [r3, #0]
+ 1269 0fbc DDED057A 		flds	s15, [sp, #20]
+ 1270 0fc0 66EEA77A 		fmuls	s15, s13, s15
+ 1271 0fc4 37EE677A 		fsubs	s14, s14, s15
+ 1272 0fc8 40F20003 		movw	r3, #:lower16:halfT
+ 1273 0fcc C0F20003 		movt	r3, #:upper16:halfT
+ 1274 0fd0 D3ED007A 		flds	s15, [r3, #0]
+ 1275 0fd4 67EE277A 		fmuls	s15, s14, s15
+ 1276 0fd8 CDED077A 		fsts	s15, [sp, #28]
+ 1277 0fdc 40F20003 		movw	r3, #:lower16:q0
+ 1278 0fe0 C0F20003 		movt	r3, #:upper16:q0
+ 1279 0fe4 93ED007A 		flds	s14, [r3, #0]
+ 1280 0fe8 DDED0A7A 		flds	s15, [sp, #40]
+ 1281 0fec 77EE277A 		fadds	s15, s14, s15
+ 1282 0ff0 40F20003 		movw	r3, #:lower16:q0
+ 1283 0ff4 C0F20003 		movt	r3, #:upper16:q0
+ 1284 0ff8 C3ED007A 		fsts	s15, [r3, #0]
+ 1285 0ffc 40F20003 		movw	r3, #:lower16:q1
+ 1286 1000 C0F20003 		movt	r3, #:upper16:q1
+ 1287 1004 93ED007A 		flds	s14, [r3, #0]
+ 1288 1008 DDED097A 		flds	s15, [sp, #36]
+ 1289 100c 77EE277A 		fadds	s15, s14, s15
+ 1290 1010 40F20003 		movw	r3, #:lower16:q1
+ 1291 1014 C0F20003 		movt	r3, #:upper16:q1
+ 1292 1018 C3ED007A 		fsts	s15, [r3, #0]
+ 1293 101c 40F20003 		movw	r3, #:lower16:q2
+ 1294 1020 C0F20003 		movt	r3, #:upper16:q2
+ 1295 1024 93ED007A 		flds	s14, [r3, #0]
+ 1296 1028 DDED087A 		flds	s15, [sp, #32]
+ 1297 102c 77EE277A 		fadds	s15, s14, s15
+ 1298 1030 40F20003 		movw	r3, #:lower16:q2
+ 1299 1034 C0F20003 		movt	r3, #:upper16:q2
+ 1300 1038 C3ED007A 		fsts	s15, [r3, #0]
+ 1301 103c 40F20003 		movw	r3, #:lower16:q3
+ 1302 1040 C0F20003 		movt	r3, #:upper16:q3
+ 1303 1044 93ED007A 		flds	s14, [r3, #0]
+ 1304 1048 DDED077A 		flds	s15, [sp, #28]
+ 1305 104c 77EE277A 		fadds	s15, s14, s15
+ 1306 1050 40F20003 		movw	r3, #:lower16:q3
+ 1307 1054 C0F20003 		movt	r3, #:upper16:q3
+ 1308 1058 C3ED007A 		fsts	s15, [r3, #0]
+ 1309 105c 40F20003 		movw	r3, #:lower16:q0
+ 1310 1060 C0F20003 		movt	r3, #:upper16:q0
+ 1311 1064 93ED007A 		flds	s14, [r3, #0]
+ 1312 1068 40F20003 		movw	r3, #:lower16:q0
+ 1313 106c C0F20003 		movt	r3, #:upper16:q0
+ 1314 1070 D3ED007A 		flds	s15, [r3, #0]
+ 1315 1074 27EE277A 		fmuls	s14, s14, s15
+ 1316 1078 40F20003 		movw	r3, #:lower16:q1
+ 1317 107c C0F20003 		movt	r3, #:upper16:q1
+ 1318 1080 D3ED006A 		flds	s13, [r3, #0]
+ 1319 1084 40F20003 		movw	r3, #:lower16:q1
+ 1320 1088 C0F20003 		movt	r3, #:upper16:q1
+ 1321 108c D3ED007A 		flds	s15, [r3, #0]
+ 1322 1090 66EEA77A 		fmuls	s15, s13, s15
+ 1323 1094 37EE277A 		fadds	s14, s14, s15
+ 1324 1098 40F20003 		movw	r3, #:lower16:q2
+ 1325 109c C0F20003 		movt	r3, #:upper16:q2
+ 1326 10a0 D3ED006A 		flds	s13, [r3, #0]
+ 1327 10a4 40F20003 		movw	r3, #:lower16:q2
+ 1328 10a8 C0F20003 		movt	r3, #:upper16:q2
+ 1329 10ac D3ED007A 		flds	s15, [r3, #0]
+ 1330 10b0 66EEA77A 		fmuls	s15, s13, s15
+ 1331 10b4 37EE277A 		fadds	s14, s14, s15
+ 1332 10b8 40F20003 		movw	r3, #:lower16:q3
+ 1333 10bc C0F20003 		movt	r3, #:upper16:q3
+ 1334 10c0 D3ED006A 		flds	s13, [r3, #0]
+ 1335 10c4 40F20003 		movw	r3, #:lower16:q3
+ 1336 10c8 C0F20003 		movt	r3, #:upper16:q3
+ 1337 10cc D3ED007A 		flds	s15, [r3, #0]
+ 1338 10d0 66EEA77A 		fmuls	s15, s13, s15
+ 1339 10d4 77EE277A 		fadds	s15, s14, s15
+ 1340 10d8 17EE900A 		fmrs	r0, s15
+ 1341 10dc FFF7FEFF 		bl	__aeabi_f2d
+ 1342 10e0 0246     		mov	r2, r0
+ 1343 10e2 0B46     		mov	r3, r1
+ 1344 10e4 1046     		mov	r0, r2
+ 1345 10e6 1946     		mov	r1, r3
+ 1346 10e8 FFF7FEFF 		bl	sqrt
+ 1347 10ec 0246     		mov	r2, r0
+ 1348 10ee 0B46     		mov	r3, r1
+ 1349 10f0 D5A1     		adr	r1, .L10
+ 1350 10f2 D1E90001 		ldrd	r0, [r1]
+ 1351 10f6 FFF7FEFF 		bl	__aeabi_ddiv
+ 1352 10fa 0246     		mov	r2, r0
+ 1353 10fc 0B46     		mov	r3, r1
+ 1354 10fe 1046     		mov	r0, r2
+ 1355 1100 1946     		mov	r1, r3
+ 1356 1102 FFF7FEFF 		bl	__aeabi_d2f
+ 1357 1106 0346     		mov	r3, r0	@ float
+ 1358 1108 1693     		str	r3, [sp, #88]	@ float
+ 1359 110a 40F20003 		movw	r3, #:lower16:q0
+ 1360 110e C0F20003 		movt	r3, #:upper16:q0
+ 1361 1112 93ED007A 		flds	s14, [r3, #0]
+ 1362 1116 DDED167A 		flds	s15, [sp, #88]
+ 1363 111a 67EE277A 		fmuls	s15, s14, s15
+ 1364 111e 40F20003 		movw	r3, #:lower16:q0
+ 1365 1122 C0F20003 		movt	r3, #:upper16:q0
+ 1366 1126 C3ED007A 		fsts	s15, [r3, #0]
+ 1367 112a 40F20003 		movw	r3, #:lower16:q1
+ 1368 112e C0F20003 		movt	r3, #:upper16:q1
+ 1369 1132 93ED007A 		flds	s14, [r3, #0]
+ 1370 1136 DDED167A 		flds	s15, [sp, #88]
+ 1371 113a 67EE277A 		fmuls	s15, s14, s15
+ 1372 113e 40F20003 		movw	r3, #:lower16:q1
+ 1373 1142 C0F20003 		movt	r3, #:upper16:q1
+ 1374 1146 C3ED007A 		fsts	s15, [r3, #0]
+ 1375 114a 40F20003 		movw	r3, #:lower16:q2
+ 1376 114e C0F20003 		movt	r3, #:upper16:q2
+ 1377 1152 93ED007A 		flds	s14, [r3, #0]
+ 1378 1156 DDED167A 		flds	s15, [sp, #88]
+ 1379 115a 67EE277A 		fmuls	s15, s14, s15
+ 1380 115e 40F20003 		movw	r3, #:lower16:q2
+ 1381 1162 C0F20003 		movt	r3, #:upper16:q2
+ 1382 1166 C3ED007A 		fsts	s15, [r3, #0]
+ 1383 116a 40F20003 		movw	r3, #:lower16:q3
+ 1384 116e C0F20003 		movt	r3, #:upper16:q3
+ 1385 1172 93ED007A 		flds	s14, [r3, #0]
+ 1386 1176 DDED167A 		flds	s15, [sp, #88]
+ 1387 117a 67EE277A 		fmuls	s15, s14, s15
+ 1388 117e 40F20003 		movw	r3, #:lower16:q3
+ 1389 1182 C0F20003 		movt	r3, #:upper16:q3
+ 1390 1186 C3ED007A 		fsts	s15, [r3, #0]
+ 1391 118a 40F20003 		movw	r3, #:lower16:q0
+ 1392 118e C0F20003 		movt	r3, #:upper16:q0
+ 1393 1192 93ED007A 		flds	s14, [r3, #0]
+ 1394 1196 40F20003 		movw	r3, #:lower16:q0
+ 1395 119a C0F20003 		movt	r3, #:upper16:q0
+ 1396 119e D3ED007A 		flds	s15, [r3, #0]
+ 1397 11a2 67EE277A 		fmuls	s15, s14, s15
+ 1398 11a6 40F20003 		movw	r3, #:lower16:q0q0
+ 1399 11aa C0F20003 		movt	r3, #:upper16:q0q0
+ 1400 11ae C3ED007A 		fsts	s15, [r3, #0]
+ 1401 11b2 40F20003 		movw	r3, #:lower16:q0
+ 1402 11b6 C0F20003 		movt	r3, #:upper16:q0
+ 1403 11ba 93ED007A 		flds	s14, [r3, #0]
+ 1404 11be 40F20003 		movw	r3, #:lower16:q1
+ 1405 11c2 C0F20003 		movt	r3, #:upper16:q1
+ 1406 11c6 D3ED007A 		flds	s15, [r3, #0]
+ 1407 11ca 67EE277A 		fmuls	s15, s14, s15
+ 1408 11ce 40F20003 		movw	r3, #:lower16:q0q1
+ 1409 11d2 C0F20003 		movt	r3, #:upper16:q0q1
+ 1410 11d6 C3ED007A 		fsts	s15, [r3, #0]
+ 1411 11da 40F20003 		movw	r3, #:lower16:q0
+ 1412 11de C0F20003 		movt	r3, #:upper16:q0
+ 1413 11e2 93ED007A 		flds	s14, [r3, #0]
+ 1414 11e6 40F20003 		movw	r3, #:lower16:q2
+ 1415 11ea C0F20003 		movt	r3, #:upper16:q2
+ 1416 11ee D3ED007A 		flds	s15, [r3, #0]
+ 1417 11f2 67EE277A 		fmuls	s15, s14, s15
+ 1418 11f6 40F20003 		movw	r3, #:lower16:q0q2
+ 1419 11fa C0F20003 		movt	r3, #:upper16:q0q2
+ 1420 11fe C3ED007A 		fsts	s15, [r3, #0]
+ 1421 1202 40F20003 		movw	r3, #:lower16:q0
+ 1422 1206 C0F20003 		movt	r3, #:upper16:q0
+ 1423 120a 93ED007A 		flds	s14, [r3, #0]
+ 1424 120e 40F20003 		movw	r3, #:lower16:q3
+ 1425 1212 C0F20003 		movt	r3, #:upper16:q3
+ 1426 1216 D3ED007A 		flds	s15, [r3, #0]
+ 1427 121a 67EE277A 		fmuls	s15, s14, s15
+ 1428 121e 40F20003 		movw	r3, #:lower16:q0q3
+ 1429 1222 C0F20003 		movt	r3, #:upper16:q0q3
+ 1430 1226 C3ED007A 		fsts	s15, [r3, #0]
+ 1431 122a 40F20003 		movw	r3, #:lower16:q1
+ 1432 122e C0F20003 		movt	r3, #:upper16:q1
+ 1433 1232 93ED007A 		flds	s14, [r3, #0]
+ 1434 1236 40F20003 		movw	r3, #:lower16:q1
+ 1435 123a C0F20003 		movt	r3, #:upper16:q1
+ 1436 123e D3ED007A 		flds	s15, [r3, #0]
+ 1437 1242 67EE277A 		fmuls	s15, s14, s15
+ 1438 1246 40F20003 		movw	r3, #:lower16:q1q1
+ 1439 124a C0F20003 		movt	r3, #:upper16:q1q1
+ 1440 124e C3ED007A 		fsts	s15, [r3, #0]
+ 1441 1252 40F20003 		movw	r3, #:lower16:q1
+ 1442 1256 C0F20003 		movt	r3, #:upper16:q1
+ 1443 125a 93ED007A 		flds	s14, [r3, #0]
+ 1444 125e 40F20003 		movw	r3, #:lower16:q2
+ 1445 1262 C0F20003 		movt	r3, #:upper16:q2
+ 1446 1266 D3ED007A 		flds	s15, [r3, #0]
+ 1447 126a 67EE277A 		fmuls	s15, s14, s15
+ 1448 126e 40F20003 		movw	r3, #:lower16:q1q2
+ 1449 1272 C0F20003 		movt	r3, #:upper16:q1q2
+ 1450 1276 C3ED007A 		fsts	s15, [r3, #0]
+ 1451 127a 40F20003 		movw	r3, #:lower16:q1
+ 1452 127e C0F20003 		movt	r3, #:upper16:q1
+ 1453 1282 93ED007A 		flds	s14, [r3, #0]
+ 1454 1286 40F20003 		movw	r3, #:lower16:q3
+ 1455 128a C0F20003 		movt	r3, #:upper16:q3
+ 1456 128e D3ED007A 		flds	s15, [r3, #0]
+ 1457 1292 67EE277A 		fmuls	s15, s14, s15
+ 1458 1296 40F20003 		movw	r3, #:lower16:q1q3
+ 1459 129a C0F20003 		movt	r3, #:upper16:q1q3
+ 1460 129e C3ED007A 		fsts	s15, [r3, #0]
+ 1461 12a2 40F20003 		movw	r3, #:lower16:q2
+ 1462 12a6 C0F20003 		movt	r3, #:upper16:q2
+ 1463 12aa 93ED007A 		flds	s14, [r3, #0]
+ 1464 12ae 40F20003 		movw	r3, #:lower16:q2
+ 1465 12b2 C0F20003 		movt	r3, #:upper16:q2
+ 1466 12b6 D3ED007A 		flds	s15, [r3, #0]
+ 1467 12ba 67EE277A 		fmuls	s15, s14, s15
+ 1468 12be 40F20003 		movw	r3, #:lower16:q2q2
+ 1469 12c2 C0F20003 		movt	r3, #:upper16:q2q2
+ 1470 12c6 C3ED007A 		fsts	s15, [r3, #0]
+ 1471 12ca 40F20003 		movw	r3, #:lower16:q2
+ 1472 12ce C0F20003 		movt	r3, #:upper16:q2
+ 1473 12d2 93ED007A 		flds	s14, [r3, #0]
+ 1474 12d6 40F20003 		movw	r3, #:lower16:q3
+ 1475 12da C0F20003 		movt	r3, #:upper16:q3
+ 1476 12de D3ED007A 		flds	s15, [r3, #0]
+ 1477 12e2 67EE277A 		fmuls	s15, s14, s15
+ 1478 12e6 40F20003 		movw	r3, #:lower16:q2q3
+ 1479 12ea C0F20003 		movt	r3, #:upper16:q2q3
+ 1480 12ee C3ED007A 		fsts	s15, [r3, #0]
+ 1481 12f2 40F20003 		movw	r3, #:lower16:q3
+ 1482 12f6 C0F20003 		movt	r3, #:upper16:q3
+ 1483 12fa 93ED007A 		flds	s14, [r3, #0]
+ 1484 12fe 40F20003 		movw	r3, #:lower16:q3
+ 1485 1302 C0F20003 		movt	r3, #:upper16:q3
+ 1486 1306 D3ED007A 		flds	s15, [r3, #0]
+ 1487 130a 67EE277A 		fmuls	s15, s14, s15
+ 1488 130e 40F20003 		movw	r3, #:lower16:q3q3
+ 1489 1312 C0F20003 		movt	r3, #:upper16:q3q3
+ 1490 1316 C3ED007A 		fsts	s15, [r3, #0]
+ 1491 131a 40F20003 		movw	r3, #:lower16:q0q1
+ 1492 131e C0F20003 		movt	r3, #:upper16:q0q1
+ 1493 1322 93ED007A 		flds	s14, [r3, #0]
+ 1494 1326 40F20003 		movw	r3, #:lower16:q2q3
+ 1495 132a C0F20003 		movt	r3, #:upper16:q2q3
+ 1496 132e D3ED007A 		flds	s15, [r3, #0]
+ 1497 1332 77EE277A 		fadds	s15, s14, s15
+ 1498 1336 77EEA76A 		fadds	s13, s15, s15
+ 1499 133a 40F20003 		movw	r3, #:lower16:q0q0
+ 1500 133e C0F20003 		movt	r3, #:upper16:q0q0
+ 1501 1342 93ED007A 		flds	s14, [r3, #0]
+ 1502 1346 40F20003 		movw	r3, #:lower16:q1q1
+ 1503 134a C0F20003 		movt	r3, #:upper16:q1q1
+ 1504 134e D3ED007A 		flds	s15, [r3, #0]
+ 1505 1352 37EE677A 		fsubs	s14, s14, s15
+ 1506 1356 40F20003 		movw	r3, #:lower16:q2q2
+ 1507 135a C0F20003 		movt	r3, #:upper16:q2q2
+ 1508 135e D3ED007A 		flds	s15, [r3, #0]
+ 1509 1362 37EE677A 		fsubs	s14, s14, s15
+ 1510 1366 40F20003 		movw	r3, #:lower16:q3q3
+ 1511 136a C0F20003 		movt	r3, #:upper16:q3q3
+ 1512 136e D3ED007A 		flds	s15, [r3, #0]
+ 1513 1372 77EE277A 		fadds	s15, s14, s15
+ 1514 1376 16EE900A 		fmrs	r0, s13
+ 1515 137a 17EE901A 		fmrs	r1, s15
+ 1516 137e FFF7FEFF 		bl	atan2f
+ 1517 1382 0246     		mov	r2, r0	@ float
+ 1518 1384 40F20003 		movw	r3, #:lower16:sensors
+ 1519 1388 C0F20003 		movt	r3, #:upper16:sensors
+ 1520 138c 9A61     		str	r2, [r3, #24]	@ float
+ 1521 138e 40F20003 		movw	r3, #:lower16:q1q3
+ 1522 1392 C0F20003 		movt	r3, #:upper16:q1q3
+ 1523 1396 93ED007A 		flds	s14, [r3, #0]
+ 1524 139a 40F20003 		movw	r3, #:lower16:q0q2
+ 1525 139e C0F20003 		movt	r3, #:upper16:q0q2
+ 1526 13a2 D3ED007A 		flds	s15, [r3, #0]
+ 1527 13a6 77EE677A 		fsubs	s15, s14, s15
+ 1528 13aa 77EEA77A 		fadds	s15, s15, s15
+ 1529 13ae 17EE900A 		fmrs	r0, s15
+ 1530 13b2 FFF7FEFF 		bl	asinf
+ 1531 13b6 0346     		mov	r3, r0	@ float
+ 1532 13b8 07EE103A 		fmsr	s14, r3
+ 1533 13bc F1EE477A 		fnegs	s15, s14
+ 1534 13c0 40F20003 		movw	r3, #:lower16:sensors
+ 1535 13c4 C0F20003 		movt	r3, #:upper16:sensors
+ 1536 13c8 C3ED077A 		fsts	s15, [r3, #28]
+ 1537 13cc 40F20003 		movw	r3, #:lower16:q1q2
+ 1538 13d0 C0F20003 		movt	r3, #:upper16:q1q2
+ 1539 13d4 93ED007A 		flds	s14, [r3, #0]
+ 1540 13d8 40F20003 		movw	r3, #:lower16:q0q3
+ 1541 13dc C0F20003 		movt	r3, #:upper16:q0q3
+ 1542 13e0 D3ED007A 		flds	s15, [r3, #0]
+ 1543 13e4 77EE277A 		fadds	s15, s14, s15
+ 1544 13e8 77EEA76A 		fadds	s13, s15, s15
+ 1545 13ec 40F20003 		movw	r3, #:lower16:q0q0
+ 1546 13f0 C0F20003 		movt	r3, #:upper16:q0q0
+ 1547 13f4 93ED007A 		flds	s14, [r3, #0]
+ 1548 13f8 40F20003 		movw	r3, #:lower16:q1q1
+ 1549 13fc C0F20003 		movt	r3, #:upper16:q1q1
+ 1550 1400 D3ED007A 		flds	s15, [r3, #0]
+ 1551 1404 37EE277A 		fadds	s14, s14, s15
+ 1552 1408 40F20003 		movw	r3, #:lower16:q2q2
+ 1553 140c C0F20003 		movt	r3, #:upper16:q2q2
+ 1554 1410 D3ED007A 		flds	s15, [r3, #0]
+ 1555 1414 37EE677A 		fsubs	s14, s14, s15
+ 1556 1418 40F20003 		movw	r3, #:lower16:q3q3
+ 1557 141c C0F20003 		movt	r3, #:upper16:q3q3
+ 1558 1420 D3ED007A 		flds	s15, [r3, #0]
+ 1559 1424 77EE677A 		fsubs	s15, s14, s15
+ 1560 1428 16EE900A 		fmrs	r0, s13
+ 1561 142c 17EE901A 		fmrs	r1, s15
+ 1562 1430 FFF7FEFF 		bl	atan2f
+ 1563 1434 0246     		mov	r2, r0	@ float
+ 1564 1436 40F20003 		movw	r3, #:lower16:sensors
+ 1565 143a C0F20003 		movt	r3, #:upper16:sensors
+ 1566 143e 1A62     		str	r2, [r3, #32]	@ float
+ 1567              	.L5:
+ 1568 1440 19B0     		add	sp, sp, #100
+ 1569 1442 00BD     		pop	{pc}
+ 1570              	.L11:
+ 1571 1444 AFF30080 		.align	3
+ 1572              	.L10:
+ 1573 1448 00000000 		.word	0
+ 1574 144c 0000F03F 		.word	1072693248
+ 1575 1450 0000803F 		.word	1065353216
+ 1577 1454 AFF30080 		.data
+ 1578              		.align	2
+ 1581              	accMagP.10978:
+ 1582 0008 0000803F 		.word	1065353216
+ 1583              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 MargAHRS.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:21     .bss:00000000 exAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:18     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:27     .bss:00000004 eyAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:33     .bss:00000008 ezAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:39     .bss:0000000c exAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:45     .bss:00000010 eyAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:51     .bss:00000014 ezAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:57     .bss:00000018 exMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:63     .bss:0000001c eyMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:69     .bss:00000020 ezMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:75     .bss:00000024 exMagInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:81     .bss:00000028 eyMagInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:87     .bss:0000002c ezMagInt
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:24     .bss:00000000 exAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:30     .bss:00000004 eyAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:36     .bss:00000008 ezAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:42     .bss:0000000c exAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:48     .bss:00000010 eyAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:54     .bss:00000014 ezAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:60     .bss:00000018 exMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:66     .bss:0000001c eyMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:72     .bss:00000020 ezMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:78     .bss:00000024 exMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:84     .bss:00000028 eyMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:90     .bss:0000002c ezMagInt
                             *COM*:00000004 kpAcc
                             *COM*:00000004 kiAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:96     .data:00000000 q0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:93     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:103    .bss:00000030 q1
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:109    .bss:00000034 q2
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:115    .bss:00000038 q3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:99     .data:00000000 q0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:96     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:106    .bss:00000030 q1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:112    .bss:00000034 q2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:118    .bss:00000038 q3
                             *COM*:00000004 q0q0
                             *COM*:00000004 q0q1
                             *COM*:00000004 q0q2
@@ -1565,18 +1571,18 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:115    .bss:00000038 q3
                             *COM*:00000004 q2q3
                             *COM*:00000004 q3q3
                             *COM*:00000004 halfT
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:131    .bss:0000003c MargAHRSinitialized
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:137    .bss:00000040 accConfidenceDecay
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:144    .data:00000004 accConfidence
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:151    .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:156    .text:00000000 calculateAccConfidence
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:1578   .data:00000008 accMagP.10920
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:229    .text:000000d0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:236    .text:000000e8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:241    .text:000000e8 MargAHRSinit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:539    .text:00000500 MargAHRSupdate
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:1570   .text:00001448 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccYkBHze.s:1574   .text:00001454 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:134    .bss:0000003c MargAHRSinitialized
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:140    .bss:00000040 accConfidenceDecay
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:147    .data:00000004 accConfidence
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:154    .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:159    .text:00000000 calculateAccConfidence
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:1581   .data:00000008 accMagP.10978
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:232    .text:000000d0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:239    .text:000000e8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:244    .text:000000e8 MargAHRSinit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:542    .text:00000500 MargAHRSupdate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:1573   .text:00001448 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccw2rEUh.s:1577   .text:00001454 $t
 
 UNDEFINED SYMBOLS
 __aeabi_f2d

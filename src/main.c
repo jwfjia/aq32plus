@@ -48,7 +48,7 @@ sensors_t      sensors;
 
 uint16_t       timerValue;
 
-char           numberString[12];
+char           numberString[15];
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -124,6 +124,34 @@ int main(void)
         	cliCom();
 
         	rfCom();
+
+        	switch (eepromConfig.gpsType)
+			{
+			    ///////////////////////
+
+			    case NO_GPS:                // No GPS installed
+			        break;
+
+			    ///////////////////////
+
+			    case MEDIATEK_3329_BINARY:  // MediaTek 3329 in binary mode
+			    	decodeMediaTek3329BinaryMsg();
+			    	break;
+
+				///////////////////////
+
+				case MEDIATEK_3329_NMEA:    // MediaTek 3329 in NMEA mode
+				    decodeNMEAsentence();
+	        	    break;
+
+			    ///////////////////////
+
+			    case UBLOX:                 // UBLOX in binary mode
+			    	decodeUbloxMsg();
+			    	break;
+
+			    ///////////////////////
+			}
 
             executionTime10Hz = micros() - currentTime;
         }

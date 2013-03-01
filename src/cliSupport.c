@@ -1246,3 +1246,141 @@ void sensorCLI()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// GPS CLI
+///////////////////////////////////////////////////////////////////////////////
+
+void gpsCLI()
+{
+    uint8_t  gpsQuery;
+    uint8_t  validQuery = false;
+
+    cliBusy = true;
+
+    usbPrint("\nEntering GPS CLI....\n\n");
+
+    while(true)
+    {
+        usbPrint("GPS CLI -> ");
+
+		while ((usbAvailable() == false) && (validQuery == false));
+
+		if (validQuery == false)
+		    gpsQuery = usbRead();
+
+		usbPrint("\n");
+
+		switch(gpsQuery)
+		{
+            ///////////////////////////
+
+            case 'a': // GPS Installation Data
+                usbPrint("\n");
+
+				switch(eepromConfig.gpsType)
+				{
+					///////////////
+
+					case NO_GPS:
+					    usbPrint("No GPS Installed....\n\n");
+					    break;
+
+					///////////////
+
+					case MEDIATEK_3329_BINARY:
+					    usbPrint("MediaTek 3329 GPS installed, Binary Mode....\n\n");
+					    break;
+
+					///////////////
+
+					case MEDIATEK_3329_NMEA:
+					    usbPrint("MediaTek 3329 GPS Installed, NMEA Mode....\n\n");
+					    break;
+
+					///////////////
+
+					case UBLOX:
+					    usbPrint("UBLOX GPS Installed, Binary Mode....\n\n");
+					    break;
+
+					///////////////
+				}
+
+                validQuery = false;
+                break;
+
+            ///////////////////////////
+
+			case 'x':
+			    usbPrint("\nExiting GPS CLI....\n\n");
+			    cliBusy = false;
+			    return;
+			    break;
+
+            ///////////////////////////
+
+            case 'A': // Set GPS Installed State to False
+                eepromConfig.gpsType = NO_GPS;
+
+                gpsQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'B': // Set GPS Type to MediaTek 3329 Binary
+                eepromConfig.gpsType = MEDIATEK_3329_BINARY;
+
+                initGPS();
+
+                gpsQuery = 'a';
+                validQuery = true;
+        	    break;
+
+            ///////////////////////////
+
+            case 'C': // Set GPS Type to MediaTek 3329 NMEA
+                eepromConfig.gpsType = MEDIATEK_3329_NMEA;
+
+                initGPS();
+
+                gpsQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'D': // Set GPS Type to UBLOX Binary
+                eepromConfig.gpsType = UBLOX;
+
+                initGPS();
+
+                gpsQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'W': // Write EEPROM Parameters
+                usbPrint("\nWriting EEPROM Parameters....\n\n");
+                writeEEPROM();
+                break;
+
+			///////////////////////////
+
+			case '?':
+			   	usbPrint("\n");
+			   	usbPrint("'a' Display GPS Installation Data          'A' Set GPS Type to No GPS\n");
+			   	usbPrint("                                           'B' Set GPS Type to MediaTek 3329 Binary\n");
+			   	usbPrint("                                           'C' Set GPS Type to MediaTek 3329 NMEA\n");
+			   	usbPrint("                                           'D' Set GPS Type to UBLOX\n");
+			   	usbPrint("'x' Exit GPS CLI                           'W' Write EEPROM Parameters\n");
+			   	usbPrint("\n");
+	    	    break;
+
+	    	///////////////////////////
+	    }
+	}
+
+}
+
+///////////////////////////////////////////////////////////////////////////////

@@ -13,129 +13,135 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"vertCompFilter.c"
-  16              		.comm	accelZ,4,4
-  17              		.global	estimationError
-  18              		.bss
-  19              		.align	2
-  22              	estimationError:
-  23 0000 00000000 		.space	4
-  24              		.global	hDotEstimate
-  25              		.align	2
-  28              	hDotEstimate:
-  29 0004 00000000 		.space	4
-  30              		.comm	hEstimate,4,4
-  31              		.global	previousExecUp
-  34              	previousExecUp:
-  35 0008 00       		.space	1
-  36 0009 000000   		.text
-  37              		.align	2
-  38              		.global	vertCompFilter
-  39              		.thumb
-  40              		.thumb_func
-  42              	vertCompFilter:
-  43              		@ args = 0, pretend = 0, frame = 8
-  44              		@ frame_needed = 0, uses_anonymous_args = 0
-  45              		@ link register save eliminated.
-  46 0000 82B0     		sub	sp, sp, #8
-  47 0002 0190     		str	r0, [sp, #4]	@ float
-  48 0004 40F20003 		movw	r3, #:lower16:execUp
-  49 0008 C0F20003 		movt	r3, #:upper16:execUp
-  50 000c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
-  51 000e 012B     		cmp	r3, #1
-  52 0010 10D1     		bne	.L2
-  53 0012 40F20003 		movw	r3, #:lower16:previousExecUp
-  54 0016 C0F20003 		movt	r3, #:upper16:previousExecUp
-  55 001a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
-  56 001c 002B     		cmp	r3, #0
-  57 001e 09D1     		bne	.L2
-  58 0020 40F20003 		movw	r3, #:lower16:sensors
-  59 0024 C0F20003 		movt	r3, #:upper16:sensors
-  60 0028 DA6B     		ldr	r2, [r3, #60]	@ float
-  61 002a 40F20003 		movw	r3, #:lower16:hEstimate
-  62 002e C0F20003 		movt	r3, #:upper16:hEstimate
-  63 0032 1A60     		str	r2, [r3, #0]	@ float
-  64              	.L2:
-  65 0034 40F20003 		movw	r3, #:lower16:execUp
-  66 0038 C0F20003 		movt	r3, #:upper16:execUp
-  67 003c 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
-  68 003e 40F20003 		movw	r3, #:lower16:previousExecUp
-  69 0042 C0F20003 		movt	r3, #:upper16:previousExecUp
-  70 0046 1A70     		strb	r2, [r3, #0]
-  71 0048 40F20003 		movw	r3, #:lower16:execUp
-  72 004c C0F20003 		movt	r3, #:upper16:execUp
-  73 0050 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
-  74 0052 012B     		cmp	r3, #1
-  75 0054 6FD1     		bne	.L1
-  76 0056 40F20003 		movw	r3, #:lower16:eepromConfig
-  77 005a C0F20003 		movt	r3, #:upper16:eepromConfig
-  78 005e 93ED167A 		flds	s14, [r3, #88]
-  79 0062 40F20003 		movw	r3, #:lower16:estimationError
-  80 0066 C0F20003 		movt	r3, #:upper16:estimationError
-  81 006a D3ED007A 		flds	s15, [r3, #0]
-  82 006e 67EE277A 		fmuls	s15, s14, s15
-  83 0072 40F20003 		movw	r3, #:lower16:earthAxisAccels
-  84 0076 C0F20003 		movt	r3, #:upper16:earthAxisAccels
-  85 007a 93ED027A 		flds	s14, [r3, #8]
-  86 007e 77EEC77A 		fsubs	s15, s15, s14
-  87 0082 40F20003 		movw	r3, #:lower16:accelZ
-  88 0086 C0F20003 		movt	r3, #:upper16:accelZ
-  89 008a C3ED007A 		fsts	s15, [r3, #0]
-  90 008e 40F20003 		movw	r3, #:lower16:accelZ
-  91 0092 C0F20003 		movt	r3, #:upper16:accelZ
-  92 0096 93ED007A 		flds	s14, [r3, #0]
-  93 009a DDED017A 		flds	s15, [sp, #4]
-  94 009e 67EE277A 		fmuls	s15, s14, s15
-  95 00a2 40F20003 		movw	r3, #:lower16:hDotEstimate
-  96 00a6 C0F20003 		movt	r3, #:upper16:hDotEstimate
-  97 00aa 93ED007A 		flds	s14, [r3, #0]
-  98 00ae 77EE877A 		fadds	s15, s15, s14
-  99 00b2 40F20003 		movw	r3, #:lower16:hDotEstimate
- 100 00b6 C0F20003 		movt	r3, #:upper16:hDotEstimate
- 101 00ba C3ED007A 		fsts	s15, [r3, #0]
- 102 00be 40F20003 		movw	r3, #:lower16:eepromConfig
- 103 00c2 C0F20003 		movt	r3, #:upper16:eepromConfig
- 104 00c6 93ED157A 		flds	s14, [r3, #84]
- 105 00ca 40F20003 		movw	r3, #:lower16:estimationError
- 106 00ce C0F20003 		movt	r3, #:upper16:estimationError
- 107 00d2 D3ED007A 		flds	s15, [r3, #0]
- 108 00d6 67EE277A 		fmuls	s15, s14, s15
- 109 00da 40F20003 		movw	r3, #:lower16:hDotEstimate
- 110 00de C0F20003 		movt	r3, #:upper16:hDotEstimate
- 111 00e2 93ED007A 		flds	s14, [r3, #0]
- 112 00e6 37EE877A 		fadds	s14, s15, s14
- 113 00ea DDED017A 		flds	s15, [sp, #4]
- 114 00ee 67EE277A 		fmuls	s15, s14, s15
- 115 00f2 40F20003 		movw	r3, #:lower16:hEstimate
- 116 00f6 C0F20003 		movt	r3, #:upper16:hEstimate
- 117 00fa 93ED007A 		flds	s14, [r3, #0]
- 118 00fe 77EE877A 		fadds	s15, s15, s14
- 119 0102 40F20003 		movw	r3, #:lower16:hEstimate
- 120 0106 C0F20003 		movt	r3, #:upper16:hEstimate
- 121 010a C3ED007A 		fsts	s15, [r3, #0]
- 122 010e 40F20003 		movw	r3, #:lower16:sensors
- 123 0112 C0F20003 		movt	r3, #:upper16:sensors
- 124 0116 93ED0F7A 		flds	s14, [r3, #60]
- 125 011a 40F20003 		movw	r3, #:lower16:hEstimate
- 126 011e C0F20003 		movt	r3, #:upper16:hEstimate
- 127 0122 D3ED007A 		flds	s15, [r3, #0]
- 128 0126 77EE677A 		fsubs	s15, s14, s15
- 129 012a 40F20003 		movw	r3, #:lower16:estimationError
- 130 012e C0F20003 		movt	r3, #:upper16:estimationError
- 131 0132 C3ED007A 		fsts	s15, [r3, #0]
- 132              	.L1:
- 133 0136 02B0     		add	sp, sp, #8
- 134 0138 7047     		bx	lr
- 136 013a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.comm	accelZ,4,4
+  20              		.global	estimationError
+  21              		.bss
+  22              		.align	2
+  25              	estimationError:
+  26 0000 00000000 		.space	4
+  27              		.global	hDotEstimate
+  28              		.align	2
+  31              	hDotEstimate:
+  32 0004 00000000 		.space	4
+  33              		.comm	hEstimate,4,4
+  34              		.global	previousExecUp
+  37              	previousExecUp:
+  38 0008 00       		.space	1
+  39 0009 000000   		.text
+  40              		.align	2
+  41              		.global	vertCompFilter
+  42              		.thumb
+  43              		.thumb_func
+  45              	vertCompFilter:
+  46              		@ args = 0, pretend = 0, frame = 8
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 82B0     		sub	sp, sp, #8
+  50 0002 0190     		str	r0, [sp, #4]	@ float
+  51 0004 40F20003 		movw	r3, #:lower16:execUp
+  52 0008 C0F20003 		movt	r3, #:upper16:execUp
+  53 000c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  54 000e 012B     		cmp	r3, #1
+  55 0010 10D1     		bne	.L2
+  56 0012 40F20003 		movw	r3, #:lower16:previousExecUp
+  57 0016 C0F20003 		movt	r3, #:upper16:previousExecUp
+  58 001a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  59 001c 002B     		cmp	r3, #0
+  60 001e 09D1     		bne	.L2
+  61 0020 40F20003 		movw	r3, #:lower16:sensors
+  62 0024 C0F20003 		movt	r3, #:upper16:sensors
+  63 0028 DA6B     		ldr	r2, [r3, #60]	@ float
+  64 002a 40F20003 		movw	r3, #:lower16:hEstimate
+  65 002e C0F20003 		movt	r3, #:upper16:hEstimate
+  66 0032 1A60     		str	r2, [r3, #0]	@ float
+  67              	.L2:
+  68 0034 40F20003 		movw	r3, #:lower16:execUp
+  69 0038 C0F20003 		movt	r3, #:upper16:execUp
+  70 003c 1A78     		ldrb	r2, [r3, #0]	@ zero_extendqisi2
+  71 003e 40F20003 		movw	r3, #:lower16:previousExecUp
+  72 0042 C0F20003 		movt	r3, #:upper16:previousExecUp
+  73 0046 1A70     		strb	r2, [r3, #0]
+  74 0048 40F20003 		movw	r3, #:lower16:execUp
+  75 004c C0F20003 		movt	r3, #:upper16:execUp
+  76 0050 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  77 0052 012B     		cmp	r3, #1
+  78 0054 6FD1     		bne	.L1
+  79 0056 40F20003 		movw	r3, #:lower16:eepromConfig
+  80 005a C0F20003 		movt	r3, #:upper16:eepromConfig
+  81 005e 93ED167A 		flds	s14, [r3, #88]
+  82 0062 40F20003 		movw	r3, #:lower16:estimationError
+  83 0066 C0F20003 		movt	r3, #:upper16:estimationError
+  84 006a D3ED007A 		flds	s15, [r3, #0]
+  85 006e 67EE277A 		fmuls	s15, s14, s15
+  86 0072 40F20003 		movw	r3, #:lower16:earthAxisAccels
+  87 0076 C0F20003 		movt	r3, #:upper16:earthAxisAccels
+  88 007a 93ED027A 		flds	s14, [r3, #8]
+  89 007e 77EEC77A 		fsubs	s15, s15, s14
+  90 0082 40F20003 		movw	r3, #:lower16:accelZ
+  91 0086 C0F20003 		movt	r3, #:upper16:accelZ
+  92 008a C3ED007A 		fsts	s15, [r3, #0]
+  93 008e 40F20003 		movw	r3, #:lower16:accelZ
+  94 0092 C0F20003 		movt	r3, #:upper16:accelZ
+  95 0096 93ED007A 		flds	s14, [r3, #0]
+  96 009a DDED017A 		flds	s15, [sp, #4]
+  97 009e 67EE277A 		fmuls	s15, s14, s15
+  98 00a2 40F20003 		movw	r3, #:lower16:hDotEstimate
+  99 00a6 C0F20003 		movt	r3, #:upper16:hDotEstimate
+ 100 00aa 93ED007A 		flds	s14, [r3, #0]
+ 101 00ae 77EE877A 		fadds	s15, s15, s14
+ 102 00b2 40F20003 		movw	r3, #:lower16:hDotEstimate
+ 103 00b6 C0F20003 		movt	r3, #:upper16:hDotEstimate
+ 104 00ba C3ED007A 		fsts	s15, [r3, #0]
+ 105 00be 40F20003 		movw	r3, #:lower16:eepromConfig
+ 106 00c2 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 107 00c6 93ED157A 		flds	s14, [r3, #84]
+ 108 00ca 40F20003 		movw	r3, #:lower16:estimationError
+ 109 00ce C0F20003 		movt	r3, #:upper16:estimationError
+ 110 00d2 D3ED007A 		flds	s15, [r3, #0]
+ 111 00d6 67EE277A 		fmuls	s15, s14, s15
+ 112 00da 40F20003 		movw	r3, #:lower16:hDotEstimate
+ 113 00de C0F20003 		movt	r3, #:upper16:hDotEstimate
+ 114 00e2 93ED007A 		flds	s14, [r3, #0]
+ 115 00e6 37EE877A 		fadds	s14, s15, s14
+ 116 00ea DDED017A 		flds	s15, [sp, #4]
+ 117 00ee 67EE277A 		fmuls	s15, s14, s15
+ 118 00f2 40F20003 		movw	r3, #:lower16:hEstimate
+ 119 00f6 C0F20003 		movt	r3, #:upper16:hEstimate
+ 120 00fa 93ED007A 		flds	s14, [r3, #0]
+ 121 00fe 77EE877A 		fadds	s15, s15, s14
+ 122 0102 40F20003 		movw	r3, #:lower16:hEstimate
+ 123 0106 C0F20003 		movt	r3, #:upper16:hEstimate
+ 124 010a C3ED007A 		fsts	s15, [r3, #0]
+ 125 010e 40F20003 		movw	r3, #:lower16:sensors
+ 126 0112 C0F20003 		movt	r3, #:upper16:sensors
+ 127 0116 93ED0F7A 		flds	s14, [r3, #60]
+ 128 011a 40F20003 		movw	r3, #:lower16:hEstimate
+ 129 011e C0F20003 		movt	r3, #:upper16:hEstimate
+ 130 0122 D3ED007A 		flds	s15, [r3, #0]
+ 131 0126 77EE677A 		fsubs	s15, s14, s15
+ 132 012a 40F20003 		movw	r3, #:lower16:estimationError
+ 133 012e C0F20003 		movt	r3, #:upper16:estimationError
+ 134 0132 C3ED007A 		fsts	s15, [r3, #0]
+ 135              	.L1:
+ 136 0136 02B0     		add	sp, sp, #8
+ 137 0138 7047     		bx	lr
+ 139 013a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 vertCompFilter.c
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
                             *COM*:00000004 accelZ
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpQNfPb.s:22     .bss:00000000 estimationError
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpQNfPb.s:19     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpQNfPb.s:28     .bss:00000004 hDotEstimate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccbU9DbL.s:25     .bss:00000000 estimationError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccbU9DbL.s:22     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccbU9DbL.s:31     .bss:00000004 hDotEstimate
                             *COM*:00000004 hEstimate
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpQNfPb.s:34     .bss:00000008 previousExecUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpQNfPb.s:37     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpQNfPb.s:42     .text:00000000 vertCompFilter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccbU9DbL.s:37     .bss:00000008 previousExecUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccbU9DbL.s:40     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccbU9DbL.s:45     .text:00000000 vertCompFilter
 
 UNDEFINED SYMBOLS
 execUp

@@ -41,9 +41,17 @@
 #define     PI 3.14159265f
 #define TWO_PI 6.28318531f
 
+#define D2R PI / 180.0f
+
+#define R2D 180.0f / PI
+
+#define KNOTS2MPS 0.51444444f
+
+#define EARTH_RADIUS 6371000f
+
 #define SQR(x)  x * x
 
-extern char numberString[12];
+extern char numberString[15];
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -94,12 +102,23 @@ typedef union {
 
 typedef struct sensors_t
 {
-    float accel500Hz[3];
-    float accel100Hz[3];
-    float attitude500Hz[3];
-    float gyro500Hz[3];
-    float mag10Hz[3];
-    float pressureAlt10Hz;
+    float    accel500Hz[3];
+    float    accel100Hz[3];
+    float    attitude500Hz[3];
+    float    gyro500Hz[3];
+    float    mag10Hz[3];
+    float    pressureAlt10Hz;
+
+    float    gpsLatitude;
+    float    gpsLongitude;
+    float    gpsAltitude;
+    float    gpsGroundSpeed;
+    float    gpsGroundTrack;
+    uint8_t  gpsNumSats;
+    uint8_t  gpsFix;
+    uint32_t gpsDate;
+    float    gpsTime;
+    float    gpsHdop;
 } sensors_t;
 
 extern sensors_t sensors;
@@ -130,87 +149,77 @@ extern sensors_t sensors;
 // Mixer Configurations
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef enum mixerType_e
-{
-    MIXERTYPE_GIMBAL          =  1,
+enum { NA_MIXER,                  //  0
 
-    MIXERTYPE_FLYING_WING     =  2,
+       MIXERTYPE_GIMBAL,          //  1
 
-    MIXERTYPE_BI              =  3,
+       MIXERTYPE_FLYING_WING,     //  2
 
-    MIXERTYPE_TRI             =  4,
+       MIXERTYPE_BI,              //  3
 
-    MIXERTYPE_QUADP           =  5,
-    MIXERTYPE_QUADX           =  6,
-    MIXERTYPE_VTAIL4_NO_COMP  =  7,
-    MIXERTYPE_VTAIL4_Y_COMP   =  8,
-    MIXERTYPE_VTAIL4_RY_COMP  =  9,
-    MIXERTYPE_VTAIL4_PY_COMP  = 10,
-    MIXERTYPE_VTAIL4_RP_COMP  = 11,
-    MIXERTYPE_VTAIL4_RPY_COMP = 12,
-    MIXERTYPE_Y4              = 13,
+       MIXERTYPE_TRI,             //  4
 
-    MIXERTYPE_HEX6P           = 14,
-    MIXERTYPE_HEX6X           = 15,
-    MIXERTYPE_Y6              = 16,
+       MIXERTYPE_QUADP,           //  5
 
-    MIXERTYPE_OCTOF8P         = 17,
-    MIXERTYPE_OCTOF8X         = 18,
-    MIXERTYPE_OCTOX8P         = 19,
-    MIXERTYPE_OCTOX8X         = 20,
+       MIXERTYPE_QUADX,           //  6
 
-    MIXERTYPE_FREEMIX         = 21,
+       MIXERTYPE_VTAIL4_NO_COMP,  //  7
+       MIXERTYPE_VTAIL4_Y_COMP,   //  8
+       MIXERTYPE_VTAIL4_RY_COMP,  //  9
+       MIXERTYPE_VTAIL4_PY_COMP,  // 10
+       MIXERTYPE_VTAIL4_RP_COMP,  // 11
+       MIXERTYPE_VTAIL4_RPY_COMP, // 12
 
-} mixerType;
+       MIXERTYPE_Y4,              // 13
+
+       MIXERTYPE_HEX6P,           // 14
+       MIXERTYPE_HEX6X,           // 15
+       MIXERTYPE_Y6,              // 16
+
+       MIXERTYPE_OCTOF8P,         // 17
+       MIXERTYPE_OCTOF8X,         // 18
+       MIXERTYPE_OCTOX8P,         // 19
+       MIXERTYPE_OCTOX8X,         // 20
+
+       MIXERTYPE_FREEMIX          // 21
+     };
 
 ///////////////////////////////////////////////////////////////////////////////
 // Flight Modes
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef enum flightModeType_e
-{
-    RATE      = 0,
-    ATTITUDE  = 1,
-    GPS       = 1,  // Make equal to 2 when implemented
-
-} flightModeType;
+enum { RATE, ATTITUDE, GPS };
 
 ///////////////////////////////////////////////////////////////////////////////
 // Altitude Hold States
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef enum altHoldStateType_e
-{
-    DISENGAGED = 0,
-    ENGAGED    = 1,
-    PANIC      = 2,
-
-} altHoldStateType;
+enum { DISENGAGED, ENGAGED, PANIC };
 
 ///////////////////////////////////////////////////////////////////////////////
 // MPU6000 DLPF Configurations
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef enum dlpfType_e
-{
-    DLPF_256HZ = 0,
-    DLPF_188HZ = 1,
-    DLPF_98HZ  = 2,
-    DLPF_42HZ  = 3,
-
-} dlpfType;
+enum { DLPF_256HZ, DLPF_188HZ, DLPF_98HZ, DLPF_42HZ };
 
 ///////////////////////////////////////////////////////////////////////////////
 // Receiver Configurations
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef enum receiverType_e
-{
-    PARALLEL_PWM = 1,
-    SERIAL_PWM   = 2,
-    SPEKTRUM     = 3,
+enum { NA_RECEIVER, PARALLEL_PWM, SERIAL_PWM, SPEKTRUM };
 
-} receiverType;
+///////////////////////////////////////////////////////////////////////////////
+// GPS Receivers
+///////////////////////////////////////////////////////////////////////////////
+
+enum { NO_GPS, MEDIATEK_3329_BINARY, MEDIATEK_3329_NMEA, UBLOX };
+
+enum { FIX_NONE    = 1,
+       FIX_2D      = 2,
+       FIX_3D      = 3,
+       FIX_2D_SBAS = 6,
+       FIX_3D_SBAS = 7
+     };
 
 ///////////////////////////////////////////////////////////////////////////////
 // EEPROM
@@ -325,6 +334,8 @@ typedef struct eepromConfig_t
     uint8_t osdDisplayHdg;         // 1 = Display ODS Heading
 
     ///////////////////////////////////
+
+    uint8_t gpsType;
 
 } eepromConfig_t;
 

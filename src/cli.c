@@ -333,13 +333,13 @@ void cliCom(void)
          ///////////////////////////////
 
         case 'e': // Loop Delta Times
-        	itoa( deltaTime1000Hz, numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime500Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime100Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime50Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime10Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime5Hz,    numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( deltaTime1Hz,    numberString, 10 ); usbPrint(numberString); usbPrint("\n");
+        	itoa(deltaTime1000Hz, numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(deltaTime500Hz,  numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(deltaTime100Hz,  numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(deltaTime50Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(deltaTime10Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(deltaTime5Hz,    numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(deltaTime1Hz,    numberString, 10); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -347,13 +347,13 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'f': // Loop Execution Times
-        	itoa( executionTime1000Hz,  numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime500Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime100Hz,   numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime50Hz,    numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime10Hz,    numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime5Hz,     numberString, 10 ); usbPrint(numberString); usbPrint(", ");
-        	itoa( executionTime1Hz,     numberString, 10 ); usbPrint(numberString); usbPrint("\n");
+        	itoa(executionTime1000Hz,  numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(executionTime500Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(executionTime100Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(executionTime50Hz,    numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(executionTime10Hz,    numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(executionTime5Hz,     numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(executionTime1Hz,     numberString, 10); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -361,9 +361,9 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'g': // 500 Hz Accels
-        	ftoa( sensors.accel500Hz[XAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.accel500Hz[YAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.accel500Hz[ZAXIS], numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa(sensors.accel500Hz[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.accel500Hz[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.accel500Hz[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -371,9 +371,9 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'h': // 100 hz Earth Axis Accels
-        	ftoa( earthAxisAccels[XAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( earthAxisAccels[YAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( earthAxisAccels[ZAXIS], numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa(earthAxisAccels[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(earthAxisAccels[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(earthAxisAccels[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -381,10 +381,10 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'i': // 500 Hz Gyros
-        	ftoa( sensors.gyro500Hz[ROLL ] * 57.3f, numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.gyro500Hz[PITCH] * 57.3f, numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.gyro500Hz[YAW  ] * 57.3f, numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( mpu6000Temperature,               numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa(sensors.gyro500Hz[ROLL ] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.gyro500Hz[PITCH] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.gyro500Hz[YAW  ] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(mpu6000Temperature,             numberString); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -392,9 +392,9 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'j': // 10 Hz Mag Data
-        	ftoa( sensors.mag10Hz[XAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.mag10Hz[YAXIS], numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.mag10Hz[ZAXIS], numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa(sensors.mag10Hz[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.mag10Hz[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.mag10Hz[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -402,10 +402,10 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'k': // Vertical Axis Variables
-        	ftoa( earthAxisAccels[ZAXIS],  numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.pressureAlt10Hz, numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( hDotEstimate,            numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( hEstimate,               numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa(earthAxisAccels[ZAXIS],  numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.pressureAlt10Hz, numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(hDotEstimate,            numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(hEstimate,               numberString); usbPrint(numberString); usbPrint("\n");
 
         	validCommand = false;
         	break;
@@ -413,16 +413,71 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'l': // Attitudes
-        	ftoa( sensors.attitude500Hz[ROLL ]   * 57.3f, numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.attitude500Hz[PITCH]   * 57.3f, numberString ); usbPrint(numberString); usbPrint(", ");
-        	ftoa( sensors.attitude500Hz[YAW  ]   * 57.3f, numberString ); usbPrint(numberString); usbPrint("\n");
+        	ftoa(sensors.attitude500Hz[ROLL ] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.attitude500Hz[PITCH] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.attitude500Hz[YAW  ] * R2D, numberString); usbPrint(numberString); usbPrint("\n");
 
+        	validCommand = false;
+        	break;
+
+       ///////////////////////////////
+
+        case 'm': // GPS Data
+        	snprintf(numberString ,14, "%12.7f", sensors.gpsLatitude  * R2D); usbPrint(numberString); usbPrint(", ");
+        	snprintf(numberString ,14, "%12.7f", sensors.gpsLongitude * R2D); usbPrint(numberString); usbPrint(", ");
+
+        	ftoa(sensors.gpsAltitude,          numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.gpsGroundSpeed,       numberString); usbPrint(numberString); usbPrint(", ");
+        	ftoa(sensors.gpsGroundTrack * R2D, numberString); usbPrint(numberString); usbPrint("\n");
+
+            validCommand = false;
+            break;
+
+        ///////////////////////////////
+
+        case 'n': // GPS Stats
+            if (sensors.gpsFix == FIX_2D)
+                usbPrint("2D Fix,  ");
+            else if (sensors.gpsFix == FIX_3D)
+                usbPrint("3D Fix,  ");
+            else if (sensors.gpsFix == FIX_2D_SBAS)
+            	usbPrint("2D SBAS, ");
+            else if (sensors.gpsFix == FIX_3D_SBAS)
+            	usbPrint("3D SBAS, ");
+            else
+                usbPrint("No Fix, ");
+
+            itoa(sensors.gpsNumSats, numberString, 10); usbPrint(numberString); usbPrint(", ");
+        	itoa(sensors.gpsDate,    numberString, 10); usbPrint(numberString); usbPrint(" ");
+        	ftoa(sensors.gpsTime,    numberString);     usbPrint(numberString); usbPrint(", ");
+            ftoa(sensors.gpsHdop,    numberString);     usbPrint(numberString); usbPrint("\n");
+            validCommand = false;
+        	break;
+
+        ///////////////////////////////
+
+        case 'o': // Not Used
+            queryType = 'x';
+            validCommand = false;
+            break;
+
+        ///////////////////////////////
+
+        case 'p': // Not Used
+            queryType = 'x';
         	validCommand = false;
         	break;
 
         ///////////////////////////////
 
-        case 'm':
+        case 'q': // Not Used
+            queryType = 'x';
+           	validCommand = false;
+           	break;
+
+        ///////////////////////////////
+
+        case 'r':
         	if (flightMode == RATE)
         		usbPrint("Flight Mode = RATE      ");
         	else if (flightMode == ATTITUDE)
@@ -447,14 +502,7 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'n': // Not Used
-            queryType = 'x';
-           	validCommand = false;
-           	break;
-
-        ///////////////////////////////
-
-        case 'o': // Raw Receiver Commands
+        case 's': // Raw Receiver Commands
             if (eepromConfig.receiverType == SPEKTRUM)
             {
 				for (index = 0; index < eepromConfig.spektrumChannels - 1; index++)
@@ -483,7 +531,7 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'p': // Processed Receiver Commands
+        case 't': // Processed Receiver Commands
             for (index = 0; index < 7; index++)
             {
     			ftoa( rxCommand[index], numberString );
@@ -498,7 +546,7 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'q': // Command in Detent Discretes
+        case 'u': // Command in Detent Discretes
             if ( commandInDetent[ROLL] == true )
                 usbPrint( "true" );
             else
@@ -522,7 +570,7 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'r': // ESC PWM Outputs
+        case 'v': // ESC PWM Outputs
             itoa(TIM8->CCR4, numberString, 10); usbPrint(numberString); usbPrint(", ");
             itoa(TIM8->CCR3, numberString, 10); usbPrint(numberString); usbPrint(", ");
             itoa(TIM8->CCR2, numberString, 10); usbPrint(numberString); usbPrint(", ");
@@ -537,41 +585,13 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 's': // Servo PWM Outputs
+        case 'w': // Servo PWM Outputs
             itoa(TIM5->CCR3, numberString, 10); usbPrint(numberString); usbPrint(", ");
             itoa(TIM5->CCR2, numberString, 10); usbPrint(numberString); usbPrint(", ");
             itoa(TIM5->CCR1, numberString, 10); usbPrint(numberString); usbPrint("\n");
 
             validCommand = false;
             break;
-
-       ///////////////////////////////
-
-        case 't': // Not Used
-            queryType = 'x';
-            validCommand = false;
-            break;
-
-        ///////////////////////////////
-
-        case 'u': // Not Used
-            queryType = 'x';
-            validCommand = false;
-            break;
-
-        ///////////////////////////////
-
-        case 'v': // Not Used
-            queryType = 'x';
-        	validCommand = false;
-        	break;
-
-        ///////////////////////////////
-
-        case 'w': // Not Used
-            queryType = 'x';
-        	validCommand = false;
-        	break;
 
         ///////////////////////////////
 
@@ -847,7 +867,9 @@ void cliCom(void)
 
         ///////////////////////////////
 
-        case 'Q': // Not Used
+        case 'Q': // GPS CLI
+            gpsCLI();
+
             queryType = 'x';
            	validCommand = false;
            	break;
@@ -952,17 +974,17 @@ void cliCom(void)
    		    }
 
    		    usbPrint("\n");
-   		    usbPrint("'m' Mode States                            'M' MAX7456 CLI\n");
-   		    usbPrint("'n' Not Used                               'N' Mixer CLI\n");
-   		    usbPrint("'o' Raw Receiver Commands                  'O' Receiver CLI\n");
-   		    usbPrint("'p' Processed Receiver Commands            'P' Sensor CLI\n");
-   		    usbPrint("'q' Command In Detent Discretes            'Q' Not Used\n");
-   		    usbPrint("'r' Motor PWM Outputs                      'R' Reset and Enter Bootloader\n");
-   		    usbPrint("'s' Servo PWM Outputs                      'S' Reset\n");
-   		    usbPrint("'t' Not Used                               'T' Not Used\n");
-   		    usbPrint("'u' Not Used                               'U' Not Used\n");
-   		    usbPrint("'v' Not Used                               'V' Reset EEPROM Parameters\n");
-   		    usbPrint("'w' Not Used                               'W' Write EEPROM Parameters\n");
+   		    usbPrint("'m' GPS Data                               'M' MAX7456 CLI\n");
+   		    usbPrint("'n' GPS Stats                              'N' Mixer CLI\n");
+   		    usbPrint("'o' Not Used                               'O' Receiver CLI\n");
+   		    usbPrint("'p' Not Used                               'P' Sensor CLI\n");
+   		    usbPrint("'q' Not Used                               'Q' GPS CLI\n");
+   		    usbPrint("'r' Mode States                            'R' Reset and Enter Bootloader\n");
+   		    usbPrint("'s' Raw Receiver Commands                  'S' Reset\n");
+   		    usbPrint("'t' Processed Receiver Commands            'T' Not Used\n");
+   		    usbPrint("'u' Command In Detent Discretes            'U' Not Used\n");
+   		    usbPrint("'v' Motor PWM Outputs                      'V' Reset EEPROM Parameters\n");
+   		    usbPrint("'w' Servo PWM Outputs                      'W' Write EEPROM Parameters\n");
    		    usbPrint("'x' Terminate Serial Communication         'X' Not Used\n");
    		    usbPrint("\n");
 

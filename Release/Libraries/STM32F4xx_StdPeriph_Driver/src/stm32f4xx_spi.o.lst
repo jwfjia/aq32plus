@@ -1088,32 +1088,32 @@
  1138              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_spi.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:22     .text:00000000 SPI_I2S_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:74     .text:00000080 SPI_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:144    .text:0000010c I2S_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:356    .text:00000344 SPI_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:397    .text:00000394 I2S_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:429    .text:000003cc SPI_Cmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:465    .text:00000404 I2S_Cmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:501    .text:0000043c SPI_DataSizeConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:532    .text:0000046c SPI_BiDirectionalLineConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:568    .text:000004a8 SPI_NSSInternalSoftwareConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:605    .text:000004e4 SPI_SSOutputCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:641    .text:0000051c SPI_TIModeCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:677    .text:00000554 I2S_FullDuplexConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:756    .text:00000600 SPI_I2S_ReceiveData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:774    .text:00000610 SPI_I2S_SendData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:793    .text:00000628 SPI_CalculateCRC
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:829    .text:00000660 SPI_TransmitCRC
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:850    .text:00000678 SPI_GetCRC
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:882    .text:000006b0 SPI_GetCRCPolynomial
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:900    .text:000006c0 SPI_I2S_DMACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:942    .text:00000708 SPI_I2S_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:996    .text:00000780 SPI_I2S_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:1031   .text:000007c0 SPI_I2S_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:1052   .text:000007dc SPI_I2S_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctQmjjM.s:1115   .text:00000880 SPI_I2S_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:22     .text:00000000 SPI_I2S_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:74     .text:00000080 SPI_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:144    .text:0000010c I2S_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:356    .text:00000344 SPI_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:397    .text:00000394 I2S_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:429    .text:000003cc SPI_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:465    .text:00000404 I2S_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:501    .text:0000043c SPI_DataSizeConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:532    .text:0000046c SPI_BiDirectionalLineConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:568    .text:000004a8 SPI_NSSInternalSoftwareConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:605    .text:000004e4 SPI_SSOutputCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:641    .text:0000051c SPI_TIModeCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:677    .text:00000554 I2S_FullDuplexConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:756    .text:00000600 SPI_I2S_ReceiveData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:774    .text:00000610 SPI_I2S_SendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:793    .text:00000628 SPI_CalculateCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:829    .text:00000660 SPI_TransmitCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:850    .text:00000678 SPI_GetCRC
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:882    .text:000006b0 SPI_GetCRCPolynomial
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:900    .text:000006c0 SPI_I2S_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:942    .text:00000708 SPI_I2S_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:996    .text:00000780 SPI_I2S_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:1031   .text:000007c0 SPI_I2S_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:1052   .text:000007dc SPI_I2S_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccCnBbqk.s:1115   .text:00000880 SPI_I2S_ClearITPendingBit
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd

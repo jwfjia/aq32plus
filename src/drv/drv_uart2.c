@@ -53,7 +53,7 @@
 #define UART2_TX_PINSOURCE  GPIO_PinSource5
 #define UART2_RX_PINSOURCE  GPIO_PinSource6
 
-#define UART2_BUFFER_SIZE    1024
+#define UART2_BUFFER_SIZE    2048
 
 // Receive buffer, circular DMA
 volatile uint8_t rx2Buffer[UART2_BUFFER_SIZE];
@@ -116,11 +116,11 @@ void uart2Init(void)
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1,   ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
-      GPIO_InitStructure.GPIO_Pin   = UART2_TX_PIN | UART2_RX_PIN;
-      GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
-      GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    //GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-      GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_Pin   = UART2_TX_PIN | UART2_RX_PIN;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
 
     GPIO_PinAFConfig(UART2_GPIO, UART2_TX_PINSOURCE, GPIO_AF_USART2);
     GPIO_PinAFConfig(UART2_GPIO, UART2_RX_PINSOURCE, GPIO_AF_USART2);
@@ -135,7 +135,7 @@ void uart2Init(void)
 
     NVIC_Init(&NVIC_InitStructure);
 
-      USART_InitStructure.USART_BaudRate            = 115200;
+      USART_InitStructure.USART_BaudRate            = 38400;
     //USART_InitStructure.USART_WordLength          = USART_WordLength_8b;
     //USART_InitStructure.USART_StopBits            = USART_StopBits_1;
     //USART_InitStructure.USART_Parity              = USART_Parity_No;
@@ -212,6 +212,31 @@ uint16_t uart2Available(void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// UART2 Clear Buffer
+///////////////////////////////////////////////////////////////////////////////
+
+void uart2ClearBuffer(void)
+{
+    rx2DMAPos = DMA_GetCurrDataCounter(DMA1_Stream5);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// UART2 Number of Characters Available
+///////////////////////////////////////////////////////////////////////////////
+
+uint16_t uart2NumCharsAvailable(void)
+{
+	int32_t number;
+
+	number = rx2DMAPos - DMA_GetCurrDataCounter(DMA1_Stream5);
+
+	if (number >= 0)
+	    return (uint16_t)number;
+	else
+	    return (uint16_t)(UART2_BUFFER_SIZE + number);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // UART2 Read
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -250,7 +275,7 @@ void uart2Write(uint8_t ch)
     if (DMA_GetCmdStatus(DMA1_Stream3) == DISABLE)
     {
     	uart2TxDMA();
-    	delayMicroseconds(100);
+    	delayMicroseconds(300);
     }
 }
 

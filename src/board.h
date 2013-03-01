@@ -70,6 +70,7 @@
 
 #include "aq32Plus.h"
 
+//#include "drv_gps.h"
 #include "drv_i2c.h"
 #include "drv_led.h"
 #include "drv_max7456.h"
@@ -94,6 +95,10 @@
 #include "coordinateTransforms.h"
 #include "escCalibration.h"
 #include "flightCommand.h"
+#include "gps.h"
+#include "gpsMediaTek19.h"
+#include "gpsNMEA.h"
+#include "gpsUblox.h"
 #include "linearAlgebra.h"
 #include "lowPassFilter.h"
 #include "MargAHRS.h"

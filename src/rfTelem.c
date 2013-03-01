@@ -43,35 +43,6 @@ uint8_t rfBusy = false;
 static volatile uint8_t rfQueryType;
 
 ///////////////////////////////////////////////////////////////////////////////
-// Read Character String from RF Comm
-///////////////////////////////////////////////////////////////////////////////
-
-char *readStringRF(char *data, uint8_t length)
-{
-    uint8_t index    = 0;
-    uint8_t timeout  = 0;
-
-    do
-    {
-        if ((data[index] = uart3Read()) == 0)
-        {
-            delay(10);
-            timeout++;
-        }
-        else
-        {
-            timeout = 0;
-            index++;
-        }
-    }
-    while ((index == 0 || data[index-1] != ';') && (timeout < 5) && (index < length));
-
-    data[index] = '\0';
-
-    return data;
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // Read Float from RF Comm
 ///////////////////////////////////////////////////////////////////////////////
 

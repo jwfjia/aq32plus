@@ -13,695 +13,701 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"mpu6000.c"
-  16              		.global	accelOneG
-  17              		.data
-  18              		.align	2
-  21              	accelOneG:
-  22 0000 6DE71C41 		.word	1092413293
-  23              		.global	accelSum100Hz
-  24              		.bss
-  25              		.align	2
-  28              	accelSum100Hz:
-  29 0000 00000000 		.space	12
-  29      00000000 
-  29      00000000 
-  30              		.global	accelSum500Hz
-  31              		.align	2
-  34              	accelSum500Hz:
-  35 000c 00000000 		.space	12
-  35      00000000 
-  35      00000000 
-  36              		.comm	accelSummedSamples100Hz,12,4
-  37              		.comm	accelSummedSamples500Hz,12,4
-  38              		.global	accelTCBias
-  39              		.align	2
-  42              	accelTCBias:
-  43 0018 00000000 		.space	12
-  43      00000000 
-  43      00000000 
-  44              		.comm	rawAccel,6,4
-  45              		.comm	gyroRTBias,12,4
-  46              		.global	gyroSum500Hz
-  47              		.align	2
-  50              	gyroSum500Hz:
-  51 0024 00000000 		.space	12
-  51      00000000 
-  51      00000000 
-  52              		.comm	gyroSummedSamples500Hz,12,4
-  53              		.comm	gyroTCBias,12,4
-  54              		.comm	rawGyro,6,4
-  55              		.global	mpu6000Calibrating
-  58              	mpu6000Calibrating:
-  59 0030 00       		.space	1
-  60              		.comm	mpu6000Temperature,4,4
-  61              		.comm	rawMPU6000Temperature,2,4
-  62 0031 000000   		.text
-  63              		.align	2
-  64              		.global	initMPU6000
-  65              		.thumb
-  66              		.thumb_func
-  68              	initMPU6000:
-  69              		@ args = 0, pretend = 0, frame = 0
-  70              		@ frame_needed = 0, uses_anonymous_args = 0
-  71 0000 08B5     		push	{r3, lr}
-  72 0002 4FF48060 		mov	r0, #1024
-  73 0006 C4F20200 		movt	r0, 16386
-  74 000a 4FF48071 		mov	r1, #256
-  75 000e FFF7FEFF 		bl	GPIO_ResetBits
-  76 0012 4FF47050 		mov	r0, #15360
-  77 0016 C4F20000 		movt	r0, 16384
-  78 001a 4FF06B01 		mov	r1, #107
-  79 001e FFF7FEFF 		bl	spiTransfer
-  80 0022 4FF47050 		mov	r0, #15360
-  81 0026 C4F20000 		movt	r0, 16384
-  82 002a 4FF08001 		mov	r1, #128
-  83 002e FFF7FEFF 		bl	spiTransfer
-  84 0032 4FF48060 		mov	r0, #1024
-  85 0036 C4F20200 		movt	r0, 16386
-  86 003a 4FF48071 		mov	r1, #256
-  87 003e FFF7FEFF 		bl	GPIO_SetBits
-  88 0042 4FF09600 		mov	r0, #150
-  89 0046 FFF7FEFF 		bl	delay
-  90 004a 4FF48060 		mov	r0, #1024
-  91 004e C4F20200 		movt	r0, 16386
-  92 0052 4FF48071 		mov	r1, #256
-  93 0056 FFF7FEFF 		bl	GPIO_ResetBits
-  94 005a 4FF47050 		mov	r0, #15360
-  95 005e C4F20000 		movt	r0, 16384
-  96 0062 4FF06B01 		mov	r1, #107
-  97 0066 FFF7FEFF 		bl	spiTransfer
-  98 006a 4FF47050 		mov	r0, #15360
-  99 006e C4F20000 		movt	r0, 16384
- 100 0072 4FF00301 		mov	r1, #3
- 101 0076 FFF7FEFF 		bl	spiTransfer
- 102 007a 4FF48060 		mov	r0, #1024
- 103 007e C4F20200 		movt	r0, 16386
- 104 0082 4FF48071 		mov	r1, #256
- 105 0086 FFF7FEFF 		bl	GPIO_SetBits
- 106 008a 4FF00100 		mov	r0, #1
- 107 008e FFF7FEFF 		bl	delayMicroseconds
- 108 0092 4FF48060 		mov	r0, #1024
- 109 0096 C4F20200 		movt	r0, 16386
- 110 009a 4FF48071 		mov	r1, #256
- 111 009e FFF7FEFF 		bl	GPIO_ResetBits
- 112 00a2 4FF47050 		mov	r0, #15360
- 113 00a6 C4F20000 		movt	r0, 16384
- 114 00aa 4FF06A01 		mov	r1, #106
- 115 00ae FFF7FEFF 		bl	spiTransfer
- 116 00b2 4FF47050 		mov	r0, #15360
- 117 00b6 C4F20000 		movt	r0, 16384
- 118 00ba 4FF01001 		mov	r1, #16
- 119 00be FFF7FEFF 		bl	spiTransfer
- 120 00c2 4FF48060 		mov	r0, #1024
- 121 00c6 C4F20200 		movt	r0, 16386
- 122 00ca 4FF48071 		mov	r1, #256
- 123 00ce FFF7FEFF 		bl	GPIO_SetBits
- 124 00d2 4FF00100 		mov	r0, #1
- 125 00d6 FFF7FEFF 		bl	delayMicroseconds
- 126 00da 4FF48060 		mov	r0, #1024
- 127 00de C4F20200 		movt	r0, 16386
- 128 00e2 4FF48071 		mov	r1, #256
- 129 00e6 FFF7FEFF 		bl	GPIO_ResetBits
- 130 00ea 4FF47050 		mov	r0, #15360
- 131 00ee C4F20000 		movt	r0, 16384
- 132 00f2 4FF06C01 		mov	r1, #108
- 133 00f6 FFF7FEFF 		bl	spiTransfer
- 134 00fa 4FF47050 		mov	r0, #15360
- 135 00fe C4F20000 		movt	r0, 16384
- 136 0102 4FF00001 		mov	r1, #0
- 137 0106 FFF7FEFF 		bl	spiTransfer
- 138 010a 4FF48060 		mov	r0, #1024
- 139 010e C4F20200 		movt	r0, 16386
- 140 0112 4FF48071 		mov	r1, #256
- 141 0116 FFF7FEFF 		bl	GPIO_SetBits
- 142 011a 4FF00100 		mov	r0, #1
- 143 011e FFF7FEFF 		bl	delayMicroseconds
- 144 0122 4FF48060 		mov	r0, #1024
- 145 0126 C4F20200 		movt	r0, 16386
- 146 012a 4FF48071 		mov	r1, #256
- 147 012e FFF7FEFF 		bl	GPIO_ResetBits
- 148 0132 4FF47050 		mov	r0, #15360
- 149 0136 C4F20000 		movt	r0, 16384
- 150 013a 4FF01901 		mov	r1, #25
- 151 013e FFF7FEFF 		bl	spiTransfer
- 152 0142 4FF47050 		mov	r0, #15360
- 153 0146 C4F20000 		movt	r0, 16384
- 154 014a 4FF00001 		mov	r1, #0
- 155 014e FFF7FEFF 		bl	spiTransfer
- 156 0152 4FF48060 		mov	r0, #1024
- 157 0156 C4F20200 		movt	r0, 16386
- 158 015a 4FF48071 		mov	r1, #256
- 159 015e FFF7FEFF 		bl	GPIO_SetBits
- 160 0162 4FF00100 		mov	r0, #1
- 161 0166 FFF7FEFF 		bl	delayMicroseconds
- 162 016a 4FF48060 		mov	r0, #1024
- 163 016e C4F20200 		movt	r0, 16386
- 164 0172 4FF48071 		mov	r1, #256
- 165 0176 FFF7FEFF 		bl	GPIO_ResetBits
- 166 017a 4FF47050 		mov	r0, #15360
- 167 017e C4F20000 		movt	r0, 16384
- 168 0182 4FF01A01 		mov	r1, #26
- 169 0186 FFF7FEFF 		bl	spiTransfer
- 170 018a 40F20003 		movw	r3, #:lower16:eepromConfig
- 171 018e C0F20003 		movt	r3, #:upper16:eepromConfig
- 172 0192 93F85C30 		ldrb	r3, [r3, #92]	@ zero_extendqisi2
- 173 0196 4FF47050 		mov	r0, #15360
- 174 019a C4F20000 		movt	r0, 16384
- 175 019e 1946     		mov	r1, r3
- 176 01a0 FFF7FEFF 		bl	spiTransfer
- 177 01a4 4FF48060 		mov	r0, #1024
- 178 01a8 C4F20200 		movt	r0, 16386
- 179 01ac 4FF48071 		mov	r1, #256
- 180 01b0 FFF7FEFF 		bl	GPIO_SetBits
- 181 01b4 4FF00100 		mov	r0, #1
- 182 01b8 FFF7FEFF 		bl	delayMicroseconds
- 183 01bc 4FF48060 		mov	r0, #1024
- 184 01c0 C4F20200 		movt	r0, 16386
- 185 01c4 4FF48071 		mov	r1, #256
- 186 01c8 FFF7FEFF 		bl	GPIO_ResetBits
- 187 01cc 4FF47050 		mov	r0, #15360
- 188 01d0 C4F20000 		movt	r0, 16384
- 189 01d4 4FF01C01 		mov	r1, #28
- 190 01d8 FFF7FEFF 		bl	spiTransfer
- 191 01dc 4FF47050 		mov	r0, #15360
- 192 01e0 C4F20000 		movt	r0, 16384
- 193 01e4 4FF00801 		mov	r1, #8
- 194 01e8 FFF7FEFF 		bl	spiTransfer
- 195 01ec 4FF48060 		mov	r0, #1024
- 196 01f0 C4F20200 		movt	r0, 16386
- 197 01f4 4FF48071 		mov	r1, #256
- 198 01f8 FFF7FEFF 		bl	GPIO_SetBits
- 199 01fc 4FF00100 		mov	r0, #1
- 200 0200 FFF7FEFF 		bl	delayMicroseconds
- 201 0204 4FF48060 		mov	r0, #1024
- 202 0208 C4F20200 		movt	r0, 16386
- 203 020c 4FF48071 		mov	r1, #256
- 204 0210 FFF7FEFF 		bl	GPIO_ResetBits
- 205 0214 4FF47050 		mov	r0, #15360
- 206 0218 C4F20000 		movt	r0, 16384
- 207 021c 4FF01B01 		mov	r1, #27
- 208 0220 FFF7FEFF 		bl	spiTransfer
- 209 0224 4FF47050 		mov	r0, #15360
- 210 0228 C4F20000 		movt	r0, 16384
- 211 022c 4FF01001 		mov	r1, #16
- 212 0230 FFF7FEFF 		bl	spiTransfer
- 213 0234 4FF48060 		mov	r0, #1024
- 214 0238 C4F20200 		movt	r0, 16386
- 215 023c 4FF48071 		mov	r1, #256
- 216 0240 FFF7FEFF 		bl	GPIO_SetBits
- 217 0244 4FF47050 		mov	r0, #15360
- 218 0248 C4F20000 		movt	r0, 16384
- 219 024c 4FF00201 		mov	r1, #2
- 220 0250 FFF7FEFF 		bl	setSPIdivisor
- 221 0254 4FF06400 		mov	r0, #100
- 222 0258 FFF7FEFF 		bl	delay
- 223 025c FFF7FEFF 		bl	computeMPU6000RTData
- 224 0260 08BD     		pop	{r3, pc}
- 226 0262 00BF     		.align	2
- 227              		.global	readMPU6000
- 228              		.thumb
- 229              		.thumb_func
- 231              	readMPU6000:
- 232              		@ args = 0, pretend = 0, frame = 0
- 233              		@ frame_needed = 0, uses_anonymous_args = 0
- 234 0264 08B5     		push	{r3, lr}
- 235 0266 4FF48060 		mov	r0, #1024
- 236 026a C4F20200 		movt	r0, 16386
- 237 026e 4FF48071 		mov	r1, #256
- 238 0272 FFF7FEFF 		bl	GPIO_ResetBits
- 239 0276 4FF47050 		mov	r0, #15360
- 240 027a C4F20000 		movt	r0, 16384
- 241 027e 4FF0BB01 		mov	r1, #187
- 242 0282 FFF7FEFF 		bl	spiTransfer
- 243 0286 4FF47050 		mov	r0, #15360
- 244 028a C4F20000 		movt	r0, 16384
- 245 028e 4FF00001 		mov	r1, #0
- 246 0292 FFF7FEFF 		bl	spiTransfer
- 247 0296 0346     		mov	r3, r0
- 248 0298 1A46     		mov	r2, r3
- 249 029a 40F20003 		movw	r3, #:lower16:rawAccel
- 250 029e C0F20003 		movt	r3, #:upper16:rawAccel
- 251 02a2 5A70     		strb	r2, [r3, #1]
- 252 02a4 4FF47050 		mov	r0, #15360
- 253 02a8 C4F20000 		movt	r0, 16384
- 254 02ac 4FF00001 		mov	r1, #0
- 255 02b0 FFF7FEFF 		bl	spiTransfer
- 256 02b4 0346     		mov	r3, r0
- 257 02b6 1A46     		mov	r2, r3
- 258 02b8 40F20003 		movw	r3, #:lower16:rawAccel
- 259 02bc C0F20003 		movt	r3, #:upper16:rawAccel
- 260 02c0 1A70     		strb	r2, [r3, #0]
- 261 02c2 4FF47050 		mov	r0, #15360
- 262 02c6 C4F20000 		movt	r0, 16384
- 263 02ca 4FF00001 		mov	r1, #0
- 264 02ce FFF7FEFF 		bl	spiTransfer
- 265 02d2 0346     		mov	r3, r0
- 266 02d4 1A46     		mov	r2, r3
- 267 02d6 40F20003 		movw	r3, #:lower16:rawAccel
- 268 02da C0F20003 		movt	r3, #:upper16:rawAccel
- 269 02de DA70     		strb	r2, [r3, #3]
- 270 02e0 4FF47050 		mov	r0, #15360
- 271 02e4 C4F20000 		movt	r0, 16384
- 272 02e8 4FF00001 		mov	r1, #0
- 273 02ec FFF7FEFF 		bl	spiTransfer
- 274 02f0 0346     		mov	r3, r0
- 275 02f2 1A46     		mov	r2, r3
- 276 02f4 40F20003 		movw	r3, #:lower16:rawAccel
- 277 02f8 C0F20003 		movt	r3, #:upper16:rawAccel
- 278 02fc 9A70     		strb	r2, [r3, #2]
- 279 02fe 4FF47050 		mov	r0, #15360
- 280 0302 C4F20000 		movt	r0, 16384
- 281 0306 4FF00001 		mov	r1, #0
- 282 030a FFF7FEFF 		bl	spiTransfer
- 283 030e 0346     		mov	r3, r0
- 284 0310 1A46     		mov	r2, r3
- 285 0312 40F20003 		movw	r3, #:lower16:rawAccel
- 286 0316 C0F20003 		movt	r3, #:upper16:rawAccel
- 287 031a 5A71     		strb	r2, [r3, #5]
- 288 031c 4FF47050 		mov	r0, #15360
- 289 0320 C4F20000 		movt	r0, 16384
- 290 0324 4FF00001 		mov	r1, #0
- 291 0328 FFF7FEFF 		bl	spiTransfer
- 292 032c 0346     		mov	r3, r0
- 293 032e 1A46     		mov	r2, r3
- 294 0330 40F20003 		movw	r3, #:lower16:rawAccel
- 295 0334 C0F20003 		movt	r3, #:upper16:rawAccel
- 296 0338 1A71     		strb	r2, [r3, #4]
- 297 033a 4FF47050 		mov	r0, #15360
- 298 033e C4F20000 		movt	r0, 16384
- 299 0342 4FF00001 		mov	r1, #0
- 300 0346 FFF7FEFF 		bl	spiTransfer
- 301 034a 0346     		mov	r3, r0
- 302 034c 1A46     		mov	r2, r3
- 303 034e 40F20003 		movw	r3, #:lower16:rawMPU6000Temperature
- 304 0352 C0F20003 		movt	r3, #:upper16:rawMPU6000Temperature
- 305 0356 5A70     		strb	r2, [r3, #1]
- 306 0358 4FF47050 		mov	r0, #15360
- 307 035c C4F20000 		movt	r0, 16384
- 308 0360 4FF00001 		mov	r1, #0
- 309 0364 FFF7FEFF 		bl	spiTransfer
- 310 0368 0346     		mov	r3, r0
- 311 036a 1A46     		mov	r2, r3
- 312 036c 40F20003 		movw	r3, #:lower16:rawMPU6000Temperature
- 313 0370 C0F20003 		movt	r3, #:upper16:rawMPU6000Temperature
- 314 0374 1A70     		strb	r2, [r3, #0]
- 315 0376 4FF47050 		mov	r0, #15360
- 316 037a C4F20000 		movt	r0, 16384
- 317 037e 4FF00001 		mov	r1, #0
- 318 0382 FFF7FEFF 		bl	spiTransfer
- 319 0386 0346     		mov	r3, r0
- 320 0388 1A46     		mov	r2, r3
- 321 038a 40F20003 		movw	r3, #:lower16:rawGyro
- 322 038e C0F20003 		movt	r3, #:upper16:rawGyro
- 323 0392 5A70     		strb	r2, [r3, #1]
- 324 0394 4FF47050 		mov	r0, #15360
- 325 0398 C4F20000 		movt	r0, 16384
- 326 039c 4FF00001 		mov	r1, #0
- 327 03a0 FFF7FEFF 		bl	spiTransfer
- 328 03a4 0346     		mov	r3, r0
- 329 03a6 1A46     		mov	r2, r3
- 330 03a8 40F20003 		movw	r3, #:lower16:rawGyro
- 331 03ac C0F20003 		movt	r3, #:upper16:rawGyro
- 332 03b0 1A70     		strb	r2, [r3, #0]
- 333 03b2 4FF47050 		mov	r0, #15360
- 334 03b6 C4F20000 		movt	r0, 16384
- 335 03ba 4FF00001 		mov	r1, #0
- 336 03be FFF7FEFF 		bl	spiTransfer
- 337 03c2 0346     		mov	r3, r0
- 338 03c4 1A46     		mov	r2, r3
- 339 03c6 40F20003 		movw	r3, #:lower16:rawGyro
- 340 03ca C0F20003 		movt	r3, #:upper16:rawGyro
- 341 03ce DA70     		strb	r2, [r3, #3]
- 342 03d0 4FF47050 		mov	r0, #15360
- 343 03d4 C4F20000 		movt	r0, 16384
- 344 03d8 4FF00001 		mov	r1, #0
- 345 03dc FFF7FEFF 		bl	spiTransfer
- 346 03e0 0346     		mov	r3, r0
- 347 03e2 1A46     		mov	r2, r3
- 348 03e4 40F20003 		movw	r3, #:lower16:rawGyro
- 349 03e8 C0F20003 		movt	r3, #:upper16:rawGyro
- 350 03ec 9A70     		strb	r2, [r3, #2]
- 351 03ee 4FF47050 		mov	r0, #15360
- 352 03f2 C4F20000 		movt	r0, 16384
- 353 03f6 4FF00001 		mov	r1, #0
- 354 03fa FFF7FEFF 		bl	spiTransfer
- 355 03fe 0346     		mov	r3, r0
- 356 0400 1A46     		mov	r2, r3
- 357 0402 40F20003 		movw	r3, #:lower16:rawGyro
- 358 0406 C0F20003 		movt	r3, #:upper16:rawGyro
- 359 040a 5A71     		strb	r2, [r3, #5]
- 360 040c 4FF47050 		mov	r0, #15360
- 361 0410 C4F20000 		movt	r0, 16384
- 362 0414 4FF00001 		mov	r1, #0
- 363 0418 FFF7FEFF 		bl	spiTransfer
- 364 041c 0346     		mov	r3, r0
- 365 041e 1A46     		mov	r2, r3
- 366 0420 40F20003 		movw	r3, #:lower16:rawGyro
- 367 0424 C0F20003 		movt	r3, #:upper16:rawGyro
- 368 0428 1A71     		strb	r2, [r3, #4]
- 369 042a 4FF48060 		mov	r0, #1024
- 370 042e C4F20200 		movt	r0, 16386
- 371 0432 4FF48071 		mov	r1, #256
- 372 0436 FFF7FEFF 		bl	GPIO_SetBits
- 373 043a 08BD     		pop	{r3, pc}
- 375              		.global	__aeabi_f2d
- 376              		.global	__aeabi_d2f
- 377              		.align	2
- 378              		.global	computeMPU6000RTData
- 379              		.thumb
- 380              		.thumb_func
- 382              	computeMPU6000RTData:
- 383              		@ args = 0, pretend = 0, frame = 32
- 384              		@ frame_needed = 0, uses_anonymous_args = 0
- 385 043c 00B5     		push	{lr}
- 386 043e 89B0     		sub	sp, sp, #36
- 387 0440 9A4B     		ldr	r3, .L8+8	@ float
- 388 0442 0493     		str	r3, [sp, #16]	@ float
- 389 0444 994B     		ldr	r3, .L8+8	@ float
- 390 0446 0593     		str	r3, [sp, #20]	@ float
- 391 0448 984B     		ldr	r3, .L8+8	@ float
- 392 044a 0693     		str	r3, [sp, #24]	@ float
- 393 044c 974B     		ldr	r3, .L8+8	@ float
- 394 044e 0193     		str	r3, [sp, #4]	@ float
- 395 0450 964B     		ldr	r3, .L8+8	@ float
- 396 0452 0293     		str	r3, [sp, #8]	@ float
- 397 0454 954B     		ldr	r3, .L8+8	@ float
- 398 0456 0393     		str	r3, [sp, #12]	@ float
- 399 0458 40F20003 		movw	r3, #:lower16:mpu6000Calibrating
- 400 045c C0F20003 		movt	r3, #:upper16:mpu6000Calibrating
- 401 0460 4FF00102 		mov	r2, #1
- 402 0464 1A70     		strb	r2, [r3, #0]
- 403 0466 4FF00003 		mov	r3, #0
- 404 046a ADF81C30 		strh	r3, [sp, #28]	@ movhi
- 405 046e 9DE0     		b	.L4
- 406              	.L5:
- 407 0470 FFF7FEFF 		bl	readMPU6000
- 408 0474 FFF7FEFF 		bl	computeMPU6000TCBias
- 409 0478 9DED047A 		flds	s14, [sp, #16]
- 410 047c 40F20003 		movw	r3, #:lower16:rawAccel
- 411 0480 C0F20003 		movt	r3, #:upper16:rawAccel
- 412 0484 1B88     		ldrh	r3, [r3, #0]
- 413 0486 1BB2     		sxth	r3, r3
- 414 0488 07EE903A 		fmsr	s15, r3	@ int
- 415 048c F8EEE76A 		fsitos	s13, s15
- 416 0490 40F20003 		movw	r3, #:lower16:accelTCBias
- 417 0494 C0F20003 		movt	r3, #:upper16:accelTCBias
- 418 0498 D3ED007A 		flds	s15, [r3, #0]
- 419 049c 76EEE77A 		fsubs	s15, s13, s15
- 420 04a0 77EE277A 		fadds	s15, s14, s15
- 421 04a4 CDED047A 		fsts	s15, [sp, #16]
- 422 04a8 9DED057A 		flds	s14, [sp, #20]
- 423 04ac 40F20003 		movw	r3, #:lower16:rawAccel
- 424 04b0 C0F20003 		movt	r3, #:upper16:rawAccel
- 425 04b4 5B88     		ldrh	r3, [r3, #2]
- 426 04b6 1BB2     		sxth	r3, r3
- 427 04b8 07EE903A 		fmsr	s15, r3	@ int
- 428 04bc F8EEE76A 		fsitos	s13, s15
- 429 04c0 40F20003 		movw	r3, #:lower16:accelTCBias
- 430 04c4 C0F20003 		movt	r3, #:upper16:accelTCBias
- 431 04c8 D3ED017A 		flds	s15, [r3, #4]
- 432 04cc 76EEE77A 		fsubs	s15, s13, s15
- 433 04d0 77EE277A 		fadds	s15, s14, s15
- 434 04d4 CDED057A 		fsts	s15, [sp, #20]
- 435 04d8 9DED067A 		flds	s14, [sp, #24]
- 436 04dc 40F20003 		movw	r3, #:lower16:rawAccel
- 437 04e0 C0F20003 		movt	r3, #:upper16:rawAccel
- 438 04e4 9B88     		ldrh	r3, [r3, #4]
- 439 04e6 1BB2     		sxth	r3, r3
- 440 04e8 07EE903A 		fmsr	s15, r3	@ int
- 441 04ec F8EEE76A 		fsitos	s13, s15
- 442 04f0 40F20003 		movw	r3, #:lower16:accelTCBias
- 443 04f4 C0F20003 		movt	r3, #:upper16:accelTCBias
- 444 04f8 D3ED027A 		flds	s15, [r3, #8]
- 445 04fc 76EEE77A 		fsubs	s15, s13, s15
- 446 0500 77EE277A 		fadds	s15, s14, s15
- 447 0504 CDED067A 		fsts	s15, [sp, #24]
- 448 0508 9DED017A 		flds	s14, [sp, #4]
- 449 050c 40F20003 		movw	r3, #:lower16:rawGyro
- 450 0510 C0F20003 		movt	r3, #:upper16:rawGyro
- 451 0514 1B88     		ldrh	r3, [r3, #0]
- 452 0516 1BB2     		sxth	r3, r3
- 453 0518 07EE903A 		fmsr	s15, r3	@ int
- 454 051c F8EEE76A 		fsitos	s13, s15
- 455 0520 40F20003 		movw	r3, #:lower16:gyroTCBias
- 456 0524 C0F20003 		movt	r3, #:upper16:gyroTCBias
- 457 0528 D3ED007A 		flds	s15, [r3, #0]
- 458 052c 76EEE77A 		fsubs	s15, s13, s15
- 459 0530 77EE277A 		fadds	s15, s14, s15
- 460 0534 CDED017A 		fsts	s15, [sp, #4]
- 461 0538 9DED027A 		flds	s14, [sp, #8]
- 462 053c 40F20003 		movw	r3, #:lower16:rawGyro
- 463 0540 C0F20003 		movt	r3, #:upper16:rawGyro
- 464 0544 5B88     		ldrh	r3, [r3, #2]
- 465 0546 1BB2     		sxth	r3, r3
- 466 0548 07EE903A 		fmsr	s15, r3	@ int
- 467 054c F8EEE76A 		fsitos	s13, s15
- 468 0550 40F20003 		movw	r3, #:lower16:gyroTCBias
- 469 0554 C0F20003 		movt	r3, #:upper16:gyroTCBias
- 470 0558 D3ED017A 		flds	s15, [r3, #4]
- 471 055c 76EEE77A 		fsubs	s15, s13, s15
- 472 0560 77EE277A 		fadds	s15, s14, s15
- 473 0564 CDED027A 		fsts	s15, [sp, #8]
- 474 0568 9DED037A 		flds	s14, [sp, #12]
- 475 056c 40F20003 		movw	r3, #:lower16:rawGyro
- 476 0570 C0F20003 		movt	r3, #:upper16:rawGyro
- 477 0574 9B88     		ldrh	r3, [r3, #4]
- 478 0576 1BB2     		sxth	r3, r3
- 479 0578 07EE903A 		fmsr	s15, r3	@ int
- 480 057c F8EEE76A 		fsitos	s13, s15
- 481 0580 40F20003 		movw	r3, #:lower16:gyroTCBias
- 482 0584 C0F20003 		movt	r3, #:upper16:gyroTCBias
- 483 0588 D3ED027A 		flds	s15, [r3, #8]
- 484 058c 76EEE77A 		fsubs	s15, s13, s15
- 485 0590 77EE277A 		fadds	s15, s14, s15
- 486 0594 CDED037A 		fsts	s15, [sp, #12]
- 487 0598 4FF47A70 		mov	r0, #1000
- 488 059c FFF7FEFF 		bl	delayMicroseconds
- 489 05a0 BDF81C30 		ldrh	r3, [sp, #28]	@ movhi
- 490 05a4 03F10103 		add	r3, r3, #1
- 491 05a8 ADF81C30 		strh	r3, [sp, #28]	@ movhi
- 492              	.L4:
- 493 05ac BDF81C20 		ldrh	r2, [sp, #28]
- 494 05b0 41F28733 		movw	r3, #4999
- 495 05b4 9A42     		cmp	r2, r3
- 496 05b6 7FF65BAF 		bls	.L5
- 497 05ba 4FF00003 		mov	r3, #0
- 498 05be 8DF81F30 		strb	r3, [sp, #31]
- 499 05c2 36E0     		b	.L6
- 500              	.L7:
- 501 05c4 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
- 502 05c8 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
- 503 05cc 4FEA8303 		lsl	r3, r3, #2
- 504 05d0 08A9     		add	r1, sp, #32
- 505 05d2 CB18     		adds	r3, r1, r3
- 506 05d4 13ED047A 		flds	s14, [r3, #-16]
- 507 05d8 DFED327A 		flds	s15, .L8
- 508 05dc C7EE277A 		fdivs	s15, s14, s15
- 509 05e0 9FED317A 		flds	s14, .L8+4
- 510 05e4 67EE877A 		fmuls	s15, s15, s14
- 511 05e8 4FEA8203 		lsl	r3, r2, #2
- 512 05ec 08AA     		add	r2, sp, #32
- 513 05ee D318     		adds	r3, r2, r3
- 514 05f0 43ED047A 		fsts	s15, [r3, #-16]
- 515 05f4 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
- 516 05f8 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
- 517 05fc 4FEA8303 		lsl	r3, r3, #2
- 518 0600 08A9     		add	r1, sp, #32
- 519 0602 CB18     		adds	r3, r1, r3
- 520 0604 A3F11C03 		sub	r3, r3, #28
- 521 0608 93ED007A 		flds	s14, [r3, #0]
- 522 060c DFED257A 		flds	s15, .L8
- 523 0610 C7EE277A 		fdivs	s15, s14, s15
- 524 0614 40F20003 		movw	r3, #:lower16:gyroRTBias
- 525 0618 C0F20003 		movt	r3, #:upper16:gyroRTBias
- 526 061c 4FEA8202 		lsl	r2, r2, #2
- 527 0620 9B18     		adds	r3, r3, r2
- 528 0622 C3ED007A 		fsts	s15, [r3, #0]
- 529 0626 9DF81F30 		ldrb	r3, [sp, #31]
- 530 062a 03F10103 		add	r3, r3, #1
- 531 062e 8DF81F30 		strb	r3, [sp, #31]
- 532              	.L6:
- 533 0632 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
- 534 0636 022B     		cmp	r3, #2
- 535 0638 C4D9     		bls	.L7
- 536 063a 9DED047A 		flds	s14, [sp, #16]
- 537 063e DDED047A 		flds	s15, [sp, #16]
- 538 0642 27EE277A 		fmuls	s14, s14, s15
- 539 0646 DDED056A 		flds	s13, [sp, #20]
- 540 064a DDED057A 		flds	s15, [sp, #20]
- 541 064e 66EEA77A 		fmuls	s15, s13, s15
- 542 0652 37EE277A 		fadds	s14, s14, s15
- 543 0656 DDED066A 		flds	s13, [sp, #24]
- 544 065a DDED067A 		flds	s15, [sp, #24]
- 545 065e 66EEA77A 		fmuls	s15, s13, s15
- 546 0662 77EE277A 		fadds	s15, s14, s15
- 547 0666 17EE900A 		fmrs	r0, s15
- 548 066a FFF7FEFF 		bl	__aeabi_f2d
- 549 066e 0246     		mov	r2, r0
- 550 0670 0B46     		mov	r3, r1
- 551 0672 1046     		mov	r0, r2
- 552 0674 1946     		mov	r1, r3
- 553 0676 FFF7FEFF 		bl	sqrt
- 554 067a 0246     		mov	r2, r0
- 555 067c 0B46     		mov	r3, r1
- 556 067e 1046     		mov	r0, r2
- 557 0680 1946     		mov	r1, r3
- 558 0682 FFF7FEFF 		bl	__aeabi_d2f
- 559 0686 0246     		mov	r2, r0	@ float
- 560 0688 40F20003 		movw	r3, #:lower16:accelOneG
- 561 068c C0F20003 		movt	r3, #:upper16:accelOneG
- 562 0690 1A60     		str	r2, [r3, #0]	@ float
- 563 0692 40F20003 		movw	r3, #:lower16:mpu6000Calibrating
- 564 0696 C0F20003 		movt	r3, #:upper16:mpu6000Calibrating
- 565 069a 4FF00002 		mov	r2, #0
- 566 069e 1A70     		strb	r2, [r3, #0]
- 567 06a0 09B0     		add	sp, sp, #36
- 568 06a2 00BD     		pop	{pc}
- 569              	.L9:
- 570              		.align	2
- 571              	.L8:
- 572 06a4 00409C45 		.word	1167867904
- 573 06a8 57E79C3A 		.word	983361367
- 574 06ac 00000000 		.word	0
- 576              		.align	2
- 577              		.global	computeMPU6000TCBias
- 578              		.thumb
- 579              		.thumb_func
- 581              	computeMPU6000TCBias:
- 582              		@ args = 0, pretend = 0, frame = 0
- 583              		@ frame_needed = 0, uses_anonymous_args = 0
- 584              		@ link register save eliminated.
- 585 06b0 40F20003 		movw	r3, #:lower16:rawMPU6000Temperature
- 586 06b4 C0F20003 		movt	r3, #:upper16:rawMPU6000Temperature
- 587 06b8 1B88     		ldrh	r3, [r3, #0]
- 588 06ba 1BB2     		sxth	r3, r3
- 589 06bc 07EE903A 		fmsr	s15, r3	@ int
- 590 06c0 B8EEE77A 		fsitos	s14, s15
- 591 06c4 DFED5B7A 		flds	s15, .L11
- 592 06c8 C7EE277A 		fdivs	s15, s14, s15
- 593 06cc 9FED5A7A 		flds	s14, .L11+4
- 594 06d0 77EE877A 		fadds	s15, s15, s14
- 595 06d4 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 596 06d8 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 597 06dc C3ED007A 		fsts	s15, [r3, #0]
- 598 06e0 40F20003 		movw	r3, #:lower16:eepromConfig
- 599 06e4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 600 06e8 93ED017A 		flds	s14, [r3, #4]
- 601 06ec 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 602 06f0 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 603 06f4 D3ED007A 		flds	s15, [r3, #0]
- 604 06f8 67EE277A 		fmuls	s15, s14, s15
- 605 06fc 40F20003 		movw	r3, #:lower16:eepromConfig
- 606 0700 C0F20003 		movt	r3, #:upper16:eepromConfig
- 607 0704 93ED047A 		flds	s14, [r3, #16]
- 608 0708 77EE877A 		fadds	s15, s15, s14
- 609 070c 40F20003 		movw	r3, #:lower16:accelTCBias
- 610 0710 C0F20003 		movt	r3, #:upper16:accelTCBias
- 611 0714 C3ED007A 		fsts	s15, [r3, #0]
- 612 0718 40F20003 		movw	r3, #:lower16:eepromConfig
- 613 071c C0F20003 		movt	r3, #:upper16:eepromConfig
- 614 0720 93ED027A 		flds	s14, [r3, #8]
- 615 0724 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 616 0728 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 617 072c D3ED007A 		flds	s15, [r3, #0]
- 618 0730 67EE277A 		fmuls	s15, s14, s15
- 619 0734 40F20003 		movw	r3, #:lower16:eepromConfig
- 620 0738 C0F20003 		movt	r3, #:upper16:eepromConfig
- 621 073c 93ED057A 		flds	s14, [r3, #20]
- 622 0740 77EE877A 		fadds	s15, s15, s14
- 623 0744 40F20003 		movw	r3, #:lower16:accelTCBias
- 624 0748 C0F20003 		movt	r3, #:upper16:accelTCBias
- 625 074c C3ED017A 		fsts	s15, [r3, #4]
- 626 0750 40F20003 		movw	r3, #:lower16:eepromConfig
- 627 0754 C0F20003 		movt	r3, #:upper16:eepromConfig
- 628 0758 93ED037A 		flds	s14, [r3, #12]
- 629 075c 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 630 0760 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 631 0764 D3ED007A 		flds	s15, [r3, #0]
- 632 0768 67EE277A 		fmuls	s15, s14, s15
- 633 076c 40F20003 		movw	r3, #:lower16:eepromConfig
- 634 0770 C0F20003 		movt	r3, #:upper16:eepromConfig
- 635 0774 93ED067A 		flds	s14, [r3, #24]
- 636 0778 77EE877A 		fadds	s15, s15, s14
- 637 077c 40F20003 		movw	r3, #:lower16:accelTCBias
- 638 0780 C0F20003 		movt	r3, #:upper16:accelTCBias
- 639 0784 C3ED027A 		fsts	s15, [r3, #8]
- 640 0788 40F20003 		movw	r3, #:lower16:eepromConfig
- 641 078c C0F20003 		movt	r3, #:upper16:eepromConfig
- 642 0790 93ED077A 		flds	s14, [r3, #28]
- 643 0794 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 644 0798 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 645 079c D3ED007A 		flds	s15, [r3, #0]
- 646 07a0 67EE277A 		fmuls	s15, s14, s15
- 647 07a4 40F20003 		movw	r3, #:lower16:eepromConfig
- 648 07a8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 649 07ac 93ED0A7A 		flds	s14, [r3, #40]
- 650 07b0 77EE877A 		fadds	s15, s15, s14
- 651 07b4 40F20003 		movw	r3, #:lower16:gyroTCBias
- 652 07b8 C0F20003 		movt	r3, #:upper16:gyroTCBias
- 653 07bc C3ED007A 		fsts	s15, [r3, #0]
- 654 07c0 40F20003 		movw	r3, #:lower16:eepromConfig
- 655 07c4 C0F20003 		movt	r3, #:upper16:eepromConfig
- 656 07c8 93ED087A 		flds	s14, [r3, #32]
- 657 07cc 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 658 07d0 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 659 07d4 D3ED007A 		flds	s15, [r3, #0]
- 660 07d8 67EE277A 		fmuls	s15, s14, s15
- 661 07dc 40F20003 		movw	r3, #:lower16:eepromConfig
- 662 07e0 C0F20003 		movt	r3, #:upper16:eepromConfig
- 663 07e4 93ED0B7A 		flds	s14, [r3, #44]
- 664 07e8 77EE877A 		fadds	s15, s15, s14
- 665 07ec 40F20003 		movw	r3, #:lower16:gyroTCBias
- 666 07f0 C0F20003 		movt	r3, #:upper16:gyroTCBias
- 667 07f4 C3ED017A 		fsts	s15, [r3, #4]
- 668 07f8 40F20003 		movw	r3, #:lower16:eepromConfig
- 669 07fc C0F20003 		movt	r3, #:upper16:eepromConfig
- 670 0800 93ED097A 		flds	s14, [r3, #36]
- 671 0804 40F20003 		movw	r3, #:lower16:mpu6000Temperature
- 672 0808 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
- 673 080c D3ED007A 		flds	s15, [r3, #0]
- 674 0810 67EE277A 		fmuls	s15, s14, s15
- 675 0814 40F20003 		movw	r3, #:lower16:eepromConfig
- 676 0818 C0F20003 		movt	r3, #:upper16:eepromConfig
- 677 081c 93ED0C7A 		flds	s14, [r3, #48]
- 678 0820 77EE877A 		fadds	s15, s15, s14
- 679 0824 40F20003 		movw	r3, #:lower16:gyroTCBias
- 680 0828 C0F20003 		movt	r3, #:upper16:gyroTCBias
- 681 082c C3ED027A 		fsts	s15, [r3, #8]
- 682 0830 7047     		bx	lr
- 683              	.L12:
- 684 0832 00BF     		.align	2
- 685              	.L11:
- 686 0834 0000AA43 		.word	1135214592
- 687 0838 00000C42 		.word	1108082688
- 689              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.global	accelOneG
+  20              		.data
+  21              		.align	2
+  24              	accelOneG:
+  25 0000 6DE71C41 		.word	1092413293
+  26              		.global	accelSum100Hz
+  27              		.bss
+  28              		.align	2
+  31              	accelSum100Hz:
+  32 0000 00000000 		.space	12
+  32      00000000 
+  32      00000000 
+  33              		.global	accelSum500Hz
+  34              		.align	2
+  37              	accelSum500Hz:
+  38 000c 00000000 		.space	12
+  38      00000000 
+  38      00000000 
+  39              		.comm	accelSummedSamples100Hz,12,4
+  40              		.comm	accelSummedSamples500Hz,12,4
+  41              		.global	accelTCBias
+  42              		.align	2
+  45              	accelTCBias:
+  46 0018 00000000 		.space	12
+  46      00000000 
+  46      00000000 
+  47              		.comm	rawAccel,6,4
+  48              		.comm	gyroRTBias,12,4
+  49              		.global	gyroSum500Hz
+  50              		.align	2
+  53              	gyroSum500Hz:
+  54 0024 00000000 		.space	12
+  54      00000000 
+  54      00000000 
+  55              		.comm	gyroSummedSamples500Hz,12,4
+  56              		.comm	gyroTCBias,12,4
+  57              		.comm	rawGyro,6,4
+  58              		.global	mpu6000Calibrating
+  61              	mpu6000Calibrating:
+  62 0030 00       		.space	1
+  63              		.comm	mpu6000Temperature,4,4
+  64              		.comm	rawMPU6000Temperature,2,4
+  65 0031 000000   		.text
+  66              		.align	2
+  67              		.global	initMPU6000
+  68              		.thumb
+  69              		.thumb_func
+  71              	initMPU6000:
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74 0000 08B5     		push	{r3, lr}
+  75 0002 4FF48060 		mov	r0, #1024
+  76 0006 C4F20200 		movt	r0, 16386
+  77 000a 4FF48071 		mov	r1, #256
+  78 000e FFF7FEFF 		bl	GPIO_ResetBits
+  79 0012 4FF47050 		mov	r0, #15360
+  80 0016 C4F20000 		movt	r0, 16384
+  81 001a 4FF06B01 		mov	r1, #107
+  82 001e FFF7FEFF 		bl	spiTransfer
+  83 0022 4FF47050 		mov	r0, #15360
+  84 0026 C4F20000 		movt	r0, 16384
+  85 002a 4FF08001 		mov	r1, #128
+  86 002e FFF7FEFF 		bl	spiTransfer
+  87 0032 4FF48060 		mov	r0, #1024
+  88 0036 C4F20200 		movt	r0, 16386
+  89 003a 4FF48071 		mov	r1, #256
+  90 003e FFF7FEFF 		bl	GPIO_SetBits
+  91 0042 4FF09600 		mov	r0, #150
+  92 0046 FFF7FEFF 		bl	delay
+  93 004a 4FF48060 		mov	r0, #1024
+  94 004e C4F20200 		movt	r0, 16386
+  95 0052 4FF48071 		mov	r1, #256
+  96 0056 FFF7FEFF 		bl	GPIO_ResetBits
+  97 005a 4FF47050 		mov	r0, #15360
+  98 005e C4F20000 		movt	r0, 16384
+  99 0062 4FF06B01 		mov	r1, #107
+ 100 0066 FFF7FEFF 		bl	spiTransfer
+ 101 006a 4FF47050 		mov	r0, #15360
+ 102 006e C4F20000 		movt	r0, 16384
+ 103 0072 4FF00301 		mov	r1, #3
+ 104 0076 FFF7FEFF 		bl	spiTransfer
+ 105 007a 4FF48060 		mov	r0, #1024
+ 106 007e C4F20200 		movt	r0, 16386
+ 107 0082 4FF48071 		mov	r1, #256
+ 108 0086 FFF7FEFF 		bl	GPIO_SetBits
+ 109 008a 4FF00100 		mov	r0, #1
+ 110 008e FFF7FEFF 		bl	delayMicroseconds
+ 111 0092 4FF48060 		mov	r0, #1024
+ 112 0096 C4F20200 		movt	r0, 16386
+ 113 009a 4FF48071 		mov	r1, #256
+ 114 009e FFF7FEFF 		bl	GPIO_ResetBits
+ 115 00a2 4FF47050 		mov	r0, #15360
+ 116 00a6 C4F20000 		movt	r0, 16384
+ 117 00aa 4FF06A01 		mov	r1, #106
+ 118 00ae FFF7FEFF 		bl	spiTransfer
+ 119 00b2 4FF47050 		mov	r0, #15360
+ 120 00b6 C4F20000 		movt	r0, 16384
+ 121 00ba 4FF01001 		mov	r1, #16
+ 122 00be FFF7FEFF 		bl	spiTransfer
+ 123 00c2 4FF48060 		mov	r0, #1024
+ 124 00c6 C4F20200 		movt	r0, 16386
+ 125 00ca 4FF48071 		mov	r1, #256
+ 126 00ce FFF7FEFF 		bl	GPIO_SetBits
+ 127 00d2 4FF00100 		mov	r0, #1
+ 128 00d6 FFF7FEFF 		bl	delayMicroseconds
+ 129 00da 4FF48060 		mov	r0, #1024
+ 130 00de C4F20200 		movt	r0, 16386
+ 131 00e2 4FF48071 		mov	r1, #256
+ 132 00e6 FFF7FEFF 		bl	GPIO_ResetBits
+ 133 00ea 4FF47050 		mov	r0, #15360
+ 134 00ee C4F20000 		movt	r0, 16384
+ 135 00f2 4FF06C01 		mov	r1, #108
+ 136 00f6 FFF7FEFF 		bl	spiTransfer
+ 137 00fa 4FF47050 		mov	r0, #15360
+ 138 00fe C4F20000 		movt	r0, 16384
+ 139 0102 4FF00001 		mov	r1, #0
+ 140 0106 FFF7FEFF 		bl	spiTransfer
+ 141 010a 4FF48060 		mov	r0, #1024
+ 142 010e C4F20200 		movt	r0, 16386
+ 143 0112 4FF48071 		mov	r1, #256
+ 144 0116 FFF7FEFF 		bl	GPIO_SetBits
+ 145 011a 4FF00100 		mov	r0, #1
+ 146 011e FFF7FEFF 		bl	delayMicroseconds
+ 147 0122 4FF48060 		mov	r0, #1024
+ 148 0126 C4F20200 		movt	r0, 16386
+ 149 012a 4FF48071 		mov	r1, #256
+ 150 012e FFF7FEFF 		bl	GPIO_ResetBits
+ 151 0132 4FF47050 		mov	r0, #15360
+ 152 0136 C4F20000 		movt	r0, 16384
+ 153 013a 4FF01901 		mov	r1, #25
+ 154 013e FFF7FEFF 		bl	spiTransfer
+ 155 0142 4FF47050 		mov	r0, #15360
+ 156 0146 C4F20000 		movt	r0, 16384
+ 157 014a 4FF00001 		mov	r1, #0
+ 158 014e FFF7FEFF 		bl	spiTransfer
+ 159 0152 4FF48060 		mov	r0, #1024
+ 160 0156 C4F20200 		movt	r0, 16386
+ 161 015a 4FF48071 		mov	r1, #256
+ 162 015e FFF7FEFF 		bl	GPIO_SetBits
+ 163 0162 4FF00100 		mov	r0, #1
+ 164 0166 FFF7FEFF 		bl	delayMicroseconds
+ 165 016a 4FF48060 		mov	r0, #1024
+ 166 016e C4F20200 		movt	r0, 16386
+ 167 0172 4FF48071 		mov	r1, #256
+ 168 0176 FFF7FEFF 		bl	GPIO_ResetBits
+ 169 017a 4FF47050 		mov	r0, #15360
+ 170 017e C4F20000 		movt	r0, 16384
+ 171 0182 4FF01A01 		mov	r1, #26
+ 172 0186 FFF7FEFF 		bl	spiTransfer
+ 173 018a 40F20003 		movw	r3, #:lower16:eepromConfig
+ 174 018e C0F20003 		movt	r3, #:upper16:eepromConfig
+ 175 0192 93F85C30 		ldrb	r3, [r3, #92]	@ zero_extendqisi2
+ 176 0196 4FF47050 		mov	r0, #15360
+ 177 019a C4F20000 		movt	r0, 16384
+ 178 019e 1946     		mov	r1, r3
+ 179 01a0 FFF7FEFF 		bl	spiTransfer
+ 180 01a4 4FF48060 		mov	r0, #1024
+ 181 01a8 C4F20200 		movt	r0, 16386
+ 182 01ac 4FF48071 		mov	r1, #256
+ 183 01b0 FFF7FEFF 		bl	GPIO_SetBits
+ 184 01b4 4FF00100 		mov	r0, #1
+ 185 01b8 FFF7FEFF 		bl	delayMicroseconds
+ 186 01bc 4FF48060 		mov	r0, #1024
+ 187 01c0 C4F20200 		movt	r0, 16386
+ 188 01c4 4FF48071 		mov	r1, #256
+ 189 01c8 FFF7FEFF 		bl	GPIO_ResetBits
+ 190 01cc 4FF47050 		mov	r0, #15360
+ 191 01d0 C4F20000 		movt	r0, 16384
+ 192 01d4 4FF01C01 		mov	r1, #28
+ 193 01d8 FFF7FEFF 		bl	spiTransfer
+ 194 01dc 4FF47050 		mov	r0, #15360
+ 195 01e0 C4F20000 		movt	r0, 16384
+ 196 01e4 4FF00801 		mov	r1, #8
+ 197 01e8 FFF7FEFF 		bl	spiTransfer
+ 198 01ec 4FF48060 		mov	r0, #1024
+ 199 01f0 C4F20200 		movt	r0, 16386
+ 200 01f4 4FF48071 		mov	r1, #256
+ 201 01f8 FFF7FEFF 		bl	GPIO_SetBits
+ 202 01fc 4FF00100 		mov	r0, #1
+ 203 0200 FFF7FEFF 		bl	delayMicroseconds
+ 204 0204 4FF48060 		mov	r0, #1024
+ 205 0208 C4F20200 		movt	r0, 16386
+ 206 020c 4FF48071 		mov	r1, #256
+ 207 0210 FFF7FEFF 		bl	GPIO_ResetBits
+ 208 0214 4FF47050 		mov	r0, #15360
+ 209 0218 C4F20000 		movt	r0, 16384
+ 210 021c 4FF01B01 		mov	r1, #27
+ 211 0220 FFF7FEFF 		bl	spiTransfer
+ 212 0224 4FF47050 		mov	r0, #15360
+ 213 0228 C4F20000 		movt	r0, 16384
+ 214 022c 4FF01001 		mov	r1, #16
+ 215 0230 FFF7FEFF 		bl	spiTransfer
+ 216 0234 4FF48060 		mov	r0, #1024
+ 217 0238 C4F20200 		movt	r0, 16386
+ 218 023c 4FF48071 		mov	r1, #256
+ 219 0240 FFF7FEFF 		bl	GPIO_SetBits
+ 220 0244 4FF47050 		mov	r0, #15360
+ 221 0248 C4F20000 		movt	r0, 16384
+ 222 024c 4FF00201 		mov	r1, #2
+ 223 0250 FFF7FEFF 		bl	setSPIdivisor
+ 224 0254 4FF06400 		mov	r0, #100
+ 225 0258 FFF7FEFF 		bl	delay
+ 226 025c FFF7FEFF 		bl	computeMPU6000RTData
+ 227 0260 08BD     		pop	{r3, pc}
+ 229 0262 00BF     		.align	2
+ 230              		.global	readMPU6000
+ 231              		.thumb
+ 232              		.thumb_func
+ 234              	readMPU6000:
+ 235              		@ args = 0, pretend = 0, frame = 0
+ 236              		@ frame_needed = 0, uses_anonymous_args = 0
+ 237 0264 08B5     		push	{r3, lr}
+ 238 0266 4FF48060 		mov	r0, #1024
+ 239 026a C4F20200 		movt	r0, 16386
+ 240 026e 4FF48071 		mov	r1, #256
+ 241 0272 FFF7FEFF 		bl	GPIO_ResetBits
+ 242 0276 4FF47050 		mov	r0, #15360
+ 243 027a C4F20000 		movt	r0, 16384
+ 244 027e 4FF0BB01 		mov	r1, #187
+ 245 0282 FFF7FEFF 		bl	spiTransfer
+ 246 0286 4FF47050 		mov	r0, #15360
+ 247 028a C4F20000 		movt	r0, 16384
+ 248 028e 4FF00001 		mov	r1, #0
+ 249 0292 FFF7FEFF 		bl	spiTransfer
+ 250 0296 0346     		mov	r3, r0
+ 251 0298 1A46     		mov	r2, r3
+ 252 029a 40F20003 		movw	r3, #:lower16:rawAccel
+ 253 029e C0F20003 		movt	r3, #:upper16:rawAccel
+ 254 02a2 5A70     		strb	r2, [r3, #1]
+ 255 02a4 4FF47050 		mov	r0, #15360
+ 256 02a8 C4F20000 		movt	r0, 16384
+ 257 02ac 4FF00001 		mov	r1, #0
+ 258 02b0 FFF7FEFF 		bl	spiTransfer
+ 259 02b4 0346     		mov	r3, r0
+ 260 02b6 1A46     		mov	r2, r3
+ 261 02b8 40F20003 		movw	r3, #:lower16:rawAccel
+ 262 02bc C0F20003 		movt	r3, #:upper16:rawAccel
+ 263 02c0 1A70     		strb	r2, [r3, #0]
+ 264 02c2 4FF47050 		mov	r0, #15360
+ 265 02c6 C4F20000 		movt	r0, 16384
+ 266 02ca 4FF00001 		mov	r1, #0
+ 267 02ce FFF7FEFF 		bl	spiTransfer
+ 268 02d2 0346     		mov	r3, r0
+ 269 02d4 1A46     		mov	r2, r3
+ 270 02d6 40F20003 		movw	r3, #:lower16:rawAccel
+ 271 02da C0F20003 		movt	r3, #:upper16:rawAccel
+ 272 02de DA70     		strb	r2, [r3, #3]
+ 273 02e0 4FF47050 		mov	r0, #15360
+ 274 02e4 C4F20000 		movt	r0, 16384
+ 275 02e8 4FF00001 		mov	r1, #0
+ 276 02ec FFF7FEFF 		bl	spiTransfer
+ 277 02f0 0346     		mov	r3, r0
+ 278 02f2 1A46     		mov	r2, r3
+ 279 02f4 40F20003 		movw	r3, #:lower16:rawAccel
+ 280 02f8 C0F20003 		movt	r3, #:upper16:rawAccel
+ 281 02fc 9A70     		strb	r2, [r3, #2]
+ 282 02fe 4FF47050 		mov	r0, #15360
+ 283 0302 C4F20000 		movt	r0, 16384
+ 284 0306 4FF00001 		mov	r1, #0
+ 285 030a FFF7FEFF 		bl	spiTransfer
+ 286 030e 0346     		mov	r3, r0
+ 287 0310 1A46     		mov	r2, r3
+ 288 0312 40F20003 		movw	r3, #:lower16:rawAccel
+ 289 0316 C0F20003 		movt	r3, #:upper16:rawAccel
+ 290 031a 5A71     		strb	r2, [r3, #5]
+ 291 031c 4FF47050 		mov	r0, #15360
+ 292 0320 C4F20000 		movt	r0, 16384
+ 293 0324 4FF00001 		mov	r1, #0
+ 294 0328 FFF7FEFF 		bl	spiTransfer
+ 295 032c 0346     		mov	r3, r0
+ 296 032e 1A46     		mov	r2, r3
+ 297 0330 40F20003 		movw	r3, #:lower16:rawAccel
+ 298 0334 C0F20003 		movt	r3, #:upper16:rawAccel
+ 299 0338 1A71     		strb	r2, [r3, #4]
+ 300 033a 4FF47050 		mov	r0, #15360
+ 301 033e C4F20000 		movt	r0, 16384
+ 302 0342 4FF00001 		mov	r1, #0
+ 303 0346 FFF7FEFF 		bl	spiTransfer
+ 304 034a 0346     		mov	r3, r0
+ 305 034c 1A46     		mov	r2, r3
+ 306 034e 40F20003 		movw	r3, #:lower16:rawMPU6000Temperature
+ 307 0352 C0F20003 		movt	r3, #:upper16:rawMPU6000Temperature
+ 308 0356 5A70     		strb	r2, [r3, #1]
+ 309 0358 4FF47050 		mov	r0, #15360
+ 310 035c C4F20000 		movt	r0, 16384
+ 311 0360 4FF00001 		mov	r1, #0
+ 312 0364 FFF7FEFF 		bl	spiTransfer
+ 313 0368 0346     		mov	r3, r0
+ 314 036a 1A46     		mov	r2, r3
+ 315 036c 40F20003 		movw	r3, #:lower16:rawMPU6000Temperature
+ 316 0370 C0F20003 		movt	r3, #:upper16:rawMPU6000Temperature
+ 317 0374 1A70     		strb	r2, [r3, #0]
+ 318 0376 4FF47050 		mov	r0, #15360
+ 319 037a C4F20000 		movt	r0, 16384
+ 320 037e 4FF00001 		mov	r1, #0
+ 321 0382 FFF7FEFF 		bl	spiTransfer
+ 322 0386 0346     		mov	r3, r0
+ 323 0388 1A46     		mov	r2, r3
+ 324 038a 40F20003 		movw	r3, #:lower16:rawGyro
+ 325 038e C0F20003 		movt	r3, #:upper16:rawGyro
+ 326 0392 5A70     		strb	r2, [r3, #1]
+ 327 0394 4FF47050 		mov	r0, #15360
+ 328 0398 C4F20000 		movt	r0, 16384
+ 329 039c 4FF00001 		mov	r1, #0
+ 330 03a0 FFF7FEFF 		bl	spiTransfer
+ 331 03a4 0346     		mov	r3, r0
+ 332 03a6 1A46     		mov	r2, r3
+ 333 03a8 40F20003 		movw	r3, #:lower16:rawGyro
+ 334 03ac C0F20003 		movt	r3, #:upper16:rawGyro
+ 335 03b0 1A70     		strb	r2, [r3, #0]
+ 336 03b2 4FF47050 		mov	r0, #15360
+ 337 03b6 C4F20000 		movt	r0, 16384
+ 338 03ba 4FF00001 		mov	r1, #0
+ 339 03be FFF7FEFF 		bl	spiTransfer
+ 340 03c2 0346     		mov	r3, r0
+ 341 03c4 1A46     		mov	r2, r3
+ 342 03c6 40F20003 		movw	r3, #:lower16:rawGyro
+ 343 03ca C0F20003 		movt	r3, #:upper16:rawGyro
+ 344 03ce DA70     		strb	r2, [r3, #3]
+ 345 03d0 4FF47050 		mov	r0, #15360
+ 346 03d4 C4F20000 		movt	r0, 16384
+ 347 03d8 4FF00001 		mov	r1, #0
+ 348 03dc FFF7FEFF 		bl	spiTransfer
+ 349 03e0 0346     		mov	r3, r0
+ 350 03e2 1A46     		mov	r2, r3
+ 351 03e4 40F20003 		movw	r3, #:lower16:rawGyro
+ 352 03e8 C0F20003 		movt	r3, #:upper16:rawGyro
+ 353 03ec 9A70     		strb	r2, [r3, #2]
+ 354 03ee 4FF47050 		mov	r0, #15360
+ 355 03f2 C4F20000 		movt	r0, 16384
+ 356 03f6 4FF00001 		mov	r1, #0
+ 357 03fa FFF7FEFF 		bl	spiTransfer
+ 358 03fe 0346     		mov	r3, r0
+ 359 0400 1A46     		mov	r2, r3
+ 360 0402 40F20003 		movw	r3, #:lower16:rawGyro
+ 361 0406 C0F20003 		movt	r3, #:upper16:rawGyro
+ 362 040a 5A71     		strb	r2, [r3, #5]
+ 363 040c 4FF47050 		mov	r0, #15360
+ 364 0410 C4F20000 		movt	r0, 16384
+ 365 0414 4FF00001 		mov	r1, #0
+ 366 0418 FFF7FEFF 		bl	spiTransfer
+ 367 041c 0346     		mov	r3, r0
+ 368 041e 1A46     		mov	r2, r3
+ 369 0420 40F20003 		movw	r3, #:lower16:rawGyro
+ 370 0424 C0F20003 		movt	r3, #:upper16:rawGyro
+ 371 0428 1A71     		strb	r2, [r3, #4]
+ 372 042a 4FF48060 		mov	r0, #1024
+ 373 042e C4F20200 		movt	r0, 16386
+ 374 0432 4FF48071 		mov	r1, #256
+ 375 0436 FFF7FEFF 		bl	GPIO_SetBits
+ 376 043a 08BD     		pop	{r3, pc}
+ 378              		.global	__aeabi_f2d
+ 379              		.global	__aeabi_d2f
+ 380              		.align	2
+ 381              		.global	computeMPU6000RTData
+ 382              		.thumb
+ 383              		.thumb_func
+ 385              	computeMPU6000RTData:
+ 386              		@ args = 0, pretend = 0, frame = 32
+ 387              		@ frame_needed = 0, uses_anonymous_args = 0
+ 388 043c 00B5     		push	{lr}
+ 389 043e 89B0     		sub	sp, sp, #36
+ 390 0440 9A4B     		ldr	r3, .L8+8	@ float
+ 391 0442 0493     		str	r3, [sp, #16]	@ float
+ 392 0444 994B     		ldr	r3, .L8+8	@ float
+ 393 0446 0593     		str	r3, [sp, #20]	@ float
+ 394 0448 984B     		ldr	r3, .L8+8	@ float
+ 395 044a 0693     		str	r3, [sp, #24]	@ float
+ 396 044c 974B     		ldr	r3, .L8+8	@ float
+ 397 044e 0193     		str	r3, [sp, #4]	@ float
+ 398 0450 964B     		ldr	r3, .L8+8	@ float
+ 399 0452 0293     		str	r3, [sp, #8]	@ float
+ 400 0454 954B     		ldr	r3, .L8+8	@ float
+ 401 0456 0393     		str	r3, [sp, #12]	@ float
+ 402 0458 40F20003 		movw	r3, #:lower16:mpu6000Calibrating
+ 403 045c C0F20003 		movt	r3, #:upper16:mpu6000Calibrating
+ 404 0460 4FF00102 		mov	r2, #1
+ 405 0464 1A70     		strb	r2, [r3, #0]
+ 406 0466 4FF00003 		mov	r3, #0
+ 407 046a ADF81C30 		strh	r3, [sp, #28]	@ movhi
+ 408 046e 9DE0     		b	.L4
+ 409              	.L5:
+ 410 0470 FFF7FEFF 		bl	readMPU6000
+ 411 0474 FFF7FEFF 		bl	computeMPU6000TCBias
+ 412 0478 9DED047A 		flds	s14, [sp, #16]
+ 413 047c 40F20003 		movw	r3, #:lower16:rawAccel
+ 414 0480 C0F20003 		movt	r3, #:upper16:rawAccel
+ 415 0484 1B88     		ldrh	r3, [r3, #0]
+ 416 0486 1BB2     		sxth	r3, r3
+ 417 0488 07EE903A 		fmsr	s15, r3	@ int
+ 418 048c F8EEE76A 		fsitos	s13, s15
+ 419 0490 40F20003 		movw	r3, #:lower16:accelTCBias
+ 420 0494 C0F20003 		movt	r3, #:upper16:accelTCBias
+ 421 0498 D3ED007A 		flds	s15, [r3, #0]
+ 422 049c 76EEE77A 		fsubs	s15, s13, s15
+ 423 04a0 77EE277A 		fadds	s15, s14, s15
+ 424 04a4 CDED047A 		fsts	s15, [sp, #16]
+ 425 04a8 9DED057A 		flds	s14, [sp, #20]
+ 426 04ac 40F20003 		movw	r3, #:lower16:rawAccel
+ 427 04b0 C0F20003 		movt	r3, #:upper16:rawAccel
+ 428 04b4 5B88     		ldrh	r3, [r3, #2]
+ 429 04b6 1BB2     		sxth	r3, r3
+ 430 04b8 07EE903A 		fmsr	s15, r3	@ int
+ 431 04bc F8EEE76A 		fsitos	s13, s15
+ 432 04c0 40F20003 		movw	r3, #:lower16:accelTCBias
+ 433 04c4 C0F20003 		movt	r3, #:upper16:accelTCBias
+ 434 04c8 D3ED017A 		flds	s15, [r3, #4]
+ 435 04cc 76EEE77A 		fsubs	s15, s13, s15
+ 436 04d0 77EE277A 		fadds	s15, s14, s15
+ 437 04d4 CDED057A 		fsts	s15, [sp, #20]
+ 438 04d8 9DED067A 		flds	s14, [sp, #24]
+ 439 04dc 40F20003 		movw	r3, #:lower16:rawAccel
+ 440 04e0 C0F20003 		movt	r3, #:upper16:rawAccel
+ 441 04e4 9B88     		ldrh	r3, [r3, #4]
+ 442 04e6 1BB2     		sxth	r3, r3
+ 443 04e8 07EE903A 		fmsr	s15, r3	@ int
+ 444 04ec F8EEE76A 		fsitos	s13, s15
+ 445 04f0 40F20003 		movw	r3, #:lower16:accelTCBias
+ 446 04f4 C0F20003 		movt	r3, #:upper16:accelTCBias
+ 447 04f8 D3ED027A 		flds	s15, [r3, #8]
+ 448 04fc 76EEE77A 		fsubs	s15, s13, s15
+ 449 0500 77EE277A 		fadds	s15, s14, s15
+ 450 0504 CDED067A 		fsts	s15, [sp, #24]
+ 451 0508 9DED017A 		flds	s14, [sp, #4]
+ 452 050c 40F20003 		movw	r3, #:lower16:rawGyro
+ 453 0510 C0F20003 		movt	r3, #:upper16:rawGyro
+ 454 0514 1B88     		ldrh	r3, [r3, #0]
+ 455 0516 1BB2     		sxth	r3, r3
+ 456 0518 07EE903A 		fmsr	s15, r3	@ int
+ 457 051c F8EEE76A 		fsitos	s13, s15
+ 458 0520 40F20003 		movw	r3, #:lower16:gyroTCBias
+ 459 0524 C0F20003 		movt	r3, #:upper16:gyroTCBias
+ 460 0528 D3ED007A 		flds	s15, [r3, #0]
+ 461 052c 76EEE77A 		fsubs	s15, s13, s15
+ 462 0530 77EE277A 		fadds	s15, s14, s15
+ 463 0534 CDED017A 		fsts	s15, [sp, #4]
+ 464 0538 9DED027A 		flds	s14, [sp, #8]
+ 465 053c 40F20003 		movw	r3, #:lower16:rawGyro
+ 466 0540 C0F20003 		movt	r3, #:upper16:rawGyro
+ 467 0544 5B88     		ldrh	r3, [r3, #2]
+ 468 0546 1BB2     		sxth	r3, r3
+ 469 0548 07EE903A 		fmsr	s15, r3	@ int
+ 470 054c F8EEE76A 		fsitos	s13, s15
+ 471 0550 40F20003 		movw	r3, #:lower16:gyroTCBias
+ 472 0554 C0F20003 		movt	r3, #:upper16:gyroTCBias
+ 473 0558 D3ED017A 		flds	s15, [r3, #4]
+ 474 055c 76EEE77A 		fsubs	s15, s13, s15
+ 475 0560 77EE277A 		fadds	s15, s14, s15
+ 476 0564 CDED027A 		fsts	s15, [sp, #8]
+ 477 0568 9DED037A 		flds	s14, [sp, #12]
+ 478 056c 40F20003 		movw	r3, #:lower16:rawGyro
+ 479 0570 C0F20003 		movt	r3, #:upper16:rawGyro
+ 480 0574 9B88     		ldrh	r3, [r3, #4]
+ 481 0576 1BB2     		sxth	r3, r3
+ 482 0578 07EE903A 		fmsr	s15, r3	@ int
+ 483 057c F8EEE76A 		fsitos	s13, s15
+ 484 0580 40F20003 		movw	r3, #:lower16:gyroTCBias
+ 485 0584 C0F20003 		movt	r3, #:upper16:gyroTCBias
+ 486 0588 D3ED027A 		flds	s15, [r3, #8]
+ 487 058c 76EEE77A 		fsubs	s15, s13, s15
+ 488 0590 77EE277A 		fadds	s15, s14, s15
+ 489 0594 CDED037A 		fsts	s15, [sp, #12]
+ 490 0598 4FF47A70 		mov	r0, #1000
+ 491 059c FFF7FEFF 		bl	delayMicroseconds
+ 492 05a0 BDF81C30 		ldrh	r3, [sp, #28]	@ movhi
+ 493 05a4 03F10103 		add	r3, r3, #1
+ 494 05a8 ADF81C30 		strh	r3, [sp, #28]	@ movhi
+ 495              	.L4:
+ 496 05ac BDF81C20 		ldrh	r2, [sp, #28]
+ 497 05b0 41F28733 		movw	r3, #4999
+ 498 05b4 9A42     		cmp	r2, r3
+ 499 05b6 7FF65BAF 		bls	.L5
+ 500 05ba 4FF00003 		mov	r3, #0
+ 501 05be 8DF81F30 		strb	r3, [sp, #31]
+ 502 05c2 36E0     		b	.L6
+ 503              	.L7:
+ 504 05c4 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+ 505 05c8 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 506 05cc 4FEA8303 		lsl	r3, r3, #2
+ 507 05d0 08A9     		add	r1, sp, #32
+ 508 05d2 CB18     		adds	r3, r1, r3
+ 509 05d4 13ED047A 		flds	s14, [r3, #-16]
+ 510 05d8 DFED327A 		flds	s15, .L8
+ 511 05dc C7EE277A 		fdivs	s15, s14, s15
+ 512 05e0 9FED317A 		flds	s14, .L8+4
+ 513 05e4 67EE877A 		fmuls	s15, s15, s14
+ 514 05e8 4FEA8203 		lsl	r3, r2, #2
+ 515 05ec 08AA     		add	r2, sp, #32
+ 516 05ee D318     		adds	r3, r2, r3
+ 517 05f0 43ED047A 		fsts	s15, [r3, #-16]
+ 518 05f4 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+ 519 05f8 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 520 05fc 4FEA8303 		lsl	r3, r3, #2
+ 521 0600 08A9     		add	r1, sp, #32
+ 522 0602 CB18     		adds	r3, r1, r3
+ 523 0604 A3F11C03 		sub	r3, r3, #28
+ 524 0608 93ED007A 		flds	s14, [r3, #0]
+ 525 060c DFED257A 		flds	s15, .L8
+ 526 0610 C7EE277A 		fdivs	s15, s14, s15
+ 527 0614 40F20003 		movw	r3, #:lower16:gyroRTBias
+ 528 0618 C0F20003 		movt	r3, #:upper16:gyroRTBias
+ 529 061c 4FEA8202 		lsl	r2, r2, #2
+ 530 0620 9B18     		adds	r3, r3, r2
+ 531 0622 C3ED007A 		fsts	s15, [r3, #0]
+ 532 0626 9DF81F30 		ldrb	r3, [sp, #31]
+ 533 062a 03F10103 		add	r3, r3, #1
+ 534 062e 8DF81F30 		strb	r3, [sp, #31]
+ 535              	.L6:
+ 536 0632 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+ 537 0636 022B     		cmp	r3, #2
+ 538 0638 C4D9     		bls	.L7
+ 539 063a 9DED047A 		flds	s14, [sp, #16]
+ 540 063e DDED047A 		flds	s15, [sp, #16]
+ 541 0642 27EE277A 		fmuls	s14, s14, s15
+ 542 0646 DDED056A 		flds	s13, [sp, #20]
+ 543 064a DDED057A 		flds	s15, [sp, #20]
+ 544 064e 66EEA77A 		fmuls	s15, s13, s15
+ 545 0652 37EE277A 		fadds	s14, s14, s15
+ 546 0656 DDED066A 		flds	s13, [sp, #24]
+ 547 065a DDED067A 		flds	s15, [sp, #24]
+ 548 065e 66EEA77A 		fmuls	s15, s13, s15
+ 549 0662 77EE277A 		fadds	s15, s14, s15
+ 550 0666 17EE900A 		fmrs	r0, s15
+ 551 066a FFF7FEFF 		bl	__aeabi_f2d
+ 552 066e 0246     		mov	r2, r0
+ 553 0670 0B46     		mov	r3, r1
+ 554 0672 1046     		mov	r0, r2
+ 555 0674 1946     		mov	r1, r3
+ 556 0676 FFF7FEFF 		bl	sqrt
+ 557 067a 0246     		mov	r2, r0
+ 558 067c 0B46     		mov	r3, r1
+ 559 067e 1046     		mov	r0, r2
+ 560 0680 1946     		mov	r1, r3
+ 561 0682 FFF7FEFF 		bl	__aeabi_d2f
+ 562 0686 0246     		mov	r2, r0	@ float
+ 563 0688 40F20003 		movw	r3, #:lower16:accelOneG
+ 564 068c C0F20003 		movt	r3, #:upper16:accelOneG
+ 565 0690 1A60     		str	r2, [r3, #0]	@ float
+ 566 0692 40F20003 		movw	r3, #:lower16:mpu6000Calibrating
+ 567 0696 C0F20003 		movt	r3, #:upper16:mpu6000Calibrating
+ 568 069a 4FF00002 		mov	r2, #0
+ 569 069e 1A70     		strb	r2, [r3, #0]
+ 570 06a0 09B0     		add	sp, sp, #36
+ 571 06a2 00BD     		pop	{pc}
+ 572              	.L9:
+ 573              		.align	2
+ 574              	.L8:
+ 575 06a4 00409C45 		.word	1167867904
+ 576 06a8 57E79C3A 		.word	983361367
+ 577 06ac 00000000 		.word	0
+ 579              		.align	2
+ 580              		.global	computeMPU6000TCBias
+ 581              		.thumb
+ 582              		.thumb_func
+ 584              	computeMPU6000TCBias:
+ 585              		@ args = 0, pretend = 0, frame = 0
+ 586              		@ frame_needed = 0, uses_anonymous_args = 0
+ 587              		@ link register save eliminated.
+ 588 06b0 40F20003 		movw	r3, #:lower16:rawMPU6000Temperature
+ 589 06b4 C0F20003 		movt	r3, #:upper16:rawMPU6000Temperature
+ 590 06b8 1B88     		ldrh	r3, [r3, #0]
+ 591 06ba 1BB2     		sxth	r3, r3
+ 592 06bc 07EE903A 		fmsr	s15, r3	@ int
+ 593 06c0 B8EEE77A 		fsitos	s14, s15
+ 594 06c4 DFED5B7A 		flds	s15, .L11
+ 595 06c8 C7EE277A 		fdivs	s15, s14, s15
+ 596 06cc 9FED5A7A 		flds	s14, .L11+4
+ 597 06d0 77EE877A 		fadds	s15, s15, s14
+ 598 06d4 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 599 06d8 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 600 06dc C3ED007A 		fsts	s15, [r3, #0]
+ 601 06e0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 602 06e4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 603 06e8 93ED017A 		flds	s14, [r3, #4]
+ 604 06ec 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 605 06f0 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 606 06f4 D3ED007A 		flds	s15, [r3, #0]
+ 607 06f8 67EE277A 		fmuls	s15, s14, s15
+ 608 06fc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 609 0700 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 610 0704 93ED047A 		flds	s14, [r3, #16]
+ 611 0708 77EE877A 		fadds	s15, s15, s14
+ 612 070c 40F20003 		movw	r3, #:lower16:accelTCBias
+ 613 0710 C0F20003 		movt	r3, #:upper16:accelTCBias
+ 614 0714 C3ED007A 		fsts	s15, [r3, #0]
+ 615 0718 40F20003 		movw	r3, #:lower16:eepromConfig
+ 616 071c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 617 0720 93ED027A 		flds	s14, [r3, #8]
+ 618 0724 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 619 0728 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 620 072c D3ED007A 		flds	s15, [r3, #0]
+ 621 0730 67EE277A 		fmuls	s15, s14, s15
+ 622 0734 40F20003 		movw	r3, #:lower16:eepromConfig
+ 623 0738 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 624 073c 93ED057A 		flds	s14, [r3, #20]
+ 625 0740 77EE877A 		fadds	s15, s15, s14
+ 626 0744 40F20003 		movw	r3, #:lower16:accelTCBias
+ 627 0748 C0F20003 		movt	r3, #:upper16:accelTCBias
+ 628 074c C3ED017A 		fsts	s15, [r3, #4]
+ 629 0750 40F20003 		movw	r3, #:lower16:eepromConfig
+ 630 0754 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 631 0758 93ED037A 		flds	s14, [r3, #12]
+ 632 075c 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 633 0760 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 634 0764 D3ED007A 		flds	s15, [r3, #0]
+ 635 0768 67EE277A 		fmuls	s15, s14, s15
+ 636 076c 40F20003 		movw	r3, #:lower16:eepromConfig
+ 637 0770 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 638 0774 93ED067A 		flds	s14, [r3, #24]
+ 639 0778 77EE877A 		fadds	s15, s15, s14
+ 640 077c 40F20003 		movw	r3, #:lower16:accelTCBias
+ 641 0780 C0F20003 		movt	r3, #:upper16:accelTCBias
+ 642 0784 C3ED027A 		fsts	s15, [r3, #8]
+ 643 0788 40F20003 		movw	r3, #:lower16:eepromConfig
+ 644 078c C0F20003 		movt	r3, #:upper16:eepromConfig
+ 645 0790 93ED077A 		flds	s14, [r3, #28]
+ 646 0794 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 647 0798 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 648 079c D3ED007A 		flds	s15, [r3, #0]
+ 649 07a0 67EE277A 		fmuls	s15, s14, s15
+ 650 07a4 40F20003 		movw	r3, #:lower16:eepromConfig
+ 651 07a8 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 652 07ac 93ED0A7A 		flds	s14, [r3, #40]
+ 653 07b0 77EE877A 		fadds	s15, s15, s14
+ 654 07b4 40F20003 		movw	r3, #:lower16:gyroTCBias
+ 655 07b8 C0F20003 		movt	r3, #:upper16:gyroTCBias
+ 656 07bc C3ED007A 		fsts	s15, [r3, #0]
+ 657 07c0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 658 07c4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 659 07c8 93ED087A 		flds	s14, [r3, #32]
+ 660 07cc 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 661 07d0 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 662 07d4 D3ED007A 		flds	s15, [r3, #0]
+ 663 07d8 67EE277A 		fmuls	s15, s14, s15
+ 664 07dc 40F20003 		movw	r3, #:lower16:eepromConfig
+ 665 07e0 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 666 07e4 93ED0B7A 		flds	s14, [r3, #44]
+ 667 07e8 77EE877A 		fadds	s15, s15, s14
+ 668 07ec 40F20003 		movw	r3, #:lower16:gyroTCBias
+ 669 07f0 C0F20003 		movt	r3, #:upper16:gyroTCBias
+ 670 07f4 C3ED017A 		fsts	s15, [r3, #4]
+ 671 07f8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 672 07fc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 673 0800 93ED097A 		flds	s14, [r3, #36]
+ 674 0804 40F20003 		movw	r3, #:lower16:mpu6000Temperature
+ 675 0808 C0F20003 		movt	r3, #:upper16:mpu6000Temperature
+ 676 080c D3ED007A 		flds	s15, [r3, #0]
+ 677 0810 67EE277A 		fmuls	s15, s14, s15
+ 678 0814 40F20003 		movw	r3, #:lower16:eepromConfig
+ 679 0818 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 680 081c 93ED0C7A 		flds	s14, [r3, #48]
+ 681 0820 77EE877A 		fadds	s15, s15, s14
+ 682 0824 40F20003 		movw	r3, #:lower16:gyroTCBias
+ 683 0828 C0F20003 		movt	r3, #:upper16:gyroTCBias
+ 684 082c C3ED027A 		fsts	s15, [r3, #8]
+ 685 0830 7047     		bx	lr
+ 686              	.L12:
+ 687 0832 00BF     		.align	2
+ 688              	.L11:
+ 689 0834 0000AA43 		.word	1135214592
+ 690 0838 00000C42 		.word	1108082688
+ 692              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 mpu6000.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:21     .data:00000000 accelOneG
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:18     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:28     .bss:00000000 accelSum100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:25     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:34     .bss:0000000c accelSum500Hz
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:24     .data:00000000 accelOneG
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:21     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:31     .bss:00000000 accelSum100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:28     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:37     .bss:0000000c accelSum500Hz
                             *COM*:0000000c accelSummedSamples100Hz
                             *COM*:0000000c accelSummedSamples500Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:42     .bss:00000018 accelTCBias
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:45     .bss:00000018 accelTCBias
                             *COM*:00000006 rawAccel
                             *COM*:0000000c gyroRTBias
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:50     .bss:00000024 gyroSum500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:53     .bss:00000024 gyroSum500Hz
                             *COM*:0000000c gyroSummedSamples500Hz
                             *COM*:0000000c gyroTCBias
                             *COM*:00000006 rawGyro
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:58     .bss:00000030 mpu6000Calibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:61     .bss:00000030 mpu6000Calibrating
                             *COM*:00000004 mpu6000Temperature
                             *COM*:00000002 rawMPU6000Temperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:63     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:68     .text:00000000 initMPU6000
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:382    .text:0000043c computeMPU6000RTData
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:231    .text:00000264 readMPU6000
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:581    .text:000006b0 computeMPU6000TCBias
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:572    .text:000006a4 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:576    .text:000006b0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRw86rf.s:686    .text:00000834 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:66     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:71     .text:00000000 initMPU6000
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:385    .text:0000043c computeMPU6000RTData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:234    .text:00000264 readMPU6000
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:584    .text:000006b0 computeMPU6000TCBias
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:575    .text:000006a4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:579    .text:000006b0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccSXGjmc.s:689    .text:00000834 $d
 
 UNDEFINED SYMBOLS
 GPIO_ResetBits

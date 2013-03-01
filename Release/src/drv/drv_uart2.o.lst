@@ -13,427 +13,487 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"drv_uart2.c"
-  16              		.comm	rx2Buffer,2048,4
-  17              		.global	rx2DMAPos
-  18              		.bss
-  19              		.align	2
-  22              	rx2DMAPos:
-  23 0000 00000000 		.space	4
-  24              		.comm	tx2Buffer,2048,4
-  25              		.global	tx2BufferTail
-  26              		.align	1
-  29              	tx2BufferTail:
-  30 0004 0000     		.space	2
-  31              		.global	tx2BufferHead
-  32              		.align	1
-  35              	tx2BufferHead:
-  36 0006 0000     		.space	2
-  37              		.text
-  38              		.align	2
-  39              		.thumb
-  40              		.thumb_func
-  42              	uart2TxDMA:
-  43              		@ args = 0, pretend = 0, frame = 0
-  44              		@ frame_needed = 0, uses_anonymous_args = 0
-  45 0000 08B5     		push	{r3, lr}
-  46 0002 46F2A003 		movw	r3, #24736
-  47 0006 C4F20203 		movt	r3, 16386
-  48 000a 40F20002 		movw	r2, #:lower16:tx2BufferTail
-  49 000e C0F20002 		movt	r2, #:upper16:tx2BufferTail
-  50 0012 1288     		ldrh	r2, [r2, #0]
-  51 0014 1146     		mov	r1, r2
-  52 0016 40F20002 		movw	r2, #:lower16:tx2Buffer
-  53 001a C0F20002 		movt	r2, #:upper16:tx2Buffer
-  54 001e 8A18     		adds	r2, r1, r2
-  55 0020 DA60     		str	r2, [r3, #12]
-  56 0022 40F20003 		movw	r3, #:lower16:tx2BufferHead
-  57 0026 C0F20003 		movt	r3, #:upper16:tx2BufferHead
-  58 002a 1A88     		ldrh	r2, [r3, #0]
-  59 002c 40F20003 		movw	r3, #:lower16:tx2BufferTail
-  60 0030 C0F20003 		movt	r3, #:upper16:tx2BufferTail
-  61 0034 1B88     		ldrh	r3, [r3, #0]
-  62 0036 9A42     		cmp	r2, r3
-  63 0038 1DD9     		bls	.L2
-  64 003a 40F20003 		movw	r3, #:lower16:tx2BufferHead
-  65 003e C0F20003 		movt	r3, #:upper16:tx2BufferHead
-  66 0042 1A88     		ldrh	r2, [r3, #0]
-  67 0044 40F20003 		movw	r3, #:lower16:tx2BufferTail
-  68 0048 C0F20003 		movt	r3, #:upper16:tx2BufferTail
-  69 004c 1B88     		ldrh	r3, [r3, #0]
-  70 004e D31A     		subs	r3, r2, r3
-  71 0050 9BB2     		uxth	r3, r3
-  72 0052 46F2A000 		movw	r0, #24736
-  73 0056 C4F20200 		movt	r0, 16386
-  74 005a 1946     		mov	r1, r3
-  75 005c FFF7FEFF 		bl	DMA_SetCurrDataCounter
-  76 0060 40F20003 		movw	r3, #:lower16:tx2BufferHead
-  77 0064 C0F20003 		movt	r3, #:upper16:tx2BufferHead
-  78 0068 1A88     		ldrh	r2, [r3, #0]
-  79 006a 40F20003 		movw	r3, #:lower16:tx2BufferTail
-  80 006e C0F20003 		movt	r3, #:upper16:tx2BufferTail
-  81 0072 1A80     		strh	r2, [r3, #0]	@ movhi
-  82 0074 15E0     		b	.L3
-  83              	.L2:
-  84 0076 40F20003 		movw	r3, #:lower16:tx2BufferTail
-  85 007a C0F20003 		movt	r3, #:upper16:tx2BufferTail
-  86 007e 1B88     		ldrh	r3, [r3, #0]
-  87 0080 C3F50063 		rsb	r3, r3, #2048
-  88 0084 9BB2     		uxth	r3, r3
-  89 0086 46F2A000 		movw	r0, #24736
-  90 008a C4F20200 		movt	r0, 16386
-  91 008e 1946     		mov	r1, r3
-  92 0090 FFF7FEFF 		bl	DMA_SetCurrDataCounter
-  93 0094 40F20003 		movw	r3, #:lower16:tx2BufferTail
-  94 0098 C0F20003 		movt	r3, #:upper16:tx2BufferTail
-  95 009c 4FF00002 		mov	r2, #0
-  96 00a0 1A80     		strh	r2, [r3, #0]	@ movhi
-  97              	.L3:
-  98 00a2 46F2A000 		movw	r0, #24736
-  99 00a6 C4F20200 		movt	r0, 16386
- 100 00aa 4FF00101 		mov	r1, #1
- 101 00ae FFF7FEFF 		bl	DMA_Cmd
- 102 00b2 08BD     		pop	{r3, pc}
- 104              		.align	2
- 105              		.global	DMA1_Stream6_IRQHandler
- 106              		.thumb
- 107              		.thumb_func
- 109              	DMA1_Stream6_IRQHandler:
- 110              		@ args = 0, pretend = 0, frame = 0
- 111              		@ frame_needed = 0, uses_anonymous_args = 0
- 112 00b4 08B5     		push	{r3, lr}
- 113 00b6 46F2A000 		movw	r0, #24736
- 114 00ba C4F20200 		movt	r0, 16386
- 115 00be 4FF40041 		mov	r1, #32768
- 116 00c2 C2F22001 		movt	r1, 8224
- 117 00c6 FFF7FEFF 		bl	DMA_ClearITPendingBit
- 118 00ca 46F2A000 		movw	r0, #24736
- 119 00ce C4F20200 		movt	r0, 16386
- 120 00d2 4FF00001 		mov	r1, #0
- 121 00d6 FFF7FEFF 		bl	DMA_Cmd
- 122 00da 40F20003 		movw	r3, #:lower16:tx2BufferHead
- 123 00de C0F20003 		movt	r3, #:upper16:tx2BufferHead
- 124 00e2 1A88     		ldrh	r2, [r3, #0]
- 125 00e4 40F20003 		movw	r3, #:lower16:tx2BufferTail
- 126 00e8 C0F20003 		movt	r3, #:upper16:tx2BufferTail
- 127 00ec 1B88     		ldrh	r3, [r3, #0]
- 128 00ee 9A42     		cmp	r2, r3
- 129 00f0 01D0     		beq	.L4
- 130 00f2 FFF785FF 		bl	uart2TxDMA
- 131              	.L4:
- 132 00f6 08BD     		pop	{r3, pc}
- 134              		.align	2
- 135              		.global	uart2Init
- 136              		.thumb
- 137              		.thumb_func
- 139              	uart2Init:
- 140              		@ args = 0, pretend = 0, frame = 88
- 141              		@ frame_needed = 0, uses_anonymous_args = 0
- 142 00f8 00B5     		push	{lr}
- 143 00fa 97B0     		sub	sp, sp, #92
- 144 00fc 14AB     		add	r3, sp, #80
- 145 00fe 1846     		mov	r0, r3
- 146 0100 FFF7FEFF 		bl	GPIO_StructInit
- 147 0104 10AB     		add	r3, sp, #64
- 148 0106 1846     		mov	r0, r3
- 149 0108 FFF7FEFF 		bl	USART_StructInit
- 150 010c 01AB     		add	r3, sp, #4
- 151 010e 1846     		mov	r0, r3
- 152 0110 FFF7FEFF 		bl	DMA_StructInit
- 153 0114 4FF00800 		mov	r0, #8
- 154 0118 4FF00101 		mov	r1, #1
- 155 011c FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 156 0120 4FF40010 		mov	r0, #2097152
- 157 0124 4FF00101 		mov	r1, #1
- 158 0128 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
- 159 012c 4FF48020 		mov	r0, #262144
- 160 0130 4FF00101 		mov	r1, #1
- 161 0134 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
- 162 0138 4FF06003 		mov	r3, #96
- 163 013c 1493     		str	r3, [sp, #80]
- 164 013e 4FF00203 		mov	r3, #2
- 165 0142 8DF85430 		strb	r3, [sp, #84]
- 166 0146 4FF00203 		mov	r3, #2
- 167 014a 8DF85530 		strb	r3, [sp, #85]
- 168 014e 4FF00103 		mov	r3, #1
- 169 0152 8DF85730 		strb	r3, [sp, #87]
- 170 0156 4FF44060 		mov	r0, #3072
- 171 015a C4F20200 		movt	r0, 16386
- 172 015e 4FF00501 		mov	r1, #5
- 173 0162 4FF00702 		mov	r2, #7
- 174 0166 FFF7FEFF 		bl	GPIO_PinAFConfig
- 175 016a 4FF44060 		mov	r0, #3072
- 176 016e C4F20200 		movt	r0, 16386
- 177 0172 4FF00601 		mov	r1, #6
- 178 0176 4FF00702 		mov	r2, #7
- 179 017a FFF7FEFF 		bl	GPIO_PinAFConfig
- 180 017e 4FF44060 		mov	r0, #3072
- 181 0182 C4F20200 		movt	r0, 16386
- 182 0186 14AB     		add	r3, sp, #80
- 183 0188 1946     		mov	r1, r3
- 184 018a FFF7FEFF 		bl	GPIO_Init
- 185 018e 4FF01103 		mov	r3, #17
- 186 0192 8DF80030 		strb	r3, [sp, #0]
- 187 0196 4FF00103 		mov	r3, #1
- 188 019a 8DF80130 		strb	r3, [sp, #1]
- 189 019e 4FF00003 		mov	r3, #0
- 190 01a2 8DF80230 		strb	r3, [sp, #2]
- 191 01a6 4FF00103 		mov	r3, #1
- 192 01aa 8DF80330 		strb	r3, [sp, #3]
- 193 01ae 6B46     		mov	r3, sp
- 194 01b0 1846     		mov	r0, r3
- 195 01b2 FFF7FEFF 		bl	NVIC_Init
- 196 01b6 4FF4E133 		mov	r3, #115200
- 197 01ba 1093     		str	r3, [sp, #64]
- 198 01bc 4FF48840 		mov	r0, #17408
- 199 01c0 C4F20000 		movt	r0, 16384
- 200 01c4 10AB     		add	r3, sp, #64
- 201 01c6 1946     		mov	r1, r3
- 202 01c8 FFF7FEFF 		bl	USART_Init
- 203 01cc 46F28800 		movw	r0, #24712
- 204 01d0 C4F20200 		movt	r0, 16386
- 205 01d4 FFF7FEFF 		bl	DMA_DeInit
- 206 01d8 4FF00063 		mov	r3, #134217728
- 207 01dc 0193     		str	r3, [sp, #4]
- 208 01de 44F20443 		movw	r3, #17412
- 209 01e2 C4F20003 		movt	r3, 16384
- 210 01e6 0293     		str	r3, [sp, #8]
- 211 01e8 40F20003 		movw	r3, #:lower16:rx2Buffer
- 212 01ec C0F20003 		movt	r3, #:upper16:rx2Buffer
- 213 01f0 0393     		str	r3, [sp, #12]
- 214 01f2 4FF40063 		mov	r3, #2048
- 215 01f6 0593     		str	r3, [sp, #20]
- 216 01f8 4FF48063 		mov	r3, #1024
- 217 01fc 0793     		str	r3, [sp, #28]
- 218 01fe 4FF48073 		mov	r3, #256
- 219 0202 0A93     		str	r3, [sp, #40]
- 220 0204 4FF48033 		mov	r3, #65536
- 221 0208 0B93     		str	r3, [sp, #44]
- 222 020a 46F28800 		movw	r0, #24712
- 223 020e C4F20200 		movt	r0, 16386
- 224 0212 01AB     		add	r3, sp, #4
- 225 0214 1946     		mov	r1, r3
- 226 0216 FFF7FEFF 		bl	DMA_Init
- 227 021a 46F28800 		movw	r0, #24712
- 228 021e C4F20200 		movt	r0, 16386
- 229 0222 4FF00101 		mov	r1, #1
- 230 0226 FFF7FEFF 		bl	DMA_Cmd
- 231 022a 4FF48840 		mov	r0, #17408
- 232 022e C4F20000 		movt	r0, 16384
- 233 0232 4FF04001 		mov	r1, #64
- 234 0236 4FF00102 		mov	r2, #1
- 235 023a FFF7FEFF 		bl	USART_DMACmd
- 236 023e 46F28800 		movw	r0, #24712
- 237 0242 C4F20200 		movt	r0, 16386
- 238 0246 FFF7FEFF 		bl	DMA_GetCurrDataCounter
- 239 024a 0346     		mov	r3, r0
- 240 024c 1A46     		mov	r2, r3
- 241 024e 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 242 0252 C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 243 0256 1A60     		str	r2, [r3, #0]
- 244 0258 46F2A000 		movw	r0, #24736
- 245 025c C4F20200 		movt	r0, 16386
- 246 0260 FFF7FEFF 		bl	DMA_DeInit
- 247 0264 40F20003 		movw	r3, #:lower16:tx2Buffer
- 248 0268 C0F20003 		movt	r3, #:upper16:tx2Buffer
- 249 026c 0393     		str	r3, [sp, #12]
- 250 026e 4FF04003 		mov	r3, #64
- 251 0272 0493     		str	r3, [sp, #16]
- 252 0274 4FF00003 		mov	r3, #0
- 253 0278 0A93     		str	r3, [sp, #40]
- 254 027a 46F2A000 		movw	r0, #24736
- 255 027e C4F20200 		movt	r0, 16386
- 256 0282 01AB     		add	r3, sp, #4
- 257 0284 1946     		mov	r1, r3
- 258 0286 FFF7FEFF 		bl	DMA_Init
- 259 028a 46F2A000 		movw	r0, #24736
- 260 028e C4F20200 		movt	r0, 16386
- 261 0292 4FF00001 		mov	r1, #0
- 262 0296 FFF7FEFF 		bl	DMA_SetCurrDataCounter
- 263 029a 46F2A000 		movw	r0, #24736
- 264 029e C4F20200 		movt	r0, 16386
- 265 02a2 4FF01001 		mov	r1, #16
- 266 02a6 4FF00102 		mov	r2, #1
- 267 02aa FFF7FEFF 		bl	DMA_ITConfig
- 268 02ae 4FF48840 		mov	r0, #17408
- 269 02b2 C4F20000 		movt	r0, 16384
- 270 02b6 4FF08001 		mov	r1, #128
- 271 02ba 4FF00102 		mov	r2, #1
- 272 02be FFF7FEFF 		bl	USART_DMACmd
- 273 02c2 4FF48840 		mov	r0, #17408
- 274 02c6 C4F20000 		movt	r0, 16384
- 275 02ca 4FF00101 		mov	r1, #1
- 276 02ce FFF7FEFF 		bl	USART_Cmd
- 277 02d2 17B0     		add	sp, sp, #92
- 278 02d4 00BD     		pop	{pc}
- 280 02d6 00BF     		.align	2
- 281              		.global	uart2Available
- 282              		.thumb
- 283              		.thumb_func
- 285              	uart2Available:
- 286              		@ args = 0, pretend = 0, frame = 0
- 287              		@ frame_needed = 0, uses_anonymous_args = 0
- 288 02d8 08B5     		push	{r3, lr}
- 289 02da 46F22800 		movw	r0, #24616
- 290 02de C4F20200 		movt	r0, 16386
- 291 02e2 FFF7FEFF 		bl	DMA_GetCurrDataCounter
- 292 02e6 0346     		mov	r3, r0
- 293 02e8 1A46     		mov	r2, r3
- 294 02ea 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 295 02ee C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 296 02f2 1B68     		ldr	r3, [r3, #0]
- 297 02f4 9A42     		cmp	r2, r3
- 298 02f6 0CBF     		ite	eq
- 299 02f8 0023     		moveq	r3, #0
- 300 02fa 0123     		movne	r3, #1
- 301 02fc 9BB2     		uxth	r3, r3
- 302 02fe 1846     		mov	r0, r3
- 303 0300 08BD     		pop	{r3, pc}
- 305 0302 00BF     		.align	2
- 306              		.global	uart2Read
- 307              		.thumb
- 308              		.thumb_func
- 310              	uart2Read:
- 311              		@ args = 0, pretend = 0, frame = 8
- 312              		@ frame_needed = 0, uses_anonymous_args = 0
- 313              		@ link register save eliminated.
- 314 0304 82B0     		sub	sp, sp, #8
- 315 0306 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 316 030a C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 317 030e 1B68     		ldr	r3, [r3, #0]
- 318 0310 C3F50062 		rsb	r2, r3, #2048
- 319 0314 40F20003 		movw	r3, #:lower16:rx2Buffer
- 320 0318 C0F20003 		movt	r3, #:upper16:rx2Buffer
- 321 031c 9B5C     		ldrb	r3, [r3, r2]
- 322 031e 8DF80730 		strb	r3, [sp, #7]
- 323 0322 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 324 0326 C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 325 032a 1B68     		ldr	r3, [r3, #0]
- 326 032c 03F1FF32 		add	r2, r3, #-1
- 327 0330 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 328 0334 C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 329 0338 1A60     		str	r2, [r3, #0]
- 330 033a 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 331 033e C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 332 0342 1B68     		ldr	r3, [r3, #0]
- 333 0344 002B     		cmp	r3, #0
- 334 0346 06D1     		bne	.L9
- 335 0348 40F20003 		movw	r3, #:lower16:rx2DMAPos
- 336 034c C0F20003 		movt	r3, #:upper16:rx2DMAPos
- 337 0350 4FF40062 		mov	r2, #2048
- 338 0354 1A60     		str	r2, [r3, #0]
- 339              	.L9:
- 340 0356 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
- 341 035a 1846     		mov	r0, r3
- 342 035c 02B0     		add	sp, sp, #8
- 343 035e 7047     		bx	lr
- 345              		.align	2
- 346              		.global	uart2ReadPoll
- 347              		.thumb
- 348              		.thumb_func
- 350              	uart2ReadPoll:
- 351              		@ args = 0, pretend = 0, frame = 0
- 352              		@ frame_needed = 0, uses_anonymous_args = 0
- 353 0360 08B5     		push	{r3, lr}
- 354 0362 00BF     		nop
- 355              	.L11:
- 356 0364 FFF7FEFF 		bl	uart2Available
- 357 0368 0346     		mov	r3, r0
- 358 036a 002B     		cmp	r3, #0
- 359 036c FAD0     		beq	.L11
- 360 036e FFF7FEFF 		bl	uart2Read
- 361 0372 0346     		mov	r3, r0
- 362 0374 1846     		mov	r0, r3
- 363 0376 08BD     		pop	{r3, pc}
- 365              		.align	2
- 366              		.global	uart2Write
- 367              		.thumb
- 368              		.thumb_func
- 370              	uart2Write:
- 371              		@ args = 0, pretend = 0, frame = 8
- 372              		@ frame_needed = 0, uses_anonymous_args = 0
- 373 0378 00B5     		push	{lr}
- 374 037a 83B0     		sub	sp, sp, #12
- 375 037c 0346     		mov	r3, r0
- 376 037e 8DF80730 		strb	r3, [sp, #7]
- 377 0382 40F20003 		movw	r3, #:lower16:tx2BufferHead
- 378 0386 C0F20003 		movt	r3, #:upper16:tx2BufferHead
- 379 038a 1B88     		ldrh	r3, [r3, #0]
- 380 038c 1A46     		mov	r2, r3
- 381 038e 40F20003 		movw	r3, #:lower16:tx2Buffer
- 382 0392 C0F20003 		movt	r3, #:upper16:tx2Buffer
- 383 0396 9DF80710 		ldrb	r1, [sp, #7]
- 384 039a 9954     		strb	r1, [r3, r2]
- 385 039c 40F20003 		movw	r3, #:lower16:tx2BufferHead
- 386 03a0 C0F20003 		movt	r3, #:upper16:tx2BufferHead
- 387 03a4 1B88     		ldrh	r3, [r3, #0]
- 388 03a6 03F10103 		add	r3, r3, #1
- 389 03aa 4FEAE372 		asr	r2, r3, #31
- 390 03ae 4FEA5252 		lsr	r2, r2, #21
- 391 03b2 9B18     		adds	r3, r3, r2
- 392 03b4 4FEA4353 		lsl	r3, r3, #21
- 393 03b8 4FEA5353 		lsr	r3, r3, #21
- 394 03bc 9B1A     		subs	r3, r3, r2
- 395 03be 9AB2     		uxth	r2, r3
- 396 03c0 40F20003 		movw	r3, #:lower16:tx2BufferHead
- 397 03c4 C0F20003 		movt	r3, #:upper16:tx2BufferHead
- 398 03c8 1A80     		strh	r2, [r3, #0]	@ movhi
- 399 03ca 46F25800 		movw	r0, #24664
- 400 03ce C4F20200 		movt	r0, 16386
- 401 03d2 FFF7FEFF 		bl	DMA_GetCmdStatus
- 402 03d6 0346     		mov	r3, r0
- 403 03d8 002B     		cmp	r3, #0
- 404 03da 05D1     		bne	.L12
- 405 03dc FFF710FE 		bl	uart2TxDMA
- 406 03e0 4FF06400 		mov	r0, #100
- 407 03e4 FFF7FEFF 		bl	delayMicroseconds
- 408              	.L12:
- 409 03e8 03B0     		add	sp, sp, #12
- 410 03ea 00BD     		pop	{pc}
- 412              		.align	2
- 413              		.global	uart2Print
- 414              		.thumb
- 415              		.thumb_func
- 417              	uart2Print:
- 418              		@ args = 0, pretend = 0, frame = 8
- 419              		@ frame_needed = 0, uses_anonymous_args = 0
- 420 03ec 00B5     		push	{lr}
- 421 03ee 83B0     		sub	sp, sp, #12
- 422 03f0 0190     		str	r0, [sp, #4]
- 423 03f2 09E0     		b	.L15
- 424              	.L16:
- 425 03f4 019B     		ldr	r3, [sp, #4]
- 426 03f6 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 427 03f8 DBB2     		uxtb	r3, r3
- 428 03fa 019A     		ldr	r2, [sp, #4]
- 429 03fc 02F10102 		add	r2, r2, #1
- 430 0400 0192     		str	r2, [sp, #4]
- 431 0402 1846     		mov	r0, r3
- 432 0404 FFF7FEFF 		bl	uart2Write
- 433              	.L15:
- 434 0408 019B     		ldr	r3, [sp, #4]
- 435 040a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 436 040c 002B     		cmp	r3, #0
- 437 040e F1D1     		bne	.L16
- 438 0410 03B0     		add	sp, sp, #12
- 439 0412 00BD     		pop	{pc}
- 441              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.comm	rx2Buffer,2048,4
+  20              		.global	rx2DMAPos
+  21              		.bss
+  22              		.align	2
+  25              	rx2DMAPos:
+  26 0000 00000000 		.space	4
+  27              		.comm	tx2Buffer,2048,4
+  28              		.global	tx2BufferTail
+  29              		.align	1
+  32              	tx2BufferTail:
+  33 0004 0000     		.space	2
+  34              		.global	tx2BufferHead
+  35              		.align	1
+  38              	tx2BufferHead:
+  39 0006 0000     		.space	2
+  40              		.text
+  41              		.align	2
+  42              		.thumb
+  43              		.thumb_func
+  45              	uart2TxDMA:
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48 0000 08B5     		push	{r3, lr}
+  49 0002 46F2A003 		movw	r3, #24736
+  50 0006 C4F20203 		movt	r3, 16386
+  51 000a 40F20002 		movw	r2, #:lower16:tx2BufferTail
+  52 000e C0F20002 		movt	r2, #:upper16:tx2BufferTail
+  53 0012 1288     		ldrh	r2, [r2, #0]
+  54 0014 1146     		mov	r1, r2
+  55 0016 40F20002 		movw	r2, #:lower16:tx2Buffer
+  56 001a C0F20002 		movt	r2, #:upper16:tx2Buffer
+  57 001e 8A18     		adds	r2, r1, r2
+  58 0020 DA60     		str	r2, [r3, #12]
+  59 0022 40F20003 		movw	r3, #:lower16:tx2BufferHead
+  60 0026 C0F20003 		movt	r3, #:upper16:tx2BufferHead
+  61 002a 1A88     		ldrh	r2, [r3, #0]
+  62 002c 40F20003 		movw	r3, #:lower16:tx2BufferTail
+  63 0030 C0F20003 		movt	r3, #:upper16:tx2BufferTail
+  64 0034 1B88     		ldrh	r3, [r3, #0]
+  65 0036 9A42     		cmp	r2, r3
+  66 0038 1DD9     		bls	.L2
+  67 003a 40F20003 		movw	r3, #:lower16:tx2BufferHead
+  68 003e C0F20003 		movt	r3, #:upper16:tx2BufferHead
+  69 0042 1A88     		ldrh	r2, [r3, #0]
+  70 0044 40F20003 		movw	r3, #:lower16:tx2BufferTail
+  71 0048 C0F20003 		movt	r3, #:upper16:tx2BufferTail
+  72 004c 1B88     		ldrh	r3, [r3, #0]
+  73 004e D31A     		subs	r3, r2, r3
+  74 0050 9BB2     		uxth	r3, r3
+  75 0052 46F2A000 		movw	r0, #24736
+  76 0056 C4F20200 		movt	r0, 16386
+  77 005a 1946     		mov	r1, r3
+  78 005c FFF7FEFF 		bl	DMA_SetCurrDataCounter
+  79 0060 40F20003 		movw	r3, #:lower16:tx2BufferHead
+  80 0064 C0F20003 		movt	r3, #:upper16:tx2BufferHead
+  81 0068 1A88     		ldrh	r2, [r3, #0]
+  82 006a 40F20003 		movw	r3, #:lower16:tx2BufferTail
+  83 006e C0F20003 		movt	r3, #:upper16:tx2BufferTail
+  84 0072 1A80     		strh	r2, [r3, #0]	@ movhi
+  85 0074 15E0     		b	.L3
+  86              	.L2:
+  87 0076 40F20003 		movw	r3, #:lower16:tx2BufferTail
+  88 007a C0F20003 		movt	r3, #:upper16:tx2BufferTail
+  89 007e 1B88     		ldrh	r3, [r3, #0]
+  90 0080 C3F50063 		rsb	r3, r3, #2048
+  91 0084 9BB2     		uxth	r3, r3
+  92 0086 46F2A000 		movw	r0, #24736
+  93 008a C4F20200 		movt	r0, 16386
+  94 008e 1946     		mov	r1, r3
+  95 0090 FFF7FEFF 		bl	DMA_SetCurrDataCounter
+  96 0094 40F20003 		movw	r3, #:lower16:tx2BufferTail
+  97 0098 C0F20003 		movt	r3, #:upper16:tx2BufferTail
+  98 009c 4FF00002 		mov	r2, #0
+  99 00a0 1A80     		strh	r2, [r3, #0]	@ movhi
+ 100              	.L3:
+ 101 00a2 46F2A000 		movw	r0, #24736
+ 102 00a6 C4F20200 		movt	r0, 16386
+ 103 00aa 4FF00101 		mov	r1, #1
+ 104 00ae FFF7FEFF 		bl	DMA_Cmd
+ 105 00b2 08BD     		pop	{r3, pc}
+ 107              		.align	2
+ 108              		.global	DMA1_Stream6_IRQHandler
+ 109              		.thumb
+ 110              		.thumb_func
+ 112              	DMA1_Stream6_IRQHandler:
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 00b4 08B5     		push	{r3, lr}
+ 116 00b6 46F2A000 		movw	r0, #24736
+ 117 00ba C4F20200 		movt	r0, 16386
+ 118 00be 4FF40041 		mov	r1, #32768
+ 119 00c2 C2F22001 		movt	r1, 8224
+ 120 00c6 FFF7FEFF 		bl	DMA_ClearITPendingBit
+ 121 00ca 46F2A000 		movw	r0, #24736
+ 122 00ce C4F20200 		movt	r0, 16386
+ 123 00d2 4FF00001 		mov	r1, #0
+ 124 00d6 FFF7FEFF 		bl	DMA_Cmd
+ 125 00da 40F20003 		movw	r3, #:lower16:tx2BufferHead
+ 126 00de C0F20003 		movt	r3, #:upper16:tx2BufferHead
+ 127 00e2 1A88     		ldrh	r2, [r3, #0]
+ 128 00e4 40F20003 		movw	r3, #:lower16:tx2BufferTail
+ 129 00e8 C0F20003 		movt	r3, #:upper16:tx2BufferTail
+ 130 00ec 1B88     		ldrh	r3, [r3, #0]
+ 131 00ee 9A42     		cmp	r2, r3
+ 132 00f0 01D0     		beq	.L4
+ 133 00f2 FFF785FF 		bl	uart2TxDMA
+ 134              	.L4:
+ 135 00f6 08BD     		pop	{r3, pc}
+ 137              		.align	2
+ 138              		.global	uart2Init
+ 139              		.thumb
+ 140              		.thumb_func
+ 142              	uart2Init:
+ 143              		@ args = 0, pretend = 0, frame = 88
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145 00f8 00B5     		push	{lr}
+ 146 00fa 97B0     		sub	sp, sp, #92
+ 147 00fc 14AB     		add	r3, sp, #80
+ 148 00fe 1846     		mov	r0, r3
+ 149 0100 FFF7FEFF 		bl	GPIO_StructInit
+ 150 0104 10AB     		add	r3, sp, #64
+ 151 0106 1846     		mov	r0, r3
+ 152 0108 FFF7FEFF 		bl	USART_StructInit
+ 153 010c 01AB     		add	r3, sp, #4
+ 154 010e 1846     		mov	r0, r3
+ 155 0110 FFF7FEFF 		bl	DMA_StructInit
+ 156 0114 4FF00800 		mov	r0, #8
+ 157 0118 4FF00101 		mov	r1, #1
+ 158 011c FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 159 0120 4FF40010 		mov	r0, #2097152
+ 160 0124 4FF00101 		mov	r1, #1
+ 161 0128 FFF7FEFF 		bl	RCC_AHB1PeriphClockCmd
+ 162 012c 4FF40030 		mov	r0, #131072
+ 163 0130 4FF00101 		mov	r1, #1
+ 164 0134 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+ 165 0138 4FF06003 		mov	r3, #96
+ 166 013c 1493     		str	r3, [sp, #80]
+ 167 013e 4FF00203 		mov	r3, #2
+ 168 0142 8DF85430 		strb	r3, [sp, #84]
+ 169 0146 4FF00203 		mov	r3, #2
+ 170 014a 8DF85530 		strb	r3, [sp, #85]
+ 171 014e 4FF00003 		mov	r3, #0
+ 172 0152 8DF85630 		strb	r3, [sp, #86]
+ 173 0156 4FF00003 		mov	r3, #0
+ 174 015a 8DF85730 		strb	r3, [sp, #87]
+ 175 015e 4FF44060 		mov	r0, #3072
+ 176 0162 C4F20200 		movt	r0, 16386
+ 177 0166 4FF00501 		mov	r1, #5
+ 178 016a 4FF00702 		mov	r2, #7
+ 179 016e FFF7FEFF 		bl	GPIO_PinAFConfig
+ 180 0172 4FF44060 		mov	r0, #3072
+ 181 0176 C4F20200 		movt	r0, 16386
+ 182 017a 4FF00601 		mov	r1, #6
+ 183 017e 4FF00702 		mov	r2, #7
+ 184 0182 FFF7FEFF 		bl	GPIO_PinAFConfig
+ 185 0186 4FF44060 		mov	r0, #3072
+ 186 018a C4F20200 		movt	r0, 16386
+ 187 018e 14AB     		add	r3, sp, #80
+ 188 0190 1946     		mov	r1, r3
+ 189 0192 FFF7FEFF 		bl	GPIO_Init
+ 190 0196 4FF01103 		mov	r3, #17
+ 191 019a 8DF80030 		strb	r3, [sp, #0]
+ 192 019e 4FF00103 		mov	r3, #1
+ 193 01a2 8DF80130 		strb	r3, [sp, #1]
+ 194 01a6 4FF00003 		mov	r3, #0
+ 195 01aa 8DF80230 		strb	r3, [sp, #2]
+ 196 01ae 4FF00103 		mov	r3, #1
+ 197 01b2 8DF80330 		strb	r3, [sp, #3]
+ 198 01b6 6B46     		mov	r3, sp
+ 199 01b8 1846     		mov	r0, r3
+ 200 01ba FFF7FEFF 		bl	NVIC_Init
+ 201 01be 4FF41643 		mov	r3, #38400
+ 202 01c2 1093     		str	r3, [sp, #64]
+ 203 01c4 4FF48840 		mov	r0, #17408
+ 204 01c8 C4F20000 		movt	r0, 16384
+ 205 01cc 10AB     		add	r3, sp, #64
+ 206 01ce 1946     		mov	r1, r3
+ 207 01d0 FFF7FEFF 		bl	USART_Init
+ 208 01d4 46F28800 		movw	r0, #24712
+ 209 01d8 C4F20200 		movt	r0, 16386
+ 210 01dc FFF7FEFF 		bl	DMA_DeInit
+ 211 01e0 4FF00063 		mov	r3, #134217728
+ 212 01e4 0193     		str	r3, [sp, #4]
+ 213 01e6 44F20443 		movw	r3, #17412
+ 214 01ea C4F20003 		movt	r3, 16384
+ 215 01ee 0293     		str	r3, [sp, #8]
+ 216 01f0 40F20003 		movw	r3, #:lower16:rx2Buffer
+ 217 01f4 C0F20003 		movt	r3, #:upper16:rx2Buffer
+ 218 01f8 0393     		str	r3, [sp, #12]
+ 219 01fa 4FF40063 		mov	r3, #2048
+ 220 01fe 0593     		str	r3, [sp, #20]
+ 221 0200 4FF48063 		mov	r3, #1024
+ 222 0204 0793     		str	r3, [sp, #28]
+ 223 0206 4FF48073 		mov	r3, #256
+ 224 020a 0A93     		str	r3, [sp, #40]
+ 225 020c 4FF48033 		mov	r3, #65536
+ 226 0210 0B93     		str	r3, [sp, #44]
+ 227 0212 46F28800 		movw	r0, #24712
+ 228 0216 C4F20200 		movt	r0, 16386
+ 229 021a 01AB     		add	r3, sp, #4
+ 230 021c 1946     		mov	r1, r3
+ 231 021e FFF7FEFF 		bl	DMA_Init
+ 232 0222 46F28800 		movw	r0, #24712
+ 233 0226 C4F20200 		movt	r0, 16386
+ 234 022a 4FF00101 		mov	r1, #1
+ 235 022e FFF7FEFF 		bl	DMA_Cmd
+ 236 0232 4FF48840 		mov	r0, #17408
+ 237 0236 C4F20000 		movt	r0, 16384
+ 238 023a 4FF04001 		mov	r1, #64
+ 239 023e 4FF00102 		mov	r2, #1
+ 240 0242 FFF7FEFF 		bl	USART_DMACmd
+ 241 0246 46F28800 		movw	r0, #24712
+ 242 024a C4F20200 		movt	r0, 16386
+ 243 024e FFF7FEFF 		bl	DMA_GetCurrDataCounter
+ 244 0252 0346     		mov	r3, r0
+ 245 0254 1A46     		mov	r2, r3
+ 246 0256 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 247 025a C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 248 025e 1A60     		str	r2, [r3, #0]
+ 249 0260 46F2A000 		movw	r0, #24736
+ 250 0264 C4F20200 		movt	r0, 16386
+ 251 0268 FFF7FEFF 		bl	DMA_DeInit
+ 252 026c 40F20003 		movw	r3, #:lower16:tx2Buffer
+ 253 0270 C0F20003 		movt	r3, #:upper16:tx2Buffer
+ 254 0274 0393     		str	r3, [sp, #12]
+ 255 0276 4FF04003 		mov	r3, #64
+ 256 027a 0493     		str	r3, [sp, #16]
+ 257 027c 4FF00003 		mov	r3, #0
+ 258 0280 0A93     		str	r3, [sp, #40]
+ 259 0282 46F2A000 		movw	r0, #24736
+ 260 0286 C4F20200 		movt	r0, 16386
+ 261 028a 01AB     		add	r3, sp, #4
+ 262 028c 1946     		mov	r1, r3
+ 263 028e FFF7FEFF 		bl	DMA_Init
+ 264 0292 46F2A000 		movw	r0, #24736
+ 265 0296 C4F20200 		movt	r0, 16386
+ 266 029a 4FF00001 		mov	r1, #0
+ 267 029e FFF7FEFF 		bl	DMA_SetCurrDataCounter
+ 268 02a2 46F2A000 		movw	r0, #24736
+ 269 02a6 C4F20200 		movt	r0, 16386
+ 270 02aa 4FF01001 		mov	r1, #16
+ 271 02ae 4FF00102 		mov	r2, #1
+ 272 02b2 FFF7FEFF 		bl	DMA_ITConfig
+ 273 02b6 4FF48840 		mov	r0, #17408
+ 274 02ba C4F20000 		movt	r0, 16384
+ 275 02be 4FF08001 		mov	r1, #128
+ 276 02c2 4FF00102 		mov	r2, #1
+ 277 02c6 FFF7FEFF 		bl	USART_DMACmd
+ 278 02ca 4FF48840 		mov	r0, #17408
+ 279 02ce C4F20000 		movt	r0, 16384
+ 280 02d2 4FF00101 		mov	r1, #1
+ 281 02d6 FFF7FEFF 		bl	USART_Cmd
+ 282 02da 17B0     		add	sp, sp, #92
+ 283 02dc 00BD     		pop	{pc}
+ 285 02de 00BF     		.align	2
+ 286              		.global	uart2Available
+ 287              		.thumb
+ 288              		.thumb_func
+ 290              	uart2Available:
+ 291              		@ args = 0, pretend = 0, frame = 0
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293 02e0 08B5     		push	{r3, lr}
+ 294 02e2 46F28800 		movw	r0, #24712
+ 295 02e6 C4F20200 		movt	r0, 16386
+ 296 02ea FFF7FEFF 		bl	DMA_GetCurrDataCounter
+ 297 02ee 0346     		mov	r3, r0
+ 298 02f0 1A46     		mov	r2, r3
+ 299 02f2 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 300 02f6 C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 301 02fa 1B68     		ldr	r3, [r3, #0]
+ 302 02fc 9A42     		cmp	r2, r3
+ 303 02fe 0CBF     		ite	eq
+ 304 0300 0023     		moveq	r3, #0
+ 305 0302 0123     		movne	r3, #1
+ 306 0304 9BB2     		uxth	r3, r3
+ 307 0306 1846     		mov	r0, r3
+ 308 0308 08BD     		pop	{r3, pc}
+ 310 030a 00BF     		.align	2
+ 311              		.global	uart2ClearBuffer
+ 312              		.thumb
+ 313              		.thumb_func
+ 315              	uart2ClearBuffer:
+ 316              		@ args = 0, pretend = 0, frame = 0
+ 317              		@ frame_needed = 0, uses_anonymous_args = 0
+ 318 030c 08B5     		push	{r3, lr}
+ 319 030e 46F28800 		movw	r0, #24712
+ 320 0312 C4F20200 		movt	r0, 16386
+ 321 0316 FFF7FEFF 		bl	DMA_GetCurrDataCounter
+ 322 031a 0346     		mov	r3, r0
+ 323 031c 1A46     		mov	r2, r3
+ 324 031e 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 325 0322 C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 326 0326 1A60     		str	r2, [r3, #0]
+ 327 0328 08BD     		pop	{r3, pc}
+ 329 032a 00BF     		.align	2
+ 330              		.global	uart2NumCharsAvailable
+ 331              		.thumb
+ 332              		.thumb_func
+ 334              	uart2NumCharsAvailable:
+ 335              		@ args = 0, pretend = 0, frame = 8
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 337 032c 10B5     		push	{r4, lr}
+ 338 032e 82B0     		sub	sp, sp, #8
+ 339 0330 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 340 0334 C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 341 0338 1C68     		ldr	r4, [r3, #0]
+ 342 033a 46F28800 		movw	r0, #24712
+ 343 033e C4F20200 		movt	r0, 16386
+ 344 0342 FFF7FEFF 		bl	DMA_GetCurrDataCounter
+ 345 0346 0346     		mov	r3, r0
+ 346 0348 E31A     		subs	r3, r4, r3
+ 347 034a 0193     		str	r3, [sp, #4]
+ 348 034c 019B     		ldr	r3, [sp, #4]
+ 349 034e 002B     		cmp	r3, #0
+ 350 0350 02DB     		blt	.L10
+ 351 0352 019B     		ldr	r3, [sp, #4]
+ 352 0354 9BB2     		uxth	r3, r3
+ 353 0356 04E0     		b	.L11
+ 354              	.L10:
+ 355 0358 019B     		ldr	r3, [sp, #4]
+ 356 035a 9BB2     		uxth	r3, r3
+ 357 035c 03F50063 		add	r3, r3, #2048
+ 358 0360 9BB2     		uxth	r3, r3
+ 359              	.L11:
+ 360 0362 1846     		mov	r0, r3
+ 361 0364 02B0     		add	sp, sp, #8
+ 362 0366 10BD     		pop	{r4, pc}
+ 364              		.align	2
+ 365              		.global	uart2Read
+ 366              		.thumb
+ 367              		.thumb_func
+ 369              	uart2Read:
+ 370              		@ args = 0, pretend = 0, frame = 8
+ 371              		@ frame_needed = 0, uses_anonymous_args = 0
+ 372              		@ link register save eliminated.
+ 373 0368 82B0     		sub	sp, sp, #8
+ 374 036a 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 375 036e C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 376 0372 1B68     		ldr	r3, [r3, #0]
+ 377 0374 C3F50062 		rsb	r2, r3, #2048
+ 378 0378 40F20003 		movw	r3, #:lower16:rx2Buffer
+ 379 037c C0F20003 		movt	r3, #:upper16:rx2Buffer
+ 380 0380 9B5C     		ldrb	r3, [r3, r2]
+ 381 0382 8DF80730 		strb	r3, [sp, #7]
+ 382 0386 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 383 038a C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 384 038e 1B68     		ldr	r3, [r3, #0]
+ 385 0390 03F1FF32 		add	r2, r3, #-1
+ 386 0394 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 387 0398 C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 388 039c 1A60     		str	r2, [r3, #0]
+ 389 039e 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 390 03a2 C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 391 03a6 1B68     		ldr	r3, [r3, #0]
+ 392 03a8 002B     		cmp	r3, #0
+ 393 03aa 06D1     		bne	.L13
+ 394 03ac 40F20003 		movw	r3, #:lower16:rx2DMAPos
+ 395 03b0 C0F20003 		movt	r3, #:upper16:rx2DMAPos
+ 396 03b4 4FF40062 		mov	r2, #2048
+ 397 03b8 1A60     		str	r2, [r3, #0]
+ 398              	.L13:
+ 399 03ba 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 400 03be 1846     		mov	r0, r3
+ 401 03c0 02B0     		add	sp, sp, #8
+ 402 03c2 7047     		bx	lr
+ 404              		.align	2
+ 405              		.global	uart2ReadPoll
+ 406              		.thumb
+ 407              		.thumb_func
+ 409              	uart2ReadPoll:
+ 410              		@ args = 0, pretend = 0, frame = 0
+ 411              		@ frame_needed = 0, uses_anonymous_args = 0
+ 412 03c4 08B5     		push	{r3, lr}
+ 413 03c6 00BF     		nop
+ 414              	.L15:
+ 415 03c8 FFF7FEFF 		bl	uart2Available
+ 416 03cc 0346     		mov	r3, r0
+ 417 03ce 002B     		cmp	r3, #0
+ 418 03d0 FAD0     		beq	.L15
+ 419 03d2 FFF7FEFF 		bl	uart2Read
+ 420 03d6 0346     		mov	r3, r0
+ 421 03d8 1846     		mov	r0, r3
+ 422 03da 08BD     		pop	{r3, pc}
+ 424              		.align	2
+ 425              		.global	uart2Write
+ 426              		.thumb
+ 427              		.thumb_func
+ 429              	uart2Write:
+ 430              		@ args = 0, pretend = 0, frame = 8
+ 431              		@ frame_needed = 0, uses_anonymous_args = 0
+ 432 03dc 00B5     		push	{lr}
+ 433 03de 83B0     		sub	sp, sp, #12
+ 434 03e0 0346     		mov	r3, r0
+ 435 03e2 8DF80730 		strb	r3, [sp, #7]
+ 436 03e6 40F20003 		movw	r3, #:lower16:tx2BufferHead
+ 437 03ea C0F20003 		movt	r3, #:upper16:tx2BufferHead
+ 438 03ee 1B88     		ldrh	r3, [r3, #0]
+ 439 03f0 1A46     		mov	r2, r3
+ 440 03f2 40F20003 		movw	r3, #:lower16:tx2Buffer
+ 441 03f6 C0F20003 		movt	r3, #:upper16:tx2Buffer
+ 442 03fa 9DF80710 		ldrb	r1, [sp, #7]
+ 443 03fe 9954     		strb	r1, [r3, r2]
+ 444 0400 40F20003 		movw	r3, #:lower16:tx2BufferHead
+ 445 0404 C0F20003 		movt	r3, #:upper16:tx2BufferHead
+ 446 0408 1B88     		ldrh	r3, [r3, #0]
+ 447 040a 03F10103 		add	r3, r3, #1
+ 448 040e 4FEAE372 		asr	r2, r3, #31
+ 449 0412 4FEA5252 		lsr	r2, r2, #21
+ 450 0416 9B18     		adds	r3, r3, r2
+ 451 0418 4FEA4353 		lsl	r3, r3, #21
+ 452 041c 4FEA5353 		lsr	r3, r3, #21
+ 453 0420 9B1A     		subs	r3, r3, r2
+ 454 0422 9AB2     		uxth	r2, r3
+ 455 0424 40F20003 		movw	r3, #:lower16:tx2BufferHead
+ 456 0428 C0F20003 		movt	r3, #:upper16:tx2BufferHead
+ 457 042c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 458 042e 46F25800 		movw	r0, #24664
+ 459 0432 C4F20200 		movt	r0, 16386
+ 460 0436 FFF7FEFF 		bl	DMA_GetCmdStatus
+ 461 043a 0346     		mov	r3, r0
+ 462 043c 002B     		cmp	r3, #0
+ 463 043e 05D1     		bne	.L16
+ 464 0440 FFF7DEFD 		bl	uart2TxDMA
+ 465 0444 4FF49670 		mov	r0, #300
+ 466 0448 FFF7FEFF 		bl	delayMicroseconds
+ 467              	.L16:
+ 468 044c 03B0     		add	sp, sp, #12
+ 469 044e 00BD     		pop	{pc}
+ 471              		.align	2
+ 472              		.global	uart2Print
+ 473              		.thumb
+ 474              		.thumb_func
+ 476              	uart2Print:
+ 477              		@ args = 0, pretend = 0, frame = 8
+ 478              		@ frame_needed = 0, uses_anonymous_args = 0
+ 479 0450 00B5     		push	{lr}
+ 480 0452 83B0     		sub	sp, sp, #12
+ 481 0454 0190     		str	r0, [sp, #4]
+ 482 0456 09E0     		b	.L19
+ 483              	.L20:
+ 484 0458 019B     		ldr	r3, [sp, #4]
+ 485 045a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 486 045c DBB2     		uxtb	r3, r3
+ 487 045e 019A     		ldr	r2, [sp, #4]
+ 488 0460 02F10102 		add	r2, r2, #1
+ 489 0464 0192     		str	r2, [sp, #4]
+ 490 0466 1846     		mov	r0, r3
+ 491 0468 FFF7FEFF 		bl	uart2Write
+ 492              	.L19:
+ 493 046c 019B     		ldr	r3, [sp, #4]
+ 494 046e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 495 0470 002B     		cmp	r3, #0
+ 496 0472 F1D1     		bne	.L20
+ 497 0474 03B0     		add	sp, sp, #12
+ 498 0476 00BD     		pop	{pc}
+ 500              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_uart2.c
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
                             *COM*:00000800 rx2Buffer
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:22     .bss:00000000 rx2DMAPos
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:19     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:25     .bss:00000000 rx2DMAPos
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:22     .bss:00000000 $d
                             *COM*:00000800 tx2Buffer
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:29     .bss:00000004 tx2BufferTail
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:35     .bss:00000006 tx2BufferHead
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:38     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:42     .text:00000000 uart2TxDMA
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:109    .text:000000b4 DMA1_Stream6_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:139    .text:000000f8 uart2Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:285    .text:000002d8 uart2Available
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:310    .text:00000304 uart2Read
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:350    .text:00000360 uart2ReadPoll
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:370    .text:00000378 uart2Write
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccuiCbHl.s:417    .text:000003ec uart2Print
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:32     .bss:00000004 tx2BufferTail
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:38     .bss:00000006 tx2BufferHead
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:41     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:45     .text:00000000 uart2TxDMA
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:112    .text:000000b4 DMA1_Stream6_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:142    .text:000000f8 uart2Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:290    .text:000002e0 uart2Available
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:315    .text:0000030c uart2ClearBuffer
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:334    .text:0000032c uart2NumCharsAvailable
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:369    .text:00000368 uart2Read
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:409    .text:000003c4 uart2ReadPoll
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:429    .text:000003dc uart2Write
+C:\Users\JOHNIH~1\AppData\Local\Temp\cceWAUaR.s:476    .text:00000450 uart2Print
 
 UNDEFINED SYMBOLS
 DMA_SetCurrDataCounter

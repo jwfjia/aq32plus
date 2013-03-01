@@ -523,21 +523,21 @@
  553 042a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_dcmi.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:22     .text:00000000 DCMI_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:61     .text:00000064 DCMI_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:126    .text:000000ec DCMI_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:161    .text:0000012c DCMI_CROPConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:195    .text:00000168 DCMI_CROPCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:230    .text:000001b0 DCMI_SetEmbeddedSynchroCodes
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:262    .text:000001e8 DCMI_JPEGCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:297    .text:00000230 DCMI_Cmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:332    .text:00000278 DCMI_CaptureCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:367    .text:000002c0 DCMI_ReadData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:382    .text:000002d0 DCMI_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:423    .text:00000328 DCMI_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:483    .text:000003a8 DCMI_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:502    .text:000003c4 DCMI_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cciTPJAw.s:539    .text:00000410 DCMI_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:22     .text:00000000 DCMI_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:61     .text:00000064 DCMI_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:126    .text:000000ec DCMI_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:161    .text:0000012c DCMI_CROPConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:195    .text:00000168 DCMI_CROPCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:230    .text:000001b0 DCMI_SetEmbeddedSynchroCodes
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:262    .text:000001e8 DCMI_JPEGCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:297    .text:00000230 DCMI_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:332    .text:00000278 DCMI_CaptureCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:367    .text:000002c0 DCMI_ReadData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:382    .text:000002d0 DCMI_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:423    .text:00000328 DCMI_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:483    .text:000003a8 DCMI_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:502    .text:000003c4 DCMI_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccfDESo4.s:539    .text:00000410 DCMI_ClearITPendingBit
 
 NO UNDEFINED SYMBOLS

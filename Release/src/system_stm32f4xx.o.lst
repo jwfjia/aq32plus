@@ -361,12 +361,12 @@
  371              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 system_stm32f4xx.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:21     .data:00000000 SystemCoreClock
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:18     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:27     .data:00000004 AHBPrescTable
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:45     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:50     .text:00000000 SystemInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:239    .text:00000210 SetSysClock
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccRCZ4De.s:108    .text:000000ac SystemCoreClockUpdate
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:21     .data:00000000 SystemCoreClock
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:18     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:27     .data:00000004 AHBPrescTable
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:45     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:50     .text:00000000 SystemInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:239    .text:00000210 SetSysClock
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc7MbktP.s:108    .text:000000ac SystemCoreClockUpdate
 
 NO UNDEFINED SYMBOLS

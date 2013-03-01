@@ -13,413 +13,419 @@
   13              		.eabi_attribute 18, 4
   14              		.thumb
   15              		.file	"pid.c"
-  16              		.global	holdIntegrators
-  17              		.data
-  20              	holdIntegrators:
-  21 0000 01       		.byte	1
-  22              		.comm	rc,4,4
-  23              		.text
-  24              		.align	2
-  25              		.global	initPID
-  26              		.thumb
-  27              		.thumb_func
-  29              	initPID:
-  30              		@ args = 0, pretend = 0, frame = 8
-  31              		@ frame_needed = 0, uses_anonymous_args = 0
-  32              		@ link register save eliminated.
-  33 0000 82B0     		sub	sp, sp, #8
-  34 0002 40F20003 		movw	r3, #:lower16:rc
-  35 0006 C0F20003 		movt	r3, #:upper16:rc
-  36 000a 2B4A     		ldr	r2, .L4	@ float
-  37 000c 1A60     		str	r2, [r3, #0]	@ float
-  38 000e 4FF00003 		mov	r3, #0
-  39 0012 8DF80730 		strb	r3, [sp, #7]
-  40 0016 49E0     		b	.L2
-  41              	.L3:
-  42 0018 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
-  43 001c 40F20002 		movw	r2, #:lower16:eepromConfig
-  44 0020 C0F20002 		movt	r2, #:upper16:eepromConfig
-  45 0024 0B46     		mov	r3, r1
-  46 0026 4FEA8303 		lsl	r3, r3, #2
-  47 002a 5B18     		adds	r3, r3, r1
-  48 002c 4FEAC303 		lsl	r3, r3, #3
-  49 0030 D318     		adds	r3, r2, r3
-  50 0032 03F1AC03 		add	r3, r3, #172
-  51 0036 214A     		ldr	r2, .L4+4	@ float
-  52 0038 1A60     		str	r2, [r3, #0]	@ float
-  53 003a 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
-  54 003e 40F20002 		movw	r2, #:lower16:eepromConfig
-  55 0042 C0F20002 		movt	r2, #:upper16:eepromConfig
-  56 0046 0B46     		mov	r3, r1
-  57 0048 4FEA8303 		lsl	r3, r3, #2
-  58 004c 5B18     		adds	r3, r3, r1
-  59 004e 4FEAC303 		lsl	r3, r3, #3
-  60 0052 D318     		adds	r3, r2, r3
-  61 0054 03F1B403 		add	r3, r3, #180
-  62 0058 184A     		ldr	r2, .L4+4	@ float
-  63 005a 1A60     		str	r2, [r3, #0]	@ float
-  64 005c 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
-  65 0060 40F20002 		movw	r2, #:lower16:eepromConfig
-  66 0064 C0F20002 		movt	r2, #:upper16:eepromConfig
-  67 0068 0B46     		mov	r3, r1
-  68 006a 4FEA8303 		lsl	r3, r3, #2
-  69 006e 5B18     		adds	r3, r3, r1
-  70 0070 4FEAC303 		lsl	r3, r3, #3
-  71 0074 D318     		adds	r3, r2, r3
-  72 0076 03F1B803 		add	r3, r3, #184
-  73 007a 104A     		ldr	r2, .L4+4	@ float
-  74 007c 1A60     		str	r2, [r3, #0]	@ float
-  75 007e 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
-  76 0082 40F20002 		movw	r2, #:lower16:eepromConfig
-  77 0086 C0F20002 		movt	r2, #:upper16:eepromConfig
-  78 008a 0B46     		mov	r3, r1
-  79 008c 4FEA8303 		lsl	r3, r3, #2
-  80 0090 5B18     		adds	r3, r3, r1
-  81 0092 4FEAC303 		lsl	r3, r3, #3
-  82 0096 D318     		adds	r3, r2, r3
-  83 0098 03F1BC03 		add	r3, r3, #188
-  84 009c 074A     		ldr	r2, .L4+4	@ float
-  85 009e 1A60     		str	r2, [r3, #0]	@ float
-  86 00a0 9DF80730 		ldrb	r3, [sp, #7]
-  87 00a4 03F10103 		add	r3, r3, #1
-  88 00a8 8DF80730 		strb	r3, [sp, #7]
-  89              	.L2:
-  90 00ac 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
-  91 00b0 0B2B     		cmp	r3, #11
-  92 00b2 B1D9     		bls	.L3
-  93 00b4 02B0     		add	sp, sp, #8
-  94 00b6 7047     		bx	lr
-  95              	.L5:
-  96              		.align	2
-  97              	.L4:
-  98 00b8 3661023C 		.word	1006788918
-  99 00bc 00000000 		.word	0
- 101              		.align	2
- 102              		.global	updatePID
- 103              		.thumb
- 104              		.thumb_func
- 106              	updatePID:
- 107              		@ args = 4, pretend = 0, frame = 32
- 108              		@ frame_needed = 0, uses_anonymous_args = 0
- 109 00c0 00B5     		push	{lr}
- 110 00c2 89B0     		sub	sp, sp, #36
- 111 00c4 0390     		str	r0, [sp, #12]	@ float
- 112 00c6 0291     		str	r1, [sp, #8]	@ float
- 113 00c8 0192     		str	r2, [sp, #4]	@ float
- 114 00ca 8DF80330 		strb	r3, [sp, #3]
- 115 00ce 9DED037A 		flds	s14, [sp, #12]
- 116 00d2 DDED027A 		flds	s15, [sp, #8]
- 117 00d6 77EE677A 		fsubs	s15, s14, s15
- 118 00da CDED077A 		fsts	s15, [sp, #28]
- 119 00de 0A9B     		ldr	r3, [sp, #40]
- 120 00e0 93F82530 		ldrb	r3, [r3, #37]	@ zero_extendqisi2
- 121 00e4 012B     		cmp	r3, #1
- 122 00e6 03D1     		bne	.L7
- 123 00e8 0798     		ldr	r0, [sp, #28]	@ float
- 124 00ea FFF7FEFF 		bl	standardRadianFormat
- 125 00ee 0790     		str	r0, [sp, #28]	@ float
- 126              	.L7:
- 127 00f0 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
- 128 00f4 002B     		cmp	r3, #0
- 129 00f6 1FD1     		bne	.L8
- 130 00f8 0A9B     		ldr	r3, [sp, #40]
- 131 00fa 93ED047A 		flds	s14, [r3, #16]
- 132 00fe DDED076A 		flds	s13, [sp, #28]
- 133 0102 DDED017A 		flds	s15, [sp, #4]
- 134 0106 66EEA77A 		fmuls	s15, s13, s15
- 135 010a 77EE277A 		fadds	s15, s14, s15
- 136 010e 0A9B     		ldr	r3, [sp, #40]
- 137 0110 C3ED047A 		fsts	s15, [r3, #16]
- 138 0114 0A9B     		ldr	r3, [sp, #40]
- 139 0116 1A69     		ldr	r2, [r3, #16]	@ float
- 140 0118 0A9B     		ldr	r3, [sp, #40]
- 141 011a D3ED057A 		flds	s15, [r3, #20]
- 142 011e F1EE677A 		fnegs	s15, s15
- 143 0122 17EE901A 		fmrs	r1, s15
- 144 0126 0A9B     		ldr	r3, [sp, #40]
- 145 0128 5B69     		ldr	r3, [r3, #20]	@ float
- 146 012a 1046     		mov	r0, r2	@ float
- 147 012c 1A46     		mov	r2, r3	@ float
- 148 012e FFF7FEFF 		bl	constrain
- 149 0132 0246     		mov	r2, r0	@ float
- 150 0134 0A9B     		ldr	r3, [sp, #40]
- 151 0136 1A61     		str	r2, [r3, #16]	@ float
- 152              	.L8:
- 153 0138 0A9B     		ldr	r3, [sp, #40]
- 154 013a 93F82430 		ldrb	r3, [r3, #36]	@ zero_extendqisi2
- 155 013e 012B     		cmp	r3, #1
- 156 0140 10D1     		bne	.L9
- 157 0142 0A9B     		ldr	r3, [sp, #40]
- 158 0144 D3ED067A 		flds	s15, [r3, #24]
- 159 0148 9DED077A 		flds	s14, [sp, #28]
- 160 014c 37EE677A 		fsubs	s14, s14, s15
- 161 0150 DDED017A 		flds	s15, [sp, #4]
- 162 0154 C7EE277A 		fdivs	s15, s14, s15
- 163 0158 CDED067A 		fsts	s15, [sp, #24]
- 164 015c 0A9B     		ldr	r3, [sp, #40]
- 165 015e 079A     		ldr	r2, [sp, #28]	@ float
- 166 0160 9A61     		str	r2, [r3, #24]	@ float
- 167 0162 0FE0     		b	.L10
- 168              	.L9:
- 169 0164 0A9B     		ldr	r3, [sp, #40]
- 170 0166 93ED067A 		flds	s14, [r3, #24]
- 171 016a DDED027A 		flds	s15, [sp, #8]
- 172 016e 37EE677A 		fsubs	s14, s14, s15
- 173 0172 DDED017A 		flds	s15, [sp, #4]
- 174 0176 C7EE277A 		fdivs	s15, s14, s15
- 175 017a CDED067A 		fsts	s15, [sp, #24]
- 176 017e 0A9B     		ldr	r3, [sp, #40]
- 177 0180 029A     		ldr	r2, [sp, #8]	@ float
- 178 0182 9A61     		str	r2, [r3, #24]	@ float
- 179              	.L10:
- 180 0184 0A9B     		ldr	r3, [sp, #40]
- 181 0186 93ED077A 		flds	s14, [r3, #28]
- 182 018a 40F20003 		movw	r3, #:lower16:rc
- 183 018e C0F20003 		movt	r3, #:upper16:rc
- 184 0192 D3ED006A 		flds	s13, [r3, #0]
- 185 0196 DDED017A 		flds	s15, [sp, #4]
- 186 019a 76EEA77A 		fadds	s15, s13, s15
- 187 019e DDED016A 		flds	s13, [sp, #4]
- 188 01a2 C6EEA77A 		fdivs	s15, s13, s15
- 189 01a6 0A9B     		ldr	r3, [sp, #40]
- 190 01a8 D3ED076A 		flds	s13, [r3, #28]
- 191 01ac 9DED066A 		flds	s12, [sp, #24]
- 192 01b0 76EE666A 		fsubs	s13, s12, s13
- 193 01b4 67EEA67A 		fmuls	s15, s15, s13
- 194 01b8 77EE277A 		fadds	s15, s14, s15
- 195 01bc CDED057A 		fsts	s15, [sp, #20]
- 196 01c0 0A9B     		ldr	r3, [sp, #40]
- 197 01c2 93ED077A 		flds	s14, [r3, #28]
- 198 01c6 DDED057A 		flds	s15, [sp, #20]
- 199 01ca 37EE277A 		fadds	s14, s14, s15
- 200 01ce 0A9B     		ldr	r3, [sp, #40]
- 201 01d0 D3ED087A 		flds	s15, [r3, #32]
- 202 01d4 37EE277A 		fadds	s14, s14, s15
- 203 01d8 DFED367A 		flds	s15, .L13
- 204 01dc 67EE277A 		fmuls	s15, s14, s15
- 205 01e0 CDED047A 		fsts	s15, [sp, #16]
- 206 01e4 0A9B     		ldr	r3, [sp, #40]
- 207 01e6 DA69     		ldr	r2, [r3, #28]	@ float
- 208 01e8 0A9B     		ldr	r3, [sp, #40]
- 209 01ea 1A62     		str	r2, [r3, #32]	@ float
- 210 01ec 0A9B     		ldr	r3, [sp, #40]
- 211 01ee 059A     		ldr	r2, [sp, #20]	@ float
- 212 01f0 DA61     		str	r2, [r3, #28]	@ float
- 213 01f2 0A9B     		ldr	r3, [sp, #40]
- 214 01f4 93F82530 		ldrb	r3, [r3, #37]	@ zero_extendqisi2
- 215 01f8 012B     		cmp	r3, #1
- 216 01fa 2ED1     		bne	.L11
- 217 01fc 0A9B     		ldr	r3, [sp, #40]
- 218 01fe 93ED017A 		flds	s14, [r3, #4]
- 219 0202 0A9B     		ldr	r3, [sp, #40]
- 220 0204 D3ED007A 		flds	s15, [r3, #0]
- 221 0208 67EE277A 		fmuls	s15, s14, s15
- 222 020c 9DED037A 		flds	s14, [sp, #12]
- 223 0210 27EE877A 		fmuls	s14, s15, s14
- 224 0214 0A9B     		ldr	r3, [sp, #40]
- 225 0216 D3ED026A 		flds	s13, [r3, #8]
- 226 021a 0A9B     		ldr	r3, [sp, #40]
- 227 021c D3ED047A 		flds	s15, [r3, #16]
- 228 0220 66EEA77A 		fmuls	s15, s13, s15
- 229 0224 37EE277A 		fadds	s14, s14, s15
- 230 0228 0A9B     		ldr	r3, [sp, #40]
- 231 022a D3ED036A 		flds	s13, [r3, #12]
- 232 022e DDED047A 		flds	s15, [sp, #16]
- 233 0232 66EEA77A 		fmuls	s15, s13, s15
- 234 0236 37EE277A 		fadds	s14, s14, s15
- 235 023a 0A9B     		ldr	r3, [sp, #40]
- 236 023c D3ED016A 		flds	s13, [r3, #4]
- 237 0240 DDED027A 		flds	s15, [sp, #8]
- 238 0244 66EEA77A 		fmuls	s15, s13, s15
- 239 0248 77EE677A 		fsubs	s15, s14, s15
- 240 024c 17EE900A 		fmrs	r0, s15
- 241 0250 FFF7FEFF 		bl	standardRadianFormat
- 242 0254 07EE900A 		fmsr	s15, r0
- 243 0258 27E0     		b	.L12
- 244              	.L11:
- 245 025a 0A9B     		ldr	r3, [sp, #40]
- 246 025c 93ED017A 		flds	s14, [r3, #4]
- 247 0260 0A9B     		ldr	r3, [sp, #40]
- 248 0262 D3ED007A 		flds	s15, [r3, #0]
- 249 0266 67EE277A 		fmuls	s15, s14, s15
- 250 026a 9DED037A 		flds	s14, [sp, #12]
- 251 026e 27EE877A 		fmuls	s14, s15, s14
- 252 0272 0A9B     		ldr	r3, [sp, #40]
- 253 0274 D3ED026A 		flds	s13, [r3, #8]
- 254 0278 0A9B     		ldr	r3, [sp, #40]
- 255 027a D3ED047A 		flds	s15, [r3, #16]
- 256 027e 66EEA77A 		fmuls	s15, s13, s15
- 257 0282 37EE277A 		fadds	s14, s14, s15
- 258 0286 0A9B     		ldr	r3, [sp, #40]
- 259 0288 D3ED036A 		flds	s13, [r3, #12]
- 260 028c DDED047A 		flds	s15, [sp, #16]
- 261 0290 66EEA77A 		fmuls	s15, s13, s15
- 262 0294 37EE277A 		fadds	s14, s14, s15
- 263 0298 0A9B     		ldr	r3, [sp, #40]
- 264 029a D3ED016A 		flds	s13, [r3, #4]
- 265 029e DDED027A 		flds	s15, [sp, #8]
- 266 02a2 66EEA77A 		fmuls	s15, s13, s15
- 267 02a6 77EE677A 		fsubs	s15, s14, s15
- 268              	.L12:
- 269 02aa 17EE903A 		fmrs	r3, s15
- 270 02ae 1846     		mov	r0, r3	@ float
- 271 02b0 09B0     		add	sp, sp, #36
- 272 02b2 00BD     		pop	{pc}
- 273              	.L14:
- 274              		.align	2
- 275              	.L13:
- 276 02b4 9FAAAA3E 		.word	1051372191
- 278              		.align	2
- 279              		.global	setPIDintegralError
- 280              		.thumb
- 281              		.thumb_func
- 283              	setPIDintegralError:
- 284              		@ args = 0, pretend = 0, frame = 8
- 285              		@ frame_needed = 0, uses_anonymous_args = 0
- 286              		@ link register save eliminated.
- 287 02b8 82B0     		sub	sp, sp, #8
- 288 02ba 0346     		mov	r3, r0
- 289 02bc 0091     		str	r1, [sp, #0]	@ float
- 290 02be 8DF80730 		strb	r3, [sp, #7]
- 291 02c2 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
- 292 02c6 40F20002 		movw	r2, #:lower16:eepromConfig
- 293 02ca C0F20002 		movt	r2, #:upper16:eepromConfig
- 294 02ce 0B46     		mov	r3, r1
- 295 02d0 4FEA8303 		lsl	r3, r3, #2
- 296 02d4 5B18     		adds	r3, r3, r1
- 297 02d6 4FEAC303 		lsl	r3, r3, #3
- 298 02da D318     		adds	r3, r2, r3
- 299 02dc 03F1AC03 		add	r3, r3, #172
- 300 02e0 009A     		ldr	r2, [sp, #0]	@ float
- 301 02e2 1A60     		str	r2, [r3, #0]	@ float
- 302 02e4 02B0     		add	sp, sp, #8
- 303 02e6 7047     		bx	lr
- 305              		.align	2
- 306              		.global	zeroPIDintegralError
- 307              		.thumb
- 308              		.thumb_func
- 310              	zeroPIDintegralError:
- 311              		@ args = 0, pretend = 0, frame = 8
- 312              		@ frame_needed = 0, uses_anonymous_args = 0
- 313 02e8 00B5     		push	{lr}
- 314 02ea 83B0     		sub	sp, sp, #12
- 315 02ec 4FF00003 		mov	r3, #0
- 316 02f0 8DF80730 		strb	r3, [sp, #7]
- 317 02f4 0BE0     		b	.L17
- 318              	.L18:
- 319 02f6 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
- 320 02fa 1846     		mov	r0, r3
- 321 02fc 0749     		ldr	r1, .L19	@ float
- 322 02fe FFF7FEFF 		bl	setPIDintegralError
- 323 0302 9DF80730 		ldrb	r3, [sp, #7]
- 324 0306 03F10103 		add	r3, r3, #1
- 325 030a 8DF80730 		strb	r3, [sp, #7]
- 326              	.L17:
- 327 030e 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
- 328 0312 0B2B     		cmp	r3, #11
- 329 0314 EFD9     		bls	.L18
- 330 0316 03B0     		add	sp, sp, #12
- 331 0318 00BD     		pop	{pc}
- 332              	.L20:
- 333 031a 00BF     		.align	2
- 334              	.L19:
- 335 031c 00000000 		.word	0
- 337              		.align	2
- 338              		.global	setPIDstates
- 339              		.thumb
- 340              		.thumb_func
- 342              	setPIDstates:
- 343              		@ args = 0, pretend = 0, frame = 8
- 344              		@ frame_needed = 0, uses_anonymous_args = 0
- 345              		@ link register save eliminated.
- 346 0320 82B0     		sub	sp, sp, #8
- 347 0322 0346     		mov	r3, r0
- 348 0324 0091     		str	r1, [sp, #0]	@ float
- 349 0326 8DF80730 		strb	r3, [sp, #7]
- 350 032a 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
- 351 032e 40F20002 		movw	r2, #:lower16:eepromConfig
- 352 0332 C0F20002 		movt	r2, #:upper16:eepromConfig
- 353 0336 0B46     		mov	r3, r1
- 354 0338 4FEA8303 		lsl	r3, r3, #2
- 355 033c 5B18     		adds	r3, r3, r1
- 356 033e 4FEAC303 		lsl	r3, r3, #3
- 357 0342 D318     		adds	r3, r2, r3
- 358 0344 03F1B403 		add	r3, r3, #180
- 359 0348 009A     		ldr	r2, [sp, #0]	@ float
- 360 034a 1A60     		str	r2, [r3, #0]	@ float
- 361 034c 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
- 362 0350 40F20002 		movw	r2, #:lower16:eepromConfig
- 363 0354 C0F20002 		movt	r2, #:upper16:eepromConfig
- 364 0358 0B46     		mov	r3, r1
- 365 035a 4FEA8303 		lsl	r3, r3, #2
- 366 035e 5B18     		adds	r3, r3, r1
- 367 0360 4FEAC303 		lsl	r3, r3, #3
- 368 0364 D318     		adds	r3, r2, r3
- 369 0366 03F1B803 		add	r3, r3, #184
- 370 036a 009A     		ldr	r2, [sp, #0]	@ float
- 371 036c 1A60     		str	r2, [r3, #0]	@ float
- 372 036e 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
- 373 0372 40F20002 		movw	r2, #:lower16:eepromConfig
- 374 0376 C0F20002 		movt	r2, #:upper16:eepromConfig
- 375 037a 0B46     		mov	r3, r1
- 376 037c 4FEA8303 		lsl	r3, r3, #2
- 377 0380 5B18     		adds	r3, r3, r1
- 378 0382 4FEAC303 		lsl	r3, r3, #3
- 379 0386 D318     		adds	r3, r2, r3
- 380 0388 03F1BC03 		add	r3, r3, #188
- 381 038c 009A     		ldr	r2, [sp, #0]	@ float
- 382 038e 1A60     		str	r2, [r3, #0]	@ float
- 383 0390 02B0     		add	sp, sp, #8
- 384 0392 7047     		bx	lr
- 386              		.align	2
- 387              		.global	zeroPIDstates
- 388              		.thumb
- 389              		.thumb_func
- 391              	zeroPIDstates:
- 392              		@ args = 0, pretend = 0, frame = 8
- 393              		@ frame_needed = 0, uses_anonymous_args = 0
- 394 0394 00B5     		push	{lr}
- 395 0396 83B0     		sub	sp, sp, #12
- 396 0398 4FF00003 		mov	r3, #0
- 397 039c 8DF80730 		strb	r3, [sp, #7]
- 398 03a0 0BE0     		b	.L23
- 399              	.L24:
- 400 03a2 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
- 401 03a6 1846     		mov	r0, r3
- 402 03a8 0749     		ldr	r1, .L25	@ float
- 403 03aa FFF7FEFF 		bl	setPIDstates
- 404 03ae 9DF80730 		ldrb	r3, [sp, #7]
- 405 03b2 03F10103 		add	r3, r3, #1
- 406 03b6 8DF80730 		strb	r3, [sp, #7]
- 407              	.L23:
- 408 03ba 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
- 409 03be 0B2B     		cmp	r3, #11
- 410 03c0 EFD9     		bls	.L24
- 411 03c2 03B0     		add	sp, sp, #12
- 412 03c4 00BD     		pop	{pc}
- 413              	.L26:
- 414 03c6 00BF     		.align	2
- 415              	.L25:
- 416 03c8 00000000 		.word	0
- 418              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+  16              		.comm	mtk19ProcessDataState,1,1
+  17              		.comm	nmeaProcessDataState,1,1
+  18              		.comm	ubloxProcessDataState,1,1
+  19              		.global	holdIntegrators
+  20              		.data
+  23              	holdIntegrators:
+  24 0000 01       		.byte	1
+  25              		.comm	rc,4,4
+  26              		.text
+  27              		.align	2
+  28              		.global	initPID
+  29              		.thumb
+  30              		.thumb_func
+  32              	initPID:
+  33              		@ args = 0, pretend = 0, frame = 8
+  34              		@ frame_needed = 0, uses_anonymous_args = 0
+  35              		@ link register save eliminated.
+  36 0000 82B0     		sub	sp, sp, #8
+  37 0002 40F20003 		movw	r3, #:lower16:rc
+  38 0006 C0F20003 		movt	r3, #:upper16:rc
+  39 000a 2B4A     		ldr	r2, .L4	@ float
+  40 000c 1A60     		str	r2, [r3, #0]	@ float
+  41 000e 4FF00003 		mov	r3, #0
+  42 0012 8DF80730 		strb	r3, [sp, #7]
+  43 0016 49E0     		b	.L2
+  44              	.L3:
+  45 0018 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+  46 001c 40F20002 		movw	r2, #:lower16:eepromConfig
+  47 0020 C0F20002 		movt	r2, #:upper16:eepromConfig
+  48 0024 0B46     		mov	r3, r1
+  49 0026 4FEA8303 		lsl	r3, r3, #2
+  50 002a 5B18     		adds	r3, r3, r1
+  51 002c 4FEAC303 		lsl	r3, r3, #3
+  52 0030 D318     		adds	r3, r2, r3
+  53 0032 03F1AC03 		add	r3, r3, #172
+  54 0036 214A     		ldr	r2, .L4+4	@ float
+  55 0038 1A60     		str	r2, [r3, #0]	@ float
+  56 003a 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+  57 003e 40F20002 		movw	r2, #:lower16:eepromConfig
+  58 0042 C0F20002 		movt	r2, #:upper16:eepromConfig
+  59 0046 0B46     		mov	r3, r1
+  60 0048 4FEA8303 		lsl	r3, r3, #2
+  61 004c 5B18     		adds	r3, r3, r1
+  62 004e 4FEAC303 		lsl	r3, r3, #3
+  63 0052 D318     		adds	r3, r2, r3
+  64 0054 03F1B403 		add	r3, r3, #180
+  65 0058 184A     		ldr	r2, .L4+4	@ float
+  66 005a 1A60     		str	r2, [r3, #0]	@ float
+  67 005c 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+  68 0060 40F20002 		movw	r2, #:lower16:eepromConfig
+  69 0064 C0F20002 		movt	r2, #:upper16:eepromConfig
+  70 0068 0B46     		mov	r3, r1
+  71 006a 4FEA8303 		lsl	r3, r3, #2
+  72 006e 5B18     		adds	r3, r3, r1
+  73 0070 4FEAC303 		lsl	r3, r3, #3
+  74 0074 D318     		adds	r3, r2, r3
+  75 0076 03F1B803 		add	r3, r3, #184
+  76 007a 104A     		ldr	r2, .L4+4	@ float
+  77 007c 1A60     		str	r2, [r3, #0]	@ float
+  78 007e 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+  79 0082 40F20002 		movw	r2, #:lower16:eepromConfig
+  80 0086 C0F20002 		movt	r2, #:upper16:eepromConfig
+  81 008a 0B46     		mov	r3, r1
+  82 008c 4FEA8303 		lsl	r3, r3, #2
+  83 0090 5B18     		adds	r3, r3, r1
+  84 0092 4FEAC303 		lsl	r3, r3, #3
+  85 0096 D318     		adds	r3, r2, r3
+  86 0098 03F1BC03 		add	r3, r3, #188
+  87 009c 074A     		ldr	r2, .L4+4	@ float
+  88 009e 1A60     		str	r2, [r3, #0]	@ float
+  89 00a0 9DF80730 		ldrb	r3, [sp, #7]
+  90 00a4 03F10103 		add	r3, r3, #1
+  91 00a8 8DF80730 		strb	r3, [sp, #7]
+  92              	.L2:
+  93 00ac 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+  94 00b0 0B2B     		cmp	r3, #11
+  95 00b2 B1D9     		bls	.L3
+  96 00b4 02B0     		add	sp, sp, #8
+  97 00b6 7047     		bx	lr
+  98              	.L5:
+  99              		.align	2
+ 100              	.L4:
+ 101 00b8 3661023C 		.word	1006788918
+ 102 00bc 00000000 		.word	0
+ 104              		.align	2
+ 105              		.global	updatePID
+ 106              		.thumb
+ 107              		.thumb_func
+ 109              	updatePID:
+ 110              		@ args = 4, pretend = 0, frame = 32
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112 00c0 00B5     		push	{lr}
+ 113 00c2 89B0     		sub	sp, sp, #36
+ 114 00c4 0390     		str	r0, [sp, #12]	@ float
+ 115 00c6 0291     		str	r1, [sp, #8]	@ float
+ 116 00c8 0192     		str	r2, [sp, #4]	@ float
+ 117 00ca 8DF80330 		strb	r3, [sp, #3]
+ 118 00ce 9DED037A 		flds	s14, [sp, #12]
+ 119 00d2 DDED027A 		flds	s15, [sp, #8]
+ 120 00d6 77EE677A 		fsubs	s15, s14, s15
+ 121 00da CDED077A 		fsts	s15, [sp, #28]
+ 122 00de 0A9B     		ldr	r3, [sp, #40]
+ 123 00e0 93F82530 		ldrb	r3, [r3, #37]	@ zero_extendqisi2
+ 124 00e4 012B     		cmp	r3, #1
+ 125 00e6 03D1     		bne	.L7
+ 126 00e8 0798     		ldr	r0, [sp, #28]	@ float
+ 127 00ea FFF7FEFF 		bl	standardRadianFormat
+ 128 00ee 0790     		str	r0, [sp, #28]	@ float
+ 129              	.L7:
+ 130 00f0 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 131 00f4 002B     		cmp	r3, #0
+ 132 00f6 1FD1     		bne	.L8
+ 133 00f8 0A9B     		ldr	r3, [sp, #40]
+ 134 00fa 93ED047A 		flds	s14, [r3, #16]
+ 135 00fe DDED076A 		flds	s13, [sp, #28]
+ 136 0102 DDED017A 		flds	s15, [sp, #4]
+ 137 0106 66EEA77A 		fmuls	s15, s13, s15
+ 138 010a 77EE277A 		fadds	s15, s14, s15
+ 139 010e 0A9B     		ldr	r3, [sp, #40]
+ 140 0110 C3ED047A 		fsts	s15, [r3, #16]
+ 141 0114 0A9B     		ldr	r3, [sp, #40]
+ 142 0116 1A69     		ldr	r2, [r3, #16]	@ float
+ 143 0118 0A9B     		ldr	r3, [sp, #40]
+ 144 011a D3ED057A 		flds	s15, [r3, #20]
+ 145 011e F1EE677A 		fnegs	s15, s15
+ 146 0122 17EE901A 		fmrs	r1, s15
+ 147 0126 0A9B     		ldr	r3, [sp, #40]
+ 148 0128 5B69     		ldr	r3, [r3, #20]	@ float
+ 149 012a 1046     		mov	r0, r2	@ float
+ 150 012c 1A46     		mov	r2, r3	@ float
+ 151 012e FFF7FEFF 		bl	constrain
+ 152 0132 0246     		mov	r2, r0	@ float
+ 153 0134 0A9B     		ldr	r3, [sp, #40]
+ 154 0136 1A61     		str	r2, [r3, #16]	@ float
+ 155              	.L8:
+ 156 0138 0A9B     		ldr	r3, [sp, #40]
+ 157 013a 93F82430 		ldrb	r3, [r3, #36]	@ zero_extendqisi2
+ 158 013e 012B     		cmp	r3, #1
+ 159 0140 10D1     		bne	.L9
+ 160 0142 0A9B     		ldr	r3, [sp, #40]
+ 161 0144 D3ED067A 		flds	s15, [r3, #24]
+ 162 0148 9DED077A 		flds	s14, [sp, #28]
+ 163 014c 37EE677A 		fsubs	s14, s14, s15
+ 164 0150 DDED017A 		flds	s15, [sp, #4]
+ 165 0154 C7EE277A 		fdivs	s15, s14, s15
+ 166 0158 CDED067A 		fsts	s15, [sp, #24]
+ 167 015c 0A9B     		ldr	r3, [sp, #40]
+ 168 015e 079A     		ldr	r2, [sp, #28]	@ float
+ 169 0160 9A61     		str	r2, [r3, #24]	@ float
+ 170 0162 0FE0     		b	.L10
+ 171              	.L9:
+ 172 0164 0A9B     		ldr	r3, [sp, #40]
+ 173 0166 93ED067A 		flds	s14, [r3, #24]
+ 174 016a DDED027A 		flds	s15, [sp, #8]
+ 175 016e 37EE677A 		fsubs	s14, s14, s15
+ 176 0172 DDED017A 		flds	s15, [sp, #4]
+ 177 0176 C7EE277A 		fdivs	s15, s14, s15
+ 178 017a CDED067A 		fsts	s15, [sp, #24]
+ 179 017e 0A9B     		ldr	r3, [sp, #40]
+ 180 0180 029A     		ldr	r2, [sp, #8]	@ float
+ 181 0182 9A61     		str	r2, [r3, #24]	@ float
+ 182              	.L10:
+ 183 0184 0A9B     		ldr	r3, [sp, #40]
+ 184 0186 93ED077A 		flds	s14, [r3, #28]
+ 185 018a 40F20003 		movw	r3, #:lower16:rc
+ 186 018e C0F20003 		movt	r3, #:upper16:rc
+ 187 0192 D3ED006A 		flds	s13, [r3, #0]
+ 188 0196 DDED017A 		flds	s15, [sp, #4]
+ 189 019a 76EEA77A 		fadds	s15, s13, s15
+ 190 019e DDED016A 		flds	s13, [sp, #4]
+ 191 01a2 C6EEA77A 		fdivs	s15, s13, s15
+ 192 01a6 0A9B     		ldr	r3, [sp, #40]
+ 193 01a8 D3ED076A 		flds	s13, [r3, #28]
+ 194 01ac 9DED066A 		flds	s12, [sp, #24]
+ 195 01b0 76EE666A 		fsubs	s13, s12, s13
+ 196 01b4 67EEA67A 		fmuls	s15, s15, s13
+ 197 01b8 77EE277A 		fadds	s15, s14, s15
+ 198 01bc CDED057A 		fsts	s15, [sp, #20]
+ 199 01c0 0A9B     		ldr	r3, [sp, #40]
+ 200 01c2 93ED077A 		flds	s14, [r3, #28]
+ 201 01c6 DDED057A 		flds	s15, [sp, #20]
+ 202 01ca 37EE277A 		fadds	s14, s14, s15
+ 203 01ce 0A9B     		ldr	r3, [sp, #40]
+ 204 01d0 D3ED087A 		flds	s15, [r3, #32]
+ 205 01d4 37EE277A 		fadds	s14, s14, s15
+ 206 01d8 DFED367A 		flds	s15, .L13
+ 207 01dc 67EE277A 		fmuls	s15, s14, s15
+ 208 01e0 CDED047A 		fsts	s15, [sp, #16]
+ 209 01e4 0A9B     		ldr	r3, [sp, #40]
+ 210 01e6 DA69     		ldr	r2, [r3, #28]	@ float
+ 211 01e8 0A9B     		ldr	r3, [sp, #40]
+ 212 01ea 1A62     		str	r2, [r3, #32]	@ float
+ 213 01ec 0A9B     		ldr	r3, [sp, #40]
+ 214 01ee 059A     		ldr	r2, [sp, #20]	@ float
+ 215 01f0 DA61     		str	r2, [r3, #28]	@ float
+ 216 01f2 0A9B     		ldr	r3, [sp, #40]
+ 217 01f4 93F82530 		ldrb	r3, [r3, #37]	@ zero_extendqisi2
+ 218 01f8 012B     		cmp	r3, #1
+ 219 01fa 2ED1     		bne	.L11
+ 220 01fc 0A9B     		ldr	r3, [sp, #40]
+ 221 01fe 93ED017A 		flds	s14, [r3, #4]
+ 222 0202 0A9B     		ldr	r3, [sp, #40]
+ 223 0204 D3ED007A 		flds	s15, [r3, #0]
+ 224 0208 67EE277A 		fmuls	s15, s14, s15
+ 225 020c 9DED037A 		flds	s14, [sp, #12]
+ 226 0210 27EE877A 		fmuls	s14, s15, s14
+ 227 0214 0A9B     		ldr	r3, [sp, #40]
+ 228 0216 D3ED026A 		flds	s13, [r3, #8]
+ 229 021a 0A9B     		ldr	r3, [sp, #40]
+ 230 021c D3ED047A 		flds	s15, [r3, #16]
+ 231 0220 66EEA77A 		fmuls	s15, s13, s15
+ 232 0224 37EE277A 		fadds	s14, s14, s15
+ 233 0228 0A9B     		ldr	r3, [sp, #40]
+ 234 022a D3ED036A 		flds	s13, [r3, #12]
+ 235 022e DDED047A 		flds	s15, [sp, #16]
+ 236 0232 66EEA77A 		fmuls	s15, s13, s15
+ 237 0236 37EE277A 		fadds	s14, s14, s15
+ 238 023a 0A9B     		ldr	r3, [sp, #40]
+ 239 023c D3ED016A 		flds	s13, [r3, #4]
+ 240 0240 DDED027A 		flds	s15, [sp, #8]
+ 241 0244 66EEA77A 		fmuls	s15, s13, s15
+ 242 0248 77EE677A 		fsubs	s15, s14, s15
+ 243 024c 17EE900A 		fmrs	r0, s15
+ 244 0250 FFF7FEFF 		bl	standardRadianFormat
+ 245 0254 07EE900A 		fmsr	s15, r0
+ 246 0258 27E0     		b	.L12
+ 247              	.L11:
+ 248 025a 0A9B     		ldr	r3, [sp, #40]
+ 249 025c 93ED017A 		flds	s14, [r3, #4]
+ 250 0260 0A9B     		ldr	r3, [sp, #40]
+ 251 0262 D3ED007A 		flds	s15, [r3, #0]
+ 252 0266 67EE277A 		fmuls	s15, s14, s15
+ 253 026a 9DED037A 		flds	s14, [sp, #12]
+ 254 026e 27EE877A 		fmuls	s14, s15, s14
+ 255 0272 0A9B     		ldr	r3, [sp, #40]
+ 256 0274 D3ED026A 		flds	s13, [r3, #8]
+ 257 0278 0A9B     		ldr	r3, [sp, #40]
+ 258 027a D3ED047A 		flds	s15, [r3, #16]
+ 259 027e 66EEA77A 		fmuls	s15, s13, s15
+ 260 0282 37EE277A 		fadds	s14, s14, s15
+ 261 0286 0A9B     		ldr	r3, [sp, #40]
+ 262 0288 D3ED036A 		flds	s13, [r3, #12]
+ 263 028c DDED047A 		flds	s15, [sp, #16]
+ 264 0290 66EEA77A 		fmuls	s15, s13, s15
+ 265 0294 37EE277A 		fadds	s14, s14, s15
+ 266 0298 0A9B     		ldr	r3, [sp, #40]
+ 267 029a D3ED016A 		flds	s13, [r3, #4]
+ 268 029e DDED027A 		flds	s15, [sp, #8]
+ 269 02a2 66EEA77A 		fmuls	s15, s13, s15
+ 270 02a6 77EE677A 		fsubs	s15, s14, s15
+ 271              	.L12:
+ 272 02aa 17EE903A 		fmrs	r3, s15
+ 273 02ae 1846     		mov	r0, r3	@ float
+ 274 02b0 09B0     		add	sp, sp, #36
+ 275 02b2 00BD     		pop	{pc}
+ 276              	.L14:
+ 277              		.align	2
+ 278              	.L13:
+ 279 02b4 9FAAAA3E 		.word	1051372191
+ 281              		.align	2
+ 282              		.global	setPIDintegralError
+ 283              		.thumb
+ 284              		.thumb_func
+ 286              	setPIDintegralError:
+ 287              		@ args = 0, pretend = 0, frame = 8
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289              		@ link register save eliminated.
+ 290 02b8 82B0     		sub	sp, sp, #8
+ 291 02ba 0346     		mov	r3, r0
+ 292 02bc 0091     		str	r1, [sp, #0]	@ float
+ 293 02be 8DF80730 		strb	r3, [sp, #7]
+ 294 02c2 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 295 02c6 40F20002 		movw	r2, #:lower16:eepromConfig
+ 296 02ca C0F20002 		movt	r2, #:upper16:eepromConfig
+ 297 02ce 0B46     		mov	r3, r1
+ 298 02d0 4FEA8303 		lsl	r3, r3, #2
+ 299 02d4 5B18     		adds	r3, r3, r1
+ 300 02d6 4FEAC303 		lsl	r3, r3, #3
+ 301 02da D318     		adds	r3, r2, r3
+ 302 02dc 03F1AC03 		add	r3, r3, #172
+ 303 02e0 009A     		ldr	r2, [sp, #0]	@ float
+ 304 02e2 1A60     		str	r2, [r3, #0]	@ float
+ 305 02e4 02B0     		add	sp, sp, #8
+ 306 02e6 7047     		bx	lr
+ 308              		.align	2
+ 309              		.global	zeroPIDintegralError
+ 310              		.thumb
+ 311              		.thumb_func
+ 313              	zeroPIDintegralError:
+ 314              		@ args = 0, pretend = 0, frame = 8
+ 315              		@ frame_needed = 0, uses_anonymous_args = 0
+ 316 02e8 00B5     		push	{lr}
+ 317 02ea 83B0     		sub	sp, sp, #12
+ 318 02ec 4FF00003 		mov	r3, #0
+ 319 02f0 8DF80730 		strb	r3, [sp, #7]
+ 320 02f4 0BE0     		b	.L17
+ 321              	.L18:
+ 322 02f6 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 323 02fa 1846     		mov	r0, r3
+ 324 02fc 0749     		ldr	r1, .L19	@ float
+ 325 02fe FFF7FEFF 		bl	setPIDintegralError
+ 326 0302 9DF80730 		ldrb	r3, [sp, #7]
+ 327 0306 03F10103 		add	r3, r3, #1
+ 328 030a 8DF80730 		strb	r3, [sp, #7]
+ 329              	.L17:
+ 330 030e 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 331 0312 0B2B     		cmp	r3, #11
+ 332 0314 EFD9     		bls	.L18
+ 333 0316 03B0     		add	sp, sp, #12
+ 334 0318 00BD     		pop	{pc}
+ 335              	.L20:
+ 336 031a 00BF     		.align	2
+ 337              	.L19:
+ 338 031c 00000000 		.word	0
+ 340              		.align	2
+ 341              		.global	setPIDstates
+ 342              		.thumb
+ 343              		.thumb_func
+ 345              	setPIDstates:
+ 346              		@ args = 0, pretend = 0, frame = 8
+ 347              		@ frame_needed = 0, uses_anonymous_args = 0
+ 348              		@ link register save eliminated.
+ 349 0320 82B0     		sub	sp, sp, #8
+ 350 0322 0346     		mov	r3, r0
+ 351 0324 0091     		str	r1, [sp, #0]	@ float
+ 352 0326 8DF80730 		strb	r3, [sp, #7]
+ 353 032a 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 354 032e 40F20002 		movw	r2, #:lower16:eepromConfig
+ 355 0332 C0F20002 		movt	r2, #:upper16:eepromConfig
+ 356 0336 0B46     		mov	r3, r1
+ 357 0338 4FEA8303 		lsl	r3, r3, #2
+ 358 033c 5B18     		adds	r3, r3, r1
+ 359 033e 4FEAC303 		lsl	r3, r3, #3
+ 360 0342 D318     		adds	r3, r2, r3
+ 361 0344 03F1B403 		add	r3, r3, #180
+ 362 0348 009A     		ldr	r2, [sp, #0]	@ float
+ 363 034a 1A60     		str	r2, [r3, #0]	@ float
+ 364 034c 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 365 0350 40F20002 		movw	r2, #:lower16:eepromConfig
+ 366 0354 C0F20002 		movt	r2, #:upper16:eepromConfig
+ 367 0358 0B46     		mov	r3, r1
+ 368 035a 4FEA8303 		lsl	r3, r3, #2
+ 369 035e 5B18     		adds	r3, r3, r1
+ 370 0360 4FEAC303 		lsl	r3, r3, #3
+ 371 0364 D318     		adds	r3, r2, r3
+ 372 0366 03F1B803 		add	r3, r3, #184
+ 373 036a 009A     		ldr	r2, [sp, #0]	@ float
+ 374 036c 1A60     		str	r2, [r3, #0]	@ float
+ 375 036e 9DF80710 		ldrb	r1, [sp, #7]	@ zero_extendqisi2
+ 376 0372 40F20002 		movw	r2, #:lower16:eepromConfig
+ 377 0376 C0F20002 		movt	r2, #:upper16:eepromConfig
+ 378 037a 0B46     		mov	r3, r1
+ 379 037c 4FEA8303 		lsl	r3, r3, #2
+ 380 0380 5B18     		adds	r3, r3, r1
+ 381 0382 4FEAC303 		lsl	r3, r3, #3
+ 382 0386 D318     		adds	r3, r2, r3
+ 383 0388 03F1BC03 		add	r3, r3, #188
+ 384 038c 009A     		ldr	r2, [sp, #0]	@ float
+ 385 038e 1A60     		str	r2, [r3, #0]	@ float
+ 386 0390 02B0     		add	sp, sp, #8
+ 387 0392 7047     		bx	lr
+ 389              		.align	2
+ 390              		.global	zeroPIDstates
+ 391              		.thumb
+ 392              		.thumb_func
+ 394              	zeroPIDstates:
+ 395              		@ args = 0, pretend = 0, frame = 8
+ 396              		@ frame_needed = 0, uses_anonymous_args = 0
+ 397 0394 00B5     		push	{lr}
+ 398 0396 83B0     		sub	sp, sp, #12
+ 399 0398 4FF00003 		mov	r3, #0
+ 400 039c 8DF80730 		strb	r3, [sp, #7]
+ 401 03a0 0BE0     		b	.L23
+ 402              	.L24:
+ 403 03a2 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 404 03a6 1846     		mov	r0, r3
+ 405 03a8 0749     		ldr	r1, .L25	@ float
+ 406 03aa FFF7FEFF 		bl	setPIDstates
+ 407 03ae 9DF80730 		ldrb	r3, [sp, #7]
+ 408 03b2 03F10103 		add	r3, r3, #1
+ 409 03b6 8DF80730 		strb	r3, [sp, #7]
+ 410              	.L23:
+ 411 03ba 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 412 03be 0B2B     		cmp	r3, #11
+ 413 03c0 EFD9     		bls	.L24
+ 414 03c2 03B0     		add	sp, sp, #12
+ 415 03c4 00BD     		pop	{pc}
+ 416              	.L26:
+ 417 03c6 00BF     		.align	2
+ 418              	.L25:
+ 419 03c8 00000000 		.word	0
+ 421              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 pid.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:20     .data:00000000 holdIntegrators
+                            *COM*:00000001 mtk19ProcessDataState
+                            *COM*:00000001 nmeaProcessDataState
+                            *COM*:00000001 ubloxProcessDataState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:23     .data:00000000 holdIntegrators
                             *COM*:00000004 rc
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:24     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:29     .text:00000000 initPID
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:98     .text:000000b8 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:101    .text:000000c0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:106    .text:000000c0 updatePID
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:276    .text:000002b4 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:278    .text:000002b8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:283    .text:000002b8 setPIDintegralError
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:310    .text:000002e8 zeroPIDintegralError
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:335    .text:0000031c $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:337    .text:00000320 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:342    .text:00000320 setPIDstates
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:391    .text:00000394 zeroPIDstates
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccxLwaIh.s:416    .text:000003c8 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:27     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:32     .text:00000000 initPID
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:101    .text:000000b8 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:104    .text:000000c0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:109    .text:000000c0 updatePID
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:279    .text:000002b4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:281    .text:000002b8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:286    .text:000002b8 setPIDintegralError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:313    .text:000002e8 zeroPIDintegralError
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:338    .text:0000031c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:340    .text:00000320 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:345    .text:00000320 setPIDstates
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:394    .text:00000394 zeroPIDstates
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccBCl15b.s:419    .text:000003c8 $d
 
 UNDEFINED SYMBOLS
 eepromConfig

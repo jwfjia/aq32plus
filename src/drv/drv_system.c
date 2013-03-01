@@ -286,13 +286,13 @@ void systemInit(void)
     initMag(HMC5883L_I2C);
     initPressure(MS5611_I2C);
 
+    //if (eepromConfig.gpsInstalled)
+        initGPS();
+
     if (eepromConfig.osdInstalled)
     	initMax7456();
 
     initPID();
-
-    setupFourthOrder500Hz();
-    setupFourthOrder100Hz();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

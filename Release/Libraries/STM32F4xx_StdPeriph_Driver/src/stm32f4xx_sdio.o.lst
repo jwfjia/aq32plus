@@ -684,37 +684,37 @@
  744              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_sdio.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:22     .text:00000000 SDIO_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:39     .text:0000001c SDIO_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:88     .text:00000078 SDIO_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:120    .text:000000b0 SDIO_ClockCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:139    .text:000000cc SDIO_SetPowerState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:157    .text:000000e0 SDIO_GetPowerState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:173    .text:000000f4 SDIO_SendCommand
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:220    .text:00000150 SDIO_CmdStructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:249    .text:00000180 SDIO_GetCommandResponse
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:265    .text:00000190 SDIO_GetResponse
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:289    .text:000001b4 SDIO_DataConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:340    .text:0000021c SDIO_DataStructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:372    .text:00000254 SDIO_GetDataCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:387    .text:00000264 SDIO_ReadData
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:402    .text:00000274 SDIO_WriteData
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:420    .text:0000028c SDIO_GetFIFOCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:435    .text:0000029c SDIO_StartSDIOReadWait
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:454    .text:000002b8 SDIO_StopSDIOReadWait
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:473    .text:000002d4 SDIO_SetSDIOReadWaitMode
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:491    .text:000002e8 SDIO_SetSDIOOperation
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:510    .text:00000304 SDIO_SendSDIOSuspendCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:529    .text:00000320 SDIO_CommandCompletionCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:548    .text:0000033c SDIO_CEATAITCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:572    .text:00000364 SDIO_SendCEATACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:591    .text:00000380 SDIO_DMACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:610    .text:0000039c SDIO_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:649    .text:000003e8 SDIO_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:681    .text:00000424 SDIO_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:699    .text:00000438 SDIO_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccVEWoxo.s:731    .text:00000474 SDIO_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:22     .text:00000000 SDIO_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:39     .text:0000001c SDIO_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:88     .text:00000078 SDIO_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:120    .text:000000b0 SDIO_ClockCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:139    .text:000000cc SDIO_SetPowerState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:157    .text:000000e0 SDIO_GetPowerState
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:173    .text:000000f4 SDIO_SendCommand
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:220    .text:00000150 SDIO_CmdStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:249    .text:00000180 SDIO_GetCommandResponse
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:265    .text:00000190 SDIO_GetResponse
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:289    .text:000001b4 SDIO_DataConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:340    .text:0000021c SDIO_DataStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:372    .text:00000254 SDIO_GetDataCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:387    .text:00000264 SDIO_ReadData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:402    .text:00000274 SDIO_WriteData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:420    .text:0000028c SDIO_GetFIFOCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:435    .text:0000029c SDIO_StartSDIOReadWait
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:454    .text:000002b8 SDIO_StopSDIOReadWait
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:473    .text:000002d4 SDIO_SetSDIOReadWaitMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:491    .text:000002e8 SDIO_SetSDIOOperation
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:510    .text:00000304 SDIO_SendSDIOSuspendCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:529    .text:00000320 SDIO_CommandCompletionCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:548    .text:0000033c SDIO_CEATAITCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:572    .text:00000364 SDIO_SendCEATACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:591    .text:00000380 SDIO_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:610    .text:0000039c SDIO_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:649    .text:000003e8 SDIO_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:681    .text:00000424 SDIO_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:699    .text:00000438 SDIO_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccvMYJT2.s:731    .text:00000474 SDIO_ClearITPendingBit
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd
