@@ -291,7 +291,7 @@ void max7456CLI()
 				case '?':
 				   	usbPrint("\n");
 				   	usbPrint("'a' OSD Configuration\n");
-				    usbPrint("'b' Enable OSD Artificial Horizon Display  'B' Disable OSD Artificial Horizon Display\n");
+				    usbPrint("'b' Enable OSD Altitude Display            'B' Disable OSD Altitude Display\n");
 				   	usbPrint("'c' Enable OSD Artificial Horizon Display  'C' Disable OSD Artificial Horizon Display\n");
 				   	usbPrint("'d' Enable OSD Attitude Display            'D' Disable OSD Attitude Display\n");
 				   	usbPrint("'e' Enable OSD Heading Display             'E' Disable OSD Heading Display\n");
@@ -300,8 +300,8 @@ void max7456CLI()
 				   	usbPrint("'s' Display MAX7456 Character Set\n");
 				   	usbPrint("'t' Download Font to MAX7456\n");
 				   	usbPrint("'u' Change OSD State to Uninstalled\n");
-				   	usbPrint("'v' Change Default Video Standard\n");
-				   	usbPrint("'x' Exit Sensor CLI                        'W' Write EEPROM Parameters\n");
+				   	usbPrint("'v' Change Default Video Standard          'W' Write EEPROM Parameters\n");
+				   	usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
 				   	usbPrint("\n");
    		    	    break;
 
@@ -347,7 +347,7 @@ void max7456CLI()
 				case '?':
 					usbPrint("\n");
 				    usbPrint("'i' Change OSD State to Installed\n");
-				   	usbPrint("'x' Exit MAX7456 CLI\n");
+				    usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
 				   	usbPrint("\n");
 				   	break;
 
@@ -796,9 +796,10 @@ void mixerCLI()
    		        usbPrint("                                           'J' Set Gimbal Pitch Servo Parameters    JMin;Mid;Max;Gain\n");
    		        usbPrint("                                           'K' Set TriCopter Servo Parameters       KMin;Mid;Max\n");
    		        usbPrint("                                           'L' Set V Tail Angle                     LAngle\n");
-   		        usbPrint("                                           'M' Set Yaw Direction                    M1 or $-1\n");
-   		        usbPrint("'x' Exit Mixer CLI                         'W' Write EEPROM Parameters\n");
-			   	usbPrint("\n");
+   		        usbPrint("                                           'M' Set Yaw Direction                    M1 or M-1\n");
+   		        usbPrint("                                           'W' Write EEPROM Parameters\n");
+   		        usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
+   		        usbPrint("\n");
 	    	    break;
 
 	    	///////////////////////////
@@ -868,30 +869,30 @@ void receiverCLI()
 				    usbPrint("10 Bit Mode\n");
 
 				usbPrint("Number of Spektrum Channels:    ");
-				itoa(eepromConfig.spektrumChannels, numberString,10); usbPrint(numberString); usbPrint("\n");
+				snprintf(numberString, 16, "%d\n", eepromConfig.spektrumChannels); usbPrint(numberString);
 
                 usbPrint("Mid Command:                    ");
-				itoa((uint16_t)eepromConfig.midCommand,   numberString, 10); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%d\n", (uint16_t)eepromConfig.midCommand); usbPrint(numberString);
 
 				usbPrint("Min Check:                      ");
-				itoa((uint16_t)eepromConfig.minCheck,     numberString, 10); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%d\n", (uint16_t)eepromConfig.minCheck); usbPrint(numberString);
 
 				usbPrint("Max Check:                      ");
-				itoa((uint16_t)eepromConfig.maxCheck,     numberString, 10); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%d\n", (uint16_t)eepromConfig.maxCheck); usbPrint(numberString);
 
 				usbPrint("Min Throttle:                   ");
-				itoa((uint16_t)eepromConfig.minThrottle,  numberString, 10); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%d\n", (uint16_t)eepromConfig.minThrottle); usbPrint(numberString);
 
 				usbPrint("Max Thottle:                    ");
-				itoa((uint16_t)eepromConfig.maxThrottle,  numberString, 10); usbPrint(numberString); usbPrint("\n\n");
+                snprintf(numberString, 16, "%d\n\n", (uint16_t)eepromConfig.maxThrottle); usbPrint(numberString);
 
-				usbPrint("Max Rate Command:              ");
+				usbPrint("Max Rate Command:               ");
 				tempFloat = eepromConfig.rateScaling * 180000.0 / PI;
-				ftoa(tempFloat,  numberString); usbPrint(numberString); usbPrint(" DPS\n");
+				snprintf(numberString, 16, "%6.2f DPS\n", tempFloat); usbPrint(numberString);
 
-				usbPrint("Max Attitude Command:          ");
+				usbPrint("Max Attitude Command:           ");
 				tempFloat = eepromConfig.attitudeScaling * 180000.0 / PI;
-				ftoa(tempFloat,  numberString); usbPrint(numberString); usbPrint(" Degrees\n\n");
+				snprintf(numberString, 18, "%6.2f Degrees\n\n", tempFloat); usbPrint(numberString);
 
 				validQuery = false;
                 break;
@@ -999,8 +1000,9 @@ void receiverCLI()
    		        usbPrint("'b' Set Maximum Rate Command               'B' Set RC Control Order                 BTAER1234\n");
 			   	usbPrint("'c' Set Maximum Attitude Command           'C' Set Spektrum Resolution              C0 or C1\n");
 			   	usbPrint("                                           'D' Set Number of Spektrum Channels      D6 thru D12\n");
-			   	usbPrint("                                           'E' Set RC Control Points                EMidCmd;minChk;MaxChk;MinThrot;MaxThrot\n");
-			   	usbPrint("'x' Exit Receiver CLI                      'W' Write EEPROM Parameters\n");
+			   	usbPrint("                                           'E' Set RC Control Points                EmidCmd;minChk;maxChk;minThrot;maxThrot\n");
+			   	usbPrint("                                           'W' Write EEPROM Parameters\n");
+			   	usbPrint("'x' Exit Receiver CLI                      '?' Command Summary\n");
 			   	usbPrint("\n");
 	    	    break;
 
@@ -1043,55 +1045,56 @@ void sensorCLI()
                 usbPrint("\n");
 
                 usbPrint("Accel One G:               ");
-                ftoa(accelOneG,                                numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", accelOneG); usbPrint(numberString);
+                //ftoa(accelOneG,                                numberString); usbPrint(numberString); usbPrint("\n");
 
                 usbPrint("Accel Temp Comp Slope:     ");
-                ftoa(eepromConfig.accelTCBiasSlope[XAXIS],     numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.accelTCBiasSlope[YAXIS],     numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.accelTCBiasSlope[ZAXIS],     numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.accelTCBiasSlope[XAXIS]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.accelTCBiasSlope[YAXIS]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.accelTCBiasSlope[ZAXIS]); usbPrint(numberString);
 
                 usbPrint("Accel Temp Comp Bias:      ");
-                ftoa(eepromConfig.accelTCBiasIntercept[XAXIS], numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.accelTCBiasIntercept[YAXIS], numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.accelTCBiasIntercept[ZAXIS], numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.accelTCBiasIntercept[XAXIS]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.accelTCBiasIntercept[XAXIS]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.accelTCBiasIntercept[XAXIS]); usbPrint(numberString);
 
                 usbPrint("Gyro Temp Comp Slope:      ");
-                ftoa(eepromConfig.gyroTCBiasSlope[ROLL ],      numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.gyroTCBiasSlope[PITCH],      numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.gyroTCBiasSlope[YAW  ],      numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.gyroTCBiasSlope[ROLL ]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.gyroTCBiasSlope[PITCH]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.gyroTCBiasSlope[YAW  ]); usbPrint(numberString);
 
                 usbPrint("Gyro Temp Comp Intercept:  ");
-                ftoa(eepromConfig.gyroTCBiasIntercept[ROLL ],  numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.gyroTCBiasIntercept[PITCH],  numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.gyroTCBiasIntercept[YAW  ],  numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.gyroTCBiasIntercept[ROLL ]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.gyroTCBiasIntercept[PITCH]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.gyroTCBiasIntercept[YAW  ]); usbPrint(numberString);
 
                 usbPrint("Mag Bias:                  ");
-                ftoa(eepromConfig.magBias[XAXIS],              numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.magBias[YAXIS],              numberString); usbPrint(numberString); usbPrint(", ");
-                ftoa(eepromConfig.magBias[ZAXIS],              numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.magBias[XAXIS]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f, ", eepromConfig.magBias[YAXIS]); usbPrint(numberString);
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.magBias[ZAXIS]); usbPrint(numberString);
 
                 usbPrint("Accel Cutoff:              ");
-                ftoa(eepromConfig.accelCutoff,                 numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.accelCutoff); usbPrint(numberString);
 
                 usbPrint("KpAcc (MARG):              ");
-                ftoa(eepromConfig.KpAcc,                       numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.KpAcc); usbPrint(numberString);
 
                 usbPrint("KiAcc (MARG):              ");
-                ftoa(eepromConfig.KiAcc,                       numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.KiAcc); usbPrint(numberString);
 
                 usbPrint("KpMag (MARG):              ");
-                ftoa(eepromConfig.KpMag,                       numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.KpMag); usbPrint(numberString);
 
                 usbPrint("KiMag (MARG):              ");
-                ftoa(eepromConfig.KiMag,                       numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.KiMag); usbPrint(numberString);
 
                 usbPrint("hdot est/h est Comp Fil A: ");
-                ftoa(eepromConfig.compFilterA,                 numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.compFilterA); usbPrint(numberString);
 
                 usbPrint("hdot est/h est Comp Fil B: ");
-                ftoa(eepromConfig.compFilterB,                 numberString); usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%9.4f\n", eepromConfig.compFilterB); usbPrint(numberString);
 
-                usbPrint("MPU6000 DLPF:               ");
+                usbPrint("MPU6000 DLPF:                 ");
                 switch(eepromConfig.dlpfSetting)
                 {
                     case DLPF_256HZ:
@@ -1233,10 +1236,11 @@ void sensorCLI()
 			   	usbPrint("'a' Display Sensor Data                    'A' Set MPU6000 DLPF                     A0 thru 3, see aq32Plus.h\n");
 			   	usbPrint("'b' MPU6000 Calibration                    'B' Set Accel Cutoff                     BAccelCutoff\n");
 			   	usbPrint("'c' Magnetometer Calibration               'C' Set kpAcc/kiAcc                      CKpAcc;KiAcc\n");
-			   	usbPrint("                                           'D' Set kpMag/kiMag                      @KpMag;KiMag\n");
-			   	usbPrint("                                           'E' Set h dot est/h est Comp Filter A/B  A;B\n");
-			   	usbPrint("'x' Exit Sensor CLI                        'W' Write EEPROM Parameters\n");
-			   	usbPrint("\n");
+			   	usbPrint("                                           'D' Set kpMag/kiMag                      DKpMag;KiMag\n");
+			   	usbPrint("                                           'E' Set h dot est/h est Comp Filter A/B  EA;B\n");
+			   	usbPrint("                                           'W' Write EEPROM Parameters\n");
+			   	usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
+			    usbPrint("\n");
 	    	    break;
 
 	    	///////////////////////////
@@ -1373,8 +1377,9 @@ void gpsCLI()
 			   	usbPrint("                                           'B' Set GPS Type to MediaTek 3329 Binary\n");
 			   	usbPrint("                                           'C' Set GPS Type to MediaTek 3329 NMEA\n");
 			   	usbPrint("                                           'D' Set GPS Type to UBLOX\n");
-			   	usbPrint("'x' Exit GPS CLI                           'W' Write EEPROM Parameters\n");
-			   	usbPrint("\n");
+			   	usbPrint("                                           'W' Write EEPROM Parameters\n");
+			   	usbPrint("'x' Exit GPS CLI                           '?' Command Summary\n");
+			    usbPrint("\n");
 	    	    break;
 
 	    	///////////////////////////

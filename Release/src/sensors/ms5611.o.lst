@@ -52,7 +52,7 @@
   57 0006 05AB     		add	r3, sp, #20
   58 0008 0093     		str	r3, [sp, #0]
   59 000a 0398     		ldr	r0, [sp, #12]
-  60 000c 4FF07701 		mov	r1, #119
+  60 000c 4FF07601 		mov	r1, #118
   61 0010 4FF00002 		mov	r2, #0
   62 0014 4FF00303 		mov	r3, #3
   63 0018 FFF7FEFF 		bl	i2cRead
@@ -69,7 +69,7 @@
   74 0040 C0F20003 		movt	r3, #:upper16:d2
   75 0044 1A70     		strb	r2, [r3, #0]
   76 0046 0398     		ldr	r0, [sp, #12]
-  77 0048 4FF07701 		mov	r1, #119
+  77 0048 4FF07601 		mov	r1, #118
   78 004c 4FF0FF02 		mov	r2, #255
   79 0050 4FF04803 		mov	r3, #72
   80 0054 FFF7FEFF 		bl	i2cWrite
@@ -88,7 +88,7 @@
   95 0062 05AB     		add	r3, sp, #20
   96 0064 0093     		str	r3, [sp, #0]
   97 0066 0398     		ldr	r0, [sp, #12]
-  98 0068 4FF07701 		mov	r1, #119
+  98 0068 4FF07601 		mov	r1, #118
   99 006c 4FF00002 		mov	r2, #0
  100 0070 4FF00303 		mov	r3, #3
  101 0074 FFF7FEFF 		bl	i2cRead
@@ -105,7 +105,7 @@
  112 009c C0F20003 		movt	r3, #:upper16:d1
  113 00a0 1A70     		strb	r2, [r3, #0]
  114 00a2 0398     		ldr	r0, [sp, #12]
- 115 00a4 4FF07701 		mov	r1, #119
+ 115 00a4 4FF07601 		mov	r1, #118
  116 00a8 4FF0FF02 		mov	r2, #255
  117 00ac 4FF04803 		mov	r3, #72
  118 00b0 FFF7FEFF 		bl	i2cWrite
@@ -124,7 +124,7 @@
  133 00be 05AB     		add	r3, sp, #20
  134 00c0 0093     		str	r3, [sp, #0]
  135 00c2 0398     		ldr	r0, [sp, #12]
- 136 00c4 4FF07701 		mov	r1, #119
+ 136 00c4 4FF07601 		mov	r1, #118
  137 00c8 4FF00002 		mov	r2, #0
  138 00cc 4FF00303 		mov	r3, #3
  139 00d0 FFF7FEFF 		bl	i2cRead
@@ -141,7 +141,7 @@
  150 00f8 C0F20003 		movt	r3, #:upper16:d1
  151 00fc 1A70     		strb	r2, [r3, #0]
  152 00fe 0398     		ldr	r0, [sp, #12]
- 153 0100 4FF07701 		mov	r1, #119
+ 153 0100 4FF07601 		mov	r1, #118
  154 0104 4FF0FF02 		mov	r2, #255
  155 0108 4FF05803 		mov	r3, #88
  156 010c FFF7FEFF 		bl	i2cWrite
@@ -485,7 +485,7 @@
  500 04fe 87B0     		sub	sp, sp, #28
  501 0500 0390     		str	r0, [sp, #12]
  502 0502 0398     		ldr	r0, [sp, #12]
- 503 0504 4FF07701 		mov	r1, #119
+ 503 0504 4FF07601 		mov	r1, #118
  504 0508 4FF0FF02 		mov	r2, #255
  505 050c 4FF01E03 		mov	r3, #30
  506 0510 FFF7FEFF 		bl	i2cWrite
@@ -494,7 +494,7 @@
  509 051c 05AB     		add	r3, sp, #20
  510 051e 0093     		str	r3, [sp, #0]
  511 0520 0398     		ldr	r0, [sp, #12]
- 512 0522 4FF07701 		mov	r1, #119
+ 512 0522 4FF07601 		mov	r1, #118
  513 0526 4FF0A202 		mov	r2, #162
  514 052a 4FF00203 		mov	r3, #2
  515 052e FFF7FEFF 		bl	i2cRead
@@ -509,7 +509,7 @@
  524 054e 05AB     		add	r3, sp, #20
  525 0550 0093     		str	r3, [sp, #0]
  526 0552 0398     		ldr	r0, [sp, #12]
- 527 0554 4FF07701 		mov	r1, #119
+ 527 0554 4FF07601 		mov	r1, #118
  528 0558 4FF0A402 		mov	r2, #164
  529 055c 4FF00203 		mov	r3, #2
  530 0560 FFF7FEFF 		bl	i2cRead
@@ -524,7 +524,7 @@
  539 0580 05AB     		add	r3, sp, #20
  540 0582 0093     		str	r3, [sp, #0]
  541 0584 0398     		ldr	r0, [sp, #12]
- 542 0586 4FF07701 		mov	r1, #119
+ 542 0586 4FF07601 		mov	r1, #118
  543 058a 4FF0A602 		mov	r2, #166
  544 058e 4FF00203 		mov	r3, #2
  545 0592 FFF7FEFF 		bl	i2cRead
@@ -539,7 +539,7 @@
  554 05b2 05AB     		add	r3, sp, #20
  555 05b4 0093     		str	r3, [sp, #0]
  556 05b6 0398     		ldr	r0, [sp, #12]
- 557 05b8 4FF07701 		mov	r1, #119
+ 557 05b8 4FF07601 		mov	r1, #118
  558 05bc 4FF0A802 		mov	r2, #168
  559 05c0 4FF00203 		mov	r3, #2
  560 05c4 FFF7FEFF 		bl	i2cRead
@@ -554,7 +554,7 @@
  569 05e4 05AB     		add	r3, sp, #20
  570 05e6 0093     		str	r3, [sp, #0]
  571 05e8 0398     		ldr	r0, [sp, #12]
- 572 05ea 4FF07701 		mov	r1, #119
+ 572 05ea 4FF07601 		mov	r1, #118
  573 05ee 4FF0AA02 		mov	r2, #170
  574 05f2 4FF00203 		mov	r3, #2
  575 05f6 FFF7FEFF 		bl	i2cRead
@@ -569,7 +569,7 @@
  584 0616 05AB     		add	r3, sp, #20
  585 0618 0093     		str	r3, [sp, #0]
  586 061a 0398     		ldr	r0, [sp, #12]
- 587 061c 4FF07701 		mov	r1, #119
+ 587 061c 4FF07601 		mov	r1, #118
  588 0620 4FF0AC02 		mov	r2, #172
  589 0624 4FF00203 		mov	r3, #2
  590 0628 FFF7FEFF 		bl	i2cRead
@@ -582,7 +582,7 @@
  597 0642 C0F20003 		movt	r3, #:upper16:c6
  598 0646 1A70     		strb	r2, [r3, #0]
  599 0648 0398     		ldr	r0, [sp, #12]
- 600 064a 4FF07701 		mov	r1, #119
+ 600 064a 4FF07601 		mov	r1, #118
  601 064e 4FF0FF02 		mov	r2, #255
  602 0652 4FF05803 		mov	r3, #88
  603 0656 FFF7FEFF 		bl	i2cWrite
@@ -601,8 +601,8 @@ DEFINED SYMBOLS
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
                             *COM*:00000004 d1Average
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:25     .bss:00000000 d1Sum
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:22     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:25     .bss:00000000 d1Sum
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:22     .bss:00000000 $d
                             *COM*:00000002 c1
                             *COM*:00000002 c2
                             *COM*:00000002 c3
@@ -616,16 +616,16 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:22     .bss:00000000 $d
                             *COM*:00000008 offset
                             *COM*:00000008 sensitivity
                             *COM*:00000004 p
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:43     .bss:00000004 pressureAltValid
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:46     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:51     .text:00000000 readTemperatureRequestPressure
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:89     .text:0000005c readPressureRequestPressure
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:127    .text:000000b8 readPressureRequestTemperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:165    .text:00000114 calculateTemperature
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:219    .text:00000198 calculatePressureAltitude
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:479    .text:000004d0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:491    .text:000004fc $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccAOVglD.s:496    .text:000004fc initPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:43     .bss:00000004 pressureAltValid
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:46     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:51     .text:00000000 readTemperatureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:89     .text:0000005c readPressureRequestPressure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:127    .text:000000b8 readPressureRequestTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:165    .text:00000114 calculateTemperature
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:219    .text:00000198 calculatePressureAltitude
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:479    .text:000004d0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:491    .text:000004fc $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccOPpS9G.s:496    .text:000004fc initPressure
 
 UNDEFINED SYMBOLS
 i2cRead

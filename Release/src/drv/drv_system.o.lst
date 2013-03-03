@@ -469,7 +469,7 @@
  494 0466 1B88     		ldrh	r3, [r3, #0]
  495 0468 0A2B     		cmp	r3, #10
  496 046a 06D1     		bne	.L17
- 497 046c 4FF4B040 		mov	r0, #22528
+ 497 046c 4FF4A840 		mov	r0, #21504
  498 0470 C4F20000 		movt	r0, 16384
  499 0474 FFF7FEFF 		bl	readTemperatureRequestPressure
  500 0478 14E0     		b	.L18
@@ -479,12 +479,12 @@
  504 0482 1B88     		ldrh	r3, [r3, #0]
  505 0484 B3F57A7F 		cmp	r3, #1000
  506 0488 06D1     		bne	.L19
- 507 048a 4FF4B040 		mov	r0, #22528
+ 507 048a 4FF4A840 		mov	r0, #21504
  508 048e C4F20000 		movt	r0, 16384
  509 0492 FFF7FEFF 		bl	readPressureRequestTemperature
  510 0496 05E0     		b	.L18
  511              	.L19:
- 512 0498 4FF4B040 		mov	r0, #22528
+ 512 0498 4FF4A840 		mov	r0, #21504
  513 049c C4F20000 		movt	r0, 16384
  514 04a0 FFF7FEFF 		bl	readPressureRequestPressure
  515              	.L18:
@@ -736,7 +736,7 @@
  767 075a 4FF4A840 		mov	r0, #21504
  768 075e C4F20000 		movt	r0, 16384
  769 0762 FFF7FEFF 		bl	initMag
- 770 0766 4FF4B040 		mov	r0, #22528
+ 770 0766 4FF4A840 		mov	r0, #21504
  771 076a C4F20000 		movt	r0, 16384
  772 076e FFF7FEFF 		bl	initPressure
  773 0772 FFF7FEFF 		bl	initGPS
@@ -874,24 +874,24 @@
  912 0892 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_system.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:21     .text:00000000 NVIC_SetPriority
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:62     .text:00000058 SysTick_Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:21     .text:00000000 NVIC_SetPriority
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:62     .text:00000058 SysTick_Config
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:102    .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:103    .bss:00000000 usTicks
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:106    .bss:00000004 sysTickUptime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:109    .bss:00000008 sysTickCycleCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:116    .text:000000b4 cycleCounterInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:154    .bss:0000000c frameCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:159    .bss:0000000e frame_500Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:164    .bss:0000000f frame_100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:169    .bss:00000010 frame_50Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:174    .bss:00000011 frame_10Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:179    .bss:00000012 frame_5Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:184    .bss:00000013 frame_1Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:102    .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:103    .bss:00000000 usTicks
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:106    .bss:00000004 sysTickUptime
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:109    .bss:00000008 sysTickCycleCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:116    .text:000000b4 cycleCounterInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:154    .bss:0000000c frameCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:159    .bss:0000000e frame_500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:164    .bss:0000000f frame_100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:169    .bss:00000010 frame_50Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:174    .bss:00000011 frame_10Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:179    .bss:00000012 frame_5Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 deltaTime1000Hz
                             *COM*:00000004 executionTime1000Hz
                             *COM*:00000004 previous1000HzTime
@@ -915,15 +915,15 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 previous1HzTime
                             *COM*:00000004 dt500Hz
                             *COM*:00000004 dt100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:212    .bss:00000014 systemReady
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:217    .bss:00000015 execUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:225    .text:00000110 SysTick_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:641    .text:0000060c micros
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:680    .text:00000650 millis
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:695    .text:00000660 systemInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:848    .text:00000804 delay
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:789    .text:00000790 delayMicroseconds
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccX5nVBX.s:878    .text:00000830 systemReset
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:212    .bss:00000014 systemReady
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:217    .bss:00000015 execUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:225    .text:00000110 SysTick_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:641    .text:0000060c micros
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:680    .text:00000650 millis
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:695    .text:00000660 systemInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:848    .text:00000804 delay
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:789    .text:00000790 delayMicroseconds
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:878    .text:00000830 systemReset
 
 UNDEFINED SYMBOLS
 RCC_GetClocksFreq

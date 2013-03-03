@@ -32,7 +32,7 @@
   32 0000 00       		.space	1
   33              		.comm	sensors,100,4
   34              		.comm	timerValue,2,2
-  35              		.comm	numberString,15,4
+  35              		.comm	numberString,32,4
   36              		.section	.rodata
   37              		.align	2
   38              	.LC0:
@@ -1080,26 +1080,26 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:24     .eeprom:00000000 eepromArray
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:21     .eeprom:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:24     .eeprom:00000000 eepromArray
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:21     .eeprom:00000000 $d
                             *COM*:00000350 eepromConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:31     .bss:00000000 execUpCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:32     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:31     .bss:00000000 execUpCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:32     .bss:00000000 $d
                             *COM*:00000064 sensors
                             *COM*:00000002 timerValue
-                            *COM*:0000000f numberString
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:37     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:38     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:41     .rodata:00000004 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:44     .rodata:00000008 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:47     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:52     .text:00000000 main
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:285    .text:000002e0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:290    .text:000002f0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:298    .text:000002fc $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:303    .text:0000030c $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:821    .text:00000a48 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5hkH4d.s:825    .text:00000a50 $t
+                            *COM*:00000020 numberString
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:37     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:38     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:41     .rodata:00000004 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:44     .rodata:00000008 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:47     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:52     .text:00000000 main
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:285    .text:000002e0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:290    .text:000002f0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:298    .text:000002fc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:303    .text:0000030c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:821    .text:00000a48 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:825    .text:00000a50 $t
 
 UNDEFINED SYMBOLS
 systemInit

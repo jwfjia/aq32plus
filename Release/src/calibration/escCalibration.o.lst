@@ -285,28 +285,28 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:23     .bss:00000000 escCalibrating
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:24     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:23     .bss:00000000 escCalibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:24     .bss:00000000 $d
                             *COM*:00000001 temp
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:27     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:28     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:31     .rodata:00000014 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:35     .rodata:00000050 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:39     .rodata:0000008c .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:43     .rodata:000000c4 .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:46     .rodata:000000e4 .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:49     .rodata:00000104 .LC6
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:52     .rodata:00000124 .LC7
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:55     .rodata:00000144 .LC8
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:58     .rodata:0000015c .LC9
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:61     .rodata:00000178 .LC10
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:64     .rodata:00000194 .LC11
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:67     .rodata:000001b0 .LC12
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:71     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:76     .text:00000000 escCalibration
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:167    .text:00000104 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:185    .text:00000148 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cctrCEB8.s:230    .text:000001c4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:27     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:28     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:31     .rodata:00000014 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:35     .rodata:00000050 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:39     .rodata:0000008c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:43     .rodata:000000c4 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:46     .rodata:000000e4 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:49     .rodata:00000104 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:52     .rodata:00000124 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:55     .rodata:00000144 .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:58     .rodata:0000015c .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:61     .rodata:00000178 .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:64     .rodata:00000194 .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:67     .rodata:000001b0 .LC12
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:71     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:76     .text:00000000 escCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:167    .text:00000104 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:185    .text:00000148 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccXCx8hC.s:230    .text:000001c4 $d
 
 UNDEFINED SYMBOLS
 armed

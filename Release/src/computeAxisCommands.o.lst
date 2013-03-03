@@ -288,11 +288,11 @@ DEFINED SYMBOLS
                             *COM*:0000000c axisPID
                             *COM*:0000000c rateCmd
                             *COM*:00000004 headingReference
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccsv05iZ.s:28     .bss:00000000 previousHeadingHoldEngaged
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccsv05iZ.s:29     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccsv05iZ.s:31     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccsv05iZ.s:36     .text:00000000 computeAxisCommands
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccsv05iZ.s:276    .text:000002dc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrr51Y6.s:28     .bss:00000000 previousHeadingHoldEngaged
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrr51Y6.s:29     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrr51Y6.s:31     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrr51Y6.s:36     .text:00000000 computeAxisCommands
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrr51Y6.s:276    .text:000002dc $d
 
 UNDEFINED SYMBOLS
 flightMode

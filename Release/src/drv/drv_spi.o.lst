@@ -431,10 +431,10 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc19gYCw.s:20     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc19gYCw.s:25     .text:00000000 spiInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc19gYCw.s:248    .text:000002f8 spiTransfer
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc19gYCw.s:323    .text:000003a0 setSPIdivisor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjnrFkk.s:20     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjnrFkk.s:25     .text:00000000 spiInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjnrFkk.s:248    .text:000002f8 spiTransfer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjnrFkk.s:323    .text:000003a0 setSPIdivisor
 
 UNDEFINED SYMBOLS
 RCC_AHB1PeriphClockCmd

@@ -40,10 +40,10 @@
 
 #define HMC5883L_I2C I2C1
 
-#define MS5611_I2C   I2C2
+#define MS5611_I2C   I2C1
 
-//#define MS5611_ADDRESS 0x76    // I2C1 on AQ32
-#define MS5611_ADDRESS 0x77    // I2C2 on external freeIMU
+#define MS5611_ADDRESS 0x76    // I2C1 on AQ32
+//#define MS5611_ADDRESS 0x77    // I2C2 on external freeIMU
 
 ///////////////////////////////////////////////////////////////////////////////
 

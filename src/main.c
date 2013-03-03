@@ -48,7 +48,7 @@ sensors_t      sensors;
 
 uint16_t       timerValue;
 
-char           numberString[15];
+char           numberString[32];
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -168,33 +168,33 @@ void cliCom(void)
             usbPrint("\n");
 
             usbPrint("Roll Rate PID:  ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_RATE_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[ROLL_RATE_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("Pitch Rate PID: ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].B,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].P,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].I,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].D,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_RATE_PID].windupGuard, numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[PITCH_RATE_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("Yaw Rate PID:   ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].B,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].P,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].I,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].D,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[YAW_RATE_PID].windupGuard,   numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[YAW_RATE_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
@@ -210,33 +210,33 @@ void cliCom(void)
             usbPrint("\n");
 
             usbPrint("Roll Attitude PID:  ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[ROLL_ATT_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[ROLL_ATT_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("Pitch Attitude PID: ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].B,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].P,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].I,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].D,           numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[PITCH_ATT_PID].windupGuard, numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[PITCH_ATT_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("Heading PID:        ");
-            ftoa(eepromConfig.PID[HEADING_PID].B,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HEADING_PID].P,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HEADING_PID].I,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HEADING_PID].D,             numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HEADING_PID].windupGuard,   numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[HEADING_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
@@ -252,33 +252,33 @@ void cliCom(void)
             usbPrint("\n");
 
             usbPrint("nDot PID:  ");
-            ftoa(eepromConfig.PID[NDOT_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[NDOT_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[NDOT_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[NDOT_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[NDOT_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[NDOT_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("eDot PID:  ");
-            ftoa(eepromConfig.PID[EDOT_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[EDOT_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[EDOT_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[EDOT_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[EDOT_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[EDOT_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("hDot PID:  ");
-            ftoa(eepromConfig.PID[HDOT_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HDOT_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HDOT_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HDOT_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[HDOT_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[HDOT_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
@@ -294,33 +294,33 @@ void cliCom(void)
             usbPrint("\n");
 
             usbPrint("n PID:  ");
-            ftoa(eepromConfig.PID[N_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[N_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[N_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[N_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[N_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[N_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("e PID:  ");
-            ftoa(eepromConfig.PID[E_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[E_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[E_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[E_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[E_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[E_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
                 usbPrint("State\n");
 
             usbPrint("h PID:  ");
-            ftoa(eepromConfig.PID[H_PID].B,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[H_PID].P,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[H_PID].I,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[H_PID].D,            numberString); usbPrint(numberString); usbPrint(", ");
-            ftoa(eepromConfig.PID[H_PID].windupGuard,  numberString); usbPrint(numberString); usbPrint(", ");
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].B);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].P);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].I);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].D);           usbPrint(numberString);
+            snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].windupGuard); usbPrint(numberString);
             if  (eepromConfig.PID[H_PID].dErrorCalc)
                 usbPrint("Error\n");
             else
@@ -333,13 +333,13 @@ void cliCom(void)
          ///////////////////////////////
 
         case 'e': // Loop Delta Times
-        	itoa(deltaTime1000Hz, numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(deltaTime500Hz,  numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(deltaTime100Hz,  numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(deltaTime50Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(deltaTime10Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(deltaTime5Hz,    numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(deltaTime1Hz,    numberString, 10); usbPrint(numberString); usbPrint("\n");
+        	snprintf(numberString, 16, "%7ld, ", deltaTime1000Hz); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", deltaTime500Hz ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", deltaTime100Hz ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", deltaTime50Hz  ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", deltaTime10Hz  ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", deltaTime5Hz   ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld\n", deltaTime1Hz   ); usbPrint(numberString);
 
         	validCommand = false;
         	break;
@@ -347,13 +347,13 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'f': // Loop Execution Times
-        	itoa(executionTime1000Hz,  numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(executionTime500Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(executionTime100Hz,   numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(executionTime50Hz,    numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(executionTime10Hz,    numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(executionTime5Hz,     numberString, 10); usbPrint(numberString); usbPrint(", ");
-        	itoa(executionTime1Hz,     numberString, 10); usbPrint(numberString); usbPrint("\n");
+        	snprintf(numberString, 16, "%7ld, ", executionTime1000Hz); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", executionTime500Hz ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", executionTime100Hz ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", executionTime50Hz  ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", executionTime10Hz  ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld, ", executionTime5Hz   ); usbPrint(numberString);
+        	snprintf(numberString, 16, "%7ld\n", executionTime1Hz   ); usbPrint(numberString);
 
         	validCommand = false;
         	break;
@@ -413,9 +413,9 @@ void cliCom(void)
         ///////////////////////////////
 
         case 'l': // Attitudes
-        	ftoa(sensors.attitude500Hz[ROLL ] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
-        	ftoa(sensors.attitude500Hz[PITCH] * R2D, numberString); usbPrint(numberString); usbPrint(", ");
-        	ftoa(sensors.attitude500Hz[YAW  ] * R2D, numberString); usbPrint(numberString); usbPrint("\n");
+        	snprintf(numberString, 16, "%9.4f, ", sensors.attitude500Hz[ROLL ] * R2D); usbPrint(numberString);
+        	snprintf(numberString, 16, "%9.4f, ", sensors.attitude500Hz[PITCH] * R2D); usbPrint(numberString);
+        	snprintf(numberString, 16, "%9.4f\n", sensors.attitude500Hz[YAW  ] * R2D); usbPrint(numberString);
 
         	validCommand = false;
         	break;
@@ -423,8 +423,8 @@ void cliCom(void)
        ///////////////////////////////
 
         case 'm': // GPS Data
-        	snprintf(numberString ,14, "%12.7f", sensors.gpsLatitude  * R2D); usbPrint(numberString); usbPrint(", ");
-        	snprintf(numberString ,14, "%12.7f", sensors.gpsLongitude * R2D); usbPrint(numberString); usbPrint(", ");
+        	snprintf(numberString, 16, "%12.7f, ", sensors.gpsLatitude  * R2D); usbPrint(numberString);
+        	snprintf(numberString, 16, "%12.7f, ", sensors.gpsLongitude * R2D); usbPrint(numberString);
 
         	ftoa(sensors.gpsAltitude,          numberString); usbPrint(numberString); usbPrint(", ");
         	ftoa(sensors.gpsGroundSpeed,       numberString); usbPrint(numberString); usbPrint(", ");

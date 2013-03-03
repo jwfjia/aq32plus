@@ -695,23 +695,23 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:24     .data:00000000 rxCommand
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:21     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:37     .data:00000020 commandInDetent
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:45     .data:00000024 previousCommandInDetent
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:53     .bss:00000000 flightMode
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:54     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:58     .bss:00000001 headingHoldEngaged
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:63     .bss:00000002 armed
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:68     .bss:00000003 armingTimer
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:73     .bss:00000004 altitudeHoldState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:80     .data:00000028 previousAUX2State
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:87     .bss:00000008 altitudeHoldThrottleValue
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:90     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:95     .text:00000000 processFlightCommands
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:331    .text:00000320 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:336    .text:00000330 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc542zHa.s:711    .text:000007b4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:24     .data:00000000 rxCommand
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:21     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:37     .data:00000020 commandInDetent
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:45     .data:00000024 previousCommandInDetent
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:53     .bss:00000000 flightMode
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:54     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:58     .bss:00000001 headingHoldEngaged
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:63     .bss:00000002 armed
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:68     .bss:00000003 armingTimer
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:73     .bss:00000004 altitudeHoldState
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:80     .data:00000028 previousAUX2State
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:87     .bss:00000008 altitudeHoldThrottleValue
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:90     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:95     .text:00000000 processFlightCommands
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:331    .text:00000320 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:336    .text:00000330 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cccZCzPf.s:711    .text:000007b4 $d
 
 UNDEFINED SYMBOLS
 rcActive
