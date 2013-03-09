@@ -70,7 +70,6 @@
 
 #include "aq32Plus.h"
 
-//#include "drv_gps.h"
 #include "drv_i2c.h"
 #include "drv_led.h"
 #include "drv_max7456.h"

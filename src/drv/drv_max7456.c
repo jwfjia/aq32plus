@@ -217,6 +217,8 @@ void initMax7456()
 {
     uint8_t i;
 
+    if (eepromConfig.osdEnabled == false) return;
+
     detectVideoStandard();
 
     //Soft reset the MAX7456 - clear display memory

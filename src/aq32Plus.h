@@ -325,7 +325,7 @@ typedef struct eepromConfig_t
 
     ///////////////////////////////////
 
-    uint8_t osdInstalled;          // 0 = Uninstalled, 1 = Installed
+    uint8_t osdEnabled;            // 0 = Disabled, 1 = Enabled
     uint8_t defaultVideoStandard;  // 0 = NTSC, 1 = PAL
     uint8_t metricUnits;           // 1 = metric
     uint8_t osdDisplayAlt;         // 1 = Display OSD Altitude

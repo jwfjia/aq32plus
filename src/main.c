@@ -76,7 +76,7 @@ int main(void)
 
 			processFlightCommands();
 
-			if (eepromConfig.osdInstalled)
+			if (eepromConfig.osdEnabled)
 			{
 				if (eepromConfig.osdDisplayAlt)
 				    displayAltitude(sensors.pressureAlt10Hz, 0.0f, DISENGAGED);
@@ -121,10 +121,6 @@ int main(void)
 
         	pressureAltValid = true;
 
-        	cliCom();
-
-        	rfCom();
-
         	switch (eepromConfig.gpsType)
 			{
 			    ///////////////////////
@@ -152,6 +148,10 @@ int main(void)
 
 			    ///////////////////////
 			}
+
+        	cliCom();
+
+        	rfCom();
 
             executionTime10Hz = micros() - currentTime;
         }

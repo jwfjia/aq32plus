@@ -100,7 +100,7 @@
  101 008c C0F20003 		movt	r3, #:upper16:sensors
  102 0090 DB6B     		ldr	r3, [r3, #60]	@ float
  103 0092 1846     		mov	r0, r3	@ float
- 104 0094 9949     		ldr	r1, .L32	@ float
+ 104 0094 9749     		ldr	r1, .L32	@ float
  105 0096 4FF00002 		mov	r2, #0
  106 009a FFF7FEFF 		bl	displayAltitude
  107              	.L4:
@@ -270,38 +270,38 @@
  271 02b6 C0F20003 		movt	r3, #:upper16:pressureAltValid
  272 02ba 4FF00102 		mov	r2, #1
  273 02be 1A70     		strb	r2, [r3, #0]
- 274 02c0 FFF7FEFF 		bl	cliCom
- 275 02c4 FFF7FEFF 		bl	rfCom
- 276 02c8 40F20003 		movw	r3, #:lower16:eepromConfig
- 277 02cc C0F20003 		movt	r3, #:upper16:eepromConfig
- 278 02d0 93F84F33 		ldrb	r3, [r3, #847]	@ zero_extendqisi2
- 279 02d4 032B     		cmp	r3, #3
- 280 02d6 1CD8     		bhi	.L9
- 281 02d8 01A2     		adr	r2, .L14
- 282 02da 52F823F0 		ldr	pc, [r2, r3, lsl #2]
- 283 02de 00BF     		.align	2
- 284              	.L14:
- 285 02e0 13030000 		.word	.L9+1
- 286 02e4 F1020000 		.word	.L11+1
- 287 02e8 F7020000 		.word	.L12+1
- 288 02ec 0D030000 		.word	.L13+1
- 289              	.L11:
- 290 02f0 FFF7FEFF 		bl	decodeMediaTek3329BinaryMsg
- 291 02f4 0DE0     		b	.L9
- 292              	.L12:
- 293 02f6 FFF7FEFF 		bl	decodeNMEAsentence
- 294 02fa 0AE0     		b	.L9
- 295              	.L33:
- 296              		.align	2
- 297              	.L32:
- 298 02fc 00000000 		.word	0
- 299 0300 BD370635 		.word	889599933
- 300 0304 57E79C3A 		.word	983361367
- 301 0308 4C7D0B3A 		.word	973831500
- 302              	.L13:
- 303 030c FFF7FEFF 		bl	decodeUbloxMsg
- 304 0310 00BF     		nop
- 305              	.L9:
+ 274 02c0 40F20003 		movw	r3, #:lower16:eepromConfig
+ 275 02c4 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 276 02c8 93F84F33 		ldrb	r3, [r3, #847]	@ zero_extendqisi2
+ 277 02cc 032B     		cmp	r3, #3
+ 278 02ce 1CD8     		bhi	.L9
+ 279 02d0 01A2     		adr	r2, .L14
+ 280 02d2 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 281 02d6 00BF     		.align	2
+ 282              	.L14:
+ 283 02d8 0B030000 		.word	.L9+1
+ 284 02dc E9020000 		.word	.L11+1
+ 285 02e0 EF020000 		.word	.L12+1
+ 286 02e4 05030000 		.word	.L13+1
+ 287              	.L11:
+ 288 02e8 FFF7FEFF 		bl	decodeMediaTek3329BinaryMsg
+ 289 02ec 0DE0     		b	.L9
+ 290              	.L12:
+ 291 02ee FFF7FEFF 		bl	decodeNMEAsentence
+ 292 02f2 0AE0     		b	.L9
+ 293              	.L33:
+ 294              		.align	2
+ 295              	.L32:
+ 296 02f4 00000000 		.word	0
+ 297 02f8 BD370635 		.word	889599933
+ 298 02fc 57E79C3A 		.word	983361367
+ 299 0300 4C7D0B3A 		.word	973831500
+ 300              	.L13:
+ 301 0304 FFF7FEFF 		bl	decodeUbloxMsg
+ 302 0308 00BF     		nop
+ 303              	.L9:
+ 304 030a FFF7FEFF 		bl	cliCom
+ 305 030e FFF7FEFF 		bl	rfCom
  306 0312 FFF7FEFF 		bl	micros
  307 0316 0246     		mov	r2, r0
  308 0318 099B     		ldr	r3, [sp, #36]
@@ -358,7 +358,7 @@
  359 03c0 1B88     		ldrh	r3, [r3, #0]
  360 03c2 07EE903A 		fmsr	s15, r3	@ int
  361 03c6 B8EE677A 		fuitos	s14, s15
- 362 03ca 5FED337A 		flds	s15, .L32+4
+ 362 03ca 5FED357A 		flds	s15, .L32+4
  363 03ce 67EE277A 		fmuls	s15, s14, s15
  364 03d2 40F20003 		movw	r3, #:lower16:dt500Hz
  365 03d6 C0F20003 		movt	r3, #:upper16:dt500Hz
@@ -375,7 +375,7 @@
  376 0400 C0F20003 		movt	r3, #:upper16:accelTCBias
  377 0404 93ED007A 		flds	s14, [r3, #0]
  378 0408 37EEC77A 		fsubs	s14, s15, s14
- 379 040c 5FED437A 		flds	s15, .L32+8
+ 379 040c 5FED457A 		flds	s15, .L32+8
  380 0410 67EE277A 		fmuls	s15, s14, s15
  381 0414 40F20003 		movw	r3, #:lower16:sensors
  382 0418 C0F20003 		movt	r3, #:upper16:sensors
@@ -392,7 +392,7 @@
  393 0442 93ED017A 		flds	s14, [r3, #4]
  394 0446 77EEC77A 		fsubs	s15, s15, s14
  395 044a B1EE677A 		fnegs	s14, s15
- 396 044e 5FED537A 		flds	s15, .L32+8
+ 396 044e 5FED557A 		flds	s15, .L32+8
  397 0452 67EE277A 		fmuls	s15, s14, s15
  398 0456 40F20003 		movw	r3, #:lower16:sensors
  399 045a C0F20003 		movt	r3, #:upper16:sensors
@@ -409,7 +409,7 @@
  410 0484 93ED027A 		flds	s14, [r3, #8]
  411 0488 77EEC77A 		fsubs	s15, s15, s14
  412 048c B1EE677A 		fnegs	s14, s15
- 413 0490 5FED647A 		flds	s15, .L32+8
+ 413 0490 5FED667A 		flds	s15, .L32+8
  414 0494 67EE277A 		fmuls	s15, s14, s15
  415 0498 40F20003 		movw	r3, #:lower16:sensors
  416 049c C0F20003 		movt	r3, #:upper16:sensors
@@ -429,7 +429,7 @@
  430 04d2 C0F20003 		movt	r3, #:upper16:gyroTCBias
  431 04d6 D3ED007A 		flds	s15, [r3, #0]
  432 04da 37EE677A 		fsubs	s14, s14, s15
- 433 04de 5FED767A 		flds	s15, .L32+12
+ 433 04de 5FED787A 		flds	s15, .L32+12
  434 04e2 67EE277A 		fmuls	s15, s14, s15
  435 04e6 40F20003 		movw	r3, #:lower16:sensors
  436 04ea C0F20003 		movt	r3, #:upper16:sensors
@@ -450,7 +450,7 @@
  451 0524 D3ED017A 		flds	s15, [r3, #4]
  452 0528 77EE677A 		fsubs	s15, s14, s15
  453 052c B1EE677A 		fnegs	s14, s15
- 454 0530 5FED8B7A 		flds	s15, .L32+12
+ 454 0530 5FED8D7A 		flds	s15, .L32+12
  455 0534 67EE277A 		fmuls	s15, s14, s15
  456 0538 40F20003 		movw	r3, #:lower16:sensors
  457 053c C0F20003 		movt	r3, #:upper16:sensors
@@ -471,7 +471,7 @@
  472 0576 D3ED027A 		flds	s15, [r3, #8]
  473 057a 77EE677A 		fsubs	s15, s14, s15
  474 057e B1EE677A 		fnegs	s14, s15
- 475 0582 5FED9F7A 		flds	s15, .L32+12
+ 475 0582 5FEDA17A 		flds	s15, .L32+12
  476 0586 67EE277A 		fmuls	s15, s14, s15
  477 058a 40F20003 		movw	r3, #:lower16:sensors
  478 058e C0F20003 		movt	r3, #:upper16:sensors
@@ -1080,26 +1080,26 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:24     .eeprom:00000000 eepromArray
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:21     .eeprom:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:24     .eeprom:00000000 eepromArray
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:21     .eeprom:00000000 $d
                             *COM*:00000350 eepromConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:31     .bss:00000000 execUpCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:32     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:31     .bss:00000000 execUpCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:32     .bss:00000000 $d
                             *COM*:00000064 sensors
                             *COM*:00000002 timerValue
                             *COM*:00000020 numberString
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:37     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:38     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:41     .rodata:00000004 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:44     .rodata:00000008 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:47     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:52     .text:00000000 main
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:285    .text:000002e0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:290    .text:000002f0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:298    .text:000002fc $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:303    .text:0000030c $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:821    .text:00000a48 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccq5kb1b.s:825    .text:00000a50 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:37     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:38     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:41     .rodata:00000004 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:44     .rodata:00000008 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:47     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:52     .text:00000000 main
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:283    .text:000002d8 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:288    .text:000002e8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:296    .text:000002f4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:301    .text:00000304 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:821    .text:00000a48 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:825    .text:00000a50 $t
 
 UNDEFINED SYMBOLS
 systemInit
@@ -1127,11 +1127,11 @@ d1Average
 calculateTemperature
 calculatePressureAltitude
 pressureAltValid
-cliCom
-rfCom
 decodeMediaTek3329BinaryMsg
 decodeNMEAsentence
 decodeUbloxMsg
+cliCom
+rfCom
 executionTime10Hz
 frame_500Hz
 previous500HzTime

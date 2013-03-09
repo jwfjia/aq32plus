@@ -1174,19 +1174,19 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:24     .rodata:00000000 rcChannelLetters
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:21     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:24     .rodata:00000000 rcChannelLetters
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:21     .rodata:00000000 $d
                             *COM*:00000004 vTailThrust
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:30     .data:00000000 checkNewEEPROMConf
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:33     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:38     .text:00000000 parseRcChannels
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:91     .text:00000060 readEEPROM
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:153    .text:00000108 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:158    .text:00000118 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:163    .text:00000118 writeEEPROM
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:217    .rodata:00000008 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:225    .text:00000194 checkFirstTime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccSY5M1m.s:1158   .text:00000f4c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:30     .data:00000000 checkNewEEPROMConf
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:33     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:38     .text:00000000 parseRcChannels
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:91     .text:00000060 readEEPROM
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:153    .text:00000108 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:158    .text:00000118 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:163    .text:00000118 writeEEPROM
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:217    .rodata:00000008 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:225    .text:00000194 checkFirstTime
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccrEa7IB.s:1158   .text:00000f4c $d
 
 UNDEFINED SYMBOLS
 strchr

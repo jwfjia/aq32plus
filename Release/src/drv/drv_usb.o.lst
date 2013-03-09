@@ -144,14 +144,14 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:23     .bss:00000000 usbDeviceConfigured
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:24     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:23     .bss:00000000 usbDeviceConfigured
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:24     .bss:00000000 $d
                             *COM*:000005f0 USB_OTG_dev
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:27     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:32     .text:00000000 usbInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:85     .text:0000009c usbAvailable
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:106    .text:000000b8 usbRead
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBRe8Wb.s:130    .text:000000dc usbPrint
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:27     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:32     .text:00000000 usbInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:85     .text:0000009c usbAvailable
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:106    .text:000000b8 usbRead
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciCxzIj.s:130    .text:000000dc usbPrint
 
 UNDEFINED SYMBOLS
 GPIO_StructInit

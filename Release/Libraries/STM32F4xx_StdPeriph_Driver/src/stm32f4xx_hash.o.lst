@@ -550,24 +550,24 @@
  584              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_hash.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:22     .text:00000000 HASH_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:39     .text:0000001c HASH_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:103    .text:000000b4 HASH_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:129    .text:000000dc HASH_Reset
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:147    .text:000000f8 HASH_SetLastWordValidBitsNbr
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:177    .text:00000138 HASH_DataIn
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:195    .text:0000014c HASH_GetInFIFOWordsNbr
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:213    .text:00000164 HASH_GetDigest
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:252    .text:000001b4 HASH_StartDigest
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:270    .text:000001d0 HASH_SaveContext
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:323    .text:00000250 HASH_RestoreContext
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:383    .text:000002e8 HASH_DMACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:418    .text:00000330 HASH_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:459    .text:00000388 HASH_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:507    .text:000003ec HASH_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:527    .text:0000040c HASH_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccm1loFu.s:568    .text:00000464 HASH_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:22     .text:00000000 HASH_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:39     .text:0000001c HASH_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:103    .text:000000b4 HASH_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:129    .text:000000dc HASH_Reset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:147    .text:000000f8 HASH_SetLastWordValidBitsNbr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:177    .text:00000138 HASH_DataIn
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:195    .text:0000014c HASH_GetInFIFOWordsNbr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:213    .text:00000164 HASH_GetDigest
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:252    .text:000001b4 HASH_StartDigest
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:270    .text:000001d0 HASH_SaveContext
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:323    .text:00000250 HASH_RestoreContext
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:383    .text:000002e8 HASH_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:418    .text:00000330 HASH_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:459    .text:00000388 HASH_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:507    .text:000003ec HASH_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:527    .text:0000040c HASH_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccU1ir8C.s:568    .text:00000464 HASH_ClearITPendingBit
 
 UNDEFINED SYMBOLS
 RCC_AHB2PeriphResetCmd

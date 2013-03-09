@@ -711,187 +711,177 @@
  742 0700 1846     		mov	r0, r3
  743 0702 FFF7FEFF 		bl	pwmServoInit
  744 0706 FFF7FEFF 		bl	rxInit
- 745 070a 40F20003 		movw	r3, #:lower16:eepromConfig
- 746 070e C0F20003 		movt	r3, #:upper16:eepromConfig
- 747 0712 93F84833 		ldrb	r3, [r3, #840]	@ zero_extendqisi2
- 748 0716 002B     		cmp	r3, #0
- 749 0718 05D0     		beq	.L29
- 750 071a 4FF46050 		mov	r0, #14336
- 751 071e C4F20000 		movt	r0, 16384
- 752 0722 FFF7FEFF 		bl	spiInit
- 753              	.L29:
- 754 0726 4FF47050 		mov	r0, #15360
- 755 072a C4F20000 		movt	r0, 16384
- 756 072e FFF7FEFF 		bl	spiInit
- 757 0732 FFF7FEFF 		bl	timingFunctionsInit
- 758 0736 FFF7FEFF 		bl	uart2Init
- 759 073a FFF7FEFF 		bl	uart3Init
- 760 073e 43F69820 		movw	r0, #15000
- 761 0742 FFF7FEFF 		bl	delay
- 762 0746 4FF48050 		mov	r0, #4096
- 763 074a C4F20200 		movt	r0, 16386
- 764 074e 4FF04001 		mov	r1, #64
- 765 0752 FFF7FEFF 		bl	GPIO_SetBits
- 766 0756 FFF7FEFF 		bl	initMPU6000
- 767 075a 4FF4A840 		mov	r0, #21504
- 768 075e C4F20000 		movt	r0, 16384
- 769 0762 FFF7FEFF 		bl	initMag
- 770 0766 4FF4A840 		mov	r0, #21504
- 771 076a C4F20000 		movt	r0, 16384
- 772 076e FFF7FEFF 		bl	initPressure
- 773 0772 FFF7FEFF 		bl	initGPS
- 774 0776 40F20003 		movw	r3, #:lower16:eepromConfig
- 775 077a C0F20003 		movt	r3, #:upper16:eepromConfig
- 776 077e 93F84833 		ldrb	r3, [r3, #840]	@ zero_extendqisi2
- 777 0782 002B     		cmp	r3, #0
- 778 0784 01D0     		beq	.L30
- 779 0786 FFF7FEFF 		bl	initMax7456
- 780              	.L30:
- 781 078a FFF7FEFF 		bl	initPID
- 782 078e 08BD     		pop	{r3, pc}
- 784              		.align	2
- 785              		.global	delayMicroseconds
- 786              		.thumb
- 787              		.thumb_func
- 789              	delayMicroseconds:
- 790              		@ args = 0, pretend = 0, frame = 24
- 791              		@ frame_needed = 0, uses_anonymous_args = 0
- 792              		@ link register save eliminated.
- 793 0790 10B4     		push	{r4}
- 794 0792 87B0     		sub	sp, sp, #28
- 795 0794 0190     		str	r0, [sp, #4]
- 796 0796 4FF00003 		mov	r3, #0
- 797 079a 0593     		str	r3, [sp, #20]
- 798 079c 41F20403 		movw	r3, #4100
- 799 07a0 CEF20003 		movt	r3, 57344
- 800 07a4 1B68     		ldr	r3, [r3, #0]
- 801 07a6 0493     		str	r3, [sp, #16]
- 802              	.L34:
- 803 07a8 41F20403 		movw	r3, #4100
- 804 07ac CEF20003 		movt	r3, 57344
- 805 07b0 1C68     		ldr	r4, [r3, #0]
- 806 07b2 049B     		ldr	r3, [sp, #16]
- 807 07b4 E31A     		subs	r3, r4, r3
- 808 07b6 059A     		ldr	r2, [sp, #20]
- 809 07b8 D318     		adds	r3, r2, r3
- 810 07ba 0593     		str	r3, [sp, #20]
- 811 07bc 0494     		str	r4, [sp, #16]
- 812 07be 40F20003 		movw	r3, #:lower16:usTicks
- 813 07c2 C0F20003 		movt	r3, #:upper16:usTicks
- 814 07c6 1B68     		ldr	r3, [r3, #0]
- 815 07c8 059A     		ldr	r2, [sp, #20]
- 816 07ca B2FBF3F3 		udiv	r3, r2, r3
- 817 07ce 0393     		str	r3, [sp, #12]
- 818 07d0 039A     		ldr	r2, [sp, #12]
- 819 07d2 019B     		ldr	r3, [sp, #4]
- 820 07d4 9A42     		cmp	r2, r3
- 821 07d6 10D2     		bcs	.L36
- 822              	.L32:
- 823 07d8 019A     		ldr	r2, [sp, #4]
- 824 07da 039B     		ldr	r3, [sp, #12]
- 825 07dc D31A     		subs	r3, r2, r3
- 826 07de 0193     		str	r3, [sp, #4]
- 827 07e0 40F20003 		movw	r3, #:lower16:usTicks
- 828 07e4 C0F20003 		movt	r3, #:upper16:usTicks
- 829 07e8 1A68     		ldr	r2, [r3, #0]
- 830 07ea 059B     		ldr	r3, [sp, #20]
- 831 07ec B3FBF2F1 		udiv	r1, r3, r2
- 832 07f0 02FB01F2 		mul	r2, r2, r1
- 833 07f4 9B1A     		subs	r3, r3, r2
- 834 07f6 0593     		str	r3, [sp, #20]
- 835 07f8 D6E7     		b	.L34
- 836              	.L36:
- 837 07fa 00BF     		nop
- 838              	.L35:
- 839 07fc 07B0     		add	sp, sp, #28
- 840 07fe 10BC     		pop	{r4}
- 841 0800 7047     		bx	lr
- 843 0802 00BF     		.align	2
- 844              		.global	delay
- 845              		.thumb
- 846              		.thumb_func
- 848              	delay:
- 849              		@ args = 0, pretend = 0, frame = 8
- 850              		@ frame_needed = 0, uses_anonymous_args = 0
- 851 0804 00B5     		push	{lr}
- 852 0806 83B0     		sub	sp, sp, #12
- 853 0808 0190     		str	r0, [sp, #4]
- 854 080a 03E0     		b	.L38
- 855              	.L39:
- 856 080c 4FF47A70 		mov	r0, #1000
- 857 0810 FFF7FEFF 		bl	delayMicroseconds
- 858              	.L38:
- 859 0814 019B     		ldr	r3, [sp, #4]
- 860 0816 002B     		cmp	r3, #0
- 861 0818 0CBF     		ite	eq
- 862 081a 0023     		moveq	r3, #0
- 863 081c 0123     		movne	r3, #1
- 864 081e DBB2     		uxtb	r3, r3
- 865 0820 019A     		ldr	r2, [sp, #4]
- 866 0822 02F1FF32 		add	r2, r2, #-1
- 867 0826 0192     		str	r2, [sp, #4]
- 868 0828 002B     		cmp	r3, #0
- 869 082a EFD1     		bne	.L39
- 870 082c 03B0     		add	sp, sp, #12
- 871 082e 00BD     		pop	{pc}
- 873              		.align	2
- 874              		.global	systemReset
- 875              		.thumb
- 876              		.thumb_func
- 878              	systemReset:
- 879              		@ args = 0, pretend = 0, frame = 8
- 880              		@ frame_needed = 0, uses_anonymous_args = 0
- 881 0830 00B5     		push	{lr}
- 882 0832 83B0     		sub	sp, sp, #12
- 883 0834 0346     		mov	r3, r0
- 884 0836 8DF80730 		strb	r3, [sp, #7]
- 885 083a 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
- 886 083e 002B     		cmp	r3, #0
- 887 0840 08D0     		beq	.L41
- 888 0842 4FF6FC73 		movw	r3, #65532
- 889 0846 C2F20103 		movt	r3, 8193
- 890 084a 4BF6EF62 		movw	r2, #48879
- 891 084e CDF6AD62 		movt	r2, 57005
- 892 0852 1A60     		str	r2, [r3, #0]
- 893              	.L41:
- 894 0854 4FF44060 		mov	r0, #3072
- 895 0858 C4F20200 		movt	r0, 16386
- 896 085c 4FF40061 		mov	r1, #2048
- 897 0860 FFF7FEFF 		bl	GPIO_ResetBits
- 898 0864 4FF0C800 		mov	r0, #200
- 899 0868 FFF7FEFF 		bl	delay
- 900 086c 4FF44060 		mov	r0, #3072
- 901 0870 C4F20200 		movt	r0, 16386
- 902 0874 4FF40061 		mov	r1, #2048
- 903 0878 FFF7FEFF 		bl	GPIO_SetBits
- 904 087c 4FF46D43 		mov	r3, #60672
- 905 0880 CEF20003 		movt	r3, 57344
- 906 0884 4FF00402 		mov	r2, #4
- 907 0888 C0F2FA52 		movt	r2, 1530
- 908 088c DA60     		str	r2, [r3, #12]
- 909 088e 03B0     		add	sp, sp, #12
- 910 0890 00BD     		pop	{pc}
- 912 0892 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+ 745 070a 4FF46050 		mov	r0, #14336
+ 746 070e C4F20000 		movt	r0, 16384
+ 747 0712 FFF7FEFF 		bl	spiInit
+ 748 0716 4FF47050 		mov	r0, #15360
+ 749 071a C4F20000 		movt	r0, 16384
+ 750 071e FFF7FEFF 		bl	spiInit
+ 751 0722 FFF7FEFF 		bl	timingFunctionsInit
+ 752 0726 FFF7FEFF 		bl	uart2Init
+ 753 072a FFF7FEFF 		bl	uart3Init
+ 754 072e 41F28830 		movw	r0, #5000
+ 755 0732 FFF7FEFF 		bl	delay
+ 756 0736 FFF7FEFF 		bl	initGPS
+ 757 073a 43F69820 		movw	r0, #15000
+ 758 073e FFF7FEFF 		bl	delay
+ 759 0742 4FF48050 		mov	r0, #4096
+ 760 0746 C4F20200 		movt	r0, 16386
+ 761 074a 4FF04001 		mov	r1, #64
+ 762 074e FFF7FEFF 		bl	GPIO_SetBits
+ 763 0752 FFF7FEFF 		bl	initMPU6000
+ 764 0756 4FF4A840 		mov	r0, #21504
+ 765 075a C4F20000 		movt	r0, 16384
+ 766 075e FFF7FEFF 		bl	initMag
+ 767 0762 4FF4A840 		mov	r0, #21504
+ 768 0766 C4F20000 		movt	r0, 16384
+ 769 076a FFF7FEFF 		bl	initPressure
+ 770 076e FFF7FEFF 		bl	initMax7456
+ 771 0772 FFF7FEFF 		bl	initPID
+ 772 0776 08BD     		pop	{r3, pc}
+ 774              		.align	2
+ 775              		.global	delayMicroseconds
+ 776              		.thumb
+ 777              		.thumb_func
+ 779              	delayMicroseconds:
+ 780              		@ args = 0, pretend = 0, frame = 24
+ 781              		@ frame_needed = 0, uses_anonymous_args = 0
+ 782              		@ link register save eliminated.
+ 783 0778 10B4     		push	{r4}
+ 784 077a 87B0     		sub	sp, sp, #28
+ 785 077c 0190     		str	r0, [sp, #4]
+ 786 077e 4FF00003 		mov	r3, #0
+ 787 0782 0593     		str	r3, [sp, #20]
+ 788 0784 41F20403 		movw	r3, #4100
+ 789 0788 CEF20003 		movt	r3, 57344
+ 790 078c 1B68     		ldr	r3, [r3, #0]
+ 791 078e 0493     		str	r3, [sp, #16]
+ 792              	.L32:
+ 793 0790 41F20403 		movw	r3, #4100
+ 794 0794 CEF20003 		movt	r3, 57344
+ 795 0798 1C68     		ldr	r4, [r3, #0]
+ 796 079a 049B     		ldr	r3, [sp, #16]
+ 797 079c E31A     		subs	r3, r4, r3
+ 798 079e 059A     		ldr	r2, [sp, #20]
+ 799 07a0 D318     		adds	r3, r2, r3
+ 800 07a2 0593     		str	r3, [sp, #20]
+ 801 07a4 0494     		str	r4, [sp, #16]
+ 802 07a6 40F20003 		movw	r3, #:lower16:usTicks
+ 803 07aa C0F20003 		movt	r3, #:upper16:usTicks
+ 804 07ae 1B68     		ldr	r3, [r3, #0]
+ 805 07b0 059A     		ldr	r2, [sp, #20]
+ 806 07b2 B2FBF3F3 		udiv	r3, r2, r3
+ 807 07b6 0393     		str	r3, [sp, #12]
+ 808 07b8 039A     		ldr	r2, [sp, #12]
+ 809 07ba 019B     		ldr	r3, [sp, #4]
+ 810 07bc 9A42     		cmp	r2, r3
+ 811 07be 10D2     		bcs	.L34
+ 812              	.L30:
+ 813 07c0 019A     		ldr	r2, [sp, #4]
+ 814 07c2 039B     		ldr	r3, [sp, #12]
+ 815 07c4 D31A     		subs	r3, r2, r3
+ 816 07c6 0193     		str	r3, [sp, #4]
+ 817 07c8 40F20003 		movw	r3, #:lower16:usTicks
+ 818 07cc C0F20003 		movt	r3, #:upper16:usTicks
+ 819 07d0 1A68     		ldr	r2, [r3, #0]
+ 820 07d2 059B     		ldr	r3, [sp, #20]
+ 821 07d4 B3FBF2F1 		udiv	r1, r3, r2
+ 822 07d8 02FB01F2 		mul	r2, r2, r1
+ 823 07dc 9B1A     		subs	r3, r3, r2
+ 824 07de 0593     		str	r3, [sp, #20]
+ 825 07e0 D6E7     		b	.L32
+ 826              	.L34:
+ 827 07e2 00BF     		nop
+ 828              	.L33:
+ 829 07e4 07B0     		add	sp, sp, #28
+ 830 07e6 10BC     		pop	{r4}
+ 831 07e8 7047     		bx	lr
+ 833 07ea 00BF     		.align	2
+ 834              		.global	delay
+ 835              		.thumb
+ 836              		.thumb_func
+ 838              	delay:
+ 839              		@ args = 0, pretend = 0, frame = 8
+ 840              		@ frame_needed = 0, uses_anonymous_args = 0
+ 841 07ec 00B5     		push	{lr}
+ 842 07ee 83B0     		sub	sp, sp, #12
+ 843 07f0 0190     		str	r0, [sp, #4]
+ 844 07f2 03E0     		b	.L36
+ 845              	.L37:
+ 846 07f4 4FF47A70 		mov	r0, #1000
+ 847 07f8 FFF7FEFF 		bl	delayMicroseconds
+ 848              	.L36:
+ 849 07fc 019B     		ldr	r3, [sp, #4]
+ 850 07fe 002B     		cmp	r3, #0
+ 851 0800 0CBF     		ite	eq
+ 852 0802 0023     		moveq	r3, #0
+ 853 0804 0123     		movne	r3, #1
+ 854 0806 DBB2     		uxtb	r3, r3
+ 855 0808 019A     		ldr	r2, [sp, #4]
+ 856 080a 02F1FF32 		add	r2, r2, #-1
+ 857 080e 0192     		str	r2, [sp, #4]
+ 858 0810 002B     		cmp	r3, #0
+ 859 0812 EFD1     		bne	.L37
+ 860 0814 03B0     		add	sp, sp, #12
+ 861 0816 00BD     		pop	{pc}
+ 863              		.align	2
+ 864              		.global	systemReset
+ 865              		.thumb
+ 866              		.thumb_func
+ 868              	systemReset:
+ 869              		@ args = 0, pretend = 0, frame = 8
+ 870              		@ frame_needed = 0, uses_anonymous_args = 0
+ 871 0818 00B5     		push	{lr}
+ 872 081a 83B0     		sub	sp, sp, #12
+ 873 081c 0346     		mov	r3, r0
+ 874 081e 8DF80730 		strb	r3, [sp, #7]
+ 875 0822 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 876 0826 002B     		cmp	r3, #0
+ 877 0828 08D0     		beq	.L39
+ 878 082a 4FF6FC73 		movw	r3, #65532
+ 879 082e C2F20103 		movt	r3, 8193
+ 880 0832 4BF6EF62 		movw	r2, #48879
+ 881 0836 CDF6AD62 		movt	r2, 57005
+ 882 083a 1A60     		str	r2, [r3, #0]
+ 883              	.L39:
+ 884 083c 4FF44060 		mov	r0, #3072
+ 885 0840 C4F20200 		movt	r0, 16386
+ 886 0844 4FF40061 		mov	r1, #2048
+ 887 0848 FFF7FEFF 		bl	GPIO_ResetBits
+ 888 084c 4FF0C800 		mov	r0, #200
+ 889 0850 FFF7FEFF 		bl	delay
+ 890 0854 4FF44060 		mov	r0, #3072
+ 891 0858 C4F20200 		movt	r0, 16386
+ 892 085c 4FF40061 		mov	r1, #2048
+ 893 0860 FFF7FEFF 		bl	GPIO_SetBits
+ 894 0864 4FF46D43 		mov	r3, #60672
+ 895 0868 CEF20003 		movt	r3, 57344
+ 896 086c 4FF00402 		mov	r2, #4
+ 897 0870 C0F2FA52 		movt	r2, 1530
+ 898 0874 DA60     		str	r2, [r3, #12]
+ 899 0876 03B0     		add	sp, sp, #12
+ 900 0878 00BD     		pop	{pc}
+ 902 087a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_system.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:21     .text:00000000 NVIC_SetPriority
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:62     .text:00000058 SysTick_Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:21     .text:00000000 NVIC_SetPriority
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:62     .text:00000058 SysTick_Config
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:102    .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:103    .bss:00000000 usTicks
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:106    .bss:00000004 sysTickUptime
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:109    .bss:00000008 sysTickCycleCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:116    .text:000000b4 cycleCounterInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:154    .bss:0000000c frameCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:159    .bss:0000000e frame_500Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:164    .bss:0000000f frame_100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:169    .bss:00000010 frame_50Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:174    .bss:00000011 frame_10Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:179    .bss:00000012 frame_5Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:184    .bss:00000013 frame_1Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:102    .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:103    .bss:00000000 usTicks
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:106    .bss:00000004 sysTickUptime
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:109    .bss:00000008 sysTickCycleCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:116    .text:000000b4 cycleCounterInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:154    .bss:0000000c frameCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:159    .bss:0000000e frame_500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:164    .bss:0000000f frame_100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:169    .bss:00000010 frame_50Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:174    .bss:00000011 frame_10Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:179    .bss:00000012 frame_5Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 deltaTime1000Hz
                             *COM*:00000004 executionTime1000Hz
                             *COM*:00000004 previous1000HzTime
@@ -915,15 +905,15 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 previous1HzTime
                             *COM*:00000004 dt500Hz
                             *COM*:00000004 dt100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:212    .bss:00000014 systemReady
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:217    .bss:00000015 execUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:225    .text:00000110 SysTick_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:641    .text:0000060c micros
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:680    .text:00000650 millis
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:695    .text:00000660 systemInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:848    .text:00000804 delay
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:789    .text:00000790 delayMicroseconds
-C:\Users\JOHNIH~1\AppData\Local\Temp\cclu2QkJ.s:878    .text:00000830 systemReset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:212    .bss:00000014 systemReady
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:217    .bss:00000015 execUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:225    .text:00000110 SysTick_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:641    .text:0000060c micros
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:680    .text:00000650 millis
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:695    .text:00000660 systemInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:838    .text:000007ec delay
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:779    .text:00000778 delayMicroseconds
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:868    .text:00000818 systemReset
 
 UNDEFINED SYMBOLS
 RCC_GetClocksFreq
@@ -965,10 +955,10 @@ spiInit
 timingFunctionsInit
 uart2Init
 uart3Init
+initGPS
 initMPU6000
 initMag
 initPressure
-initGPS
 initMax7456
 initPID
 GPIO_ResetBits

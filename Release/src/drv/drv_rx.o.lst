@@ -1167,36 +1167,36 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:23     .bss:00000000 rcActive
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:24     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:26     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:29     .data:00000000 Channels
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:56     .bss:00000004 Inputs
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:59     .bss:00000034 TIM_ICInitStructure
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:23     .bss:00000000 rcActive
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:24     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:26     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:29     .data:00000000 Channels
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:56     .bss:00000004 Inputs
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:59     .bss:00000034 TIM_ICInitStructure
                             *COM*:00000001 i
                             *COM*:00000001 spektrumBindCount
                             *COM*:00000030 spektrumChannelData
                             *COM*:00000001 spektrumChannelMask
                             *COM*:00000001 spektrumChannelShift
                             *COM*:00000010 spektrumFrame
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:70     .bss:0000003e spektrumFrameComplete
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:70     .bss:0000003e spektrumFrameComplete
                             *COM*:00000001 spektrumFramePosition
                             *COM*:00000004 spektrumTimeInterval
                             *COM*:00000004 spektrumTimeLast
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:76     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:80     .text:00000000 serialPWM_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:1173   .bss:00000040 now.10969
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:1176   .bss:00000042 last.10970
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:1178   .bss:00000044 chan.10971
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:174    .text:000000f8 parallelPWM_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:236    .text:0000019c $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:250    .text:000001d0 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:367    .text:000002d8 TIM4_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:392    .text:00000308 TIM1_CC_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:406    .text:00000318 USART1_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:548    .text:000004ac rxInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:996    .text:00000a94 rxRead
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccmb6rb4.s:1064   .text:00000b40 checkSpektrumBind
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:76     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:80     .text:00000000 serialPWM_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:1173   .bss:00000040 now.10969
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:1176   .bss:00000042 last.10970
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:1178   .bss:00000044 chan.10971
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:174    .text:000000f8 parallelPWM_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:236    .text:0000019c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:250    .text:000001d0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:367    .text:000002d8 TIM4_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:392    .text:00000308 TIM1_CC_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:406    .text:00000318 USART1_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:548    .text:000004ac rxInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:996    .text:00000a94 rxRead
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccQWrdlv.s:1064   .text:00000b40 checkSpektrumBind
 
 UNDEFINED SYMBOLS
 TIM_GetITStatus

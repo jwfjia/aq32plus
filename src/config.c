@@ -398,7 +398,7 @@ void checkFirstTime(bool eepromReset)
         eepromConfig.freeMix[5][PITCH]    =  0.0f;
         eepromConfig.freeMix[5][YAW  ]    =  0.0f;
 
-        eepromConfig.osdInstalled         =  false;
+        eepromConfig.osdEnabled           =  false;
         eepromConfig.defaultVideoStandard =  NTSC;
         eepromConfig.metricUnits          =  false;
         eepromConfig.osdDisplayAlt        =  true;

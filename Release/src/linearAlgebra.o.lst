@@ -797,22 +797,22 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:20     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:25     .text:00000000 vectorDotProduct
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:68     .text:00000058 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:70     .text:0000005c $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:75     .text:0000005c vectorCrossProduct
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:140    .text:00000110 vectorScale
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:181    .text:00000168 vectorAdd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:226    .text:000001cc vectorSubtract
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:271    .text:00000230 matrixMultiply
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:379    .text:0000034c $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:381    .text:00000350 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:386    .text:00000350 matrixAdd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:433    .text:000003b8 matrixSubtract
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:480    .text:00000420 matrixScale
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:523    .text:0000047c matrixTranspose3x3
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:582    .text:000004f0 matrixInverse3x3
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccfoceXs.s:814    .text:000007f0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:20     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:25     .text:00000000 vectorDotProduct
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:68     .text:00000058 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:70     .text:0000005c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:75     .text:0000005c vectorCrossProduct
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:140    .text:00000110 vectorScale
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:181    .text:00000168 vectorAdd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:226    .text:000001cc vectorSubtract
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:271    .text:00000230 matrixMultiply
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:379    .text:0000034c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:381    .text:00000350 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:386    .text:00000350 matrixAdd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:433    .text:000003b8 matrixSubtract
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:480    .text:00000420 matrixScale
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:523    .text:0000047c matrixTranspose3x3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:582    .text:000004f0 matrixInverse3x3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cciJUnOZ.s:814    .text:000007f0 $d
 
 NO UNDEFINED SYMBOLS

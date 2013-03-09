@@ -272,13 +272,17 @@ void systemInit(void)
     pwmEscInit(eepromConfig.escPwmRate);
     pwmServoInit(eepromConfig.servoPwmRate);
     rxInit();
-    if (eepromConfig.osdInstalled) spiInit(SPI2);
+    spiInit(SPI2);
     spiInit(SPI3);
     timingFunctionsInit();
     uart2Init();
     uart3Init();
 
-    delay(15000);  // 15 sec delay for sensor stabilization - probably not long enough.....
+    delay(5000);   // 5 sec delay to make sure GPS is up before executing init procedure
+
+    initGPS();
+
+    delay(15000);  // 20 sec total delay for sensor stabilization - probably not long enough.....
 
     GPIO_SetBits(GREEN_LED_GPIO, GREEN_LED_PIN);
 
@@ -286,11 +290,7 @@ void systemInit(void)
     initMag(HMC5883L_I2C);
     initPressure(MS5611_I2C);
 
-    //if (eepromConfig.gpsInstalled)
-        initGPS();
-
-    if (eepromConfig.osdInstalled)
-    	initMax7456();
+    initMax7456();
 
     initPID();
 }

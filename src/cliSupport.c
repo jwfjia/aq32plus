@@ -49,312 +49,246 @@ void max7456CLI()
 
     usbPrint("\nEntering MAX7456 CLI....\n\n");
 
-    if (eepromConfig.osdInstalled)
+   	resetMax7456();
+
+    while(true)
     {
-    	resetMax7456();
+		if (!validQuery) usbPrint("MAX7456 CLI -> ");
 
-        while(true)
-        {
-			usbPrint("MAX7456 CLI -> ");
+		while ((usbAvailable() == false) && (validQuery == false));
 
-			while ((usbAvailable() == false) && (validQuery == false));
+		if (validQuery == false)
+		    max7456query = usbRead();
 
-			if (validQuery == false)
-			    max7456query = usbRead();
+		if (!validQuery) usbPrint("\n");
 
-			usbPrint("\n");
-
-			switch(max7456query)
-			{
-                ///////////////////////
-
-                case 'a': // OSD Configuration
-                    usbPrint("\nOSD Installed:               ");
-                    if (eepromConfig.osdInstalled)
-                    	usbPrint("True\n");
-                    else
-                	    usbPrint("False\n");
-
-                    if (eepromConfig.osdInstalled)
-                    {
-		        	    usbPrint("OSD Default Video Standard:  ");
-                        if (eepromConfig.defaultVideoStandard)
-                    	    usbPrint("PAL\n");
-                        else
-                    	    usbPrint("NTSC\n");
-
-                        usbPrint("OSD Display Units:           ");
-                        if (eepromConfig.metricUnits)
-                    	    usbPrint("Metric\n");
-                        else
-                    	    usbPrint("English\n");
-
-                        usbPrint("OSD Altitude:                ");
-                        if (eepromConfig.osdDisplayAlt)
-                    	    usbPrint("On\n");
-                        else
-                    	    usbPrint("Off\n");
-
-                        usbPrint("OSD Artifical Horizon:       ");
-                        if (eepromConfig.osdDisplayAH)
-                    	    usbPrint("On\n");
-                        else
-                    	    usbPrint("Off\n");
-
-                        usbPrint("OSD Attitude:                ");
-                        if (eepromConfig.osdDisplayAtt)
-                    	    usbPrint("On\n");
-                        else
-                    	    usbPrint("Off\n");
-
-                        usbPrint("OSD Heading:                 ");
-                        if (eepromConfig.osdDisplayHdg)
-                    	    usbPrint("On\n");
-                        else
-                    	    usbPrint("Off\n");
-		            }
-
-                    usbPrint("\n");
-                    validQuery = false;
-                    break;
-
-                ///////////////////////
-
-                case 'b': // Enable OSD Altitude Display
-                    eepromConfig.osdDisplayAlt  = true;
-                    usbPrint( "\nAltitude Display On....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'c': // Enable OSD Artifical Horizon Display
-                    eepromConfig.osdDisplayAH  = true;
-                    eepromConfig.osdDisplayAtt = false;
-                    usbPrint( "\nArtificial Horizon On, Attitude Off....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'd': // Enable OSD Attitude Display
-                    eepromConfig.osdDisplayAtt = true;
-                    eepromConfig.osdDisplayAH  = false;
-                    usbPrint( "\nAttitude On, Artificial Horizon Off....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'e': // Enable OSD Heading Display
-                    eepromConfig.osdDisplayHdg = true;
-                    usbPrint( "\nHeading On....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'q': // Set English Display Units
-                    eepromConfig.metricUnits = false;
-                    usbPrint( "\nUnits Changed to English....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'r': // reset
-                    resetMax7456();
-                    usbPrint("\nMAX7456 Reset....\n\n");
-                    break;
-
-                ///////////////////////
-
-                case 's': // show charset
-                    showMax7456Font();
-                    usbPrint("\nMAX7456 Character Set Displayed....\n\n");
-                    break;
-
-                ///////////////////////
-
-                case 't': // download font
-                    downloadMax7456Font();
-                    break;
-
-                ///////////////////////
-
-                case 'u': // change OSD status to uninstalled
-                    eepromConfig.osdInstalled = false;
-                    usbPrint("\nOSD State Changed to Uninstalled....\n");
-                    usbPrint("\nSystem Resetting....\n\n");
-                    delay(100);
-                    writeEEPROM();
-                    systemReset(false);
-                    break;
-
-    			///////////////////////
-
-    		    case 'v': // change default video standard
-    			    if (eepromConfig.defaultVideoStandard)         // If  PAL
-    			        eepromConfig.defaultVideoStandard = NTSC;  // Set NTSC
-    			    else                                           // If  NTSC
-    			        eepromConfig.defaultVideoStandard = PAL;   // Set PAL
-
-                    usbPrint("\nDefault Video Standard Changed to ");
-                    if (eepromConfig.defaultVideoStandard)
-                        usbPrint("PAL....\n");
-                    else
-                        usbPrint("NTSC....\n");
-
-                    usbPrint("\nSystem Resetting....\n\n");
-    			    delay(100);
-    				writeEEPROM();
-    				systemReset(false);
-    				break;
-
-    		    ///////////////////////
-
-    			case 'x':
-    			    usbPrint("\nExiting MAX7456 CLI....\n\n");
-    			    cliBusy = false;
-    			    return;
-    			    break;
-
-                ///////////////////////
-
-                case 'B': // Disable OSD Altitude Display
-                    eepromConfig.osdDisplayAlt = false;
-                    usbPrint( "\nAltitude Off....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'C': // Disable OSD Artifical Horizon Display
-                    eepromConfig.osdDisplayAH = false;
-                    usbPrint( "\nArtifical Horizon Off....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'D': // Disable OSD Attitude Display
-                    eepromConfig.osdDisplayAtt = false;
-                    usbPrint( "\nAttitude Off....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////
-
-                case 'E': // Disable OSD Heading Display
-                    eepromConfig.osdDisplayHdg = false;
-                    usbPrint( "\nHeading Off....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-               ///////////////////////
-
-               case 'Q': // Set Metric Display Units
-                    eepromConfig.metricUnits = true;
-                    usbPrint( "\nUnits Changed to Metric....\n\n" );
-
-                    max7456query = 'a';
-                    validQuery = true;
-                    break;
-
-                ///////////////////////////
-
-                case 'W': // Write EEPROM Parameters
-                    usbPrint("\nWriting EEPROM Parameters....\n\n");
-                    writeEEPROM();
-                    break;
-
-				///////////////////////
-
-				case '?':
-				   	usbPrint("\n");
-				   	usbPrint("'a' OSD Configuration\n");
-				    usbPrint("'b' Enable OSD Altitude Display            'B' Disable OSD Altitude Display\n");
-				   	usbPrint("'c' Enable OSD Artificial Horizon Display  'C' Disable OSD Artificial Horizon Display\n");
-				   	usbPrint("'d' Enable OSD Attitude Display            'D' Disable OSD Attitude Display\n");
-				   	usbPrint("'e' Enable OSD Heading Display             'E' Disable OSD Heading Display\n");
-				   	usbPrint("'q' Set English Display Units              'Q' Set Metric Display Units\n");
-				    usbPrint("'r' Reset MAX7456\n");
-				   	usbPrint("'s' Display MAX7456 Character Set\n");
-				   	usbPrint("'t' Download Font to MAX7456\n");
-				   	usbPrint("'u' Change OSD State to Uninstalled\n");
-				   	usbPrint("'v' Change Default Video Standard          'W' Write EEPROM Parameters\n");
-				   	usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
-				   	usbPrint("\n");
-   		    	    break;
-
-   		    	///////////////////////
-		    }
-	    }
-	}
-	else
-	{
-		while(true)
+		switch(max7456query)
 		{
-			usbPrint("MAX7456 CLI -> ");
+            ///////////////////////
 
-		    while (usbAvailable() == false);
+            case 'a': // OSD Configuration
+                usbPrint("\nMAX7456 OSD Status:             ");
+                if (eepromConfig.osdEnabled)
+                	usbPrint("Enabled\n");
+                else
+               	    usbPrint("Disabled\n");
 
-			max7456query = usbRead();
+                usbPrint("OSD Default Video Standard:     ");
+                if (eepromConfig.defaultVideoStandard)
+                    usbPrint("PAL\n");
+                else
+                    usbPrint("NTSC\n");
 
-			usbPrint("\n");
+                usbPrint("OSD Display Units:              ");
+                if (eepromConfig.metricUnits)
+                    usbPrint("Metric\n");
+                else
+                    usbPrint("English\n");
 
-			switch(max7456query)
-			{
-                ///////////////////////
+                usbPrint("OSD Altitude Display:           ");
+                if (eepromConfig.osdDisplayAlt)
+                    usbPrint("On\n");
+                else
+                    usbPrint("Off\n");
 
-                case 'i': // change OSD status to installed
-            	    eepromConfig.osdInstalled = true;
-            	    usbPrint("\nOSD State Changed to Installed....\n");
-            	    usbPrint("\nSystem Resetting....\n\n");
-            	    writeEEPROM();
-            	    delay(100);
-            	    systemReset(false);
-            	    break;
+                usbPrint("OSD Artifical Horizon Display:  ");
+                if (eepromConfig.osdDisplayAH)
+                    usbPrint("On\n");
+                else
+                    usbPrint("Off\n");
 
-				///////////////////////
+                usbPrint("OSD Attitude Display:           ");
+                if (eepromConfig.osdDisplayAtt)
+                    usbPrint("On\n");
+                else
+                    usbPrint("Off\n");
 
-				case 'x':
-				    usbPrint("\nExiting MAX7456 CLI....\n\n");
-				    cliBusy = false;
-				    return;
-				    break;
+                usbPrint("OSD Heading Display:            ");
+                if (eepromConfig.osdDisplayHdg)
+                    usbPrint("On\n");
+                else
+                    usbPrint("Off\n");
 
-				///////////////////////
+                usbPrint("\n");
+                validQuery = false;
+                break;
 
-				case '?':
-					usbPrint("\n");
-				    usbPrint("'i' Change OSD State to Installed\n");
-				    usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
-				   	usbPrint("\n");
-				   	break;
+            ///////////////////////
 
-				///////////////////////
-			}
-		}
-	}
+            case 'b': // Enable OSD Altitude Display
+                eepromConfig.osdDisplayAlt  = true;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'c': // Enable OSD Artifical Horizon Display
+                eepromConfig.osdDisplayAH  = true;
+                eepromConfig.osdDisplayAtt = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'd': // Enable OSD Attitude Display
+                eepromConfig.osdDisplayAtt = true;
+                eepromConfig.osdDisplayAH  = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'e': // Enable OSD Heading Display
+                eepromConfig.osdDisplayHdg = true;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'q': // Set English Display Units
+                eepromConfig.metricUnits = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'r': // Reset MAX7456
+                resetMax7456();
+                usbPrint("\nMAX7456 Reset....\n\n");
+                break;
+
+            ///////////////////////
+
+            case 's': // Show character set
+                showMax7456Font();
+                usbPrint("\nMAX7456 Character Set Displayed....\n\n");
+                break;
+
+            ///////////////////////
+
+            case 't': // Download font
+                downloadMax7456Font();
+                break;
+
+            ///////////////////////
+
+            case 'u': // Toggle OSD enabled status
+   			    if (eepromConfig.osdEnabled)                   // If  Enabled
+   			        eepromConfig.osdEnabled = false;           // Set Disabled
+   			    else
+   			    {                                              // If  Disabled
+   			        eepromConfig.osdEnabled = true;            // Set Enabled
+                    initMax7456();                             // and call init procedure
+				}
+
+                max7456query = 'a';
+                validQuery = true;
+   				break;
+
+			///////////////////////
+
+   		    case 'v': // Toggle default video standard
+   			    if (eepromConfig.defaultVideoStandard)         // If  PAL
+   			        eepromConfig.defaultVideoStandard = NTSC;  // Set NTSC
+   			    else                                           // If  NTSC
+   			        eepromConfig.defaultVideoStandard = PAL;   // Set PAL
+
+                max7456query = 'a';
+                validQuery = true;
+   				break;
+
+   		    ///////////////////////
+
+   			case 'x':
+   			    usbPrint("\nExiting MAX7456 CLI....\n\n");
+   			    cliBusy = false;
+   			    return;
+   			    break;
+
+            ///////////////////////
+
+            case 'B': // Disable OSD Altitude Display
+                eepromConfig.osdDisplayAlt = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'C': // Disable OSD Artifical Horizon Display
+                eepromConfig.osdDisplayAH = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'D': // Disable OSD Attitude Display
+                eepromConfig.osdDisplayAtt = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////
+
+            case 'E': // Disable OSD Heading Display
+                eepromConfig.osdDisplayHdg = false;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+           ///////////////////////
+
+           case 'Q': // Set Metric Display Units
+                eepromConfig.metricUnits = true;
+
+                max7456query = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
+            case 'W': // Write EEPROM Parameters
+                usbPrint("\nWriting EEPROM Parameters....\n\n");
+                writeEEPROM();
+                break;
+
+    		///////////////////////
+
+			case '?':
+			   	usbPrint("\n");
+			   	usbPrint("'a' OSD Configuration\n");
+			    usbPrint("'b' Enable OSD Altitude Display            'B' Disable OSD Altitude Display\n");
+			   	usbPrint("'c' Enable OSD Artificial Horizon Display  'C' Disable OSD Artificial Horizon Display\n");
+			   	usbPrint("'d' Enable OSD Attitude Display            'D' Disable OSD Attitude Display\n");
+			   	usbPrint("'e' Enable OSD Heading Display             'E' Disable OSD Heading Display\n");
+			   	usbPrint("'q' Set English Display Units              'Q' Set Metric Display Units\n");
+			    usbPrint("'r' Reset MAX7456\n");
+			   	usbPrint("'s' Display MAX7456 Character Set\n");
+			   	usbPrint("'t' Download Font to MAX7456\n");
+			   	usbPrint("'u' Toggle OSD Enabled State\n");
+			   	usbPrint("'v' Toggle Default Video Standard          'W' Write EEPROM Parameters\n");
+			   	usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
+			   	usbPrint("\n");
+	    	    break;
+
+	    	///////////////////////
+	    }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -615,8 +549,7 @@ void mixerCLI()
 
             case 'A': // Read Mixer Configuration
                 eepromConfig.mixerConfiguration = (uint8_t)readFloatUsb();
-                usbPrint( "\nMixer Configuration Received....\n\n" );
-        	    initMixer();
+                initMixer();
 
         	    mixerQuery = 'a';
                 validQuery = true;
@@ -627,7 +560,6 @@ void mixerCLI()
             case 'B': // Read ESC and Servo PWM Update Rates
                 eepromConfig.escPwmRate   = (uint16_t)readFloatUsb();
                 eepromConfig.servoPwmRate = (uint16_t)readFloatUsb();
-                usbPrint( "\nPWM Update Rates Received....\n\n");
 
                 pwmEscInit(eepromConfig.escPwmRate);
                 pwmServoInit(eepromConfig.servoPwmRate);
@@ -642,7 +574,6 @@ void mixerCLI()
            	    eepromConfig.biLeftServoMin = readFloatUsb();
            	    eepromConfig.biLeftServoMid = readFloatUsb();
            	    eepromConfig.biLeftServoMax = readFloatUsb();
-           	    usbPrint( "\nBiCopter Left Servo Parameters Received....\n\n");
 
            	    mixerQuery = 'a';
                 validQuery = true;
@@ -654,7 +585,6 @@ void mixerCLI()
            	    eepromConfig.biRightServoMin = readFloatUsb();
            	    eepromConfig.biRightServoMid = readFloatUsb();
            	    eepromConfig.biRightServoMax = readFloatUsb();
-           	    usbPrint( "\nBiCopter Right Servo Parameters Received....\n\n");
 
            	    mixerQuery = 'a';
                 validQuery = true;
@@ -667,7 +597,6 @@ void mixerCLI()
                 eepromConfig.rollDirectionRight  = readFloatUsb();
                 eepromConfig.pitchDirectionLeft  = readFloatUsb();
                 eepromConfig.pitchDirectionRight = readFloatUsb();
-          	    usbPrint( "\nFlying Wing Servo Directions Received....\n\n");
 
          	    mixerQuery = 'a';
                 validQuery = true;
@@ -680,7 +609,6 @@ void mixerCLI()
            	    eepromConfig.wingLeftMaximum  = readFloatUsb();
            	    eepromConfig.wingRightMinimum = readFloatUsb();
            	    eepromConfig.wingRightMaximum = readFloatUsb();
-           	    usbPrint( "\nFlying Wing Servo Limits Received....\n\n");
 
                 mixerQuery = 'a';
                 validQuery = true;
@@ -690,7 +618,6 @@ void mixerCLI()
 
             case 'G': // Read Free Mix Motor Number
            	    eepromConfig.freeMixMotors = (uint8_t)readFloatUsb();
-           	    usbPrint( "\nFree Mix Motor Number Received....\n\n");
            	    initMixer();
 
            	    mixerQuery = 'b';
@@ -703,7 +630,6 @@ void mixerCLI()
                 rows    = (uint8_t)readFloatUsb();
                 columns = (uint8_t)readFloatUsb();
                 eepromConfig.freeMix[rows][columns] = readFloatUsb();
-                usbPrint( "\nFree Mix Value Received....\n\n");
 
                 mixerQuery = 'b';
                 validQuery = true;
@@ -716,7 +642,6 @@ void mixerCLI()
            	    eepromConfig.gimbalRollServoMid  = readFloatUsb();
            	    eepromConfig.gimbalRollServoMax  = readFloatUsb();
            	    eepromConfig.gimbalRollServoGain = readFloatUsb();
-           	    usbPrint( "\nGimbal Roll Servo Parameters Received....\n\n");
 
            	    mixerQuery = 'a';
                 validQuery = true;
@@ -729,7 +654,6 @@ void mixerCLI()
            	    eepromConfig.gimbalPitchServoMid  = readFloatUsb();
            	    eepromConfig.gimbalPitchServoMax  = readFloatUsb();
            	    eepromConfig.gimbalPitchServoGain = readFloatUsb();
-           	    usbPrint( "\nGimbal Pitch Servo Parameters Received....\n\n");
 
            	    mixerQuery = 'a';
                 validQuery = true;
@@ -741,7 +665,6 @@ void mixerCLI()
         	    eepromConfig.triYawServoMin = readFloatUsb();
            	    eepromConfig.triYawServoMid = readFloatUsb();
            	    eepromConfig.triYawServoMax = readFloatUsb();
-           	    usbPrint( "\nTriCopter Yaw Servo Parameters Received....\n\n");
 
            	    mixerQuery = 'a';
                 validQuery = true;
@@ -751,7 +674,6 @@ void mixerCLI()
 
             case 'L': // Read V Tail Angle
         	    eepromConfig.vTailAngle = readFloatUsb();
-        	    usbPrint("\nV Tail Angle Received....\n\n");
 
         	    mixerQuery = 'a';
                 validQuery = true;
@@ -767,7 +689,6 @@ void mixerCLI()
                 	tempFloat = -1.0;
 
                 eepromConfig.yawDirection = tempFloat;
-                usbPrint("\nYaw Direction Received....\n\n");
 
                 mixerQuery = 'a';
                 validQuery = true;
@@ -897,25 +818,23 @@ void receiverCLI()
 				validQuery = false;
                 break;
 
-                ///////////////////////////
+            ///////////////////////////
 
-                case 'b': // Read Max Rate Value
-                    eepromConfig.rateScaling = readFloatUsb() / 180000 * PI;
-                    usbPrint("\nMaximum Rate Command Received....\n\n");
+            case 'b': // Read Max Rate Value
+                eepromConfig.rateScaling = readFloatUsb() / 180000 * PI;
 
-                    receiverQuery = 'a';
-                    validQuery = true;
-                    break;
+                receiverQuery = 'a';
+                validQuery = true;
+                break;
 
-                ///////////////////////////
+            ///////////////////////////
 
-                case 'c': // Read Max Attitude Value
-                    eepromConfig.attitudeScaling = readFloatUsb() / 180000 * PI;
-                    usbPrint("\nMaximum Attitude Command Received....\n\n");
+            case 'c': // Read Max Attitude Value
+                eepromConfig.attitudeScaling = readFloatUsb() / 180000 * PI;
 
-                    receiverQuery = 'a';
-                    validQuery = true;
-                    break;
+                receiverQuery = 'a';
+                validQuery = true;
+                break;
 
             ///////////////////////////
 
@@ -929,9 +848,9 @@ void receiverCLI()
 
             case 'A': // Read RX Input Type
                 eepromConfig.receiverType = (uint8_t)readFloatUsb();
-			    usbPrint( "\nReceiver Type Received....\n");
+			    usbPrint( "\nReceiver Type Changed....\n");
 
-			    usbPrint("\nSystem Reseting....\n");
+			    usbPrint("\nSystem Resetting....\n");
 			    delay(100);
 			    writeEEPROM();
 			    systemReset(false);
@@ -942,9 +861,6 @@ void receiverCLI()
 
             case 'B': // Read RC Control Order
                 readStringUsb( rcOrderString, 8 );
-                usbPrint( "\nRC Channel Order Received...." );
-                usbPrint( rcOrderString );
-                usbPrint("\n\n");
                 parseRcChannels( rcOrderString );
 
           	    receiverQuery = 'a';
@@ -955,7 +871,6 @@ void receiverCLI()
 
             case 'C': // Read Spektrum Resolution
                 eepromConfig.spektrumHires = (uint8_t)readFloatUsb();
-                usbPrint("\nSpektrum Resolution Received....\n\n");
 
                 receiverQuery = 'a';
                 validQuery = true;
@@ -965,7 +880,6 @@ void receiverCLI()
 
             case 'D': // Read Number of Spektrum Channels
                 eepromConfig.spektrumChannels = (uint8_t)readFloatUsb();
-                usbPrint("\nSpektrum Channels Received....\n\n");
 
                 receiverQuery = 'a';
                 validQuery = true;
@@ -979,7 +893,6 @@ void receiverCLI()
     		    eepromConfig.maxCheck     = readFloatUsb();
     		    eepromConfig.minThrottle  = readFloatUsb();
     		    eepromConfig.maxThrottle  = readFloatUsb();
-                usbPrint( "\nRC Control Points Received....\n\n" );
 
                 receiverQuery = 'a';
                 validQuery = true;
@@ -1046,7 +959,6 @@ void sensorCLI()
 
                 usbPrint("Accel One G:               ");
                 snprintf(numberString, 16, "%9.4f\n", accelOneG); usbPrint(numberString);
-                //ftoa(accelOneG,                                numberString); usbPrint(numberString); usbPrint("\n");
 
                 usbPrint("Accel Temp Comp Slope:     ");
                 snprintf(numberString, 16, "%9.4f, ", eepromConfig.accelTCBiasSlope[XAXIS]); usbPrint(numberString);
@@ -1164,8 +1076,6 @@ void sensorCLI()
                      	break;
                 }
 
-                usbPrint("\nMPU6000 DLPF Configuration Received....\n\n");
-
                 setSPIdivisor(MPU6000_SPI, 64);  // 0.65625 MHz SPI clock (within 20 +/- 10%)
 
                 GPIO_ResetBits(MPU6000_CS_GPIO, MPU6000_CS_PIN);
@@ -1183,7 +1093,6 @@ void sensorCLI()
 
             case 'B': // Accel Cutoff
                 eepromConfig.accelCutoff = readFloatUsb();
-                usbPrint( "\nAccel Cutoff Received....\n\n" );
 
                 sensorQuery = 'a';
                 validQuery = true;
@@ -1194,7 +1103,6 @@ void sensorCLI()
             case 'C': // kpAcc, kiAcc
                 eepromConfig.KpAcc = readFloatUsb();
                 eepromConfig.KiAcc = readFloatUsb();
-                usbPrint("\nkpAcc and kiAcc Received....\n\n");
 
                 sensorQuery = 'a';
                 validQuery = true;
@@ -1205,7 +1113,6 @@ void sensorCLI()
             case 'D': // kpMag, kiMag
                 eepromConfig.KpMag = readFloatUsb();
                 eepromConfig.KiMag = readFloatUsb();
-                usbPrint("\nkpMag and kiMag Received....\n\n");
 
                 sensorQuery = 'a';
                 validQuery = true;
@@ -1216,7 +1123,6 @@ void sensorCLI()
             case 'E': // h dot est/h est Comp Filter A/B
                 eepromConfig.compFilterA = readFloatUsb();
                 eepromConfig.compFilterB = readFloatUsb();
-                usbPrint("\nh dot est/h est Comp Filter A/B Received....\n\n");
 
                 sensorQuery = 'a';
                 validQuery = true;

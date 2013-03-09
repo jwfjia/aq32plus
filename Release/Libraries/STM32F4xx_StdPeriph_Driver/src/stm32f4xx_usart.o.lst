@@ -1220,36 +1220,36 @@
  1278              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_usart.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:22     .text:00000000 USART_DeInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:113    .text:000000f8 USART_Init
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:296    .text:0000029c USART_StructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:328    .text:000002d4 USART_ClockInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:373    .text:00000320 USART_ClockStructInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:399    .text:00000348 USART_Cmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:435    .text:00000380 USART_SetPrescaler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:467    .text:000003b4 USART_OverSampling8Cmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:505    .text:000003f4 USART_OneBitMethodCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:541    .text:0000042c USART_SendData
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:563    .text:0000044c USART_ReceiveData
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:584    .text:00000468 USART_SetAddress
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:616    .text:0000049c USART_ReceiverWakeUpCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:652    .text:000004d4 USART_WakeUpConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:683    .text:00000504 USART_LINBreakDetectLengthConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:714    .text:00000534 USART_LINCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:750    .text:0000056c USART_SendBreak
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:771    .text:00000584 USART_HalfDuplexCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:807    .text:000005bc USART_SetGuardTime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:841    .text:000005f4 USART_SmartCardCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:877    .text:0000062c USART_SmartCardNACKCmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:913    .text:00000664 USART_IrDAConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:944    .text:00000694 USART_IrDACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:980    .text:000006cc USART_DMACmd
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:1022   .text:00000714 USART_ITConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:1101   .text:000007b8 USART_GetFlagStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:1136   .text:000007f8 USART_ClearFlag
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:1157   .text:00000814 USART_GetITStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccrvfDxC.s:1251   .text:000008dc USART_ClearITPendingBit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:22     .text:00000000 USART_DeInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:113    .text:000000f8 USART_Init
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:296    .text:0000029c USART_StructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:328    .text:000002d4 USART_ClockInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:373    .text:00000320 USART_ClockStructInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:399    .text:00000348 USART_Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:435    .text:00000380 USART_SetPrescaler
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:467    .text:000003b4 USART_OverSampling8Cmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:505    .text:000003f4 USART_OneBitMethodCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:541    .text:0000042c USART_SendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:563    .text:0000044c USART_ReceiveData
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:584    .text:00000468 USART_SetAddress
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:616    .text:0000049c USART_ReceiverWakeUpCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:652    .text:000004d4 USART_WakeUpConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:683    .text:00000504 USART_LINBreakDetectLengthConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:714    .text:00000534 USART_LINCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:750    .text:0000056c USART_SendBreak
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:771    .text:00000584 USART_HalfDuplexCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:807    .text:000005bc USART_SetGuardTime
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:841    .text:000005f4 USART_SmartCardCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:877    .text:0000062c USART_SmartCardNACKCmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:913    .text:00000664 USART_IrDAConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:944    .text:00000694 USART_IrDACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:980    .text:000006cc USART_DMACmd
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:1022   .text:00000714 USART_ITConfig
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:1101   .text:000007b8 USART_GetFlagStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:1136   .text:000007f8 USART_ClearFlag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:1157   .text:00000814 USART_GetITStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\cclBIMh2.s:1251   .text:000008dc USART_ClearITPendingBit
 
 UNDEFINED SYMBOLS
 RCC_APB2PeriphResetCmd
