@@ -71,9 +71,9 @@ static TIM_ICInitTypeDef  TIM_ICInitStructure;
 // Spektrum Satellite Receiver Defines and Variables
 ///////////////////////////////////////////////////////////////////////////////
 
-#define SPEKTRUM_UART_PIN        GPIO_Pin_10
-#define SPEKTRUM_UART_GPIO       GPIOA
-#define SPEKTRUM_UART_PINSOURCE  GPIO_PinSource10
+#define SPEKTRUM_UART_PIN        GPIO_Pin_9
+#define SPEKTRUM_UART_GPIO       GPIOD
+#define SPEKTRUM_UART_PINSOURCE  GPIO_PinSource9
 #define SPEKTRUM_BIND_PIN        GPIO_Pin_14
 #define SPEKTRUM_BIND_GPIO       GPIOE
 
@@ -171,8 +171,8 @@ static void parallelPWM_IRQHandler(TIM_TypeDef *tim)
                 // switch states
                 state->state = 1;
 
-                  TIM_ICInitStructure.TIM_Channel     = channel.channel;
-                  TIM_ICInitStructure.TIM_ICPolarity  = TIM_ICPolarity_Falling;
+                TIM_ICInitStructure.TIM_Channel     = channel.channel;
+                TIM_ICInitStructure.TIM_ICPolarity  = TIM_ICPolarity_Falling;
                 //TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
                 //TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
                 //TIM_ICInitStructure.TIM_ICFilter    = 0x00;
@@ -192,8 +192,8 @@ static void parallelPWM_IRQHandler(TIM_TypeDef *tim)
                 // switch state
                 state->state = 0;
 
-                  TIM_ICInitStructure.TIM_Channel     = channel.channel;
-                  TIM_ICInitStructure.TIM_ICPolarity  = TIM_ICPolarity_Rising;
+                TIM_ICInitStructure.TIM_Channel     = channel.channel;
+                TIM_ICInitStructure.TIM_ICPolarity  = TIM_ICPolarity_Rising;
                 //TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
                 //TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
                 //TIM_ICInitStructure.TIM_ICFilter    = 0x00;
@@ -225,13 +225,13 @@ void TIM1_CC_IRQHandler(void)
 //  Spektrum Satellite Receiver UART Interrupt Handler
 ///////////////////////////////////////////////////////////////////////////////
 
-void USART1_IRQHandler(void)
+void USART3_IRQHandler(void)
 {
     uint8_t  b;
     uint8_t  spektrumChannel;
     uint32_t spektrumTime;
 
-    if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
+    if (USART_GetITStatus(USART3, USART_IT_RXNE) == SET)
     {
         rcActive             = true;
         spektrumTime         = micros();
@@ -241,7 +241,7 @@ void USART1_IRQHandler(void)
         if (spektrumTimeInterval > 5000)
             spektrumFramePosition = 0;
 
-        spektrumFrame[spektrumFramePosition] = USART_ReceiveData(USART1);
+        spektrumFrame[spektrumFramePosition] = USART_ReceiveData(USART3);
 
         if (spektrumFramePosition == SPEKTRUM_FRAME_SIZE - 1)
         {
@@ -314,9 +314,9 @@ void rxInit(void)
 
         NVIC_Init(&NVIC_InitStructure);
 
-          TIM_TimeBaseStructure.TIM_Prescaler         = 42 - 1;
+        TIM_TimeBaseStructure.TIM_Prescaler         = 42 - 1;
 		//TIM_TimeBaseStructure.TIM_CounterMode       = TIM_CounterMode_Up;
-		  TIM_TimeBaseStructure.TIM_Period            = 0xFFFF;
+		TIM_TimeBaseStructure.TIM_Period            = 0xFFFF;
 		//TIM_TimeBaseStructure.TIM_ClockDivision     = TIM_CKD_DIV1;
 		//TIM_TimeBaseStructure.TIM_RepetitionCounter = 0x0000;
 
@@ -381,14 +381,14 @@ void rxInit(void)
         GPIO_PinAFConfig(GPIOE, GPIO_PinSource14, GPIO_AF_TIM1);
 
         // Input timers on TIM4 and TIM1 for PWM
-          NVIC_InitStructure.NVIC_IRQChannel                   = TIM4_IRQn;
-          NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-          NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 0;
-          NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
+        NVIC_InitStructure.NVIC_IRQChannel                   = TIM4_IRQn;
+        NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+        NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 0;
+        NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
 
         NVIC_Init(&NVIC_InitStructure);
 
-          NVIC_InitStructure.NVIC_IRQChannel                   = TIM1_CC_IRQn;
+        NVIC_InitStructure.NVIC_IRQChannel                   = TIM1_CC_IRQn;
         //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
 	    //NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 0;
         //NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
@@ -396,9 +396,9 @@ void rxInit(void)
         NVIC_Init(&NVIC_InitStructure);
 
         // TIM4 and TIM1 timebase
-          TIM_TimeBaseStructure.TIM_Prescaler         = 42 - 1;
+        TIM_TimeBaseStructure.TIM_Prescaler         = 42 - 1;
         //TIM_TimeBaseStructure.TIM_CounterMode       = TIM_CounterMode_Up;
-          TIM_TimeBaseStructure.TIM_Period            = 0xFFFF;
+        TIM_TimeBaseStructure.TIM_Period            = 0xFFFF;
         //TIM_TimeBaseStructure.TIM_ClockDivision     = TIM_CKD_DIV1;
         //TIM_TimeBaseStructure.TIM_RepetitionCounter = 0x0000;
 
@@ -407,10 +407,10 @@ void rxInit(void)
 
         // Parallel PWM Input capture
         //TIM_ICInitStructure.TIM_Channel     = TIM_Channel_1;
-          TIM_ICInitStructure.TIM_ICPolarity  = TIM_ICPolarity_Rising;
-          TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
-          TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
-          TIM_ICInitStructure.TIM_ICFilter    = 0x00;
+        TIM_ICInitStructure.TIM_ICPolarity  = TIM_ICPolarity_Rising;
+        TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
+        TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+        TIM_ICInitStructure.TIM_ICFilter    = 0x00;
 
         for (i = 0; i < 8; i++)
         {
@@ -430,13 +430,13 @@ void rxInit(void)
 	else if (eepromConfig.receiverType == SPEKTRUM)
 	{
         // Spektrum Satellite RX Input
-    	// USART1 RX PA10
+    	// USART3 RX P9
 
-        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+        RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 
-        NVIC_InitStructure.NVIC_IRQChannel                   = USART1_IRQn;
+        NVIC_InitStructure.NVIC_IRQChannel                   = USART3_IRQn;
         NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
         NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 0;
         NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
@@ -450,19 +450,19 @@ void rxInit(void)
 
         GPIO_Init(SPEKTRUM_UART_GPIO, &GPIO_InitStructure);
 
-    	GPIO_PinAFConfig(SPEKTRUM_UART_GPIO, SPEKTRUM_UART_PINSOURCE, GPIO_AF_USART1);
+    	GPIO_PinAFConfig(SPEKTRUM_UART_GPIO, SPEKTRUM_UART_PINSOURCE, GPIO_AF_USART3);
 
-          USART_InitStructure.USART_BaudRate            = 115200;
+        USART_InitStructure.USART_BaudRate            = 115200;
         //USART_InitStructure.USART_WordLength          = USART_WordLength_8b;
         //USART_InitStructure.USART_StopBits            = USART_StopBits_1;
         //USART_InitStructure.USART_Parity              = USART_Parity_No;
-          USART_InitStructure.USART_Mode                = USART_Mode_Rx;
-          USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+        USART_InitStructure.USART_Mode                = USART_Mode_Rx;
+        USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 
-        USART_Init(USART1, &USART_InitStructure);
+        USART_Init(USART3, &USART_InitStructure);
 
-        USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
-        USART_Cmd(USART1, ENABLE);
+        USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+        USART_Cmd(USART3, ENABLE);
 
         ///////////////////////////////
 

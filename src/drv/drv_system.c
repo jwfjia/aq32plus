@@ -267,6 +267,7 @@ void systemInit(void)
 
     GPIO_SetBits(BLUE_LED_GPIO, BLUE_LED_PIN);
 
+    gpsInit();
     i2cInit(I2C1);
     i2cInit(I2C2);
     pwmEscInit(eepromConfig.escPwmRate);
@@ -274,9 +275,8 @@ void systemInit(void)
     rxInit();
     spiInit(SPI2);
     spiInit(SPI3);
+    telemetryInit();
     timingFunctionsInit();
-    uart2Init();
-    uart3Init();
 
     delay(5000);   // 5 sec delay to make sure GPS is up before executing init procedure
 

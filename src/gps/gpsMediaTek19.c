@@ -86,13 +86,13 @@ uint8_t decodeMediaTek3329BinaryMsg(void)
     uint16_t    i;
     uint16_t    numberOfChars;
 
-    numberOfChars = uart2NumCharsAvailable();
+    numberOfChars = gpsNumCharsAvailable();
 
     if (numberOfChars == 0) return false;
 
     for (i = 0; i < numberOfChars; i++)
     {
-		data = uart2Read();
+		data = gpsRead();
 
         switch(mtk19ProcessDataState)
         {

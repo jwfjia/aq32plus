@@ -268,55 +268,55 @@ int main(void)
         	if ( highSpeedTelem1Enabled == true )
             {
             	// 500 Hz Accels
-            	ftoa(sensors.accel500Hz[XAXIS], numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(sensors.accel500Hz[YAXIS], numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(sensors.accel500Hz[ZAXIS], numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(sensors.accel500Hz[XAXIS], numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(sensors.accel500Hz[YAXIS], numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(sensors.accel500Hz[ZAXIS], numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             if ( highSpeedTelem2Enabled == true )
             {
             	// 500 Hz Gyros
-            	ftoa(sensors.gyro500Hz[ROLL ], numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(sensors.gyro500Hz[PITCH], numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(sensors.gyro500Hz[YAW  ], numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(sensors.gyro500Hz[ROLL ], numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(sensors.gyro500Hz[PITCH], numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(sensors.gyro500Hz[YAW  ], numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             if ( highSpeedTelem3Enabled == true )
             {
             	// Roll Rate, Roll Rate Command
-            	ftoa(sensors.gyro500Hz[ROLL],        numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(rxCommand[ROLL] * eepromConfig.rateScaling, numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(sensors.gyro500Hz[ROLL],        numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(rxCommand[ROLL] * eepromConfig.rateScaling, numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             if ( highSpeedTelem4Enabled == true )
             {
             	// Pitch Rate, Pitch Rate Command
-            	ftoa(sensors.gyro500Hz[PITCH],        numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(rxCommand[PITCH] * eepromConfig.rateScaling, numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(sensors.gyro500Hz[PITCH],        numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(rxCommand[PITCH] * eepromConfig.rateScaling, numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             if ( highSpeedTelem5Enabled == true )
             {
             	// Yaw Rate, Yaw Rate Command
-            	ftoa(sensors.gyro500Hz[YAW],        numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(rxCommand[YAW] * eepromConfig.rateScaling, numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(sensors.gyro500Hz[YAW],        numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(rxCommand[YAW] * eepromConfig.rateScaling, numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             if ( highSpeedTelem6Enabled == true )
             {
             	// 500 Hz Attitudes
-            	ftoa(sensors.attitude500Hz[ROLL ], numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(sensors.attitude500Hz[PITCH], numberString); uart3Print(numberString); uart3Print(",");
-            	ftoa(sensors.attitude500Hz[YAW  ], numberString); uart3Print(numberString); uart3Print("\n");
+            	ftoa(sensors.attitude500Hz[ROLL ], numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(sensors.attitude500Hz[PITCH], numberString); telemetryPrint(numberString); telemetryPrint(",");
+            	ftoa(sensors.attitude500Hz[YAW  ], numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             if ( highSpeedTelem7Enabled == true )
             {
                	// Vertical Variables
-               	ftoa(earthAxisAccels[ZAXIS],  numberString); uart3Print(numberString); uart3Print(",");
-               	ftoa(sensors.pressureAlt10Hz, numberString); uart3Print(numberString); uart3Print(",");
-                ftoa(hDotEstimate,            numberString); uart3Print(numberString); uart3Print(", ");
-                ftoa(hEstimate,               numberString); uart3Print(numberString); uart3Print("\n");
+               	ftoa(earthAxisAccels[ZAXIS],  numberString); telemetryPrint(numberString); telemetryPrint(",");
+               	ftoa(sensors.pressureAlt10Hz, numberString); telemetryPrint(numberString); telemetryPrint(",");
+                ftoa(hDotEstimate,            numberString); telemetryPrint(numberString); telemetryPrint(", ");
+                ftoa(hEstimate,               numberString); telemetryPrint(numberString); telemetryPrint("\n");
             }
 
             executionTime100Hz = micros() - currentTime;

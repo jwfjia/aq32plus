@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/drv/drv_gps.c \
 ../src/drv/drv_i2c.c \
 ../src/drv/drv_led.c \
 ../src/drv/drv_max7456.c \
@@ -12,12 +13,12 @@ C_SRCS += \
 ../src/drv/drv_rx.c \
 ../src/drv/drv_spi.c \
 ../src/drv/drv_system.c \
+../src/drv/drv_telemetry.c \
 ../src/drv/drv_timingFunctions.c \
-../src/drv/drv_uart2.c \
-../src/drv/drv_uart3.c \
 ../src/drv/drv_usb.c 
 
 OBJS += \
+./src/drv/drv_gps.o \
 ./src/drv/drv_i2c.o \
 ./src/drv/drv_led.o \
 ./src/drv/drv_max7456.o \
@@ -26,12 +27,12 @@ OBJS += \
 ./src/drv/drv_rx.o \
 ./src/drv/drv_spi.o \
 ./src/drv/drv_system.o \
+./src/drv/drv_telemetry.o \
 ./src/drv/drv_timingFunctions.o \
-./src/drv/drv_uart2.o \
-./src/drv/drv_uart3.o \
 ./src/drv/drv_usb.o 
 
 C_DEPS += \
+./src/drv/drv_gps.d \
 ./src/drv/drv_i2c.d \
 ./src/drv/drv_led.d \
 ./src/drv/drv_max7456.d \
@@ -40,9 +41,8 @@ C_DEPS += \
 ./src/drv/drv_rx.d \
 ./src/drv/drv_spi.d \
 ./src/drv/drv_system.d \
+./src/drv/drv_telemetry.d \
 ./src/drv/drv_timingFunctions.d \
-./src/drv/drv_uart2.d \
-./src/drv/drv_uart3.d \
 ./src/drv/drv_usb.d 
 
 

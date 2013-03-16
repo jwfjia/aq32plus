@@ -694,32 +694,32 @@
  725 06be C4F20200 		movt	r0, 16386
  726 06c2 4FF02001 		mov	r1, #32
  727 06c6 FFF7FEFF 		bl	GPIO_SetBits
- 728 06ca 4FF4A840 		mov	r0, #21504
- 729 06ce C4F20000 		movt	r0, 16384
- 730 06d2 FFF7FEFF 		bl	i2cInit
- 731 06d6 4FF4B040 		mov	r0, #22528
- 732 06da C4F20000 		movt	r0, 16384
- 733 06de FFF7FEFF 		bl	i2cInit
- 734 06e2 40F20003 		movw	r3, #:lower16:eepromConfig
- 735 06e6 C0F20003 		movt	r3, #:upper16:eepromConfig
- 736 06ea B3F87C30 		ldrh	r3, [r3, #124]
- 737 06ee 1846     		mov	r0, r3
- 738 06f0 FFF7FEFF 		bl	pwmEscInit
- 739 06f4 40F20003 		movw	r3, #:lower16:eepromConfig
- 740 06f8 C0F20003 		movt	r3, #:upper16:eepromConfig
- 741 06fc B3F87E30 		ldrh	r3, [r3, #126]
- 742 0700 1846     		mov	r0, r3
- 743 0702 FFF7FEFF 		bl	pwmServoInit
- 744 0706 FFF7FEFF 		bl	rxInit
- 745 070a 4FF46050 		mov	r0, #14336
- 746 070e C4F20000 		movt	r0, 16384
- 747 0712 FFF7FEFF 		bl	spiInit
- 748 0716 4FF47050 		mov	r0, #15360
- 749 071a C4F20000 		movt	r0, 16384
- 750 071e FFF7FEFF 		bl	spiInit
- 751 0722 FFF7FEFF 		bl	timingFunctionsInit
- 752 0726 FFF7FEFF 		bl	uart2Init
- 753 072a FFF7FEFF 		bl	uart3Init
+ 728 06ca FFF7FEFF 		bl	gpsInit
+ 729 06ce 4FF4A840 		mov	r0, #21504
+ 730 06d2 C4F20000 		movt	r0, 16384
+ 731 06d6 FFF7FEFF 		bl	i2cInit
+ 732 06da 4FF4B040 		mov	r0, #22528
+ 733 06de C4F20000 		movt	r0, 16384
+ 734 06e2 FFF7FEFF 		bl	i2cInit
+ 735 06e6 40F20003 		movw	r3, #:lower16:eepromConfig
+ 736 06ea C0F20003 		movt	r3, #:upper16:eepromConfig
+ 737 06ee B3F87C30 		ldrh	r3, [r3, #124]
+ 738 06f2 1846     		mov	r0, r3
+ 739 06f4 FFF7FEFF 		bl	pwmEscInit
+ 740 06f8 40F20003 		movw	r3, #:lower16:eepromConfig
+ 741 06fc C0F20003 		movt	r3, #:upper16:eepromConfig
+ 742 0700 B3F87E30 		ldrh	r3, [r3, #126]
+ 743 0704 1846     		mov	r0, r3
+ 744 0706 FFF7FEFF 		bl	pwmServoInit
+ 745 070a FFF7FEFF 		bl	rxInit
+ 746 070e 4FF46050 		mov	r0, #14336
+ 747 0712 C4F20000 		movt	r0, 16384
+ 748 0716 FFF7FEFF 		bl	spiInit
+ 749 071a 4FF47050 		mov	r0, #15360
+ 750 071e C4F20000 		movt	r0, 16384
+ 751 0722 FFF7FEFF 		bl	spiInit
+ 752 0726 FFF7FEFF 		bl	telemetryInit
+ 753 072a FFF7FEFF 		bl	timingFunctionsInit
  754 072e 41F28830 		movw	r0, #5000
  755 0732 FFF7FEFF 		bl	delay
  756 0736 FFF7FEFF 		bl	initGPS
@@ -864,24 +864,24 @@
  902 087a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_system.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:21     .text:00000000 NVIC_SetPriority
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:62     .text:00000058 SysTick_Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:21     .text:00000000 NVIC_SetPriority
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:62     .text:00000058 SysTick_Config
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:102    .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:103    .bss:00000000 usTicks
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:106    .bss:00000004 sysTickUptime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:109    .bss:00000008 sysTickCycleCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:116    .text:000000b4 cycleCounterInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:154    .bss:0000000c frameCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:159    .bss:0000000e frame_500Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:164    .bss:0000000f frame_100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:169    .bss:00000010 frame_50Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:174    .bss:00000011 frame_10Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:179    .bss:00000012 frame_5Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:184    .bss:00000013 frame_1Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:102    .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:103    .bss:00000000 usTicks
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:106    .bss:00000004 sysTickUptime
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:109    .bss:00000008 sysTickCycleCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:116    .text:000000b4 cycleCounterInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:154    .bss:0000000c frameCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:159    .bss:0000000e frame_500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:164    .bss:0000000f frame_100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:169    .bss:00000010 frame_50Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:174    .bss:00000011 frame_10Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:179    .bss:00000012 frame_5Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 deltaTime1000Hz
                             *COM*:00000004 executionTime1000Hz
                             *COM*:00000004 previous1000HzTime
@@ -905,15 +905,15 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 previous1HzTime
                             *COM*:00000004 dt500Hz
                             *COM*:00000004 dt100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:212    .bss:00000014 systemReady
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:217    .bss:00000015 execUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:225    .text:00000110 SysTick_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:641    .text:0000060c micros
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:680    .text:00000650 millis
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:695    .text:00000660 systemInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:838    .text:000007ec delay
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:779    .text:00000778 delayMicroseconds
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNwZbwk.s:868    .text:00000818 systemReset
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:212    .bss:00000014 systemReady
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:217    .bss:00000015 execUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:225    .text:00000110 SysTick_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:641    .text:0000060c micros
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:680    .text:00000650 millis
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:695    .text:00000660 systemInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:838    .text:000007ec delay
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:779    .text:00000778 delayMicroseconds
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:868    .text:00000818 systemReset
 
 UNDEFINED SYMBOLS
 RCC_GetClocksFreq
@@ -947,14 +947,14 @@ initMixer
 ledInit
 usbInit
 GPIO_SetBits
+gpsInit
 i2cInit
 pwmEscInit
 pwmServoInit
 rxInit
 spiInit
+telemetryInit
 timingFunctionsInit
-uart2Init
-uart3Init
 initGPS
 initMPU6000
 initMag

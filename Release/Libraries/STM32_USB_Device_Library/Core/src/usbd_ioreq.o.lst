@@ -208,14 +208,14 @@
  222              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 usbd_ioreq.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:22     .text:00000000 USBD_CtlSendData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:57     .text:00000050 USBD_CtlContinueSendData
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:83     .text:00000080 USBD_CtlPrepareRx
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:118    .text:000000d0 USBD_CtlContinueRx
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:144    .text:00000100 USBD_CtlSendStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:172    .text:0000013c USBD_CtlReceiveStatus
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc5yDSnl.s:200    .text:00000178 USBD_GetRxCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:22     .text:00000000 USBD_CtlSendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:57     .text:00000050 USBD_CtlContinueSendData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:83     .text:00000080 USBD_CtlPrepareRx
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:118    .text:000000d0 USBD_CtlContinueRx
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:144    .text:00000100 USBD_CtlSendStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:172    .text:0000013c USBD_CtlReceiveStatus
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccxghhhZ.s:200    .text:00000178 USBD_GetRxCount
 
 UNDEFINED SYMBOLS
 DCD_EP_Tx

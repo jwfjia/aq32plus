@@ -159,7 +159,7 @@ Common symbol       size              file
 rc                  0x4               ./src/pid.o
 executionTime1000Hz
                     0x4               ./src/drv/drv_system.o
-rx2Buffer           0x800             ./src/drv/drv_uart2.o
+rx2Buffer           0x800             ./src/drv/drv_gps.o
 mtk19CkA            0x1               ./src/gps/gpsMediaTek19.o
 nmeaProcessDataState
                     0x1               ./src/vcp/usbd_usr.o
@@ -171,7 +171,6 @@ p                   0x4               ./src/sensors/ms5611.o
 c6                  0x2               ./src/sensors/ms5611.o
 previous5HzTime     0x4               ./src/drv/drv_system.o
 deltaTime1000Hz     0x4               ./src/drv/drv_system.o
-rx3Buffer           0x800             ./src/drv/drv_uart3.o
 spektrumTimeInterval
                     0x4               ./src/drv/drv_rx.o
 rawMag              0x6               ./src/sensors/hmc5883.o
@@ -209,6 +208,7 @@ q2q2                0x4               ./src/MargAHRS.o
 deltaTime5Hz        0x4               ./src/drv/drv_system.o
 sentenceCalculatedXOR
                     0x1               ./src/gps/gpsNMEA.o
+rx1Buffer           0x800             ./src/drv/drv_telemetry.o
 spektrumChannelMask
                     0x1               ./src/drv/drv_rx.o
 ubloxClass          0x1               ./src/gps/gpsUblox.o
@@ -240,8 +240,7 @@ executionTime1Hz    0x4               ./src/drv/drv_system.o
 spektrumChannelShift
                     0x1               ./src/drv/drv_rx.o
 previous500HzTime   0x4               ./src/drv/drv_system.o
-tx2Buffer           0x800             ./src/drv/drv_uart2.o
-tx3Buffer           0x800             ./src/drv/drv_uart3.o
+tx2Buffer           0x800             ./src/drv/drv_gps.o
 spektrumTimeLast    0x4               ./src/drv/drv_rx.o
 ubloxCKB            0x1               ./src/gps/gpsUblox.o
 axisPID             0xc               ./src/computeAxisCommands.o
@@ -278,6 +277,7 @@ mtk19ExpectedDataLength
                     0x1               ./src/gps/gpsMediaTek19.o
 APP_Rx_Buffer       0x800             ./Libraries/STM32_USB_Device_Library/Class/cdc/src/usbd_cdc_core.o
 aiBottomPixel       0x1               ./src/max7456/osdWidgets.o
+tx1Buffer           0x800             ./src/drv/drv_telemetry.o
 Rx_Buf_BotIdx       0x4               ./src/vcp/usbd_cdc.o
 vTailThrust         0x4               ./src/config.o
 accelSummedSamples100Hz
@@ -325,6 +325,7 @@ Discarded input sections
  .data          0x00000000        0x0 ./src/gps/gpsNMEA.o
  .data          0x00000000        0x0 ./src/gps/gpsUblox.o
  .bss           0x00000000        0x0 ./src/gps/gpsUblox.o
+ .data          0x00000000        0x0 ./src/drv/drv_gps.o
  .data          0x00000000        0x0 ./src/drv/drv_i2c.o
  .data          0x00000000        0x0 ./src/drv/drv_led.o
  .bss           0x00000000        0x0 ./src/drv/drv_led.o
@@ -335,10 +336,9 @@ Discarded input sections
  .data          0x00000000        0x0 ./src/drv/drv_spi.o
  .bss           0x00000000        0x0 ./src/drv/drv_spi.o
  .data          0x00000000        0x0 ./src/drv/drv_system.o
+ .data          0x00000000        0x0 ./src/drv/drv_telemetry.o
  .data          0x00000000        0x0 ./src/drv/drv_timingFunctions.o
  .bss           0x00000000        0x0 ./src/drv/drv_timingFunctions.o
- .data          0x00000000        0x0 ./src/drv/drv_uart2.o
- .data          0x00000000        0x0 ./src/drv/drv_uart3.o
  .data          0x00000000        0x0 ./src/drv/drv_usb.o
  .data          0x00000000        0x0 ./src/calibration/escCalibration.o
  .data          0x00000000        0x0 ./src/calibration/magCalibration.o
@@ -714,6 +714,7 @@ LOAD ./src/gps/gps.o
 LOAD ./src/gps/gpsMediaTek19.o
 LOAD ./src/gps/gpsNMEA.o
 LOAD ./src/gps/gpsUblox.o
+LOAD ./src/drv/drv_gps.o
 LOAD ./src/drv/drv_i2c.o
 LOAD ./src/drv/drv_led.o
 LOAD ./src/drv/drv_max7456.o
@@ -722,9 +723,8 @@ LOAD ./src/drv/drv_pwmServo.o
 LOAD ./src/drv/drv_rx.o
 LOAD ./src/drv/drv_spi.o
 LOAD ./src/drv/drv_system.o
+LOAD ./src/drv/drv_telemetry.o
 LOAD ./src/drv/drv_timingFunctions.o
-LOAD ./src/drv/drv_uart2.o
-LOAD ./src/drv/drv_uart3.o
 LOAD ./src/drv/drv_usb.o
 LOAD ./src/calibration/escCalibration.o
 LOAD ./src/calibration/magCalibration.o
@@ -807,7 +807,7 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
  *(.eeprom)
                 0x08004000                . = ALIGN (0x4)
 
-.text           0x08008000    0x34d48
+.text           0x08008000    0x34d70
                 0x08008000                . = ALIGN (0x4)
  *(.text)
  .text          0x08008000       0x68 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
@@ -871,80 +871,80 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
  .text          0x0800b474      0x664 ./src/gps/gpsUblox.o
                 0x0800b474                ubloxParseData
                 0x0800b714                decodeUbloxMsg
- .text          0x0800bad8     0x117c ./src/drv/drv_i2c.o
-                0x0800bad8                I2C_ER_Handler
-                0x0800bc08                I2C_EV_Handler
-                0x0800c388                I2C1_ER_IRQHandler
-                0x0800c390                I2C1_EV_IRQHandler
-                0x0800c398                I2C2_ER_IRQHandler
-                0x0800c3a0                I2C2_EV_IRQHandler
-                0x0800c3a8                i2cWriteBuffer
-                0x0800c5a0                i2cWrite
-                0x0800c5d8                i2cRead
-                0x0800c9d8                i2cInit
-                0x0800cc20                i2cGetErrorCounter
- .text          0x0800cc54       0xd4 ./src/drv/drv_led.o
-                0x0800cc54                ledInit
- .text          0x0800cd28      0x89c ./src/drv/drv_max7456.o
-                0x0800cd28                spiReadMax7456Register
-                0x0800cd5c                spiWriteMax7456Register
-                0x0800cd94                hideOSD
-                0x0800cde8                unhideOSD
-                0x0800ce3c                writeMax7456Chars
-                0x0800cf80                detectVideoStandard
-                0x0800d1b8                initMax7456
-                0x0800d290                resetMax7456
-                0x0800d348                showMax7456Font
-                0x0800d454                waitNVM
-                0x0800d46c                writeNVMcharacter
-                0x0800d530                downloadMax7456Font
- .text          0x0800d5c4      0x2cc ./src/drv/drv_pwmEsc.o
-                0x0800d5c4                pwmEscInit
-                0x0800d868                pwmEscWrite
- .text          0x0800d890      0x160 ./src/drv/drv_pwmServo.o
-                0x0800d890                pwmServoInit
-                0x0800d9c8                pwmServoWrite
- .text          0x0800d9f0      0xc90 ./src/drv/drv_rx.o
-                0x0800dcc8                TIM4_IRQHandler
-                0x0800dcf8                TIM1_CC_IRQHandler
-                0x0800dd08                USART1_IRQHandler
-                0x0800de9c                rxInit
-                0x0800e484                rxRead
-                0x0800e530                checkSpektrumBind
- .text          0x0800e680      0x4cc ./src/drv/drv_spi.o
-                0x0800e680                spiInit
-                0x0800e978                spiTransfer
-                0x0800ea20                setSPIdivisor
- .text          0x0800eb4c      0x87c ./src/drv/drv_system.o
-                0x0800ec5c                SysTick_Handler
-                0x0800f158                micros
-                0x0800f19c                millis
-                0x0800f1ac                systemInit
-                0x0800f2c4                delayMicroseconds
-                0x0800f338                delay
-                0x0800f364                systemReset
- .text          0x0800f3c8      0x114 ./src/drv/drv_timingFunctions.o
-                0x0800f3c8                timingFunctionsInit
-                0x0800f480                delayTimerMicroseconds
-                0x0800f4b0                delayTimerMilliseconds
- .text          0x0800f4dc      0x478 ./src/drv/drv_uart2.o
-                0x0800f590                DMA1_Stream6_IRQHandler
-                0x0800f5d4                uart2Init
-                0x0800f7bc                uart2Available
-                0x0800f7e8                uart2ClearBuffer
-                0x0800f808                uart2NumCharsAvailable
-                0x0800f844                uart2Read
-                0x0800f8a0                uart2ReadPoll
-                0x0800f8b8                uart2Write
-                0x0800f92c                uart2Print
- .text          0x0800f954      0x414 ./src/drv/drv_uart3.o
-                0x0800fa08                DMA1_Stream3_IRQHandler
-                0x0800fa4c                uart3Init
-                0x0800fc2c                uart3Available
-                0x0800fc58                uart3Read
-                0x0800fcb4                uart3ReadPoll
-                0x0800fccc                uart3Write
-                0x0800fd40                uart3Print
+ .text          0x0800bad8      0x478 ./src/drv/drv_gps.o
+                0x0800bb8c                DMA1_Stream6_IRQHandler
+                0x0800bbd0                gpsInit
+                0x0800bdb8                gpsAvailable
+                0x0800bde4                gpsClearBuffer
+                0x0800be04                gpsNumCharsAvailable
+                0x0800be40                gpsRead
+                0x0800be9c                gpsReadPoll
+                0x0800beb4                gpsWrite
+                0x0800bf28                gpsPrint
+ .text          0x0800bf50     0x117c ./src/drv/drv_i2c.o
+                0x0800bf50                I2C_ER_Handler
+                0x0800c080                I2C_EV_Handler
+                0x0800c800                I2C1_ER_IRQHandler
+                0x0800c808                I2C1_EV_IRQHandler
+                0x0800c810                I2C2_ER_IRQHandler
+                0x0800c818                I2C2_EV_IRQHandler
+                0x0800c820                i2cWriteBuffer
+                0x0800ca18                i2cWrite
+                0x0800ca50                i2cRead
+                0x0800ce50                i2cInit
+                0x0800d098                i2cGetErrorCounter
+ .text          0x0800d0cc       0xd4 ./src/drv/drv_led.o
+                0x0800d0cc                ledInit
+ .text          0x0800d1a0      0x89c ./src/drv/drv_max7456.o
+                0x0800d1a0                spiReadMax7456Register
+                0x0800d1d4                spiWriteMax7456Register
+                0x0800d20c                hideOSD
+                0x0800d260                unhideOSD
+                0x0800d2b4                writeMax7456Chars
+                0x0800d3f8                detectVideoStandard
+                0x0800d630                initMax7456
+                0x0800d708                resetMax7456
+                0x0800d7c0                showMax7456Font
+                0x0800d8cc                waitNVM
+                0x0800d8e4                writeNVMcharacter
+                0x0800d9a8                downloadMax7456Font
+ .text          0x0800da3c      0x2cc ./src/drv/drv_pwmEsc.o
+                0x0800da3c                pwmEscInit
+                0x0800dce0                pwmEscWrite
+ .text          0x0800dd08      0x160 ./src/drv/drv_pwmServo.o
+                0x0800dd08                pwmServoInit
+                0x0800de40                pwmServoWrite
+ .text          0x0800de68      0xc90 ./src/drv/drv_rx.o
+                0x0800e140                TIM4_IRQHandler
+                0x0800e170                TIM1_CC_IRQHandler
+                0x0800e180                USART3_IRQHandler
+                0x0800e314                rxInit
+                0x0800e8fc                rxRead
+                0x0800e9a8                checkSpektrumBind
+ .text          0x0800eaf8      0x4cc ./src/drv/drv_spi.o
+                0x0800eaf8                spiInit
+                0x0800edf0                spiTransfer
+                0x0800ee98                setSPIdivisor
+ .text          0x0800efc4      0x87c ./src/drv/drv_system.o
+                0x0800f0d4                SysTick_Handler
+                0x0800f5d0                micros
+                0x0800f614                millis
+                0x0800f624                systemInit
+                0x0800f73c                delayMicroseconds
+                0x0800f7b0                delay
+                0x0800f7dc                systemReset
+ .text          0x0800f840      0x414 ./src/drv/drv_telemetry.o
+                0x0800f8f4                DMA2_Stream7_IRQHandler
+                0x0800f938                telemetryInit
+                0x0800fb18                telemetryAvailable
+                0x0800fb44                telemetryRead
+                0x0800fba0                telemetryReadPoll
+                0x0800fbb8                telemetryWrite
+                0x0800fc2c                telemetryPrint
+ .text          0x0800fc54      0x114 ./src/drv/drv_timingFunctions.o
+                0x0800fc54                timingFunctionsInit
+                0x0800fd0c                delayTimerMicroseconds
+                0x0800fd3c                delayTimerMilliseconds
  .text          0x0800fd68      0x104 ./src/drv/drv_usb.o
                 0x0800fd68                usbInit
                 0x0800fe04                usbAvailable
@@ -1700,7 +1700,6 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
                 0x08034d58                CAN2_RX0_IRQHandler
                 0x08034d58                DMA2_Stream3_IRQHandler
                 0x08034d58                USART6_IRQHandler
-                0x08034d58                USART3_IRQHandler
                 0x08034d58                CRYP_IRQHandler
                 0x08034d58                CAN1_RX1_IRQHandler
                 0x08034d58                UART5_IRQHandler
@@ -1717,7 +1716,6 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
                 0x08034d58                TIM7_IRQHandler
                 0x08034d58                CAN2_TX_IRQHandler
                 0x08034d58                TIM5_IRQHandler
-                0x08034d58                DMA2_Stream7_IRQHandler
                 0x08034d58                I2C3_EV_IRQHandler
                 0x08034d58                EXTI9_5_IRQHandler
                 0x08034d58                RTC_WKUP_IRQHandler
@@ -1740,9 +1738,11 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
                 0x08034d58                CAN1_SCE_IRQHandler
                 0x08034d58                FLASH_IRQHandler
                 0x08034d58                DMA2_Stream4_IRQHandler
+                0x08034d58                USART1_IRQHandler
                 0x08034d58                SPI3_IRQHandler
                 0x08034d58                DMA1_Stream4_IRQHandler
                 0x08034d58                DMA2_Stream6_IRQHandler
+                0x08034d58                DMA1_Stream3_IRQHandler
  *(.rodata)
  .rodata        0x08034d5c       0x98 ./src/vcp/usbd_desc.o
  .rodata        0x08034df4       0x54 ./src/max7456/osdWidgets.o
@@ -1753,51 +1753,51 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
  .rodata        0x08038fa4      0x1e0 ./src/calibration/escCalibration.o
  .rodata        0x08039184      0x14c ./src/calibration/magCalibration.o
  .rodata        0x080392d0      0x11c ./src/calibration/mpu6000Calibration.o
- .rodata        0x080393ec      0xe54 ./src/cli.o
- .rodata        0x0803a240     0x1c40 ./src/cliSupport.o
- .rodata        0x0803be80       0x14 ./src/config.o
-                0x0803be80                rcChannelLetters
- .rodata        0x0803be94        0xc ./src/main.o
- .rodata        0x0803bea0      0x814 ./src/rfTelem.o
- .rodata        0x0803c6b4       0x2c ./src/utilities.o
- .rodata        0x0803c6e0       0x30 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-e_pow.o)
- .rodata        0x0803c710      0x398 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-ef_rem_pio2.o)
- .rodata        0x0803caa8       0x38 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-kf_rem_pio2.o)
- .rodata        0x0803cae0       0x40 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-s_atan.o)
- .rodata        0x0803cb20       0x10 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-s_rint.o)
- .rodata        0x0803cb30       0x20 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-sf_atan.o)
- .rodata        0x0803cb50       0x20 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
- .rodata        0x0803cb70      0x128 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
-                0x0803cb80                __mprec_tens
-                0x0803cc48                __mprec_tinytens
-                0x0803cc70                __mprec_bigtens
- .rodata        0x0803cc98       0x20 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
+ .rodata        0x080393ec      0xe7c ./src/cli.o
+ .rodata        0x0803a268     0x1c40 ./src/cliSupport.o
+ .rodata        0x0803bea8       0x14 ./src/config.o
+                0x0803bea8                rcChannelLetters
+ .rodata        0x0803bebc        0xc ./src/main.o
+ .rodata        0x0803bec8      0x814 ./src/rfTelem.o
+ .rodata        0x0803c6dc       0x2c ./src/utilities.o
+ .rodata        0x0803c708       0x30 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-e_pow.o)
+ .rodata        0x0803c738      0x398 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-ef_rem_pio2.o)
+ .rodata        0x0803cad0       0x38 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-kf_rem_pio2.o)
+ .rodata        0x0803cb08       0x40 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-s_atan.o)
+ .rodata        0x0803cb48       0x10 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-s_rint.o)
+ .rodata        0x0803cb58       0x20 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-sf_atan.o)
+ .rodata        0x0803cb78       0x20 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
+ .rodata        0x0803cb98      0x128 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-mprec.o)
+                0x0803cba8                __mprec_tens
+                0x0803cc70                __mprec_tinytens
+                0x0803cc98                __mprec_bigtens
+ .rodata        0x0803ccc0       0x20 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
  *(.rodata*)
  .rodata.str1.4
-                0x0803ccb8        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-w_pow.o)
+                0x0803cce0        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-w_pow.o)
  .rodata.str1.4
-                0x0803ccbc        0x5 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-w_sqrt.o)
+                0x0803cce4        0x5 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-w_sqrt.o)
                                   0x8 (size before relaxing)
- *fill*         0x0803ccc1        0x3 00
+ *fill*         0x0803cce9        0x3 00
  .rodata.str1.4
-                0x0803ccc4        0x6 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-wf_asin.o)
+                0x0803ccec        0x6 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-wf_asin.o)
                                   0xc (size before relaxing)
  .rodata.str1.4
                 0x00000000        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libm.a(lib_a-e_pow.o)
- *fill*         0x0803ccca        0x2 00
+ *fill*         0x0803ccf2        0x2 00
  .rodata.str1.4
-                0x0803cccc        0x2 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-impure.o)
+                0x0803ccf4        0x2 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-impure.o)
                                   0x4 (size before relaxing)
- *fill*         0x0803ccce        0x2 00
+ *fill*         0x0803ccf6        0x2 00
  .rodata.str1.4
-                0x0803ccd0       0x42 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
+                0x0803ccf8       0x42 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfprintf.o)
                                  0x44 (size before relaxing)
- *fill*         0x0803cd12        0x2 00
+ *fill*         0x0803cd3a        0x2 00
  .rodata.str1.4
-                0x0803cd14       0x10 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
+                0x0803cd3c       0x10 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-dtoa.o)
                                  0x14 (size before relaxing)
  .rodata.str1.4
-                0x0803cd24        0xc c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
+                0x0803cd4c        0xc c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-locale.o)
                                  0x14 (size before relaxing)
  .rodata.str1.4
                 0x00000000       0x30 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-svfiprintf.o)
@@ -1806,62 +1806,62 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x0803cd30        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
+ .eh_frame      0x0803cd58        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
  *(.init)
- .init          0x0803cd30        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crti.o
-                0x0803cd30                _init
- .init          0x0803cd34        0x8 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtn.o
+ .init          0x0803cd58        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crti.o
+                0x0803cd58                _init
+ .init          0x0803cd5c        0x8 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtn.o
  *(.fini)
- .fini          0x0803cd3c        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crti.o
-                0x0803cd3c                _fini
- .fini          0x0803cd40        0x8 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtn.o
-                0x0803cd48                . = ALIGN (0x4)
-                0x0803cd48                _etext = .
+ .fini          0x0803cd64        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crti.o
+                0x0803cd64                _fini
+ .fini          0x0803cd68        0x8 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtn.o
+                0x0803cd70                . = ALIGN (0x4)
+                0x0803cd70                _etext = .
 
-.vfp11_veneer   0x0803cd48        0x0
+.vfp11_veneer   0x0803cd70        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x0803cd48        0x0
+.v4_bx          0x0803cd70        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x0803cd48        0x0
+.iplt           0x0803cd70        0x0
  .iplt          0x00000000        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x0803cd48        0x8
-                0x0803cd48                __exidx_start = .
+.ARM            0x0803cd70        0x8
+                0x0803cd70                __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x0803cd48        0x8 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2\libgcc.a(_divdi3.o)
- .ARM.exidx     0x0803cd50        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2\libgcc.a(_udivdi3.o)
+ .ARM.exidx     0x0803cd70        0x8 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2\libgcc.a(_divdi3.o)
+ .ARM.exidx     0x0803cd78        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2\libgcc.a(_udivdi3.o)
                                   0x8 (size before relaxing)
-                0x0803cd50                __exidx_end = .
+                0x0803cd78                __exidx_end = .
 
-.rel.dyn        0x0803cd50        0x0
+.rel.dyn        0x0803cd78        0x0
  .rel.iplt      0x00000000        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
 
-.preinit_array  0x0803cd50        0x0
-                0x0803cd50                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x0803cd78        0x0
+                0x0803cd78                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x0803cd50                PROVIDE (__preinit_array_end, .)
+                0x0803cd78                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x0803cd50        0x4
-                0x0803cd50                PROVIDE (__init_array_start, .)
+.init_array     0x0803cd78        0x4
+                0x0803cd78                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
- .init_array    0x0803cd50        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
-                0x0803cd54                PROVIDE (__init_array_end, .)
+ .init_array    0x0803cd78        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
+                0x0803cd7c                PROVIDE (__init_array_end, .)
 
-.fini_array     0x0803cd54        0x4
-                0x0803cd54                PROVIDE (__fini_array_start, .)
+.fini_array     0x0803cd7c        0x4
+                0x0803cd7c                PROVIDE (__fini_array_start, .)
  *(.fini_array*)
- .fini_array    0x0803cd54        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
+ .fini_array    0x0803cd7c        0x4 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
  *(SORT(.fini_array.*))
-                0x0803cd58                PROVIDE (__fini_array_end, .)
-                0x0803cd58                _sidata = .
+                0x0803cd80                PROVIDE (__fini_array_end, .)
+                0x0803cd80                _sidata = .
 
-.data           0x20000000      0x7a4 load address 0x0803cd58
+.data           0x20000000      0x7a4 load address 0x0803cd80
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _sdata = .
  *(.data)
@@ -1928,14 +1928,14 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
                 0x200007a4                . = ALIGN (0x4)
                 0x200007a4                _edata = .
 
-.jcr            0x200007a4        0x0 load address 0x0803d4fc
+.jcr            0x200007a4        0x0 load address 0x0803d524
  .jcr           0x200007a4        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
 
-.igot.plt       0x200007a4        0x0 load address 0x0803d4fc
+.igot.plt       0x200007a4        0x0 load address 0x0803d524
  .igot.plt      0x00000000        0x0 c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bin/../lib/gcc/arm-none-eabi/4.6.3/thumb2/crtbegin.o
                 0x200007a4                . = ALIGN (0x4)
 
-.bss            0x200007a8     0x37b0 load address 0x0803d500
+.bss            0x200007a8     0x37b0 load address 0x0803d528
                 0x200007a8                _sbss = .
                 0x200007a8                __bss_start__ = _sbss
  *(.bss)
@@ -1959,37 +1959,37 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
  .bss           0x20000814        0x1 ./src/gps/gpsNMEA.o
                 0x20000814                sentenceLength
  *fill*         0x20000815        0x3 00
- .bss           0x20000818       0x1c ./src/drv/drv_i2c.o
- .bss           0x20000834        0xa ./src/drv/drv_max7456.o
-                0x20000834                osdDisabled
-                0x20000836                maxScreenSize
-                0x20000838                maxScreenRows
-                0x2000083a                enableDisplay
-                0x2000083b                enableDisplayVert
-                0x2000083c                max7456Reset
-                0x2000083d                disableDisplay
- *fill*         0x2000083e        0x2 00
- .bss           0x20000840       0x48 ./src/drv/drv_rx.o
-                0x20000840                rcActive
-                0x2000087e                spektrumFrameComplete
- .bss           0x20000888       0x18 ./src/drv/drv_system.o
-                0x20000894                frameCounter
-                0x20000896                frame_500Hz
-                0x20000897                frame_100Hz
-                0x20000898                frame_50Hz
-                0x20000899                frame_10Hz
-                0x2000089a                frame_5Hz
-                0x2000089b                frame_1Hz
-                0x2000089c                systemReady
-                0x2000089d                execUp
- .bss           0x200008a0        0x8 ./src/drv/drv_uart2.o
-                0x200008a0                rx2DMAPos
-                0x200008a4                tx2BufferTail
-                0x200008a6                tx2BufferHead
- .bss           0x200008a8        0x8 ./src/drv/drv_uart3.o
-                0x200008a8                rx3DMAPos
-                0x200008ac                tx3BufferTail
-                0x200008ae                tx3BufferHead
+ .bss           0x20000818        0x8 ./src/drv/drv_gps.o
+                0x20000818                rx2DMAPos
+                0x2000081c                tx2BufferTail
+                0x2000081e                tx2BufferHead
+ .bss           0x20000820       0x1c ./src/drv/drv_i2c.o
+ .bss           0x2000083c        0xa ./src/drv/drv_max7456.o
+                0x2000083c                osdDisabled
+                0x2000083e                maxScreenSize
+                0x20000840                maxScreenRows
+                0x20000842                enableDisplay
+                0x20000843                enableDisplayVert
+                0x20000844                max7456Reset
+                0x20000845                disableDisplay
+ *fill*         0x20000846        0x2 00
+ .bss           0x20000848       0x48 ./src/drv/drv_rx.o
+                0x20000848                rcActive
+                0x20000886                spektrumFrameComplete
+ .bss           0x20000890       0x18 ./src/drv/drv_system.o
+                0x2000089c                frameCounter
+                0x2000089e                frame_500Hz
+                0x2000089f                frame_100Hz
+                0x200008a0                frame_50Hz
+                0x200008a1                frame_10Hz
+                0x200008a2                frame_5Hz
+                0x200008a3                frame_1Hz
+                0x200008a4                systemReady
+                0x200008a5                execUp
+ .bss           0x200008a8        0x8 ./src/drv/drv_telemetry.o
+                0x200008a8                rx1DMAPos
+                0x200008ac                tx1BufferTail
+                0x200008ae                tx1BufferHead
  .bss           0x200008b0        0x1 ./src/drv/drv_usb.o
                 0x200008b0                usbDeviceConfigured
  .bss           0x200008b1        0x1 ./src/calibration/escCalibration.o
@@ -2132,47 +2132,47 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
                 0x20000b7b                ubloxCKB
                 0x20000b7c                ubloxDataLength
  *fill*         0x20000b7d        0x3 00
- COMMON         0x20000b80       0x4d ./src/drv/drv_rx.o
-                0x20000b80                spektrumTimeInterval
-                0x20000b84                spektrumChannelMask
-                0x20000b85                i
-                0x20000b86                spektrumBindCount
-                0x20000b87                spektrumChannelShift
-                0x20000b88                spektrumTimeLast
-                0x20000b8c                spektrumFrame
-                0x20000b9c                spektrumChannelData
-                0x20000bcc                spektrumFramePosition
- *fill*         0x20000bcd        0x3 00
- COMMON         0x20000bd0       0x5c ./src/drv/drv_system.o
-                0x20000bd0                executionTime1000Hz
-                0x20000bd4                deltaTime1Hz
-                0x20000bd8                executionTime5Hz
-                0x20000bdc                previous5HzTime
-                0x20000be0                deltaTime1000Hz
-                0x20000be4                previous10HzTime
-                0x20000be8                executionTime10Hz
-                0x20000bec                executionTime100Hz
-                0x20000bf0                deltaTime100Hz
-                0x20000bf4                previous50HzTime
-                0x20000bf8                deltaTime5Hz
-                0x20000bfc                deltaTime500Hz
-                0x20000c00                executionTime500Hz
-                0x20000c04                previous1000HzTime
-                0x20000c08                executionTime1Hz
-                0x20000c0c                previous500HzTime
-                0x20000c10                dt500Hz
-                0x20000c14                dt100Hz
-                0x20000c18                deltaTime50Hz
-                0x20000c1c                executionTime50Hz
-                0x20000c20                previous1HzTime
-                0x20000c24                previous100HzTime
-                0x20000c28                deltaTime10Hz
- COMMON         0x20000c2c     0x1000 ./src/drv/drv_uart2.o
-                0x20000c2c                rx2Buffer
-                0x2000142c                tx2Buffer
- COMMON         0x20001c2c     0x1000 ./src/drv/drv_uart3.o
-                0x20001c2c                rx3Buffer
-                0x2000242c                tx3Buffer
+ COMMON         0x20000b80     0x1000 ./src/drv/drv_gps.o
+                0x20000b80                rx2Buffer
+                0x20001380                tx2Buffer
+ COMMON         0x20001b80       0x4d ./src/drv/drv_rx.o
+                0x20001b80                spektrumTimeInterval
+                0x20001b84                spektrumChannelMask
+                0x20001b85                i
+                0x20001b86                spektrumBindCount
+                0x20001b87                spektrumChannelShift
+                0x20001b88                spektrumTimeLast
+                0x20001b8c                spektrumFrame
+                0x20001b9c                spektrumChannelData
+                0x20001bcc                spektrumFramePosition
+ *fill*         0x20001bcd        0x3 00
+ COMMON         0x20001bd0       0x5c ./src/drv/drv_system.o
+                0x20001bd0                executionTime1000Hz
+                0x20001bd4                deltaTime1Hz
+                0x20001bd8                executionTime5Hz
+                0x20001bdc                previous5HzTime
+                0x20001be0                deltaTime1000Hz
+                0x20001be4                previous10HzTime
+                0x20001be8                executionTime10Hz
+                0x20001bec                executionTime100Hz
+                0x20001bf0                deltaTime100Hz
+                0x20001bf4                previous50HzTime
+                0x20001bf8                deltaTime5Hz
+                0x20001bfc                deltaTime500Hz
+                0x20001c00                executionTime500Hz
+                0x20001c04                previous1000HzTime
+                0x20001c08                executionTime1Hz
+                0x20001c0c                previous500HzTime
+                0x20001c10                dt500Hz
+                0x20001c14                dt100Hz
+                0x20001c18                deltaTime50Hz
+                0x20001c1c                executionTime50Hz
+                0x20001c20                previous1HzTime
+                0x20001c24                previous100HzTime
+                0x20001c28                deltaTime10Hz
+ COMMON         0x20001c2c     0x1000 ./src/drv/drv_telemetry.o
+                0x20001c2c                rx1Buffer
+                0x2000242c                tx1Buffer
  COMMON         0x20002c2c      0x5f0 ./src/drv/drv_usb.o
                 0x20002c2c                USB_OTG_dev
  COMMON         0x2000321c       0x34 ./src/MargAHRS.o
@@ -2227,7 +2227,7 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
                 0x20003f58                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20003f58      0x400 load address 0x0803d4fc
+                0x20003f58      0x400 load address 0x0803d524
                 0x20003f58                . = ALIGN (0x4)
                 0x20003f58                PROVIDE (end, .)
                 0x20003f58                PROVIDE (_end, .)
@@ -2275,27 +2275,27 @@ LOAD c:/program files (x86)/codesourcery/sourcery_codebench_lite_for_arm_eabi/bi
  .ARM.attributes
                 0x000002da       0x39 ./src/gps/gpsUblox.o
  .ARM.attributes
-                0x00000313       0x39 ./src/drv/drv_i2c.o
+                0x00000313       0x39 ./src/drv/drv_gps.o
  .ARM.attributes
-                0x0000034c       0x39 ./src/drv/drv_led.o
+                0x0000034c       0x39 ./src/drv/drv_i2c.o
  .ARM.attributes
-                0x00000385       0x39 ./src/drv/drv_max7456.o
+                0x00000385       0x39 ./src/drv/drv_led.o
  .ARM.attributes
-                0x000003be       0x39 ./src/drv/drv_pwmEsc.o
+                0x000003be       0x39 ./src/drv/drv_max7456.o
  .ARM.attributes
-                0x000003f7       0x39 ./src/drv/drv_pwmServo.o
+                0x000003f7       0x39 ./src/drv/drv_pwmEsc.o
  .ARM.attributes
-                0x00000430       0x39 ./src/drv/drv_rx.o
+                0x00000430       0x39 ./src/drv/drv_pwmServo.o
  .ARM.attributes
-                0x00000469       0x39 ./src/drv/drv_spi.o
+                0x00000469       0x39 ./src/drv/drv_rx.o
  .ARM.attributes
-                0x000004a2       0x39 ./src/drv/drv_system.o
+                0x000004a2       0x39 ./src/drv/drv_spi.o
  .ARM.attributes
-                0x000004db       0x39 ./src/drv/drv_timingFunctions.o
+                0x000004db       0x39 ./src/drv/drv_system.o
  .ARM.attributes
-                0x00000514       0x39 ./src/drv/drv_uart2.o
+                0x00000514       0x39 ./src/drv/drv_telemetry.o
  .ARM.attributes
-                0x0000054d       0x39 ./src/drv/drv_uart3.o
+                0x0000054d       0x39 ./src/drv/drv_timingFunctions.o
  .ARM.attributes
                 0x00000586       0x39 ./src/drv/drv_usb.o
  .ARM.attributes
@@ -2540,6 +2540,7 @@ OUTPUT(aq32Plus.elf elf32-littlearm)
  .comment       0x00000000       0x31 ./src/gps/gpsMediaTek19.o
  .comment       0x00000000       0x31 ./src/gps/gpsNMEA.o
  .comment       0x00000000       0x31 ./src/gps/gpsUblox.o
+ .comment       0x00000000       0x31 ./src/drv/drv_gps.o
  .comment       0x00000000       0x31 ./src/drv/drv_i2c.o
  .comment       0x00000000       0x31 ./src/drv/drv_led.o
  .comment       0x00000000       0x31 ./src/drv/drv_max7456.o
@@ -2548,9 +2549,8 @@ OUTPUT(aq32Plus.elf elf32-littlearm)
  .comment       0x00000000       0x31 ./src/drv/drv_rx.o
  .comment       0x00000000       0x31 ./src/drv/drv_spi.o
  .comment       0x00000000       0x31 ./src/drv/drv_system.o
+ .comment       0x00000000       0x31 ./src/drv/drv_telemetry.o
  .comment       0x00000000       0x31 ./src/drv/drv_timingFunctions.o
- .comment       0x00000000       0x31 ./src/drv/drv_uart2.o
- .comment       0x00000000       0x31 ./src/drv/drv_uart3.o
  .comment       0x00000000       0x31 ./src/drv/drv_usb.o
  .comment       0x00000000       0x31 ./src/calibration/escCalibration.o
  .comment       0x00000000       0x31 ./src/calibration/magCalibration.o

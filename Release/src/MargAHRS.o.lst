@@ -1540,26 +1540,26 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:24     .bss:00000000 exAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:21     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:30     .bss:00000004 eyAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:36     .bss:00000008 ezAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:42     .bss:0000000c exAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:48     .bss:00000010 eyAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:54     .bss:00000014 ezAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:60     .bss:00000018 exMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:66     .bss:0000001c eyMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:72     .bss:00000020 ezMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:78     .bss:00000024 exMagInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:84     .bss:00000028 eyMagInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:90     .bss:0000002c ezMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:24     .bss:00000000 exAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:30     .bss:00000004 eyAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:36     .bss:00000008 ezAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:42     .bss:0000000c exAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:48     .bss:00000010 eyAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:54     .bss:00000014 ezAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:60     .bss:00000018 exMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:66     .bss:0000001c eyMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:72     .bss:00000020 ezMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:78     .bss:00000024 exMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:84     .bss:00000028 eyMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:90     .bss:0000002c ezMagInt
                             *COM*:00000004 kpAcc
                             *COM*:00000004 kiAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:99     .data:00000000 q0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:96     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:106    .bss:00000030 q1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:112    .bss:00000034 q2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:118    .bss:00000038 q3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:99     .data:00000000 q0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:96     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:106    .bss:00000030 q1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:112    .bss:00000034 q2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:118    .bss:00000038 q3
                             *COM*:00000004 q0q0
                             *COM*:00000004 q0q1
                             *COM*:00000004 q0q2
@@ -1571,18 +1571,18 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:118    .bss:00000038 q3
                             *COM*:00000004 q2q3
                             *COM*:00000004 q3q3
                             *COM*:00000004 halfT
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:134    .bss:0000003c MargAHRSinitialized
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:140    .bss:00000040 accConfidenceDecay
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:147    .data:00000004 accConfidence
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:154    .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:159    .text:00000000 calculateAccConfidence
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:1581   .data:00000008 accMagP.10978
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:232    .text:000000d0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:239    .text:000000e8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:244    .text:000000e8 MargAHRSinit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:542    .text:00000500 MargAHRSupdate
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:1573   .text:00001448 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc8rpq7c.s:1577   .text:00001454 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:134    .bss:0000003c MargAHRSinitialized
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:140    .bss:00000040 accConfidenceDecay
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:147    .data:00000004 accConfidence
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:154    .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:159    .text:00000000 calculateAccConfidence
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:1581   .data:00000008 accMagP.10978
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:232    .text:000000d0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:239    .text:000000e8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:244    .text:000000e8 MargAHRSinit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:542    .text:00000500 MargAHRSupdate
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:1573   .text:00001448 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:1577   .text:00001454 $t
 
 UNDEFINED SYMBOLS
 __aeabi_f2d

@@ -55,14 +55,14 @@ float readFloatRF(void)
 
     do
     {
-        if (uart3Available() == false)
+        if (telemetryAvailable() == false)
         {
             delay(10);
             timeout++;
         }
         else
         {
-            data[index] = uart3Read();
+            data[index] = telemetryRead();
             timeout = 0;
             index++;
         }
@@ -100,48 +100,48 @@ void readRFPID(unsigned char PIDid)
 
 void rfCom(void)
 {
-    if (uart3Available() && !validRFCommand)
-    	rfQueryType = uart3Read();
+    if (telemetryAvailable() && !validRFCommand)
+    	rfQueryType = telemetryRead();
 
     switch (rfQueryType)
     {
         ///////////////////////////////
 
     case 'a': // Rate PIDs
-        uart3Print("\n");
+        telemetryPrint("\n");
 
-        uart3Print("Roll Rate PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("Roll Rate PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_RATE_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[ROLL_RATE_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("Pitch Rate PID: ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("Pitch Rate PID: ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_RATE_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[PITCH_RATE_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("Yaw Rate PID:   ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("Yaw Rate PID:   ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[YAW_RATE_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[YAW_RATE_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
         rfQueryType = 'x';
         validRFCommand = false;
@@ -150,40 +150,40 @@ void rfCom(void)
     ///////////////////////////////
 
     case 'b': // Attitude PIDs
-        uart3Print("\n");
+        telemetryPrint("\n");
 
-        uart3Print("Roll Attitude PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("Roll Attitude PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[ROLL_ATT_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[ROLL_ATT_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("Pitch Attitude PID: ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("Pitch Attitude PID: ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[PITCH_ATT_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[PITCH_ATT_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("Heading PID:        ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("Heading PID:        ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HEADING_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[HEADING_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
         rfQueryType = 'x';
         validRFCommand = false;
@@ -192,40 +192,40 @@ void rfCom(void)
     ///////////////////////////////
 
     case 'c': // Velocity PIDs
-        uart3Print("\n");
+        telemetryPrint("\n");
 
-        uart3Print("nDot PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("nDot PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[NDOT_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[NDOT_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("eDot PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("eDot PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[EDOT_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[EDOT_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("hDot PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("hDot PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[HDOT_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[HDOT_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
         rfQueryType = 'x';
         validRFCommand = false;
@@ -234,40 +234,40 @@ void rfCom(void)
     ///////////////////////////////
 
     case 'd': // Position PIDs
-        uart3Print("\n");
+        telemetryPrint("\n");
 
-        uart3Print("n PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("n PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[N_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[N_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("e PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("e PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[E_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[E_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
-        uart3Print("h PID:  ");
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].B);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].P);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].I);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].D);           uart3Print(numberString);
-        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].windupGuard); uart3Print(numberString);
+        telemetryPrint("h PID:  ");
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].B);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].P);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].I);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].D);           telemetryPrint(numberString);
+        snprintf(numberString, 16, "%8.4f, ", eepromConfig.PID[H_PID].windupGuard); telemetryPrint(numberString);
         if  (eepromConfig.PID[H_PID].dErrorCalc)
-            uart3Print("Error\n");
+            telemetryPrint("Error\n");
         else
-            uart3Print("State\n");
+            telemetryPrint("State\n");
 
         rfQueryType = 'x';
         validRFCommand = false;
@@ -378,7 +378,7 @@ void rfCom(void)
 
         case 'A': // Read Roll Rate PID Values
             readRFPID(ROLL_RATE_PID);
-            uart3Print( "\nRoll Rate PID Received....\n" );
+            telemetryPrint( "\nRoll Rate PID Received....\n" );
 
         	rfQueryType = 'a';
         	validRFCommand = true;
@@ -388,7 +388,7 @@ void rfCom(void)
 
         case 'B': // Read Pitch Rate PID Values
             readRFPID(PITCH_RATE_PID);
-            uart3Print( "\nPitch Rate PID Received....\n" );
+            telemetryPrint( "\nPitch Rate PID Received....\n" );
 
         	rfQueryType = 'a';
         	validRFCommand = true;
@@ -398,7 +398,7 @@ void rfCom(void)
 
         case 'C': // Read Yaw Rate PID Values
             readRFPID(YAW_RATE_PID);
-            uart3Print( "\nYaw Rate PID Received....\n" );
+            telemetryPrint( "\nYaw Rate PID Received....\n" );
 
         	rfQueryType = 'a';
         	validRFCommand = true;
@@ -408,7 +408,7 @@ void rfCom(void)
 
         case 'D': // Read Roll Attitude PID Values
             readRFPID(ROLL_ATT_PID);
-            uart3Print( "\nRoll Attitude PID Received....\n" );
+            telemetryPrint( "\nRoll Attitude PID Received....\n" );
 
         	rfQueryType = 'b';
         	validRFCommand = true;
@@ -418,7 +418,7 @@ void rfCom(void)
 
         case 'E': // Read Pitch Attitude PID Values
             readRFPID(PITCH_ATT_PID);
-            uart3Print( "\nPitch Attitude PID Received....\n" );
+            telemetryPrint( "\nPitch Attitude PID Received....\n" );
 
         	rfQueryType = 'b';
         	validRFCommand = true;
@@ -428,7 +428,7 @@ void rfCom(void)
 
         case 'F': // Read Heading Hold PID Values
             readRFPID(HEADING_PID);
-            uart3Print( "\nHeading PID Received....\n" );
+            telemetryPrint( "\nHeading PID Received....\n" );
 
         	rfQueryType = 'b';
         	validRFCommand = true;
@@ -438,7 +438,7 @@ void rfCom(void)
 
         case 'G': // Read nDot PID Values
             readRFPID(NDOT_PID);
-            uart3Print( "\nnDot PID Received....\n" );
+            telemetryPrint( "\nnDot PID Received....\n" );
 
         	rfQueryType = 'c';
         	validRFCommand = true;
@@ -448,7 +448,7 @@ void rfCom(void)
 
         case 'H': // Read eDot PID Values
             readRFPID(EDOT_PID);
-            uart3Print( "\neDot PID Received....\n" );
+            telemetryPrint( "\neDot PID Received....\n" );
 
             rfQueryType = 'c';
             validRFCommand = true;
@@ -458,7 +458,7 @@ void rfCom(void)
 
         case 'I': // Read hDot PID Values
             readRFPID(HDOT_PID);
-            uart3Print( "\nhDot PID Received....\n" );
+            telemetryPrint( "\nhDot PID Received....\n" );
 
           	rfQueryType = 'c';
           	validRFCommand = true;
@@ -468,7 +468,7 @@ void rfCom(void)
 
         case 'J': // Read n PID Values
             readRFPID(N_PID);
-            uart3Print( "\nn PID Received....\n" );
+            telemetryPrint( "\nn PID Received....\n" );
 
             rfQueryType = 'd';
             validRFCommand = true;
@@ -478,7 +478,7 @@ void rfCom(void)
 
         case 'K': // Read e PID Values
             readRFPID(E_PID);
-            uart3Print( "\ne PID Received....\n" );
+            telemetryPrint( "\ne PID Received....\n" );
 
             rfQueryType = 'd';
             validRFCommand = true;
@@ -488,7 +488,7 @@ void rfCom(void)
 
         case 'L': // Read h PID Values
             readRFPID(H_PID);
-            uart3Print( "\nh PID Received....\n" );
+            telemetryPrint( "\nh PID Received....\n" );
 
             rfQueryType = 'd';
             validRFCommand = true;
@@ -497,7 +497,7 @@ void rfCom(void)
         ///////////////////////////////
 
         case 'W': // Write EEPROM Parameters
-            uart3Print("\nWriting EEPROM Parameters....\n");
+            telemetryPrint("\nWriting EEPROM Parameters....\n");
             writeEEPROM();
 
             rfQueryType = 'x';
@@ -507,23 +507,23 @@ void rfCom(void)
 
         case '?': // Command Summary
 
-        	uart3Print("\n");
-        	uart3Print("'a' Rate PIDs                              'A' Set Roll Rate PID Data   AB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'b' Attitude PIDs                          'B' Set Pitch Rate PID Data  BB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'c' Velocity PIDs                          'C' Set Yaw Rate PID Data    CB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'d' Position PIDs                          'D' Set Roll Att PID Data    DB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'x' Terminate Serial Communication         'E' Set Pitch Att PID Data   EB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'1' High Speed Telemetry 1 Enable          'F' Set Hdg Hold PID Data    FB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'2' High Speed Telemetry 2 Enable          'G' Set nDot PID Data        GB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'3' High Speed Telemetry 3 Enable          'H' Set eDot PID Data        HB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'4' High Speed Telemetry 4 Enable          'I' Set hDot PID Data        IB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'5' High Speed Telemetry 5 Enable          'J' Set n PID Data           JB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'6' High Speed Telemetry 6 Enable          'K' Set e PID Data           KB;P;I;D;windupGuard;dErrorCalc\n");
-   		    uart3Print("'7' High Speed Telemetry 7 Enable          'L' Set h PID Data           LB;P;I;D;windupGuard;dErrorCalc\n");
-		   	uart3Print("'8' High Speed Telemetry 8 Enable          'W' Write EEPROM Parameters\n");
-		   	uart3Print("'9' High Speed Telemetry 9 Enable\n");
-		   	uart3Print("'0' High Speed Telemetry Disable           '?' Command Summary\n");
-   		    uart3Print("\n");
+        	telemetryPrint("\n");
+        	telemetryPrint("'a' Rate PIDs                              'A' Set Roll Rate PID Data   AB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'b' Attitude PIDs                          'B' Set Pitch Rate PID Data  BB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'c' Velocity PIDs                          'C' Set Yaw Rate PID Data    CB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'d' Position PIDs                          'D' Set Roll Att PID Data    DB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'x' Terminate Serial Communication         'E' Set Pitch Att PID Data   EB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'1' High Speed Telemetry 1 Enable          'F' Set Hdg Hold PID Data    FB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'2' High Speed Telemetry 2 Enable          'G' Set nDot PID Data        GB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'3' High Speed Telemetry 3 Enable          'H' Set eDot PID Data        HB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'4' High Speed Telemetry 4 Enable          'I' Set hDot PID Data        IB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'5' High Speed Telemetry 5 Enable          'J' Set n PID Data           JB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'6' High Speed Telemetry 6 Enable          'K' Set e PID Data           KB;P;I;D;windupGuard;dErrorCalc\n");
+   		    telemetryPrint("'7' High Speed Telemetry 7 Enable          'L' Set h PID Data           LB;P;I;D;windupGuard;dErrorCalc\n");
+		   	telemetryPrint("'8' High Speed Telemetry 8 Enable          'W' Write EEPROM Parameters\n");
+		   	telemetryPrint("'9' High Speed Telemetry 9 Enable\n");
+		   	telemetryPrint("'0' High Speed Telemetry Disable           '?' Command Summary\n");
+   		    telemetryPrint("\n");
 
   		    rfQueryType = 'x';
   		    break;

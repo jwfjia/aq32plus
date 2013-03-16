@@ -70,6 +70,7 @@
 
 #include "aq32Plus.h"
 
+#include "drv_gps.h"
 #include "drv_i2c.h"
 #include "drv_led.h"
 #include "drv_max7456.h"
@@ -78,9 +79,8 @@
 #include "drv_rx.h"
 #include "drv_spi.h"
 #include "drv_system.h"
+#include "drv_telemetry.h"
 #include "drv_timingFunctions.h"
-#include "drv_uart2.h"
-#include "drv_uart3.h"
 #include "drv_usb.h"
 
 #include "hmc5883.h"

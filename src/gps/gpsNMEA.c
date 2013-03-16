@@ -236,11 +236,11 @@ uint8_t decodeNMEAsentence(void)
     uint16_t i;
     uint16_t numberOfChars;
 
-    numberOfChars = uart2NumCharsAvailable();
+    numberOfChars = gpsNumCharsAvailable();
 
     for (i = 0; i < numberOfChars; i++)
     {
-		data = uart2Read();
+		data = gpsRead();
 
         switch (nmeaProcessDataState)
         {

@@ -666,10 +666,10 @@
  667 0826 FFF7FEFF 		bl	ftoa
  668 082a 40F20000 		movw	r0, #:lower16:numberString
  669 082e C0F20000 		movt	r0, #:upper16:numberString
- 670 0832 FFF7FEFF 		bl	uart3Print
+ 670 0832 FFF7FEFF 		bl	telemetryPrint
  671 0836 40F20000 		movw	r0, #:lower16:.LC0
  672 083a C0F20000 		movt	r0, #:upper16:.LC0
- 673 083e FFF7FEFF 		bl	uart3Print
+ 673 083e FFF7FEFF 		bl	telemetryPrint
  674 0842 40F20003 		movw	r3, #:lower16:sensors
  675 0846 C0F20003 		movt	r3, #:upper16:sensors
  676 084a 5B68     		ldr	r3, [r3, #4]	@ float
@@ -679,10 +679,10 @@
  680 0856 FFF7FEFF 		bl	ftoa
  681 085a 40F20000 		movw	r0, #:lower16:numberString
  682 085e C0F20000 		movt	r0, #:upper16:numberString
- 683 0862 FFF7FEFF 		bl	uart3Print
+ 683 0862 FFF7FEFF 		bl	telemetryPrint
  684 0866 40F20000 		movw	r0, #:lower16:.LC0
  685 086a C0F20000 		movt	r0, #:upper16:.LC0
- 686 086e FFF7FEFF 		bl	uart3Print
+ 686 086e FFF7FEFF 		bl	telemetryPrint
  687 0872 40F20003 		movw	r3, #:lower16:sensors
  688 0876 C0F20003 		movt	r3, #:upper16:sensors
  689 087a 9B68     		ldr	r3, [r3, #8]	@ float
@@ -692,10 +692,10 @@
  693 0886 FFF7FEFF 		bl	ftoa
  694 088a 40F20000 		movw	r0, #:lower16:numberString
  695 088e C0F20000 		movt	r0, #:upper16:numberString
- 696 0892 FFF7FEFF 		bl	uart3Print
+ 696 0892 FFF7FEFF 		bl	telemetryPrint
  697 0896 40F20000 		movw	r0, #:lower16:.LC1
  698 089a C0F20000 		movt	r0, #:upper16:.LC1
- 699 089e FFF7FEFF 		bl	uart3Print
+ 699 089e FFF7FEFF 		bl	telemetryPrint
  700              	.L17:
  701 08a2 40F20003 		movw	r3, #:lower16:highSpeedTelem2Enabled
  702 08a6 C0F20003 		movt	r3, #:upper16:highSpeedTelem2Enabled
@@ -711,10 +711,10 @@
  712 08c4 FFF7FEFF 		bl	ftoa
  713 08c8 40F20000 		movw	r0, #:lower16:numberString
  714 08cc C0F20000 		movt	r0, #:upper16:numberString
- 715 08d0 FFF7FEFF 		bl	uart3Print
+ 715 08d0 FFF7FEFF 		bl	telemetryPrint
  716 08d4 40F20000 		movw	r0, #:lower16:.LC0
  717 08d8 C0F20000 		movt	r0, #:upper16:.LC0
- 718 08dc FFF7FEFF 		bl	uart3Print
+ 718 08dc FFF7FEFF 		bl	telemetryPrint
  719 08e0 40F20003 		movw	r3, #:lower16:sensors
  720 08e4 C0F20003 		movt	r3, #:upper16:sensors
  721 08e8 9B6A     		ldr	r3, [r3, #40]	@ float
@@ -724,10 +724,10 @@
  725 08f4 FFF7FEFF 		bl	ftoa
  726 08f8 40F20000 		movw	r0, #:lower16:numberString
  727 08fc C0F20000 		movt	r0, #:upper16:numberString
- 728 0900 FFF7FEFF 		bl	uart3Print
+ 728 0900 FFF7FEFF 		bl	telemetryPrint
  729 0904 40F20000 		movw	r0, #:lower16:.LC0
  730 0908 C0F20000 		movt	r0, #:upper16:.LC0
- 731 090c FFF7FEFF 		bl	uart3Print
+ 731 090c FFF7FEFF 		bl	telemetryPrint
  732 0910 40F20003 		movw	r3, #:lower16:sensors
  733 0914 C0F20003 		movt	r3, #:upper16:sensors
  734 0918 DB6A     		ldr	r3, [r3, #44]	@ float
@@ -737,10 +737,10 @@
  738 0924 FFF7FEFF 		bl	ftoa
  739 0928 40F20000 		movw	r0, #:lower16:numberString
  740 092c C0F20000 		movt	r0, #:upper16:numberString
- 741 0930 FFF7FEFF 		bl	uart3Print
+ 741 0930 FFF7FEFF 		bl	telemetryPrint
  742 0934 40F20000 		movw	r0, #:lower16:.LC1
  743 0938 C0F20000 		movt	r0, #:upper16:.LC1
- 744 093c FFF7FEFF 		bl	uart3Print
+ 744 093c FFF7FEFF 		bl	telemetryPrint
  745              	.L18:
  746 0940 40F20003 		movw	r3, #:lower16:highSpeedTelem3Enabled
  747 0944 C0F20003 		movt	r3, #:upper16:highSpeedTelem3Enabled
@@ -756,10 +756,10 @@
  757 0962 FFF7FEFF 		bl	ftoa
  758 0966 40F20000 		movw	r0, #:lower16:numberString
  759 096a C0F20000 		movt	r0, #:upper16:numberString
- 760 096e FFF7FEFF 		bl	uart3Print
+ 760 096e FFF7FEFF 		bl	telemetryPrint
  761 0972 40F20000 		movw	r0, #:lower16:.LC0
  762 0976 C0F20000 		movt	r0, #:upper16:.LC0
- 763 097a FFF7FEFF 		bl	uart3Print
+ 763 097a FFF7FEFF 		bl	telemetryPrint
  764 097e 40F20003 		movw	r3, #:lower16:rxCommand
  765 0982 C0F20003 		movt	r3, #:upper16:rxCommand
  766 0986 93ED007A 		flds	s14, [r3, #0]
@@ -773,10 +773,10 @@
  774 09a6 FFF7FEFF 		bl	ftoa
  775 09aa 40F20000 		movw	r0, #:lower16:numberString
  776 09ae C0F20000 		movt	r0, #:upper16:numberString
- 777 09b2 FFF7FEFF 		bl	uart3Print
+ 777 09b2 FFF7FEFF 		bl	telemetryPrint
  778 09b6 40F20000 		movw	r0, #:lower16:.LC1
  779 09ba C0F20000 		movt	r0, #:upper16:.LC1
- 780 09be FFF7FEFF 		bl	uart3Print
+ 780 09be FFF7FEFF 		bl	telemetryPrint
  781              	.L19:
  782 09c2 40F20003 		movw	r3, #:lower16:highSpeedTelem4Enabled
  783 09c6 C0F20003 		movt	r3, #:upper16:highSpeedTelem4Enabled
@@ -792,10 +792,10 @@
  793 09e4 FFF7FEFF 		bl	ftoa
  794 09e8 40F20000 		movw	r0, #:lower16:numberString
  795 09ec C0F20000 		movt	r0, #:upper16:numberString
- 796 09f0 FFF7FEFF 		bl	uart3Print
+ 796 09f0 FFF7FEFF 		bl	telemetryPrint
  797 09f4 40F20000 		movw	r0, #:lower16:.LC0
  798 09f8 C0F20000 		movt	r0, #:upper16:.LC0
- 799 09fc FFF7FEFF 		bl	uart3Print
+ 799 09fc FFF7FEFF 		bl	telemetryPrint
  800 0a00 40F20003 		movw	r3, #:lower16:rxCommand
  801 0a04 C0F20003 		movt	r3, #:upper16:rxCommand
  802 0a08 93ED017A 		flds	s14, [r3, #4]
@@ -809,10 +809,10 @@
  810 0a28 FFF7FEFF 		bl	ftoa
  811 0a2c 40F20000 		movw	r0, #:lower16:numberString
  812 0a30 C0F20000 		movt	r0, #:upper16:numberString
- 813 0a34 FFF7FEFF 		bl	uart3Print
+ 813 0a34 FFF7FEFF 		bl	telemetryPrint
  814 0a38 40F20000 		movw	r0, #:lower16:.LC1
  815 0a3c C0F20000 		movt	r0, #:upper16:.LC1
- 816 0a40 FFF7FEFF 		bl	uart3Print
+ 816 0a40 FFF7FEFF 		bl	telemetryPrint
  817 0a44 04E0     		b	.L35
  818              	.L36:
  819 0a46 00BF     		.align	2
@@ -835,10 +835,10 @@
  836 0a72 FFF7FEFF 		bl	ftoa
  837 0a76 40F20000 		movw	r0, #:lower16:numberString
  838 0a7a C0F20000 		movt	r0, #:upper16:numberString
- 839 0a7e FFF7FEFF 		bl	uart3Print
+ 839 0a7e FFF7FEFF 		bl	telemetryPrint
  840 0a82 40F20000 		movw	r0, #:lower16:.LC0
  841 0a86 C0F20000 		movt	r0, #:upper16:.LC0
- 842 0a8a FFF7FEFF 		bl	uart3Print
+ 842 0a8a FFF7FEFF 		bl	telemetryPrint
  843 0a8e 40F20003 		movw	r3, #:lower16:rxCommand
  844 0a92 C0F20003 		movt	r3, #:upper16:rxCommand
  845 0a96 93ED027A 		flds	s14, [r3, #8]
@@ -852,10 +852,10 @@
  853 0ab6 FFF7FEFF 		bl	ftoa
  854 0aba 40F20000 		movw	r0, #:lower16:numberString
  855 0abe C0F20000 		movt	r0, #:upper16:numberString
- 856 0ac2 FFF7FEFF 		bl	uart3Print
+ 856 0ac2 FFF7FEFF 		bl	telemetryPrint
  857 0ac6 40F20000 		movw	r0, #:lower16:.LC1
  858 0aca C0F20000 		movt	r0, #:upper16:.LC1
- 859 0ace FFF7FEFF 		bl	uart3Print
+ 859 0ace FFF7FEFF 		bl	telemetryPrint
  860              	.L21:
  861 0ad2 40F20003 		movw	r3, #:lower16:highSpeedTelem6Enabled
  862 0ad6 C0F20003 		movt	r3, #:upper16:highSpeedTelem6Enabled
@@ -871,10 +871,10 @@
  872 0af4 FFF7FEFF 		bl	ftoa
  873 0af8 40F20000 		movw	r0, #:lower16:numberString
  874 0afc C0F20000 		movt	r0, #:upper16:numberString
- 875 0b00 FFF7FEFF 		bl	uart3Print
+ 875 0b00 FFF7FEFF 		bl	telemetryPrint
  876 0b04 40F20000 		movw	r0, #:lower16:.LC0
  877 0b08 C0F20000 		movt	r0, #:upper16:.LC0
- 878 0b0c FFF7FEFF 		bl	uart3Print
+ 878 0b0c FFF7FEFF 		bl	telemetryPrint
  879 0b10 40F20003 		movw	r3, #:lower16:sensors
  880 0b14 C0F20003 		movt	r3, #:upper16:sensors
  881 0b18 DB69     		ldr	r3, [r3, #28]	@ float
@@ -884,10 +884,10 @@
  885 0b24 FFF7FEFF 		bl	ftoa
  886 0b28 40F20000 		movw	r0, #:lower16:numberString
  887 0b2c C0F20000 		movt	r0, #:upper16:numberString
- 888 0b30 FFF7FEFF 		bl	uart3Print
+ 888 0b30 FFF7FEFF 		bl	telemetryPrint
  889 0b34 40F20000 		movw	r0, #:lower16:.LC0
  890 0b38 C0F20000 		movt	r0, #:upper16:.LC0
- 891 0b3c FFF7FEFF 		bl	uart3Print
+ 891 0b3c FFF7FEFF 		bl	telemetryPrint
  892 0b40 40F20003 		movw	r3, #:lower16:sensors
  893 0b44 C0F20003 		movt	r3, #:upper16:sensors
  894 0b48 1B6A     		ldr	r3, [r3, #32]	@ float
@@ -897,10 +897,10 @@
  898 0b54 FFF7FEFF 		bl	ftoa
  899 0b58 40F20000 		movw	r0, #:lower16:numberString
  900 0b5c C0F20000 		movt	r0, #:upper16:numberString
- 901 0b60 FFF7FEFF 		bl	uart3Print
+ 901 0b60 FFF7FEFF 		bl	telemetryPrint
  902 0b64 40F20000 		movw	r0, #:lower16:.LC1
  903 0b68 C0F20000 		movt	r0, #:upper16:.LC1
- 904 0b6c FFF7FEFF 		bl	uart3Print
+ 904 0b6c FFF7FEFF 		bl	telemetryPrint
  905              	.L22:
  906 0b70 40F20003 		movw	r3, #:lower16:highSpeedTelem7Enabled
  907 0b74 C0F20003 		movt	r3, #:upper16:highSpeedTelem7Enabled
@@ -916,10 +916,10 @@
  917 0b92 FFF7FEFF 		bl	ftoa
  918 0b96 40F20000 		movw	r0, #:lower16:numberString
  919 0b9a C0F20000 		movt	r0, #:upper16:numberString
- 920 0b9e FFF7FEFF 		bl	uart3Print
+ 920 0b9e FFF7FEFF 		bl	telemetryPrint
  921 0ba2 40F20000 		movw	r0, #:lower16:.LC0
  922 0ba6 C0F20000 		movt	r0, #:upper16:.LC0
- 923 0baa FFF7FEFF 		bl	uart3Print
+ 923 0baa FFF7FEFF 		bl	telemetryPrint
  924 0bae 40F20003 		movw	r3, #:lower16:sensors
  925 0bb2 C0F20003 		movt	r3, #:upper16:sensors
  926 0bb6 DB6B     		ldr	r3, [r3, #60]	@ float
@@ -929,10 +929,10 @@
  930 0bc2 FFF7FEFF 		bl	ftoa
  931 0bc6 40F20000 		movw	r0, #:lower16:numberString
  932 0bca C0F20000 		movt	r0, #:upper16:numberString
- 933 0bce FFF7FEFF 		bl	uart3Print
+ 933 0bce FFF7FEFF 		bl	telemetryPrint
  934 0bd2 40F20000 		movw	r0, #:lower16:.LC0
  935 0bd6 C0F20000 		movt	r0, #:upper16:.LC0
- 936 0bda FFF7FEFF 		bl	uart3Print
+ 936 0bda FFF7FEFF 		bl	telemetryPrint
  937 0bde 40F20003 		movw	r3, #:lower16:hDotEstimate
  938 0be2 C0F20003 		movt	r3, #:upper16:hDotEstimate
  939 0be6 1B68     		ldr	r3, [r3, #0]	@ float
@@ -942,10 +942,10 @@
  943 0bf2 FFF7FEFF 		bl	ftoa
  944 0bf6 40F20000 		movw	r0, #:lower16:numberString
  945 0bfa C0F20000 		movt	r0, #:upper16:numberString
- 946 0bfe FFF7FEFF 		bl	uart3Print
+ 946 0bfe FFF7FEFF 		bl	telemetryPrint
  947 0c02 40F20000 		movw	r0, #:lower16:.LC2
  948 0c06 C0F20000 		movt	r0, #:upper16:.LC2
- 949 0c0a FFF7FEFF 		bl	uart3Print
+ 949 0c0a FFF7FEFF 		bl	telemetryPrint
  950 0c0e 40F20003 		movw	r3, #:lower16:hEstimate
  951 0c12 C0F20003 		movt	r3, #:upper16:hEstimate
  952 0c16 1B68     		ldr	r3, [r3, #0]	@ float
@@ -955,10 +955,10 @@
  956 0c22 FFF7FEFF 		bl	ftoa
  957 0c26 40F20000 		movw	r0, #:lower16:numberString
  958 0c2a C0F20000 		movt	r0, #:upper16:numberString
- 959 0c2e FFF7FEFF 		bl	uart3Print
+ 959 0c2e FFF7FEFF 		bl	telemetryPrint
  960 0c32 40F20000 		movw	r0, #:lower16:.LC1
  961 0c36 C0F20000 		movt	r0, #:upper16:.LC1
- 962 0c3a FFF7FEFF 		bl	uart3Print
+ 962 0c3a FFF7FEFF 		bl	telemetryPrint
  963              	.L23:
  964 0c3e FFF7FEFF 		bl	micros
  965 0c42 0246     		mov	r2, r0
@@ -1080,26 +1080,26 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:24     .eeprom:00000000 eepromArray
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:21     .eeprom:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:24     .eeprom:00000000 eepromArray
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:21     .eeprom:00000000 $d
                             *COM*:00000350 eepromConfig
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:31     .bss:00000000 execUpCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:32     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:31     .bss:00000000 execUpCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:32     .bss:00000000 $d
                             *COM*:00000064 sensors
                             *COM*:00000002 timerValue
                             *COM*:00000020 numberString
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:37     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:38     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:41     .rodata:00000004 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:44     .rodata:00000008 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:47     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:52     .text:00000000 main
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:283    .text:000002d8 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:288    .text:000002e8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:296    .text:000002f4 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:301    .text:00000304 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:821    .text:00000a48 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccl8lYvQ.s:825    .text:00000a50 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:37     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:38     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:41     .rodata:00000004 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:44     .rodata:00000008 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:47     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:52     .text:00000000 main
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:283    .text:000002d8 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:288    .text:000002e8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:296    .text:000002f4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:301    .text:00000304 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:821    .text:00000a48 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccwUxvbL.s:825    .text:00000a50 $t
 
 UNDEFINED SYMBOLS
 systemInit
@@ -1162,7 +1162,7 @@ bodyAccelToEarthAccel
 vertCompFilter
 highSpeedTelem1Enabled
 ftoa
-uart3Print
+telemetryPrint
 highSpeedTelem2Enabled
 highSpeedTelem3Enabled
 rxCommand

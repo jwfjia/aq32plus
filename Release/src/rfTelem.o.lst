@@ -51,7 +51,7 @@
   54 0034 1A70     		strb	r2, [r3, #0]
   55 0036 03F10103 		add	r3, r3, #1
   56              	.L6:
-  57 003a FFF7FEFF 		bl	uart3Available
+  57 003a FFF7FEFF 		bl	telemetryAvailable
   58 003e 0346     		mov	r3, r0
   59 0040 002B     		cmp	r3, #0
   60 0042 0AD1     		bne	.L2
@@ -63,7 +63,7 @@
   66 0058 13E0     		b	.L3
   67              	.L2:
   68 005a 9DF80F40 		ldrb	r4, [sp, #15]	@ zero_extendqisi2
-  69 005e FFF7FEFF 		bl	uart3Read
+  69 005e FFF7FEFF 		bl	telemetryRead
   70 0062 0346     		mov	r3, r0
   71 0064 DAB2     		uxtb	r2, r3
   72 0066 04A9     		add	r1, sp, #16
@@ -548,7 +548,7 @@
  349              		@ frame_needed = 0, uses_anonymous_args = 0
  350 0160 00B5     		push	{lr}
  351 0162 83B0     		sub	sp, sp, #12
- 352 0164 FFF7FEFF 		bl	uart3Available
+ 352 0164 FFF7FEFF 		bl	telemetryAvailable
  353 0168 0346     		mov	r3, r0
  354 016a 002B     		cmp	r3, #0
  355 016c 10D0     		beq	.L11
@@ -558,7 +558,7 @@
  359 0178 DBB2     		uxtb	r3, r3
  360 017a 002B     		cmp	r3, #0
  361 017c 08D1     		bne	.L11
- 362 017e FFF7FEFF 		bl	uart3Read
+ 362 017e FFF7FEFF 		bl	telemetryRead
  363 0182 0346     		mov	r3, r0
  364 0184 1A46     		mov	r2, r3
  365 0186 40F20003 		movw	r3, #:lower16:rfQueryType
@@ -652,10 +652,10 @@
  453              	.L37:
  454 02d0 40F20000 		movw	r0, #:lower16:.LC0
  455 02d4 C0F20000 		movt	r0, #:upper16:.LC0
- 456 02d8 FFF7FEFF 		bl	uart3Print
+ 456 02d8 FFF7FEFF 		bl	telemetryPrint
  457 02dc 40F20000 		movw	r0, #:lower16:.LC1
  458 02e0 C0F20000 		movt	r0, #:upper16:.LC1
- 459 02e4 FFF7FEFF 		bl	uart3Print
+ 459 02e4 FFF7FEFF 		bl	telemetryPrint
  460 02e8 40F20003 		movw	r3, #:lower16:eepromConfig
  461 02ec C0F20003 		movt	r3, #:upper16:eepromConfig
  462 02f0 D3F89C30 		ldr	r3, [r3, #156]	@ float
@@ -672,7 +672,7 @@
  473 0316 FFF7FEFF 		bl	snprintf
  474 031a 40F20000 		movw	r0, #:lower16:numberString
  475 031e C0F20000 		movt	r0, #:upper16:numberString
- 476 0322 FFF7FEFF 		bl	uart3Print
+ 476 0322 FFF7FEFF 		bl	telemetryPrint
  477 0326 40F20003 		movw	r3, #:lower16:eepromConfig
  478 032a C0F20003 		movt	r3, #:upper16:eepromConfig
  479 032e D3F8A030 		ldr	r3, [r3, #160]	@ float
@@ -689,7 +689,7 @@
  490 0354 FFF7FEFF 		bl	snprintf
  491 0358 40F20000 		movw	r0, #:lower16:numberString
  492 035c C0F20000 		movt	r0, #:upper16:numberString
- 493 0360 FFF7FEFF 		bl	uart3Print
+ 493 0360 FFF7FEFF 		bl	telemetryPrint
  494 0364 40F20003 		movw	r3, #:lower16:eepromConfig
  495 0368 C0F20003 		movt	r3, #:upper16:eepromConfig
  496 036c D3F8A430 		ldr	r3, [r3, #164]	@ float
@@ -706,7 +706,7 @@
  507 0392 FFF7FEFF 		bl	snprintf
  508 0396 40F20000 		movw	r0, #:lower16:numberString
  509 039a C0F20000 		movt	r0, #:upper16:numberString
- 510 039e FFF7FEFF 		bl	uart3Print
+ 510 039e FFF7FEFF 		bl	telemetryPrint
  511 03a2 40F20003 		movw	r3, #:lower16:eepromConfig
  512 03a6 C0F20003 		movt	r3, #:upper16:eepromConfig
  513 03aa D3F8A830 		ldr	r3, [r3, #168]	@ float
@@ -723,7 +723,7 @@
  524 03d0 FFF7FEFF 		bl	snprintf
  525 03d4 40F20000 		movw	r0, #:lower16:numberString
  526 03d8 C0F20000 		movt	r0, #:upper16:numberString
- 527 03dc FFF7FEFF 		bl	uart3Print
+ 527 03dc FFF7FEFF 		bl	telemetryPrint
  528 03e0 40F20003 		movw	r3, #:lower16:eepromConfig
  529 03e4 C0F20003 		movt	r3, #:upper16:eepromConfig
  530 03e8 D3F8B030 		ldr	r3, [r3, #176]	@ float
@@ -740,7 +740,7 @@
  541 040e FFF7FEFF 		bl	snprintf
  542 0412 40F20000 		movw	r0, #:lower16:numberString
  543 0416 C0F20000 		movt	r0, #:upper16:numberString
- 544 041a FFF7FEFF 		bl	uart3Print
+ 544 041a FFF7FEFF 		bl	telemetryPrint
  545 041e 40F20003 		movw	r3, #:lower16:eepromConfig
  546 0422 C0F20003 		movt	r3, #:upper16:eepromConfig
  547 0426 93F8C030 		ldrb	r3, [r3, #192]	@ zero_extendqisi2
@@ -748,16 +748,16 @@
  549 042c 06D0     		beq	.L43
  550 042e 40F20000 		movw	r0, #:lower16:.LC3
  551 0432 C0F20000 		movt	r0, #:upper16:.LC3
- 552 0436 FFF7FEFF 		bl	uart3Print
+ 552 0436 FFF7FEFF 		bl	telemetryPrint
  553 043a 05E0     		b	.L44
  554              	.L43:
  555 043c 40F20000 		movw	r0, #:lower16:.LC4
  556 0440 C0F20000 		movt	r0, #:upper16:.LC4
- 557 0444 FFF7FEFF 		bl	uart3Print
+ 557 0444 FFF7FEFF 		bl	telemetryPrint
  558              	.L44:
  559 0448 40F20000 		movw	r0, #:lower16:.LC5
  560 044c C0F20000 		movt	r0, #:upper16:.LC5
- 561 0450 FFF7FEFF 		bl	uart3Print
+ 561 0450 FFF7FEFF 		bl	telemetryPrint
  562 0454 40F20003 		movw	r3, #:lower16:eepromConfig
  563 0458 C0F20003 		movt	r3, #:upper16:eepromConfig
  564 045c D3F8C430 		ldr	r3, [r3, #196]	@ float
@@ -774,7 +774,7 @@
  575 0482 FFF7FEFF 		bl	snprintf
  576 0486 40F20000 		movw	r0, #:lower16:numberString
  577 048a C0F20000 		movt	r0, #:upper16:numberString
- 578 048e FFF7FEFF 		bl	uart3Print
+ 578 048e FFF7FEFF 		bl	telemetryPrint
  579 0492 40F20003 		movw	r3, #:lower16:eepromConfig
  580 0496 C0F20003 		movt	r3, #:upper16:eepromConfig
  581 049a D3F8C830 		ldr	r3, [r3, #200]	@ float
@@ -791,7 +791,7 @@
  592 04c0 FFF7FEFF 		bl	snprintf
  593 04c4 40F20000 		movw	r0, #:lower16:numberString
  594 04c8 C0F20000 		movt	r0, #:upper16:numberString
- 595 04cc FFF7FEFF 		bl	uart3Print
+ 595 04cc FFF7FEFF 		bl	telemetryPrint
  596 04d0 40F20003 		movw	r3, #:lower16:eepromConfig
  597 04d4 C0F20003 		movt	r3, #:upper16:eepromConfig
  598 04d8 D3F8CC30 		ldr	r3, [r3, #204]	@ float
@@ -808,7 +808,7 @@
  609 04fe FFF7FEFF 		bl	snprintf
  610 0502 40F20000 		movw	r0, #:lower16:numberString
  611 0506 C0F20000 		movt	r0, #:upper16:numberString
- 612 050a FFF7FEFF 		bl	uart3Print
+ 612 050a FFF7FEFF 		bl	telemetryPrint
  613 050e 40F20003 		movw	r3, #:lower16:eepromConfig
  614 0512 C0F20003 		movt	r3, #:upper16:eepromConfig
  615 0516 D3F8D030 		ldr	r3, [r3, #208]	@ float
@@ -825,7 +825,7 @@
  626 053c FFF7FEFF 		bl	snprintf
  627 0540 40F20000 		movw	r0, #:lower16:numberString
  628 0544 C0F20000 		movt	r0, #:upper16:numberString
- 629 0548 FFF7FEFF 		bl	uart3Print
+ 629 0548 FFF7FEFF 		bl	telemetryPrint
  630 054c 40F20003 		movw	r3, #:lower16:eepromConfig
  631 0550 C0F20003 		movt	r3, #:upper16:eepromConfig
  632 0554 D3F8D830 		ldr	r3, [r3, #216]	@ float
@@ -842,7 +842,7 @@
  643 057a FFF7FEFF 		bl	snprintf
  644 057e 40F20000 		movw	r0, #:lower16:numberString
  645 0582 C0F20000 		movt	r0, #:upper16:numberString
- 646 0586 FFF7FEFF 		bl	uart3Print
+ 646 0586 FFF7FEFF 		bl	telemetryPrint
  647 058a 40F20003 		movw	r3, #:lower16:eepromConfig
  648 058e C0F20003 		movt	r3, #:upper16:eepromConfig
  649 0592 93F8E830 		ldrb	r3, [r3, #232]	@ zero_extendqisi2
@@ -850,16 +850,16 @@
  651 0598 06D0     		beq	.L45
  652 059a 40F20000 		movw	r0, #:lower16:.LC3
  653 059e C0F20000 		movt	r0, #:upper16:.LC3
- 654 05a2 FFF7FEFF 		bl	uart3Print
+ 654 05a2 FFF7FEFF 		bl	telemetryPrint
  655 05a6 05E0     		b	.L46
  656              	.L45:
  657 05a8 40F20000 		movw	r0, #:lower16:.LC4
  658 05ac C0F20000 		movt	r0, #:upper16:.LC4
- 659 05b0 FFF7FEFF 		bl	uart3Print
+ 659 05b0 FFF7FEFF 		bl	telemetryPrint
  660              	.L46:
  661 05b4 40F20000 		movw	r0, #:lower16:.LC6
  662 05b8 C0F20000 		movt	r0, #:upper16:.LC6
- 663 05bc FFF7FEFF 		bl	uart3Print
+ 663 05bc FFF7FEFF 		bl	telemetryPrint
  664 05c0 40F20003 		movw	r3, #:lower16:eepromConfig
  665 05c4 C0F20003 		movt	r3, #:upper16:eepromConfig
  666 05c8 D3F8EC30 		ldr	r3, [r3, #236]	@ float
@@ -876,7 +876,7 @@
  677 05ee FFF7FEFF 		bl	snprintf
  678 05f2 40F20000 		movw	r0, #:lower16:numberString
  679 05f6 C0F20000 		movt	r0, #:upper16:numberString
- 680 05fa FFF7FEFF 		bl	uart3Print
+ 680 05fa FFF7FEFF 		bl	telemetryPrint
  681 05fe 40F20003 		movw	r3, #:lower16:eepromConfig
  682 0602 C0F20003 		movt	r3, #:upper16:eepromConfig
  683 0606 D3F8F030 		ldr	r3, [r3, #240]	@ float
@@ -893,7 +893,7 @@
  694 062c FFF7FEFF 		bl	snprintf
  695 0630 40F20000 		movw	r0, #:lower16:numberString
  696 0634 C0F20000 		movt	r0, #:upper16:numberString
- 697 0638 FFF7FEFF 		bl	uart3Print
+ 697 0638 FFF7FEFF 		bl	telemetryPrint
  698 063c 40F20003 		movw	r3, #:lower16:eepromConfig
  699 0640 C0F20003 		movt	r3, #:upper16:eepromConfig
  700 0644 D3F8F430 		ldr	r3, [r3, #244]	@ float
@@ -910,7 +910,7 @@
  711 066a FFF7FEFF 		bl	snprintf
  712 066e 40F20000 		movw	r0, #:lower16:numberString
  713 0672 C0F20000 		movt	r0, #:upper16:numberString
- 714 0676 FFF7FEFF 		bl	uart3Print
+ 714 0676 FFF7FEFF 		bl	telemetryPrint
  715 067a 40F20003 		movw	r3, #:lower16:eepromConfig
  716 067e C0F20003 		movt	r3, #:upper16:eepromConfig
  717 0682 D3F8F830 		ldr	r3, [r3, #248]	@ float
@@ -927,7 +927,7 @@
  728 06a8 FFF7FEFF 		bl	snprintf
  729 06ac 40F20000 		movw	r0, #:lower16:numberString
  730 06b0 C0F20000 		movt	r0, #:upper16:numberString
- 731 06b4 FFF7FEFF 		bl	uart3Print
+ 731 06b4 FFF7FEFF 		bl	telemetryPrint
  732 06b8 40F20003 		movw	r3, #:lower16:eepromConfig
  733 06bc C0F20003 		movt	r3, #:upper16:eepromConfig
  734 06c0 D3F80031 		ldr	r3, [r3, #256]	@ float
@@ -944,7 +944,7 @@
  745 06e6 FFF7FEFF 		bl	snprintf
  746 06ea 40F20000 		movw	r0, #:lower16:numberString
  747 06ee C0F20000 		movt	r0, #:upper16:numberString
- 748 06f2 FFF7FEFF 		bl	uart3Print
+ 748 06f2 FFF7FEFF 		bl	telemetryPrint
  749 06f6 40F20003 		movw	r3, #:lower16:eepromConfig
  750 06fa C0F20003 		movt	r3, #:upper16:eepromConfig
  751 06fe 93F81031 		ldrb	r3, [r3, #272]	@ zero_extendqisi2
@@ -952,12 +952,12 @@
  753 0704 06D0     		beq	.L47
  754 0706 40F20000 		movw	r0, #:lower16:.LC3
  755 070a C0F20000 		movt	r0, #:upper16:.LC3
- 756 070e FFF7FEFF 		bl	uart3Print
+ 756 070e FFF7FEFF 		bl	telemetryPrint
  757 0712 05E0     		b	.L48
  758              	.L47:
  759 0714 40F20000 		movw	r0, #:lower16:.LC4
  760 0718 C0F20000 		movt	r0, #:upper16:.LC4
- 761 071c FFF7FEFF 		bl	uart3Print
+ 761 071c FFF7FEFF 		bl	telemetryPrint
  762              	.L48:
  763 0720 40F20003 		movw	r3, #:lower16:rfQueryType
  764 0724 C0F20003 		movt	r3, #:upper16:rfQueryType
@@ -971,10 +971,10 @@
  772              	.L38:
  773 0740 40F20000 		movw	r0, #:lower16:.LC0
  774 0744 C0F20000 		movt	r0, #:upper16:.LC0
- 775 0748 FFF7FEFF 		bl	uart3Print
+ 775 0748 FFF7FEFF 		bl	telemetryPrint
  776 074c 40F20000 		movw	r0, #:lower16:.LC7
  777 0750 C0F20000 		movt	r0, #:upper16:.LC7
- 778 0754 FFF7FEFF 		bl	uart3Print
+ 778 0754 FFF7FEFF 		bl	telemetryPrint
  779 0758 40F20003 		movw	r3, #:lower16:eepromConfig
  780 075c C0F20003 		movt	r3, #:upper16:eepromConfig
  781 0760 D3F81431 		ldr	r3, [r3, #276]	@ float
@@ -991,7 +991,7 @@
  792 0786 FFF7FEFF 		bl	snprintf
  793 078a 40F20000 		movw	r0, #:lower16:numberString
  794 078e C0F20000 		movt	r0, #:upper16:numberString
- 795 0792 FFF7FEFF 		bl	uart3Print
+ 795 0792 FFF7FEFF 		bl	telemetryPrint
  796 0796 40F20003 		movw	r3, #:lower16:eepromConfig
  797 079a C0F20003 		movt	r3, #:upper16:eepromConfig
  798 079e D3F81831 		ldr	r3, [r3, #280]	@ float
@@ -1008,7 +1008,7 @@
  809 07c4 FFF7FEFF 		bl	snprintf
  810 07c8 40F20000 		movw	r0, #:lower16:numberString
  811 07cc C0F20000 		movt	r0, #:upper16:numberString
- 812 07d0 FFF7FEFF 		bl	uart3Print
+ 812 07d0 FFF7FEFF 		bl	telemetryPrint
  813 07d4 40F20003 		movw	r3, #:lower16:eepromConfig
  814 07d8 C0F20003 		movt	r3, #:upper16:eepromConfig
  815 07dc D3F81C31 		ldr	r3, [r3, #284]	@ float
@@ -1025,7 +1025,7 @@
  826 0802 FFF7FEFF 		bl	snprintf
  827 0806 40F20000 		movw	r0, #:lower16:numberString
  828 080a C0F20000 		movt	r0, #:upper16:numberString
- 829 080e FFF7FEFF 		bl	uart3Print
+ 829 080e FFF7FEFF 		bl	telemetryPrint
  830 0812 40F20003 		movw	r3, #:lower16:eepromConfig
  831 0816 C0F20003 		movt	r3, #:upper16:eepromConfig
  832 081a D3F82031 		ldr	r3, [r3, #288]	@ float
@@ -1042,7 +1042,7 @@
  843 0840 FFF7FEFF 		bl	snprintf
  844 0844 40F20000 		movw	r0, #:lower16:numberString
  845 0848 C0F20000 		movt	r0, #:upper16:numberString
- 846 084c FFF7FEFF 		bl	uart3Print
+ 846 084c FFF7FEFF 		bl	telemetryPrint
  847 0850 40F20003 		movw	r3, #:lower16:eepromConfig
  848 0854 C0F20003 		movt	r3, #:upper16:eepromConfig
  849 0858 D3F82831 		ldr	r3, [r3, #296]	@ float
@@ -1059,7 +1059,7 @@
  860 087e FFF7FEFF 		bl	snprintf
  861 0882 40F20000 		movw	r0, #:lower16:numberString
  862 0886 C0F20000 		movt	r0, #:upper16:numberString
- 863 088a FFF7FEFF 		bl	uart3Print
+ 863 088a FFF7FEFF 		bl	telemetryPrint
  864 088e 40F20003 		movw	r3, #:lower16:eepromConfig
  865 0892 C0F20003 		movt	r3, #:upper16:eepromConfig
  866 0896 93F83831 		ldrb	r3, [r3, #312]	@ zero_extendqisi2
@@ -1067,16 +1067,16 @@
  868 089c 06D0     		beq	.L49
  869 089e 40F20000 		movw	r0, #:lower16:.LC3
  870 08a2 C0F20000 		movt	r0, #:upper16:.LC3
- 871 08a6 FFF7FEFF 		bl	uart3Print
+ 871 08a6 FFF7FEFF 		bl	telemetryPrint
  872 08aa 05E0     		b	.L50
  873              	.L49:
  874 08ac 40F20000 		movw	r0, #:lower16:.LC4
  875 08b0 C0F20000 		movt	r0, #:upper16:.LC4
- 876 08b4 FFF7FEFF 		bl	uart3Print
+ 876 08b4 FFF7FEFF 		bl	telemetryPrint
  877              	.L50:
  878 08b8 40F20000 		movw	r0, #:lower16:.LC8
  879 08bc C0F20000 		movt	r0, #:upper16:.LC8
- 880 08c0 FFF7FEFF 		bl	uart3Print
+ 880 08c0 FFF7FEFF 		bl	telemetryPrint
  881 08c4 40F20003 		movw	r3, #:lower16:eepromConfig
  882 08c8 C0F20003 		movt	r3, #:upper16:eepromConfig
  883 08cc D3F83C31 		ldr	r3, [r3, #316]	@ float
@@ -1093,7 +1093,7 @@
  894 08f2 FFF7FEFF 		bl	snprintf
  895 08f6 40F20000 		movw	r0, #:lower16:numberString
  896 08fa C0F20000 		movt	r0, #:upper16:numberString
- 897 08fe FFF7FEFF 		bl	uart3Print
+ 897 08fe FFF7FEFF 		bl	telemetryPrint
  898 0902 40F20003 		movw	r3, #:lower16:eepromConfig
  899 0906 C0F20003 		movt	r3, #:upper16:eepromConfig
  900 090a D3F84031 		ldr	r3, [r3, #320]	@ float
@@ -1110,7 +1110,7 @@
  911 0930 FFF7FEFF 		bl	snprintf
  912 0934 40F20000 		movw	r0, #:lower16:numberString
  913 0938 C0F20000 		movt	r0, #:upper16:numberString
- 914 093c FFF7FEFF 		bl	uart3Print
+ 914 093c FFF7FEFF 		bl	telemetryPrint
  915 0940 40F20003 		movw	r3, #:lower16:eepromConfig
  916 0944 C0F20003 		movt	r3, #:upper16:eepromConfig
  917 0948 D3F84431 		ldr	r3, [r3, #324]	@ float
@@ -1127,7 +1127,7 @@
  928 096e FFF7FEFF 		bl	snprintf
  929 0972 40F20000 		movw	r0, #:lower16:numberString
  930 0976 C0F20000 		movt	r0, #:upper16:numberString
- 931 097a FFF7FEFF 		bl	uart3Print
+ 931 097a FFF7FEFF 		bl	telemetryPrint
  932 097e 40F20003 		movw	r3, #:lower16:eepromConfig
  933 0982 C0F20003 		movt	r3, #:upper16:eepromConfig
  934 0986 D3F84831 		ldr	r3, [r3, #328]	@ float
@@ -1144,7 +1144,7 @@
  945 09ac FFF7FEFF 		bl	snprintf
  946 09b0 40F20000 		movw	r0, #:lower16:numberString
  947 09b4 C0F20000 		movt	r0, #:upper16:numberString
- 948 09b8 FFF7FEFF 		bl	uart3Print
+ 948 09b8 FFF7FEFF 		bl	telemetryPrint
  949 09bc 40F20003 		movw	r3, #:lower16:eepromConfig
  950 09c0 C0F20003 		movt	r3, #:upper16:eepromConfig
  951 09c4 D3F85031 		ldr	r3, [r3, #336]	@ float
@@ -1161,7 +1161,7 @@
  962 09ea FFF7FEFF 		bl	snprintf
  963 09ee 40F20000 		movw	r0, #:lower16:numberString
  964 09f2 C0F20000 		movt	r0, #:upper16:numberString
- 965 09f6 FFF7FEFF 		bl	uart3Print
+ 965 09f6 FFF7FEFF 		bl	telemetryPrint
  966 09fa 40F20003 		movw	r3, #:lower16:eepromConfig
  967 09fe C0F20003 		movt	r3, #:upper16:eepromConfig
  968 0a02 93F86031 		ldrb	r3, [r3, #352]	@ zero_extendqisi2
@@ -1169,16 +1169,16 @@
  970 0a08 06D0     		beq	.L51
  971 0a0a 40F20000 		movw	r0, #:lower16:.LC3
  972 0a0e C0F20000 		movt	r0, #:upper16:.LC3
- 973 0a12 FFF7FEFF 		bl	uart3Print
+ 973 0a12 FFF7FEFF 		bl	telemetryPrint
  974 0a16 05E0     		b	.L52
  975              	.L51:
  976 0a18 40F20000 		movw	r0, #:lower16:.LC4
  977 0a1c C0F20000 		movt	r0, #:upper16:.LC4
- 978 0a20 FFF7FEFF 		bl	uart3Print
+ 978 0a20 FFF7FEFF 		bl	telemetryPrint
  979              	.L52:
  980 0a24 40F20000 		movw	r0, #:lower16:.LC9
  981 0a28 C0F20000 		movt	r0, #:upper16:.LC9
- 982 0a2c FFF7FEFF 		bl	uart3Print
+ 982 0a2c FFF7FEFF 		bl	telemetryPrint
  983 0a30 40F20003 		movw	r3, #:lower16:eepromConfig
  984 0a34 C0F20003 		movt	r3, #:upper16:eepromConfig
  985 0a38 D3F86431 		ldr	r3, [r3, #356]	@ float
@@ -1195,7 +1195,7 @@
  996 0a5e FFF7FEFF 		bl	snprintf
  997 0a62 40F20000 		movw	r0, #:lower16:numberString
  998 0a66 C0F20000 		movt	r0, #:upper16:numberString
- 999 0a6a FFF7FEFF 		bl	uart3Print
+ 999 0a6a FFF7FEFF 		bl	telemetryPrint
  1000 0a6e 40F20003 		movw	r3, #:lower16:eepromConfig
  1001 0a72 C0F20003 		movt	r3, #:upper16:eepromConfig
  1002 0a76 D3F86831 		ldr	r3, [r3, #360]	@ float
@@ -1212,7 +1212,7 @@
  1013 0a9c FFF7FEFF 		bl	snprintf
  1014 0aa0 40F20000 		movw	r0, #:lower16:numberString
  1015 0aa4 C0F20000 		movt	r0, #:upper16:numberString
- 1016 0aa8 FFF7FEFF 		bl	uart3Print
+ 1016 0aa8 FFF7FEFF 		bl	telemetryPrint
  1017 0aac 40F20003 		movw	r3, #:lower16:eepromConfig
  1018 0ab0 C0F20003 		movt	r3, #:upper16:eepromConfig
  1019 0ab4 D3F86C31 		ldr	r3, [r3, #364]	@ float
@@ -1229,7 +1229,7 @@
  1030 0ada FFF7FEFF 		bl	snprintf
  1031 0ade 40F20000 		movw	r0, #:lower16:numberString
  1032 0ae2 C0F20000 		movt	r0, #:upper16:numberString
- 1033 0ae6 FFF7FEFF 		bl	uart3Print
+ 1033 0ae6 FFF7FEFF 		bl	telemetryPrint
  1034 0aea 40F20003 		movw	r3, #:lower16:eepromConfig
  1035 0aee C0F20003 		movt	r3, #:upper16:eepromConfig
  1036 0af2 D3F87031 		ldr	r3, [r3, #368]	@ float
@@ -1246,7 +1246,7 @@
  1047 0b18 FFF7FEFF 		bl	snprintf
  1048 0b1c 40F20000 		movw	r0, #:lower16:numberString
  1049 0b20 C0F20000 		movt	r0, #:upper16:numberString
- 1050 0b24 FFF7FEFF 		bl	uart3Print
+ 1050 0b24 FFF7FEFF 		bl	telemetryPrint
  1051 0b28 40F20003 		movw	r3, #:lower16:eepromConfig
  1052 0b2c C0F20003 		movt	r3, #:upper16:eepromConfig
  1053 0b30 D3F87831 		ldr	r3, [r3, #376]	@ float
@@ -1263,7 +1263,7 @@
  1064 0b56 FFF7FEFF 		bl	snprintf
  1065 0b5a 40F20000 		movw	r0, #:lower16:numberString
  1066 0b5e C0F20000 		movt	r0, #:upper16:numberString
- 1067 0b62 FFF7FEFF 		bl	uart3Print
+ 1067 0b62 FFF7FEFF 		bl	telemetryPrint
  1068 0b66 40F20003 		movw	r3, #:lower16:eepromConfig
  1069 0b6a C0F20003 		movt	r3, #:upper16:eepromConfig
  1070 0b6e 93F88831 		ldrb	r3, [r3, #392]	@ zero_extendqisi2
@@ -1271,12 +1271,12 @@
  1072 0b74 06D0     		beq	.L53
  1073 0b76 40F20000 		movw	r0, #:lower16:.LC3
  1074 0b7a C0F20000 		movt	r0, #:upper16:.LC3
- 1075 0b7e FFF7FEFF 		bl	uart3Print
+ 1075 0b7e FFF7FEFF 		bl	telemetryPrint
  1076 0b82 05E0     		b	.L54
  1077              	.L53:
  1078 0b84 40F20000 		movw	r0, #:lower16:.LC4
  1079 0b88 C0F20000 		movt	r0, #:upper16:.LC4
- 1080 0b8c FFF7FEFF 		bl	uart3Print
+ 1080 0b8c FFF7FEFF 		bl	telemetryPrint
  1081              	.L54:
  1082 0b90 40F20003 		movw	r3, #:lower16:rfQueryType
  1083 0b94 C0F20003 		movt	r3, #:upper16:rfQueryType
@@ -1290,10 +1290,10 @@
  1091              	.L39:
  1092 0bb0 40F20000 		movw	r0, #:lower16:.LC0
  1093 0bb4 C0F20000 		movt	r0, #:upper16:.LC0
- 1094 0bb8 FFF7FEFF 		bl	uart3Print
+ 1094 0bb8 FFF7FEFF 		bl	telemetryPrint
  1095 0bbc 40F20000 		movw	r0, #:lower16:.LC10
  1096 0bc0 C0F20000 		movt	r0, #:upper16:.LC10
- 1097 0bc4 FFF7FEFF 		bl	uart3Print
+ 1097 0bc4 FFF7FEFF 		bl	telemetryPrint
  1098 0bc8 40F20003 		movw	r3, #:lower16:eepromConfig
  1099 0bcc C0F20003 		movt	r3, #:upper16:eepromConfig
  1100 0bd0 D3F88C31 		ldr	r3, [r3, #396]	@ float
@@ -1310,7 +1310,7 @@
  1111 0bf6 FFF7FEFF 		bl	snprintf
  1112 0bfa 40F20000 		movw	r0, #:lower16:numberString
  1113 0bfe C0F20000 		movt	r0, #:upper16:numberString
- 1114 0c02 FFF7FEFF 		bl	uart3Print
+ 1114 0c02 FFF7FEFF 		bl	telemetryPrint
  1115 0c06 40F20003 		movw	r3, #:lower16:eepromConfig
  1116 0c0a C0F20003 		movt	r3, #:upper16:eepromConfig
  1117 0c0e D3F89031 		ldr	r3, [r3, #400]	@ float
@@ -1327,7 +1327,7 @@
  1128 0c34 FFF7FEFF 		bl	snprintf
  1129 0c38 40F20000 		movw	r0, #:lower16:numberString
  1130 0c3c C0F20000 		movt	r0, #:upper16:numberString
- 1131 0c40 FFF7FEFF 		bl	uart3Print
+ 1131 0c40 FFF7FEFF 		bl	telemetryPrint
  1132 0c44 40F20003 		movw	r3, #:lower16:eepromConfig
  1133 0c48 C0F20003 		movt	r3, #:upper16:eepromConfig
  1134 0c4c D3F89431 		ldr	r3, [r3, #404]	@ float
@@ -1344,7 +1344,7 @@
  1145 0c72 FFF7FEFF 		bl	snprintf
  1146 0c76 40F20000 		movw	r0, #:lower16:numberString
  1147 0c7a C0F20000 		movt	r0, #:upper16:numberString
- 1148 0c7e FFF7FEFF 		bl	uart3Print
+ 1148 0c7e FFF7FEFF 		bl	telemetryPrint
  1149 0c82 40F20003 		movw	r3, #:lower16:eepromConfig
  1150 0c86 C0F20003 		movt	r3, #:upper16:eepromConfig
  1151 0c8a D3F89831 		ldr	r3, [r3, #408]	@ float
@@ -1361,7 +1361,7 @@
  1162 0cb0 FFF7FEFF 		bl	snprintf
  1163 0cb4 40F20000 		movw	r0, #:lower16:numberString
  1164 0cb8 C0F20000 		movt	r0, #:upper16:numberString
- 1165 0cbc FFF7FEFF 		bl	uart3Print
+ 1165 0cbc FFF7FEFF 		bl	telemetryPrint
  1166 0cc0 40F20003 		movw	r3, #:lower16:eepromConfig
  1167 0cc4 C0F20003 		movt	r3, #:upper16:eepromConfig
  1168 0cc8 D3F8A031 		ldr	r3, [r3, #416]	@ float
@@ -1378,7 +1378,7 @@
  1179 0cee FFF7FEFF 		bl	snprintf
  1180 0cf2 40F20000 		movw	r0, #:lower16:numberString
  1181 0cf6 C0F20000 		movt	r0, #:upper16:numberString
- 1182 0cfa FFF7FEFF 		bl	uart3Print
+ 1182 0cfa FFF7FEFF 		bl	telemetryPrint
  1183 0cfe 40F20003 		movw	r3, #:lower16:eepromConfig
  1184 0d02 C0F20003 		movt	r3, #:upper16:eepromConfig
  1185 0d06 93F8B031 		ldrb	r3, [r3, #432]	@ zero_extendqisi2
@@ -1386,16 +1386,16 @@
  1187 0d0c 06D0     		beq	.L55
  1188 0d0e 40F20000 		movw	r0, #:lower16:.LC3
  1189 0d12 C0F20000 		movt	r0, #:upper16:.LC3
- 1190 0d16 FFF7FEFF 		bl	uart3Print
+ 1190 0d16 FFF7FEFF 		bl	telemetryPrint
  1191 0d1a 05E0     		b	.L56
  1192              	.L55:
  1193 0d1c 40F20000 		movw	r0, #:lower16:.LC4
  1194 0d20 C0F20000 		movt	r0, #:upper16:.LC4
- 1195 0d24 FFF7FEFF 		bl	uart3Print
+ 1195 0d24 FFF7FEFF 		bl	telemetryPrint
  1196              	.L56:
  1197 0d28 40F20000 		movw	r0, #:lower16:.LC11
  1198 0d2c C0F20000 		movt	r0, #:upper16:.LC11
- 1199 0d30 FFF7FEFF 		bl	uart3Print
+ 1199 0d30 FFF7FEFF 		bl	telemetryPrint
  1200 0d34 40F20003 		movw	r3, #:lower16:eepromConfig
  1201 0d38 C0F20003 		movt	r3, #:upper16:eepromConfig
  1202 0d3c D3F8B431 		ldr	r3, [r3, #436]	@ float
@@ -1412,7 +1412,7 @@
  1213 0d62 FFF7FEFF 		bl	snprintf
  1214 0d66 40F20000 		movw	r0, #:lower16:numberString
  1215 0d6a C0F20000 		movt	r0, #:upper16:numberString
- 1216 0d6e FFF7FEFF 		bl	uart3Print
+ 1216 0d6e FFF7FEFF 		bl	telemetryPrint
  1217 0d72 40F20003 		movw	r3, #:lower16:eepromConfig
  1218 0d76 C0F20003 		movt	r3, #:upper16:eepromConfig
  1219 0d7a D3F8B831 		ldr	r3, [r3, #440]	@ float
@@ -1429,7 +1429,7 @@
  1230 0da0 FFF7FEFF 		bl	snprintf
  1231 0da4 40F20000 		movw	r0, #:lower16:numberString
  1232 0da8 C0F20000 		movt	r0, #:upper16:numberString
- 1233 0dac FFF7FEFF 		bl	uart3Print
+ 1233 0dac FFF7FEFF 		bl	telemetryPrint
  1234 0db0 40F20003 		movw	r3, #:lower16:eepromConfig
  1235 0db4 C0F20003 		movt	r3, #:upper16:eepromConfig
  1236 0db8 D3F8BC31 		ldr	r3, [r3, #444]	@ float
@@ -1446,7 +1446,7 @@
  1247 0dde FFF7FEFF 		bl	snprintf
  1248 0de2 40F20000 		movw	r0, #:lower16:numberString
  1249 0de6 C0F20000 		movt	r0, #:upper16:numberString
- 1250 0dea FFF7FEFF 		bl	uart3Print
+ 1250 0dea FFF7FEFF 		bl	telemetryPrint
  1251 0dee 40F20003 		movw	r3, #:lower16:eepromConfig
  1252 0df2 C0F20003 		movt	r3, #:upper16:eepromConfig
  1253 0df6 D3F8C031 		ldr	r3, [r3, #448]	@ float
@@ -1463,7 +1463,7 @@
  1264 0e1c FFF7FEFF 		bl	snprintf
  1265 0e20 40F20000 		movw	r0, #:lower16:numberString
  1266 0e24 C0F20000 		movt	r0, #:upper16:numberString
- 1267 0e28 FFF7FEFF 		bl	uart3Print
+ 1267 0e28 FFF7FEFF 		bl	telemetryPrint
  1268 0e2c 40F20003 		movw	r3, #:lower16:eepromConfig
  1269 0e30 C0F20003 		movt	r3, #:upper16:eepromConfig
  1270 0e34 D3F8C831 		ldr	r3, [r3, #456]	@ float
@@ -1480,7 +1480,7 @@
  1281 0e5a FFF7FEFF 		bl	snprintf
  1282 0e5e 40F20000 		movw	r0, #:lower16:numberString
  1283 0e62 C0F20000 		movt	r0, #:upper16:numberString
- 1284 0e66 FFF7FEFF 		bl	uart3Print
+ 1284 0e66 FFF7FEFF 		bl	telemetryPrint
  1285 0e6a 40F20003 		movw	r3, #:lower16:eepromConfig
  1286 0e6e C0F20003 		movt	r3, #:upper16:eepromConfig
  1287 0e72 93F8D831 		ldrb	r3, [r3, #472]	@ zero_extendqisi2
@@ -1488,16 +1488,16 @@
  1289 0e78 06D0     		beq	.L57
  1290 0e7a 40F20000 		movw	r0, #:lower16:.LC3
  1291 0e7e C0F20000 		movt	r0, #:upper16:.LC3
- 1292 0e82 FFF7FEFF 		bl	uart3Print
+ 1292 0e82 FFF7FEFF 		bl	telemetryPrint
  1293 0e86 05E0     		b	.L58
  1294              	.L57:
  1295 0e88 40F20000 		movw	r0, #:lower16:.LC4
  1296 0e8c C0F20000 		movt	r0, #:upper16:.LC4
- 1297 0e90 FFF7FEFF 		bl	uart3Print
+ 1297 0e90 FFF7FEFF 		bl	telemetryPrint
  1298              	.L58:
  1299 0e94 40F20000 		movw	r0, #:lower16:.LC12
  1300 0e98 C0F20000 		movt	r0, #:upper16:.LC12
- 1301 0e9c FFF7FEFF 		bl	uart3Print
+ 1301 0e9c FFF7FEFF 		bl	telemetryPrint
  1302 0ea0 40F20003 		movw	r3, #:lower16:eepromConfig
  1303 0ea4 C0F20003 		movt	r3, #:upper16:eepromConfig
  1304 0ea8 D3F8DC31 		ldr	r3, [r3, #476]	@ float
@@ -1514,7 +1514,7 @@
  1315 0ece FFF7FEFF 		bl	snprintf
  1316 0ed2 40F20000 		movw	r0, #:lower16:numberString
  1317 0ed6 C0F20000 		movt	r0, #:upper16:numberString
- 1318 0eda FFF7FEFF 		bl	uart3Print
+ 1318 0eda FFF7FEFF 		bl	telemetryPrint
  1319 0ede 40F20003 		movw	r3, #:lower16:eepromConfig
  1320 0ee2 C0F20003 		movt	r3, #:upper16:eepromConfig
  1321 0ee6 D3F8E031 		ldr	r3, [r3, #480]	@ float
@@ -1531,7 +1531,7 @@
  1332 0f0c FFF7FEFF 		bl	snprintf
  1333 0f10 40F20000 		movw	r0, #:lower16:numberString
  1334 0f14 C0F20000 		movt	r0, #:upper16:numberString
- 1335 0f18 FFF7FEFF 		bl	uart3Print
+ 1335 0f18 FFF7FEFF 		bl	telemetryPrint
  1336 0f1c 40F20003 		movw	r3, #:lower16:eepromConfig
  1337 0f20 C0F20003 		movt	r3, #:upper16:eepromConfig
  1338 0f24 D3F8E431 		ldr	r3, [r3, #484]	@ float
@@ -1548,7 +1548,7 @@
  1349 0f4a FFF7FEFF 		bl	snprintf
  1350 0f4e 40F20000 		movw	r0, #:lower16:numberString
  1351 0f52 C0F20000 		movt	r0, #:upper16:numberString
- 1352 0f56 FFF7FEFF 		bl	uart3Print
+ 1352 0f56 FFF7FEFF 		bl	telemetryPrint
  1353 0f5a 40F20003 		movw	r3, #:lower16:eepromConfig
  1354 0f5e C0F20003 		movt	r3, #:upper16:eepromConfig
  1355 0f62 D3F8E831 		ldr	r3, [r3, #488]	@ float
@@ -1565,7 +1565,7 @@
  1366 0f88 FFF7FEFF 		bl	snprintf
  1367 0f8c 40F20000 		movw	r0, #:lower16:numberString
  1368 0f90 C0F20000 		movt	r0, #:upper16:numberString
- 1369 0f94 FFF7FEFF 		bl	uart3Print
+ 1369 0f94 FFF7FEFF 		bl	telemetryPrint
  1370 0f98 40F20003 		movw	r3, #:lower16:eepromConfig
  1371 0f9c C0F20003 		movt	r3, #:upper16:eepromConfig
  1372 0fa0 D3F8F031 		ldr	r3, [r3, #496]	@ float
@@ -1582,7 +1582,7 @@
  1383 0fc6 FFF7FEFF 		bl	snprintf
  1384 0fca 40F20000 		movw	r0, #:lower16:numberString
  1385 0fce C0F20000 		movt	r0, #:upper16:numberString
- 1386 0fd2 FFF7FEFF 		bl	uart3Print
+ 1386 0fd2 FFF7FEFF 		bl	telemetryPrint
  1387 0fd6 40F20003 		movw	r3, #:lower16:eepromConfig
  1388 0fda C0F20003 		movt	r3, #:upper16:eepromConfig
  1389 0fde 93F80032 		ldrb	r3, [r3, #512]	@ zero_extendqisi2
@@ -1590,12 +1590,12 @@
  1391 0fe4 06D0     		beq	.L59
  1392 0fe6 40F20000 		movw	r0, #:lower16:.LC3
  1393 0fea C0F20000 		movt	r0, #:upper16:.LC3
- 1394 0fee FFF7FEFF 		bl	uart3Print
+ 1394 0fee FFF7FEFF 		bl	telemetryPrint
  1395 0ff2 05E0     		b	.L60
  1396              	.L59:
  1397 0ff4 40F20000 		movw	r0, #:lower16:.LC4
  1398 0ff8 C0F20000 		movt	r0, #:upper16:.LC4
- 1399 0ffc FFF7FEFF 		bl	uart3Print
+ 1399 0ffc FFF7FEFF 		bl	telemetryPrint
  1400              	.L60:
  1401 1000 40F20003 		movw	r3, #:lower16:rfQueryType
  1402 1004 C0F20003 		movt	r3, #:upper16:rfQueryType
@@ -1609,10 +1609,10 @@
  1410              	.L40:
  1411 1020 40F20000 		movw	r0, #:lower16:.LC0
  1412 1024 C0F20000 		movt	r0, #:upper16:.LC0
- 1413 1028 FFF7FEFF 		bl	uart3Print
+ 1413 1028 FFF7FEFF 		bl	telemetryPrint
  1414 102c 40F20000 		movw	r0, #:lower16:.LC13
  1415 1030 C0F20000 		movt	r0, #:upper16:.LC13
- 1416 1034 FFF7FEFF 		bl	uart3Print
+ 1416 1034 FFF7FEFF 		bl	telemetryPrint
  1417 1038 40F20003 		movw	r3, #:lower16:eepromConfig
  1418 103c C0F20003 		movt	r3, #:upper16:eepromConfig
  1419 1040 D3F80432 		ldr	r3, [r3, #516]	@ float
@@ -1629,7 +1629,7 @@
  1430 1066 FFF7FEFF 		bl	snprintf
  1431 106a 40F20000 		movw	r0, #:lower16:numberString
  1432 106e C0F20000 		movt	r0, #:upper16:numberString
- 1433 1072 FFF7FEFF 		bl	uart3Print
+ 1433 1072 FFF7FEFF 		bl	telemetryPrint
  1434 1076 40F20003 		movw	r3, #:lower16:eepromConfig
  1435 107a C0F20003 		movt	r3, #:upper16:eepromConfig
  1436 107e D3F80832 		ldr	r3, [r3, #520]	@ float
@@ -1646,7 +1646,7 @@
  1447 10a4 FFF7FEFF 		bl	snprintf
  1448 10a8 40F20000 		movw	r0, #:lower16:numberString
  1449 10ac C0F20000 		movt	r0, #:upper16:numberString
- 1450 10b0 FFF7FEFF 		bl	uart3Print
+ 1450 10b0 FFF7FEFF 		bl	telemetryPrint
  1451 10b4 40F20003 		movw	r3, #:lower16:eepromConfig
  1452 10b8 C0F20003 		movt	r3, #:upper16:eepromConfig
  1453 10bc D3F80C32 		ldr	r3, [r3, #524]	@ float
@@ -1663,7 +1663,7 @@
  1464 10e2 FFF7FEFF 		bl	snprintf
  1465 10e6 40F20000 		movw	r0, #:lower16:numberString
  1466 10ea C0F20000 		movt	r0, #:upper16:numberString
- 1467 10ee FFF7FEFF 		bl	uart3Print
+ 1467 10ee FFF7FEFF 		bl	telemetryPrint
  1468 10f2 40F20003 		movw	r3, #:lower16:eepromConfig
  1469 10f6 C0F20003 		movt	r3, #:upper16:eepromConfig
  1470 10fa D3F81032 		ldr	r3, [r3, #528]	@ float
@@ -1680,7 +1680,7 @@
  1481 1120 FFF7FEFF 		bl	snprintf
  1482 1124 40F20000 		movw	r0, #:lower16:numberString
  1483 1128 C0F20000 		movt	r0, #:upper16:numberString
- 1484 112c FFF7FEFF 		bl	uart3Print
+ 1484 112c FFF7FEFF 		bl	telemetryPrint
  1485 1130 40F20003 		movw	r3, #:lower16:eepromConfig
  1486 1134 C0F20003 		movt	r3, #:upper16:eepromConfig
  1487 1138 D3F81832 		ldr	r3, [r3, #536]	@ float
@@ -1697,7 +1697,7 @@
  1498 115e FFF7FEFF 		bl	snprintf
  1499 1162 40F20000 		movw	r0, #:lower16:numberString
  1500 1166 C0F20000 		movt	r0, #:upper16:numberString
- 1501 116a FFF7FEFF 		bl	uart3Print
+ 1501 116a FFF7FEFF 		bl	telemetryPrint
  1502 116e 40F20003 		movw	r3, #:lower16:eepromConfig
  1503 1172 C0F20003 		movt	r3, #:upper16:eepromConfig
  1504 1176 93F82832 		ldrb	r3, [r3, #552]	@ zero_extendqisi2
@@ -1705,16 +1705,16 @@
  1506 117c 06D0     		beq	.L61
  1507 117e 40F20000 		movw	r0, #:lower16:.LC3
  1508 1182 C0F20000 		movt	r0, #:upper16:.LC3
- 1509 1186 FFF7FEFF 		bl	uart3Print
+ 1509 1186 FFF7FEFF 		bl	telemetryPrint
  1510 118a 05E0     		b	.L62
  1511              	.L61:
  1512 118c 40F20000 		movw	r0, #:lower16:.LC4
  1513 1190 C0F20000 		movt	r0, #:upper16:.LC4
- 1514 1194 FFF7FEFF 		bl	uart3Print
+ 1514 1194 FFF7FEFF 		bl	telemetryPrint
  1515              	.L62:
  1516 1198 40F20000 		movw	r0, #:lower16:.LC14
  1517 119c C0F20000 		movt	r0, #:upper16:.LC14
- 1518 11a0 FFF7FEFF 		bl	uart3Print
+ 1518 11a0 FFF7FEFF 		bl	telemetryPrint
  1519 11a4 40F20003 		movw	r3, #:lower16:eepromConfig
  1520 11a8 C0F20003 		movt	r3, #:upper16:eepromConfig
  1521 11ac D3F82C32 		ldr	r3, [r3, #556]	@ float
@@ -1731,7 +1731,7 @@
  1532 11d2 FFF7FEFF 		bl	snprintf
  1533 11d6 40F20000 		movw	r0, #:lower16:numberString
  1534 11da C0F20000 		movt	r0, #:upper16:numberString
- 1535 11de FFF7FEFF 		bl	uart3Print
+ 1535 11de FFF7FEFF 		bl	telemetryPrint
  1536 11e2 40F20003 		movw	r3, #:lower16:eepromConfig
  1537 11e6 C0F20003 		movt	r3, #:upper16:eepromConfig
  1538 11ea D3F83032 		ldr	r3, [r3, #560]	@ float
@@ -1748,7 +1748,7 @@
  1549 1210 FFF7FEFF 		bl	snprintf
  1550 1214 40F20000 		movw	r0, #:lower16:numberString
  1551 1218 C0F20000 		movt	r0, #:upper16:numberString
- 1552 121c FFF7FEFF 		bl	uart3Print
+ 1552 121c FFF7FEFF 		bl	telemetryPrint
  1553 1220 40F20003 		movw	r3, #:lower16:eepromConfig
  1554 1224 C0F20003 		movt	r3, #:upper16:eepromConfig
  1555 1228 D3F83432 		ldr	r3, [r3, #564]	@ float
@@ -1765,7 +1765,7 @@
  1566 124e FFF7FEFF 		bl	snprintf
  1567 1252 40F20000 		movw	r0, #:lower16:numberString
  1568 1256 C0F20000 		movt	r0, #:upper16:numberString
- 1569 125a FFF7FEFF 		bl	uart3Print
+ 1569 125a FFF7FEFF 		bl	telemetryPrint
  1570 125e 40F20003 		movw	r3, #:lower16:eepromConfig
  1571 1262 C0F20003 		movt	r3, #:upper16:eepromConfig
  1572 1266 D3F83832 		ldr	r3, [r3, #568]	@ float
@@ -1782,7 +1782,7 @@
  1583 128c FFF7FEFF 		bl	snprintf
  1584 1290 40F20000 		movw	r0, #:lower16:numberString
  1585 1294 C0F20000 		movt	r0, #:upper16:numberString
- 1586 1298 FFF7FEFF 		bl	uart3Print
+ 1586 1298 FFF7FEFF 		bl	telemetryPrint
  1587 129c 40F20003 		movw	r3, #:lower16:eepromConfig
  1588 12a0 C0F20003 		movt	r3, #:upper16:eepromConfig
  1589 12a4 D3F84032 		ldr	r3, [r3, #576]	@ float
@@ -1799,7 +1799,7 @@
  1600 12ca FFF7FEFF 		bl	snprintf
  1601 12ce 40F20000 		movw	r0, #:lower16:numberString
  1602 12d2 C0F20000 		movt	r0, #:upper16:numberString
- 1603 12d6 FFF7FEFF 		bl	uart3Print
+ 1603 12d6 FFF7FEFF 		bl	telemetryPrint
  1604 12da 40F20003 		movw	r3, #:lower16:eepromConfig
  1605 12de C0F20003 		movt	r3, #:upper16:eepromConfig
  1606 12e2 93F85032 		ldrb	r3, [r3, #592]	@ zero_extendqisi2
@@ -1807,16 +1807,16 @@
  1608 12e8 06D0     		beq	.L63
  1609 12ea 40F20000 		movw	r0, #:lower16:.LC3
  1610 12ee C0F20000 		movt	r0, #:upper16:.LC3
- 1611 12f2 FFF7FEFF 		bl	uart3Print
+ 1611 12f2 FFF7FEFF 		bl	telemetryPrint
  1612 12f6 05E0     		b	.L64
  1613              	.L63:
  1614 12f8 40F20000 		movw	r0, #:lower16:.LC4
  1615 12fc C0F20000 		movt	r0, #:upper16:.LC4
- 1616 1300 FFF7FEFF 		bl	uart3Print
+ 1616 1300 FFF7FEFF 		bl	telemetryPrint
  1617              	.L64:
  1618 1304 40F20000 		movw	r0, #:lower16:.LC15
  1619 1308 C0F20000 		movt	r0, #:upper16:.LC15
- 1620 130c FFF7FEFF 		bl	uart3Print
+ 1620 130c FFF7FEFF 		bl	telemetryPrint
  1621 1310 40F20003 		movw	r3, #:lower16:eepromConfig
  1622 1314 C0F20003 		movt	r3, #:upper16:eepromConfig
  1623 1318 D3F85432 		ldr	r3, [r3, #596]	@ float
@@ -1833,7 +1833,7 @@
  1634 133e FFF7FEFF 		bl	snprintf
  1635 1342 40F20000 		movw	r0, #:lower16:numberString
  1636 1346 C0F20000 		movt	r0, #:upper16:numberString
- 1637 134a FFF7FEFF 		bl	uart3Print
+ 1637 134a FFF7FEFF 		bl	telemetryPrint
  1638 134e 40F20003 		movw	r3, #:lower16:eepromConfig
  1639 1352 C0F20003 		movt	r3, #:upper16:eepromConfig
  1640 1356 D3F85832 		ldr	r3, [r3, #600]	@ float
@@ -1850,7 +1850,7 @@
  1651 137c FFF7FEFF 		bl	snprintf
  1652 1380 40F20000 		movw	r0, #:lower16:numberString
  1653 1384 C0F20000 		movt	r0, #:upper16:numberString
- 1654 1388 FFF7FEFF 		bl	uart3Print
+ 1654 1388 FFF7FEFF 		bl	telemetryPrint
  1655 138c 40F20003 		movw	r3, #:lower16:eepromConfig
  1656 1390 C0F20003 		movt	r3, #:upper16:eepromConfig
  1657 1394 D3F85C32 		ldr	r3, [r3, #604]	@ float
@@ -1867,7 +1867,7 @@
  1668 13ba FFF7FEFF 		bl	snprintf
  1669 13be 40F20000 		movw	r0, #:lower16:numberString
  1670 13c2 C0F20000 		movt	r0, #:upper16:numberString
- 1671 13c6 FFF7FEFF 		bl	uart3Print
+ 1671 13c6 FFF7FEFF 		bl	telemetryPrint
  1672 13ca 40F20003 		movw	r3, #:lower16:eepromConfig
  1673 13ce C0F20003 		movt	r3, #:upper16:eepromConfig
  1674 13d2 D3F86032 		ldr	r3, [r3, #608]	@ float
@@ -1884,7 +1884,7 @@
  1685 13f8 FFF7FEFF 		bl	snprintf
  1686 13fc 40F20000 		movw	r0, #:lower16:numberString
  1687 1400 C0F20000 		movt	r0, #:upper16:numberString
- 1688 1404 FFF7FEFF 		bl	uart3Print
+ 1688 1404 FFF7FEFF 		bl	telemetryPrint
  1689 1408 40F20003 		movw	r3, #:lower16:eepromConfig
  1690 140c C0F20003 		movt	r3, #:upper16:eepromConfig
  1691 1410 D3F86832 		ldr	r3, [r3, #616]	@ float
@@ -1901,7 +1901,7 @@
  1702 1436 FFF7FEFF 		bl	snprintf
  1703 143a 40F20000 		movw	r0, #:lower16:numberString
  1704 143e C0F20000 		movt	r0, #:upper16:numberString
- 1705 1442 FFF7FEFF 		bl	uart3Print
+ 1705 1442 FFF7FEFF 		bl	telemetryPrint
  1706 1446 40F20003 		movw	r3, #:lower16:eepromConfig
  1707 144a C0F20003 		movt	r3, #:upper16:eepromConfig
  1708 144e 93F87832 		ldrb	r3, [r3, #632]	@ zero_extendqisi2
@@ -1909,12 +1909,12 @@
  1710 1454 06D0     		beq	.L65
  1711 1456 40F20000 		movw	r0, #:lower16:.LC3
  1712 145a C0F20000 		movt	r0, #:upper16:.LC3
- 1713 145e FFF7FEFF 		bl	uart3Print
+ 1713 145e FFF7FEFF 		bl	telemetryPrint
  1714 1462 05E0     		b	.L66
  1715              	.L65:
  1716 1464 40F20000 		movw	r0, #:lower16:.LC4
  1717 1468 C0F20000 		movt	r0, #:upper16:.LC4
- 1718 146c FFF7FEFF 		bl	uart3Print
+ 1718 146c FFF7FEFF 		bl	telemetryPrint
  1719              	.L66:
  1720 1470 40F20003 		movw	r3, #:lower16:rfQueryType
  1721 1474 C0F20003 		movt	r3, #:upper16:rfQueryType
@@ -2036,7 +2036,7 @@
  1837 15d8 FFF7FEFF 		bl	readRFPID
  1838 15dc 40F20000 		movw	r0, #:lower16:.LC16
  1839 15e0 C0F20000 		movt	r0, #:upper16:.LC16
- 1840 15e4 FFF7FEFF 		bl	uart3Print
+ 1840 15e4 FFF7FEFF 		bl	telemetryPrint
  1841 15e8 40F20003 		movw	r3, #:lower16:rfQueryType
  1842 15ec C0F20003 		movt	r3, #:upper16:rfQueryType
  1843 15f0 4FF06102 		mov	r2, #97
@@ -2051,7 +2051,7 @@
  1852 160a FFF7FEFF 		bl	readRFPID
  1853 160e 40F20000 		movw	r0, #:lower16:.LC17
  1854 1612 C0F20000 		movt	r0, #:upper16:.LC17
- 1855 1616 FFF7FEFF 		bl	uart3Print
+ 1855 1616 FFF7FEFF 		bl	telemetryPrint
  1856 161a 40F20003 		movw	r3, #:lower16:rfQueryType
  1857 161e C0F20003 		movt	r3, #:upper16:rfQueryType
  1858 1622 4FF06102 		mov	r2, #97
@@ -2066,7 +2066,7 @@
  1867 163c FFF7FEFF 		bl	readRFPID
  1868 1640 40F20000 		movw	r0, #:lower16:.LC18
  1869 1644 C0F20000 		movt	r0, #:upper16:.LC18
- 1870 1648 FFF7FEFF 		bl	uart3Print
+ 1870 1648 FFF7FEFF 		bl	telemetryPrint
  1871 164c 40F20003 		movw	r3, #:lower16:rfQueryType
  1872 1650 C0F20003 		movt	r3, #:upper16:rfQueryType
  1873 1654 4FF06102 		mov	r2, #97
@@ -2081,7 +2081,7 @@
  1882 166e FFF7FEFF 		bl	readRFPID
  1883 1672 40F20000 		movw	r0, #:lower16:.LC19
  1884 1676 C0F20000 		movt	r0, #:upper16:.LC19
- 1885 167a FFF7FEFF 		bl	uart3Print
+ 1885 167a FFF7FEFF 		bl	telemetryPrint
  1886 167e 40F20003 		movw	r3, #:lower16:rfQueryType
  1887 1682 C0F20003 		movt	r3, #:upper16:rfQueryType
  1888 1686 4FF06202 		mov	r2, #98
@@ -2096,7 +2096,7 @@
  1897 16a0 FFF7FEFF 		bl	readRFPID
  1898 16a4 40F20000 		movw	r0, #:lower16:.LC20
  1899 16a8 C0F20000 		movt	r0, #:upper16:.LC20
- 1900 16ac FFF7FEFF 		bl	uart3Print
+ 1900 16ac FFF7FEFF 		bl	telemetryPrint
  1901 16b0 40F20003 		movw	r3, #:lower16:rfQueryType
  1902 16b4 C0F20003 		movt	r3, #:upper16:rfQueryType
  1903 16b8 4FF06202 		mov	r2, #98
@@ -2111,7 +2111,7 @@
  1912 16d2 FFF7FEFF 		bl	readRFPID
  1913 16d6 40F20000 		movw	r0, #:lower16:.LC21
  1914 16da C0F20000 		movt	r0, #:upper16:.LC21
- 1915 16de FFF7FEFF 		bl	uart3Print
+ 1915 16de FFF7FEFF 		bl	telemetryPrint
  1916 16e2 40F20003 		movw	r3, #:lower16:rfQueryType
  1917 16e6 C0F20003 		movt	r3, #:upper16:rfQueryType
  1918 16ea 4FF06202 		mov	r2, #98
@@ -2126,7 +2126,7 @@
  1927 1704 FFF7FEFF 		bl	readRFPID
  1928 1708 40F20000 		movw	r0, #:lower16:.LC22
  1929 170c C0F20000 		movt	r0, #:upper16:.LC22
- 1930 1710 FFF7FEFF 		bl	uart3Print
+ 1930 1710 FFF7FEFF 		bl	telemetryPrint
  1931 1714 40F20003 		movw	r3, #:lower16:rfQueryType
  1932 1718 C0F20003 		movt	r3, #:upper16:rfQueryType
  1933 171c 4FF06302 		mov	r2, #99
@@ -2141,7 +2141,7 @@
  1942 1736 FFF7FEFF 		bl	readRFPID
  1943 173a 40F20000 		movw	r0, #:lower16:.LC23
  1944 173e C0F20000 		movt	r0, #:upper16:.LC23
- 1945 1742 FFF7FEFF 		bl	uart3Print
+ 1945 1742 FFF7FEFF 		bl	telemetryPrint
  1946 1746 40F20003 		movw	r3, #:lower16:rfQueryType
  1947 174a C0F20003 		movt	r3, #:upper16:rfQueryType
  1948 174e 4FF06302 		mov	r2, #99
@@ -2156,7 +2156,7 @@
  1957 1768 FFF7FEFF 		bl	readRFPID
  1958 176c 40F20000 		movw	r0, #:lower16:.LC24
  1959 1770 C0F20000 		movt	r0, #:upper16:.LC24
- 1960 1774 FFF7FEFF 		bl	uart3Print
+ 1960 1774 FFF7FEFF 		bl	telemetryPrint
  1961 1778 40F20003 		movw	r3, #:lower16:rfQueryType
  1962 177c C0F20003 		movt	r3, #:upper16:rfQueryType
  1963 1780 4FF06302 		mov	r2, #99
@@ -2171,7 +2171,7 @@
  1972 179a FFF7FEFF 		bl	readRFPID
  1973 179e 40F20000 		movw	r0, #:lower16:.LC25
  1974 17a2 C0F20000 		movt	r0, #:upper16:.LC25
- 1975 17a6 FFF7FEFF 		bl	uart3Print
+ 1975 17a6 FFF7FEFF 		bl	telemetryPrint
  1976 17aa 40F20003 		movw	r3, #:lower16:rfQueryType
  1977 17ae C0F20003 		movt	r3, #:upper16:rfQueryType
  1978 17b2 4FF06402 		mov	r2, #100
@@ -2186,7 +2186,7 @@
  1987 17cc FFF7FEFF 		bl	readRFPID
  1988 17d0 40F20000 		movw	r0, #:lower16:.LC26
  1989 17d4 C0F20000 		movt	r0, #:upper16:.LC26
- 1990 17d8 FFF7FEFF 		bl	uart3Print
+ 1990 17d8 FFF7FEFF 		bl	telemetryPrint
  1991 17dc 40F20003 		movw	r3, #:lower16:rfQueryType
  1992 17e0 C0F20003 		movt	r3, #:upper16:rfQueryType
  1993 17e4 4FF06402 		mov	r2, #100
@@ -2201,7 +2201,7 @@
  2002 17fe FFF7FEFF 		bl	readRFPID
  2003 1802 40F20000 		movw	r0, #:lower16:.LC27
  2004 1806 C0F20000 		movt	r0, #:upper16:.LC27
- 2005 180a FFF7FEFF 		bl	uart3Print
+ 2005 180a FFF7FEFF 		bl	telemetryPrint
  2006 180e 40F20003 		movw	r3, #:lower16:rfQueryType
  2007 1812 C0F20003 		movt	r3, #:upper16:rfQueryType
  2008 1816 4FF06402 		mov	r2, #100
@@ -2214,7 +2214,7 @@
  2015              	.L36:
  2016 182c 40F20000 		movw	r0, #:lower16:.LC28
  2017 1830 C0F20000 		movt	r0, #:upper16:.LC28
- 2018 1834 FFF7FEFF 		bl	uart3Print
+ 2018 1834 FFF7FEFF 		bl	telemetryPrint
  2019 1838 FFF7FEFF 		bl	writeEEPROM
  2020 183c 40F20003 		movw	r3, #:lower16:rfQueryType
  2021 1840 C0F20003 		movt	r3, #:upper16:rfQueryType
@@ -2224,55 +2224,55 @@
  2025              	.L23:
  2026 184c 40F20000 		movw	r0, #:lower16:.LC0
  2027 1850 C0F20000 		movt	r0, #:upper16:.LC0
- 2028 1854 FFF7FEFF 		bl	uart3Print
+ 2028 1854 FFF7FEFF 		bl	telemetryPrint
  2029 1858 40F20000 		movw	r0, #:lower16:.LC29
  2030 185c C0F20000 		movt	r0, #:upper16:.LC29
- 2031 1860 FFF7FEFF 		bl	uart3Print
+ 2031 1860 FFF7FEFF 		bl	telemetryPrint
  2032 1864 40F20000 		movw	r0, #:lower16:.LC30
  2033 1868 C0F20000 		movt	r0, #:upper16:.LC30
- 2034 186c FFF7FEFF 		bl	uart3Print
+ 2034 186c FFF7FEFF 		bl	telemetryPrint
  2035 1870 40F20000 		movw	r0, #:lower16:.LC31
  2036 1874 C0F20000 		movt	r0, #:upper16:.LC31
- 2037 1878 FFF7FEFF 		bl	uart3Print
+ 2037 1878 FFF7FEFF 		bl	telemetryPrint
  2038 187c 40F20000 		movw	r0, #:lower16:.LC32
  2039 1880 C0F20000 		movt	r0, #:upper16:.LC32
- 2040 1884 FFF7FEFF 		bl	uart3Print
+ 2040 1884 FFF7FEFF 		bl	telemetryPrint
  2041 1888 40F20000 		movw	r0, #:lower16:.LC33
  2042 188c C0F20000 		movt	r0, #:upper16:.LC33
- 2043 1890 FFF7FEFF 		bl	uart3Print
+ 2043 1890 FFF7FEFF 		bl	telemetryPrint
  2044 1894 40F20000 		movw	r0, #:lower16:.LC34
  2045 1898 C0F20000 		movt	r0, #:upper16:.LC34
- 2046 189c FFF7FEFF 		bl	uart3Print
+ 2046 189c FFF7FEFF 		bl	telemetryPrint
  2047 18a0 40F20000 		movw	r0, #:lower16:.LC35
  2048 18a4 C0F20000 		movt	r0, #:upper16:.LC35
- 2049 18a8 FFF7FEFF 		bl	uart3Print
+ 2049 18a8 FFF7FEFF 		bl	telemetryPrint
  2050 18ac 40F20000 		movw	r0, #:lower16:.LC36
  2051 18b0 C0F20000 		movt	r0, #:upper16:.LC36
- 2052 18b4 FFF7FEFF 		bl	uart3Print
+ 2052 18b4 FFF7FEFF 		bl	telemetryPrint
  2053 18b8 40F20000 		movw	r0, #:lower16:.LC37
  2054 18bc C0F20000 		movt	r0, #:upper16:.LC37
- 2055 18c0 FFF7FEFF 		bl	uart3Print
+ 2055 18c0 FFF7FEFF 		bl	telemetryPrint
  2056 18c4 40F20000 		movw	r0, #:lower16:.LC38
  2057 18c8 C0F20000 		movt	r0, #:upper16:.LC38
- 2058 18cc FFF7FEFF 		bl	uart3Print
+ 2058 18cc FFF7FEFF 		bl	telemetryPrint
  2059 18d0 40F20000 		movw	r0, #:lower16:.LC39
  2060 18d4 C0F20000 		movt	r0, #:upper16:.LC39
- 2061 18d8 FFF7FEFF 		bl	uart3Print
+ 2061 18d8 FFF7FEFF 		bl	telemetryPrint
  2062 18dc 40F20000 		movw	r0, #:lower16:.LC40
  2063 18e0 C0F20000 		movt	r0, #:upper16:.LC40
- 2064 18e4 FFF7FEFF 		bl	uart3Print
+ 2064 18e4 FFF7FEFF 		bl	telemetryPrint
  2065 18e8 40F20000 		movw	r0, #:lower16:.LC41
  2066 18ec C0F20000 		movt	r0, #:upper16:.LC41
- 2067 18f0 FFF7FEFF 		bl	uart3Print
+ 2067 18f0 FFF7FEFF 		bl	telemetryPrint
  2068 18f4 40F20000 		movw	r0, #:lower16:.LC42
  2069 18f8 C0F20000 		movt	r0, #:upper16:.LC42
- 2070 18fc FFF7FEFF 		bl	uart3Print
+ 2070 18fc FFF7FEFF 		bl	telemetryPrint
  2071 1900 40F20000 		movw	r0, #:lower16:.LC43
  2072 1904 C0F20000 		movt	r0, #:upper16:.LC43
- 2073 1908 FFF7FEFF 		bl	uart3Print
+ 2073 1908 FFF7FEFF 		bl	telemetryPrint
  2074 190c 40F20000 		movw	r0, #:lower16:.LC0
  2075 1910 C0F20000 		movt	r0, #:upper16:.LC0
- 2076 1914 FFF7FEFF 		bl	uart3Print
+ 2076 1914 FFF7FEFF 		bl	telemetryPrint
  2077 1918 40F20003 		movw	r3, #:lower16:rfQueryType
  2078 191c C0F20003 		movt	r3, #:upper16:rfQueryType
  2079 1920 4FF07802 		mov	r2, #120
@@ -2287,72 +2287,72 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:23     .bss:00000000 rfBusy
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:24     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:25     .bss:00000001 rfQueryType
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:27     .bss:00000002 validRFCommand
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:30     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:35     .text:00000000 readFloatRF
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:118    .text:000000d0 readRFPID
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:178    .text:00000158 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:182    .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:183    .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:186    .rodata:00000004 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:190    .rodata:00000018 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:193    .rodata:00000020 .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:196    .rodata:00000028 .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:199    .rodata:00000030 .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:202    .rodata:00000044 .LC6
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:205    .rodata:00000058 .LC7
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:208    .rodata:00000070 .LC8
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:211    .rodata:00000088 .LC9
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:214    .rodata:000000a0 .LC10
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:217    .rodata:000000ac .LC11
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:220    .rodata:000000b8 .LC12
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:223    .rodata:000000c4 .LC13
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:226    .rodata:000000d0 .LC14
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:229    .rodata:000000dc .LC15
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:232    .rodata:000000e8 .LC16
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:235    .rodata:00000108 .LC17
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:238    .rodata:00000128 .LC18
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:241    .rodata:00000144 .LC19
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:244    .rodata:00000168 .LC20
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:247    .rodata:0000018c .LC21
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:250    .rodata:000001a8 .LC22
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:253    .rodata:000001c0 .LC23
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:256    .rodata:000001d8 .LC24
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:259    .rodata:000001f0 .LC25
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:262    .rodata:00000208 .LC26
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:265    .rodata:00000220 .LC27
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:268    .rodata:00000238 .LC28
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:271    .rodata:00000258 .LC29
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:276    .rodata:000002c4 .LC30
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:281    .rodata:00000330 .LC31
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:286    .rodata:0000039c .LC32
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:291    .rodata:00000408 .LC33
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:296    .rodata:00000474 .LC34
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:301    .rodata:000004e0 .LC35
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:306    .rodata:0000054c .LC36
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:311    .rodata:000005b8 .LC37
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:316    .rodata:00000624 .LC38
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:321    .rodata:00000690 .LC39
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:326    .rodata:000006fc .LC40
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:331    .rodata:00000768 .LC41
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:335    .rodata:000007b0 .LC42
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:338    .rodata:000007d4 .LC43
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:342    .text:00000160 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:347    .text:00000160 rfCom
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:380    .text:000001ac $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccBbJsad.s:454    .text:000002d0 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:23     .bss:00000000 rfBusy
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:24     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:25     .bss:00000001 rfQueryType
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:27     .bss:00000002 validRFCommand
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:30     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:35     .text:00000000 readFloatRF
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:118    .text:000000d0 readRFPID
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:178    .text:00000158 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:182    .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:183    .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:186    .rodata:00000004 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:190    .rodata:00000018 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:193    .rodata:00000020 .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:196    .rodata:00000028 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:199    .rodata:00000030 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:202    .rodata:00000044 .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:205    .rodata:00000058 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:208    .rodata:00000070 .LC8
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:211    .rodata:00000088 .LC9
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:214    .rodata:000000a0 .LC10
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:217    .rodata:000000ac .LC11
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:220    .rodata:000000b8 .LC12
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:223    .rodata:000000c4 .LC13
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:226    .rodata:000000d0 .LC14
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:229    .rodata:000000dc .LC15
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:232    .rodata:000000e8 .LC16
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:235    .rodata:00000108 .LC17
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:238    .rodata:00000128 .LC18
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:241    .rodata:00000144 .LC19
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:244    .rodata:00000168 .LC20
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:247    .rodata:0000018c .LC21
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:250    .rodata:000001a8 .LC22
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:253    .rodata:000001c0 .LC23
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:256    .rodata:000001d8 .LC24
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:259    .rodata:000001f0 .LC25
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:262    .rodata:00000208 .LC26
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:265    .rodata:00000220 .LC27
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:268    .rodata:00000238 .LC28
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:271    .rodata:00000258 .LC29
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:276    .rodata:000002c4 .LC30
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:281    .rodata:00000330 .LC31
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:286    .rodata:0000039c .LC32
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:291    .rodata:00000408 .LC33
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:296    .rodata:00000474 .LC34
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:301    .rodata:000004e0 .LC35
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:306    .rodata:0000054c .LC36
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:311    .rodata:000005b8 .LC37
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:316    .rodata:00000624 .LC38
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:321    .rodata:00000690 .LC39
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:326    .rodata:000006fc .LC40
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:331    .rodata:00000768 .LC41
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:335    .rodata:000007b0 .LC42
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:338    .rodata:000007d4 .LC43
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:342    .text:00000160 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:347    .text:00000160 rfCom
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:380    .text:000001ac $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cczhp6zk.s:454    .text:000002d0 $t
 
 UNDEFINED SYMBOLS
-uart3Available
+telemetryAvailable
 delay
-uart3Read
+telemetryRead
 stringToFloat
 eepromConfig
 __aeabi_f2d
-uart3Print
+telemetryPrint
 numberString
 snprintf
 highSpeedTelemDisable

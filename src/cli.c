@@ -507,23 +507,23 @@ void cliCom(void)
             {
 				for (index = 0; index < eepromConfig.spektrumChannels - 1; index++)
                 {
-    		    	itoa(spektrumChannelData[index], numberString, 10);
-    		    	usbPrint(numberString); usbPrint(", ");
+    		    	snprintf(numberString, 16, "%4ld, ", spektrumChannelData[index]);
+    		    	usbPrint(numberString);
     		    }
 
-                itoa(spektrumChannelData[eepromConfig.spektrumChannels - 1], numberString, 10);
-                usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%4ld\n", spektrumChannelData[eepromConfig.spektrumChannels - 1]);
+                usbPrint(numberString);
 		    }
 		    else
 		    {
 				for (index = 0; index < 7; index++)
                 {
-    		    	itoa(rxRead(index), numberString, 10);
-    		    	usbPrint(numberString); usbPrint(", ");
+    		    	snprintf(numberString, 16, "%4i, ", rxRead(index));
+    		    	usbPrint(numberString);
     		    }
 
-                itoa(rxRead(7), numberString, 10);
-                usbPrint(numberString); usbPrint("\n");
+                snprintf(numberString, 16, "%4i, ", rxRead(7));
+                usbPrint(numberString);
 			}
 
         	validCommand = false;
@@ -534,12 +534,12 @@ void cliCom(void)
         case 't': // Processed Receiver Commands
             for (index = 0; index < 7; index++)
             {
-    			ftoa( rxCommand[index], numberString );
-    			usbPrint( numberString ); usbPrint( ", " );
+    			snprintf(numberString, 16, "%8.2f, ", rxCommand[index]);
+    			usbPrint(numberString);
     		}
 
-            ftoa( rxCommand[7], numberString );
-            usbPrint( numberString ); usbPrint( "\n" );
+            snprintf(numberString, 16, "%8.2f\n", rxCommand[7]);
+            usbPrint(numberString);
 
             validCommand = false;
             break;

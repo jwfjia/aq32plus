@@ -51,6 +51,7 @@ src/calibration/mpu6000Calibration.d: \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\STM32_USB_Device_Library\Core\inc/usbd_def.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/pid.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/aq32Plus.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_gps.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_i2c.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_led.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_max7456.h \
@@ -59,9 +60,8 @@ src/calibration/mpu6000Calibration.d: \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_rx.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_spi.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_system.h \
+ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_telemetry.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_timingFunctions.h \
- C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_uart2.h \
- C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_uart3.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_usb.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\sensors/hmc5883.h \
  C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\sensors/mpu6000.h \
@@ -190,6 +190,8 @@ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/pid.h:
 
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src/aq32Plus.h:
 
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_gps.h:
+
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_i2c.h:
 
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_led.h:
@@ -206,11 +208,9 @@ C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_spi.h:
 
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_system.h:
 
+C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_telemetry.h:
+
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_timingFunctions.h:
-
-C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_uart2.h:
-
-C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_uart3.h:
 
 C:\Users\John\ Ihlein\Desktop\STM32workspace\aq32Plus\src\drv/drv_usb.h:
 

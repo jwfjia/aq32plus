@@ -60,11 +60,11 @@ void initGPS(void)
 		///////////////////////////////
 
 		case MEDIATEK_3329_BINARY:     // MediaTek 3329 in binary mode
-		    uart2Print("$PGCMD,16,0,0,0,0,0*6A\r\n");  // Set Binary Output
-            uart2Print("$PMTK220,200*2C\r\n");         // Set 5 Hz Output
-            uart2Print("$PMTK313,1*2E\r\n");           // Set SBAS On - Not sure if this does anything on MTK16 software
-            uart2Print("$PMTK301,2*2E\r\n");           // Set WAAS On - Not sure if this does anything on MTK16 software
-            uart2Print("$PMTK397,0*23\r\n");           // Set Nav Speed Threshold to 0
+		    gpsPrint("$PGCMD,16,0,0,0,0,0*6A\r\n");  // Set Binary Output
+            gpsPrint("$PMTK220,200*2C\r\n");         // Set 5 Hz Output
+            gpsPrint("$PMTK313,1*2E\r\n");           // Set SBAS On - Not sure if this does anything on MTK16 software
+            gpsPrint("$PMTK301,2*2E\r\n");           // Set WAAS On - Not sure if this does anything on MTK16 software
+            gpsPrint("$PMTK397,0*23\r\n");           // Set Nav Speed Threshold to 0
 
             mtk19ProcessDataState = MTK19_WAIT_SYNC1;
             break;
@@ -72,11 +72,11 @@ void initGPS(void)
         ///////////////////////////////
 
         case MEDIATEK_3329_NMEA:       // MediaTek 3329 in NMEA mode
-            uart2Print("$PMTK314,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n");  // GPRMC, GPGGA and GPGSA
-			uart2Print("$PMTK220,200*2C\r\n");                                    // Set 5 Hz Update Rate
-			uart2Print("$PMTK313,1*2E\r\n");                                      // Set SBAS On
-            uart2Print("$PMTK301,2*2E\r\n");                                      // Set WAAS On
-            uart2Print("$PMTK397,0*23\r\n");                                      // Set Nav Speed Threshold to 0
+            gpsPrint("$PMTK314,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n");  // GPRMC, GPGGA and GPGSA
+			gpsPrint("$PMTK220,200*2C\r\n");                                    // Set 5 Hz Update Rate
+			gpsPrint("$PMTK313,1*2E\r\n");                                      // Set SBAS On
+            gpsPrint("$PMTK301,2*2E\r\n");                                      // Set WAAS On
+            gpsPrint("$PMTK397,0*23\r\n");                                      // Set Nav Speed Threshold to 0
 
             nmeaProcessDataState = WAIT_START;
             break;
@@ -85,9 +85,9 @@ void initGPS(void)
 
         case UBLOX:             // UBLOX in binary mode
         	for (i = 0; i < sizeof(ubx5Hz); i++)                // Set 5 Hz Update Rate
-        	   uart2Write(ubx5Hz[i]);
+        	   gpsWrite(ubx5Hz[i]);
 
-        	uart2Print("$PUBX,41,1,0003,0001,38400,0*26\r\n");  // Set Binary Output
+        	gpsPrint("$PUBX,41,1,0003,0001,38400,0*26\r\n");  // Set Binary Output
 
         	ubloxProcessDataState = WAIT_SYNC1;
         	break;
@@ -106,7 +106,7 @@ void initGPS(void)
 	sensors.gpsTime        = GPS_INVALID_TIME;
 	sensors.gpsHdop        = GPS_INVALID_HDOP;
 
-	uart2ClearBuffer();
+	gpsClearBuffer();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

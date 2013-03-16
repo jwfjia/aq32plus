@@ -34,69 +34,30 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "board.h"
+#pragma once
 
 ///////////////////////////////////////////////////////////////////////////////
 
-uint8_t usbDeviceConfigured = false;
-
-__ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
+void telemtryInit(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void usbInit(void)
-{
-    GPIO_InitTypeDef  GPIO_InitStructure;
-
-	GPIO_StructInit(&GPIO_InitStructure);
-
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin   = USB_DISCONNECT_PIN;
-	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
-	//GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
-
-	GPIO_Init(USB_DISCONNECT_GPIO, &GPIO_InitStructure);
-
-	GPIO_ResetBits(USB_DISCONNECT_GPIO, USB_DISCONNECT_PIN);
-
-    delay(200);
-
-	GPIO_SetBits(USB_DISCONNECT_GPIO, USB_DISCONNECT_PIN);
-
-	USBD_Init(&USB_OTG_dev,	USB_OTG_FS_CORE_ID, &USR_desc, &USBD_CDC_cb, &USR_cb);
-}
+uint16_t telemetryAvailable(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-uint8_t usbAvailable(void)
-{
-    if (cdc_RX_IsCharReady() == -1)
-    	return(true);
-    else
-    	return(false);
-}
+uint8_t telemetryRead(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-char usbRead(void)
-{
-    if (usbDeviceConfigured == true)
-        return cdc_RX_GetChar();
-    else
-        return(0);
-}
+uint8_t telemetryReadPoll(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void usbPrint(char* str)
-{
-	if (usbDeviceConfigured == true)
-	{
-		cdc_DataTx(str, strlen(str));
-	}
-}
+void telemetryWrite(uint8_t ch);
+
+///////////////////////////////////////////////////////////////////////////////
+
+void telemetryPrint(char *str);
 
 ///////////////////////////////////////////////////////////////////////////////
