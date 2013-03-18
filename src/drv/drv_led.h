@@ -54,6 +54,32 @@
 #define LED4_GPIO        GPIOD
 #define LED4_PIN         GPIO_Pin_4
 
+///////////////////////////////////////
+
+#define BLUE_LED_OFF     GPIO_ResetBits(BLUE_LED_GPIO,   BLUE_LED_PIN)
+#define BLUE_LED_ON      GPIO_SetBits(BLUE_LED_GPIO,     BLUE_LED_PIN)
+#define BLUE_LED_TOGGLE  GPIO_ToggleBits(BLUE_LED_GPIO,  BLUE_LED_PIN)
+
+#define GREEN_LED_OFF    GPIO_ResetBits(GREEN_LED_GPIO,  GREEN_LED_PIN)
+#define GREEN_LED_ON     GPIO_SetBits(GREEN_LED_GPIO,    GREEN_LED_PIN)
+#define GREEN_LED_TOGGLE GPIO_ToggleBits(GREEN_LED_GPIO, GREEN_LED_PIN)
+
+#define LED1_OFF         GPIO_ResetBits(LED1_GPIO,       LED1_PIN)
+#define LED1_ON          GPIO_SetBits(LED1_GPIO,         LED1_PIN)
+#define LED1_TOGGLE      GPIO_ToggleBits(LED1_GPIO,      LED1_PIN)
+
+#define LED2_OFF         GPIO_ResetBits(LED2_GPIO,       LED2_PIN)
+#define LED2_ON          GPIO_SetBits(LED2_GPIO,         LED2_PIN)
+#define LED2_TOGGLE      GPIO_ToggleBits(LED2_GPIO,      LED2_PIN)
+
+#define LED3_OFF         GPIO_ResetBits(LED3_GPIO,       LED3_PIN)
+#define LED3_ON          GPIO_SetBits(LED3_GPIO,         LED3_PIN)
+#define LED3_TOGGLE      GPIO_ToggleBits(LED3_GPIO,      LED3_PIN)
+
+#define LED4_OFF         GPIO_ResetBits(LED4_GPIO,       LED4_PIN)
+#define LED4_ON          GPIO_SetBits(LED4_GPIO,         LED4_PIN)
+#define LED4_TOGGLE      GPIO_ToggleBits(LED4_GPIO,      LED4_PIN)
+
 ///////////////////////////////////////////////////////////////////////////////
 // LED Initialization
 ///////////////////////////////////////////////////////////////////////////////

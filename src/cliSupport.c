@@ -1010,18 +1010,26 @@ void sensorCLI()
                 switch(eepromConfig.dlpfSetting)
                 {
                     case DLPF_256HZ:
-                        usbPrint("256 Hz\n\n");
+                        usbPrint("256 Hz\n");
                         break;
                     case DLPF_188HZ:
-                        usbPrint("188 Hz\n\n");
+                        usbPrint("188 Hz\n");
                         break;
                     case DLPF_98HZ:
-                        usbPrint("98 Hz\n\n");
+                        usbPrint("98 Hz\n");
                         break;
                     case DLPF_42HZ:
-                        usbPrint("42 Hz\n\n");
+                        usbPrint("42 Hz\n");
                         break;
                 }
+
+                usbPrint("Magnetic Variation:           ");
+                if (eepromConfig.magVar >= 0.0f)
+                  snprintf(numberString, 16, "E%6.4f\n\n",  eepromConfig.magVar * R2D);
+                else
+                  snprintf(numberString, 16, "W%6.4f\n\n", -eepromConfig.magVar * R2D);
+
+                usbPrint(numberString);
 
                 validQuery = false;
                 break;
@@ -1130,6 +1138,15 @@ void sensorCLI()
 
             ///////////////////////////
 
+            case 'M': // Magnetic Variation
+                eepromConfig.magVar = readFloatUsb() * D2R;
+
+                sensorQuery = 'a';
+                validQuery = true;
+                break;
+
+            ///////////////////////////
+
             case 'W': // Write EEPROM Parameters
                 usbPrint("\nWriting EEPROM Parameters....\n\n");
                 writeEEPROM();
@@ -1141,9 +1158,10 @@ void sensorCLI()
 			   	usbPrint("\n");
 			   	usbPrint("'a' Display Sensor Data                    'A' Set MPU6000 DLPF                     A0 thru 3, see aq32Plus.h\n");
 			   	usbPrint("'b' MPU6000 Calibration                    'B' Set Accel Cutoff                     BAccelCutoff\n");
-			   	usbPrint("'c' Magnetometer Calibration               'C' Set kpAcc/kiAcc                      CKpAcc;KiAcc\n");
-			   	usbPrint("                                           'D' Set kpMag/kiMag                      DKpMag;KiMag\n");
+			   	usbPrint("'c' Magnetometer Calibration               'C' Set kpAcc/kiAcc                      CkpAcc;kiAcc\n");
+			   	usbPrint("                                           'D' Set kpMag/kiMag                      DkpMag;kiMag\n");
 			   	usbPrint("                                           'E' Set h dot est/h est Comp Filter A/B  EA;B\n");
+			   	usbPrint("                                           'M' Set Mag Variation (+ East, - West)   MMagVar\n");
 			   	usbPrint("                                           'W' Write EEPROM Parameters\n");
 			   	usbPrint("'x' Exit Sensor CLI                        '?' Command Summary\n");
 			    usbPrint("\n");

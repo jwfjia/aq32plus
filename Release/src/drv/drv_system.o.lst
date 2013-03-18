@@ -864,24 +864,24 @@
  902 087a 00BF     		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 drv_system.c
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:17     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:21     .text:00000000 NVIC_SetPriority
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:62     .text:00000058 SysTick_Config
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:17     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:21     .text:00000000 NVIC_SetPriority
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:62     .text:00000058 SysTick_Config
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:102    .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:103    .bss:00000000 usTicks
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:106    .bss:00000004 sysTickUptime
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:109    .bss:00000008 sysTickCycleCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:116    .text:000000b4 cycleCounterInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:154    .bss:0000000c frameCounter
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:159    .bss:0000000e frame_500Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:164    .bss:0000000f frame_100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:169    .bss:00000010 frame_50Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:174    .bss:00000011 frame_10Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:179    .bss:00000012 frame_5Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:184    .bss:00000013 frame_1Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:102    .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:103    .bss:00000000 usTicks
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:106    .bss:00000004 sysTickUptime
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:109    .bss:00000008 sysTickCycleCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:116    .text:000000b4 cycleCounterInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:154    .bss:0000000c frameCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:159    .bss:0000000e frame_500Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:164    .bss:0000000f frame_100Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:169    .bss:00000010 frame_50Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:174    .bss:00000011 frame_10Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:179    .bss:00000012 frame_5Hz
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 deltaTime1000Hz
                             *COM*:00000004 executionTime1000Hz
                             *COM*:00000004 previous1000HzTime
@@ -905,15 +905,15 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:184    .bss:00000013 frame_1Hz
                             *COM*:00000004 previous1HzTime
                             *COM*:00000004 dt500Hz
                             *COM*:00000004 dt100Hz
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:212    .bss:00000014 systemReady
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:217    .bss:00000015 execUp
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:225    .text:00000110 SysTick_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:641    .text:0000060c micros
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:680    .text:00000650 millis
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:695    .text:00000660 systemInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:838    .text:000007ec delay
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:779    .text:00000778 delayMicroseconds
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccNu70dP.s:868    .text:00000818 systemReset
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:212    .bss:00000014 systemReady
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:217    .bss:00000015 execUp
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:225    .text:00000110 SysTick_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:641    .text:0000060c micros
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:680    .text:00000650 millis
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:695    .text:00000660 systemInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:838    .text:000007ec delay
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:779    .text:00000778 delayMicroseconds
+C:\Users\JOHNIH~1\AppData\Local\Temp\cc9Umqgo.s:868    .text:00000818 systemReset
 
 UNDEFINED SYMBOLS
 RCC_GetClocksFreq

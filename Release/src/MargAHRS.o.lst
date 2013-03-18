@@ -129,8 +129,8 @@
  168 0012 9DED017A 		flds	s14, [sp, #4]
  169 0016 C7EE277A 		fdivs	s15, s14, s15
  170 001a CDED017A 		fsts	s15, [sp, #4]
- 171 001e 40F20003 		movw	r3, #:lower16:accMagP.10978
- 172 0022 C0F20003 		movt	r3, #:upper16:accMagP.10978
+ 171 001e 40F20003 		movw	r3, #:lower16:accMagP.10984
+ 172 0022 C0F20003 		movt	r3, #:upper16:accMagP.10984
  173 0026 93ED007A 		flds	s14, [r3, #0]
  174 002a DFED2B7A 		flds	s15, .L2+8
  175 002e 27EE277A 		fmuls	s14, s14, s15
@@ -139,8 +139,8 @@
  178 003a 66EEA77A 		fmuls	s15, s13, s15
  179 003e 77EE277A 		fadds	s15, s14, s15
  180 0042 CDED017A 		fsts	s15, [sp, #4]
- 181 0046 40F20003 		movw	r3, #:lower16:accMagP.10978
- 182 004a C0F20003 		movt	r3, #:upper16:accMagP.10978
+ 181 0046 40F20003 		movw	r3, #:lower16:accMagP.10984
+ 182 004a C0F20003 		movt	r3, #:upper16:accMagP.10984
  183 004e 019A     		ldr	r2, [sp, #4]	@ float
  184 0050 1A60     		str	r2, [r3, #0]	@ float
  185 0052 40F20003 		movw	r3, #:lower16:accConfidenceDecay
@@ -531,7 +531,7 @@
  574 0548 C0F20003 		movt	r3, #:upper16:MargAHRSinitialized
  575 054c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  576 054e 012B     		cmp	r3, #1
- 577 0550 40F07687 		bne	.L5
+ 577 0550 40F09487 		bne	.L5
  578 0554 9DED217A 		flds	s14, [sp, #132]
  579 0558 F6EE007A 		fconsts	s15, #96
  580 055c 67EE277A 		fmuls	s15, s14, s15
@@ -589,7 +589,7 @@
  632 0616 40F20003 		movw	r3, #:lower16:kiAcc
  633 061a C0F20003 		movt	r3, #:upper16:kiAcc
  634 061e C3ED007A 		fsts	s15, [r3, #0]
- 635 0622 DFF82C3E 		ldr	r3, .L10+8	@ float
+ 635 0622 DFF8643E 		ldr	r3, .L10+8	@ float
  636 0626 DDED177A 		flds	s15, [sp, #92]
  637 062a 07EE103A 		fmsr	s14, r3
  638 062e C7EE277A 		fdivs	s15, s14, s15
@@ -804,7 +804,7 @@
  847 094c F5EE407A 		fcmpzs	s15
  848 0950 F1EE10FA 		fmstat
  849 0954 00F09082 		beq	.L9
- 850 0958 DFF8F43A 		ldr	r3, .L10+8	@ float
+ 850 0958 DFF82C3B 		ldr	r3, .L10+8	@ float
  851 095c DDED177A 		flds	s15, [sp, #92]
  852 0960 07EE103A 		fmsr	s14, r3
  853 0964 C7EE277A 		fdivs	s15, s14, s15
@@ -1303,7 +1303,7 @@
  1346 10e8 FFF7FEFF 		bl	sqrt
  1347 10ec 0246     		mov	r2, r0
  1348 10ee 0B46     		mov	r3, r1
- 1349 10f0 D5A1     		adr	r1, .L10
+ 1349 10f0 E3A1     		adr	r1, .L10
  1350 10f2 D1E90001 		ldrd	r0, [r1]
  1351 10f6 FFF7FEFF 		bl	__aeabi_ddiv
  1352 10fa 0246     		mov	r2, r0
@@ -1521,45 +1521,61 @@
  1564 1436 40F20003 		movw	r3, #:lower16:sensors
  1565 143a C0F20003 		movt	r3, #:upper16:sensors
  1566 143e 1A62     		str	r2, [r3, #32]	@ float
- 1567              	.L5:
- 1568 1440 19B0     		add	sp, sp, #100
- 1569 1442 00BD     		pop	{pc}
- 1570              	.L11:
- 1571 1444 AFF30080 		.align	3
- 1572              	.L10:
- 1573 1448 00000000 		.word	0
- 1574 144c 0000F03F 		.word	1072693248
- 1575 1450 0000803F 		.word	1065353216
- 1577 1454 AFF30080 		.data
- 1578              		.align	2
- 1581              	accMagP.10978:
- 1582 0008 0000803F 		.word	1065353216
- 1583              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
+ 1567 1440 40F20003 		movw	r3, #:lower16:sensors
+ 1568 1444 C0F20003 		movt	r3, #:upper16:sensors
+ 1569 1448 1A6A     		ldr	r2, [r3, #32]	@ float
+ 1570 144a 40F20003 		movw	r3, #:lower16:heading
+ 1571 144e C0F20003 		movt	r3, #:upper16:heading
+ 1572 1452 1A60     		str	r2, [r3, #0]	@ float
+ 1573 1454 40F20003 		movw	r3, #:lower16:heading
+ 1574 1458 C0F20003 		movt	r3, #:upper16:heading
+ 1575 145c 93ED007A 		flds	s14, [r3, #0]
+ 1576 1460 40F20003 		movw	r3, #:lower16:eepromConfig
+ 1577 1464 C0F20003 		movt	r3, #:upper16:eepromConfig
+ 1578 1468 D3EDD47A 		flds	s15, [r3, #848]
+ 1579 146c 77EE277A 		fadds	s15, s14, s15
+ 1580 1470 40F20003 		movw	r3, #:lower16:heading
+ 1581 1474 C0F20003 		movt	r3, #:upper16:heading
+ 1582 1478 C3ED017A 		fsts	s15, [r3, #4]
+ 1583              	.L5:
+ 1584 147c 19B0     		add	sp, sp, #100
+ 1585 147e 00BD     		pop	{pc}
+ 1586              	.L11:
+ 1587              		.align	3
+ 1588              	.L10:
+ 1589 1480 00000000 		.word	0
+ 1590 1484 0000F03F 		.word	1072693248
+ 1591 1488 0000803F 		.word	1065353216
+ 1593              		.data
+ 1594              		.align	2
+ 1597              	accMagP.10984:
+ 1598 0008 0000803F 		.word	1065353216
+ 1599              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
                             *ABS*:00000000 MargAHRS.c
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:24     .bss:00000000 exAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:21     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:30     .bss:00000004 eyAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:36     .bss:00000008 ezAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:42     .bss:0000000c exAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:48     .bss:00000010 eyAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:54     .bss:00000014 ezAccInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:60     .bss:00000018 exMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:66     .bss:0000001c eyMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:72     .bss:00000020 ezMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:78     .bss:00000024 exMagInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:84     .bss:00000028 eyMagInt
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:90     .bss:0000002c ezMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:24     .bss:00000000 exAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:21     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:30     .bss:00000004 eyAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:36     .bss:00000008 ezAcc
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:42     .bss:0000000c exAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:48     .bss:00000010 eyAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:54     .bss:00000014 ezAccInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:60     .bss:00000018 exMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:66     .bss:0000001c eyMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:72     .bss:00000020 ezMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:78     .bss:00000024 exMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:84     .bss:00000028 eyMagInt
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:90     .bss:0000002c ezMagInt
                             *COM*:00000004 kpAcc
                             *COM*:00000004 kiAcc
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:99     .data:00000000 q0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:96     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:106    .bss:00000030 q1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:112    .bss:00000034 q2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:118    .bss:00000038 q3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:99     .data:00000000 q0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:96     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:106    .bss:00000030 q1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:112    .bss:00000034 q2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:118    .bss:00000038 q3
                             *COM*:00000004 q0q0
                             *COM*:00000004 q0q1
                             *COM*:00000004 q0q2
@@ -1571,18 +1587,18 @@ C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:118    .bss:00000038 q3
                             *COM*:00000004 q2q3
                             *COM*:00000004 q3q3
                             *COM*:00000004 halfT
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:134    .bss:0000003c MargAHRSinitialized
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:140    .bss:00000040 accConfidenceDecay
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:147    .data:00000004 accConfidence
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:154    .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:159    .text:00000000 calculateAccConfidence
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:1581   .data:00000008 accMagP.10978
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:232    .text:000000d0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:239    .text:000000e8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:244    .text:000000e8 MargAHRSinit
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:542    .text:00000500 MargAHRSupdate
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:1573   .text:00001448 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc2uLjHw.s:1577   .text:00001454 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:134    .bss:0000003c MargAHRSinitialized
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:140    .bss:00000040 accConfidenceDecay
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:147    .data:00000004 accConfidence
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:154    .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:159    .text:00000000 calculateAccConfidence
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:1597   .data:00000008 accMagP.10984
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:232    .text:000000d0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:239    .text:000000e8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:244    .text:000000e8 MargAHRSinit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:542    .text:00000500 MargAHRSupdate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:1589   .text:00001480 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccVUqMic.s:1599   .text:0000148c $t
 
 UNDEFINED SYMBOLS
 __aeabi_f2d
@@ -1600,3 +1616,4 @@ __aeabi_ddiv
 eepromConfig
 sensors
 asinf
+heading

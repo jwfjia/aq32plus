@@ -415,7 +415,8 @@ void cliCom(void)
         case 'l': // Attitudes
         	snprintf(numberString, 16, "%9.4f, ", sensors.attitude500Hz[ROLL ] * R2D); usbPrint(numberString);
         	snprintf(numberString, 16, "%9.4f, ", sensors.attitude500Hz[PITCH] * R2D); usbPrint(numberString);
-        	snprintf(numberString, 16, "%9.4f\n", sensors.attitude500Hz[YAW  ] * R2D); usbPrint(numberString);
+        	snprintf(numberString, 16, "%9.4f, ", heading.mag * R2D);                  usbPrint(numberString);
+        	snprintf(numberString, 16, "%9.4f\n", heading.tru * R2D);                  usbPrint(numberString);
 
         	validCommand = false;
         	break;

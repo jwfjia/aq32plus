@@ -198,8 +198,8 @@
  201 0180 1846     		mov	r0, r3
  202 0182 4FF00101 		mov	r1, #1
  203 0186 FFF7FEFF 		bl	I2C_AcknowledgeConfig
- 204 018a 40F20003 		movw	r3, #:lower16:index.10970
- 205 018e C0F20003 		movt	r3, #:upper16:index.10970
+ 204 018a 40F20003 		movw	r3, #:lower16:index.10976
+ 205 018e C0F20003 		movt	r3, #:upper16:index.10976
  206 0192 4FF00002 		mov	r2, #0
  207 0196 1A70     		strb	r2, [r3, #0]
  208 0198 40F20003 		movw	r3, #:lower16:reading
@@ -208,8 +208,8 @@
  211 01a2 DBB2     		uxtb	r3, r3
  212 01a4 002B     		cmp	r3, #0
  213 01a6 3FD0     		beq	.L8
- 214 01a8 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 215 01ac C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 214 01a8 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 215 01ac C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  216 01b0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  217 01b2 002B     		cmp	r3, #0
  218 01b4 07D1     		bne	.L9
@@ -220,8 +220,8 @@
  223 01c2 FF2B     		cmp	r3, #255
  224 01c4 30D1     		bne	.L8
  225              	.L9:
- 226 01c6 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 227 01ca C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 226 01c6 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 227 01ca C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  228 01ce 4FF00102 		mov	r2, #1
  229 01d2 1A70     		strb	r2, [r3, #0]
  230 01d4 40F20003 		movw	r3, #:lower16:bytes
@@ -272,8 +272,8 @@
  275 0254 DBB2     		uxtb	r3, r3
  276 0256 FF2B     		cmp	r3, #255
  277 0258 00F0F682 		beq	.L36
- 278 025c 40F20003 		movw	r3, #:lower16:index.10970
- 279 0260 C0F20003 		movt	r3, #:upper16:index.10970
+ 278 025c 40F20003 		movw	r3, #:lower16:index.10976
+ 279 0260 C0F20003 		movt	r3, #:upper16:index.10976
  280 0264 4FF0FF02 		mov	r2, #255
  281 0268 1A70     		strb	r2, [r3, #0]
  282 026a EDE2     		b	.L36
@@ -298,8 +298,8 @@
  301 0298 DBB2     		uxtb	r3, r3
  302 029a 002B     		cmp	r3, #0
  303 029c 3AD0     		beq	.L14
- 304 029e 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 305 02a2 C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 304 029e 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 305 02a2 C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  306 02a6 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  307 02a8 002B     		cmp	r3, #0
  308 02aa 33D0     		beq	.L14
@@ -326,8 +326,8 @@
  329 02e2 1846     		mov	r0, r3
  330 02e4 4FF00101 		mov	r1, #1
  331 02e8 FFF7FEFF 		bl	I2C_GenerateSTOP
- 332 02ec 40F20003 		movw	r3, #:lower16:final_stop.10969
- 333 02f0 C0F20003 		movt	r3, #:upper16:final_stop.10969
+ 332 02ec 40F20003 		movw	r3, #:lower16:final_stop.10975
+ 333 02f0 C0F20003 		movt	r3, #:upper16:final_stop.10975
  334 02f4 4FF00102 		mov	r2, #1
  335 02f8 1A70     		strb	r2, [r3, #0]
  336 02fa 40F20003 		movw	r3, #:lower16:I2Cx
@@ -362,8 +362,8 @@
  365 0346 DBB2     		uxtb	r3, r3
  366 0348 002B     		cmp	r3, #0
  367 034a 1DD0     		beq	.L16
- 368 034c 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 369 0350 C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 368 034c 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 369 0350 C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  370 0354 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  371 0356 002B     		cmp	r3, #0
  372 0358 16D0     		beq	.L16
@@ -394,8 +394,8 @@
  397 03a2 DBB2     		uxtb	r3, r3
  398 03a4 002B     		cmp	r3, #0
  399 03a6 13D0     		beq	.L17
- 400 03a8 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 401 03ac C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 400 03a8 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 401 03ac C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  402 03b0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  403 03b2 002B     		cmp	r3, #0
  404 03b4 0CD0     		beq	.L17
@@ -421,8 +421,8 @@
  424 03ee 03F00403 		and	r3, r3, #4
  425 03f2 002B     		cmp	r3, #0
  426 03f4 00F04681 		beq	.L18
- 427 03f8 40F20003 		movw	r3, #:lower16:final_stop.10969
- 428 03fc C0F20003 		movt	r3, #:upper16:final_stop.10969
+ 427 03f8 40F20003 		movw	r3, #:lower16:final_stop.10975
+ 428 03fc C0F20003 		movt	r3, #:upper16:final_stop.10975
  429 0400 4FF00102 		mov	r2, #1
  430 0404 1A70     		strb	r2, [r3, #0]
  431 0406 40F20003 		movw	r3, #:lower16:reading
@@ -431,8 +431,8 @@
  434 0410 DBB2     		uxtb	r3, r3
  435 0412 002B     		cmp	r3, #0
  436 0414 00F0DE80 		beq	.L19
- 437 0418 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 438 041c C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 437 0418 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 438 041c C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  439 0420 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  440 0422 002B     		cmp	r3, #0
  441 0424 00F0D680 		beq	.L19
@@ -451,8 +451,8 @@
  454 044c 40F20003 		movw	r3, #:lower16:read_p
  455 0450 C0F20003 		movt	r3, #:upper16:read_p
  456 0454 1A68     		ldr	r2, [r3, #0]
- 457 0456 40F20003 		movw	r3, #:lower16:index.10970
- 458 045a C0F20003 		movt	r3, #:upper16:index.10970
+ 457 0456 40F20003 		movw	r3, #:lower16:index.10976
+ 458 045a C0F20003 		movt	r3, #:upper16:index.10976
  459 045e 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
  460 0460 63B2     		sxtb	r3, r4
  461 0462 D518     		adds	r5, r2, r3
@@ -466,8 +466,8 @@
  469 0478 2346     		mov	r3, r4
  470 047a 03F10103 		add	r3, r3, #1
  471 047e DAB2     		uxtb	r2, r3
- 472 0480 40F20003 		movw	r3, #:lower16:index.10970
- 473 0484 C0F20003 		movt	r3, #:upper16:index.10970
+ 472 0480 40F20003 		movw	r3, #:lower16:index.10976
+ 473 0484 C0F20003 		movt	r3, #:upper16:index.10976
  474 0488 1A70     		strb	r2, [r3, #0]
  475 048a 40F20003 		movw	r3, #:lower16:I2Cx
  476 048e C0F20003 		movt	r3, #:upper16:I2Cx
@@ -475,15 +475,15 @@
  478 0494 1846     		mov	r0, r3
  479 0496 4FF00101 		mov	r1, #1
  480 049a FFF7FEFF 		bl	I2C_GenerateSTOP
- 481 049e 40F20003 		movw	r3, #:lower16:final_stop.10969
- 482 04a2 C0F20003 		movt	r3, #:upper16:final_stop.10969
+ 481 049e 40F20003 		movw	r3, #:lower16:final_stop.10975
+ 482 04a2 C0F20003 		movt	r3, #:upper16:final_stop.10975
  483 04a6 4FF00102 		mov	r2, #1
  484 04aa 1A70     		strb	r2, [r3, #0]
  485 04ac 40F20003 		movw	r3, #:lower16:read_p
  486 04b0 C0F20003 		movt	r3, #:upper16:read_p
  487 04b4 1A68     		ldr	r2, [r3, #0]
- 488 04b6 40F20003 		movw	r3, #:lower16:index.10970
- 489 04ba C0F20003 		movt	r3, #:upper16:index.10970
+ 488 04b6 40F20003 		movw	r3, #:lower16:index.10976
+ 489 04ba C0F20003 		movt	r3, #:upper16:index.10976
  490 04be 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
  491 04c0 63B2     		sxtb	r3, r4
  492 04c2 D518     		adds	r5, r2, r3
@@ -497,8 +497,8 @@
  500 04d8 2346     		mov	r3, r4
  501 04da 03F10103 		add	r3, r3, #1
  502 04de DAB2     		uxtb	r2, r3
- 503 04e0 40F20003 		movw	r3, #:lower16:index.10970
- 504 04e4 C0F20003 		movt	r3, #:upper16:index.10970
+ 503 04e0 40F20003 		movw	r3, #:lower16:index.10976
+ 504 04e4 C0F20003 		movt	r3, #:upper16:index.10976
  505 04e8 1A70     		strb	r2, [r3, #0]
  506 04ea 40F20003 		movw	r3, #:lower16:I2Cx
  507 04ee C0F20003 		movt	r3, #:upper16:I2Cx
@@ -509,8 +509,8 @@
  512 04fe FFF7FEFF 		bl	I2C_ITConfig
  513 0502 B2E0     		b	.L24
  514              	.L20:
- 515 0504 40F20003 		movw	r3, #:lower16:final_stop.10969
- 516 0508 C0F20003 		movt	r3, #:upper16:final_stop.10969
+ 515 0504 40F20003 		movw	r3, #:lower16:final_stop.10975
+ 516 0508 C0F20003 		movt	r3, #:upper16:final_stop.10975
  517 050c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  518 050e 002B     		cmp	r3, #0
  519 0510 0AD0     		beq	.L22
@@ -532,8 +532,8 @@
  535 053c 40F20003 		movw	r3, #:lower16:read_p
  536 0540 C0F20003 		movt	r3, #:upper16:read_p
  537 0544 1A68     		ldr	r2, [r3, #0]
- 538 0546 40F20003 		movw	r3, #:lower16:index.10970
- 539 054a C0F20003 		movt	r3, #:upper16:index.10970
+ 538 0546 40F20003 		movw	r3, #:lower16:index.10976
+ 539 054a C0F20003 		movt	r3, #:upper16:index.10976
  540 054e 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
  541 0550 63B2     		sxtb	r3, r4
  542 0552 D518     		adds	r5, r2, r3
@@ -547,14 +547,14 @@
  550 0568 2346     		mov	r3, r4
  551 056a 03F10103 		add	r3, r3, #1
  552 056e DAB2     		uxtb	r2, r3
- 553 0570 40F20003 		movw	r3, #:lower16:index.10970
- 554 0574 C0F20003 		movt	r3, #:upper16:index.10970
+ 553 0570 40F20003 		movw	r3, #:lower16:index.10976
+ 554 0574 C0F20003 		movt	r3, #:upper16:index.10976
  555 0578 1A70     		strb	r2, [r3, #0]
  556 057a 40F20003 		movw	r3, #:lower16:read_p
  557 057e C0F20003 		movt	r3, #:upper16:read_p
  558 0582 1A68     		ldr	r2, [r3, #0]
- 559 0584 40F20003 		movw	r3, #:lower16:index.10970
- 560 0588 C0F20003 		movt	r3, #:upper16:index.10970
+ 559 0584 40F20003 		movw	r3, #:lower16:index.10976
+ 560 0588 C0F20003 		movt	r3, #:upper16:index.10976
  561 058c 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
  562 058e 63B2     		sxtb	r3, r4
  563 0590 D518     		adds	r5, r2, r3
@@ -568,21 +568,21 @@
  571 05a6 2346     		mov	r3, r4
  572 05a8 03F10103 		add	r3, r3, #1
  573 05ac DAB2     		uxtb	r2, r3
- 574 05ae 40F20003 		movw	r3, #:lower16:index.10970
- 575 05b2 C0F20003 		movt	r3, #:upper16:index.10970
+ 574 05ae 40F20003 		movw	r3, #:lower16:index.10976
+ 575 05b2 C0F20003 		movt	r3, #:upper16:index.10976
  576 05b6 1A70     		strb	r2, [r3, #0]
- 577 05b8 40F20003 		movw	r3, #:lower16:index.10970
- 578 05bc C0F20003 		movt	r3, #:upper16:index.10970
+ 577 05b8 40F20003 		movw	r3, #:lower16:index.10976
+ 578 05bc C0F20003 		movt	r3, #:upper16:index.10976
  579 05c0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  580 05c2 03F10103 		add	r3, r3, #1
  581 05c6 DAB2     		uxtb	r2, r3
- 582 05c8 40F20003 		movw	r3, #:lower16:index.10970
- 583 05cc C0F20003 		movt	r3, #:upper16:index.10970
+ 582 05c8 40F20003 		movw	r3, #:lower16:index.10976
+ 583 05cc C0F20003 		movt	r3, #:upper16:index.10976
  584 05d0 1A70     		strb	r2, [r3, #0]
  585 05d2 4AE0     		b	.L24
  586              	.L19:
- 587 05d4 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 588 05d8 C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 587 05d4 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 588 05d8 C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  589 05dc 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  590 05de 002B     		cmp	r3, #0
  591 05e0 07D1     		bne	.L25
@@ -593,8 +593,8 @@
  596 05ee 002B     		cmp	r3, #0
  597 05f0 29D0     		beq	.L26
  598              	.L25:
- 599 05f2 40F20003 		movw	r3, #:lower16:final_stop.10969
- 600 05f6 C0F20003 		movt	r3, #:upper16:final_stop.10969
+ 599 05f2 40F20003 		movw	r3, #:lower16:final_stop.10975
+ 600 05f6 C0F20003 		movt	r3, #:upper16:final_stop.10975
  601 05fa 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  602 05fc 002B     		cmp	r3, #0
  603 05fe 0AD0     		beq	.L27
@@ -613,13 +613,13 @@
  616 0622 4FF00101 		mov	r1, #1
  617 0626 FFF7FEFF 		bl	I2C_GenerateSTART
  618              	.L28:
- 619 062a 40F20003 		movw	r3, #:lower16:index.10970
- 620 062e C0F20003 		movt	r3, #:upper16:index.10970
+ 619 062a 40F20003 		movw	r3, #:lower16:index.10976
+ 620 062e C0F20003 		movt	r3, #:upper16:index.10976
  621 0632 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  622 0634 03F10103 		add	r3, r3, #1
  623 0638 DAB2     		uxtb	r2, r3
- 624 063a 40F20003 		movw	r3, #:lower16:index.10970
- 625 063e C0F20003 		movt	r3, #:upper16:index.10970
+ 624 063a 40F20003 		movw	r3, #:lower16:index.10976
+ 625 063e C0F20003 		movt	r3, #:upper16:index.10976
  626 0642 1A70     		strb	r2, [r3, #0]
  627 0644 11E0     		b	.L24
  628              	.L26:
@@ -629,8 +629,8 @@
  632 0650 1846     		mov	r0, r3
  633 0652 4FF00101 		mov	r1, #1
  634 0656 FFF7FEFF 		bl	I2C_GenerateSTART
- 635 065a 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 636 065e C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 635 065a 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 636 065e C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  637 0662 4FF00102 		mov	r2, #1
  638 0666 1A70     		strb	r2, [r3, #0]
  639 0668 FFE7     		b	.L37
@@ -655,8 +655,8 @@
  658 0690 40F20003 		movw	r3, #:lower16:read_p
  659 0694 C0F20003 		movt	r3, #:upper16:read_p
  660 0698 1A68     		ldr	r2, [r3, #0]
- 661 069a 40F20003 		movw	r3, #:lower16:index.10970
- 662 069e C0F20003 		movt	r3, #:upper16:index.10970
+ 661 069a 40F20003 		movw	r3, #:lower16:index.10976
+ 662 069e C0F20003 		movt	r3, #:upper16:index.10976
  663 06a2 1C78     		ldrb	r4, [r3, #0]	@ zero_extendqisi2
  664 06a4 63B2     		sxtb	r3, r4
  665 06a6 D518     		adds	r5, r2, r3
@@ -670,16 +670,16 @@
  673 06bc 2346     		mov	r3, r4
  674 06be 03F10103 		add	r3, r3, #1
  675 06c2 DAB2     		uxtb	r2, r3
- 676 06c4 40F20003 		movw	r3, #:lower16:index.10970
- 677 06c8 C0F20003 		movt	r3, #:upper16:index.10970
+ 676 06c4 40F20003 		movw	r3, #:lower16:index.10976
+ 677 06c8 C0F20003 		movt	r3, #:upper16:index.10976
  678 06cc 1A70     		strb	r2, [r3, #0]
  679 06ce 40F20003 		movw	r3, #:lower16:bytes
  680 06d2 C0F20003 		movt	r3, #:upper16:bytes
  681 06d6 1B78     		ldrb	r3, [r3, #0]
  682 06d8 DBB2     		uxtb	r3, r3
  683 06da 1A46     		mov	r2, r3
- 684 06dc 40F20003 		movw	r3, #:lower16:index.10970
- 685 06e0 C0F20003 		movt	r3, #:upper16:index.10970
+ 684 06dc 40F20003 		movw	r3, #:lower16:index.10976
+ 685 06e0 C0F20003 		movt	r3, #:upper16:index.10976
  686 06e4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  687 06e6 5BB2     		sxtb	r3, r3
  688 06e8 03F10303 		add	r3, r3, #3
@@ -698,19 +698,19 @@
  701 0710 1B78     		ldrb	r3, [r3, #0]
  702 0712 DBB2     		uxtb	r3, r3
  703 0714 1A46     		mov	r2, r3
- 704 0716 40F20003 		movw	r3, #:lower16:index.10970
- 705 071a C0F20003 		movt	r3, #:upper16:index.10970
+ 704 0716 40F20003 		movw	r3, #:lower16:index.10976
+ 705 071a C0F20003 		movt	r3, #:upper16:index.10976
  706 071e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  707 0720 5BB2     		sxtb	r3, r3
  708 0722 9A42     		cmp	r2, r3
  709 0724 40F09180 		bne	.L12
- 710 0728 40F20003 		movw	r3, #:lower16:index.10970
- 711 072c C0F20003 		movt	r3, #:upper16:index.10970
+ 710 0728 40F20003 		movw	r3, #:lower16:index.10976
+ 711 072c C0F20003 		movt	r3, #:upper16:index.10976
  712 0730 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  713 0732 03F10103 		add	r3, r3, #1
  714 0736 DAB2     		uxtb	r2, r3
- 715 0738 40F20003 		movw	r3, #:lower16:index.10970
- 716 073c C0F20003 		movt	r3, #:upper16:index.10970
+ 715 0738 40F20003 		movw	r3, #:lower16:index.10976
+ 716 073c C0F20003 		movt	r3, #:upper16:index.10976
  717 0740 1A70     		strb	r2, [r3, #0]
  718 0742 82E0     		b	.L12
  719              	.L30:
@@ -718,8 +718,8 @@
  721 0748 5BB2     		sxtb	r3, r3
  722 074a 002B     		cmp	r3, #0
  723 074c 7DDA     		bge	.L12
- 724 074e 40F20003 		movw	r3, #:lower16:index.10970
- 725 0752 C0F20003 		movt	r3, #:upper16:index.10970
+ 724 074e 40F20003 		movw	r3, #:lower16:index.10976
+ 725 0752 C0F20003 		movt	r3, #:upper16:index.10976
  726 0756 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  727 0758 5BB2     		sxtb	r3, r3
  728 075a B3F1FF3F 		cmp	r3, #-1
@@ -730,8 +730,8 @@
  733 076a 40F20003 		movw	r3, #:lower16:write_p
  734 076e C0F20003 		movt	r3, #:upper16:write_p
  735 0772 1868     		ldr	r0, [r3, #0]
- 736 0774 40F20003 		movw	r3, #:lower16:index.10970
- 737 0778 C0F20003 		movt	r3, #:upper16:index.10970
+ 736 0774 40F20003 		movw	r3, #:lower16:index.10976
+ 737 0778 C0F20003 		movt	r3, #:upper16:index.10976
  738 077c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  739 077e 5AB2     		sxtb	r2, r3
  740 0780 8218     		adds	r2, r0, r2
@@ -739,8 +739,8 @@
  742 0784 D2B2     		uxtb	r2, r2
  743 0786 03F10103 		add	r3, r3, #1
  744 078a D8B2     		uxtb	r0, r3
- 745 078c 40F20003 		movw	r3, #:lower16:index.10970
- 746 0790 C0F20003 		movt	r3, #:upper16:index.10970
+ 745 078c 40F20003 		movw	r3, #:lower16:index.10976
+ 746 0790 C0F20003 		movt	r3, #:upper16:index.10976
  747 0794 1870     		strb	r0, [r3, #0]
  748 0796 0846     		mov	r0, r1
  749 0798 1146     		mov	r1, r2
@@ -750,8 +750,8 @@
  753 07a6 1B78     		ldrb	r3, [r3, #0]
  754 07a8 DBB2     		uxtb	r3, r3
  755 07aa 1A46     		mov	r2, r3
- 756 07ac 40F20003 		movw	r3, #:lower16:index.10970
- 757 07b0 C0F20003 		movt	r3, #:upper16:index.10970
+ 756 07ac 40F20003 		movw	r3, #:lower16:index.10976
+ 757 07b0 C0F20003 		movt	r3, #:upper16:index.10976
  758 07b4 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  759 07b6 5BB2     		sxtb	r3, r3
  760 07b8 9A42     		cmp	r2, r3
@@ -765,13 +765,13 @@
  768 07d0 FFF7FEFF 		bl	I2C_ITConfig
  769 07d4 39E0     		b	.L12
  770              	.L32:
- 771 07d6 40F20003 		movw	r3, #:lower16:index.10970
- 772 07da C0F20003 		movt	r3, #:upper16:index.10970
+ 771 07d6 40F20003 		movw	r3, #:lower16:index.10976
+ 772 07da C0F20003 		movt	r3, #:upper16:index.10976
  773 07de 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  774 07e0 03F10103 		add	r3, r3, #1
  775 07e4 DAB2     		uxtb	r2, r3
- 776 07e6 40F20003 		movw	r3, #:lower16:index.10970
- 777 07ea C0F20003 		movt	r3, #:upper16:index.10970
+ 776 07e6 40F20003 		movw	r3, #:lower16:index.10976
+ 777 07ea C0F20003 		movt	r3, #:upper16:index.10976
  778 07ee 1A70     		strb	r2, [r3, #0]
  779 07f0 40F20003 		movw	r3, #:lower16:I2Cx
  780 07f4 C0F20003 		movt	r3, #:upper16:I2Cx
@@ -807,8 +807,8 @@
  810              	.L36:
  811 0848 00BF     		nop
  812              	.L12:
- 813 084a 40F20003 		movw	r3, #:lower16:index.10970
- 814 084e C0F20003 		movt	r3, #:upper16:index.10970
+ 813 084a 40F20003 		movw	r3, #:lower16:index.10976
+ 814 084e C0F20003 		movt	r3, #:upper16:index.10976
  815 0852 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  816 0854 5AB2     		sxtb	r2, r3
  817 0856 40F20003 		movw	r3, #:lower16:bytes
@@ -818,12 +818,12 @@
  821 0862 03F10103 		add	r3, r3, #1
  822 0866 9A42     		cmp	r2, r3
  823 0868 20D1     		bne	.L6
- 824 086a 40F20003 		movw	r3, #:lower16:subaddress_sent.10968
- 825 086e C0F20003 		movt	r3, #:upper16:subaddress_sent.10968
+ 824 086a 40F20003 		movw	r3, #:lower16:subaddress_sent.10974
+ 825 086e C0F20003 		movt	r3, #:upper16:subaddress_sent.10974
  826 0872 4FF00002 		mov	r2, #0
  827 0876 1A70     		strb	r2, [r3, #0]
- 828 0878 40F20003 		movw	r3, #:lower16:final_stop.10969
- 829 087c C0F20003 		movt	r3, #:upper16:final_stop.10969
+ 828 0878 40F20003 		movw	r3, #:lower16:final_stop.10975
+ 829 087c C0F20003 		movt	r3, #:upper16:final_stop.10975
  830 0880 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
  831 0882 002B     		cmp	r3, #0
  832 0884 0BD0     		beq	.L35
@@ -1638,11 +1638,11 @@
  1661 1176 02B0     		add	sp, sp, #8
  1662 1178 7047     		bx	lr
  1664 117a 00BF     		.bss
- 1665              	index.10970:
+ 1665              	index.10976:
  1666 0018 00       		.space	1
- 1667              	subaddress_sent.10968:
+ 1667              	subaddress_sent.10974:
  1668 0019 00       		.space	1
- 1669              	final_stop.10969:
+ 1669              	final_stop.10975:
  1670 001a 00       		.space	1
  1671 001b 00       		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
@@ -1650,34 +1650,34 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:20     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:21     .bss:00000000 I2Cx
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:24     .bss:00000004 i2c1ErrorCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:27     .bss:00000006 i2c2ErrorCount
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:29     .bss:00000008 busy
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:31     .bss:00000009 addr
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:33     .bss:0000000a reg
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:35     .bss:0000000b bytes
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:37     .bss:0000000c writing
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:39     .bss:0000000d reading
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:42     .bss:00000010 write_p
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:45     .bss:00000014 read_p
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:48     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:53     .text:00000000 I2C_ER_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1460   .text:00000f00 i2cInit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:171    .text:00000130 I2C_EV_Handler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1665   .bss:00000018 index.10970
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1667   .bss:00000019 subaddress_sent.10968
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1669   .bss:0000001a final_stop.10969
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:854    .text:000008b0 I2C1_ER_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:866    .text:000008b8 I2C1_EV_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:878    .text:000008c0 I2C2_ER_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:890    .text:000008c8 I2C2_EV_IRQHandler
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:902    .text:000008d0 i2cWriteBuffer
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1089   .text:00000ac8 i2cWrite
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1117   .text:00000b00 i2cRead
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1277   .text:00000cb0 i2cUnstick
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccGGCRtp.s:1638   .text:00001148 i2cGetErrorCounter
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:20     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:21     .bss:00000000 I2Cx
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:24     .bss:00000004 i2c1ErrorCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:27     .bss:00000006 i2c2ErrorCount
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:29     .bss:00000008 busy
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:31     .bss:00000009 addr
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:33     .bss:0000000a reg
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:35     .bss:0000000b bytes
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:37     .bss:0000000c writing
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:39     .bss:0000000d reading
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:42     .bss:00000010 write_p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:45     .bss:00000014 read_p
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:48     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:53     .text:00000000 I2C_ER_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1460   .text:00000f00 i2cInit
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:171    .text:00000130 I2C_EV_Handler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1665   .bss:00000018 index.10976
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1667   .bss:00000019 subaddress_sent.10974
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1669   .bss:0000001a final_stop.10975
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:854    .text:000008b0 I2C1_ER_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:866    .text:000008b8 I2C1_EV_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:878    .text:000008c0 I2C2_ER_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:890    .text:000008c8 I2C2_EV_IRQHandler
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:902    .text:000008d0 i2cWriteBuffer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1089   .text:00000ac8 i2cWrite
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1117   .text:00000b00 i2cRead
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1277   .text:00000cb0 i2cUnstick
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccoscsRo.s:1638   .text:00001148 i2cGetErrorCounter
 
 UNDEFINED SYMBOLS
 I2C_ITConfig

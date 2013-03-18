@@ -296,20 +296,20 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:23     .bss:00000000 magCalibrating
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:24     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:26     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:27     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:30     .rodata:00000020 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:34     .rodata:00000054 .LC2
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:37     .rodata:0000007c .LC3
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:41     .rodata:000000c0 .LC4
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:44     .rodata:000000d8 .LC5
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:47     .rodata:000000fc .LC6
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:50     .rodata:00000124 .LC7
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:53     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:58     .text:00000000 magCalibration
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1MQgRI.s:260    .text:00000278 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:23     .bss:00000000 magCalibrating
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:24     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:26     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:27     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:30     .rodata:00000020 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:34     .rodata:00000054 .LC2
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:37     .rodata:0000007c .LC3
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:41     .rodata:000000c0 .LC4
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:44     .rodata:000000d8 .LC5
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:47     .rodata:000000fc .LC6
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:50     .rodata:00000124 .LC7
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:53     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:58     .text:00000000 magCalibration
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccjNAYMh.s:260    .text:00000278 $d
 
 UNDEFINED SYMBOLS
 usbPrint

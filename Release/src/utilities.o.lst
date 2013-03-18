@@ -343,19 +343,19 @@
  348 02ac 10B5     		push	{r4, lr}
  349 02ae 84B0     		sub	sp, sp, #16
  350 02b0 0190     		str	r0, [sp, #4]
- 351 02b2 40F20003 		movw	r3, #:lower16:heap_end.10971
- 352 02b6 C0F20003 		movt	r3, #:upper16:heap_end.10971
+ 351 02b2 40F20003 		movw	r3, #:lower16:heap_end.10977
+ 352 02b6 C0F20003 		movt	r3, #:upper16:heap_end.10977
  353 02ba 1B68     		ldr	r3, [r3, #0]
  354 02bc 002B     		cmp	r3, #0
  355 02be 08D1     		bne	.L24
- 356 02c0 40F20003 		movw	r3, #:lower16:heap_end.10971
- 357 02c4 C0F20003 		movt	r3, #:upper16:heap_end.10971
+ 356 02c0 40F20003 		movw	r3, #:lower16:heap_end.10977
+ 357 02c4 C0F20003 		movt	r3, #:upper16:heap_end.10977
  358 02c8 40F20002 		movw	r2, #:lower16:_ebss
  359 02cc C0F20002 		movt	r2, #:upper16:_ebss
  360 02d0 1A60     		str	r2, [r3, #0]
  361              	.L24:
- 362 02d2 40F20003 		movw	r3, #:lower16:heap_end.10971
- 363 02d6 C0F20003 		movt	r3, #:upper16:heap_end.10971
+ 362 02d2 40F20003 		movw	r3, #:lower16:heap_end.10977
+ 363 02d6 C0F20003 		movt	r3, #:upper16:heap_end.10977
  364 02da 1B68     		ldr	r3, [r3, #0]
  365 02dc 0393     		str	r3, [sp, #12]
  366              	@ 434 "C:\Users\John Ihlein\Desktop\STM32workspace\aq32Plus\Libraries\CMSIS\Include/core_cmFunc.h" 
@@ -365,8 +365,8 @@
  370              		.thumb
  371 02e2 2346     		mov	r3, r4
  372 02e4 0293     		str	r3, [sp, #8]
- 373 02e6 40F20003 		movw	r3, #:lower16:heap_end.10971
- 374 02ea C0F20003 		movt	r3, #:upper16:heap_end.10971
+ 373 02e6 40F20003 		movw	r3, #:lower16:heap_end.10977
+ 374 02ea C0F20003 		movt	r3, #:upper16:heap_end.10977
  375 02ee 1A68     		ldr	r2, [r3, #0]
  376 02f0 019B     		ldr	r3, [sp, #4]
  377 02f2 D218     		adds	r2, r2, r3
@@ -380,13 +380,13 @@
  385 0306 4FF0FF33 		mov	r3, #-1
  386 030a 0CE0     		b	.L26
  387              	.L25:
- 388 030c 40F20003 		movw	r3, #:lower16:heap_end.10971
- 389 0310 C0F20003 		movt	r3, #:upper16:heap_end.10971
+ 388 030c 40F20003 		movw	r3, #:lower16:heap_end.10977
+ 389 0310 C0F20003 		movt	r3, #:upper16:heap_end.10977
  390 0314 1A68     		ldr	r2, [r3, #0]
  391 0316 019B     		ldr	r3, [sp, #4]
  392 0318 D218     		adds	r2, r2, r3
- 393 031a 40F20003 		movw	r3, #:lower16:heap_end.10971
- 394 031e C0F20003 		movt	r3, #:upper16:heap_end.10971
+ 393 031a 40F20003 		movw	r3, #:lower16:heap_end.10977
+ 394 031e C0F20003 		movt	r3, #:upper16:heap_end.10977
  395 0322 1A60     		str	r2, [r3, #0]
  396 0324 039B     		ldr	r3, [sp, #12]
  397              	.L26:
@@ -1747,7 +1747,7 @@
  1758 1334 84D79741 		.word	1100470148
  1760              		.bss
  1761              		.align	2
- 1762              	heap_end.10971:
+ 1762              	heap_end.10977:
  1763 0000 00000000 		.space	4
  1764              		.ident	"GCC: (Sourcery CodeBench Lite 2012.03-56) 4.6.3"
 DEFINED SYMBOLS
@@ -1755,27 +1755,27 @@ DEFINED SYMBOLS
                             *COM*:00000001 mtk19ProcessDataState
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:20     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:25     .text:00000000 constrain
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:66     .rodata:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:67     .rodata:00000000 .LC0
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:74     .text:00000050 i2a
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:118    .text:000000a4 itoa
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:173    .rodata:00000028 .LC1
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:181    .text:00000110 ftoa
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:337    .text:000002a4 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:340    .text:000002ac $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:345    .text:000002ac _sbrk
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1762   .bss:00000000 heap_end.10971
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:409    .text:0000032c sphereFit
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1381   .text:00000fe4 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1384   .text:00000fec $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1389   .text:00000fec standardRadianFormat
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1434   .text:00001054 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1442   .text:00001060 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1447   .text:00001060 stringToFloat
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1747   .text:00001308 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccpJPwMy.s:1761   .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:20     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:25     .text:00000000 constrain
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:66     .rodata:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:67     .rodata:00000000 .LC0
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:74     .text:00000050 i2a
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:118    .text:000000a4 itoa
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:173    .rodata:00000028 .LC1
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:181    .text:00000110 ftoa
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:337    .text:000002a4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:340    .text:000002ac $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:345    .text:000002ac _sbrk
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1762   .bss:00000000 heap_end.10977
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:409    .text:0000032c sphereFit
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1381   .text:00000fe4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1384   .text:00000fec $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1389   .text:00000fec standardRadianFormat
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1434   .text:00001054 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1442   .text:00001060 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1447   .text:00001060 stringToFloat
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1747   .text:00001308 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\cct3rDDK.s:1761   .bss:00000000 $d
 
 UNDEFINED SYMBOLS
 strlen

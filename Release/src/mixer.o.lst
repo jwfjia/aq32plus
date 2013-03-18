@@ -3369,33 +3369,33 @@ DEFINED SYMBOLS
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
                             *COM*:00000001 numberMotor
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:25     .data:00000000 motor
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:22     .data:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:38     .data:00000020 servo
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:43     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:48     .text:00000000 initMixer
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:62     .text:0000001c $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:84     .text:00000070 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:141    .text:000000fc writeServos
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:179    .text:00000160 writeMotors
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:219    .text:000001bc writeAllMotors
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:255    .text:00000208 pulseMotors
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:290    .text:00000260 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:296    .text:00000264 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:301    .text:00000264 mixTable
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:316    .text:00000284 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:338    .text:000002d8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:765    .text:00000920 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:769    .text:0000092c $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:1273   .text:000010f0 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:1276   .text:000010f8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:1865   .text:00001a10 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:1869   .text:00001a1c $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:2363   .text:00002080 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:2371   .text:0000209c $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:2963   .text:000029c4 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:2965   .text:000029c8 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc1jUf8b.s:3378   .text:00002f84 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:25     .data:00000000 motor
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:22     .data:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:38     .data:00000020 servo
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:43     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:48     .text:00000000 initMixer
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:62     .text:0000001c $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:84     .text:00000070 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:141    .text:000000fc writeServos
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:179    .text:00000160 writeMotors
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:219    .text:000001bc writeAllMotors
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:255    .text:00000208 pulseMotors
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:290    .text:00000260 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:296    .text:00000264 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:301    .text:00000264 mixTable
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:316    .text:00000284 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:338    .text:000002d8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:765    .text:00000920 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:769    .text:0000092c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:1273   .text:000010f0 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:1276   .text:000010f8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:1865   .text:00001a10 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:1869   .text:00001a1c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:2363   .text:00002080 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:2371   .text:0000209c $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:2963   .text:000029c4 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:2965   .text:000029c8 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccUnCnKn.s:3378   .text:00002f84 $d
 
 UNDEFINED SYMBOLS
 eepromConfig

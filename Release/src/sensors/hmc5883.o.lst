@@ -271,14 +271,14 @@ DEFINED SYMBOLS
                             *COM*:00000001 nmeaProcessDataState
                             *COM*:00000001 ubloxProcessDataState
                             *COM*:0000000c magScaleFactor
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:24     .bss:00000000 magDataUpdate
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:25     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:29     .bss:00000001 newMagData
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:24     .bss:00000000 magDataUpdate
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:25     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:29     .bss:00000001 newMagData
                             *COM*:00000006 rawMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:33     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:38     .text:00000000 readMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:108    .text:000000b8 initMag
-C:\Users\JOHNIH~1\AppData\Local\Temp\cc69PMMI.s:271    .text:000002dc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:33     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:38     .text:00000000 readMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:108    .text:000000b8 initMag
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccqn5LyW.s:271    .text:000002dc $d
 
 UNDEFINED SYMBOLS
 i2cRead

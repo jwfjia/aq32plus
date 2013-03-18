@@ -265,7 +265,7 @@ void systemInit(void)
     ledInit();
     usbInit();
 
-    GPIO_SetBits(BLUE_LED_GPIO, BLUE_LED_PIN);
+    BLUE_LED_ON;
 
     gpsInit();
     i2cInit(I2C1);
@@ -284,7 +284,7 @@ void systemInit(void)
 
     delay(15000);  // 20 sec total delay for sensor stabilization - probably not long enough.....
 
-    GPIO_SetBits(GREEN_LED_GPIO, GREEN_LED_PIN);
+    GREEN_LED_ON;
 
     initMPU6000();
     initMag(HMC5883L_I2C);

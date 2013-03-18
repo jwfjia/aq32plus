@@ -46,6 +46,8 @@ uint8_t        execUpCount = 0;
 
 sensors_t      sensors;
 
+heading_t      heading;
+
 uint16_t       timerValue;
 
 char           numberString[32];
@@ -88,7 +90,7 @@ int main(void)
 				    displayAttitude(sensors.attitude500Hz[ROLL], sensors.attitude500Hz[PITCH], flightMode);
 
 				if (eepromConfig.osdDisplayHdg)
-				    displayHeading(sensors.attitude500Hz[YAW]);
+				    displayHeading(heading.mag);
 			}
 
 			executionTime50Hz = micros() - currentTime;
@@ -333,7 +335,7 @@ int main(void)
 			previous5HzTime = currentTime;
 
 			if (execUp == true)
-			    GPIO_ToggleBits(BLUE_LED_GPIO,  BLUE_LED_PIN);
+			    BLUE_LED_TOGGLE;
 
         	executionTime5Hz = micros() - currentTime;
         }
@@ -349,7 +351,7 @@ int main(void)
 			previous1HzTime = currentTime;
 
 			if (execUp == true)
-			    GPIO_ToggleBits(GREEN_LED_GPIO,  GREEN_LED_PIN);
+			    GREEN_LED_TOGGLE;
 
 			if (execUp == false)
 			    execUpCount++;

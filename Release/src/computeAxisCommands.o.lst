@@ -165,9 +165,9 @@
  168 019a 40F20003 		movw	r3, #:lower16:headingReference
  169 019e C0F20003 		movt	r3, #:upper16:headingReference
  170 01a2 1968     		ldr	r1, [r3, #0]	@ float
- 171 01a4 40F20003 		movw	r3, #:lower16:sensors
- 172 01a8 C0F20003 		movt	r3, #:upper16:sensors
- 173 01ac 1A6A     		ldr	r2, [r3, #32]	@ float
+ 171 01a4 40F20003 		movw	r3, #:lower16:heading
+ 172 01a8 C0F20003 		movt	r3, #:upper16:heading
+ 173 01ac 1A68     		ldr	r2, [r3, #0]	@ float
  174 01ae 40F20003 		movw	r3, #:lower16:holdIntegrators
  175 01b2 C0F20003 		movt	r3, #:upper16:holdIntegrators
  176 01b6 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
@@ -193,9 +193,9 @@
  196 01f0 40F20003 		movw	r3, #:lower16:rateCmd
  197 01f4 C0F20003 		movt	r3, #:upper16:rateCmd
  198 01f8 C3ED027A 		fsts	s15, [r3, #8]
- 199 01fc 40F20003 		movw	r3, #:lower16:sensors
- 200 0200 C0F20003 		movt	r3, #:upper16:sensors
- 201 0204 1A6A     		ldr	r2, [r3, #32]	@ float
+ 199 01fc 40F20003 		movw	r3, #:lower16:heading
+ 200 0200 C0F20003 		movt	r3, #:upper16:heading
+ 201 0204 1A68     		ldr	r2, [r3, #0]	@ float
  202 0206 40F20003 		movw	r3, #:lower16:headingReference
  203 020a C0F20003 		movt	r3, #:upper16:headingReference
  204 020e 1A60     		str	r2, [r3, #0]	@ float
@@ -288,11 +288,11 @@ DEFINED SYMBOLS
                             *COM*:0000000c axisPID
                             *COM*:0000000c rateCmd
                             *COM*:00000004 headingReference
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccjzSpYj.s:28     .bss:00000000 previousHeadingHoldEngaged
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccjzSpYj.s:29     .bss:00000000 $d
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccjzSpYj.s:31     .text:00000000 $t
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccjzSpYj.s:36     .text:00000000 computeAxisCommands
-C:\Users\JOHNIH~1\AppData\Local\Temp\ccjzSpYj.s:276    .text:000002dc $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccns6hjK.s:28     .bss:00000000 previousHeadingHoldEngaged
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccns6hjK.s:29     .bss:00000000 $d
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccns6hjK.s:31     .text:00000000 $t
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccns6hjK.s:36     .text:00000000 computeAxisCommands
+C:\Users\JOHNIH~1\AppData\Local\Temp\ccns6hjK.s:276    .text:000002dc $d
 
 UNDEFINED SYMBOLS
 flightMode
@@ -303,3 +303,4 @@ holdIntegrators
 updatePID
 headingHoldEngaged
 setPIDintegralError
+heading
